@@ -1,0 +1,97 @@
+---
+title: 卡片
+description: 使用一组卡片更动态地展示信息——可带图也可不带图
+metaTitle: 卡片 | GitBook Documentation
+ogImage: https://test-dai.imgix.net/org-4afef969-21f9-40f3-b5b8-b06c8b6cf68f/doc-22a3b060-9539-4176-97e4-49120e02f5d1/0a5a1a9630785855-organizations-d8f63b60-89ae-11e7-8574-5927d48c4877-sites-site_p4Xo4-socialprevie.jpg?fm=auto&auto=compress%2Cformat
+---
+
+你可以使用卡片通过网格组合文本和图片，创建一个视觉上赏心悦目的页面布局。它们非常适合构建着陆页，或以非线性的方式展示其他任何内容。
+
+你可以调整 [在中号卡片和大号卡片之间切换](#changing-the-size-of-cards) 并将它们链接到相关资源。
+
+### 卡片示例
+
+<Columns cols={2}>
+  <Card title="GitBook 首页" href="https://www.gitbook.com/" image="https://test-dai.imgix.net/org-4afef969-21f9-40f3-b5b8-b06c8b6cf68f/doc-22a3b060-9539-4176-97e4-49120e02f5d1/b72dde5b58b44a80-spaces-NkEGS7hzeqa35sMXQZ4X-uploads-HAbAKXyi5SHXH1rDhg4E-GitBook-homepage.png?fm=auto&auto=compress%2Cformat">
+    访问我们的网站，了解更多关于 GitBook 的信息。
+  </Card>
+
+  <Card title="开发者文档" href="https://developer.gitbook.com/" image="https://test-dai.imgix.net/org-4afef969-21f9-40f3-b5b8-b06c8b6cf68f/doc-22a3b060-9539-4176-97e4-49120e02f5d1/389e633b6f221178-spaces-NkEGS7hzeqa35sMXQZ4X-uploads-1wL4yuiP0Pi9Oeu0wnmm-Developer-docs.png?fm=auto&auto=compress%2Cformat">
+    构建你自己的 GitBook 集成。
+  </Card>
+
+  <Card title="注册 GitBook" href="https://app.gitbook.com/join" image="https://test-dai.imgix.net/org-4afef969-21f9-40f3-b5b8-b06c8b6cf68f/doc-22a3b060-9539-4176-97e4-49120e02f5d1/2920ea6276656489-spaces-NkEGS7hzeqa35sMXQZ4X-uploads-g2kgdfMsxOpWQx1Meq8s-Sign-up.png?fm=auto&auto=compress%2Cformat">
+    点击这里，免费开始使用。
+  </Card>
+</Columns>
+
+### 添加链接
+
+将鼠标悬停在卡片上并打开其 **选项菜单** <Image src="https://test-dai.imgix.net/org-4afef969-21f9-40f3-b5b8-b06c8b6cf68f/doc-22a3b060-9539-4176-97e4-49120e02f5d1/4c115a43418b42e3-spaces-NkEGS7hzeqa35sMXQZ4X-uploads-aS1QvPIBVYwhpFTGcPBN-options-menu.svg?rasterize-bypass=true" alt="The Options menu icon in GitBook" />。在这里你可以添加目标链接，这样读者在点击卡片时就能直接跳转到某个位置。
+
+<Callout kind="success">
+  在创建卡片时，我们建议你使用 **目标链接而不是超链接**。使用目标链接后，读者可以点击卡片上的任意位置来访问关联的 URL。
+</Callout>
+
+### 添加图片
+
+将鼠标悬停在卡片上并打开其 **选项菜单** <Image src="https://test-dai.imgix.net/org-4afef969-21f9-40f3-b5b8-b06c8b6cf68f/doc-22a3b060-9539-4176-97e4-49120e02f5d1/4c115a43418b42e3-spaces-NkEGS7hzeqa35sMXQZ4X-uploads-aS1QvPIBVYwhpFTGcPBN-options-menu.svg?rasterize-bypass=true" alt="The Options menu icon in GitBook" />。在这里你可以为卡片添加封面图片。或者，直接点击卡片上的 **添加封面图片** 选项。
+
+这将打开 **选择文件** 模态窗口。在这里你可以将新图片拖放到其中，或者使用你之前上传到该分区的图片文件。
+
+#### 为深色模式添加图片
+
+你也可以添加仅在深色模式下显示的封面图片。
+
+为此，请打开卡片的 **选项菜单** <Image src="https://test-dai.imgix.net/org-4afef969-21f9-40f3-b5b8-b06c8b6cf68f/doc-22a3b060-9539-4176-97e4-49120e02f5d1/4c115a43418b42e3-spaces-NkEGS7hzeqa35sMXQZ4X-uploads-aS1QvPIBVYwhpFTGcPBN-options-menu.svg?rasterize-bypass=true" alt="" /> 并选择 **封面** \> **编辑封面** \> **为深色模式添加封面**。这将打开 **选择文件** 模态窗口，你可以在此拖放新图片或选择之前上传的图片。
+
+#### 选择合适的图片尺寸
+
+GitBook 会自动将横向图片裁剪为桌面端和移动端均为 16:9 的比例。如果你上传的是纵向图片或 1:1 比例的图片，它们在桌面端会被裁剪为 16:9，在移动端则显示为正方形或纵向。
+
+<Image src="https://test-dai.imgix.net/org-4afef969-21f9-40f3-b5b8-b06c8b6cf68f/doc-22a3b060-9539-4176-97e4-49120e02f5d1/881b72bf0a9c933a-spaces-NkEGS7hzeqa35sMXQZ4X-uploads-nX5tZdJgW1Yhf61ZXpGJ-26_01_06_cards_desktop-.png?fm=auto&auto=compress%2Cformat" alt="A GitBook screenshot showing card images on desktop" caption="在桌面端，所有卡片图片都会以横向 16:9 比例显示，不管其尺寸如何。为保持一致性，我们建议使用相同尺寸。" />
+
+<Image src="https://test-dai.imgix.net/org-4afef969-21f9-40f3-b5b8-b06c8b6cf68f/doc-22a3b060-9539-4176-97e4-49120e02f5d1/c6833caa909f2b47-spaces-NkEGS7hzeqa35sMXQZ4X-uploads-xUUSyA6H7QwA8p9Nihz1-26_01_06_cards_mobile-2.png?fm=auto&auto=compress%2Cformat" alt="A GitBook screenshot showing card images on mobile" caption="在移动端，正方形或纵向图片的显示效果如左图所示。横向图片的显示效果如右图所示。" />
+
+为了在桌面端和移动端保持一致，我们建议将卡片的所有图片都以上传为 16:9 格式（例如 1920px x 1080px）。
+
+如果你希望卡片根据屏幕大小自适应布局，我们建议上传 1:1 比例的图片，并将图片内容居中。
+
+### 更改卡片大小
+
+你可以通过打开 **选项菜单** <Image src="https://test-dai.imgix.net/org-4afef969-21f9-40f3-b5b8-b06c8b6cf68f/doc-22a3b060-9539-4176-97e4-49120e02f5d1/4c115a43418b42e3-spaces-NkEGS7hzeqa35sMXQZ4X-uploads-aS1QvPIBVYwhpFTGcPBN-options-menu.svg?rasterize-bypass=true" alt="The Options menu icon in GitBook" /> 位于卡片块左侧的 **中号** 选项，可将三张卡片放在一条横向线上，而 **大号** 选项则会在每一行显示两张更大的卡片。
+
+### Markdown 中的表示方式
+
+```markdown
+<table data-view="cards">
+  <thead>
+    <tr>
+      <th></th>
+      <th></th>
+      <th data-hidden data-card-target data-type="content-ref"></th>
+      <th data-hidden data-card-cover data-type="files"></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><strong>示例标题 1</strong></td>
+      <td>示例描述 1。</td>
+      <td><a href="https://example.com">https://example.com</a></td>
+      <td><a href="https://example.com/image1.svg">example_image1.svg</a></td>
+    </tr>
+    <tr>
+      <td><strong>示例标题 2</strong></td>
+      <td>示例描述 2。</td>
+      <td><a href="https://example.com">https://example.com</a></td>
+      <td><a href="https://example.com/image2.svg">example_image2.svg</a></td>
+    </tr>
+    <tr>
+      <td><strong>示例标题 3</strong></td>
+      <td>示例描述 3。</td>
+      <td><a href="https://example.com">https://example.com</a></td>
+      <td><a href="https://example.com/image3.svg">example_image3.svg</a></td>
+    </tr>
+  </tbody>
+</table>
+```

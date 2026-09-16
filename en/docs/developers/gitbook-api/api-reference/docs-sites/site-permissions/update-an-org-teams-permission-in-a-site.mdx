@@ -1,0 +1,49 @@
+---
+title: Update an org team's permission in a site
+metaTitle: Update an org team's permission in a site | Developers | GitBook Documentation
+ogImage: https://test-dai.imgix.net/org-4afef969-21f9-40f3-b5b8-b06c8b6cf68f/doc-22a3b060-9539-4176-97e4-49120e02f5d1/0a5a1a9630785855-organizations-d8f63b60-89ae-11e7-8574-5927d48c4877-sites-site_p4Xo4-socialprevie.jpg?fm=auto&auto=compress%2Cformat
+---
+
+**PATCH** `/orgs/{organizationId}/sites/{siteId}/permissions/teams/{teamId}`
+
+**Parameters**
+
+<ParamField header="Authorization" param-type="string" />
+
+<ParamField path="organizationId" param-type="string" required={true}>
+  The unique id of the organization
+</ParamField>
+
+<ParamField path="siteId" param-type="string" required={true}>
+  The unique id of the site
+</ParamField>
+
+<ParamField path="teamId" param-type="string" required={true}>
+  The unique ID of the Team
+</ParamField>
+
+**Request body**
+
+<ParamField body="role" param-type="string" enum="admin,create,edit,review,comment,read">
+  "The role of a member in an organization.
+  "admin": Can administrate the content: create, delete spaces, ...
+  "create": Can create content.
+  "review": Can review content.
+  "edit": Can edit the content (live or change requests).
+  "comment": Can access the content and its discussions.
+  "read": Can access the content, but cannot update it in any way.
+</ParamField>
+
+**Responses**
+
+`204` Team permission was updated
+
+`404` Not Found
+
+<ResponseField name="error" field-type="object" required={true}>
+  <Expandable title="Object Properties">
+    <ResponseField name="code" field-type="integer" required={true} enum="404" />
+
+    <ResponseField name="message" field-type="string" required={true} />
+  </Expandable>
+</ResponseField>

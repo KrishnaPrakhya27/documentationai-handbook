@@ -1,0 +1,134 @@
+---
+title: Règles de fusion
+description: Définissez les exigences à respecter avant que les demandes de modification puissent être fusionnées
+metaTitle: Règles de fusion | GitBook Documentation
+ogImage: https://test-dai.imgix.net/org-4afef969-21f9-40f3-b5b8-b06c8b6cf68f/doc-22a3b060-9539-4176-97e4-49120e02f5d1/0a5a1a9630785855-organizations-d8f63b60-89ae-11e7-8574-5927d48c4877-sites-site_p4Xo4-socialprevie.jpg?fm=auto&auto=compress%2Cformat
+---
+
+Les règles de fusion vous permettent de définir les exigences à satisfaire avant que les demandes de modification puissent être fusionnées, par exemple l’obligation d’obtenir une relecture d’un utilisateur spécifique, ou l’exigence d’un sujet ou d’une description pour la demande de modification.
+
+Ces règles aident à maintenir la qualité du contenu et à garantir des processus de relecture appropriés dans l’ensemble de votre flux de travail de documentation.
+
+Lorsque vous avez configuré des règles de fusion, elles évaluent automatiquement les demandes de modification avant qu’elles puissent être fusionnées. Si une règle n’est pas satisfaite, la fusion sera bloquée jusqu’à ce que les exigences soient remplies.
+
+Cela fournit un moyen automatisé de faire respecter les standards de collaboration et de relecture de votre équipe.
+
+## Utilisation des règles de fusion
+
+Vous pouvez configurer les règles de fusion à différents niveaux pour correspondre au flux de travail de votre équipe :
+
+### Configuration au niveau de l’organisation
+
+Les organisations peuvent définir des règles de fusion par défaut que toutes les sections héritent. Cela apporte de la cohérence entre plusieurs sections tout en permettant à chaque section de personnaliser ses règles selon ses besoins.
+
+Pour configurer les règles de fusion de votre organisation, retournez à votre organisation **Accueil** et cliquez sur **Paramètres** <Image src="https://test-dai.imgix.net/org-4afef969-21f9-40f3-b5b8-b06c8b6cf68f/doc-22a3b060-9539-4176-97e4-49120e02f5d1/ba76c24cf90e5026-spaces-NkEGS7hzeqa35sMXQZ4X-uploads-wkBqgOPry9HAcW4cxJk0-settings.svg?rasterize-bypass=true" alt="" />, sous **Admin** dans la barre latérale. Dans l’écran des paramètres, cliquez sur **Règles de fusion** dans le groupe **Organisation** . Ici, vous pouvez définir des règles de fusion pour l’ensemble de votre organisation.
+
+Choisissez entre une fusion sans restriction, ou sélectionnez l’un des préréglages pour l’appliquer aux demandes de modification dans toute votre organisation.
+
+### Configuration au niveau de la section
+
+Que vous ayez activé ou non les règles de fusion à l’échelle de l’organisation, chaque section peut avoir ses propres exigences de fusion adaptées à son contenu et à la structure de son équipe.
+
+Cela vous offre la flexibilité d’avoir des règles plus strictes pour la documentation importante et des règles plus souples pour le contenu de brouillon.
+
+Lors de la configuration des règles de fusion pour une section, vous pouvez choisir de :
+
+- **Hériter** des règles de fusion de votre organisation
+- **Définir des règles personnalisées** propres à cette section
+- **Désactiver les règles de fusion** entièrement
+
+<Callout kind="info">
+  Si vous héritez des règles de l’organisation, toute modification des règles de fusion de l’organisation s’appliquera automatiquement à la section.
+</Callout>
+
+Pour configurer les règles de fusion d’une section, ouvrez le **menu Actions**  en haut à gauche de l’éditeur, puis cliquez sur **Règles de fusion**. Ici, vous pouvez préciser si vous souhaitez hériter des règles de fusion de votre organisation ou en configurer de nouvelles spécifiques à cette section.
+
+## Évaluation des règles
+
+### Fonctionnement des règles
+
+Lorsqu’une personne souhaite fusionner une demande de modification, GitBook évaluera toutes les règles configurées dans l’ordre :
+
+- Toutes les règles d’une configuration doivent être validées pour qu’une fusion soit autorisée
+- Les règles sont évaluées dans l’ordre dans lequel elles apparaissent dans votre configuration
+- Si une règle échoue, la fusion est bloquée avec un message d’erreur approprié
+- Les règles de contournement peuvent annuler les échecs précédents
+
+### Règles de contournement
+
+Certaines règles disposent de capacités de contournement (comme **Autoriser des acteurs spécifiés à contourner les exigences**). Ces règles spéciales peuvent annuler les échecs d’autres règles. Si une règle de contournement est évaluée à vrai, la fusion sera autorisée même si d’autres règles ont échoué.
+
+## Bonnes pratiques
+
+Lors de la configuration des règles de fusion, tenez compte de ces recommandations :
+
+- **Commencez simplement**: Commencez par des règles de base, comme exiger au moins une relecture.
+- **Évoluez progressivement**: Ajoutez des exigences plus spécifiques à mesure que votre équipe grandit et que les flux de travail mûrissent.
+- **Utilisez le contournement avec prudence**: N’accordez les autorisations de contournement qu’à des administrateurs de confiance.
+- **Vérifiez régulièrement**: Ajustez les règles en fonction des véritables schémas de flux de travail de votre équipe.
+- **Testez d’abord**: Lorsque c’est possible, testez les modifications de règles dans une section de test avant de les appliquer aux sections de production.
+
+## Types de règles disponibles
+
+### Exigences de relecture
+
+| Règle | Description |
+| --- | --- |
+| **Exiger au moins une relecture** | Garantit qu’au moins un membre de l’équipe a relu la demande de modification avant qu’elle puisse être fusionnée. |
+| **Exiger que toutes les relectures soient approuvées** | Toutes **terminées** les relectures (non demandées) doivent être des approbations. Si un relecteur a demandé des modifications ou rejeté la demande de modification, la fusion sera bloquée. |
+| **Exiger une relecture par des acteurs spécifiés** | Exige l’approbation de tous les utilisateurs spécifiés. Vous pouvez sélectionner des membres précis de l’équipe qui doivent relire et approuver la demande de modification avant qu’elle puisse être fusionnée. |
+| **Exiger une relecture par l’un des acteurs spécifiés** | Exige l’approbation d’au moins l’un des utilisateurs spécifiés. C’est utile lorsque vous avez plusieurs relecteurs qualifiés, mais qu’une seule approbation du groupe est nécessaire. |
+| <strong>Exiger une relecture de l’agent Docs (bientôt disponible)</strong> | Exige une relecture de l’agent IA de GitBook. Cela garantit que des contrôles qualité automatisés sont effectués sur les modifications de contenu avant la fusion. |
+
+### Exigences de la demande de modification
+
+| Règle | Description |
+| --- | --- |
+| **Exiger une demande de modification à jour** | La demande de modification doit être à jour par rapport à la branche de contenu principale. Si le contenu principal a été mis à jour depuis la création de la demande de modification, vous devrez la rebaser ou la mettre à jour avant de la fusionner. |
+| **Exiger un sujet** | La demande de modification doit avoir un sujet/titre descriptif. Les sujets vides bloqueront la fusion. |
+| **Exiger une description** | La demande de modification doit inclure une description expliquant quelles modifications ont été apportées et pourquoi. |
+
+### Options avancées
+
+| Règle | Description |
+| --- | --- |
+| **Autoriser des acteurs spécifiés à contourner les exigences** | Vous pouvez désigner des utilisateurs spécifiques autorisés à contourner toutes les autres exigences des règles de fusion. C’est utile pour les administrateurs ou les situations d’urgence où les règles doivent être outrepassées. |
+| **Expression personnalisée** | Vous pouvez créer des règles de fusion avancées à l’aide d’expressions JavaScript personnalisées. Cela vous permet de définir une logique complexe basée sur le contexte d’évaluation, avec accès aux propriétés de la demande de modification, des relectures et de l’utilisateur qui tente de fusionner. |
+
+#### Expressions personnalisées
+
+Lorsque vous créez une expression personnalisée, elle sera évaluée à chaque fois que quelqu’un tentera de fusionner une demande de modification. Si l’expression renvoie `true`, la fusion est autorisée. Si elle renvoie `false`, la fusion est bloquée.
+
+<Callout kind="info">
+  Les expressions personnalisées prennent en charge la syntaxe JavaScript standard (ES2022) et ont une longueur maximale de 1024 caractères.
+</Callout>
+
+<strong>Variables de contexte disponibles :</strong>
+
+- `changeRequest.subject` \- Le sujet/titre de la demande de modification
+- `changeRequest.description` \- La description de la demande de modification
+- `changeRequest.outdated` \- Indique si la demande de modification est obsolète (booléen)
+- `changeRequest.createdBy.id` \- ID de l’utilisateur qui a créé la demande de modification
+- `reviews` \- Tableau d’objets de relecture, chacun contenant :
+
+  - `reviews[].status` \- Statut de la relecture (`"approved"` ou `"changes_requested"`)
+  - `reviews[].reviewer.id` \- ID du relecteur
+- `actor.id` \- ID de l’utilisateur qui tente de fusionner
+
+<strong>Exemples courants d’expressions :</strong>
+
+```javascript title="Exiger plusieurs relectures approuvées"
+reviews.filter(r => r.status === "approved").length >= 2
+```
+
+```javascript title="Exiger l’approbation d’un utilisateur spécifique"
+reviews.some(r => r.reviewer.id === "harry" && r.status === "approved")
+```
+
+```javascript title="Exiger une description pour les changements urgents"
+!changeRequest.subject.includes("[URGENT]") || !!changeRequest.description
+```
+
+```javascript title="Autoriser l’auto-fusion uniquement pour les modifications mineures"
+changeRequest.createdBy.id === actor.id ? changeRequest.subject.startsWith("[minor]") : true
+```

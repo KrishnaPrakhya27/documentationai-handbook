@@ -1,0 +1,176 @@
+---
+title: Connexions
+description: Connectez des sources externes à GitBook Assistant et GitBook Agent
+metaTitle: Connexions | GitBook Documentation
+ogImage: https://test-dai.imgix.net/org-4afef969-21f9-40f3-b5b8-b06c8b6cf68f/doc-22a3b060-9539-4176-97e4-49120e02f5d1/0a5a1a9630785855-organizations-d8f63b60-89ae-11e7-8574-5927d48c4877-sites-site_p4Xo4-socialprevie.jpg?fm=auto&auto=compress%2Cformat
+---
+
+Les connexions vous permettent d’intégrer du contenu externe à votre site de documentation.
+
+Le contenu connecté peut apparaître dans [Assistant IA](/fr/docs/lia-pour-vos-lecteurs/gitbook-ai-assistant). Certaines connexions peuvent aussi aider GitBook à générer des demandes de modification.
+
+Pour ajouter une connexion, ouvrez les paramètres de votre site **Paramètres** et cliquez sur **Connexions**.
+
+<Image src="https://test-dai.imgix.net/org-4afef969-21f9-40f3-b5b8-b06c8b6cf68f/doc-22a3b060-9539-4176-97e4-49120e02f5d1/380d938a3f86e215-spaces-NkEGS7hzeqa35sMXQZ4X-uploads-TO7pu11GsUcHQGwM4fRw-2026-07-13_connections-.png?fm=auto&auto=compress%2Cformat" alt="" />
+
+### Connexions disponibles
+
+Vous pouvez connecter des plateformes d’assistance, des communautés de développeurs et d’autres sources de contenu :
+
+- Intercom, Zendesk, Freshdesk, Front, HubSpot, Zoho Desk et Pylon
+- GitHub Discussions et GitHub Issues
+- YouTube, un site web ou un serveur MCP
+
+### Comment fonctionnent les connexions
+
+<Steps>
+  <Step title="Connecter une source" titleType="h3">
+    Sélectionnez un type de source. Ensuite, autorisez-la ou saisissez l’URL que vous souhaitez importer dans GitBook.
+
+    <Callout kind="info">
+      Si vous connectez YouTube, saisissez l’ID de la chaîne — pas le nom de la chaîne.
+
+      Un nom de chaîne ne fonctionnera pas pour cette source.
+
+      Dans YouTube Studio, ouvrez **Paramètres** → **Chaîne** → **Paramètres avancés**.
+
+      Copiez l’ **ID de la chaîne**.
+
+      Si l’URL de votre chaîne contient `/channel/`, copiez la partie après `/channel/`.
+    </Callout>
+
+    Chaque connexion crée un flux d’enregistrements provenant de cette source, tels que des issues, des discussions, des tickets, des conversations, des pages ou des vidéos.
+  </Step>
+
+  <Step title="GitBook synchronise les enregistrements" titleType="h3">
+    Après avoir enregistré la connexion, GitBook commence à synchroniser les enregistrements provenant de cette source.
+
+    Dans la liste des connexions, vous pouvez consulter l’état de la synchronisation, le nombre d’enregistrements et l’heure de la dernière synchronisation.
+
+    Par défaut, les URL connectées sont actualisées une fois par jour. Vous pouvez également lancer une actualisation manuellement depuis les **Paramètres** → **Connexions**.
+  </Step>
+
+  <Step title="Choisissez comment les enregistrements sont utilisés" titleType="h3">
+    Pour chaque connexion, vous pouvez choisir si ses enregistrements apparaissent dans la recherche et dans GitBook Assistant, et s’ils aident GitBook à générer des demandes de modification.
+
+    Vous pouvez également ajuster le classement de recherche de la connexion afin de prioriser ou de déprioriser ses enregistrements.
+  </Step>
+</Steps>
+
+### Paramètres de la connexion
+
+Lorsque vous modifiez une connexion, vous pouvez configurer ces options :
+
+#### Libellé
+
+Utiliser **Libellé** pour donner à la connexion un nom clair.
+
+Cela facilite l’identification de la source dans la liste des connexions, surtout si vous connectez plusieurs dépôts, sites web ou chaînes.
+
+#### Générer automatiquement des demandes de modification
+
+<Callout kind="alert">
+  La génération automatique de demandes de modification est actuellement en accès anticipé.
+
+  Voir [Améliorations automatiques de la documentation](/fr/docs/agent-gitbook/automatic-docs-improvements) pour savoir comment demander l’accès
+</Callout>
+
+Activer **Générer automatiquement des demandes de modification** pour permettre à GitBook d’apprendre à partir des enregistrements de la connexion et de suggérer des mises à jour de la documentation.
+
+GitBook peut utiliser ces enregistrements pour créer des demandes de modification avec des changements suggérés que votre équipe pourra examiner.
+
+#### Afficher dans la recherche / l’assistant
+
+Activer **Afficher dans la recherche / l’assistant** pour rendre les enregistrements de cette connexion consultables par les visiteurs et disponibles pour répondre aux questions.
+
+Cela permet au contenu connecté d’apparaître dans l’expérience de recherche alimentée par l’IA de votre site et dans les réponses de GitBook Assistant.
+
+<Callout kind="alert">
+  L’activation **Afficher dans la recherche / l’assistant** rend les enregistrements de cette connexion disponibles à toute personne ayant accès au site — y compris aux visiteurs externes si le site est partagé à l’extérieur.
+</Callout>
+
+#### Augmentation du classement dans la recherche
+
+Utiliser **Augmentation du classement dans la recherche** pour prioriser ou déprioriser les enregistrements d’une connexion dans la recherche.
+
+Augmentez la valeur si cette source doit apparaître plus souvent. Diminuez-la si cette source doit avoir moins de poids que votre documentation principale.
+
+### Détails du connecteur
+
+Tous les connecteurs de cette section peuvent fournir du contexte à [Assistant IA](/fr/docs/lia-pour-vos-lecteurs/gitbook-ai-assistant). GitBook Agent peut utiliser les enregistrements résolus pour identifier [les lacunes de contenu](/fr/docs/agent-gitbook/automatic-docs-improvements) et suggérer des mises à jour de la documentation.
+
+#### Intercom
+
+GitBook indexe les conversations résolues ayant au moins une réponse d’un agent d’assistance humain ou IA. Il n’indexe pas les conversations ouvertes, non résolues ou indésirables.
+
+Pour connecter Intercom, utilisez une clé API avec un accès en lecture aux conversations. Vous contrôlez son périmètre et sa date d’expiration.
+
+#### Zendesk
+
+GitBook indexe les conversations résolues ayant au moins une réponse d’un agent d’assistance humain ou IA. Il n’indexe pas les conversations ouvertes, non résolues ou indésirables.
+
+Pour connecter Zendesk, saisissez votre sous-domaine Zendesk, par exemple `gitbook.zendesk.com`. Vous avez également besoin d’une clé API avec un accès en lecture aux conversations. Vous contrôlez son périmètre et sa date d’expiration.
+
+#### Pylon
+
+GitBook indexe les conversations résolues ayant au moins une réponse d’un agent d’assistance humain ou IA. Il n’indexe pas les conversations ouvertes, non résolues ou indésirables.
+
+Pour connecter Pylon, utilisez des identifiants avec un accès en lecture aux conversations.
+
+#### GitHub Discussions
+
+GitBook indexe les discussions résolues ayant au moins une réponse. Il n’indexe pas les discussions non résolues ou indésirables.
+
+Pour connecter GitHub Discussions, utilisez des identifiants avec un accès en lecture aux discussions.
+
+#### GitHub Issues
+
+GitBook indexe les issues résolus. Il n’indexe pas les conversations ouvertes, non résolues ou indésirables.
+
+Pour connecter GitHub Issues, utilisez des identifiants avec un accès en lecture aux issues.
+
+#### Données stockées pour ces connecteurs
+
+GitBook ne stocke que la conversation, la discussion ou l’issue. Nous ne stockons ni les métadonnées ni les informations personnelles.
+
+GitBook masque les informations sensibles avant le stockage. Nous ne stockons pas d’informations sensibles dans l’enregistrement indexé.
+
+### Conservation des données et confidentialité
+
+#### Qu’est-ce que GitBook indexe ?
+
+GitBook indexe le contenu de vos connexions et l’utilise dans la recherche, les demandes de modification et d’autres fonctionnalités basées sur le contenu. Chaque élément que nous indexons à partir d’une connexion est appelé un <strong>enregistrement.</strong> Par exemple, les enregistrements peuvent être des tickets Intercom, des tickets Freshdesk, des pages web, et bien plus encore.
+
+Nous utilisons les enregistrements pour suggérer des modifications de contenu et fournir un contexte supplémentaire aux agents qui travaillent dans GitBook.
+
+Nous conservons les enregistrements tant que la source reste connectée. Si vous supprimez la connexion, nous supprimons tous les enregistrements stockés. Nous ne supprimons aucun contenu généré à l’aide de ces enregistrements comme contexte, ni le contenu des enregistrements de journaux de conversation IA stockés.
+
+Par exemple, vous pouvez connecter Intercom et GitBook suggère une modification de la documentation à partir d’un ticket d’assistance Intercom clôturé. Si vous supprimez ensuite la connexion Intercom, toutes nos données stockées spécifiques à Intercom sont supprimées, mais les demandes de modification seront conservées.
+
+#### FAQ
+
+<Expandable title="Quelle est votre politique concernant les PII ?">
+  En général, GitBook ne demande que les champs source qu’il peut utiliser comme contexte (voir les pages des connecteurs pour plus de détails sur chaque source).
+
+  Lorsque nous ingérons un enregistrement, nous le faisons passer par des processus de masquage des PII. Le premier est un masquage en mémoire de tous les e-mails, numéros de téléphone, adresses et autres informations personnelles.
+
+  Nous faisons ensuite passer l’enregistrement par une 2e étape de PII à l’aide d’un LLM tiers. Il s’agit d’une requête conforme au ZDR, sans stockage, qui n’est pas enregistrée sur les serveurs de notre tiers et n’est utilisée dans aucun entraînement.
+
+  Des PII peuvent se trouver sur nos serveurs pendant quelques minutes pendant ce prétraitement, mais nous ne stockons que l’enregistrement post-traité.
+</Expandable>
+
+<Expandable title="Envoyez-vous des données à des tiers ?">
+  Nous utilisons un tiers pour masquer les PII après la fin de notre masquage PII initial interne.
+
+  Nous utilisons également le contenu d’enregistrement masqué chez des fournisseurs tiers lors de la création de demandes de modification et de la réponse aux questions des utilisateurs.
+
+  Par exemple, lors de la rédaction de contenu avec GitBook Agent, l’agent peut inclure du contenu provenant d’un enregistrement externe comme contexte supplémentaire.
+</Expandable>
+
+<Expandable title="GitBook utilise-t-il des données pour l’entraînement de modèles, que ce soit lui-même ou via des tiers">
+  Non, nous n’utilisons pas les données des enregistrements pour l’entraînement et nous vérifions auprès de nos fournisseurs tiers qu’ils ne le font pas non plus.
+</Expandable>
+
+<Expandable title="Puis-je limiter les enregistrements que GitBook récupère ?">
+  Les exigences spécifiques au connecteur et les enregistrements indexés sont listés dans [Détails du connecteur](#connector-details).
+</Expandable>

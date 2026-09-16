@@ -1,0 +1,68 @@
+---
+title: Updating docs in bulk with GitBook Agent
+description: Find, replace, and update content across your GitBook docs with GitBook Agent
+metaTitle: Updating docs in bulk with GitBook Agent | Guides | GitBook Documentation
+ogImage: https://test-dai.imgix.net/org-4afef969-21f9-40f3-b5b8-b06c8b6cf68f/doc-22a3b060-9539-4176-97e4-49120e02f5d1/0a5a1a9630785855-organizations-d8f63b60-89ae-11e7-8574-5927d48c4877-sites-site_p4Xo4-socialprevie.jpg?fm=auto&auto=compress%2Cformat
+---
+
+<Callout kind="alert">
+  #### GitBook now supports find & replace through GitBook Agent
+
+  Head to [GitBook Agent](/en/docs/gitbook-agent/overview) to learn more about using GitBook Agent to edit pages in bulk.
+</Callout>
+
+GitBook Agent can find and replace content across your documentation. It can also make broader, targeted updates in a change request.
+
+Use GitBook Agent for routine bulk edits. It keeps changes together for review before you merge them.
+
+### Start a bulk update
+
+To make a bulk update:
+
+1. In your space, click the GitBook Agent icon next to **Edit**.
+2. Describe the change, the pages it affects, and any exclusions.
+3. Click **Start change request**.
+4. In **Changes**, review every proposed edit.
+5. Merge the change request when the updates are correct.
+
+### Write a focused prompt
+
+If you want to make targeted changes to your documentation — such as a ‘find and replace’ process for an outdated or incorrect term — you can use a focused prompt. 
+
+Be sure to include these details in your prompt:
+
+- The text or content you want to change.
+- The replacement or intended outcome.
+- Any pages to include and content to exclude.
+
+Here’s an simple example prompt you could copy and customize:
+
+Find an replace content
+
+```text
+Find all instances of “Gitbook” and replace them with “GitBook.” Ignore code blocks and URLs. Tell me how many replacements you make.
+```
+
+For larger changes, it’s a good idea to also state the goal and constraints. If there are pages pages that define the correct wording or structure, reference them in the prompt to point the Agent in the right direction.
+
+### Review bulk edits
+
+GitBook Agent will make the updates in a change request. Be sure to review the change request and the diff before merging.
+
+Pay particular attention to the following:
+
+- Each replacement has the intended meaning.
+- Links, formatting, and page structure remain correct.
+- The change request excludes content outside the requested scope.
+
+### FAQ
+
+<Expandable title="Can I still use Git Sync for bulk updates?">
+  Yes. Git Sync creates a bidirectional connection with a GitHub or GitLab repository. Use it when your documentation follows a docs-as-code or CI/CD workflow, or you want to use a different AI agent (e.g. ChatGPT, Codex, Claude etc) to make changes to your documentation.
+
+  Create a branch, commit the changes, open a pull or merge request, and merge after review.
+</Expandable>
+
+<Expandable title="Can GitBook Agent exclude some matches?">
+  Yes. Name the pages to include and content to exclude. For example, tell GitBook Agent to ignore code blocks, URLs, or a specific page.
+</Expandable>

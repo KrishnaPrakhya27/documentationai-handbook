@@ -1,0 +1,79 @@
+---
+title: Markdown
+description: Rédigez directement en Markdown dans l’éditeur pour créer facilement du contenu à l’aide d’une syntaxe courante
+metaTitle: Markdown | GitBook Documentation
+ogImage: https://test-dai.imgix.net/org-4afef969-21f9-40f3-b5b8-b06c8b6cf68f/doc-22a3b060-9539-4176-97e4-49120e02f5d1/0a5a1a9630785855-organizations-d8f63b60-89ae-11e7-8574-5927d48c4877-sites-site_p4Xo4-socialprevie.jpg?fm=auto&auto=compress%2Cformat
+---
+
+<Image src="https://test-dai.imgix.net/org-4afef969-21f9-40f3-b5b8-b06c8b6cf68f/doc-22a3b060-9539-4176-97e4-49120e02f5d1/2d1b93c62f8d0718-spaces-NkEGS7hzeqa35sMXQZ4X-uploads-Mbo91kXRJGPsIzXxsgpU-markdown-2x.png?fm=auto&auto=compress%2Cformat" alt="An image containing the markdown logo" caption="Écrivez en Markdown dans GitBook." />
+
+L’éditeur de GitBook vous permet de créer du contenu mis en forme à l’aide de Markdown.
+
+Markdown est une syntaxe de balisage populaire, largement connue pour sa simplicité. GitBook le prend en charge comme un moyen convivial au clavier d’écrire du texte riche et structuré.
+
+<Callout kind="info">
+  Vous pouvez en apprendre davantage sur Markdown en visitant [Common Mark](https://commonmark.org/help/).
+</Callout>
+
+### Mise en forme du texte
+
+GitBook prend en charge toute la mise en forme Markdown inline classique :
+
+| Mise en forme | Version Markdown | Résultat |
+| --- | --- | --- |
+| Gras | `**gras**` | **gras** |
+| Italique | `_italique_` | *italique* |
+| Barré | `~barré~` | ~~barré~~ |
+| Code en ligne | `` `code` `` | `code` |
+
+### Sauts de ligne
+
+Appuyez sur `Enter` pour commencer un nouveau paragraphe.
+
+Appuyez sur `Maj` \+ `Enter` pour insérer un saut de ligne souple dans le même paragraphe.
+
+### Coller du Markdown
+
+Lorsque vous collez directement du contenu Markdown dans l’éditeur, il est important d’utiliser l’ **Coller et assortir le style** option (généralement <kbd>Maj</kbd> \+ <kbd>Cmd</kbd> \+ <kbd>V</kbd> sur Mac ou <kbd>Maj</kbd> \+ <kbd>Ctrl</kbd> \+ <kbd>V</kbd> sur Windows).
+
+Si vous utilisez l’option Coller standard pour du contenu copié depuis un autre éditeur ou depuis le web, il peut être inséré sous forme de bloc de code au lieu de texte mis en forme.
+
+### Titres
+
+- Titre 1 : `# Un titre de premier niveau`
+- Titre 2 : `## Un titre de deuxième niveau`
+- Titre 3 : `### Un titre de troisième niveau`
+
+### Blocs de code
+
+```` ```⏎ ```` crée un nouveau bloc de code.
+
+```` ```py⏎ ```` crée un nouveau bloc de code avec la coloration syntaxique Python.
+
+Nous utilisons [Prism](https://github.com/PrismJS/prism) pour la coloration syntaxique. Utilisez [Test Drive Prism](https://prismjs.com/test.html#language=markup) pour vérifier les langages pris en charge.
+
+Si GitBook et Prism diffèrent, il se peut que nous ayons une ou deux versions de retard.
+
+### Listes
+
+GitBook détecte et crée automatiquement des listes ordonnées et non ordonnées au fur et à mesure que vous tapez.
+
+- Commencez une ligne par `-` ou `*` pour commencer une liste à puces non ordonnée.
+- Commencez une ligne par `1.` pour commencer une liste numérotée.
+- Commencez une ligne par `- [ ]` pour commencer une liste de tâches.
+
+Lorsque vous rédigez des listes, appuyez sur `Tab` pour augmenter le retrait, et `Maj+Tab` pour diminuer le retrait.
+
+### Citations
+
+Commencez une ligne par `>` pour créer une citation en bloc. Si vous sélectionnez un paragraphe entier du début à la fin, en tapant `>` vous envelopperez le contenu dans une citation en bloc.
+
+> Ceci est une citation en bloc.
+
+### Séparateurs
+
+Tapez `---` puis appuyez sur `Enter` pour créer un séparateur sur votre page.
+
+---
+
+Voici un exemple de séparateur.

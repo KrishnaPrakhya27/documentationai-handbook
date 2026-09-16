@@ -1,0 +1,44 @@
+---
+title: 嵌入式 URL
+description: 通过 URL 将视频、音乐等内容直接嵌入到你的页面中
+metaTitle: 嵌入式 URL | GitBook Documentation
+ogImage: https://test-dai.imgix.net/org-4afef969-21f9-40f3-b5b8-b06c8b6cf68f/doc-22a3b060-9539-4176-97e4-49120e02f5d1/0a5a1a9630785855-organizations-d8f63b60-89ae-11e7-8574-5927d48c4877-sites-site_p4Xo4-socialprevie.jpg?fm=auto&auto=compress%2Cformat
+---
+
+若要添加嵌入式 URL，请粘贴你想要嵌入的内容链接并按下 `Enter 键`.
+
+### 视频
+
+<Iframe src="https://www.youtube.com/embed/D_uLM5i0Z4c" title="Embedded content" />
+
+<Callout kind="info">
+  <strong>注意：</strong> 你可以通过添加 `?autoplay=1&loop=1` 到视频 URL 的末尾来让 YouTube 和 Vimeo 嵌入内容自动播放并循环播放。
+</Callout>
+
+#### 视频文件
+
+上传的视频文件——例如 MP4——不会以内嵌方式播放；它们会显示为链接，访客可以点击打开或下载。要在页面上显示可播放的视频，请将视频上传到 YouTube 或 Google Drive 等可公开访问的平台，然后将链接粘贴到嵌入块中。私有 URL 不会显示在你的页面上。
+
+### CodePen
+
+[https://codepen.io/davidkpiano/pen/wMqXea](https://codepen.io/davidkpiano/pen/wMqXea)
+
+### Spotify
+
+[https://open.spotify.com/track/4FmiciU3ZmfgABlbCSXcWw?si=65zMAhStT2ivTit-kZISWg](https://open.spotify.com/track/4FmiciU3ZmfgABlbCSXcWw?si=65zMAhStT2ivTit-kZISWg)
+
+### Markdown 中的表示方式
+
+```markdown
+{% embed url="URL_HERE" %}
+```
+
+### 常见问题
+
+<Expandable title="为什么我的 URL 不起作用？">
+  你的内容必须公开可访问。对于 Google 文档，请选择 *任何拥有链接的人* 共享设置。
+
+  GitBook 通过以下方式嵌入 URL： [Iframely](https://iframely.com/domains). 请确认 Iframely 支持你的提供商，然后 [使用 Iframely 测试你的 URL](https://iframely.com/try).
+
+  GitBook 无法嵌入外部 HTML `<iframe>` 标签，因为其内容安全策略的限制。请改用嵌入块。
+</Expandable>

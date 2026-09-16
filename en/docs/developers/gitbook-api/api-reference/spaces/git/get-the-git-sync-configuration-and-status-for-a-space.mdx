@@ -1,0 +1,100 @@
+---
+title: Get the Git Sync configuration and status for a space
+metaTitle: Get the Git Sync configuration and status for a space | Developers | GitBook Documentation
+ogImage: https://test-dai.imgix.net/org-4afef969-21f9-40f3-b5b8-b06c8b6cf68f/doc-22a3b060-9539-4176-97e4-49120e02f5d1/0a5a1a9630785855-organizations-d8f63b60-89ae-11e7-8574-5927d48c4877-sites-site_p4Xo4-socialprevie.jpg?fm=auto&auto=compress%2Cformat
+---
+
+Returns metadata about the Git Sync provider connected to the space. Returns 404 if no Git provider is configured. Use this to check sync state before triggering an import or export.
+
+**GET** `/spaces/{spaceId}/git/info`
+
+**Parameters**
+
+<ParamField header="Authorization" param-type="string" />
+
+<ParamField path="spaceId" param-type="string" required={true}>
+  The unique id of the space
+</ParamField>
+
+**Responses**
+
+`200` The Git Sync info for the space
+
+<ResponseField name="repoName" field-type="string">
+  Repository name.
+</ResponseField>
+
+<ResponseField name="installationStatus" field-type="string" required={true} enum="unauthenticated,active,pending" />
+
+<ResponseField name="installationProvider" field-type="string" required={true} enum="github,gitlab,github-legacy">
+  The provider of the Git Sync installation.
+</ResponseField>
+
+<ResponseField name="integration" field-type="string" deprecated={true}>
+  The integration name providing the Git Sync.
+</ResponseField>
+
+<ResponseField name="installationId" field-type="string" required={true}>
+  The ID of the Git Sync installation.
+</ResponseField>
+
+<ResponseField name="parentInstallationId" field-type="string">
+  The ID of the parent Git Sync installation, if any.
+</ResponseField>
+
+<ResponseField name="url" field-type="string">
+  The URL to the repository tree, used when rendering public content.
+</ResponseField>
+
+<ResponseField name="operation" field-type="object">
+  The latest operation on the Git Sync installation.
+
+  <Expandable title="Object Properties">
+    <ResponseField name="state" field-type="string" required={true} enum="running,failure,success,timeout">
+      - `running`: The operation is still running
+      - `failure`: The operation failed
+      - `success`: The operation was successful
+      - `timeout`: The operation timed out
+    </ResponseField>
+
+    <ResponseField name="direction" field-type="string" required={true} enum="export,import" />
+
+    <ResponseField name="startedAt" field-type="string" required={true} />
+
+    <ResponseField name="endedAt" field-type="string" />
+
+    <ResponseField name="error" field-type="string">
+      Why the operation failed, when it did.
+    </ResponseField>
+
+    <ResponseField name="errorAction" field-type="object">
+      An action the user can take to resolve a failed Git Sync operation.
+
+      <Expandable title="Object Properties">
+        <ResponseField name="label" field-type="string" required={true}>
+          Label for the action.
+        </ResponseField>
+
+        <ResponseField name="url" field-type="string" required={true}>
+          URL where the user can resolve the failure.
+        </ResponseField>
+      </Expandable>
+    </ResponseField>
+  </Expandable>
+</ResponseField>
+
+<ResponseField name="operationTimeout" field-type="integer">
+  How long an operation is allowed to run before it is terminated (in milliseconds).
+</ResponseField>
+
+<ResponseField name="updatedAt" field-type="string" />
+
+`404` Not Found
+
+<ResponseField name="error" field-type="object" required={true}>
+  <Expandable title="Object Properties">
+    <ResponseField name="code" field-type="integer" required={true} enum="404" />
+
+    <ResponseField name="message" field-type="string" required={true} />
+  </Expandable>
+</ResponseField>

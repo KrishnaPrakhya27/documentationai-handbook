@@ -1,0 +1,486 @@
+---
+title: 配置站点
+description: 从源内容开始端到端创建并维护完整的 GitBook 文档站点——从源内容设计站点结构，在 monorepo 布局中搭建 Git 仓库，设置 GitHub/GitLab 远程仓库，驱动
+metaTitle: 配置站点 | GitBook Documentation
+ogImage: https://test-dai.imgix.net/org-4afef969-21f9-40f3-b5b8-b06c8b6cf68f/doc-22a3b060-9539-4176-97e4-49120e02f5d1/0a5a1a9630785855-organizations-d8f63b60-89ae-11e7-8574-5927d48c4877-sites-site_p4Xo4-socialprevie.jpg?fm=auto&auto=compress%2Cformat
+---
+
+一种用于创建和维护整个 GitBook 文档站点的技能。其中 `write-docs` 涵盖单个页面内部内容，这项技能涵盖页面周围的一切：结构设计、仓库脚手架、GitBook API 和品牌设置。请把这两项技能配合使用——这一项会在 `write-docs` 每当它需要生成或编辑页面内容时。
+
+## 你可以如何与 GitBook 交互
+
+控制 GitBook 的方式不止一种——GitBook 的 MCP 服务器和 REST API。检查当前会话里实际可用的内容，并优先选择 **优先使用 MCP**：如果 GitBook MCP 工具已经连接，请使用它们处理它们覆盖的一切（创建/配置站点、打开变更请求、起草和编辑内容、重组文档），而不是直接调用 API。不要为了这个去运行检测脚本——你已经知道自己可用的工具/MCP 连接；直接利用这种认知即可。
+
+<strong>“优先使用 MCP”说的是传输方式，而不是绕过 Git Sync 来处理内容。</strong> MCP 提供一个变更请求内容推送工具（`updateChangeRequestContent`）——在它已连接时很容易想直接拿来用；但对于已经配置了 Git Sync 的空间，若不是小而明确的编辑，仍然应优先通过编辑本地仓库中的文件并让 Git Sync 将其带到 GitBook 的方式来推送内容。当空间没有 Git 同步、环境中没有本地检出，或者编辑小到足以让打开一个 CR 合理时，才使用变更请求推送（MCP 或 REST）。参见 `write-docs`关于“选择 Git Sync 还是变更请求内容推送”的完整规则——这里同样适用。
+
+这项技能中的步骤被描述为结果（“列出组织”“创建站点”“添加章节”），而不是绑定到某一种传输方式，因此无论你使用哪种方式都适用。如果 GitBook MCP 工具已连接，就直接调用它们——它们自己的 schema 会描述参数。如果你走的是 REST API 路径，那么每一步的确切端点、请求体和预期响应都在 `references/api-cheatsheet.md`.
+
+- **GitBook MCP** ——对下面所描述能力的完整读写接口，而不是更窄的视图。如果它还没连接，而任务又足够大、值得投入（完整站点搭建、持续重组——不是一次性的微调），就主动提出帮他们配置： `claude mcp add --transport http gitbook-mcp https://mcp.gitbook.com/mcp` （然后 `/mcp` 完成 OAuth 登录——或者追加 `--header "Authorization: Bearer $GITBOOK_TOKEN"` 来跳过浏览器流程）。Codex 等价命令： `codex mcp add gitbook-mcp --url https://mcp.gitbook.com/mcp`。注意：这与 GitBook 另一个只读的“已发布文档”MCP 服务器不同，后者只暴露已发布的内容。
+- **REST API** (`https://api.gitbook.com/v1`）——当 MCP 未连接，或 MCP 未覆盖某项能力时的后备方案。每个请求都需要 `GITBOOK_TOKEN` 作为 bearer 头。
+
+同一个个人访问令牌（来自 [https://app.gitbook.com/account/developer）可作为两者的](https://app.gitbook.com/account/developer）可作为两者的) bearer token 使用。MCP 另外还支持 OAuth，作为比粘贴令牌更友好的替代方案。
+
+**如果你最终需要一个令牌** （REST API 路径，或未使用 OAuth 的 MCP），请在会话开始时检查它：
+
+```bash
+[ -n "$GITBOOK_TOKEN" ] && echo "Token found" || echo "GITBOOK_TOKEN is not set"
+```
+
+如果 `GITBOOK_TOKEN` 未设置，请直接询问用户：
+
+1. 告诉他们需要一个 GitBook 个人访问令牌。引导他们前往 <strong>[https://app.gitbook.com/account/developer](https://app.gitbook.com/account/developer)</strong> 去创建一个。
+2. 请他们把令牌粘贴到对话中。立刻将其导出为环境变量（`export GITBOOK_TOKEN=<pasted value>`），并且不要在回复中重复它。
+3. 在环境中确认已存在令牌之前，不要继续进行任何 API 调用。
+
+永远不要把令牌写入文件，不要在回复中回显，不要提交到仓库。
+
+## 根本约束
+
+在做任何事情之前，最重要的是牢记： **无论使用何种传输方式，GitBook 几乎能做一切，唯独不能设置 Git Sync**。授权 GitHub/GitLab、选择仓库、选择分支以及选择初始同步方向，全部都是仅限 UI 的操作——REST API 和 MCP（其封装了它）都只允许你 *读取* 最终得到的 Git Sync 状态，绝不会帮你设置它。这里有一个 API 操作， `installGitSyncProviderOnTarget`，它可以针对站点或空间，但账号连接（OAuth）这一步仍必须在应用里完成，而且目前还没有通过 GitBook 的 MCP 服务器暴露出来——把它当作尚不可用，而不是围绕它构建流程。
+
+<strong>Git Sync 现在在站点级别配置，这也是默认应优先采用的方式。</strong> 一次连接（一个仓库、一条分支）覆盖整个站点； `gitbook-docs.yaml` 会把每个空间映射到各自的目录，这和这项技能为 monorepo 搭建出的结构是一样的。按空间配置的 Git Sync 仍然存在，但现在属于例外——只有在某个特定空间需要独立的仓库或分支时才使用它（例如一个不能放在公共文档仓库里的私有空间）。
+
+这意味着最干净的端到端流程永远是：
+
+1. Claude 在本地把 Git 仓库脚手架搭成一个 monorepo（每个空间一个目录），最好带有 `gitbook-docs.yaml` 预先编写好的映射，把每个空间对应到其目录，并在工具允许时推送到远程
+2. Claude 创建站点、章节以及它能够创建的任何空空间
+3. **用户在 GitBook 中完成一个简短、预先写好的 UI 步骤：把站点连接到仓库/分支，并确认空间到目录的映射** ——不是每个空间都单独一步
+4. Claude 应用品牌/自定义设置
+
+第 3 步中用户的角色不可避免，但绝不应让人感到意外——请为他们生成清晰、可直接复制粘贴的指令。参考： `references/git-sync-handoff.md`.
+
+如果用户明确不想使用 Git Sync，就退回到内容导入路径（内容导入和模板应用）——下面会简要介绍，也在 `references/api-cheatsheet.md`.
+
+## 你应当提前收集的输入
+
+在这些信息明确之前，不要开始脚手架搭建。如果缺少某项，只问一个聚焦的问题，不要猜。（身份验证单独处理——见上文“你可以如何与 GitBook 交互”。）
+
+- **组织** ——列出用户的组织，并将 **列表展示给用户，然后让他们按名称确认哪个是目标组织**。即使他们只有一个组织也要这样做——一开始确认一次，成本很低，却能避免把站点建错地方。把选定的 `organizationId` 保存到本次会话剩余部分，并在叙述后续步骤时使用组织标题来指代它（不要用 UUID）。
+- **站点方案与可见性** — **默认选择 `type: site` 的 Ultimate 套餐**，公开可见，除非用户明确另有要求。大多数真实客户都想要 Ultimate 功能集（自定义域名、AI Assistant、高级自定义、隐藏 GitBook 品牌标识、自定义字体、自定义 Logo）。免费层（`type: basic`）只适合显然低风险的用途，比如个人开源副项目。如果你不确定，就问： <em>“我会默认按 Ultimate 套餐帮你设置，除非你更想要免费层——要我降级吗？”</em> ——Ultimate 功能如果在 `basic` 中悄悄缺失（没有 AI 助手、没有自定义字体、没有自定义域名），会比短暂确认套餐更让用户意外。
+- **内容种子** ——站点要从什么内容开始构建？常见形态：
+
+  - 一个已有 markdown 文件夹——最干净的起点
+  - 少量笔记，加上一个竞争对手的网站作为参考
+  - 只有对他们想要记录什么的描述
+  - 一个现有站点，他们希望重组它（在这种情况下，先获取站点的当前结构）
+  - **一次迁移** 来自另一个文档平台（Mintlify、Docusaurus、ReadTheDocs、GitBook v1）——参见 `references/migration-from-other-platforms.md` 了解工作流。迁移本身就是一门专门学问；不要把它当成高级文件复制。
+- **API 参考的 OpenAPI 规范** ——如果站点有任何 API 参考内容， **先问他们是否有 OpenAPI 规范** （或者能否从他们的代码库生成）。如果有，API 参考空间就可以用一个 `builtin:openapi` SUMMARY 条目，再加上每个资源一份一段式概览 README——这比手工编写端点页面省事得多，而且永远不会漂移。参见 `references/block-ecosystem.md` 以及 `references/api-cheatsheet.md` 了解工作流。 **不要默认采用手工编写的端点页面** ——这几乎总是错误选择。
+- **品牌设置** ——至少需要主色（十六进制）。可选项：Logo URL（浅色 + 深色）、favicon、字体选择（或 GitBook 的默认字体之一）、页眉链接、页脚文本/链接、主题预设（`简洁`, `柔和`, `醒目`, `渐变`）。对于 Ultimate 站点，也可以考虑 AI 助手的引导提示词（3-5 个访问者可能会问的简短问题）。
+- **站点结构** ——是章节，而不是站点空间。如果站点有多个空间，请与 **章节列表** 一起明确和用户规划：每个章节都有标题、Font Awesome 图标名和描述。章节图标和描述是第一类导航元素——访问者会看到它们——一开始就收集好，能避免后续每个章节都要再更新一次。示例： `[{title: "指南", icon: "book-open", description: "概念和教程"}, {title: "API 参考", icon: "code", description: "REST API 和 SDK"}, {title: "更新日志", icon: "clock-rotate-left", description: "更新与发布说明"}]`.
+- **Git 远程仓库偏好** ——GitHub、GitLab，或者仅本地。先检查 `gh` 或 `glab` 是否已安装 <em>，然后再</em> 提问。如果两个工具都不可用， **就明确说明** 并提供两条路径：（1）本地提交，并把“创建远程仓库并推送”步骤放到用户交接说明的最前面；或者（2）请用户安装该工具。不要悄悄默认仅本地而不告诉他们——他们会得到一个没有远程仓库、也没有说明的仓库。
+- **站点形态** ——单空间还是多空间。多空间站点会使用 **部分** 在导航中对空间进行分组；当内容有明显不同的受众时（例如用户文档 + API 参考 + 更新日志），这是正确的选择。只有在翻译变体时才直接使用 site-spaces——参见 `references/api-cheatsheet.md`.
+
+## 在构建前验证内容来源
+
+一旦用户给出了内容种子——仓库、文件夹或文档站点 URL——在设计结构或搭建任何东西之前，先确认你确实能够读取它： <strong>，然后再</strong> 设计结构或搭建任何东西之前：
+
+1. <strong>解析并复述来源。</strong> 准确说明你接下来要读取什么（仓库 URL 和分支、文件夹路径或站点 URL），并向用户展示其顶层内容——一个简短的文件或页面列表——这样他们就能确认是正确的来源。
+2. <strong>如果你无法访问，就停止并说明。</strong> Git 托管服务会返回 **私有仓库的 404** ——这与“仓库不存在”无法区分。把用户指定仓库上的任何 404 或克隆失败都视为 *可能是私有的*：告诉用户哪里失败了，并请他们要么让内容可访问（本地克隆、归档、已认证 `gh`/`glab`、公共镜像）要么更正 URL。在断言仓库不可访问之前，先检查是否有已认证的 `gh`/`glab` CLI 可用。
+3. <strong>绝不要替换来源。</strong> 不要搜索、猜测，或者退而求其次去用一个名字相近的仓库或站点——哪怕它看起来一模一样。用错误来源构建文档站点，比停下来询问糟糕得多。任何来源变更都需要用户明确同意。
+
+## 状态变更操作的确认关卡
+
+站点创建、空间创建、添加章节、附加 site-spaces 以及自定义设置变更，都会创建或修改那些 **会立即对组织中的所有人可见** 且需要投入大量精力才能清理的对象。请把它们当作重操作。
+
+规则： <strong>在没有先向用户展示一屏关于即将发生之事的准确预览并获得明确“yes”之前，绝不要进行状态变更。</strong>
+
+一个好的预览应当简短且具体：
+
+> 即将在组织中执行 **Acme Inc** (`org_abc123`):
+> 
+> - 创建站点 <strong>“Acme 平台文档”</strong> （类型：site，方案：Ultimate，公开可见）
+> - 创建 3 个空空间： **指南**, **API 参考**, **更新日志**
+> - 将“指南”设为默认章节；为“API 参考”和“更新日志”创建章节
+> 
+> 继续吗？（yes/no）
+
+糟糕的预览很模糊（“我现在要创建站点了”）或者埋在一大段解释里。要保持它可快速扫描。
+
+同样的规则也适用于破坏性操作——删除站点、空间、章节或自定义覆盖——只是要更少歧义（“这将删除站点 **Acme Platform Docs** 以及它的 3 个空间。空间和站点可在 7 天内恢复，之后将永久删除。确认吗？”）。
+
+当用户在结构设计步骤中已经确认了一个多步骤计划时，就不需要在该计划中的每一项单独操作上再次询问——但如果计划中的任何内容发生变化（多一个空间、可见性不同等），就要重新确认。
+
+对于只读操作（获取或列出），不需要确认。
+
+## 在变更请求推送之后：必须提供两个链接
+
+每当这项技能（或 `write-docs`，它把页面编写委托给的部分）通过变更请求推送内容时——无论是通过 MCP 的 `updateChangeRequestContent`/`create_change_request`/`submit_or_merge_change_request` 精选工具、 `invoke_operation`，还是 REST 对应接口——直到以下两项都已每次回传给用户为止，这次编辑才算 **尚未完成** ，每次都要如此：
+
+1. **变更请求的 diff/编辑器链接** (`urls.app`）——在 GitBook 应用中查看此次变更的链接。
+2. **站点预览链接** ——应用了这次变更后的渲染文档。这需要单独查找：站点 URL 位于 **Site** 对象（`urls.published` 当站点是公开的时，或 `urls.preview`），而不是变更请求对象上， **你必须把 `/~/changes/<number>/` 附加到它上面**，并去掉 API 返回的末尾斜杠。如果没有这个段，链接显示的是站点的 *当前* 内容，而不是这个变更请求——它虽然能正常加载，但显示的是错误的内容。
+
+这是一条硬性规则，与上面的确认关卡同等重要——不是有时间再加的锦上添花。参见 `write-docs`关于“只要涉及变更请求，就必须提供两个链接”的说明，以及 `cr-create` 技能的“显示预览链接”以及准确的解决步骤（MCP： `getSpaceById` → 通过以下方式查找站点： `list_sites`/`get_site_structure` 或者每个站点的 site-spaces → `getSiteById` 用于 `.urls.preview`；REST：等效的链式 `GET` 调用）。如果该空间未附加到已发布的站点，请明确说明，而不是只给出 diff 链接却不作解释。
+
+## 设计站点结构
+
+在编写任何文件或在 GitBook 中创建任何内容之前，先确定结构并与用户确认。薄弱的结构是文档站点未能落地的最大原因。
+
+这一步的输出是一个小计划，最好包含三部分：
+
+1. **空间列表** ——每个连贯内容主体对应一个空间。保持规模小（通常为 1–4 个空间）。空间是导航和 Git Sync 的单位，所以不要把同一受众的内容拆散到多个空间里。
+2. **章节分组** （如果是多空间）——章节是站点导航中的顶层分区，例如“产品”/“开发者”/“资源”。一个章节可以包含一个或多个空间。
+3. **每个空间的页面树** ——文件夹和页面，并为每个页面提供一到两句摘要。层级深度应与内容相匹配；浅层树（1–2 层）通常最好。
+
+从原始输入到结构计划的完整启发式规则集合见 `references/site-structure-design.md` ——第一次为非平凡站点这样做时请阅读。 <strong>在搭建文件脚手架之前，务必向用户展示计划并获得明确确认。</strong> 在 Git 中稍后重构很便宜，但一旦站点发布并被索引，代价就很高。
+
+当用户给出一个合并后的指令时，需要注意确认：像 <em>“规划结构然后搭建它”</em> 这样的提示会诱使你跳过确认关卡。不要这样做。先把计划作为一个清晰、易扫读的块展示出来，然后等待“是”或——如果因为提示足够明确而你已经开始搭建脚手架——说明你在计划中做了什么决定，并提供一个轻松的改向机会（“如果这里有任何不对，请告诉我，我会在继续之前重做”）。关键在于：用户是在面对二十个生成的文件之前看到计划， <strong>，然后再</strong> 此时重做仍然代价很小。
+
+## 搭建仓库脚手架
+
+一旦结构达成一致，就把仓库按 monorepo 方式布局——即使是单空间站点，这样也更一致且更具前瞻性。每个空间都是一个目录，包含其各自的 `README.md` （首页）和 `SUMMARY.md` （目录）。可选地，还可以有一个 `.gitbook/` 文件夹，用于存放每个空间的变量和可复用内容块；还可选一个 `.gitbook.yaml` 用于高级同步配置。
+
+三空间站点的示例布局：
+
+```
+my-docs/
+├── .gitignore
+├── README.md                    # 仓库级 readme（不是空间首页）
+├── guides/                      # 空间 1
+│   ├── README.md                # 空间首页
+│   ├── SUMMARY.md
+│   ├── .gitbook/
+│   │   └── vars.yaml            # 可选：空间级变量
+│   ├── getting-started/
+│   │   ├── installation.md
+│   │   └── quickstart.md
+│   └── concepts/
+│       └── ...
+├── api-reference/               # 空间 2
+│   ├── README.md
+│   ├── SUMMARY.md
+│   └── endpoints/
+│       └── ...
+└── changelog/                   # 空间 3
+    ├── README.md
+    └── SUMMARY.md
+```
+
+关于这个布局，有几点经常会让人踩坑：
+
+- <strong>`.gitbook.yaml` 是可选的。</strong> GitBook 默认按 `README.md` \+ `SUMMARY.md` 每个空间一份的约定运行良好。只有在你需要覆盖根目录、定义重定向或做其他非默认操作时，才添加一个 `.gitbook.yaml` 。随附的示例站点（`references/example-site/`）完全没有 `.gitbook.yaml` 文件，但工作得很好。
+- <strong>`.gitbook/vars.yaml`</strong> 保存空间作用域变量，页面可以在内联中引用这些变量（例如 `support_email: support@evolve.com` 可引用为 `{% vars.support_email %}`）。适用于会在许多页面中出现的任何值。
+- <strong>`.gitbook/includes/<name>.md`</strong> 保存可复用内容块——一个可以通过以下方式嵌入到许多页面中的片段： `{% include "...persona-switcher" %}`。用这些来替代复制粘贴样板内容。
+- 空间目录名（例如 `guides/`）是用户在设置站点级 Git Sync 时映射到 **内容映射** 下的名称——不是站点的“项目目录”字段；后者只指向 `gitbook-docs.yaml` 本身所在的位置（在此布局中是仓库根目录）。不要把两者混淆；参见 `references/git-sync-handoff.md`.
+- 可以考虑在仓库根目录预先编写一个 `gitbook-docs.yaml` ，把每个空间映射到其目录（形状见 `references/git-sync-handoff.md` ）。GitBook 在首次同步时会读取它，因此用户在设置过程中需要手动填写的内容更少。
+
+一个最小的 `.gitbook.yaml`，如果你确实需要一个，看起来如下：
+
+```yaml
+root: ./
+structure:
+  readme: README.md
+  summary: SUMMARY.md
+```
+
+### 仓库级 README 和 .gitignore
+
+仓库级 `README.md` （仓库顶部，而不是空间内部）应该解释这个文件夹是什么，以及它与已发布站点的关系——而不是重复文档本身。简短一段即可：
+
+```markdown
+# my-docs
+
+[我的产品文档站点](https://docs.example.com) 的源文件。每个顶层文件夹
+都是一个独立的 GitBook 空间；一旦配置完成，编辑会通过 Git Sync 双向流动。
+```
+
+一个 `.gitignore` 应将操作系统垃圾文件和编辑器设置排除在仓库之外。合理的默认值：
+
+```
+.DS_Store
+Thumbs.db
+*.swp
+*.swo
+.idea/
+.vscode/
+```
+
+如果团队还有其他生成产物（例如从别处源代码构建出的 OpenAPI 规范），也要把它们加进去。
+
+### 生成 SUMMARY.md —— 收集导航，不要从文件夹推断
+
+最常见的脚手架错误，是遍历文件树并据此生成 SUMMARY.md：把 README 放在最上面，其他每个文件都作为缩进在 README 下面的子项。这会产生令人沮丧的导航——每一页都变成“主页的子页面”，文件夹名称不管对读者是否有意义都会变成分组标题，而且信息架构镜像的是文件系统，而不是用户的心智模型。
+
+<strong>正确的模式，按顺序是：</strong>
+
+1. <strong>在结构设计阶段从用户那里收集期望的导航。</strong> 明确要求他们列出顶级页面以及每个空间中的命名分组。这里要把文件夹名称与导航现实对齐，也是在这里用户可以告诉你“其实我想把 Authentication 作为顶级页面，而不是放在 Concepts 下。”
+2. <strong>按商定的导航来布局文件夹，而不是反过来。</strong> 如果用户希望某个空间里有三个分组——“Getting started”、“Concepts”、“Tutorials”——那么该空间目录下就应有这三个同名子文件夹（做过 slug 化），每个文件夹都有各自的页面。不要从一个偶然的子文件夹里自动提取出第四个分组。
+3. <strong>将 SUMMARY.md 写成用户同意的明确结构。</strong> GitBook 接受的语法：
+
+   ```markdown
+   # 目录
+
+   * [空间主页](README.md)
+   * [顶级页面 A](top-level-a.md)
+   * [顶级页面 B](top-level-b.md)
+
+   ## 第一个分组
+
+   * [分组中的页面](first-group/page.md)
+   * [另一页](first-group/another.md)
+
+   ## 第二个分组
+
+   * [页面](second-group/page.md)
+   ```
+
+   关键结构规则：
+
+   - **README.md 单独占据最顶部一行，作为同级项**，而不是父级。其他顶级页面随后作为同级项出现。
+   - <strong>`## 分组名称` 标题用于引入分组。</strong> 分组中的页面以平铺的项目符号直接列在标题下—— *而不是* 缩进在 README 下。
+   - <em>避免机械地“ README.md” + 把所有内容都嵌套在其下。</em>\* 这会把整个导航压缩成主页下的一棵树，并让侧边栏中的每个页面看起来都像主页的子页面。
+   - <strong>分组名称来自用户，而不是文件夹名称。</strong> “concepts/” 可以作为文件夹 slug，但如果更清晰，分组标题也可以是“How it works”。
+   - <strong>每页一个项目符号，不要额外格式。</strong> SUMMARY 中不要加粗，也不要写描述——这些内容放在页面 frontmatter 里。
+4. **特殊情况模式** ，它们不是普通项目符号：
+
+   - **OpenAPI 自动生成的端点页面** 将围起来的 YAML 块作为项目符号内容（`type: builtin:openapi` ——见 `references/api-cheatsheet.md`).
+   - **外部链接** 是 `* [标题](https://...)` 并在导航中渲染为外部链接。
+   - **跨空间链接** 在 SUMMARY.md 中使用相同的 `https://app.gitbook.com/s/<spaceId>/<path>` 格式，和正文内容一致。路径不带 `.md` 后缀。在脚手架生成期间，请写入哨兵形式（`XSPACE_<KEY>`）；在空间创建后再解析。见 `references/cross-space-links.md`.
+
+如果你的脚手架辅助工具会通过遍历文件夹自动生成 SUMMARY.md， **就让它保持幂等，并跳过已经存在的文件**。用户手动编辑过的 SUMMARY.md 绝不能被悄悄覆盖——那样精心调整过的导航就会丢失。
+
+### 逐页 markdown —— 交给 write-docs，但要优先使用富内容块
+
+**适用于所有 markdown 文件** — `README.md`, `SUMMARY.md`，每个页面——遵循 `write-docs` 技能。它是以下内容的权威参考：
+
+- **Frontmatter** 包括 `icon：` 字段。图标是 Font Awesome 名称，去掉 `fa-` 前缀（例如 `book-open`, `bolt`, `house`, `code`, `puzzle-piece`, `id-card`, `circle-dollar-to-slot`）。不要自造名称——请从 Font Awesome 目录中选择。示例站点几乎每一页的 frontmatter 都使用这些图标。
+- **布局标志** 包括 `layout: width: wide` （选择性使用——用于营销风格的落地页、带有 Updates 时间线的更新日志页面、以及包含多列块或真正宽表格的页面。 **不要把每个空间主页都默认设为 wide** ——GitBook 的默认宽度就适合文档，包括带卡片表格的文档落地页。Wide 是用于英雄式营销布局的，不适用于普通文档。）， `cover：` 图片，以及每页可见性标志（`title.visible`, `tableOfContents.visible`，等等）。
+- <strong>`SUMMARY.md` 语法。</strong> 严格格式——每页一个项目符号，可选 `## 分组名称` 标题，不要额外格式。外加用于从规范自动生成端点页面的特殊 `type: builtin:openapi` 语法。
+- **富内容块** ——选项卡、提示、步骤器、列、卡片表格、可展开内容、嵌入，以及带有以下内容的条件内容 `{% if visitor.claims... %}`、OpenAPI 块，以及 **更新** 块（变更日志）、可复用内容 include 文件。
+- **GitBook 风格的 markdown 差异** 与 CommonMark 相比。
+
+不要在这里重新发明这些内容。随附的 `references/example-site/` 是了解惯用内容样式的最佳实践参考。
+
+### 选择合适的块——主动选择，而不是默认
+
+一种常见的失败模式：Claude 生成的文档 *能用* ，但所有内容都只用普通 markdown，缺少让 GitBook 站点看起来像真实产品的富内容块。 **该技能应主动使用专门的块**，而不是退回到纯文字和项目符号。需要掌握的具体模式：
+
+- **变更日志** → `{% updates %}` 块，使用 `{% update date="..." tags="..." %}` 条目。自动生成 RSS，支持标签（定义在 `.gitbook/tags.yaml`）。不要写 `## YYYY-MM-DD` 标题——那是错误的结构。
+- **API 端点参考** → OpenAPI 规范只需上传一次，页面通过 `type: builtin:openapi` 在 SUMMARY.md 中自动生成。不要手写端点页面——它们会漂移，而且规范本身才是权威来源。如果用户没有规范，建议先起草一个最小版本，而不是写成纯说明文。
+- **状态机、流程、时序、简单架构** → ```` ```mermaid ```` 围栏代码块。不要用 ASCII 画方框和箭头；Mermaid 已受支持，渲染整洁，并且对屏幕阅读器友好。
+- **空间主页** → 普通文档落地页使用 GitBook 默认布局（显示 TOC，默认宽度）。只有在以下情况下才使用 `layout: width: wide` ——仅当页面确实是营销风格时，例如英雄图、大型卡片网格、或多列仪表盘布局。默认布局适合文档。
+- <strong>“选择你的路径”内容</strong> → 卡片表格（`<table data-view="cards">`）。HTML 虽然冗长，但视觉效果胜过任何 markdown 替代方案。
+- **并排介绍模式** → `{% columns %}` 块。50/50 双栏是标准做法。
+- <strong>重复的通用内容（3 个或更多位置）</strong> → `.gitbook/includes/<name>.md` \+ `{% include "..." %}`.
+- <strong>重复的字面量（环境 URL、支持邮箱、版本固定）</strong> → `.gitbook/vars.yaml` \+ `<code class="expression">space.vars.<name></code>`.
+- **多语言代码示例** → `{% tabs %}` 块。
+- **3 步或以上的分步讲解** → `{% stepper %}` 块。
+
+完整的逐块指南，包括示例用法和“问题征兆 vs 修复”决策表，见 `references/block-ecosystem.md`. **在生成任何非平凡页面之前先阅读它**，并为每个正在搭建的内容区域走一遍决策表——在默认使用普通 markdown 之前先问一句“这里有没有专门的块可用？”
+
+### 跨空间链接
+
+多空间站点 *需要* 跨空间链接——它们让站点看起来像一个连贯的产品，而不是一堆彼此独立的手册。 <strong>不要为了避免它们而复制内容，也不要删掉它们。</strong> 它们是 GitBook 的一等功能；唯一的不同是它们需要真实的空间 ID 才能正确渲染，而 ID 只有在站点创建后才存在。
+
+markdown 中的模式只是指向目标空间 GitBook URL 的普通链接：
+
+```markdown
+概念部分请参见 [Authentication 概念页](https://app.gitbook.com/s/<spaceId>/concepts/authentication)。
+```
+
+GitBook 会在 `https://app.gitbook.com/s/<spaceId>/<path>` 渲染时解析它们，无论你是否使用自定义域名。内部它们是 `ContentRefPage` 或 `ContentRefSpace` 带有空间 ID 的内容引用；在 markdown 中它们只是显示为 URL。
+
+<strong>脚手架流程：</strong>
+
+1. **在脚手架生成期间**，使用以以下内容作为前缀的哨兵空间 ID 来编写跨空间链接 `XSPACE_`，每个计划中的空间一个。使用结构计划中的空间 slug 作为后缀：
+
+   ```markdown
+   参见 [Authentication 概念页](https://app.gitbook.com/s/XSPACE_GUIDES/concepts/authentication)。
+   完整参考请见 [API Reference](https://app.gitbook.com/s/XSPACE_API/)。
+   ```
+
+   这些是指向不存在的 GitBook 空间的有效 markdown 链接——不会破坏解析器，便于 grep 搜索，而且能在 Git 中干净地往返。
+2. **在空间创建后**，一旦拿到每个新空间的真实 ID，就遍历每个 markdown 文件并将 `XSPACE_<KEY>` 替换为真实空间 ID：
+
+   ```bash
+   sed -i \
+     -e "s|XSPACE_GUIDES|${GUIDES_SPACE_ID}|g" \
+     -e "s|XSPACE_API|${API_SPACE_ID}|g" \
+     -e "s|XSPACE_CHANGELOG|${CHANGELOG_SPACE_ID}|g" \
+     $(find . -name '*.md' -not -path './.git/*')
+   ```
+3. **提交并推送** 解析结果。GitBook 会通过 Git Sync 获取它们，并在下一次渲染时解析这些链接。
+
+为了实现更干净，请保留一个 `cross-space-links.yaml` 放在仓库根目录，用于把哨兵键映射到空间 ID，并在创建后生成。这样如果有人重新运行解析脚本，结果就是可复现的。完整模式，包括锚点链接、页面专属链接和示例解析脚本，见 `references/cross-space-links.md`.
+
+<strong>这些内容会写入到：</strong> 脚手架（带哨兵值）、你跨空间生成的 markdown 内容，以及创建后的解析步骤中。不要尝试在脚手架阶段写真实的 `app.gitbook.com/s/<id>/...` 链接——此时 ID 还不存在，任何猜测都会变成坏链接。
+
+### 示例内容在哪里看
+
+`references/example-site/` 是一个 **裁剪后的快照** ，是随该 skill 附带的一个生产风格 GitBook 站点的快照。原始站点共有 12 个空间（主页、三个产品空间、开发者 API 的三个版本、三个指南空间、合作伙伴、变更日志，外加一个外部内容 `connections/` 树），包含约 200 个内容文件；随附的快照保留了约 150 个，以满足文件数量限制。
+
+**先阅读 `references/example-site/PRUNE-NOTES.md` 这个文件** ——它会准确说明保留了什么、删掉了什么，并列出针对特定模式最值得阅读的文件。简要总结：
+
+- 每个空间的完整结构骨架都保留了—— `README.md`, `SUMMARY.md`, `.gitbook/vars.yaml`, `.gitbook/includes/`.
+- `developers/v2/` 被完整保留，作为规范示例。 `developers/v1/` （旧版）以及 `developers/v3/` （beta）已被删去——它们在结构上与 v2 完全相同，只是内容因版本而异。多版本 API 文档的模式在 PRUNE-NOTES.md 中有说明，并可在 `structure.json`.
+- `connections/` ——每个子文件夹（`blog/`, `community/`, `youtube/`）都保留其 `index.html` 以及一篇代表性文章，这样元数据模式仍然易于学习。
+- `customization.json` 以及 `structure.json` 是完整的 API 导出，描述了整个原始站点，包括已裁剪的空间和页面。每个空间内的 SUMMARY.md 文件也描述了原始树——其中一些链接指向已裁剪的页面，这是预期内的。
+
+值得研究的文件， **按你想展示的模式分类**:
+
+| 模式 | 要阅读的文件 |
+| --- | --- |
+| Updates 块 + 标签 | `changelog/README.md` \+ `changelog/.gitbook/tags.yaml` |
+| `builtin:openapi` SUMMARY 模式 | `developers/v2/SUMMARY.md` （查看围起来的 YAML 项目符号） |
+| Mermaid 图表（流程图、时序图） | `products/payments/concepts/payment-lifecycle.md`, `developers/v2/identity-api/README.md` |
+| 布局 `width: wide`  \+ 封面图片 | `home/README.md`, `developers/v2/README.md` |
+| 用于导航的卡片表格 | `home/README.md`, `partners/README.md` |
+| 通过以下方式实现条件内容 `{% if visitor.claims... %}` | `products/payments/accept-payments/take-a-payment.md` |
+| 选项卡和步骤器一起使用 | `developers/v2/getting-started/quickstart.md`, `developers/v2/getting-started/authentication.md` |
+| 带代码示例的 Webhook 文档 | `developers/v2/webhooks/verifying-signatures.md` |
+| 可复用内容 include 文件 | `home/.gitbook/includes/persona-switcher.md` |
+| `.gitbook/vars.yaml` 变量 | 任意空间的 `.gitbook/vars.yaml` |
+| 分组式 SUMMARY.md（通过以下方式实现章节 `## 标题`) | 任何每个空间的 `SUMMARY.md` 文件 |
+
+当你需要一种随附快照中未体现的模式时（例如旧版/beta 版本的 API 空间并排展示、完整的外部内容文章目录）， `structure.json` 是结构形态的权威来源，而 PRUNE-NOTES.md 则描述了这些省略所代表的模式。
+
+脚手架生成后：
+
+```bash
+cd my-docs
+git init
+git add .
+git commit -m "Initial scaffold"
+```
+
+如果用户想要一个远程仓库，并且 `gh`/`glab` 可用：
+
+```bash
+# GitHub
+gh repo create <name> --private --source=. --push
+
+# GitLab
+glab repo create <name> --private && git push -u origin main
+```
+
+如果这两个工具都不可用， **就明确说明** 在脚手架生成完成之前。两条可行路径：
+
+- <strong>仅本地仓库 + 在交接时手动添加远程步骤。</strong> 先在本地提交，在交接文档里留给用户一个“步骤 0”，内容如下： <em>“在你的机器上，创建一个名为 `<name>`的私有 GitHub 或 GitLab 仓库，然后 `git remote add origin <url> && git push -u origin main` 从当前目录执行 \`git remote add origin &lt;url> && git push -u origin main\`。”</em> 把这一步放在 GitBook UI 步骤之前——Git Sync 需要先把仓库推上去才能连接。
+- <strong>请用户安装 `gh` 或 `glab`.</strong> 如果他们还会继续做更多站点，这个工具很值得安装。
+
+不要悄悄默认只保留本地仓库——没有远程仓库、也没有添加远程说明的仓库，是用户在尝试接入 Git Sync 时才会踩到的坑。
+
+## 迁移与内容质量
+
+大多数真实项目都不是从零开始的——它们要么是从另一个文档平台（Mintlify、Docusaurus、ReadTheDocs、旧版 GitBook）迁移过来，要么是对现有 markdown 进行重组。这些工作有自己独立的规范，不同于“新建一个站点”。如果处理错了，你就会做出某种东西 *看起来* 像文档站点，却读起来像机器输出。
+
+完整工作流见 `references/migration-from-other-platforms.md`。重点如下：
+
+<strong>在重新构思之前先镜像源站。</strong> 当用户已有一个在线文档站点时，在生成任何主页内容之前，先抓取已渲染的落地页并查看。当前的信息架构（IA）就是规范；仅看一个 markdown 文件夹通常看不出用户为什么这样设计。当源站已经有现成且可用的答案时，你还从零发明卡片网格、英雄块和“有什么新内容”板块，这是最常见的内容质量失败模式。
+
+<strong>批量导出很少是完整的内容源。</strong> Mintlify 的 `llms-full.txt`、ReadTheDocs 的 HTML 抓取，以及类似对 AI 友好的导出，常常会剥离可见内容（自定义组件变成原始标记、AI 提示块被展开到行内、API 表中的参数名被删除）。批量转换后，要抽样检查渲染页面与原站的一致性，并标记缺失内容——不要把导出当成全部真相。
+
+<strong>重点重建锚点页面，而不是所有页面。</strong> 迁移 280 页并不意味着要用 GitBook 习惯手工雕琢 280 页。正确做法是先批量转换长尾页面，再有意识地重建 4–6 个锚点页面——主页、每个空间的顶级落地页、核心操作指南——并使用完整的块生态。其余页面可以逐步达到标准。
+
+<strong>格式化处理是一个有文档记录的步骤。</strong> 简单的 markdown 转换会留下残留物（外来组件标签、损坏的代码围栏、断开的内部链接）。批量转换后，在第一次提交前运行一次清理——移除不受支持的组件，规范化围栏，重写 `/docs/...` 路径为 GitBook URL 或相对路径。跳过这一步会产生一个仓库， *几乎* 能渲染。
+
+<strong>不要自动生成你并不拥有的信息 frontmatter。</strong> 当源站没有图标时，不要根据 URL slug 自动挑选图标——你会得到一片不匹配的齿轮图标海洋。当源站没有描述时，就把字段留空；不要用以下内容填充 `Source: <url>` （这段文字会泄漏到侧边栏预览和搜索中）。
+
+<strong>API 参考优先采用 OpenAPI。</strong> 如果迁移的网站包含 API 参考内容，并且你可以获得 OpenAPI 规范（或从其代码库生成一份），请将整个参考空间通过 `builtin:openapi`。一份手动转换的 70 页参考文档几乎总是不如一份由 3 个文件自动生成的参考文档。
+
+<strong>内部链接转换应一次性扫描完成，而不是逐页处理。</strong> 确定结构后，遍历每个 Markdown 文件并重写 `/docs/...` 链接，使其成为相对 `.md` 路径（同一空间内）或 `https://app.gitbook.com/s/<spaceId>/<path>` URL（跨空间）。逐页边处理边转换会产生不一致的链接；通过包含 slug 到路径清单的一次性扫描完成则可靠得多。
+
+<strong>谨慎使用会重新生成内容的辅助脚本。</strong> 如果你在使用转换器或 SUMMARY 生成器，请默认使其具备幂等性。跳过已存在的文件。第二次运行若覆盖了手动调整过的主页，就是一个隐患。绝不要运行 `rm -rf <space>/` 于可能包含手动编辑内容的目录；如果必须重新生成，请写入 `<space>/_generated/` ，然后合并或比较差异。
+
+## 驱动 GitBook 构建网站
+
+以下步骤按结果而非端点调用来描述——使用你在上文“如何与 GitBook 通信”中确定的任意传输方式。在 REST API 路径中，每一步的确切端点、请求正文及预期响应均位于 `references/api-cheatsheet.md`；在发起任何调用前先阅读它——其架构颇为细致（特别是自定义设置）。在 MCP 路径中，对应工具涵盖相同步骤——请阅读其自身架构，而非查询 REST 路径。
+
+### 新网站的标准流程
+
+1. **验证访问权限并找到组织**：确认已认证用户，然后列出组织。
+2. **创建网站** 带有 `{title, type, visibility, spaces?}`. **默认使用 Ultimate** (`type: "site"`；套餐层级在网站创建后或通过组织的账单设置）。仅当用户明确选择时才使用 `type: "basic"` （免费）。如果尚不存在任何空间，不要包含 `spaces` ——稍后可以添加。
+3. <strong>决定如何创建空间。</strong> 两种路径：
+
+   - <strong>全站 Git Sync（推荐，默认）</strong>：告知用户打开 **Git Sync** ，在网站侧边栏中操作一次，连接仓库/分支，并将每个空间映射到其位于 **内容映射**下的目录。此次单一 UI 操作会创建/关联网站中的每个空间，并一次性为所有空间设置同步。此技能的任务是为这一操作提供准确、可复制的说明。参见 `references/git-sync-handoff.md`.
+   - **程序化优先**：直接创建空空间，将其作为网站空间添加到网站，并使用内容导入或模板应用来加载内容。如果用户之后想要双向同步，仍需在 UI 中设置 Git Sync——而且届时，全站方式仍是应推荐的默认方案，而不是一次设置一个空间。
+4. **添加分区** （具有分组导航的多空间网站）：通过将空间关联到标题和可选图标来创建分区。
+5. **解析跨空间链接哨兵标记**：如果搭建的 Markdown 包含 `XSPACE_<KEY>` 占位符（任何跨越空间边界的链接都应如此），现在应将其替换为步骤 3 或 4 返回的真实空间 ID。参见 `references/cross-space-links.md` 以获取替换脚本。提交并推送更改——下一次 Git Sync 运行会获取它们。
+6. **应用自定义设置** （品牌化）——完整架构范围很广：主题预设、颜色（每项均为 `{light, dark}` 主题配对）、网站图标、页眉（徽标、primaryLink、链接）、页脚（链接组、版权信息）、主题（默认浅色/深色、可切换）、AI 模式、PDF 导出等。常见品牌化场景的方案位于 `references/customization-recipes.md`。只更改你想更改的字段——先获取当前设置，在内存中修改，然后写回完整结果，而不是猜测部分载荷。
+7. **验证**：获取网站结构以确认最终树形结构，并获取其自定义设置以确认配置。
+
+### 多语言网站和自动翻译的空间
+
+GitBook 支持 **自动翻译的网站空间**：一个英语空间（从 Git 同步）可以与其他语言的计算翻译配对。这些翻译不是 Git 仓库中的独立空间——它们完全存在于 GitBook 中，并通过每个分区设置下的 UI 进行配置。它们会显示为同一分区下额外的 `site-space` 对象，每个对象具有不同的 `language` 且没有 `gitSync` 字段。
+
+这在实践中的含义：
+
+- <strong>不要在仓库中为每种语言搭建目录。</strong> Git 仓库中每个主题对应一个英语空间。此技能会为每个内容区域写入一组 Markdown 文件，仅此而已。
+- <strong>每个分区可以包含多个网站空间。</strong> 一个“Payments”分区可能包含 `Payments` （en，Git 同步）、 `Payments（FR）` （fr，计算生成）、 `Payments（DE）` （de，计算生成）等。结构响应会列出所有这些空间；只有英语空间需要 Git Sync 交接。
+- <strong>`localizedTitle` 会在所有地方出现。</strong> 分区、分区组、页眉链接、页脚链接以及网站标题本身都带有一个 `localizedTitle: {de: "...", fr: "...", ...}` 映射。读取自定义设置时，即使用户仅以英语设置字段，也应预期看到翻译。除非被要求，否则不要移除这些内容。
+- 自动翻译目前仅是 UI 功能。如果用户希望在某个分区启用它，请将其作为全站 Git Sync 交接的一部分说明：“配置 Git Sync 后，前往 **网站 → 分区 → Payments → 翻译** ，并启用所需语言。”
+
+当用户要求“提供五种语言的文档网站”时，答案是在 Git 中建立一棵英语内容树，并在 UI 中按分区启用自动翻译——而不是复制五份 Markdown。
+
+### 分区组
+
+一个网站的结构在导航中可以有三种嵌套层级：
+
+1. **网站空间** 位于根级别（扁平网站，无分区）
+2. **分区** 包含网站空间（典型的多空间网站）
+3. **分区组** 包含分区，分区再包含网站空间（用于归类相关分区，例如包含 Payments / Identity / Connect 分区的“Products”组）
+
+网站的结构响应是递归的——一个分区组的 `部分` 数组可同时包含分区和其他分区组。设计结构时，仅当有 3 个以上关系紧密、适合在顶部导航中进行视觉分组的分区时，才使用分区组。对于仅有 2 个分区的网站，根级别分区更清晰。
+
+### 更新现有网站
+
+当被要求修改已存在的网站时， *始终* 先获取当前状态：
+
+- 网站元数据
+- 结构（分区 + 空间）
+- 自定义设置（网站级别或每个网站空间级别），用于品牌化
+
+然后进行有针对性的更改，而非整体替换。如果只想修改一个字段，请勿替换整个自定义设置载荷——获取当前设置，在内存中修改，然后写回完整结果。
+
+### 何时使用内容导入与 Git Sync
+
+- **内容导入** 用于将外部内容（网站 URL、一组文件）摄入空间。它适用于从另一种文档工具进行一次性迁移。
+- **Git Sync** 用于 Git 仓库与网站（或作为备用方案，单个空间）之间的持续双向同步。这是我们在标准流程中优化的目标。
+- 如果用户已经拥有位于 Git 和 GitBook 之外的优质内容（例如 Notion 导出），请先导入它，然后可选择在之后启用 Git Sync。
+
+## 品牌化和自定义设置
+
+该 `SiteCustomizationSettings` 架构很大。随附的 `references/example-site/customization.json` 是从生产风格演示中导出的真实文件，也是最有用的参考资料——在编写任何自定义设置载荷前先阅读它。它展示了所有嵌套字段如何组合、 `localizedTitle` 映射如何工作，以及条件页眉链接的结构。
+
+完整字段列表、架构怪癖（`styling.background` 必填但已废弃、 `header.links[]` 要求 `links: []`), `ContentRef` 用于页眉/页脚链接的格式，以及条件链接模式，均位于 `references/customization-recipes.md` ——参见“字段速查表”和场景 4–5。Premium 和 Ultimate 功能（自定义徽标、自定义字体、语义颜色、页脚徽标、高级自定义设置）将在免费网站上被拒绝——请妥善处理；在 REST 路径中，参见 `references/api-cheatsheet.md` 以了解确切的错误响应。
+
+`references/customization-recipes.md` 提供了以下可用示例：最小品牌化处理（仅颜色 + 网站图标）、带徽标和字体的完整品牌化、仅深色模式并带切换开关，以及启用 AI 助手和推荐提示。
+
+如需学习完整的真实载荷， `references/example-site/customization.json` 是随此技能附带的生产网站自定义设置导出文件。阅读它是了解所有字段在实际中如何组合的最快方法——比抽象架构有用得多。不要将其整体粘贴到新网站中；应将其作为形状和字段选择的模型。
+
+有关结构响应（分区、分区组、多语言网站空间）的真实示例，请参见 `references/example-site/structure.json` 及其相邻文件。
+
+## Git Sync 交接
+
+这一部分必须显得精致。仓库推送完毕且网站已存在后，为整个网站生成一份清晰的交接说明——不要每个空间一段。用户需要：
+
+1. 仓库 URL 和分支名称（通常为 `main`)
+2. 网站的 **项目目录** —— `gitbook-docs.yaml` 所在位置（除非这是较大的 monorepo，否则为空/根目录）
+3. 初始同步方向——几乎总是 **GitHub → GitBook** （或 GitLab → GitBook），因为此时仓库是事实来源
+4. 该 **内容映射** ——每个空间的标题与其目录配对（例如 `指南` → `./guides`, `API 参考` → `./api-reference`)
+
+`references/git-sync-handoff.md` 包含一个可填写并展示给用户的模板：连接一次，在同一操作中映射每个空间。将其呈现为一个编号列表，而不是大段文字，也不要为每个空间重复。仅当某个特定空间需要拆分到其独立的仓库/分支时，才添加第二个交接块——参见该文件中的“当一个空间需要自己的仓库或分支”。用户完成后，请他们确认——此时你可以通过编程方式检查每个空间的同步状态来验证（尚无网站级状态端点，因此底层仍是逐空间检查）。
+
+## 应避免的常见错误
+
+- <strong>不要将 PAT 放入 Claude 写入的任何文件中。</strong> 始终从环境中读取它。
+- <strong>不要悄悄替换内容来源。</strong> 如果无法读取用户指定的仓库或文件夹（请记住：私有仓库返回 404，与不存在的仓库相同），请停止并询问——绝不要继续使用名称相似的公共仓库。参见“构建前验证内容来源”。
+- <strong>不要尝试以编程方式设置 Git Sync。</strong> 无论采用何种传输方式，它都仅能通过 UI 设置——始终通过 UI 交接进行引导。（`installGitSyncProviderOnTarget` 存在于 API 中，但它不会移除 OAuth 步骤，且尚未通过 MCP 提供——不要因为它看起来诱人就绕过交接。）
+- <strong>不要逐个空间交接 Git Sync。</strong> 全站 Git Sync 是默认方案——一次连接，一次内容映射操作覆盖每个空间。只有在某个特定空间需要独立仓库或分支时，才回退到按空间 Git Sync。
+- <strong>不要凭记忆粘贴整个自定义设置载荷。</strong> 获取当前状态，修改它，然后写回完整结果。架构会演变，这样能写出更少的错误。
+- <strong>不要为每个内容部分创建一个空间。</strong> 空间是重量级单元（它有自己的 URL slug、同步和设置）。空间内的页面和文件夹才是进行子分组的正确工具。
+- **不要跳过结构规划和确认步骤**，即使用户赶时间也是如此。重构已发布的网站很痛苦。
+- <strong>不要过度格式化 SUMMARY.md。</strong> GitBook 的解析器对此要求严格。请遵循其中的规则 `write-docs`.
+- <strong>不要在缺少两个链接的情况下完成变更请求编辑。</strong> 参见“变更请求推送后：两个链接必不可少”——仅有 CR 差异链接是不完整的答复。
+
+## 参考文件
+
+- `references/api-cheatsheet.md` ——此技能使用的完整 API 调用集，包含 curl 风格的请求正文和预期响应
+- `references/site-structure-design.md` ——从原始输入生成空间/分区/页面计划的启发式方法和实用示例
+- `references/migration-from-other-platforms.md` ——预检、来源平台映射（Mintlify、Docusaurus、GitBook v1、RTD）、锚点页面策略、格式化处理、内部链接扫描。 <strong>在进行任何迁移构建前阅读此文件，而不是之后。</strong>
+- `references/block-ecosystem.md` ——针对不同内容情形应使用哪个 GitBook 区块，包含决策表和实用示例（更新、Mermaid、OpenAPI 自动生成、布局标记、卡片表格、条件内容、包含、变量）。 <strong>在生成任何非简单页面前阅读此文件。</strong>
+- `references/cross-space-links.md` ——Markdown 跨空间链接的哨兵标记与解析工作流，包含可用的替换脚本
+- `references/git-sync-handoff.md` ——面向用户的 Git Sync 设置说明模板，优先采用全站方式，并将按空间方式作为有文档说明的备用方案
+- `references/customization-recipes.md` ——常见场景的品牌化载荷示例
+- `references/example-site/` ——真实生产风格 GitBook 网站仓库的精简快照（约 150 个文件）（Markdown、 `SUMMARY.md`s、 `.gitbook/` 配置）。请先阅读其中的 `PRUNE-NOTES.md` ——它说明了保留和删除的内容，并列出了适用于特定模式的高价值文件。
+- `references/example-site/customization.json` ——该网站的自定义设置导出，展示完整的真实品牌化载荷
+- `references/example-site/structure.json` ——结构导出，展示分区、分区组和多语言网站空间（英语 Git 同步 + 自动翻译）

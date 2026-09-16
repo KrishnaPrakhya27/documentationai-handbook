@@ -1,0 +1,40 @@
+---
+title: URL
+description: URLクエリパラメータを通じて、訪問者データをドキュメントに渡します
+metaTitle: URL | GitBook Documentation
+ogImage: https://test-dai.imgix.net/org-4afef969-21f9-40f3-b5b8-b06c8b6cf68f/doc-22a3b060-9539-4176-97e4-49120e02f5d1/0a5a1a9630785855-organizations-d8f63b60-89ae-11e7-8574-5927d48c4877-sites-site_p4Xo4-socialprevie.jpg?fm=auto&auto=compress%2Cformat
+---
+
+<Callout kind="info">
+  ガイドを見て、 [詳細な手順](/en/docs/guides/docs-personalization-and-authentication/how-to-personalize-your-gitbook-site-using-url-parameters-and-adaptive-content) Cookieを使ったアダプティブコンテンツの設定方法について。
+</Callout>
+
+URL クエリパラメータを通じて、訪問者データをドキュメントに渡すことができます。以下はその方法の概要です:
+
+| 方法 | ユースケース | 設定のしやすさ | セキュリティ | 形式 |
+| --- | --- | --- | --- | --- |
+| クエリパラメータ `visitor.<prop>=` | 機能フラグ、ロール | 使いやすい | ❌ 訪問者がプロパティを上書きできます | JSON |
+
+### クエリパラメータ
+
+URL パラメータを通じて GitBook にデータを渡すには、次の形式で URL にデータを渡す必要があります `visitor.<prop>`.
+
+例えば：
+
+```url
+https://docs.acme.org/?visitor.language=fr
+```
+
+これにより、これらのクレームを次の場所で使用できるようになります [条件エディタ](/ja/docs/gong-kai/adaptive-content/adapting-your-content#working-with-the-condition-editor) 署名なしオブジェクトの下で：
+
+```javascript
+visitor.claims.unsigned.language === "fr"
+```
+
+<Callout kind="alert">
+  クエリパラメータを通じて渡されるデータは、訪問者スキーマ内で次の方法により定義する必要があります [署名なし](/ja/docs/gong-kai/adaptive-content/enabling-adaptive-content#set-an-unsigned-claim) オブジェクト。また、クエリパラメータは訪問者によって簡単に変更できるため、機密性のない情報に最適です。
+</Callout>
+
+### 動画チュートリアル
+
+<Iframe src="https://www.youtube.com/embed/hCd2_AAHU_I" title="Embedded content" />

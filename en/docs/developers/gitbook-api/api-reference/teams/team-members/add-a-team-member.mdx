@@ -1,0 +1,37 @@
+---
+title: Add a team member
+metaTitle: Add a team member | Developers | GitBook Documentation
+ogImage: https://test-dai.imgix.net/org-4afef969-21f9-40f3-b5b8-b06c8b6cf68f/doc-22a3b060-9539-4176-97e4-49120e02f5d1/0a5a1a9630785855-organizations-d8f63b60-89ae-11e7-8574-5927d48c4877-sites-site_p4Xo4-socialprevie.jpg?fm=auto&auto=compress%2Cformat
+---
+
+Add or updates member in the specified organization team.
+
+**PUT** `/orgs/{organizationId}/teams/{teamId}/members/{userId}`
+
+**Parameters**
+
+<ParamField header="Authorization" param-type="string" />
+
+<ParamField path="organizationId" param-type="string" required={true}>
+  The unique id of the organization
+</ParamField>
+
+<ParamField path="teamId" param-type="string" required={true}>
+  The unique ID of the Team
+</ParamField>
+
+<ParamField path="userId" param-type="string" required={true}>
+  The unique ID of the User
+</ParamField>
+
+**Request body**
+
+<ParamField body="role" param-type="string" enum="owner,member">
+  "The role of a team member.
+  "owner": Can manage team members.
+  "member": Is a member of the team.
+</ParamField>
+
+**Responses**
+
+`204` Member has been added to the team

@@ -1,0 +1,172 @@
+---
+title: GitBook CLI
+description: コマンドラインからGitBookのコンテンツを扱いましょう。サインイン、APIのクエリ、スクリプトやAIコーディングエージェントからのドキュメントワークフローの実行ができます。
+metaTitle: GitBook CLI | GitBook Documentation
+ogImage: https://test-dai.imgix.net/org-4afef969-21f9-40f3-b5b8-b06c8b6cf68f/doc-22a3b060-9539-4176-97e4-49120e02f5d1/0a5a1a9630785855-organizations-d8f63b60-89ae-11e7-8574-5927d48c4877-sites-site_p4Xo4-socialprevie.jpg?fm=auto&auto=compress%2Cformat
+---
+
+GitBook CLI（`@gitbook/cli`）は、ターミナルから直接 GitBook のコンテンツや組織を扱うためのコマンドラインツールです。
+
+GitBook API をコマンド群としてラップしているので、組織の一覧表示、スペースやページの確認、ドキュメントへの質問、統合の構築と公開まで、すべてシェルを離れずに行えます。
+
+## 人間主導とエージェント主導のワークフロー
+
+CLI は、次の 2 種類の使い方向けに作られています。
+
+- **人間主導** — ターミナルでコマンドを入力して情報を調べたり、一度きりの作業をスクリプト化したり、統合を手作業で管理したりします。出力は、対話型シェルで読みやすいように整形されます。
+- **エージェントによるコーディング** — AI コーディングエージェント（Claude Code、Codex、Cursor など）が、より大きなタスクの一部としてあなたに代わって CLI を実行します。機械可読な出力（`--json`）と予測可能なコマンド構造により、エージェントはコマンドの呼び出し、結果の解析、そしてそれらの連結を簡単に行えます。
+
+<Callout kind="info">
+  GitBook の API を使って、目的別プロトコルを用いながら AI エージェントにコンテンツの作成や編集をさせたい場合は、 [GitBook MCP](/ja/docs/docs-as-code/gitbook-mcp)。CLI は、スクリプト可能なコマンド、統合の開発、またはターミナルにすでに慣れているエージェントを求める場合に適しています。
+</Callout>
+
+## インストール
+
+GitBook CLI には Node v18 以降が必要です。npm からグローバルにインストールします：
+
+```bash
+npm install @gitbook/cli -g
+```
+
+これにより `gitbook` コマンドがインストールされます。動作確認しましょう：
+
+```bash
+gitbook --version
+```
+
+## Authenticate
+
+一度サインインすると、CLI は認証情報をローカルに保存し、必要に応じて更新します。
+
+<Tabs>
+  <Tab title="ブラウザ（OAuth）">
+    サインインする最も簡単な方法はブラウザ経由です：
+
+    ```bash
+    gitbook login
+    ```
+
+    これにより GitBook がブラウザで開き、CLI の承認を求められ、その結果のトークンがローカルに保存されます。セッションは自動的に更新されます。
+
+    これは日常的な利用に推奨される方法です。
+  </Tab>
+
+  <Tab title="個人用 API トークン">
+    ブラウザのフローを省略したい場合は、CI、スクリプト、または統合の公開のために、個人用 API トークンで認証します。 [app.gitbook.com/account/developer](https://app.gitbook.com/account/developer) で作成し、次のコマンドを実行します：
+
+    ```bash
+    gitbook auth --token <token>
+    ```
+
+    を省略すると、埋め込みは iframe の CSS に従います `--token`を指定しない場合、CLI が入力を促します。
+  </Tab>
+</Tabs>
+
+いつでも、現在どのアカウントでサインインしているか確認できます：
+
+```bash
+gitbook whoami
+```
+
+サインアウトするには、次を実行します： `gitbook logout`.
+
+<Callout kind="alert">
+  統合の公開（`gitbook integration publish` / `unpublish`）には個人用 API トークンが必要です。ブラウザ（OAuth）セッションではこれらの操作は実行できません。公開ワークフローでは `gitbook auth --token <token>` を実行します。2 つの認証情報は共存できるため、日常的なコマンドにはブラウザでのサインインを使い、公開にはトークンを使えます。
+</Callout>
+
+## 最初のコマンドを実行する
+
+ほとんどのコマンドは GitBook API から生成され、リソースごとにグループ化されています — `組織`, `スペース`, `コレクション`などです。まず、所属している組織を一覧表示しましょう：
+
+```bash
+gitbook organizations list
+```
+
+その出力から組織 ID を取得し、次にそのスペースを一覧表示します：
+
+```bash
+gitbook spaces list --organization <organizationId>
+```
+
+単一のスペースの詳細を取得します：
+
+```bash
+gitbook spaces get <spaceId>
+```
+
+スペース内のページを一覧表示します：
+
+```bash
+gitbook spaces content pages list <spaceId>
+```
+
+<Callout kind="info">
+  のようなパスパラメータは `<spaceId>` 位置引数としてもフラグとしても渡せます — `gitbook spaces get <spaceId>` 、 `gitbook spaces get --spaceId <spaceId>` は同等です。
+</Callout>
+
+実行してください `gitbook --help` でコマンドツリー全体を参照するか、任意のコマンドに `--help` を追加してください（例： `gitbook spaces --help`）。これによりサブコマンドとオプションが表示されます。
+
+## 出力形式
+
+すべての API コマンドは同じ出力フラグをサポートしています：
+
+| フラグ | 出力 |
+| --- | --- |
+| `--pretty` | 人間が読みやすい要約（対話型ターミナルでは既定） |
+| `--json` | JSON — スクリプトやエージェントに最適 |
+| `--yaml` | YAML |
+| `--full` | 簡潔な要約ではなく、すべてのフィールドを表示 |
+
+フラグを指定しない場合、CLI は適切な既定値を選びます。対話型ターミナルでは pretty 出力、出力がパイプやリダイレクトされる場合は YAML です。 `--json` を明示的に指定してください。たとえば次のようなツールにパイプする場合です： `jq`:
+
+```bash
+gitbook organizations list --json | jq '.items[].title'
+```
+
+## ドキュメントに質問する
+
+CLI は自然言語でコンテンツに問い合わせ、生成されると同時に回答をストリーム出力できます：
+
+```bash
+gitbook organizations ask stream <organizationId> --query "パスワードをリセットするにはどうすればよいですか？"
+```
+
+回答はソースと、次に試すとよい質問候補に続いてターミナルへストリームされます。途中で止めて、それまでに出力された内容を保持したい場合は `Ctrl-C` を押してください。
+
+## AI コーディングエージェントから CLI を操作する
+
+CLI はスクリプト化でき、JSON を扱えるため、AI コーディングエージェントは作業中にそれをツールとして使用できます。エージェントを上記のコマンドに向け、認証、コンテンツの探索、結果に基づく操作を任せましょう。
+
+Explore an organization’s docs from the terminal.
+
+```text
+`gitbook` CLI を使って、私の GitBook コンテンツの全体像を把握するのを手伝ってください。
+
+1. `gitbook whoami` を実行してサインイン済みであることを確認してください。そうでない場合は、`gitbook login` を実行するよう伝えてください。
+2. `gitbook organizations list --json` で組織を一覧表示し、名前と ID を教えてください。
+3. 調べたい組織を私に尋ね、そのスペースを一覧表示してください。
+4. 見つかった内容を要約してください — スペースはいくつあるか、それぞれのタイトルから何を扱っているように見えるか。
+
+すべてのコマンドで `--json` を使い、出力を確実に解析できるようにしてください。また、実行した正確なコマンドを表示してください。
+```
+
+Answer a question using my docs and cite sources.
+
+```text
+`gitbook` CLI を使って、私のドキュメントからの質問に答えてください。
+
+1. `gitbook whoami` でサインイン済みであることを確認してください。
+2. 私の組織を一覧表示し、どの組織を検索するか確認してください。
+3. `gitbook organizations ask stream <organizationId> --query "<私の質問>"` を実行し、回答を伝えてください。
+4. CLI が返す出典を含め、元のページと照らして回答を確認できるようにしてください。
+```
+
+## 統合を構築する
+
+コンテンツの問い合わせに加えて、CLI は [GitBook の統合](/en/docs/developers/integrations/quickstart)を開発するための主要なツールです。次のコマンドで新しいプロジェクトを足場構築します：
+
+```bash
+gitbook integration new
+```
+
+次に `gitbook integration dev` を使ってローカルで実行し、 `gitbook integration publish` を使って公開します。 [統合のドキュメント](/en/docs/developers/integrations/quickstart) で、開発ワークフロー全体を確認してください。

@@ -1,0 +1,41 @@
+---
+title: Revalidate a custom hostname DNS
+metaTitle: Revalidate a custom hostname DNS | Developers | GitBook Documentation
+ogImage: https://test-dai.imgix.net/org-4afef969-21f9-40f3-b5b8-b06c8b6cf68f/doc-22a3b060-9539-4176-97e4-49120e02f5d1/0a5a1a9630785855-organizations-d8f63b60-89ae-11e7-8574-5927d48c4877-sites-site_p4Xo4-socialprevie.jpg?fm=auto&auto=compress%2Cformat
+---
+
+Revalidate DNS records and status.
+
+**PATCH** `/custom-hostnames/{hostname}`
+
+**Parameters**
+
+<ParamField header="Authorization" param-type="string" required={true} />
+
+<ParamField path="hostname" param-type="string" required={true}>
+  The custom hostname, for example "docs.gitbook.com"
+</ParamField>
+
+**Responses**
+
+`204` DNS validation has been retriggered
+
+`400` Conflict
+
+<ResponseField name="error" field-type="object" required={true}>
+  <Expandable title="Object Properties">
+    <ResponseField name="code" field-type="integer" required={true} enum="409" />
+
+    <ResponseField name="message" field-type="string" required={true} />
+  </Expandable>
+</ResponseField>
+
+`409` Conflict
+
+<ResponseField name="error" field-type="object" required={true}>
+  <Expandable title="Object Properties">
+    <ResponseField name="code" field-type="integer" required={true} enum="409" />
+
+    <ResponseField name="message" field-type="string" required={true} />
+  </Expandable>
+</ResponseField>

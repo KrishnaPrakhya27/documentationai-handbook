@@ -1,0 +1,70 @@
+---
+title: 面向 LLM 的文档
+description: 让你已发布的文档更易于被 AI 工具发现、阅读和使用
+metaTitle: 面向 LLM 的文档 | GitBook Documentation
+ogImage: https://test-dai.imgix.net/org-4afef969-21f9-40f3-b5b8-b06c8b6cf68f/doc-22a3b060-9539-4176-97e4-49120e02f5d1/0a5a1a9630785855-organizations-d8f63b60-89ae-11e7-8574-5927d48c4877-sites-site_p4Xo4-socialprevie.jpg?fm=auto&auto=compress%2Cformat
+---
+
+GitBook 会自动为你的文档站点发布适合 AI 的格式。
+
+它们帮助大型语言模型（LLM）、编码代理和 AI 搜索系统。这些工具无需解析 HTML 即可发现并检索准确的文档。
+
+## Markdown 页面
+
+追加 `.md` 到任何已发布页面 URL 的末尾即可查看其 Markdown。Markdown 为 AI 工具提供结构化内容，而无需附带 HTML。
+
+[查看此页面的 .md 文件](https://gitbook.com/docs/publishing-documentation/llm-ready-docs.md)
+
+## llms.txt
+
+[llms.txt](https://llmstxt.org/) 是面向 LLM 友好网页内容的一项拟议标准。追加 `/llms.txt` 到你的文档站点根 URL。
+
+它列出了每个已发布页面及其 Markdown 版本。AI 工具可以使用此索引来发现你的文档。
+
+[查看 GitBook 文档的 /llms.txt](https://gitbook.com/docs/llms.txt)
+
+## llms-full.txt
+
+追加 `/llms-full.txt` 到你的文档站点根 URL。此文件将你的完整文档内容集中放在一个地方。
+
+隐藏页面包含在 `llms-full.txt`中。隐藏页面只会将其从已发布的目录中移除。
+
+[查看 GitBook 文档的 /llms-full.txt 文件](https://gitbook.com/docs/llms-full.txt)
+
+## 已发布文档的 MCP 服务器
+
+GitBook 为每个已发布的文档站点提供一个模型上下文协议（MCP）服务器。兼容的工具可以将你的文档作为结构化资源进行发现和检索。
+
+隐藏页面仍可通过站点的 MCP 服务器访问。隐藏页面只会将其从已发布的目录中移除。
+
+追加 `/~gitbook/mcp` 到你的文档站点根 URL。比如，GitBook 的 MCP 服务器是 `https://gitbook.com/docs/~gitbook/mcp`.
+
+<Callout kind="info">
+  在浏览器中打开此 URL 会返回错误。请使用可以发起 HTTP 请求的工具。
+</Callout>
+
+了解更多请参见 [已发布文档的 MCP 服务器](/zh/docs/wei-du-zhe-ti-gong-de-ai/mcp-servers-for-published-docs).
+
+## 为 AI 优化你的文档
+
+GitBook 负责传递层。你的写作决定 AI 回答的质量。
+
+编写 AI 工具可以可靠理解的内容：
+
+- 为每一页明确其用途。
+- 使用描述性标题和简短的章节。
+- 直接说明限制、默认值和要求。
+- 包含具体示例和精确数值。
+- 当你的产品发生变化时，更新内容。
+
+这些做法可改善检索、减少歧义，并帮助人们找到答案。
+
+### 保持翻译对齐
+
+如果你以多种语言发布，请让每个译文与其源内容保持对齐。
+
+[翻译](/zh/docs/gitbook-agent/translations) 可让你使用 GitBook Agent 本地化内容。当源内容发生变化时，GitBook 可以保持译文对齐。
+
+### 衡量 AI 流量
+
+使用 [站点分析](/zh/docs/fen-xi/insights) 来追踪来自 LLM 和 MCP 客户端的流量。

@@ -1,0 +1,61 @@
+---
+title: Import content from a CSV file into GitBook
+description: Learn how to add data from Zendesk — or any other CSV file — into GitBook
+metaTitle: Import content from a CSV file into GitBook | Guides | GitBook Documentation
+ogImage: https://test-dai.imgix.net/org-4afef969-21f9-40f3-b5b8-b06c8b6cf68f/doc-22a3b060-9539-4176-97e4-49120e02f5d1/0a5a1a9630785855-organizations-d8f63b60-89ae-11e7-8574-5927d48c4877-sites-site_p4Xo4-socialprevie.jpg?fm=auto&auto=compress%2Cformat
+---
+
+This guide explains how to import HTML content stored in a CSV file into GitBook. 
+
+This process is useful for migrating content from various sources, such as help centers like Zendesk, documentation databases, or any application that exports HTML data to CSV.
+
+<Callout kind="info">
+  Scroll to the bottom of this page to see a video version of this guide.
+</Callout>
+
+<Steps>
+  <Step title="Connect GitBook to your Git repository" titleType="h3">
+    You can follow [our import/migration guide](/en/docs/guides/editing-and-publishing-documentation/import-or-migrate-your-content-to-gitbook-with-git-sync) to add your content from a GitHub or GitLab repository into to a new GitBook space. Read more about Git Sync in [our documentation](/en/docs/docs-as-code/git-sync)
+  </Step>
+
+  <Step title="Preparing your CSV file" titleType="h3">
+    Before you import your CSV content, you should first make sure it’s in the right format for import:
+
+    - Open your CSV file in a spreadsheet editor (e.g., Google Sheets, Microsoft Excel).
+    - Ensure your CSV file has the following essential columns:
+
+      - <strong>Section:</strong> This column will determine the organization of your content in GitBook. It represents the section or category the HTML content belongs to. If your data does not contain sections, you can create a single section name for all rows.
+      - <strong>Article Title:</strong> The title of each page.
+      - <strong>Article Body:</strong> The HTML content itself.
+    - <strong>Zendesk example:</strong> If you’re migrating from Zendesk, you’ll typically export a CSV that includes columns like “Section”, “Article Title”, and “Article Body” (which contains the HTML).
+  </Step>
+
+  <Step title="Converting CSV to Markdown" titleType="h3">
+    To import your CSV data into GitBook, you first need to convert it into Markdown so GitBook can interpret it correctly. Here’s how:
+
+    - Go to [https://csv-to-md.streamlit.app/](https://csv-to-md.streamlit.app/)
+    - Upload your prepared CSV file.
+    - Review the preview to ensure the data is displayed correctly.
+    - Click the **Convert to Markdown and Download** button.
+    - Download the resulting ZIP file. This file will contain Markdown files for each article and a `SUMMARY.md` file.
+  </Step>
+
+  <Step title="Adding files to your Git repository" titleType="h3">
+    - Unzip the downloaded ZIP file.
+    - If your upload is small (less than 100 pages) you can drag and drop the extracted Markdown files into your repository. Alternatively you can use the command line to push from your machine to [GitHub](https://docs.github.com/en/repositories/working-with-files/managing-files/adding-a-file-to-a-repository#adding-a-file-to-a-repository-using-the-command-line) and [GitLab](https://docs.gitlab.com/topics/git/add_files/). If you are not familiar with the command line, GitHub’s desktop app is also a user friendly way to add large folders to your repository.
+    - Commit and push the changes.
+  </Step>
+
+  <Step title="GitBook sync and verification" titleType="h3">
+    - Because you’ve set up Git Sync, GitBook will automatically detect the changes in your Git repository and sync the content to your GitBook space.
+    - Verify that your articles and sections are displayed correctly in your GitBook space.
+  </Step>
+</Steps>
+
+<Callout kind="alert">
+  The CSV-to-Markdown converter creates a `SUMMARY.md` file that GitBook uses for navigation. Ensure this file is added to your repository. If you encounter issues with page display, review the `SUMMARY.md` to confirm the correct page order and inclusion. For reference, [this](https://github.com/GitbookIO/public-docs/blob/main/SUMMARY.md) is how a GitBook `SUMMARY.md` file looks.
+</Callout>
+
+<Iframe src="https://www.loom.com/share/2b4a574a4ad54586b5d486cb6ad3735b?sid=75e4ec94-4188-4223-baf0-3e9bd3d8cb60" title="Embedded content" />
+
+A video guide explaining how to import a CSV file from Zendesk into GitBook

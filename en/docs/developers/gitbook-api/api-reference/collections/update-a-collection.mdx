@@ -1,0 +1,97 @@
+---
+title: Update a collection
+metaTitle: Update a collection | Developers | GitBook Documentation
+ogImage: https://test-dai.imgix.net/org-4afef969-21f9-40f3-b5b8-b06c8b6cf68f/doc-22a3b060-9539-4176-97e4-49120e02f5d1/0a5a1a9630785855-organizations-d8f63b60-89ae-11e7-8574-5927d48c4877-sites-site_p4Xo4-socialprevie.jpg?fm=auto&auto=compress%2Cformat
+---
+
+**PATCH** `/collections/{collectionId}`
+
+**Parameters**
+
+<ParamField header="Authorization" param-type="string" />
+
+<ParamField path="collectionId" param-type="string" required={true}>
+  The unique id of the collection
+</ParamField>
+
+**Request body**
+
+<ParamField body="title" param-type="string">
+  Title of the collection
+</ParamField>
+
+<ParamField body="description" param-type="string">
+  Description of the collection
+</ParamField>
+
+<ParamField body="defaultLevel" param-type="string">
+  Default level for a piece of content
+</ParamField>
+
+**Responses**
+
+`200` The collection has been updated
+
+<ResponseField name="object" field-type="string" required={true} enum="collection">
+  Type of Object, always equals to "collection"
+</ResponseField>
+
+<ResponseField name="id" field-type="string" required={true}>
+  Unique identifier for the collection
+</ResponseField>
+
+<ResponseField name="title" field-type="string" required={true}>
+  Title of the collection
+</ResponseField>
+
+<ResponseField name="description" field-type="string">
+  Description of the collection
+</ResponseField>
+
+<ResponseField name="organization" field-type="string" required={true}>
+  ID of the organization owning this collection
+</ResponseField>
+
+<ResponseField name="parent" field-type="string">
+  ID of the parent collection, if any
+</ResponseField>
+
+<ResponseField name="defaultLevel" field-type="string" required={true}>
+  Default level for a piece of content
+</ResponseField>
+
+<ResponseField name="urls" field-type="object" required={true}>
+  URLs associated with the object
+
+  <Expandable title="Object Properties">
+    <ResponseField name="location" field-type="string" required={true}>
+      URL of the collection in the API
+    </ResponseField>
+
+    <ResponseField name="app" field-type="string" required={true}>
+      URL of the collection in the application
+    </ResponseField>
+  </Expandable>
+</ResponseField>
+
+<ResponseField name="permissions" field-type="object" required={true}>
+  The set of permissions for the collection
+
+  <Expandable title="Object Properties">
+    <ResponseField name="view" field-type="boolean" required={true}>
+      Can the user view the collection.
+    </ResponseField>
+
+    <ResponseField name="admin" field-type="boolean" required={true}>
+      Can the user edit the title/description.
+    </ResponseField>
+
+    <ResponseField name="viewInviteLinks" field-type="boolean" required={true}>
+      Can the user view the invite links of the collection.
+    </ResponseField>
+
+    <ResponseField name="create" field-type="boolean" required={true}>
+      Can the user create spaces/collections in this collection.
+    </ResponseField>
+  </Expandable>
+</ResponseField>

@@ -1,0 +1,50 @@
+---
+title: スキル
+description: GitBookをエンドツーエンドで扱う：GitBook風Markdownページとブロック（ヒント、タブ、ステッパー）を作成・整形し、GitBook REST APIとGitを通じてドキュメントサイトを設計、足場作成、設定する
+metaTitle: スキル | GitBook Documentation
+ogImage: https://test-dai.imgix.net/org-4afef969-21f9-40f3-b5b8-b06c8b6cf68f/doc-22a3b060-9539-4176-97e4-49120e02f5d1/0a5a1a9630785855-organizations-d8f63b60-89ae-11e7-8574-5927d48c4877-sites-site_p4Xo4-socialprevie.jpg?fm=auto&auto=compress%2Cformat
+---
+
+<Callout kind="info">
+  このページは次から自動生成されています [GitbookIO/gitbook-skills](https://github.com/GitbookIO/gitbook-skills)。直接編集しないでください — 代わりに、そこで元のスキルを編集してください。
+</Callout>
+
+## GitBook
+
+AI コーディングエージェント向けの GitBook のスキルで、GitBook の作業の 6 つの領域をカバーします。以下の各セクションは、 [gitbook-skills](https://github.com/GitbookIO/gitbook-skills) にある 6 つのスキルのうちの 1 つです — 自分のタスクに合うかどうか説明を読んで確認し、実行する前にリンク先のページで完全な手順を確認してください。各スキルの手順は、さらに詳しい参考資料（完全なブロック構文、API ペイロード、トラブルシューティング）へのリンクを [gitbook-skills](https://github.com/GitbookIO/gitbook-skills) 下に `skills/<name>/references/` に、トップレベルの手順よりも詳しい内容が必要なときに参照してください。
+
+#### ドキュメントの作成と編集
+
+Git と同期されたリポジトリ、IDE、または任意のテキストエディタで、GitBook のドキュメントページを作成、執筆、編集、整形します。GitBook の markdown ページの作成や編集、README.md や SUMMARY.md の作成または更新、hint、tab、stepper、card、その他の GitBook ブロックの挿入、ページの frontmatter やレイアウトオプションの設定、変数や式の設定、GitBook UI 以外で GitBook 用のコンテンツを整形する作業が含まれる場合は、いつでも使用してください。
+
+完全な手順: [https://gitbook.com/docs/skill/write-docs.md](/en/docs/skill/write-docs)
+
+#### サイトを設定する
+
+GitBook のドキュメントサイト全体を、最初から最後まで作成・保守します。ソースコンテンツからサイト構造を設計し、モノレポ構成で Git リポジトリの雛形を作成し、GitHub/GitLab のリモートを設定し、GitBook API（REST API または MCP サーバー経由）を使って site/sections/spaces を作成し、ブランドに合わせたカスタマイズを適用し、GitBook がプログラムからは公開していない唯一の UI 手順（Git Sync の接続）のための明確な手順をユーザーに引き渡します。Git Sync は常にサイトレベルで最初に設定し、gitbook-docs.yaml を使って 1 つのリポジトリ/ブランチ内のすべてのスペースを 1 つのディレクトリに割り当ててください。1 つのスペースが本当に独立したリポジトリまたはブランチを必要とする場合にのみ、スペースごとの Git Sync にフォールバックしてください。ユーザーが新しい GitBook ドキュメントサイトを立ち上げたい、既存のサイトを再構成または拡張したい、サイトやスペースを Git リポジトリにリンクして同期したい、サイトのブランド（ロゴ、色、フォント、ヘッダー/フッター）を変更したい、またはスペース、セクション、サイト-スペースをプログラムで管理したい場合は、常にこのスキルをトリガーしてください。このスキルはオーケストレーション層です。個々のページの markdown コンテンツを作成する場合は、対応するコンパニオンスキルに委ねます。 `write-docs` スキル。
+
+完全な手順: [https://gitbook.com/docs/skill/configure-site.md](/en/docs/skill/configure-site)
+
+#### OpenAPI リファレンスドキュメントを作成する
+
+GitBook で OpenAPI/Swagger の API リファレンス ドキュメントを作成、設定、構成し、トラブルシューティングします。タスクに GitBook の OpenAPI ブロックが関係する場合や `{% openapi %}` ブロック、GitBook に OpenAPI/Swagger スペックをファイルや URL、API、MCP、CLI、またはアプリ UI から追加・更新すること、スペックから API リファレンス ページを生成すること、対話型の「Test it」ランナー（認証、サーバー、CORS、プロキシ）を設定すること、GitBook の `x-*` 拡張（アイコン、タイトル、ナビゲーション階層、コードサンプル、列挙値の説明）でページをカスタマイズすること、操作を experimental/deprecated/hidden としてマークすること、または CI/CD でスペック更新を自動化することが含まれる場合に使用してください。ユーザーが GitBook と OpenAPI に少し触れるだけでも、スペックに `x-` 拡張を付ける場合や、このスキル名を出さずに「なぜ私のスペックが読み込まれないのか」や「なぜ Test it が動作しないのか」と尋ねる場合でもトリガーしてください。
+
+完全な手順: [https://gitbook.com/docs/skill/write-openapi.md](/en/docs/skill/write-openapi)
+
+#### 変更リクエストを作成・管理する
+
+Claude Code から GitBook REST API を curl で直接呼び出し（CLI は使いません）、GitBook のドキュメントレビュー フローを最初から最後まで実行します — 変更リクエストを作成し、コンテンツを送信して（既存ページの更新と新規ページの作成の両方）、レビュー担当者に依頼し、Slack に通知し、その後レビューコメントを取り込み、修正して再送信し、解決します。これは cr-review（同じ API 上のレビュアー側）に対応する作成側のスキルです。誰かが raw API（curl/HTTP）を使ってターミナル/エージェントから「GitBook で docs review」を実行したいと言う場合、API 経由で変更リクエストを作成したい、CR にコンテンツをプッシュしたい、「最新コメントを取り込んで修正してほしい」と言う、ドキュメントのレビューを依頼したい、または CLI なしで Claude + Slack から GitBook ドキュメントでエンジニアが共同作業する方法を示したい場合に、このスキルを使用してください。
+
+完全な手順: [https://gitbook.com/docs/skill/cr-create.md](/en/docs/skill/cr-create)
+
+#### 変更リクエストをレビューする
+
+Claude Code から GitBook REST API を curl で直接呼び出し（CLI は使いません）、GitBook の変更リクエストをレビューします。これは cr-create（同じ API 上の作成側）に対応するレビュアー側のスキルです。レビューが必要な変更リクエストを見つけ（誰が開いたか、スペース別、または組織全体でフィルタできます）、差分を確認するための GitBook アプリのリンクを取得し、CR で実際に何が変わったかを要約し、その後コメントを残し、必要に応じてレビュー結果（承認 / 変更を要求）を送信します。誰かが raw API（curl/HTTP）で docs の変更リクエストをレビューしたい場合、「どの CR が開いている / 自分待ち / 誰が開いたものか」、「/ の変更リクエストを見せてほしい」、「この CR で何が変わったか要約してほしい」、「この変更リクエストをレビューしてほしい」、「CR にコメントを残してほしい」、または「CR を承認 / 変更を要求してほしい」と尋ねる場合に使用してください。API を使って作成側（CR を作成、コンテンツをプッシュ、レビュー担当者を依頼、コメントを修正）を行う場合は、代わりに cr-create を使用してください。
+
+完全な手順: [https://gitbook.com/docs/skill/cr-review.md](/en/docs/skill/cr-review)
+
+#### インテグレーションを構築する
+
+GitBook のインテグレーションを構築、開発、公開します — GitBook 内で動作し、カスタムブロックを追加し、イベントに反応し、OAuth 経由で外部サービスに接続し、エディタを拡張するアプリです。タスクに GitBook のインテグレーション プラットフォームが関係する場合はいつでもこのスキルを使用してください。GitBook CLI（`gitbook new`）を使ってインテグレーションの雛形を作成する、インテグレーションのコードを書く/編集する（`createIntegration`, `createComponent`、ContentKit TSX）、 `gitbook-manifest.yaml` （スコープ、ブロック、設定、シークレット）を設定する、カスタムのエディターブロックやリンク展開機能を作る、 `space_content_updated` などの GitBook イベントを処理する、インテグレーションの OAuth フローを設定する、 `gitbook dev` を実行する、またはインテグレーションを公開する（private/unlisted/public、マーケットプレイスへの提出）。ユーザーが単に「GitBook 用のアプリを作りたい」「カスタムブロックを追加したい」「GitBook に接続したい」と言うだけで、「integration」という単語を使わなくても、このスキルをトリガーしてください。
+
+完全な手順: [https://gitbook.com/docs/skill/build-integration.md](/en/docs/skill/build-integration)

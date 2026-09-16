@@ -1,0 +1,107 @@
+---
+title: Adapter votre contenu
+description: Adaptez votre contenu à différents utilisateurs
+metaTitle: Adapter votre contenu | GitBook Documentation
+ogImage: https://test-dai.imgix.net/org-4afef969-21f9-40f3-b5b8-b06c8b6cf68f/doc-22a3b060-9539-4176-97e4-49120e02f5d1/0a5a1a9630785855-organizations-d8f63b60-89ae-11e7-8574-5927d48c4877-sites-site_p4Xo4-socialprevie.jpg?fm=auto&auto=compress%2Cformat
+---
+
+Après avoir configuré votre méthode d’authentification, vous pourrez utiliser les données pour adapter le contenu de votre site à différents utilisateurs.
+
+Vous pouvez adapter et personnaliser de nombreuses parties de votre documentation, y compris :
+
+- Masquer ou afficher [pages](/fr/docs/creer-du-contenu/content-structure/page)
+- Masquer ou afficher le site [variantes](/fr/docs/gerer-votre-site/site-structure/variants)
+- Masquer ou afficher le site [sections](/fr/docs/gerer-votre-site/site-structure/site-sections)
+- Masquer ou afficher [liens d’en-tête](/fr/docs/gerer-votre-site/customization/layout-and-structure#header)
+- Ajouter du contenu personnalisé à [expressions en ligne](/fr/docs/creer-du-contenu/variables-and-expressions)
+
+### Travailler avec l’éditeur de conditions
+
+L’éditeur de conditions est l’endroit où vous définirez les conditions permettant d’afficher ou de masquer une page, une variante ou une section. Après avoir ouvert l’éditeur de conditions, vous pourrez écrire votre condition sous forme d’ [expression](/fr/docs/creer-du-contenu/variables-and-expressions) qui sera exécutée à partir des données provenant des visiteurs de votre site.
+
+<Image src="https://test-dai.imgix.net/org-4afef969-21f9-40f3-b5b8-b06c8b6cf68f/doc-22a3b060-9539-4176-97e4-49120e02f5d1/a06ffc3eef0907ac-spaces-NkEGS7hzeqa35sMXQZ4X-uploads-NQ8RM1GDU6HUyBKBp2wF-22_01_06_condition_edit.png?fm=auto&auto=compress%2Cformat" alt="" />
+
+#### Exemple
+
+Les données que vous transmettez via vos utilisateurs à GitBook sont associées à un objet appelé `visitor.claims`.
+
+Examinons un exemple si nous voulons écrire une instruction conditionnelle pour **afficher une page uniquement aux utilisateurs qui font partie d’un programme bêta** que vous pourriez définir.
+
+```javascript
+visitor.claims.isBetaUser == true
+```
+
+L’expression ci-dessus signifie que tout utilisateur correspondant à cette revendication (c’est-à-dire `isBetaUser` est `true` dans la revendication de l’utilisateur), pourra voir et accéder à la page. Tout utilisateur qui ne correspond pas à cette revendication (y compris les visiteurs sans aucune revendication définie) ne pourra pas voir ni accéder à la page.
+
+L’éditeur de conditions intègre également l’autocomplétion, qui suggère des revendications ou des attributs trouvés chez des visiteurs précédents de votre site, vous aidant à élaborer l’instruction conditionnelle pour vos pages, variantes ou sections.
+
+Lorsque vous utilisez l’autocomplétion, vous remarquerez que [les variables](/fr/docs/creer-du-contenu/variables-and-expressions#use-variables-in-your-content) sont également disponibles. Vous pouvez combiner les variables que vous avez définies avec les revendications provenant des données utilisateur pour écrire des expressions conditionnelles. Par exemple, vous pourriez :
+
+1. Définir une variable pour la dernière version de votre produit
+2. Puis configurer une revendication qui indique quelle version de votre produit est utilisée par un visiteur de votre documentation
+3. Enfin, écrire une expression pour n’afficher certaines pages que lorsqu’un utilisateur est sur la dernière version de votre documentation
+
+Vous pouvez écrire de nombreux types d’expressions, tant qu’elles sont rédigées en Javascript valide. Par exemple, vous pouvez combiner plusieurs revendications dans l’éditeur de conditions pour faire correspondre des utilisateurs spécifiques en utilisant l’ `&&` ou `||` opérateur. Vous pouvez en savoir plus sur les opérateurs [ici](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators#binary_logical_operators).
+
+### Cibler les visiteurs humains et les agents IA
+
+Utilisez la propriété intégrée `visitor.type` pour afficher différents contenus aux humains et aux agents IA. Cette propriété a l’une des deux valeurs :
+
+- `human` pour un visiteur humain
+- `agent` pour un agent IA
+
+Par exemple, utilisez cette condition pour n’afficher du contenu qu’aux agents IA :
+
+```javascript
+visitor.type === "agent"
+```
+
+Utilisez la condition suivante pour n’afficher du contenu qu’aux visiteurs humains :
+
+```javascript
+visitor.type === "human"
+```
+
+### Tester avec des segments
+
+Les segments représentent des données utilisateur fictives que vous pouvez configurer pour tester vos conditions.
+
+Par exemple, vous pourriez configurer un segment représentant un développeur sur votre offre entreprise, ou un utilisateur connecté sur une offre gratuite, puis voir quelles pages seraient visibles pour lui.
+
+[Vous pouvez en savoir plus sur la configuration et l’utilisation des segments ici.](/fr/docs/publier/adaptive-content/testing-with-segments)
+
+### Pages conditionnelles
+
+Pour lancer l’éditeur de conditions d’une page, allez dans le menu d’actions <Image src="https://test-dai.imgix.net/org-4afef969-21f9-40f3-b5b8-b06c8b6cf68f/doc-22a3b060-9539-4176-97e4-49120e02f5d1/4fa265378c13a520-spaces-NkEGS7hzeqa35sMXQZ4X-uploads-89MTSo5XRpPMVr1T0rxS-actions.svg?rasterize-bypass=true" alt="The Actions menu icon in GitBook" /> à côté d’une page, puis cliquez sur <strong>Ajouter une condition.</strong> Vous pouvez également lancer l’éditeur de conditions depuis les [options de la page](/fr/docs/reference/gitbook-ui#page-options).
+
+Vous pouvez voir quelles pages de votre section ont des conditions définies si la page comporte une icône de condition de page <Image src="https://test-dai.imgix.net/org-4afef969-21f9-40f3-b5b8-b06c8b6cf68f/doc-22a3b060-9539-4176-97e4-49120e02f5d1/ecbe087f090f9eff-spaces-NkEGS7hzeqa35sMXQZ4X-uploads-51vQZhUqnkdsYpyUo1Pj-page-condition.svg?rasterize-bypass=true" alt="The Page condition icon in GitBook" /> à côté.
+
+### Variantes conditionnelles
+
+Pour lancer l’éditeur de conditions d’une variante, allez dans le menu d’actions <Image src="https://test-dai.imgix.net/org-4afef969-21f9-40f3-b5b8-b06c8b6cf68f/doc-22a3b060-9539-4176-97e4-49120e02f5d1/4fa265378c13a520-spaces-NkEGS7hzeqa35sMXQZ4X-uploads-89MTSo5XRpPMVr1T0rxS-actions.svg?rasterize-bypass=true" alt="The Actions menu icon in GitBook" /> à côté d’une variante, puis cliquez sur **Ajouter une condition**.
+
+Vous pouvez voir quelles variantes de votre documentation ont des conditions définies si la variante comporte une icône de condition de page <Image src="https://test-dai.imgix.net/org-4afef969-21f9-40f3-b5b8-b06c8b6cf68f/doc-22a3b060-9539-4176-97e4-49120e02f5d1/ecbe087f090f9eff-spaces-NkEGS7hzeqa35sMXQZ4X-uploads-51vQZhUqnkdsYpyUo1Pj-page-condition.svg?rasterize-bypass=true" alt="The Page condition icon in GitBook" /> à côté.
+
+### Sections conditionnelles
+
+Pour lancer l’éditeur de conditions d’une section, allez dans le menu d’actions <Image src="https://test-dai.imgix.net/org-4afef969-21f9-40f3-b5b8-b06c8b6cf68f/doc-22a3b060-9539-4176-97e4-49120e02f5d1/4fa265378c13a520-spaces-NkEGS7hzeqa35sMXQZ4X-uploads-89MTSo5XRpPMVr1T0rxS-actions.svg?rasterize-bypass=true" alt="The Actions menu icon in GitBook" /> à côté d’une section, puis cliquez sur **Ajouter une condition**.
+
+Vous pouvez voir quelles sections de votre documentation ont des conditions définies si la section comporte une icône de condition de page <Image src="https://test-dai.imgix.net/org-4afef969-21f9-40f3-b5b8-b06c8b6cf68f/doc-22a3b060-9539-4176-97e4-49120e02f5d1/ecbe087f090f9eff-spaces-NkEGS7hzeqa35sMXQZ4X-uploads-51vQZhUqnkdsYpyUo1Pj-page-condition.svg?rasterize-bypass=true" alt="The Page condition icon in GitBook" /> à côté.
+
+### Liens d’en-tête de page conditionnels
+
+Pour lancer l’éditeur de conditions d’un lien d’en-tête de page, allez dans le menu d’actions <Image src="https://test-dai.imgix.net/org-4afef969-21f9-40f3-b5b8-b06c8b6cf68f/doc-22a3b060-9539-4176-97e4-49120e02f5d1/4fa265378c13a520-spaces-NkEGS7hzeqa35sMXQZ4X-uploads-89MTSo5XRpPMVr1T0rxS-actions.svg?rasterize-bypass=true" alt="The Actions menu icon in GitBook" /> à côté d’un lien d’en-tête, puis cliquez sur **Ajouter une condition**.
+
+Vous pouvez voir quels liens de votre documentation ont des conditions définies si la section comporte une icône de condition de page <Image src="https://test-dai.imgix.net/org-4afef969-21f9-40f3-b5b8-b06c8b6cf68f/doc-22a3b060-9539-4176-97e4-49120e02f5d1/ecbe087f090f9eff-spaces-NkEGS7hzeqa35sMXQZ4X-uploads-51vQZhUqnkdsYpyUo1Pj-page-condition.svg?rasterize-bypass=true" alt="The Page condition icon in GitBook" /> à côté.
+
+### Expressions en ligne
+
+En plus de contrôler la visibilité du contenu, vous pouvez également utiliser des revendications en ligne à l’aide d’ [expressions](/fr/docs/creer-du-contenu/variables-and-expressions), tout comme les variables de page et d’espace.
+
+Pour faire référence à une revendication en ligne à l’aide d’une expression, tapez <kbd>/</kbd> dans l’éditeur, puis sélectionnez <Image src="https://test-dai.imgix.net/org-4afef969-21f9-40f3-b5b8-b06c8b6cf68f/doc-22a3b060-9539-4176-97e4-49120e02f5d1/14813af6b5913b02-spaces-NkEGS7hzeqa35sMXQZ4X-uploads-yV0YSeHof9IkW4nnHQ4C-Expression.svg?rasterize-bypass=true" alt="" /> **Expression**. Les revendications seront accessibles dans l’éditeur d’expressions sous forme de propriétés de `visitor` .
+
+### Travailler avec Git Sync
+
+Les conditions définies dans GitBook sont synchronisées via Git Sync et apparaissent dans les pages Markdown synchronisées. Cela signifie que les blocs et les pages dont la visibilité est soumise à des conditions restent visibles dans votre dépôt synchronisé.
+
+Les données transmises via les revendications ne sont jamais visibles dans Markdown et sont transmises en toute sécurité à GitBook.

@@ -1,0 +1,31 @@
+---
+title: List all pages in a space with their hierarchy and metadata
+metaTitle: List all pages in a space with their hierarchy and metadata | Developers | GitBook Documentation
+ogImage: https://test-dai.imgix.net/org-4afef969-21f9-40f3-b5b8-b06c8b6cf68f/doc-22a3b060-9539-4176-97e4-49120e02f5d1/0a5a1a9630785855-organizations-d8f63b60-89ae-11e7-8574-5927d48c4877-sites-site_p4Xo4-socialprevie.jpg?fm=auto&auto=compress%2Cformat
+---
+
+Returns the complete list of all pages in a space's current revision, including their titles, URL paths, and parent-child relationships. Use this to understand the full content structure of a space or build navigation. For the content of a single page, use getPageById or getPageByPath instead.
+
+**GET** `/spaces/{spaceId}/content/pages`
+
+**Parameters**
+
+<ParamField header="Authorization" param-type="string" />
+
+<ParamField path="spaceId" param-type="string" required={true}>
+  The unique id of the space
+</ParamField>
+
+<ParamField query="metadata" param-type="boolean">
+  If `false` is passed, "git" mutable metadata will not returned. Passing `false` can optimize performances of the lookup.
+</ParamField>
+
+<ParamField query="computed" param-type="boolean">
+  If `false` is passed, content will not be computed
+</ParamField>
+
+**Responses**
+
+`200` OK
+
+<ResponseField name="pages" field-type="string[]" required={true} />

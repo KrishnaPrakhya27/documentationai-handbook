@@ -1,0 +1,183 @@
+---
+title: 图片
+description: 向页面添加图片或图片画廊，为深色模式添加图片变体，并按需调整图片大小和对齐方式
+metaTitle: 图片 | GitBook Documentation
+ogImage: https://test-dai.imgix.net/org-4afef969-21f9-40f3-b5b8-b06c8b6cf68f/doc-22a3b060-9539-4176-97e4-49120e02f5d1/0a5a1a9630785855-organizations-d8f63b60-89ae-11e7-8574-5927d48c4877-sites-site_p4Xo4-socialprevie.jpg?fm=auto&auto=compress%2Cformat
+---
+
+你可以将图片插入页面，然后选择其大小以及左对齐、居中或右对齐。你还可以选择在图片块中包含替代文本和/或说明文字。
+
+<Callout kind="info">
+  <strong>提示：</strong> 出于无障碍考虑，我们建议为图片设置替代文本。
+</Callout>
+
+### 图片块示例
+
+<Image src="https://test-dai.imgix.net/org-4afef969-21f9-40f3-b5b8-b06c8b6cf68f/doc-22a3b060-9539-4176-97e4-49120e02f5d1/faac263e727bdc04-photo-1446776709462-d6b525c57bd3.jpg?fm=auto&auto=compress%2Cformat" alt="A photograph taken from space looking back towards Earth. A satellite is in the foreground, and in the background is an ocean-covered part of our planet with patchy clouds." caption="带说明文字的图片块示例" />
+
+### 上传图片
+
+向内容中添加图片有两种方式：
+
+1. 将图片从你的文件管理系统直接拖放到页面中的一个空白块中。
+2. [添加图片块](/zh/docs/chuang-jian-nei-rong/blocks#inserting-a-new-content-block) 到你的页面中并使用 **选择图片** 右侧出现的侧边栏。
+
+如果你采用第二种方式，可以选择上传文件、选择之前上传的文件、粘贴图片 URL，或从 [Unsplash](https://unsplash.com/) 并使用内置搜索。
+
+<Callout kind="alert">
+  GitBook 允许你上传单个文件最大 100MB 的图片。
+</Callout>
+
+某个部分中的资源总数没有固定限制，不过 GitBook 保留因滥用而封禁账户的权利。对于大于上传限制的文件，请将其存储在 Google Drive 或 Dropbox 等服务中，并从你的页面链接到它们。
+
+动图 GIF 每个文件限制为 200 帧。大文件——包括 GIF——会减慢页面加载速度，因此尽量避免在可行时直接上传大文件。
+
+#### 创建图片画廊
+
+在图片块中添加多于一张图片会创建一个画廊。要这样做，请打开该块的 **选项菜单** <Image src="https://test-dai.imgix.net/org-4afef969-21f9-40f3-b5b8-b06c8b6cf68f/doc-22a3b060-9539-4176-97e4-49120e02f5d1/4c115a43418b42e3-spaces-NkEGS7hzeqa35sMXQZ4X-uploads-aS1QvPIBVYwhpFTGcPBN-options-menu.svg?rasterize-bypass=true" alt="The Options menu icon in GitBook" /> 并选择 <strong>添加图片…</strong> 以重新打开 **选择图片** 侧边栏。
+
+要从画廊中删除一张图片，请打开 **编辑菜单** <Image src="https://test-dai.imgix.net/org-4afef969-21f9-40f3-b5b8-b06c8b6cf68f/doc-22a3b060-9539-4176-97e4-49120e02f5d1/ab76723fb229a5ad-spaces-NkEGS7hzeqa35sMXQZ4X-uploads-A3OfGjPkE5GnOQvN36jN-edit.svg?rasterize-bypass=true" alt="" /> 在你想删除的图片上，然后按 <strong>删除 ⌫</strong> 键。
+
+<a id="light-and-dark-mode"></a>
+
+### 为浅色和深色模式添加图片
+
+你可以为已发布站点的浅色和深色模式版本设置不同的图片。GitBook 会根据访客所处的模式自动显示正确的图片。
+
+要为深色模式添加图片，请将鼠标悬停在图片上，打开 **编辑菜单** <Image src="https://test-dai.imgix.net/org-4afef969-21f9-40f3-b5b8-b06c8b6cf68f/doc-22a3b060-9539-4176-97e4-49120e02f5d1/ab76723fb229a5ad-spaces-NkEGS7hzeqa35sMXQZ4X-uploads-A3OfGjPkE5GnOQvN36jN-edit.svg?rasterize-bypass=true" alt="" /> 并点击 **替换图片** <Image src="https://test-dai.imgix.net/org-4afef969-21f9-40f3-b5b8-b06c8b6cf68f/doc-22a3b060-9539-4176-97e4-49120e02f5d1/5f8a3500be3b253d-spaces-NkEGS7hzeqa35sMXQZ4X-uploads-0mPo1tPDFeEbPOr1gc4V-replace-image.svg?rasterize-bypass=true" alt="The Replace image icon in GitBook" />.
+
+在下拉菜单中，选择 **为深色模式添加图片**。设置完成后，你可以从同一菜单中替换任一图片。
+
+<Callout kind="alert">
+  <strong>注意：</strong> GitBook 目前还不支持某些情况中的浅色和深色模式图片，包括页面封面或位于 [卡片上](/zh/docs/chuang-jian-nei-rong/blocks/cards).
+</Callout>
+
+### 通过 GitHub/GitLab 同步使用浅色和深色模式图片
+
+你也可以在 Markdown 中通过 HTML 语法（添加浅色和深色模式图片`<picture>` 以及 `<source>`).
+
+对于块级图片，请使用 `<figure>` HTML 元素， `<picture>` 以及 `<source>` 其中包含：
+
+```html
+前置文本
+
+<figure>
+  <picture>
+    <source
+      srcset="
+        https://user-images.githubusercontent.com/3369400/139447912-e0f43f33-6d9f-45f8-be46-2df5bbc91289.png
+      "
+      media="(prefers-color-scheme: dark)"
+    />
+    <img
+      src="https://user-images.githubusercontent.com/3369400/139448065-39a229ba-4b06-434b-bc67-616e2ed80c8f.png"
+      alt="GitHub 标志"
+    />
+  </picture>
+  <figcaption>说明文字</figcaption>
+</figure>
+
+后置文本
+```
+
+对于行内图片（与文本并排显示的图片），请使用 `<picture>` HTML 元素， `<source>` 其中包含：
+
+```html
+图片前的文本
+<picture
+  ><source
+    srcset="
+      https://user-images.githubusercontent.com/3369400/139447912-e0f43f33-6d9f-45f8-be46-2df5bbc91289.png
+    "
+    media="(prefers-color-scheme: dark)" />
+  <img
+    src="https://user-images.githubusercontent.com/3369400/139448065-39a229ba-4b06-434b-bc67-616e2ed80c8f.png"
+    alt="GitHub 标志"
+/></picture>
+以及图片后的文本
+```
+
+<Callout kind="alert">
+  <strong>注意：</strong> 我们目前还不支持 [仅适用于 GitHub 的语法](https://github.blog/changelog/2021-11-24-specify-theme-context-for-images-in-markdown/) 通过 `#gh-dark-mode-only` 或 `#gh-light-mode-only`.
+</Callout>
+
+### 调整大小
+
+要调整图片大小，请将鼠标悬停其上并打开 **编辑菜单** <Image src="https://test-dai.imgix.net/org-4afef969-21f9-40f3-b5b8-b06c8b6cf68f/doc-22a3b060-9539-4176-97e4-49120e02f5d1/ab76723fb229a5ad-spaces-NkEGS7hzeqa35sMXQZ4X-uploads-A3OfGjPkE5GnOQvN36jN-edit.svg?rasterize-bypass=true" alt="" />。点击 **大小** 按钮，从可用选项中更改图片大小。
+
+<Image src="https://test-dai.imgix.net/org-4afef969-21f9-40f3-b5b8-b06c8b6cf68f/doc-22a3b060-9539-4176-97e4-49120e02f5d1/02d0e80cd9923dc0-spaces-NkEGS7hzeqa35sMXQZ4X-uploads-1cWY3c3CgGXIK4Bgnhb6-image_resizing-2x.png?fm=auto&auto=compress%2Cformat" alt="A GitBook screenshot showing how to resize an image" caption="调整图片大小" />
+
+- **小** – 图片大小的 25%
+- **中号** – 图片大小的 50%
+- **大号** – 图片大小的 75%
+- **适应** – 移除所有大小设置，并以全尺寸显示，或将其最大宽度限制为 **735** **像素** ，适用于较大的图片。
+
+如果图片宽度超过编辑器，GitBook 会将图片宽度限制为编辑器宽度，调整大小也会基于此限制。
+
+<Callout kind="info">
+  <strong>注意：</strong> 在图片画廊中调整图片大小时，结果可能与调整单张图片不同。
+</Callout>
+
+### 通过 Git Sync 调整图片大小
+
+如果你想更精确地控制图片大小，可以在 GitHub 或 GitLab 中使用 Markdown 指定确切尺寸。
+
+当我们导出图片时，会使用 HTML 标签 `<img/>`。根据规范，我们可以使用 `width` 以及 `height` 属性来指定图片尺寸，这些属性只接受像素值，或数字和百分号的组合。 `%` \\n\\n指定图片尺寸的有效写法有：<br /><br />`<img width="100" />` 将图片设置为 100 像素宽<br />`<img width="100%" />` 将图片设置为全尺寸（不过会受编辑器限制）
+
+### 对齐图片
+
+默认情况下，图片块会以全尺寸居中显示你的图片。
+
+要更改图片的对齐方式，请打开该块的 **选项菜单** <Image src="https://test-dai.imgix.net/org-4afef969-21f9-40f3-b5b8-b06c8b6cf68f/doc-22a3b060-9539-4176-97e4-49120e02f5d1/4c115a43418b42e3-spaces-NkEGS7hzeqa35sMXQZ4X-uploads-aS1QvPIBVYwhpFTGcPBN-options-menu.svg?rasterize-bypass=true" alt="The Options menu icon in GitBook" /> 并选择你想要的对齐方式。这只会影响宽度小于编辑器的图片，或你已经 [调整大小](#resizing).
+
+### 为图片添加边框
+
+你可以为图片块添加边框，让图片具有一致的外观，并在视觉上将其与周围内容区分开来。
+
+<Image src="https://test-dai.imgix.net/org-4afef969-21f9-40f3-b5b8-b06c8b6cf68f/doc-22a3b060-9539-4176-97e4-49120e02f5d1/a866b872b4d0f798-spaces-NkEGS7hzeqa35sMXQZ4X-uploads-fL0VWcltHyuCKeqJsW0Q-image-frame-demo-2x.jpg?fm=auto&auto=compress%2Cformat" alt="A black and white photograph of a lone figure walking across a stark white landscape" caption="带边框的图片可以包含说明文字，并在说明文字后显示一个细微的网格背景。" />
+
+要为图片添加边框，请将鼠标悬停其上，打开该块的 **选项菜单** <Image src="https://test-dai.imgix.net/org-4afef969-21f9-40f3-b5b8-b06c8b6cf68f/doc-22a3b060-9539-4176-97e4-49120e02f5d1/4c115a43418b42e3-spaces-NkEGS7hzeqa35sMXQZ4X-uploads-aS1QvPIBVYwhpFTGcPBN-options-menu.svg?rasterize-bypass=true" alt="" /> 并启用 **带边框** 开关。
+
+<Callout kind="info">
+  <strong>提示：</strong> 你只能为块中的单张图片添加边框。包含多张图片的图片块和行内图片不能添加边框。
+</Callout>
+
+### Markdown 中的表示方式
+
+```markdown
+//简单块
+![](https://gitbook.com/images/gitbook.png)
+
+//带说明文字的块
+![GitBook 标志](https://gitbook.com/images/gitbook.png)
+
+//带替代文本的块
+
+<figure><img src="https://gitbook.com/images/gitbook.png" alt="GitBook 标志"></figure>
+
+//带说明文字和替代文本的块
+
+<figure><img src="https://gitbook.com/images/gitbook.png" alt="GitBook 标志"><figcaption><p>GitBook 标志</p></figcaption></figure>
+
+// 带边框图片的块
+
+<div data-with-frame="true"><img src="https://gitbook.com/images/gitbook.png" alt="GitBook 标志"></div>
+
+//带有深色和浅色模式不同图片，并带说明文字的块
+
+<figure>
+  <picture>
+    <source srcset="https://user-images.githubusercontent.com/3369400/139447912-e0f43f33-6d9f-45f8-be46-2df5bbc91289.png" media="(prefers-color-scheme: dark)">
+    <img src="https://user-images.githubusercontent.com/3369400/139448065-39a229ba-4b06-434b-bc67-616e2ed80c8f.png" alt="GitHub 标志">
+  </picture>
+  <figcaption>说明文字</figcaption>
+</figure>
+```
+
+### 为什么我的图片没有加载？
+
+“无法加载图片”错误表示该图片已在其源处被更改或删除。如果你是通过 URL 嵌入图片而不是上传它，GitBook 会依赖该 URL——如果图片在源站移动或消失，它就会停止在你的页面上显示。
+
+要解决此问题，请直接将图片上传到 GitBook，或在图片位置发生变化时更新 URL。该错误也可能在你将图片从一个部分复制到另一个部分时出现，因为每个部分都有自己的文件目录——请在新部分中重新上传该图片。
+
+你可以在以下位置查看已上传到某个部分的所有文件： **资料库** 标签页，旁边 **页面** 在目录顶部

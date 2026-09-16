@@ -1,0 +1,105 @@
+---
+title: Update an integration installation
+metaTitle: Update an integration installation | Developers | GitBook Documentation
+ogImage: https://test-dai.imgix.net/org-4afef969-21f9-40f3-b5b8-b06c8b6cf68f/doc-22a3b060-9539-4176-97e4-49120e02f5d1/0a5a1a9630785855-organizations-d8f63b60-89ae-11e7-8574-5927d48c4877-sites-site_p4Xo4-socialprevie.jpg?fm=auto&auto=compress%2Cformat
+---
+
+Updates the account-level configuration of an installation, and which spaces or sites it applies to.
+
+**PATCH** `/integrations/{integrationName}/installations/{installationId}`
+
+**Parameters**
+
+<ParamField header="Authorization" param-type="string" />
+
+<ParamField path="integrationName" param-type="string" required={true}>
+  Name of the integration.
+</ParamField>
+
+<ParamField path="installationId" param-type="string" required={true}>
+  Identifier of the installation
+</ParamField>
+
+**Request body**
+
+<ParamField body="externalIds" param-type="string[]">
+  External IDs assigned by the integration.
+</ParamField>
+
+<ParamField body="configuration" param-type="object">
+  Configuration of the integration at the account level
+</ParamField>
+
+<ParamField body="space_selection" param-type="string" enum="all,selected">
+  Describe whether all spaces have been selected or there's a selection involved
+</ParamField>
+
+<ParamField body="site_selection" param-type="string" enum="all,selected">
+  Describe whether all sites have been selected or there's a selection involved
+</ParamField>
+
+**Responses**
+
+`200` The installation has been updated.
+
+<ResponseField name="id" field-type="string" required={true} />
+
+<ResponseField name="status" field-type="string" required={true} enum="active,pending,paused" />
+
+<ResponseField name="space_selection" field-type="string" required={true} enum="all,selected">
+  Describe whether all spaces have been selected or there's a selection involved
+</ResponseField>
+
+<ResponseField name="site_selection" field-type="string" required={true} enum="all,selected">
+  Describe whether all sites have been selected or there's a selection involved
+</ResponseField>
+
+<ResponseField name="spaces" field-type="number" required={true}>
+  Count of spaces, the installation is managing
+</ResponseField>
+
+<ResponseField name="configuration" field-type="object" required={true}>
+  Configuration of the integration at the account level
+</ResponseField>
+
+<ResponseField name="createdAt" field-type="string" required={true} />
+
+<ResponseField name="updatedAt" field-type="string" required={true} />
+
+<ResponseField name="urls" field-type="object" required={true}>
+  URLs associated with the object
+
+  <Expandable title="Object Properties">
+    <ResponseField name="location" field-type="string" required={true}>
+      URL of the installation in the API
+    </ResponseField>
+
+    <ResponseField name="app" field-type="string" required={true}>
+      URL of the integration's installation in the application
+    </ResponseField>
+
+    <ResponseField name="publicEndpoint" field-type="string" required={true}>
+      Public HTTP endpoint for the integration's installation
+    </ResponseField>
+
+    <ResponseField name="publicContentEndpoint" field-type="string" required={true}>
+      Public endpoint serving the integration's rendered content (e.g. WebFrames), isolated from the cookie-bearing publicEndpoint origin. Equals publicEndpoint when no separate content origin is configured.
+    </ResponseField>
+  </Expandable>
+</ResponseField>
+
+<ResponseField name="externalIds" field-type="string[]" required={true}>
+  External IDs assigned by the integration.
+</ResponseField>
+
+<ResponseField name="target" field-type="string" required={true} />
+
+<ResponseField name="network" field-type="object">
+  Network configuration for the installation
+
+  <Expandable title="Object Properties">
+    <ResponseField name="proxy" field-type="boolean">
+      Whether the installation is proxied through the backend
+    </ResponseField>
+  </Expandable>
+</ResponseField>

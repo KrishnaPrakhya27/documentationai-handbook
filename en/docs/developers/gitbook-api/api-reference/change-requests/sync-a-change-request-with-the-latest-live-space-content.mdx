@@ -1,0 +1,31 @@
+---
+title: Sync a change request with the latest live space content
+metaTitle: Sync a change request with the latest live space content | Developers | GitBook Documentation
+ogImage: https://test-dai.imgix.net/org-4afef969-21f9-40f3-b5b8-b06c8b6cf68f/doc-22a3b060-9539-4176-97e4-49120e02f5d1/0a5a1a9630785855-organizations-d8f63b60-89ae-11e7-8574-5927d48c4877-sites-site_p4Xo4-socialprevie.jpg?fm=auto&auto=compress%2Cformat
+---
+
+Rebases the change request onto the latest primary revision of the space, pulling in any changes that were merged to the live space since this change request was created. Run this before merging to minimise conflicts, especially if the change request has been open for a while.
+
+**POST** `/spaces/{spaceId}/change-requests/{changeRequestId}/update`
+
+**Parameters**
+
+<ParamField header="Authorization" param-type="string" />
+
+<ParamField path="spaceId" param-type="string" required={true}>
+  The unique id of the space
+</ParamField>
+
+<ParamField path="changeRequestId" param-type="string" required={true}>
+  The unique ID of the change request or its number identifier in the space
+</ParamField>
+
+**Responses**
+
+`200` OK
+
+<ResponseField name="revision" field-type="string" required={true}>
+  ID of the resulting revision
+</ResponseField>
+
+<ResponseField name="result" field-type="string" required={true} enum="update,conflicts" />

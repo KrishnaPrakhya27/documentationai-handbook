@@ -1,0 +1,57 @@
+---
+title: List a site visitor segments
+metaTitle: List a site visitor segments | Developers | GitBook Documentation
+ogImage: https://test-dai.imgix.net/org-4afef969-21f9-40f3-b5b8-b06c8b6cf68f/doc-22a3b060-9539-4176-97e4-49120e02f5d1/0a5a1a9630785855-organizations-d8f63b60-89ae-11e7-8574-5927d48c4877-sites-site_p4Xo4-socialprevie.jpg?fm=auto&auto=compress%2Cformat
+---
+
+**GET** `/orgs/{organizationId}/sites/{siteId}/insights/visitor-segments`
+
+**Parameters**
+
+<ParamField header="Authorization" param-type="string" />
+
+<ParamField path="organizationId" param-type="string" required={true}>
+  The unique id of the organization
+</ParamField>
+
+<ParamField path="siteId" param-type="string" required={true}>
+  The unique id of the site
+</ParamField>
+
+**Responses**
+
+`200` List of visitor segments in the site.
+
+<ResponseField name="next" field-type="object">
+  <Expandable title="Object Properties">
+    <ResponseField name="page" field-type="string" required={true}>
+      Unique identifier to query the next results page
+    </ResponseField>
+  </Expandable>
+</ResponseField>
+
+<ResponseField name="count" field-type="number">
+  Total count of objects in the list
+</ResponseField>
+
+<ResponseField name="items" field-type="array" required={true}>
+  <Expandable title="Array Items">
+    <ResponseField name="title" field-type="string" required={true}>
+      The title of the visitor profile.
+    </ResponseField>
+
+    <ResponseField name="claims" field-type="object" required={true} />
+
+    <ResponseField name="events" field-type="number" required={true}>
+      The number of events for this visitor profile.
+    </ResponseField>
+
+    <ResponseField name="visitors" field-type="number" required={true}>
+      The number of visitors for this visitor profile.
+    </ResponseField>
+
+    <ResponseField name="sessions" field-type="number" required={true}>
+      The number of sessions for this visitor profile.
+    </ResponseField>
+  </Expandable>
+</ResponseField>

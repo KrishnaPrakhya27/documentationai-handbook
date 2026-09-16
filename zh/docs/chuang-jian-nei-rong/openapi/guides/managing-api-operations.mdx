@@ -1,0 +1,99 @@
+---
+title: 管理 API 操作
+description: 了解如何将 OpenAPI API 操作标记为实验性、已弃用，或在文档中隐藏它
+metaTitle: 管理 API 操作 | GitBook Documentation
+ogImage: https://test-dai.imgix.net/org-4afef969-21f9-40f3-b5b8-b06c8b6cf68f/doc-22a3b060-9539-4176-97e4-49120e02f5d1/0a5a1a9630785855-organizations-d8f63b60-89ae-11e7-8574-5927d48c4877-sites-site_p4Xo4-socialprevie.jpg?fm=auto&auto=compress%2Cformat
+---
+
+出现尚未完全稳定或需要逐步淘汰的操作很常见。GitBook 支持多种 OpenAPI 扩展，帮助你管理这些情况。
+
+### 将操作标记为 experimental、alpha 或 beta
+
+使用 `x-stability` 用于说明某个端点不稳定或仍在开发中。它可以帮助用户避免使用尚未适用于生产环境的端点。支持的值： `experimental`, `alpha`, `beta`.
+
+```yaml
+paths:
+  /pet:
+    put:
+      operationId: updatePet
+      x-stability: experimental
+```
+
+### 将操作标记为废弃
+
+要将一个操作标记为已废弃，请添加 `deprecated: true` 属性。
+
+```yaml
+paths:
+  /pet:
+    put:
+      operationId: updatePet
+      deprecated: true
+```
+
+你也可以通过添加以下内容来指定支持何时结束 `x-deprecated-sunset`
+
+```yaml
+paths:
+  /pet:
+    put:
+      operationId: updatePet
+      deprecated: true
+      x-deprecated-sunset: 2030-12-05
+```
+
+### 在 API 参考中隐藏一个操作
+
+要在 API 参考中隐藏一个操作，请添加 `x-internal: true` 或 `x-gitbook-ignore: true` 属性。
+
+```yaml
+paths:
+  /pet:
+    put:
+      operationId: updatePet
+      x-internal: true
+```
+
+### 隐藏响应示例
+
+添加 `x-hideSample: true` 属性到响应对象中，以将其从响应示例部分排除。
+
+```yaml
+paths:
+  /pet:
+    put:
+      operationId: updatePet
+      responses:
+        200:
+          x-hideSample: true
+```
+
+### 自定义授权前缀和令牌占位符
+
+你可以自定义授权前缀（例如， `Bearer`, `Token`，或者自定义字符串）以及在 GitBook 中使用安全方案时显示的令牌占位符。
+
+在你的 OpenAPI 规范中，在 `components.securitySchemes`下，像这样定义你的方案：
+
+```yaml
+components:
+  securitySchemes:
+    apiKey：
+      type: apiKey
+      in: header
+      name: Authorization
+      x-gitbook-prefix: Token
+      x-gitbook-token-placeholder: YOUR_CUSTOM_TOKEN
+```
+
+这些扩展：
+
+- `x-gitbook-prefix` 定义添加在令牌前面的前缀。
+
+  - 示例： `Authorization: <x-gitbook-prefix> YOUR_API_TOKEN`
+- `x-gitbook-token-placeholder` 设置默认令牌值。
+
+  - 示例： `Authorization: Bearer <x-gitbook-token-placeholder>`
+
+<Callout kind="alert">
+  `x-gitbook-prefix` 不 `http` 支持用于安全方案，因为这些方案必须遵循标准的 IANA 身份验证定义。 [了解更多](https://www.iana.org/assignments/http-authschemes/http-authschemes.xhtml)
+</Callout>

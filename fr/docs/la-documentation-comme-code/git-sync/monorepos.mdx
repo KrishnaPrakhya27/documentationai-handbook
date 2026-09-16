@@ -1,0 +1,110 @@
+---
+title: Monorepos
+description: Utilisez Git Sync avec des monorepos et associez des espaces à des répertoires distincts
+metaTitle: Monorepos | GitBook Documentation
+ogImage: https://test-dai.imgix.net/org-4afef969-21f9-40f3-b5b8-b06c8b6cf68f/doc-22a3b060-9539-4176-97e4-49120e02f5d1/0a5a1a9630785855-organizations-d8f63b60-89ae-11e7-8574-5927d48c4877-sites-site_p4Xo4-socialprevie.jpg?fm=auto&auto=compress%2Cformat
+---
+
+Utilisez Git Sync à l’échelle du site pour synchroniser plusieurs espaces à partir d’un seul dépôt et d’une seule branche. Associez chaque espace à son propre répertoire dans `gitbook-docs.yaml`.
+
+### Comment fonctionne Git Sync à l’échelle du site
+
+Du site **Répertoire du projet** définit le répertoire d’installation de Git Sync. `gitbook-docs.yaml` y se trouve. Si vous le laissez vide, GitBook utilise la racine du dépôt.
+
+Dans `gitbook-docs.yaml`, chaque espace a un `content.directory`. Ce répertoire contient les `.gitbook.yaml`, `README.md`, `SUMMARY.md`, ainsi que les fichiers de contenu.
+
+Pour un aperçu de ces fichiers, voir [Configuration du contenu](/fr/docs/la-documentation-comme-code/git-sync/content-configuration).
+
+### Associer des espaces à des répertoires
+
+Utilisez **Association du contenu** dans le panneau Git Sync pour associer chaque espace. GitBook enregistre l’association dans `gitbook-docs.yaml`.
+
+Les chemins de répertoire fonctionnent comme suit :
+
+| Chemin | Signification |
+| --- | --- |
+| `./docs` | Un répertoire à l’intérieur du répertoire du projet du site. |
+| `/docs` | Un répertoire à partir de la racine du dépôt. |
+| `docs` | Identique à `./docs`. |
+
+Par exemple, ce dépôt associe trois espaces :
+
+```
+/
+  gitbook-docs.yaml
+  documentation/
+    .gitbook.yaml
+    README.md
+    SUMMARY.md
+    .gitbook/
+      assets/
+        logo.png
+  developers/
+    .gitbook.yaml
+    README.md
+    SUMMARY.md
+  changelog/
+    .gitbook.yaml
+    README.md
+    SUMMARY.md
+```
+
+Cet `gitbook-docs.yaml` associe chaque espace à son répertoire :
+
+```yaml title="gitbook-docs.yaml"
+$schema: https://api.gitbook.com/gitbook-docs.yaml
+site:
+  structure:
+    - type: space
+      key: documentation
+      title: Documentation
+      path: documentation
+      content:
+        directory: ./documentation
+    - type: space
+      key: developers
+      title: Développeurs
+      path: developers
+      content:
+        directory: ./developers
+    - type: space
+      key: changelog
+      title: Journal des modifications
+      path: changelog
+      content:
+        directory: ./changelog
+```
+
+### Conservez le contenu de chaque espace autonome
+
+Chaque espace ne synchronise que le répertoire qui lui est attribué. GitBook ne partage pas automatiquement le contenu ni les ressources entre les répertoires mappés.
+
+Conservez chaque ressource référencée dans le répertoire mappé de son espace. Si plusieurs espaces ont besoin d’une ressource, ajoutez une copie dans chaque répertoire ou réorganisez le dépôt.
+
+Le `.gitbook.yaml` `racine` paramètre contrôle où GitBook lit le contenu dans le répertoire mappé de cet espace. Il ne rend pas les répertoires frères disponibles.
+
+### Déplacer un répertoire mappé
+
+Déplacez le contenu d’un espace en mettant à jour ses fichiers et son association en même temps :
+
+1. Dans le dépôt, déplacez les fichiers de contenu et les ressources de l’espace.
+2. Dans `gitbook-docs.yaml`, mettez à jour le `content.directory`. Laissez sa `clé` inchangée.
+3. Validez les deux changements dans le même commit.
+
+<Callout kind="info">
+  Si GitBook importe avant que les deux changements existent, l’espace mappé peut apparaître vide.
+</Callout>
+
+<Callout kind="danger">
+  <strong>Ne renommez pas la `clé` pour qu’elle corresponde au nouveau répertoire.</strong> Les clés et les noms de répertoire sont indépendants. Modifier la clé d’un espace remplace cet espace par un nouveau qui possède un nouvel ID d’espace, et restaurer la clé d’origine ne ramène pas l’ancien ID. Voir [Les clés identifient vos espaces](/fr/docs/la-documentation-comme-code/git-sync/content-configuration#keys-identify-your-spaces).
+</Callout>
+
+Clés générées par GitBook — `space-1`, `space-2` — ne reflètent pas les noms de répertoire, et il n’y a aucun avantage à les conserver alignés.
+
+### Utiliser Git Sync individuel par espace
+
+Utilisez Git Sync individuel par espace lorsqu’un espace a besoin d’un autre dépôt ou d’une autre branche. Par exemple, utilisez-le lorsqu’un espace privé doit se synchroniser séparément.
+
+Retirez d’abord l’espace de l’association du contenu du site. Configurez ensuite Git Sync depuis cet espace.
+
+Pour configurer l’espace, suivez [Activation de GitHub Sync](/fr/docs/la-documentation-comme-code/git-sync/enabling-github-sync) ou [Activation de GitLab Sync](/fr/docs/la-documentation-comme-code/git-sync/enabling-gitlab-sync). À l’étape de portée, sélectionnez **Git Sync de l’espace**.

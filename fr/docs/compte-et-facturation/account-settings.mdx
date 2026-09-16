@@ -1,0 +1,87 @@
+---
+title: Paramètres personnels
+description: Consultez et gérez les paramètres de votre compte GitBook personnel
+metaTitle: Paramètres personnels | GitBook Documentation
+ogImage: https://test-dai.imgix.net/org-4afef969-21f9-40f3-b5b8-b06c8b6cf68f/doc-22a3b060-9539-4176-97e4-49120e02f5d1/0a5a1a9630785855-organizations-d8f63b60-89ae-11e7-8574-5927d48c4877-sites-site_p4Xo4-socialprevie.jpg?fm=auto&auto=compress%2Cformat
+---
+
+Vous pouvez gérer vos informations de connexion, les options de connexion tierces, le sous-domaine GitBook, le thème de l’interface, les notifications, les intégrations et les jetons d’accès à l’API.
+
+<Image src="https://test-dai.imgix.net/org-4afef969-21f9-40f3-b5b8-b06c8b6cf68f/doc-22a3b060-9539-4176-97e4-49120e02f5d1/c3145c9eac95cce9-spaces-NkEGS7hzeqa35sMXQZ4X-uploads-2E6zG4rAbCopn4gDLXWJ-22_01_06_account_settin.png?fm=auto&auto=compress%2Cformat" alt="A GitBook screenshot showing the personal settings page" caption="Votre page de paramètres personnels." />
+
+### Comment accéder aux paramètres de votre compte personnel
+
+Retourner à votre organisation **Accueil** et cliquez sur **Paramètres**, sous **Admin** dans la barre latérale. Les paramètres du compte et de l’organisation partagent un même écran, regroupés en **Compte** et **Organisation** dans la barre latérale de gauche. Vos paramètres personnels se trouvent sous **Compte**. Cliquez sur **Retour à l'application** pour revenir à votre contenu.
+
+<Expandable title="Général">
+  **Votre profil**
+
+  Vous pouvez mettre à jour votre photo de profil et votre nom complet.
+
+  **Informations de connexion**
+
+  Vous pouvez mettre à jour l’adresse e-mail et le mot de passe utilisés pour vous connecter à votre compte GitBook. <strong>Remarque :</strong> si vous avez créé votre compte le 9 octobre 2021 ou après, votre compte n’a pas de mot de passe et vous utiliserez à la place un lien magique pour vous connecter.
+
+  **Connexion tierce**
+
+  Vous pouvez également utiliser vos identifiants Google et/ou GitHub pour vous connecter à GitBook.
+
+  **Publication**
+
+  Chaque section GitBook publiée qui se trouve dans votre bibliothèque personnelle aura un domaine composé de deux parties :
+
+  1. `[something].gitbook.io` (c’est le sous-domaine GitBook)
+  2. `/[spaceURL]` (cela est défini dans les paramètres de la section elle-même)
+
+  Vous pouvez mettre à jour ici le sous-domaine GitBook, ainsi que le contenu par défaut, qui est la section que les visiteurs verront s’ils accèdent directement à votre sous-domaine GitBook.
+
+  **Préférences**
+
+  Vous pouvez choisir le thème d’interface que vous préférez — sombre, clair, ou correspondant aux préférences de votre système. <strong>Remarque :</strong> ce paramètre n’affecte que votre expérience lorsque vous êtes connecté à l’application GitBook, et n’aura aucune incidence sur votre contenu publié.
+
+  **Dépannage**
+
+  Facultativement, vous pouvez activer l’enregistrement des journaux avancés. Ces journaux avancés aident notre équipe à résoudre les problèmes plus efficacement.
+
+  **Actions sur le compte**
+
+  Depuis cette section, vous pouvez vous déconnecter ou supprimer votre compte. <strong>Remarque : il n’y aura pas de retour en arrière si vous supprimez votre compte !</strong> Toutes les données associées seront également supprimées.
+</Expandable>
+
+<Expandable title="Notifications">
+  GitBook peut vous fournir deux types de [notifications](/fr/docs/collaborer/notifications) — les notifications par e-mail et les notifications dans l’application. Depuis cet écran de paramètres, vous pouvez décider quels types de notifications vous souhaitez recevoir lorsque différents événements se produisent.
+</Expandable>
+
+<Expandable title="Organisations">
+  Votre compte personnel peut être membre d’un nombre quelconque d’organisations, et cet onglet peut être considéré comme un raccourci vers la [page des paramètres de l’organisation](/fr/docs/compte-et-facturation/organization-settings) pour chaque organisation. Vous pouvez également créer une nouvelle organisation depuis cette page.
+</Expandable>
+
+<Expandable title="Outils de développement">
+  Sur cette page, vous pouvez gérer et créer des jetons d’accès pour l’ [API GitBook](https://developer.gitbook.com/).
+</Expandable>
+
+### <strong>Comment puis-je réinitialiser mon mot de passe ?</strong>
+
+Veuillez noter que si votre compte a été créé après le 10 octobre 2021, il n’a pas de mot de passe. Vous devriez pouvoir vous connecter en demandant un lien magique :
+
+1. Visitez [https://app.gitbook.com](https://app.gitbook.com)
+2. Saisissez l’adresse e-mail associée au compte personnel pour lequel vous vous êtes inscrit
+3. Cliquez sur **continuer**
+4. Cliquez sur **envoyer un lien** (assurez-vous de vérifier votre dossier spam)
+
+Si vous *voulez* réinitialiser votre mot de passe :
+
+1. Visitez [https://app.gitbook.com](https://app.gitbook.com)
+2. Suivez le lien <strong>mot de passe oublié ?</strong> au bas de la page
+3. Saisissez l’adresse e-mail associée au compte personnel pour lequel vous vous êtes inscrit
+4. Cliquez sur **envoyer un lien** (assurez-vous de vérifier votre dossier spam)
+
+### Dépannage de la connexion
+
+**Compte désactivé par l’administrateur** — GitBook bloque automatiquement les comptes présentant un comportement suspect afin d’empêcher les comptes de spam et d’escroquerie. Si vous pensez que votre compte a été bloqué injustement, contactez l’assistance ; les demandes de déblocage sont évaluées au cas par cas.
+
+**Le lien pour rejoindre une organisation ne fonctionne pas** — un `auth/invalid-email` erreur signifie que l’adresse e-mail invitée à l’organisation ne correspond pas à l’e-mail du compte GitBook connecté. Demandez à la personne qui vous a invité quelle adresse elle a utilisée, ou demandez-lui de vous en inviter une autre.
+
+**Erreur : auth/expired-action-code** — le lien de connexion ou d’invitation a dépassé sa période de validité. Générez un nouveau lien, ou demandez-en un nouveau à l’expéditeur.
+
+**Erreur : auth/email-already-in-use** — le compte GitHub avec lequel vous vous connectez est déjà lié à un autre compte GitBook. Voir [Comptes potentiellement dupliqués](/fr/docs/la-documentation-comme-code/git-sync/troubleshooting#potential-duplicated-accounts-when-signing-in) pour les étapes permettant de l’identifier et de le dissocier.

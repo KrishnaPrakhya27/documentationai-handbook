@@ -1,0 +1,23 @@
+---
+title: Render an integration UI with GET method
+metaTitle: Render an integration UI with GET method | Developers | GitBook Documentation
+ogImage: https://test-dai.imgix.net/org-4afef969-21f9-40f3-b5b8-b06c8b6cf68f/doc-22a3b060-9539-4176-97e4-49120e02f5d1/0a5a1a9630785855-organizations-d8f63b60-89ae-11e7-8574-5927d48c4877-sites-site_p4Xo4-socialprevie.jpg?fm=auto&auto=compress%2Cformat
+---
+
+**GET** `/integrations/{integrationName}/render`
+
+**Parameters**
+
+<ParamField header="Authorization" param-type="string" />
+
+<ParamField path="integrationName" param-type="string" required={true}>
+  Name of the integration.
+</ParamField>
+
+<ParamField query="request" param-type="string" required={true}>
+  LZ-string compressed JSON request
+</ParamField>
+
+**Responses**
+
+`200` ContentKit element to render

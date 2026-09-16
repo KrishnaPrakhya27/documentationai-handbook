@@ -1,0 +1,76 @@
+---
+title: Configuration d’OIDC
+description: Configurez un écran de connexion OIDC pour les visiteurs de votre documentation
+metaTitle: Configuration d’OIDC | GitBook Documentation
+ogImage: https://test-dai.imgix.net/org-4afef969-21f9-40f3-b5b8-b06c8b6cf68f/doc-22a3b060-9539-4176-97e4-49120e02f5d1/0a5a1a9630785855-organizations-d8f63b60-89ae-11e7-8574-5927d48c4877-sites-site_p4Xo4-socialprevie.jpg?fm=auto&auto=compress%2Cformat
+---
+
+<Callout kind="alert">
+  Ce guide vous accompagne dans la configuration d’un écran de connexion protégé pour vos docs. Avant de suivre ce guide, assurez-vous d’avoir d’abord suivi la procédure consistant à [activer l’accès authentifié](/fr/docs/publier/site-audience/authenticated-access/enabling-authenticated-access).
+</Callout>
+
+Pour configurer votre site GitBook avec un accès authentifié via OIDC, le processus est le suivant :
+
+<Steps>
+  <Step title="Créer une nouvelle application auprès de votre fournisseur d’identité">
+    Créez une application depuis le tableau de bord de votre fournisseur d’identité.
+  </Step>
+
+  <Step title="Installer et configurer l’intégration OIDC">
+    Installez l’intégration Auth0 et ajoutez la configuration requise.
+  </Step>
+</Steps>
+
+OIDC signifie OpenID Connect, et il s’agit d’une couche d’identité construite au-dessus d’OAuth. De nombreux fournisseurs d’identité prennent en charge OIDC, et l’intégration OIDC de GitBook pour l’accès authentifié vous permet de publier votre contenu derrière un accès authentifié, l’accès au contenu étant नियंत्रlé par votre fournisseur d’identité
+
+<Callout kind="info">
+  Comme ce guide est générique et destiné à tous les fournisseurs d’identité, certains détails peuvent varier selon votre fournisseur d’identité. À titre d’exemple, nous utilisons Google comme fournisseur d’identité dans ce guide.
+</Callout>
+
+### Créer une nouvelle application auprès de votre fournisseur d’identité
+
+Vous devez configurer certains éléments chez votre fournisseur d’identité pour que l’intégration fonctionne.
+
+Vous devez créer une nouvelle application dans votre fournisseur d’identité. Son type doit être « Web Application ». Dans Google, vous les créez sous « API et services », « Identifiants », puis sous « Identifiants client OAuth 2.0 ».\\
+
+<Image src="https://test-dai.imgix.net/org-4afef969-21f9-40f3-b5b8-b06c8b6cf68f/doc-22a3b060-9539-4176-97e4-49120e02f5d1/4829a3c17e7aa442-spaces-NkEGS7hzeqa35sMXQZ4X-uploads-8ra7t88ktqM7yX7w1l4m-Screen-Shot-2024-05-15-.png?fm=auto&auto=compress%2Cformat" alt="A screenshot showing creation of an OAuth client in an identity provider" />
+
+Cliquez sur Créer des identifiants, sélectionnez ID client OAuth, choisissez Application web comme type, nommez-la de manière appropriée, puis, sous URI de redirection autorisés, saisissez l’URL de rappel que vous avez obtenue depuis GitBook.
+
+Cliquez sur Créer. Notez l’ID client et le secret client. Nous en aurons besoin pour terminer la configuration de notre intégration dans GitBook.
+
+### Installer et configurer l’intégration OIDC
+
+Accédez aux intégrations dans l’application GitBook, sélectionnez l’accès authentifié comme catégorie, puis installez l’intégration OIDC. Installez l’intégration OIDC sur le site de docs de votre choix.
+
+<Image src="https://test-dai.imgix.net/org-4afef969-21f9-40f3-b5b8-b06c8b6cf68f/doc-22a3b060-9539-4176-97e4-49120e02f5d1/5df07994d99e5bac-spaces-NkEGS7hzeqa35sMXQZ4X-uploads-CZy21M4LIPwMVSxI3ec1-Screen-Shot-2024-12-13-.png?fm=auto&auto=compress%2Cformat" alt="A GitBook screenshot showing the OIDC integration installation" />
+
+Une fois l’intégration installée sur votre site, allez dans la configuration et notez l’URL de rappel juste au-dessus du bouton Enregistrer. Nous en aurons peut-être besoin pour configurer le fournisseur d’identité.
+
+Ouvrez l’écran de configuration de l’intégration OIDC pour la section sur laquelle vous avez installé l’intégration.
+
+Cela devrait ressembler à l’image suivante
+
+<Image src="https://test-dai.imgix.net/org-4afef969-21f9-40f3-b5b8-b06c8b6cf68f/doc-22a3b060-9539-4176-97e4-49120e02f5d1/31999d593233ba8d-spaces-NkEGS7hzeqa35sMXQZ4X-uploads-04b2yAGjDIJQsA2aPIEO-Screen-Shot-2024-12-13-.png?fm=auto&auto=compress%2Cformat" alt="A GitBook screenshot showing the OIDC configuration screen" />
+
+Pour l’ID client et le secret client, collez les valeurs obtenues auprès de votre fournisseur d’identité.
+
+Vous devez maintenant trouver le point de terminaison d’autorisation et le point de terminaison du jeton d’accès pour votre fournisseur d’identité. Pour Google, ils sont `https://accounts.google.com/o/oauth2/v2/auth` et `https://oauth2.googleapis.com/token` respectivement.
+
+<Callout kind="info">
+  Si vous n’utilisez pas Google, ces points de terminaison seront différents. Veuillez consulter la documentation de votre fournisseur d’identité pour les localiser
+</Callout>
+
+Pour la portée OAuth, sa valeur sera également différente selon votre fournisseur d’identité. Dans le cas de Google, vous pouvez saisir `openid`.
+
+<Callout kind="info">
+  Veuillez consulter la liste des portées autorisées dans la documentation de votre fournisseur d’identité, et saisir la valeur de la portée la moins permissive. Nous utilisons uniquement le jeton d’accès pour vérifier que l’utilisateur est authentifié, et nous n’utilisons pas le jeton d’accès pour récupérer d’autres informations. Ainsi, saisir la portée la moins permissive est la meilleure recommandation en matière de sécurité.
+</Callout>
+
+Cliquez sur Enregistrer.
+
+Maintenant, dans GitBook, fermez la fenêtre modale des intégrations et cliquez sur le bouton Gérer le site. Accédez à **Audience**, sélectionnez **Accès authentifié**, et choisissez OIDC comme backend. Puis, cliquez sur **Mettre à jour l’audience**. Allez sur l’écran du site et cliquez sur **Publier**.<br /><br />Le site est désormais publié derrière un accès authentifié contrôlé par votre application Auth0. Pour l’essayer, cliquez sur Visiter. Il vous sera demandé de vous connecter avec OIDC, ce qui confirme que votre site est publié derrière un accès authentifié utilisant Auth0.
+
+### Activer PKCE
+
+Si votre fournisseur d’identité exige ou recommande PKCE, activez **Utiliser PKCE** dans l’écran de configuration de l’intégration OIDC. Cette option active Proof Key for Code Exchange (PKCE) pour le flux de code d’autorisation que l’intégration initie avec votre fournisseur d’authentification.

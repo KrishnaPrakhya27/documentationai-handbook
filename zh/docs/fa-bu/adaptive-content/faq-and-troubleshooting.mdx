@@ -1,0 +1,62 @@
+---
+title: 常见问题与故障排除
+description: 有关自适应内容的常见问题和故障排除步骤
+metaTitle: 常见问题与故障排除 | GitBook Documentation
+ogImage: https://test-dai.imgix.net/org-4afef969-21f9-40f3-b5b8-b06c8b6cf68f/doc-22a3b060-9539-4176-97e4-49120e02f5d1/0a5a1a9630785855-organizations-d8f63b60-89ae-11e7-8574-5927d48c4877-sites-site_p4Xo4-socialprevie.jpg?fm=auto&auto=compress%2Cformat
+---
+
+### 我应该为自适应内容使用哪种身份验证方式？
+
+这取决于您希望如何控制访问：
+
+- 一个站点上的公开和私密内容——使用 [签名 Cookie](/zh/docs/fa-bu/adaptive-content/enabling-adaptive-content/cookies)
+- 无需身份验证的简单个性化——使用 [URL 参数](/zh/docs/fa-bu/adaptive-content/enabling-adaptive-content/url)
+- 完全私密的网站——使用 [经过身份验证的访问集成](/zh/docs/fa-bu/adaptive-content/enabling-adaptive-content/authenticated-access)
+- 已经在使用功能标志——使用一个 [功能标志提供程序](/zh/docs/fa-bu/adaptive-content/enabling-adaptive-content/feature-flags)
+
+### 我可以发布一个部分公开、包含一些需要身份验证内容的网站吗？
+
+可以。您可以保留一个公开网站，并包含一些需要身份验证的部分，而无需整个网站都要求登录：
+
+1. 将您网站的受众设置为“公开”、“未列出”或“分享链接”。
+2. 在网站设置中启用自适应内容。
+3. 使用 [签名 Cookie](/zh/docs/fa-bu/adaptive-content/enabling-adaptive-content/cookies#signed-cookie) 以便在访客登录您的主应用后传递其声明。
+4. 为应仅向已验证访客显示的特定页面或部分设置条件。
+
+### 如何使用自定义 OIDC 提供程序设置自适应内容？
+
+自适应内容可与任何身份提供程序配合使用：
+
+1. 在 GitBook 中设置通用 OIDC 集成。
+2. 配置您的 OIDC 提供程序，使令牌中包含自定义声明。
+3. 在您的 GitBook 访客架构中映射这些声明。
+
+常见问题：确保您的提供程序在令牌中包含自定义声明（而不仅仅是标准 OIDC 声明），检查声明是否嵌套在特定于提供程序的属性下，并验证令牌格式。不同提供程序对自定义声明的结构处理不同——请查看您提供程序的文档。
+
+### 为什么我的分段无法正常工作或无法在预览中显示？
+
+- 确认您的访客架构定义正确。
+- 验证您的分段 JSON 与架构结构匹配。
+- 确保该条件适用于您正在测试的部分、页面或区块。
+- 从正确的页面使用预览功能，并在架构更改后刷新预览。
+
+参见 [使用分段进行测试](/zh/docs/fa-bu/adaptive-content/testing-with-segments) 以完成完整的测试流程。
+
+### 受限制内容会出现在搜索结果中吗？
+
+不会。搜索结果仅反映访客有权访问的内容。任何位于自适应内容之后的部分、页面或区块，只有满足查看条件的访客才能被索引并在搜索中可见。
+
+### JWT 声明架构支持自由格式字符串吗？
+
+还不支持。目前声明架构仅支持字符串值的枚举，因此请在枚举中定义所有所需的字符串值。
+
+### 自适应内容可以与 JWT 声明中的数组一起使用吗？
+
+不可以。声明只提供单个值——字符串（枚举）或布尔值。如果您需要多个值，请在声明提供程序一侧进行转换（例如在 Azure 或 Okta 中）。
+
+### 如何调试自适应内容条件？
+
+- 属性名称区分大小写（`role` ≠ `Role`).
+- 检查数据类型——布尔值 `true` 不是字符串 `"true"`.
+- 检查嵌套条件中的属性路径。
+- 在以下位置检查附加到令牌的声明： [jwt.io](https://www.jwt.io/) 以确认您期望的声明已被传递。

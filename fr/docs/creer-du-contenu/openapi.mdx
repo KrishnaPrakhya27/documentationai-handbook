@@ -1,0 +1,37 @@
+---
+title: Documenter une API
+description: Ajoutez une spécification OpenAPI à une page et laissez vos utilisateurs tester les points de terminaison directement sur la page avec des blocs interactifs.
+metaTitle: Documenter une API | GitBook Documentation
+ogImage: https://test-dai.imgix.net/org-4afef969-21f9-40f3-b5b8-b06c8b6cf68f/doc-22a3b060-9539-4176-97e4-49120e02f5d1/0a5a1a9630785855-organizations-d8f63b60-89ae-11e7-8574-5927d48c4877-sites-site_p4Xo4-socialprevie.jpg?fm=auto&auto=compress%2Cformat
+openapi: api-reference/715e581e0d464caa7f0f889903f2c6f13901d28e9abf812e5e8af857b54e01c5.json POST /pet
+---
+
+Rédiger manuellement la documentation d’une API REST peut prendre beaucoup de temps. Heureusement, GitBook simplifie cette tâche en vous permettant d’importer des documents OpenAPI, qui détaillent la structure et les fonctionnalités de votre API.
+
+La spécification OpenAPI (OAS) est un cadre que les développeurs utilisent pour documenter les API REST. Rédigée en JSON ou YAML, elle présente l’ensemble de vos points de terminaison, paramètres, schémas et mécanismes d’authentification.
+
+Une fois importés dans GitBook, ces documents sont transformés en blocs d’API interactifs et testables qui représentent visuellement les méthodes de votre API — que la spécification soit fournie sous forme de fichier ou chargée depuis une URL.
+
+### Compatibilité OpenAPI
+
+GitBook prend en charge l’importation et le rendu de ces versions de spécification :
+
+- [Swagger 2.0](https://github.com/OAI/OpenAPI-Specification/blob/main/versions/2.0.md) — pris en charge.
+- [OpenAPI 3.0](https://github.com/OAI/OpenAPI-Specification/blob/main/versions/3.0.3.md) — pris en charge.
+- [OpenAPI 3.1](https://github.com/OAI/OpenAPI-Specification/blob/main/versions/3.1.1.md) — pris en charge, y compris des fonctionnalités réservées à OpenAPI 3.1 telles que `webhooks`.
+
+### Testez-le (propulsé par Scalar)
+
+Le bloc OpenAPI de GitBook prend également en charge une fonctionnalité « test it », qui permet à vos utilisateurs de tester vos méthodes d’API avec des données et des paramètres renseignés depuis l’éditeur.
+
+Propulsé par [Scalar](https://scalar.com/), vous n’aurez pas besoin de quitter la documentation pour voir vos méthodes d’API en action. Voyez un exemple ci-dessus.
+
+#### FAQ
+
+<Expandable title="Pourquoi ma spécification ne se charge-t-elle pas ?">
+  <Callout kind="info">
+    <strong>Remarque :</strong> Ces informations s’appliquent uniquement aux **spécifications ajoutées via URL**.
+  </Callout>
+
+  Si vous avez ajouté votre spécification via URL, votre API doit [autoriser les requêtes inter-origines](https://developer.mozilla.org/en-US/docs/Web/HTTP/Reference/Headers/Access-Control-Allow-Origin) les requêtes GET depuis votre site de documentation. Dans les paramètres CORS de votre API, autorisez l’origine exacte où votre documentation est hébergée (par ex. : `https://your-site.gitbook.io` ou `https://docs.example.com`).<br /><br />Si votre point de terminaison est public et n’utilise pas d’identifiants, vous pouvez également renvoyer : `Access-Control-Allow-Origin: *`\\ <br />
+</Expandable>

@@ -1,0 +1,44 @@
+---
+title: Site MCP servers
+description: Configure external MCP servers used by your site.
+metaTitle: Site MCP servers | Developers | GitBook Documentation
+ogImage: https://test-dai.imgix.net/org-4afef969-21f9-40f3-b5b8-b06c8b6cf68f/doc-22a3b060-9539-4176-97e4-49120e02f5d1/0a5a1a9630785855-organizations-d8f63b60-89ae-11e7-8574-5927d48c4877-sites-site_p4Xo4-socialprevie.jpg?fm=auto&auto=compress%2Cformat
+---
+
+Manage Model Context Protocol (Mcp) servers used by your site.
+
+## The SiteMcpServer object
+
+<ResponseField name="object" field-type="string" required={true} enum="site-mcp-server" />
+
+<ResponseField name="id" field-type="string" required={true}>
+  Unique identifier for the MCP server
+</ResponseField>
+
+<ResponseField name="name" field-type="string" required={true}>
+  Name of the MCP server
+</ResponseField>
+
+<ResponseField name="url" field-type="string" required={true} />
+
+<ResponseField name="transport" field-type="string" required={true} enum="sse,http">
+  Transport protocol used to connect to the MCP server
+</ResponseField>
+
+<ResponseField name="headers" field-type="object" required={true}>
+  HTTP headers sent with requests to this server
+</ResponseField>
+
+<ResponseField name="condition" field-type="string">
+  Expression to evaluate
+</ResponseField>
+
+<ResponseField name="urls" field-type="object" required={true}>
+  URLs associated with the object
+
+  <Expandable title="Object Properties">
+    <ResponseField name="location" field-type="string" required={true}>
+      URL of the MCP server in the API
+    </ResponseField>
+  </Expandable>
+</ResponseField>

@@ -1,0 +1,177 @@
+---
+title: 启用自适应内容
+description: 选择一种身份验证方法，将用户数据传递给 GitBook。
+metaTitle: 启用自适应内容 | GitBook Documentation
+ogImage: https://test-dai.imgix.net/org-4afef969-21f9-40f3-b5b8-b06c8b6cf68f/doc-22a3b060-9539-4176-97e4-49120e02f5d1/0a5a1a9630785855-organizations-d8f63b60-89ae-11e7-8574-5927d48c4877-sites-site_p4Xo4-socialprevie.jpg?fm=auto&auto=compress%2Cformat
+---
+
+要开始为读者自定义你的文档体验，你需要启用自适应内容，并决定访客数据如何传递给 GitBook。这样你的网站内容就能根据访问者动态调整。
+
+### 启用自适应内容
+
+在你能够将用户数据传递给 GitBook 之前，你需要配置你的网站以使用自适应内容。
+
+前往你的 [网站设置](/zh/docs/guan-li-ni-de-zhan-dian/site-settings)，并启用 **自适应内容** 来自你网站的受众设置。启用后，你将获得一个生成的“访客令牌签名密钥”，你需要它才能继续进行自适应内容设置。
+
+<Image src="https://test-dai.imgix.net/org-4afef969-21f9-40f3-b5b8-b06c8b6cf68f/doc-22a3b060-9539-4176-97e4-49120e02f5d1/8869a4621dc60744-spaces-NkEGS7hzeqa35sMXQZ4X-uploads-5EeWAo5Ij6CKrp69uMl5-26_01_06_enable_adaptiv.png?fm=auto&auto=compress%2Cformat" alt="A GitBook screenshot showing the enable adaptive content toggle" caption="在你网站的设置中启用自适应内容" />
+
+### 设置你的访客架构
+
+启用自适应内容后，你需要为当用户访问你的网站时 GitBook 预期接收的声明类型定义一个架构。
+
+访客架构应反映这些声明发送到 GitBook 时的结构方式。
+
+例如，如果你预计访客在你的产品中可能是测试版用户，你可以设置类似如下的访客架构：
+
+```json
+{
+  "type": "object",
+  "properties": {
+    "isBetaUser": {
+      "type": "boolean",
+      "description": "访客是否为测试版用户。"
+    }
+  },
+  "additionalProperties": false
+}
+```
+
+这也会帮助你在配置声明时使用自动补全， [条件编辑器](/zh/docs/fa-bu/adaptive-content/adapting-your-content#working-with-the-condition-editor). 访客架构仅支持以下类型：
+
+<Tabs>
+  <Tab title="字符串">
+    读取作为字符串传入的声明。
+
+    GitBook 支持动态字符串，这意味着你可以动态传递字符串数据——例如用户姓名、开发者令牌等。
+
+    字符串还可以包含一个 **可选的枚举** 键，这使你可以将 GitBook 接收到的数据限制为其预设值之一。
+
+    ```json
+    {
+      "type": "object",
+      "properties": {
+        "language": {
+              "type": "string",
+              "description": "访客的语言",
+              // 可选的枚举属性
+              "enum": [
+                "en",
+                "fr",
+                "it"
+              ]
+      },
+      "additionalProperties": false
+    }
+    ```
+
+    <Callout kind="alert">
+      动态字符串（未定义 enum 键的字符串）仅适用于 [行内表达式](/zh/docs/chuang-jian-nei-rong/variables-and-expressions#use-variables-in-your-content). 元素（页面、章节、块）可见性的条件表达式仅适用于使用 enum 键定义的字符串。
+    </Callout>
+  </Tab>
+
+  <Tab title="布尔值">
+    读取作为布尔值传入的声明。
+
+    ```json
+    {
+      "type": "object",
+      "properties": {
+        "isBetaUser": {
+          "type": "boolean",
+          "description": "访客是否为测试版用户。"
+        },
+      },
+      "additionalProperties": false
+    }
+    ```
+  </Tab>
+
+  <Tab title="对象">
+    将声明嵌套在对象中，以分组相似的值。
+
+    ```json
+    {
+      // 顶层声明
+      "type": "object",
+      "properties": {
+        // 嵌套声明
+        "access": {
+          "type": "object",
+          "description": "用户对产品功能的访问权限",
+          "properties": {
+            "isAlphaUser": {
+              "type": "boolean",
+              "description": "访客是否为 Alpha 用户。"
+            },
+            "isBetaUser": {
+              "type": "boolean",
+              "description": "访客是否为测试版用户。"
+            },
+          },
+          "additionalProperties": false
+        }
+      },
+      "additionalProperties": false
+    }
+    ```
+  </Tab>
+</Tabs>
+
+### 设置未签名声明
+
+未签名声明是一种特定类型的声明，用于识别可能未经过客户端应用签名传入的声明。如果你要通过以下方式传递声明，则需要在访客架构中将声明设置为 `未签名的` 如果你通过 URL 参数、未签名 cookie 和功能标志传递声明。
+
+如果你打算使用未签名声明，你需要在架构中的“unsigned”属性下，将你预期接收的声明与已签名声明并列声明。
+
+```json
+{
+  "type": "object",
+  "properties": {
+    "isBetaUser": {
+      "type": "boolean",
+      "description": "访客是否为测试版用户。"
+    },
+    // 添加未签名声明
+    "unsigned": {
+      "type": "object",
+      "description": "站点访客的未签名声明。",
+      "properties": {
+        "language": {
+          "type": "string",
+          "description": "访客的语言",
+          // 可选的枚举属性
+          "enum": [
+            "en",
+            "fr",
+            "it"
+          ]
+        }
+      },
+      "additionalProperties": false
+    }
+  },
+  "additionalProperties": false
+}
+```
+
+### 将访客数据传递给 GitBook
+
+GitBook 提供多种方式来传递访客数据，以便调整你网站的内容。定义好架构后，你需要决定希望如何将访客数据传递给 GitBook。
+
+<Columns cols={2}>
+  <Card title="Cookie" href="/zh/docs/fa-bu/adaptive-content/enabling-adaptive-content/cookies" icon="cookie">
+    通过公开 cookie 或签名 cookie 将访客数据传入你的文档。
+  </Card>
+
+  <Card title="URL" href="/zh/docs/fa-bu/adaptive-content/enabling-adaptive-content/url" icon="link">
+    通过 URL 查询参数将访客数据传入你的文档。
+  </Card>
+
+  <Card title="功能标志" href="/zh/docs/fa-bu/adaptive-content/enabling-adaptive-content/feature-flags" icon="flag">
+    通过功能标志提供方将访客数据传入你的文档。
+  </Card>
+
+  <Card title="经过身份验证的访问" href="/zh/docs/fa-bu/adaptive-content/enabling-adaptive-content/authenticated-access" icon="lock">
+    通过身份验证提供方将访客数据传入你的文档。
+  </Card>
+</Columns>

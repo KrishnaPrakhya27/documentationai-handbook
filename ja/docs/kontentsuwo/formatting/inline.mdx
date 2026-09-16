@@ -1,0 +1,247 @@
+---
+title: インラインコンテンツ
+description: インラインパレットを使って、画像、リンク、数式とTeXなどを追加します
+metaTitle: インラインコンテンツ | GitBook Documentation
+ogImage: https://test-dai.imgix.net/org-4afef969-21f9-40f3-b5b8-b06c8b6cf68f/doc-22a3b060-9539-4176-97e4-49120e02f5d1/0a5a1a9630785855-organizations-d8f63b60-89ae-11e7-8574-5927d48c4877-sites-site_p4Xo4-socialprevie.jpg?fm=auto&auto=compress%2Cformat
+---
+
+<Image src="https://test-dai.imgix.net/org-4afef969-21f9-40f3-b5b8-b06c8b6cf68f/doc-22a3b060-9539-4176-97e4-49120e02f5d1/69b1d06ab8cca249-spaces-NkEGS7hzeqa35sMXQZ4X-uploads-QcBDNerKxNvi1X3Jnk2R-26_01_22_inline-palette.png?fm=auto&auto=compress%2Cformat" alt="A GitBook screenshot showing inline content options" caption="コンテンツにインライン要素を追加します。" />
+
+インラインパレットを使うと、キーボードから手を離さずにテキストブロックへ追加コンテンツをすばやく加えられます。 `/` 任意のテキストブロックで / を入力すると、インラインパレットが開きます。スラッシュは、挿入するコンテンツに置き換えられます。
+
+## 注釈
+
+注釈を使うと、読者の思考の流れを妨げることなく、単語に追加の文脈を加えられます。単語の意味を説明したり、追加情報を挿入したりできます。読者は注釈付きテキストにカーソルを合わせると、テキストの上に注釈を表示できます。
+
+### 注釈を作成する
+
+注釈を作成するには、注釈を付けたいテキストを選択し、 **注釈を付ける** コンテキストメニューのオプションをクリックします。注釈を書いたら、注釈の外側をクリックしてテキストブロックの編集を続けます。
+
+### Markdownでの表記
+
+コンテンツを [Markdown脚注](https://www.markdownguide.org/extended-syntax/#footnotes) として記述すると、GitBookでは注釈として追加されます。脚注の識別子は、注釈を付けたい単語の直後に表示する必要があります。句読点やその他の記号の後には配置しないでください。
+
+```markdown
+これはシンプルな脚注[^1]で、こちらは長い脚注[^bignote]です。
+
+[^1]: これは最初の脚注です。
+
+[^bignote]: これは複数の段落とコードを含む脚注です。
+
+    段落をインデントして脚注に含めます。
+
+    `{ my code }`
+
+    好きなだけ段落を追加できます。
+```
+
+### レンダリング例
+
+Markdownソースでは、参照されたテキストに注釈が作成されます。
+
+```markdown
+注釈は追加の文脈を提供します[^annotation-example]。
+
+[^annotation-example]: 「追加の文脈」にカーソルを合わせると、この注釈を読めます。
+```
+
+次のようにレンダリングされます。注釈付きテキストにカーソルを合わせると、注釈をプレビューできます。
+
+注釈は追加の文脈を提供します。[^1]
+
+## 画像
+
+インライン画像は、ページ上でテキストと並んで表示されます。
+
+デフォルトでは、画像は元のサイズに設定され、最大幅は300pxです。画像をクリックして書式設定パレットを開き、次の3つのオプションのいずれかを選択するとサイズを変更できます。
+
+1. <strong>インラインサイズ:</strong> 画像はフォントに比例したサイズになります。アイコンやバッジに最適です。
+2. <strong>元のサイズ:</strong> 画像は元のサイズのままインライン表示され、最大幅は300ピクセルです。
+3. <strong>ブロックに変換:</strong> これにより、インライン画像がコンテンツと同じ幅の画像ブロックに変換されます。
+
+<Callout kind="info">
+  画像ブロックには、より多くのサイズオプションやキャプションを追加する機能などがありますが、テキストとインラインで表示されません。
+</Callout>
+
+### Markdownでの表記
+
+```markdown
+インライン画像の例: <img src=".gitbook/assets/GitBook - Dark.jpg" alt="GitBookロゴのダークバージョン" data-size="line">
+```
+
+次のようにレンダリングされます: インライン画像の例: <Image src="https://test-dai.imgix.net/org-4afef969-21f9-40f3-b5b8-b06c8b6cf68f/doc-22a3b060-9539-4176-97e4-49120e02f5d1/69b1d06ab8cca249-spaces-NkEGS7hzeqa35sMXQZ4X-uploads-QcBDNerKxNvi1X3Jnk2R-26_01_22_inline-palette.png?fm=auto&auto=compress%2Cformat" alt="GitBook logo" />
+
+## 絵文字
+
+絵文字を追加するには、 `/` を入力してインラインパレットを開きます。または、 `:` と入力すると、絵文字のリストがその場にポップアップ表示されます。絵文字の名前を入力し始めると、選択肢を絞り込めます。
+
+### Markdownでの表記
+
+```markdown
+:house:
+:smile:
+:dog:
+```
+
+次のようにレンダリングされます: 🏠 😄 🐶  
+
+## リンク
+
+3種類のリンクを挿入できます:
+
+- [相対リンク](#relative-links)
+- [絶対リンク](#absolute-links)
+- [メールアドレス `mailto` リンク](#email-address-mailto-links)
+
+### 相対リンク
+
+相対リンクは、セクション内にすでに存在するページへリンクして作成するリンクです。相対リンクを使用する利点は、ページのURL、名前、または場所が変更されても参照先が最新の状態に保たれるため、リンク切れが少なくなることです。
+
+相対リンクを挿入する方法は次のとおりです:
+
+1. リンクを挿入したい段落内の位置をクリックするか、テキストを選択します。
+2. / を入力してインラインパレットを開き、「リンク」を選択するか、コンテキストメニューの **リンク** ボタンをクリックするか、 <strong>⌘ + K</strong>.
+3. リンク先にしたいページのタイトルを入力し始めます。
+4. ドロップダウンの検索結果からページを選択します。
+5. 次を押します `Enter`.
+
+### 絶対リンク
+
+絶対リンクは、コンテンツにコピー＆ペーストできる外部リンクです。ドキュメント外のコンテンツにリンクしたい場合に便利です。
+
+絶対リンクを挿入するには:
+
+1. リンクを挿入したい段落内の位置をクリックするか、テキストを選択します。
+2. / を入力してインラインパレットを開き、「リンク」を選択するか、コンテキストメニューの **リンク** ボタンをクリックするか、 <strong>⌘ + K</strong>.
+3. リンク先のURLを貼り付けます。
+4. 次を押します `Enter`.
+
+<Callout kind="info">
+  <strong>外部リンクが新しいタブで開かれないのはなぜですか？</strong>
+
+  ドキュメント内で外部サイトへのリンクを追加すると、同じタブで開きます。
+
+  GitBookは、 [W3C推奨の動作](https://www.w3.org/TR/WCAG20-TECHS/G200.html) に従い、 [アクセシビリティ](https://it.wisc.edu/learn/make-it-accessible/websites-and-web-applications/when-to-open-links-in-a-new-tab/) をサポートし、読者に一貫性のある包括的な体験を提供します。
+</Callout>
+
+### メールアドレスのmailtoリンク
+
+メールアドレス `mailto` リンクは、訪問者がリンクをクリックするとデフォルトのメールクライアントが開き、】【t\_9b982e59】 `宛先` フィールドにリンクのメールアドレスが入力され、そのアドレスへメールを作成できるようにしたい場合に便利です。
+
+メールアドレス `mailto` リンクを挿入する方法:
+
+1. リンクを挿入したい段落内の位置をクリックするか、テキストを選択します。
+2. / を入力してインラインパレットを開き、「リンク」を選択するか、コンテキストメニューの **リンク** ボタンをクリックするか、 <strong>⌘ + K</strong>.
+3. 次を貼り付けるか入力します `mailto:something@address.com`。このとき、 `something@address.com` を使用したいメールアドレスに置き換えます。
+4. 次を押します `Enter`.
+
+### Markdownでの表記
+
+```markdown
+[これはこのセクション内の別ページへの相対リンクです](../content-structure/page.md)
+[これは絶対リンクです](https://www.gitbook.com/blog)
+[これはリンクです](mailto:support@gitbook.com) サポート用メールアドレスへの
+```
+
+次のようにレンダリングされます:
+
+[これはこのセクション内の別ページへの相対リンクです](/ja/docs/kontentsuwo/content-structure)<br />[これは絶対リンクです](https://www.gitbook.com/blog)<br />[これはリンクです](mailto:support@gitbook.com) サポート用メールアドレスへの
+
+## 数式とTeX
+
+このオプションを使用すると、コンテンツ内にインライン数式を作成できます。数式のレンダリングには [KaTeX](https://katex.org/docs/supported.html) ライブラリを使用しています。
+
+<Callout kind="info">
+  空のブロックでコマンドパレットを開き、2番目の「数式とTeX」オプションを選択すると、ブロックレベルの数式も挿入できます。
+</Callout>
+
+### Markdownでの表記
+
+```markdown
+これはインライン数式です: $$f(x) = x * e^{2 pi i \xi x}$$
+```
+
+次のようにレンダリングされます: これはインライン数式です: $$f(x) = x * e^&#123;2 pi i \\xi x&#125;$$
+
+## ボタン
+
+ボタンは、行動喚起を目立たせたり、ドキュメントに検索バーやAIに質問バーを追加したりする優れた方法です。読者を別の場所へ誘導したり、回答を見つける手助けをしたりできます。
+
+### ボタンのアクション
+
+ボタンはURLへのリンク以外にも使用できます。ページから直接、ボタンを検索バーまたはGitBook Assistantに質問するバーに変えられます。これらのアクションは公開済みページでも機能します。以下の例で確認できます。
+
+次のアクションを設定できます:
+
+#### **リンクボタンを追加する**
+
+読者を別のページまたは外部URLに移動させます:[Assistantについて詳しく見る](/ja/docs/notamenoai/gitbook-ai-assistant)
+
+#### **検索バーを追加する**
+
+任意の事前設定クエリで検索を開きます: 
+
+#### **AIに質問/GitBook Assistantバーを追加する**
+
+任意の事前設定プロンプトでGitBook Assistantを開きます: 
+
+#### **無効なボタンを追加する**
+
+意図的に無効化されたボタンを表示します:[無効なボタン](/ja/docs/kontentsuwo/formatting/inline)
+
+### ボタンを作成して設定する
+
+1. 次を入力します `/` を選択します **ボタン**.
+2. ボタンをクリックして、 **ラベル** メニューを開きます。
+3. アクションを選択し、ラベルとスタイルを設定します。
+4. 任意: 事前設定の検索クエリまたはAssistantプロンプトを追加します。
+
+### スタイル
+
+リンクボタンと無効なボタンには、プライマリとセカンダリの両方のスタイルがあります。以下にいくつか例を示します:
+
+[GitBookに登録](https://app.gitbook.com/join) [ページ上部へ移動](#annotations)
+
+### Markdownでの表記
+
+```markdown
+<a href="https://app.gitbook.com" class="button primary">GitBook</a>
+```
+
+次のようにレンダリングされます: [GitBook](https://app.gitbook.com)
+
+## アイコン
+
+アイコンは、段落、カード、その他のコンテンツに視覚的な文脈を加えます。カスタマイズ設定で定義したビジュアルスタイルが使用されます。
+
+次を使用します `<i>` 要素にアイコン名の両方の形式を指定します。Font Awesomeのクラスとトークンは一致する必要があります:
+
+```markdown
+<i class="fa-rocket">:rocket:</i>
+```
+
+アイコン名を次から選択します [Font Awesomeアイコンピッカー](https://fontawesome.com/search)。サポートされていない名前は、レンダリングされなかったり、Git Syncで保持されなかったりする場合があります。
+
+   
+
+### Markdownでの表記
+
+```markdown
+<i class="fa-github">:github:</i>
+```
+
+次のようにレンダリングされます: 
+
+## 式
+
+式を使用すると、変数で定義されたコンテンツを動的に表示できます。式は次の場所から挿入できます: `/` メニュー。挿入後に式をクリックすると式エディターが表示され、変数を参照して [条件付きで書式設定](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Conditional_operator) できます。
+
+### Markdownでの表記
+
+```markdown
+<code class="expression">page.vars.inlineExampleProduct</code>へようこそ。
+```
+
+次のようにレンダリングされます: ようこそ `page.vars.inlineExampleProduct`.
+
+[^1]: これは注釈です。

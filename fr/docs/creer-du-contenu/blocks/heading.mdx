@@ -1,0 +1,54 @@
+---
+title: Titres
+description: Ajoutez des blocs de titre à une page pour organiser votre contenu et améliorer le SEO
+metaTitle: Titres | GitBook Documentation
+ogImage: https://test-dai.imgix.net/org-4afef969-21f9-40f3-b5b8-b06c8b6cf68f/doc-22a3b060-9539-4176-97e4-49120e02f5d1/0a5a1a9630785855-organizations-d8f63b60-89ae-11e7-8574-5927d48c4877-sites-site_p4Xo4-socialprevie.jpg?fm=auto&auto=compress%2Cformat
+---
+
+Les titres aident à donner une structure à vos documents — et l'utilisation de mots-clés dans les titres aidera également les moteurs de recherche à comprendre cette structure, ce qui peut aider votre page à mieux se classer dans les résultats de recherche.
+
+GitBook propose trois niveaux de titres. Les niveaux de titre 1 (H1) et 2 (H2) apparaîtront dans le [plan de la page](/fr/docs/reference/gitbook-ui#page-outline).
+
+### Liens d'ancrage
+
+Lorsque vous ajoutez un titre à une page, cela crée un lien d'ancrage. Vous pouvez ensuite créer un lien direct vers ces sections spécifiques afin d'orienter les personnes vers les informations pertinentes.
+
+#### Lien vers une ancre
+
+Vous pouvez voir les liens d'ancrage dans le contenu public, ou dans le contenu privé en mode lecture seule, en survolant le titre puis en cliquant sur le `#` qui apparaît à côté. Cela mettra à jour l'URL dans la barre supérieure de votre navigateur, afin que vous puissiez la copier pour l'utiliser ailleurs.
+
+Si vous souhaitez créer un lien vers une ancre particulière depuis une page de votre section, vous pouvez utiliser un [lien relatif](/fr/docs/creer-du-contenu/formatting/inline#relative-links), qui se mettra à jour si vous modifiez le titre afin d'éviter que le lien ne soit rompu.
+
+#### Modifier une ancre
+
+Par défaut, le lien d'ancrage sera identique au texte de votre en-tête. Si vous prévoyez de créer un lien vers cette URL en dehors de GitBook, modifier l'en-tête ultérieurement rompra le lien d'ancrage. Le lien mènera alors les visiteurs en haut de la page, plutôt qu'à l'emplacement de l'ancre.
+
+Pour éviter cela, vous pouvez définir manuellement le lien d'ancrage en ouvrant le **menu Options** <Image src="https://test-dai.imgix.net/org-4afef969-21f9-40f3-b5b8-b06c8b6cf68f/doc-22a3b060-9539-4176-97e4-49120e02f5d1/4c115a43418b42e3-spaces-NkEGS7hzeqa35sMXQZ4X-uploads-aS1QvPIBVYwhpFTGcPBN-options-menu.svg?rasterize-bypass=true" alt="The Options menu icon in GitBook" /> pour l'en-tête, puis en choisissant **Modifier l'ancre**. Vous pouvez ensuite saisir le lien d'ancrage que vous souhaitez utiliser — il restera l'ancre même si vous modifiez l'en-tête lui-même.
+
+### Représentation en Markdown
+
+GitBook génère des pages optimisées pour le SEO, ce qui signifie que les titres de page dans GitBook sont automatiquement représentés en markdown comme un titre de premier niveau :
+
+```markdown
+# Je suis un titre de page
+```
+
+Cela signifie que si vous [synchronisez votre contenu avec Git](/fr/docs/la-documentation-comme-code/git-sync), les en-têtes de page ajoutés via l'éditeur seront représentés d'un niveau inférieur :
+
+```markdown
+## Mon titre 1
+### Mon titre 2
+#### Mon titre 3
+```
+
+### Exemples de titres
+
+## Mon titre 1
+
+### Mon titre 2
+
+#### Mon titre 3
+
+<Callout kind="info">
+  Les titres de page sont distincts des blocs de titres dans le corps de la page. Si vous masquez le titre de page dans **Options de page**, vos titres H1, H2 et H3 apparaissent toujours.
+</Callout>

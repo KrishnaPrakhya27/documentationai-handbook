@@ -1,0 +1,186 @@
+---
+title: Dépannage
+description: Résolvez les problèmes courants de Git Sync, de dépôt, de redirections et de connexion
+metaTitle: Dépannage | GitBook Documentation
+ogImage: https://test-dai.imgix.net/org-4afef969-21f9-40f3-b5b8-b06c8b6cf68f/doc-22a3b060-9539-4176-97e4-49120e02f5d1/0a5a1a9630785855-organizations-d8f63b60-89ae-11e7-8574-5927d48c4877-sites-site_p4Xo4-socialprevie.jpg?fm=auto&auto=compress%2Cformat
+---
+
+Utilisez ces solutions pour résoudre les problèmes courants de synchronisation Git et de dépôt. Développez un sujet pour trouver les vérifications pertinentes et les prochaines étapes.
+
+### Erreurs de synchronisation et accès
+
+<Expandable title="Erreur lors de l’envoi vers un dépôt avec une branche protégée">
+  Cette erreur se produit lorsque votre branche Git est protégée :
+
+  ```
+  Erreur : autorisations manquantes pour pousser vers la branche protégée refs/heads/main. Vérifiez la configuration de votre branche chez votre fournisseur Git.
+  ```
+
+  Git Sync nécessite que l’application GitBook puisse pousser des modifications vers votre dépôt sans restrictions, y compris pendant la configuration. Autorisez l’application GitBook à contourner les protections de branche pour que la synchronisation fonctionne.
+
+  GitBook prend en charge ces protections de branche, à condition que l’application soit autorisée à les contourner :
+
+  - Exiger une pull request avant la fusion
+  - Restreindre qui peut pousser vers les branches correspondantes
+
+  Dans GitHub, ouvrez les paramètres de protection des branches de votre dépôt et autorisez `gitbook-com` à contourner ces restrictions.
+</Expandable>
+
+<Expandable title="L’état de Git Sync affiche une erreur inattendue">
+  <strong>Si l’erreur est apparue lors de la fusion d’une demande de changement dans GitBook :</strong> créez une nouvelle demande de changement avec une petite modification — par exemple l’ajout d’un mot — puis fusionnez-la. Cela relance la synchronisation et GitBook exporte tout le contenu à nouveau, y compris les modifications issues de la synchronisation ayant échoué.
+
+  <strong>Si l’erreur est apparue lors de la fusion d’un commit provenant de GitHub ou GitLab :</strong> créez un nouveau commit dans votre dépôt avec une petite modification. Lors de sa fusion, GitBook importe à nouveau tout le contenu du dépôt, y compris les modifications issues de la synchronisation ayant échoué.
+
+  <strong>Si l’erreur est apparue lors de la configuration initiale :</strong> supprimez l’intégration GitHub ou GitLab, réactivez-la dans votre section, puis recommencez le processus de configuration.
+
+  Si aucune de ces étapes n’aide, [contactez l’assistance](/fr/docs/aide/contact-support).
+</Expandable>
+
+<Expandable title="Échec de l’authentification Git">
+  Ce message apparaît lorsque vous essayez de pousser vers un dépôt qui n’a pas accordé l’accès à GitBook. Dans ce cas, la synchronisation de votre dépôt vers GitBook fonctionne, mais pas l’inverse — et vos dépôts peuvent ne pas s’afficher correctement.
+
+  Pour GitHub, accordez l’accès dans vos paramètres GitHub : ouvrez **Gérer l’organisation → Intégrations → Applications**, cliquez sur **Configurer** à côté de GitBook, puis sélectionnez les dépôts auxquels l’application GitBook peut accéder.
+
+  Pour GitLab, assurez-vous que votre jeton d’accès est configuré avec `api`, `read_repository`, et `write_repository` l’accès.
+</Expandable>
+
+<Expandable title="L’aperçu GitHub ne s’affiche pas">
+  Si votre aperçu GitHub ne s’affiche pas, c’est peut-être parce que votre intégration GitSync a été configurée avant janvier 2022. Les versions de GitSync configurées avant cette date n’incluent pas l’aperçu GitHub.
+
+  Vous auriez dû recevoir une notification vous demandant d’accepter une demande d’autorisation mise à jour afin d’activer l’accès en lecture seule aux PR.
+
+  Si vous n’avez pas reçu la notification, pour résoudre le problème vous devez passer à la nouvelle version :
+
+  1. Désinstallez l’intégration GitSync de votre organisation.
+  2. Réinstallez la nouvelle version avec les autorisations mises à jour.
+
+  Notez que la désinstallation de l’intégration GitSync nécessitera de reconfigurer l’intégration sur toutes les sections auxquelles elle était précédemment connectée.
+</Expandable>
+
+### Contenu et structure du dépôt
+
+<Expandable title="Limitations de taille des fichiers Git Sync">
+  Git Sync limite la taille de chaque fichier à un maximum de 100 Mo. Pour améliorer les performances et la vitesse de synchronisation, optimisez la taille des fichiers et des ressources dans votre dépôt.
+</Expandable>
+
+<Expandable title="Ma table des matières n’est pas correctement structurée">
+  Votre `SUMMARY.md` fichier reflète votre table des matières sur GitBook — sa structure se reflète dans votre contenu. Assurez-vous que le fichier reflète la structure que vous souhaitez voir dans votre documentation. Voir [Configuration du contenu](/fr/docs/la-documentation-comme-code/git-sync/content-configuration#summary) pour le format attendu.
+</Expandable>
+
+<Expandable title="Mes liens vers un autre espace renvoient une erreur 404 après avoir modifié gitbook-docs.yaml">
+  Les liens entre espaces se résolvent via les identifiants d’espace. Git Sync identifie chaque espace dans `gitbook-docs.yaml` par sa `clé`, donc changer la clé d’un espace remplace cet espace : GitBook en crée un nouveau, y importe votre contenu depuis le répertoire associé, et laisse l’espace d’origine dans votre organisation, détaché du site.
+
+  Vos pages réapparaissent, mais l’ID de l’espace change. Les liens, les cartes et `SUMMARY.md` les entrées qui pointent vers l’ancien ID cessent de fonctionner.
+
+  Le nouvel ID est permanent. Restaurer la clé d’origine ne fait pas revenir l’ancien — cela crée un autre nouvel espace avec un autre nouvel ID. Redirigez les références concernées vers l’espace actuel, et ajoutez [des redirections de site](/fr/docs/publier/site-redirects) pour les URL publiées qui ont changé.
+
+  L’espace d’origine est toujours dans votre organisation si vous avez besoin d’un élément qui ne se trouve pas dans votre dépôt. [Contactez l’assistance](/fr/docs/aide/contact-support) avec l’ID de l’espace d’origine si vous ne le trouvez pas.
+</Expandable>
+
+<Expandable title="Git Sync synchronise-t-il aussi les pull requests ?">
+  Non. Créer une pull request dans GitHub ou GitLab ne crée pas une demande de changement dans GitBook, et créer une demande de changement dans GitBook ne crée pas une pull request dans votre dépôt.
+</Expandable>
+
+### Problèmes courants de Git Sync
+
+<Expandable title="J’ai une erreur de synchronisation GitHub">
+  #### Créez des fichiers README dans votre dépôt
+
+  Lorsque Git Sync est activé, veillez à ne pas créer de fichiers readme via l’interface GitBook. Créer des fichiers readme via l’interface GitBook :
+
+  - Crée des fichiers README en double dans votre dépôt
+  - Provoque des conflits de rendu entre GitBook et GitHub
+  - Peut interrompre les builds et les processus de déploiement
+  - Entraîne une priorité imprévisible des fichiers
+
+  Cela inclut les fichiers nommés README.md, readme.md, Readme.md et README (sans extension). À la place, n’oubliez pas de gérer votre fichier README directement dans votre dépôt git.
+
+  #### Vous rencontrez toujours des erreurs ?
+
+  Assurez-vous que :‌
+
+  - Votre dépôt **contient un** `README.md` **fichier** à sa racine (ou dans le `dossier racine` spécifié dans votre `.gitbook.yaml`) et qui a été créé directement dans votre dépôt git. Ce fichier est requis et sert de page d’accueil à votre documentation. Pour plus de détails, consultez notre [configuration du contenu](/fr/docs/la-documentation-comme-code/git-sync/content-configuration).
+  - Si vous avez des en-têtes YAML dans vos fichiers Markdown, assurez-vous qu’ils sont valides à l’aide d’un [outil de lint](http://www.yamllint.com).​
+</Expandable>
+
+<Expandable title="GitBook n’utilise pas mon docs dossier">
+  Par défaut, GitBook utilise la racine du dépôt comme point de départ. Un répertoire spécifique peut être défini pour restreindre la portée des fichiers Markdown. Consultez notre documentation sur [configuration du contenu](/fr/docs/la-documentation-comme-code/git-sync/content-configuration) pour plus de détails.‌
+</Expandable>
+
+<Expandable title="GitBook crée de nouveaux fichiers Markdown">
+  **Lors de la synchronisation et de l’édition depuis GitBook** avec un dépôt Git existant, GitBook peut créer de nouveaux fichiers Markdown au lieu d’utiliser ceux qui existent déjà.‌ Cela est fait pour s’assurer que GitBook n’écrase pas les fichiers qui existaient déjà dans votre dépôt.
+</Expandable>
+
+<Expandable title="Les redirections ne fonctionnent pas correctement">
+  Le fichier YAML doit être correctement formaté pour que les redirections fonctionnent. Des erreurs telles qu’une indentation incorrecte ou des espaces blancs peuvent empêcher vos redirections de fonctionner. [Valider votre fichier YAML](https://www.yamllint.com/) peut garantir que les redirections fonctionneront correctement.
+
+  Lors de la configuration des redirections, n’ajoutez pas de slash initial. Par exemple, essayer de rediriger vers `./misc/support.md` ne fonctionnera pas.
+
+  Il est également important de tenir compte du fait que tant qu’une page existe pour un chemin, GitBook ne recherchera pas une éventuelle redirection. Donc, si vous configurez une redirection d’une ancienne page vers une nouvelle, vous devrez supprimer l’ancienne page pour que la redirection fonctionne.
+</Expandable>
+
+<Expandable title="Mon dépôt n’est pas répertorié">
+  #### Dépôts GitHub
+
+  Assurez-vous d’avoir installé l’application GitBook GitHub aux bons emplacements (lors de l’installation de l’application, vous pouvez choisir de l’installer sur votre GitHub personnel ou dans toute organisation pour laquelle vous avez des autorisations) et d’avoir accordé à l’application les autorisations de dépôt appropriées.
+
+  #### Dépôts GitLab
+
+  Assurez-vous que votre jeton d’accès a été configuré avec les accès suivants :
+
+  - `api`
+  - `read_repository`
+  - `write_repository`
+</Expandable>
+
+<Expandable title="Rien ne se passe après l’ajout d’un fichier à mon dépôt">
+  <Callout kind="alert">
+    **Cette section traite spécifiquement des problèmes lorsqu’un `SUMMARY.md` fichier existe déjà**
+
+    Si votre dépôt n’inclut pas de `SUMMARY.md` fichier, GitBook en créera automatiquement un lors de la première synchronisation. Cela signifie que si vous avez modifié votre contenu depuis GitBook au moins une fois après avoir configuré la synchronisation Git, GitBook aurait dû créer ce fichier automatiquement.‌
+  </Callout>
+
+  Si, après avoir mis à jour votre dépôt en ajoutant ou en modifiant un fichier Markdown, vous ne voyez pas la mise à jour reflétée dans GitBook et que la barre latérale n’indique pas d’erreur pendant la synchronisation, votre/vos fichier(s) modifié(s) n’est probablement pas répertorié dans [votre `SUMMARY.md` fichier](/fr/docs/la-documentation-comme-code/git-sync/content-configuration#summary).‌
+
+  Cela peut être soit parce que vous avez créé le fichier manuellement, soit parce que vous avez effectué une modification dans GitBook et que la phase d’export de GitBook vers Git de la synchronisation l’a créé pour vous.
+
+  Le contenu de ce fichier reflète votre [table des matières](/fr/docs/reference/gitbook-ui#table-of-contents) sur GitBook et est utilisé pendant la phase d’import de Git vers GitBook de la synchronisation pour recréer votre table des matières et réconcilier les prochaines mises à jour du dépôt avec votre contenu existant sur GitBook.‌
+
+  Si, après vous être assuré que tous vos fichiers sont inclus dans le `SUMMARY.md` fichier, rien ne se passe toujours dans GitBook, n’hésitez pas à [contactez l’assistance](/fr/docs/aide/contact-support) demander de l’aide.
+</Expandable>
+
+<Expandable title="J’ai des comptes en double lors de la connexion">
+  Cette erreur se produit généralement lorsque le compte GitHub que vous utilisez pour configurer la synchronisation est déjà associé à un autre compte utilisateur GitBook.
+
+  Une bonne façon d’identifier à quel compte GitBook le compte GitHub est déjà lié est la suivante :
+
+  1. Déconnectez-vous de votre session utilisateur GitBook actuelle (c.-à-d. `name@email.com`)
+  2. Déconnectez-vous de toutes les sessions utilisateur GitHub.
+  3. Accédez à [la page de connexion](https://app.gitbook.com/login).
+  4. Sélectionnez l’option « Se connecter avec GitHub ».
+  5. Saisissez vos identifiants GitHub.
+  6. Une fois connecté, allez dans [les paramètres du compte](https://app.gitbook.com/account) et soit :
+
+     1. Dissociez le compte depuis la section « Connexion tierce > GitHub » dans les paramètres personnels
+     2. Supprimez complètement le compte si vous n’en avez pas besoin.
+  7. Déconnectez-vous de la session.
+  8. Reconnectez-vous en utilisant votre `name@email.com` compte GitBook.
+  9. Essayez de configurer Git Sync à nouveau.
+</Expandable>
+
+<Expandable title="Des fichiers non sûrs bloquent Git Sync">
+  Git Sync peut échouer si votre espace contient des fichiers que GitBook considère comme non sûrs à exporter (par ex. `.js`).
+
+  Vous pouvez voir une erreur du type :
+
+  > `Le fichier « <filename> » ne peut pas être exporté car il est considéré comme non sûr`
+
+  Les fichiers non sûrs doivent être supprimés de l’espace GitBook, et pas seulement du dépôt Git.
+
+  1. Créez une demande de changement dans l’espace concerné
+  2. Ouvrez l’onglet **Fichiers** onglet
+  3. Supprimez le ou les fichiers non sûrs
+  4. Fusionnez la demande de changement
+
+  Une fois les fichiers non sûrs supprimés de l’espace, Git Sync devrait reprendre normalement.
+</Expandable>

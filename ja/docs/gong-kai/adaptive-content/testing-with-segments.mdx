@@ -1,0 +1,44 @@
+---
+title: セグメントでテストする
+description: モックデータを使って条件をテストします
+metaTitle: セグメントでテストする | GitBook Documentation
+ogImage: https://test-dai.imgix.net/org-4afef969-21f9-40f3-b5b8-b06c8b6cf68f/doc-22a3b060-9539-4176-97e4-49120e02f5d1/0a5a1a9630785855-organizations-d8f63b60-89ae-11e7-8574-5927d48c4877-sites-site_p4Xo4-socialprevie.jpg?fm=auto&auto=compress%2Cformat
+---
+
+セグメントを使うと、モックユーザーにクレームを定義することで、設定した条件をテストできます。
+
+たとえば、ベータユーザーにだけページやセクションを表示したい場合があります。セグメントを作成し、このモックユーザー समूहに関連付けられたプロパティを定義することで、対象ユーザーに特有のセグメントを再現できます。
+
+<Image src="https://test-dai.imgix.net/org-4afef969-21f9-40f3-b5b8-b06c8b6cf68f/doc-22a3b060-9539-4176-97e4-49120e02f5d1/09f2f02ae70b973f-spaces-NkEGS7hzeqa35sMXQZ4X-uploads-YrErMp571tYPUN2RzJJ0-26_01_06_segment_editor.png?fm=auto&auto=compress%2Cformat" alt="A GitBook screenshot showing the segment editor" caption="GitBook のセグメントエディター。" />
+
+### セグメントを作成する
+
+新しいセグメントを作成するには、条件エディターを開き、設定アイコンをクリックします <Image src="https://test-dai.imgix.net/org-4afef969-21f9-40f3-b5b8-b06c8b6cf68f/doc-22a3b060-9539-4176-97e4-49120e02f5d1/ba76c24cf90e5026-spaces-NkEGS7hzeqa35sMXQZ4X-uploads-wkBqgOPry9HAcW4cxJk0-settings.svg?rasterize-bypass=true" alt="The Settings icon in GitBook" /> セグメントのドロップダウンにある既存のセグメントの横の
+
+ここでは、モックユーザーに表示されるデータを定義できます。これは表現されるデータであるため、 `visitor.claims` キーは省略されます。
+
+#### 例
+
+ドキュメントの例に従ってベータユーザー向けのセグメントを作成するには、新しいセグメントを作成し、次のデータを追加します。
+
+```json
+{
+  "isBetaUser": true
+}
+```
+
+条件エディターに戻って、作成したベータセグメントを選択すると、表示中のページが **になる** テストユーザーからアクセス可能であることが示されるはずです。
+
+<Image src="https://test-dai.imgix.net/org-4afef969-21f9-40f3-b5b8-b06c8b6cf68f/doc-22a3b060-9539-4176-97e4-49120e02f5d1/292d6a43e2c4df16-spaces-NkEGS7hzeqa35sMXQZ4X-uploads-pTHHKitlueFU97EuEi14-26_01_06_testing_segmen.png?fm=auto&auto=compress%2Cformat" alt="A GitBook screenshot showing how to test a segment" caption="GitBook でセグメントをテストする。" />
+
+### 検出されたセグメント
+
+検出されたセグメントを使うと、サイト訪問者から受け取っているクレームの種類を把握できます。
+
+これらのセグメントは編集できませんが、セグメントエディターからクレームをコピー＆ペーストして、独自のユーザーセグメントを作成できます。
+
+### プレビューでのセグメントのテスト
+
+セグメントエディターでセグメントをテストするだけでなく、サイトの変更を表示する際に、プレビュー内でセグメントをリアルタイムに使用できます。
+
+サイトのプレビューモードでは、左上のドロップダウンを使ってセグメントを選び、選択したセグメントでサイトがどのように表示されるかを確認してください。

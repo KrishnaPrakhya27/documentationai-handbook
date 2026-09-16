@@ -1,0 +1,95 @@
+---
+title: Configuration d’AWS Cognito
+description: Configurez un écran de connexion AWS Cognito pour les visiteurs de votre documentation
+metaTitle: Configuration d’AWS Cognito | GitBook Documentation
+ogImage: https://test-dai.imgix.net/org-4afef969-21f9-40f3-b5b8-b06c8b6cf68f/doc-22a3b060-9539-4176-97e4-49120e02f5d1/0a5a1a9630785855-organizations-d8f63b60-89ae-11e7-8574-5927d48c4877-sites-site_p4Xo4-socialprevie.jpg?fm=auto&auto=compress%2Cformat
+---
+
+<Callout kind="alert">
+  Ce guide vous explique comment configurer un écran de connexion protégé pour votre documentation. Avant de suivre ce guide, assurez-vous d’avoir d’abord suivi le processus de [l’activation de l’accès authentifié](/fr/docs/publier/site-audience/authenticated-access/enabling-authenticated-access).
+</Callout>
+
+Pour configurer votre site GitBook avec l’accès authentifié à l’aide d’AWS Cognito, le processus est le suivant :
+
+<Steps>
+  <Step title="Créer une nouvelle application AWS Cognito">
+    Créez une application AWS Cognito à partir de votre tableau de bord AWS.
+  </Step>
+
+  <Step title="Installer et configurer l’intégration AWS Cognito">
+    Installez l’intégration AWS Cognito et ajoutez la configuration requise.
+  </Step>
+
+  <Step title="Configurer AWS Cognito pour le contenu adaptatif (facultatif)">
+    Configurez AWS Cognito pour fonctionner avec le contenu adaptatif dans GitBook.
+  </Step>
+</Steps>
+
+### Créer une nouvelle application AWS Cognito
+
+Accédez au User Pool souhaité dans Cognito, puis cliquez sur Intégration de l’application. Notez le domaine Cognito, nous en aurons besoin pour configurer l’intégration.
+
+Faites défiler jusqu’en bas et cliquez sur « Create app client ». Pour le type d’application, sélectionnez « Confidential client. » Faites défiler jusqu’aux paramètres de l’interface utilisateur hébergée. Dans les Callback URLs autorisées, saisissez l’URL de callback que vous avez obtenue de GitBook lors de l’installation de l’intégration sur une section.
+
+Faites défiler plus bas jusqu’à « OAuth 2.0 grant types » — assurez-vous que « Authorization code grant » est sélectionné.
+
+Pour les « OpenID connect scopes », assurez-vous qu’OpenID est sélectionné.
+
+Faites défiler vers le bas et cliquez sur « Create app client ».
+
+Cliquez sur le client d’application créé et notez le Client ID et le Client Secret.
+
+### Installer et configurer l’intégration AWS Cognito
+
+Accédez aux intégrations dans l’application GitBook, sélectionnez l’accès authentifié comme catégorie, puis installez l’intégration AWS Cognito.
+
+<Image src="https://test-dai.imgix.net/org-4afef969-21f9-40f3-b5b8-b06c8b6cf68f/doc-22a3b060-9539-4176-97e4-49120e02f5d1/5df07994d99e5bac-spaces-NkEGS7hzeqa35sMXQZ4X-uploads-CZy21M4LIPwMVSxI3ec1-Screen-Shot-2024-12-13-.png?fm=auto&auto=compress%2Cformat" alt="A GitBook screenshot showing the AWS Cognito integration install screen" />
+
+Une fois installée sur votre site, allez dans la configuration et notez l’URL de callback juste au-dessus du bouton Enregistrer. Nous en aurons besoin pour configurer Cognito.
+
+Ouvrez l’écran de configuration de l’intégration Cognito pour la section sur laquelle vous avez installé l’intégration.
+
+Cela devrait ressembler à l’image suivante :
+
+<Image src="https://test-dai.imgix.net/org-4afef969-21f9-40f3-b5b8-b06c8b6cf68f/doc-22a3b060-9539-4176-97e4-49120e02f5d1/9e206b2321f0fdb8-spaces-NkEGS7hzeqa35sMXQZ4X-uploads-gy177CzFZiy6U4IntLUE-Screen-Shot-2024-12-13-.png?fm=auto&auto=compress%2Cformat" alt="A GitBook screenshot showing the AWS Cognito configuration screen" />
+
+Pour Client ID, Cognito Domain et Client Secret, collez les valeurs obtenues depuis Cognito.
+
+Cliquez sur Enregistrer.
+
+Maintenant, dans GitBook, fermez la fenêtre modale des intégrations et cliquez sur le bouton Gérer le site. Accédez à **Audience**, sélectionnez **Accès authentifié**, et choisissez Cognito comme backend. Ensuite, cliquez sur **Mettre à jour l’audience**. Allez sur l’écran du site et cliquez sur **Publier**.<br /><br />Le site est désormais publié derrière un accès authentifié contrôlé par votre application Auth0. Pour l’essayer, cliquez sur Visiter. Il vous sera demandé de vous connecter avec Cognito, ce qui confirme que votre site est publié derrière un accès authentifié à l’aide d’Auth0.
+
+### Configurer AWS Cognito pour le contenu adaptatif (facultatif)
+
+Pour tirer parti du contenu adaptatif avec l’accès authentifié dans GitBook, vous devrez configurer votre pool d’utilisateurs Amazon Cognito afin d’inclure des revendications personnalisées dans le jeton ID.
+
+Cela se fait généralement en créant un [déclencheur Lambda Cognito](https://docs.aws.amazon.com/cognito/latest/developerguide/user-pool-lambda-pre-token-generation.html)— plus précisément un *Pre Token Generation* Lambda — qui renvoie une charge utile JSON remplaçant ou ajoutant des revendications personnalisées. Ces revendications peuvent inclure des rôles d’utilisateur, des niveaux d’abonnement ou toute autre métadonnée pertinente pour votre contenu.
+
+Voici un exemple de ce à quoi cela pourrait ressembler :
+
+```javascript
+export const handler = async (event, context) => {
+  // Récupérer l’attribut utilisateur depuis la requête d’événement
+  const userAttributes = event.request.userAttributes;
+
+  // Ajouter des revendications supplémentaires à la réponse de l’événement
+  event.response = {
+    "claimsAndScopeOverrideDetails": {
+      "idTokenGeneration": {},
+      "accessTokenGeneration": {
+        "claimsToAddOrOverride": {
+          "products": ['api', 'sites', 'askAI'],
+          "isBetaUser": true,
+          "isAlphaUser": true,
+        }
+      }
+    }
+  };
+  // Renvoyer à Amazon Cognito
+  context.done(null, event);
+};
+```
+
+<Image src="https://test-dai.imgix.net/org-4afef969-21f9-40f3-b5b8-b06c8b6cf68f/doc-22a3b060-9539-4176-97e4-49120e02f5d1/793d12fae4e7cb8d-spaces-NkEGS7hzeqa35sMXQZ4X-uploads-wwKLiRUOJ27tjJCPc1Vd-Screenshot-2025-06-30-a.png?fm=auto&auto=compress%2Cformat" alt="" />
+
+Une fois ajoutées, ces paires clé-valeur sont incluses dans le jeton d’authentification et transmises à GitBook, ce qui permet à votre site d’adapter dynamiquement son contenu en fonction du profil de l’utilisateur authentifié.

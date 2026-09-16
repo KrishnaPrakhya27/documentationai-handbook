@@ -1,0 +1,85 @@
+---
+title: Intégration avec CI/CD
+description: Découvrez comment automatiser la mise à jour de votre spécification OpenAPI dans GitBook
+metaTitle: Intégration avec CI/CD | GitBook Documentation
+ogImage: https://test-dai.imgix.net/org-4afef969-21f9-40f3-b5b8-b06c8b6cf68f/doc-22a3b060-9539-4176-97e4-49120e02f5d1/0a5a1a9630785855-organizations-d8f63b60-89ae-11e7-8574-5927d48c4877-sites-site_p4Xo4-socialprevie.jpg?fm=auto&auto=compress%2Cformat
+---
+
+GitBook peut fonctionner avec n’importe quel pipeline CI/CD que vous utilisez déjà pour gérer votre spécification OpenAPI. En utilisant la CLI GitBook, vous pouvez automatiser les mises à jour de votre référence d’API.
+
+### Téléversez un fichier de spécification
+
+Si votre spécification OpenAPI est générée pendant votre processus CI, vous pouvez la téléverser directement depuis votre environnement de build :
+
+```bash
+# Définissez votre jeton API GitBook comme variable d’environnement
+export GITBOOK_TOKEN=<api-token>
+
+gitbook openapi publish \
+  --spec spec_name \
+  --organization organization_id \
+  example.openapi.yaml
+```
+
+### Définissez une nouvelle URL source ou lancez un rafraîchissement
+
+Si votre spécification OpenAPI est hébergée à une URL, GitBook vérifie automatiquement les mises à jour. Pour forcer une mise à jour (par exemple, après une version), exécutez :
+
+```bash
+# Définissez votre jeton API GitBook comme variable d’environnement
+export GITBOOK_TOKEN=<api-token>
+
+gitbook openapi publish \
+  --spec spec_name \
+  --organization organization_id \
+  https://api.example.com/openapi.yaml
+```
+
+### Mettez à jour votre spécification avec GitHub Actions
+
+Si vous configurez un workflow pour publier votre spécification OpenAPI, suivez ces étapes dans votre dépôt :
+
+1. Dans votre dépôt, allez à « Settings → Secrets and variables → Actions ».
+2. Ajoutez un secret : `GITBOOK_TOKEN` (votre jeton API GitBook).
+3. Ajoutez des variables (ou codez-les en dur dans le workflow) :
+
+   - `GITBOOK_SPEC_NAME` → le nom de votre spécification dans GitBook
+   - `GITBOOK_ORGANIZATION_ID` → l’ID de votre organisation GitBook
+4. Enregistrez le fichier de workflow sous `.github/workflows/gitbook-openapi-publish.yml`.
+5. Poussez les modifications vers « main » (ou exécutez le workflow manuellement).
+
+Vous pouvez ensuite utiliser cette action pour mettre à jour votre spécification :
+
+```yaml title=".github/workflows/gitbook-openapi-publish.yml"
+name: Publier OpenAPI sur GitBook
+
+on:
+  push:
+    branches: [ "main" ]
+    paths:
+      - "**/*.yaml"
+      - "**/*.yml"
+      - "**/*.json"
+  workflow_dispatch:
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    env:
+      # Secret requis
+      GITBOOK_TOKEN: ${{ secrets.GITBOOK_TOKEN }}
+      # Préférez les variables du dépôt/de l’organisation ; sinon, vous pouvez utiliser des chaînes en dur
+      GITBOOK_SPEC_NAME: ${{ vars.GITBOOK_SPEC_NAME }}
+      GITBOOK_ORGANIZATION_ID: ${{ vars.GITBOOK_ORGANIZATION_ID }}
+
+    steps:
+      - name: Récupérer le dépôt
+        uses: actions/checkout@v4
+
+      - name: Publier le fichier de spécification sur GitBook
+        run: |
+          npx -y @gitbook/cli@latest openapi publish \
+            --spec "$GITBOOK_SPEC_NAME" \
+            --organization "$GITBOOK_ORGANIZATION_ID" \
+            <path_to_spec>
+```

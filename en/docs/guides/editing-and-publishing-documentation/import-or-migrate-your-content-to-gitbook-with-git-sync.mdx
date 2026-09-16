@@ -1,0 +1,100 @@
+---
+title: Import or migrate your content to GitBook with Git Sync
+description: Easily import content from your previous documentation provider — or from GitHub or GitLab — using Git Sync in GitBook
+metaTitle: Import or migrate your content to GitBook with Git Sync | Guides | GitBook Documentation
+ogImage: https://test-dai.imgix.net/org-4afef969-21f9-40f3-b5b8-b06c8b6cf68f/doc-22a3b060-9539-4176-97e4-49120e02f5d1/0a5a1a9630785855-organizations-d8f63b60-89ae-11e7-8574-5927d48c4877-sites-site_p4Xo4-socialprevie.jpg?fm=auto&auto=compress%2Cformat
+---
+
+One of the best ways to import your content into GitBook is using [Git Sync](/en/docs/docs-as-code/git-sync). With Git Sync, you can choose to import a repository from either GitHub or GitLab, to add all your docs to a GitBook site in just a few minutes.
+
+<Tabs>
+  <Tab title="Import multiple sections">
+    Git Sync allows you to sync multiple spaces and folders of content into one GitBook site. 
+
+    <Steps>
+      <Step title="Create or open your site" titleType="h3">
+        Create a site and add each section to its navigation. Match each section to a directory in your repository.
+      </Step>
+
+      <Step title="Connect your repository" titleType="h3">
+        From your site dashboard, open **Git Sync** in the sidebar. Authenticate with GitHub or GitLab, then select your repository and branch.
+      </Step>
+
+      <Step title="Map your sections" titleType="h3">
+        Review the directory mapping for each section. Make sure every section points to the correct repository directory.
+      </Step>
+
+      <Step title="Choose the initial sync direction" titleType="h3">
+        Choose one of these directions:
+
+        - <strong>Repository → GitBook:</strong> Import content from the selected branch into your space.
+        - <strong>GitBook → repository:</strong> Export your space content to the selected branch.
+      </Step>
+
+      <Step title="Start and verify the sync" titleType="h3">
+        Click **Sync** to import your content. Confirm that each repository directory appears in the expected site section.
+      </Step>
+    </Steps>
+  </Tab>
+
+  <Tab title="Import a single section">
+    You can sync a single space of a GitBook site with a Git repository by following these steps:
+
+    <Steps>
+      <Step title="Open Git Sync" titleType="h3">
+        In your GitBook [space](/en/docs/create-content/content-structure/space), click **Set up Git Sync**.
+      </Step>
+
+      <Step title="Configure GitHub or GitLab" titleType="h3">
+        #### GitHub
+
+        Install the [GitBook app](https://github.com/apps/gitbook-com/installations/select_target) on GitHub. Grant access to selected repositories or all repositories.
+
+        In GitBook, authorize GitBook with GitHub and select the account that contains your content.
+
+        [https://files.gitbook.com/v0/b/gitbook-x-prod.appspot.com/o/spaces%2FLBGJKQic7BQYBXmVSjy0%2Fuploads%2Frz10Uj5T6eeDNw4zbQut%2Fgithub-sync-part-1.mp4?alt=media&token=d9a03db2-43b1-4766-8efb-ae73fc1654f9](https://files.gitbook.com/v0/b/gitbook-x-prod.appspot.com/o/spaces%2FLBGJKQic7BQYBXmVSjy0%2Fuploads%2Frz10Uj5T6eeDNw4zbQut%2Fgithub-sync-part-1.mp4?alt=media&token=d9a03db2-43b1-4766-8efb-ae73fc1654f9)
+
+        Authorize GitBook with GitHub and select the account that contains your content.
+
+        #### GitLab
+
+        In GitLab, select **Settings** → **Access Tokens**. Create a personal access token with these scopes:
+
+        - `api`
+        - `read_repository`
+        - `write_repository`
+
+        In GitBook, enter the token and click **Authenticate**.
+
+        [https://files.gitbook.com/v0/b/gitbook-x-prod.appspot.com/o/spaces%2FLBGJKQic7BQYBXmVSjy0%2Fuploads%2Fj5nRjt49RGbCcv85zpwD%2Fgitlab-sync.mp4?alt=media&token=243208a7-b54f-48c6-bfa4-33151ce88471](https://files.gitbook.com/v0/b/gitbook-x-prod.appspot.com/o/spaces%2FLBGJKQic7BQYBXmVSjy0%2Fuploads%2Fj5nRjt49RGbCcv85zpwD%2Fgitlab-sync.mp4?alt=media&token=243208a7-b54f-48c6-bfa4-33151ce88471)
+
+        Create a GitLab access token, then authenticate GitBook.
+      </Step>
+
+      <Step title="Select your repository and branch" titleType="h3">
+        Select the repository and branch that contain the section you want to import.
+
+        [https://files.gitbook.com/v0/b/gitbook-x-prod.appspot.com/o/spaces%2FLBGJKQic7BQYBXmVSjy0%2Fuploads%2FxhT2zohp0ulX3VptqL7Y%2Fgithub-sync-part-2.mp4?alt=media&token=719433fa-dc84-4b1e-a68e-c29656f9fa7e](https://files.gitbook.com/v0/b/gitbook-x-prod.appspot.com/o/spaces%2FLBGJKQic7BQYBXmVSjy0%2Fuploads%2FxhT2zohp0ulX3VptqL7Y%2Fgithub-sync-part-2.mp4?alt=media&token=719433fa-dc84-4b1e-a68e-c29656f9fa7e)
+
+        Select a repository and branch, then choose the initial sync direction.
+      </Step>
+
+      <Step title="Choose the initial sync direction" titleType="h3">
+        Choose one of these directions:
+
+        - <strong>Repository → GitBook:</strong> Import content from the selected branch into your space.
+        - <strong>GitBook → repository:</strong> Export your space content to the selected branch.
+      </Step>
+
+      <Step title="Start and verify the sync" titleType="h3">
+        Click **Sync** to start the initial sync. After it finishes, Git Sync keeps GitBook and your repository synchronized in both directions.
+      </Step>
+    </Steps>
+  </Tab>
+</Tabs>
+
+[<strong>→ How to find & replace or batch change with Git Sync</strong>](/en/docs/guides/editing-and-publishing-documentation/find-and-replace-or-make-batch-changes-across-your-gitbook-docs-with-git-sync)
+
+[<strong>→ Discover more about Git Sync on our website</strong>](https://www.gitbook.com/solutions/git-sync)
+
+[<strong>→ Read the Git Sync documentation</strong>](/en/docs/docs-as-code/git-sync)

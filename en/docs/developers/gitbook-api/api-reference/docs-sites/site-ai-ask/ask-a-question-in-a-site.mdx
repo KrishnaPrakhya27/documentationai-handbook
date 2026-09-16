@@ -1,0 +1,77 @@
+---
+title: Ask a question in a site
+metaTitle: Ask a question in a site | Developers | GitBook Documentation
+ogImage: https://test-dai.imgix.net/org-4afef969-21f9-40f3-b5b8-b06c8b6cf68f/doc-22a3b060-9539-4176-97e4-49120e02f5d1/0a5a1a9630785855-organizations-d8f63b60-89ae-11e7-8574-5927d48c4877-sites-site_p4Xo4-socialprevie.jpg?fm=auto&auto=compress%2Cformat
+---
+
+The response is streamed.
+
+**POST** `/orgs/{organizationId}/sites/{siteId}/ask`
+
+**Parameters**
+
+<ParamField header="Authorization" param-type="string" />
+
+<ParamField path="organizationId" param-type="string" required={true}>
+  The unique id of the organization
+</ParamField>
+
+<ParamField path="siteId" param-type="string" required={true}>
+  The unique id of the site
+</ParamField>
+
+<ParamField query="format" param-type="string" enum="document,markdown">
+  Output format for the content.
+</ParamField>
+
+**Request body**
+
+<ParamField body="question" param-type="string" required={true} />
+
+<ParamField body="context" param-type="object">
+  You may optionally provide additional information about the context of the question. This doesn't affect the scope of the search, but GitBook may use this information to provide a better answer. Generally speaking, you should provide as much context as possible.
+
+  <Expandable title="Object Properties">
+    <ParamField body="siteSpaceId" param-type="string" />
+
+    <ParamField body="goal" param-type="string">
+      The end goal the agent is trying to accomplish on behalf of the user. Unlike the immediate query, the goal describes the broader task or outcome the agent is working towards.
+    </ParamField>
+  </Expandable>
+</ParamField>
+
+<ParamField body="scope" param-type="string" required={true} />
+
+<ParamField body="session" param-type="object">
+  Identifiers for a GitBook site session, used for analytics and adaptive content.
+
+  <Expandable title="Object Properties">
+    <ParamField body="visitorId" param-type="string" required={true}>
+      GitBook's unique identifier of the visitor.
+    </ParamField>
+
+    <ParamField body="sessionId" param-type="string" required={true}>
+      GitBook's unique identifier of the visitor's session.
+    </ParamField>
+  </Expandable>
+</ParamField>
+
+**Responses**
+
+`200` OK
+
+<ResponseField name="type" field-type="string" required={true} enum="answer" />
+
+<ResponseField name="answer" field-type="object" required={true}>
+  Answer from AI for a question asked on a content.
+
+  <Expandable title="Object Properties">
+    <ResponseField name="answer" field-type="string" />
+
+    <ResponseField name="followupQuestions" field-type="string[]" required={true} />
+
+    <ResponseField name="sources" field-type="string[]" required={true}>
+      The sources used to generate the answer.
+    </ResponseField>
+  </Expandable>
+</ResponseField>

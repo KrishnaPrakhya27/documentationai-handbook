@@ -1,0 +1,80 @@
+---
+title: Encadrés
+description: Ajoutez un encadré à une page pour attirer l’attention de vos lecteurs sur des informations importantes spécifiques.
+metaTitle: Encadrés | GitBook Documentation
+ogImage: https://test-dai.imgix.net/org-4afef969-21f9-40f3-b5b8-b06c8b6cf68f/doc-22a3b060-9539-4176-97e4-49120e02f5d1/0a5a1a9630785855-organizations-d8f63b60-89ae-11e7-8574-5927d48c4877-sites-site_p4Xo4-socialprevie.jpg?fm=auto&auto=compress%2Cformat
+---
+
+Les encadrés, ou callouts, sont un excellent moyen d’attirer l’attention du lecteur sur des éléments spécifiques de votre documentation, tels que des conseils, des avertissements et d’autres informations importantes.
+
+Il existe quatre styles d’encadré différents — vous pouvez changer le style en ouvrant le **menu Options** <Image src="https://test-dai.imgix.net/org-4afef969-21f9-40f3-b5b8-b06c8b6cf68f/doc-22a3b060-9539-4176-97e4-49120e02f5d1/4c115a43418b42e3-spaces-NkEGS7hzeqa35sMXQZ4X-uploads-aS1QvPIBVYwhpFTGcPBN-options-menu.svg?rasterize-bypass=true" alt="The Options menu icon in GitBook" /> du bloc et en sélectionnant le style souhaité. Chaque style utilise une icône par défaut, mais vous pouvez personnaliser l’icône en cliquant dessus et en en choisissant une autre dans [notre jeu d’icônes](/fr/docs/creer-du-contenu/formatting/inline#icons).
+
+Les blocs d’encadré prennent en charge [le contenu en ligne](/fr/docs/creer-du-contenu/formatting/inline) et [la mise en forme](/fr/docs/creer-du-contenu/formatting), ainsi que certains types de blocs spécifiques. Pour voir quels types de blocs vous pouvez utiliser dans un encadré, appuyez sur `/` sur une ligne vide et consultez la [palette d’insertion](/fr/docs/creer-du-contenu/blocks#inserting-a-new-content-block).
+
+### Exemples de blocs d’encadré
+
+<Callout kind="info">
+  **Les encadrés d’information** sont parfaits pour afficher des informations générales ou fournir des conseils et astuces.
+</Callout>
+
+<Callout kind="success">
+  **Les encadrés de succès** sont utiles pour afficher des actions positives ou des réussites.
+</Callout>
+
+<Callout kind="alert">
+  **Les encadrés d’avertissement** sont utiles pour afficher des informations importantes ou des avertissements non critiques.
+</Callout>
+
+<Callout kind="danger">
+  **Les encadrés de danger** sont utiles pour mettre en évidence des actions destructrices ou attirer l’attention sur des informations critiques.
+</Callout>
+
+<Callout kind="info">
+  Ce bloc d’encadré a une icône personnalisée.
+</Callout>
+
+<Callout kind="info">
+  #### **Ceci est un titre H2**
+
+  Ceci est une ligne
+
+  Ceci est une image en ligne <Image src="https://test-dai.imgix.net/org-4afef969-21f9-40f3-b5b8-b06c8b6cf68f/doc-22a3b060-9539-4176-97e4-49120e02f5d1/1a24909b6a7822e5-spaces-NkEGS7hzeqa35sMXQZ4X-uploads-0FzoF68PAY3Rv297meNB-command.svg?rasterize-bypass=true" alt="The Apple computer command icon" /> image
+
+  - Ceci est une deuxième <mark>ligne utilisant une liste non ordonnée et la couleur</mark>
+</Callout>
+
+Pour ajouter un titre à votre encadré, vous devez créer un bloc de titre comme premier bloc de l’encadré.
+
+### Représentation en Markdown
+
+```markdown
+{% hint style="info" %}
+**Les encadrés d’information** sont parfaits pour afficher des informations générales ou fournir des conseils et astuces.
+{% endhint %}
+
+{% hint style="success" %}
+**Les encadrés de succès** sont utiles pour afficher des actions positives ou des réussites.
+{% endhint %}
+
+{% hint style="warning" %}
+**Les encadrés d’avertissement** sont utiles pour afficher des informations importantes ou des avertissements non critiques.
+{% endhint %}
+
+{% hint style="danger" %}
+**Les encadrés de danger** sont utiles pour mettre en évidence des actions destructrices ou attirer l’attention sur des informations critiques.
+{% endhint %}
+
+{% hint style="info" icon="books" %}
+Ce bloc d’encadré a une icône personnalisée.
+{% endhint %}
+
+{% hint style="info" %}
+## Ceci est un titre H2
+
+Ceci est une ligne
+
+Ceci est une image en ligne <img src="../../.gitbook/assets/25_01_10_command_icon_light.svg" alt="L’icône de commande de l’ordinateur Apple" data-size="line">
+
+- Ceci est une deuxième <mark style="color:orange;background-color:purple;">ligne utilisant une liste non ordonnée et la couleur</mark>
+{% endhint %}
+```

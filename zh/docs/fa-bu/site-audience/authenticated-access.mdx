@@ -1,0 +1,41 @@
+---
+title: 已认证访问
+description: 为你已发布的内容设置自定义身份验证
+metaTitle: 已认证访问 | GitBook Documentation
+ogImage: https://test-dai.imgix.net/org-4afef969-21f9-40f3-b5b8-b06c8b6cf68f/doc-22a3b060-9539-4176-97e4-49120e02f5d1/0a5a1a9630785855-organizations-d8f63b60-89ae-11e7-8574-5927d48c4877-sites-site_p4Xo4-socialprevie.jpg?fm=auto&auto=compress%2Cformat
+---
+
+受身份验证保护的访问允许您在发布内容的同时，要求任何想查看内容的访客进行身份验证。启用后，GitBook 会让您的身份验证提供方来决定谁可以访问内容。
+
+<Image src="https://test-dai.imgix.net/org-4afef969-21f9-40f3-b5b8-b06c8b6cf68f/doc-22a3b060-9539-4176-97e4-49120e02f5d1/d03f9bc4372e817e-spaces-NkEGS7hzeqa35sMXQZ4X-uploads-htkyhDNCjMpzhHtUkBSe-26_01_06_authenticated_.png?fm=auto&auto=compress%2Cformat" alt="A screenshot showing a login screen for docs behind authenticated access" caption="为您已发布的文档添加登录入口。" />
+
+### 使用场景
+
+受身份验证保护的访问的常见使用场景包括：
+
+- 发布敏感的产品文档，这些文档应仅供付费客户、潜在销售对象或合作伙伴访问。
+- 发布内部知识库内容，这些内容应仅供您公司的员工访问。
+
+### 它是如何运作的
+
+设置受身份验证保护的访问时，您可以选择两种方法：
+
+1. 安装我们的某个身份验证集成——我们目前支持 Okta、Azure 和 Auth0。我们 **强烈建议** 如果您使用的是我们支持的身份验证提供方，请选择此选项。
+2. 创建并托管您自己的服务器来处理身份验证。可以使用多种不同技术，但由您来编写并维护所选择的解决方案。
+
+### 内置登录和登出 URL
+
+GitBook 为您在已发布的网站上提供内置的登录和登出 URL：
+
+- `<publishedSiteURL>/~gitbook/auth/login`
+- `<publishedSiteURL>/~gitbook/auth/logout`
+
+您可以在任何需要登录链接的地方使用登录 URL，例如网站页眉中的链接。
+
+当访客打开登录 URL 时，GitBook 会将其重定向到为该站点配置的身份验证后端。这适用于集成后端和自定义后端。
+
+GitBook 还会添加一个 `location` 与访客起始页面相匹配的查询参数。您的后端可以使用该值在登录后将他们发送回同一页面。
+
+使用登出 URL 可让访客退出其 GitBook 会话。
+
+前往 [启用已认证访问](/zh/docs/fa-bu/site-audience/authenticated-access/enabling-authenticated-access) 以开始为您的站点设置受保护访问。

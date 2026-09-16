@@ -1,0 +1,80 @@
+---
+title: Étiquettes
+description: Les étiquettes sont des libellés réutilisables que vous pouvez ajouter aux pages et aux blocs de mise à jour — cette page vous explique comment créer, ajouter et gérer des étiquettes
+metaTitle: Étiquettes | GitBook Documentation
+ogImage: https://test-dai.imgix.net/org-4afef969-21f9-40f3-b5b8-b06c8b6cf68f/doc-22a3b060-9539-4176-97e4-49120e02f5d1/0a5a1a9630785855-organizations-d8f63b60-89ae-11e7-8574-5927d48c4877-sites-site_p4Xo4-socialprevie.jpg?fm=auto&auto=compress%2Cformat
+---
+
+Utilisez des balises pour regrouper du contenu مرتبط, indiquer les états de publication, marquer le contenu obsolète ou tout autre élément qui aide les lecteurs à parcourir votre documentation.
+
+#### Baliser une page
+
+Ouvrez la page, puis ouvrez le **Balises** menu — accessible en survolant le titre de la page — et créez ou ajoutez des balises. Vous pouvez faire glisser les balises pour changer l’ordre dans lequel elles apparaissent sur la page.
+
+1. Ouvrez la page.
+2. Survolez le titre de la page et ouvrez **Options de la page**.
+3. Ajoutez une ou plusieurs balises.
+
+Faites glisser les balises pour changer l’ordre dans lequel elles apparaissent sur la page.
+
+#### Afficher ou masquer les balises sur une page
+
+Par défaut, les balises s’affichent en haut de la page. Pour masquer les balises d’une page tout en conservant les métadonnées associées :
+
+- Ouvrez le **Balises** menu
+- Désactivez **Afficher les balises sur la page** pour conserver les balises uniquement comme métadonnées
+
+1. Ouvrez **Options de la page**.
+2. Désactivez **Afficher les balises sur la page**.
+
+#### Afficher une balise dans la table des matières
+
+Pour chaque page, vous pouvez choisir une balise à afficher dans la table des matières. Pour choisir quelle balise s’affiche :
+
+- Ouvrez le **Balises** menu
+- Utilisez le **Afficher dans la table des matières** menu déroulant pour choisir votre balise
+- Vous pouvez aussi cliquer sur une balise et **Afficher**, **Supprimer** ou **Remplacer dans la table des matières**.
+
+1. Ouvrez **Options de la page**.
+2. Sous **Balises**, choisissez votre balise dans le **Afficher dans la table des matières** menu déroulant.
+
+#### Baliser un bloc de mise à jour
+
+Chaque bloc de mise à jour peut avoir ses propres balises.
+
+1. Ouvrez le bloc de mise à jour.
+2. Cliquez sur **Ajouter une balise** sous la date.
+3. Utilisez le sélecteur de balises pour ajouter, supprimer ou réorganiser les balises.
+
+#### Gérer les balises dans la Bibliothèque
+
+Pour afficher, créer et gérer les balises de votre espace, ouvrez la **Bibliothèque** depuis la [table des matières](/fr/docs/creer-du-contenu/content-structure/page#table-of-contents) et choisissez **Balises**. Vous pouvez y accéder rapidement en ouvrant le **Balises** menu et en sélectionnant **Ouvrir la bibliothèque de balises**.<br /><br />Vous pouvez aussi afficher une balise individuelle dans la bibliothèque en sélectionnant la balise et en choisissant **Afficher dans la Bibliothèque**.
+
+Pour afficher, créer et gérer les balises de votre section :
+
+1. Ouvrez le **Bibliothèque** depuis la table des matières.
+2. Cliquez sur **Balises**.
+
+Chaque balise comporte :
+
+- Un libellé — ce que voient les lecteurs
+- Un slug — un identifiant stable
+- Une icône ou un emoji facultatif
+
+#### Balises dans Markdown
+
+Si vous utilisez Git Sync, les balises apparaissent dans le frontmatter de la page :
+
+```yaml
+---
+description: "Les balises sont des libellés réutilisables que vous pouvez ajouter aux pages et aux blocs de mise à jour — cette page vous explique comment créer, ajouter et gérer des balises"
+tags:
+  - news
+  - experiment
+  - tag: beta
+    primary: true
+  - pro
+---
+```
+
+Utilisez une chaîne pour une balise standard. Utilisez `primary: true` sur une balise pour en faire la balise principale de la page — GitBook peut afficher cette balise dans la table des matières.

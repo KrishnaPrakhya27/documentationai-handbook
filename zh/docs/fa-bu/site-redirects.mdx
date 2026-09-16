@@ -1,0 +1,123 @@
+---
+title: 站点重定向
+description: 设置站点重定向，将流量路由到你站点中的任意内容
+metaTitle: 站点重定向 | GitBook Documentation
+ogImage: https://test-dai.imgix.net/org-4afef969-21f9-40f3-b5b8-b06c8b6cf68f/doc-22a3b060-9539-4176-97e4-49120e02f5d1/0a5a1a9630785855-organizations-d8f63b60-89ae-11e7-8574-5927d48c4877-sites-site_p4Xo4-socialprevie.jpg?fm=auto&auto=compress%2Cformat
+---
+
+<Image src="https://test-dai.imgix.net/org-4afef969-21f9-40f3-b5b8-b06c8b6cf68f/doc-22a3b060-9539-4176-97e4-49120e02f5d1/461ab22ad63233d5-spaces-NkEGS7hzeqa35sMXQZ4X-uploads-SOD2dR0Bb3RtX6Avb7vg-26_01_06_redirects-2x.png?fm=auto&auto=compress%2Cformat" alt="A GitBook screenshot showing site redirects" caption="站点重定向在迁移文档或重组内容以避免损坏链接时非常有用，因为损坏链接会影响 SEO。" />
+
+当你将文档从一个提供商迁移到另一个时，重定向通常会派上用场——比如你刚把文档迁移到 GitBook 时。损坏链接会影响 SEO，因此我们建议在需要时设置重定向。
+
+除了 [GitBook 创建的自动重定向](#about-automatic-redirects)，你还可以从站点域中的任意路径创建重定向。
+
+重定向可以创建为 **生效** 或 **草稿**。草稿重定向允许你在发布前准备并审核重定向规则。草稿在启用前不会影响你的网站。
+
+## 管理你网站上的重定向
+
+要开始使用，请打开你网站的 **设置**，在站点侧边栏的 **常规** 下，然后点击 **重定向**.
+
+### 创建重定向
+
+点击 **添加重定向** 并选择 **手动** 选项。
+
+填写 **源路径** ——你想要重定向的 URL 片段——以及 **目标** 内容，也就是你希望访客被送往的内容。你可以选择站点上的任何区块、变体或页面。
+
+### 选择重定向状态
+
+当你创建或编辑重定向时，请选择其 HTTP 状态：
+
+- <strong>临时（307）</strong> 告诉浏览器和搜索引擎目标可能会变更。用于临时迁移。
+- <strong>永久（308）</strong> 告诉浏览器和搜索引擎源 URL 已永久移动。若你不打算恢复旧 URL，请使用它。
+
+这两个状态码在重定向时都会保留请求方法和请求体。
+
+点击 **启用重定向** 以立即启用该重定向。
+
+如果你想先创建重定向但暂不让它上线，请点击 **另存为草稿** 。草稿重定向会显示在 **草稿** 标签页中，并可稍后启用。
+
+你还可以通过在源路径末尾添加 * 来创建 **通配符重定向** ，例如：
+
+- /docs/* 用于匹配 /docs/ 下的所有内容
+- /changelog* 用于匹配以 /changelog 开头的路径
+
+当你的源路径包含通配符（\*）时，你可以启用 **将通配符替换为匹配文本**.
+
+- <strong>开启：</strong> 被 * 匹配到的部分会附加到目标路径后。
+
+  - 示例：源 /docs/* → 目标 /help<br />/docs/install 会重定向到 /help/install
+- <strong>关闭：</strong> 所有匹配到的 URL 都会重定向到同一个固定目标。
+
+  - 示例：源 /docs/* → 目标 /help<br />/docs/install 会重定向到 /help
+
+如果你想为同一页面添加另一个重定向，请切换 **添加另一个重定向** ，然后再点击 **启用重定向** 或 **另存为草稿**.
+
+在你添加该重定向后，弹窗将保持打开状态，并将目标内容设为你上次选择的内容，这样你就能快速添加另一个源路径。
+
+<Callout kind="alert">
+  <strong>注意：</strong> GitBook 以不区分大小写的方式解析已发布的 URL，因此仅大小写不同的两个重定向会被视为同一路径。如果你是从使用区分大小写 URL 的平台迁移过来，导入前可能需要合并重定向。
+</Callout>
+
+### 编辑重定向
+
+要编辑重定向，请点击列表中它旁边的 **编辑** 图标。更新重定向，然后点击 **启用重定向** 以发布你的更改。
+
+如果该重定向当前是 **草稿**，你也可以在编辑弹窗中通过点击 **启用重定向**.
+
+### 启用草稿重定向
+
+草稿重定向会显示在重定向表格的 **草稿** 标签页中。
+
+你可以通过两种方式发布草稿重定向：
+
+• 打开该重定向并点击 **启用重定向** 在编辑弹窗中。<br />• 使用表格中的 **切换开关** 直接启用该重定向。
+
+启用后，该重定向会移至 **生效** 标签页，并立即开始为访客路由。
+
+### 从 CSV 导入重定向
+
+点击 **添加重定向** 并选择 **上传 CSV**.
+
+上传一个包含以下列的 CSV： `源`, `目标`，以及可选的 `意图`.
+
+- `源` 是你想要重定向的路径，例如 /docs/site-redirects
+- `目标` 可以是：
+
+  - 一个特定页面，使用该页面的管理 URL，如下图所示
+  - 外部 URL
+  - 为空，取决于意图
+- `意图` 可以是：
+
+  - live，留空，或完全省略，用于创建、更新或移除生效中的重定向
+  - draft，用于创建、更新或移除草稿重定向
+  - publish，用于将现有草稿重定向发布为生效状态， `目标` 必须为空。
+
+<Image src="https://test-dai.imgix.net/org-4afef969-21f9-40f3-b5b8-b06c8b6cf68f/doc-22a3b060-9539-4176-97e4-49120e02f5d1/079fa8382bfdf476-spaces-NkEGS7hzeqa35sMXQZ4X-uploads-git-blob-1811bdc6a92d7e88fd724f3249aaae4a935.png?fm=auto&auto=compress%2Cformat" alt="" caption="你可以在此菜单中找到某个页面的 GitBook 管理 URL" />
+
+每次导入最多支持 500 行。
+
+如果你的 CSV 包含重复的 source 值，则只处理第一行。导入会以 upsert 方式运行：具有相同 source 的现有重定向会被更新，而对于尚不存在的 source 会创建新重定向。
+
+如果有任何行失败，右下角的提示中会提供一个错误 CSV。它包含 source、destination 以及每个错误的简短说明，这样你就可以修复、删除错误列并重新导入。
+
+#### CSV 示例
+
+| 源 | 目标 | 意图 | 结果 |
+| --- | --- | --- | --- |
+| /docs/site-redirects | https://example.com/page | 空白 | 创建或更新生效中的重定向 |
+| /docs/site-redirects | https://example.com/page | 生效 | 创建或更新生效中的重定向 |
+| /docs/site-redirects | https://example.com/page | 草稿 | 创建或更新草稿重定向 |
+| /docs/site-redirects | 空 | 空白 | 移除生效中的重定向 |
+| /docs/site-redirects | 空 | 生效 | 移除生效中的重定向 |
+| /docs/site-redirects | 空 | 草稿 | 移除草稿重定向 |
+| /docs/site-redirects | 空 | 发布 | 将现有草稿重定向发布为生效 |
+
+## 关于自动重定向
+
+每当页面被移动或重命名时，它们的规范 URL 也会随之变化。为了保持你的内容可访问，GitBook 会自动创建一个 [HTTP 307](https://developer.mozilla.org/en-US/docs/Web/HTTP/Reference/Status/307) 从旧 URL 到新 URL 的重定向。
+
+每次加载 URL 时，GitBook 会按以下步骤解析它：
+
+1. 站点内容会通过跟随任何自动创建的重定向被解析到其规范 URL。
+2. 如果无法解析该 URL，则会将其与 [区块级重定向](/zh/docs/wen-dang-ji-dai-ma/git-sync/content-configuration#redirects)进行检查，这些重定向定义在你的仓库的 `.gitbook.yaml` 文件中。
+3. 最后，会将该 URL 与站点级重定向进行检查，这些重定向通过 [上述流程](#creating-redirects).

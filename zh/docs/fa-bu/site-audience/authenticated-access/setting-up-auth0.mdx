@@ -1,0 +1,99 @@
+---
+title: 设置 Auth0
+description: 为你的文档访客设置 Auth0 登录界面
+metaTitle: 设置 Auth0 | GitBook Documentation
+ogImage: https://test-dai.imgix.net/org-4afef969-21f9-40f3-b5b8-b06c8b6cf68f/doc-22a3b060-9539-4176-97e4-49120e02f5d1/0a5a1a9630785855-organizations-d8f63b60-89ae-11e7-8574-5927d48c4877-sites-site_p4Xo4-socialprevie.jpg?fm=auto&auto=compress%2Cformat
+---
+
+<Callout kind="info">
+  前往我们的指南，找到一个 [完整操作指南](/en/docs/guides/docs-personalization-and-authentication/how-to-personalize-your-gitbook-site-using-auth0-and-adaptive-content) 关于使用 Auth0 设置经过身份验证的访问和自适应内容。
+</Callout>
+
+<Callout kind="alert">
+  本指南将带你为你的文档设置一个受保护的登录界面。在开始本指南之前，请确保你已经先阅读过 [启用已认证访问](/zh/docs/fa-bu/site-audience/authenticated-access/enabling-authenticated-access).
+</Callout>
+
+要使用 Auth0 为你的 GitBook 站点设置经过身份验证的访问，流程如下：
+
+<Steps>
+  <Step title="Step">
+    [**在 Auth0 中创建一个新应用**](#id-1.-create-a-new-application-in-auth0)
+
+    在你的 Auth0 仪表板中创建一个 Auth0 应用。
+  </Step>
+
+  <Step title="Step">
+    [**安装并配置 Auth0 集成**](#id-2.-install-and-configure-the-auth0-integration)
+
+    安装 Auth0 集成，并将所需配置添加到你的 GitBook 站点。
+  </Step>
+
+  <Step title="Step">
+    [<strong>为自适应内容配置 Auth0（可选）</strong>](#id-3.-configure-auth0-for-adaptive-content-optional)
+
+    配置 Auth0 以便在 GitBook 中配合自适应内容使用。
+  </Step>
+</Steps>
+
+### 1\. 在 Auth0 中创建一个新应用
+
+首先在你的 Auth0 平台仪表板中创建一个新应用。此应用将允许 GitBook Auth0 集成在授予用户访问你的网站之前请求令牌以验证用户身份。
+
+1. 登录你的 Auth0 [仪表板](https://manage.auth0.com/dashboard/).
+2. 前往 **应用程序 > 应用程序** 部分。
+3. 点击 <strong>\+ 创建应用</strong> 按钮，并为你的应用命名。
+4. 在 <strong>选择应用类型，</strong> 选择 **常规 Web 应用**.
+5. 在 **快速入门** 在新创建应用的界面中，选择 <strong>Node.js（Express）</strong> 然后 **我想集成我的应用**.
+6. 然后你会看到如下所示的配置界面。<br />点击 **保存设置并继续**.<br />
+
+   <Image src="https://test-dai.imgix.net/org-4afef969-21f9-40f3-b5b8-b06c8b6cf68f/doc-22a3b060-9539-4176-97e4-49120e02f5d1/e59f528f7ebbb93f-spaces-NkEGS7hzeqa35sMXQZ4X-uploads-HoIpHTIRmkCvhw1kBVZZ-auth0_app_configure_scr.png?fm=auto&auto=compress%2Cformat" alt="" />
+7. 点击 **设置** 选项卡。
+8. 复制并记下 **域名**, **客户端 ID** 以及 **客户端机密**.
+
+<Callout kind="alert">
+  请确保你已 **启用了至少一个连接** 适用于你的 Auth0 应用，位于 **连接** 选项卡。
+</Callout>
+
+### 2\. 安装并配置 Auth0 集成
+
+创建 Auth0 应用后，下一步是在 GitBook 中安装 Auth0 集成，并使用你之前生成的凭据将其与你的 Auth0 应用关联：
+
+1. 前往你已启用经过身份验证访问并希望将 Auth0 作为身份提供方的网站。
+2. 点击 **集成** 按钮，位于站点设置右上角。<br />
+
+   <Image src="https://test-dai.imgix.net/org-4afef969-21f9-40f3-b5b8-b06c8b6cf68f/doc-22a3b060-9539-4176-97e4-49120e02f5d1/2084b09d489dfd9b-spaces-NkEGS7hzeqa35sMXQZ4X-uploads-gBMsbydNsuqx7eqcz0JN-va_site_integration_ove.png?fm=auto&auto=compress%2Cformat" alt="" />
+3. 点击 **已认证访问** ，从侧边栏的类别中。
+4. 选择 **Auth0** 集成。
+5. 点击 **安装到此站点**.<br />
+
+   <Image src="https://test-dai.imgix.net/org-4afef969-21f9-40f3-b5b8-b06c8b6cf68f/doc-22a3b060-9539-4176-97e4-49120e02f5d1/74e34be0d73aacb8-spaces-NkEGS7hzeqa35sMXQZ4X-uploads-98d9Svq3PBdpaiRuyV14-auth0_install_integrati.png?fm=auto&auto=compress%2Cformat" alt="" />
+6. 在您的站点上安装集成后，您应该会看到该集成的配置界面：<br />
+
+   <Image src="https://test-dai.imgix.net/org-4afef969-21f9-40f3-b5b8-b06c8b6cf68f/doc-22a3b060-9539-4176-97e4-49120e02f5d1/22beb3b27078f686-spaces-NkEGS7hzeqa35sMXQZ4X-uploads-GpdmoJqOQvrwFBaQ17Gv-auth0_configure_integra.png?fm=auto&auto=compress%2Cformat" alt="" />
+7. 输入 **域名**, **客户端 ID** 以及 **客户端机密** 你之前创建 Auth0 应用后复制的值。对于 Auth0 域名，请输入从 Auth0 复制的域名（请确保在其前面加上 `https://`).
+8. <strong>（可选）</strong> 启用 **在 JWT 令牌中包含声明** 选项（位于对话框底部），如果你已为你的网站启用 [自适应内容](/zh/docs/fa-bu/adaptive-content/enabling-adaptive-content).
+9. 复制并记下 **回调** **URL** ，它显示在 **对话框底部**.
+10. 点击 **保存**.
+11. 返回你之前在 Auth0 仪表板中创建的 Auth0 应用。
+12. 浏览到 **应用程序 > 应用程序** 在侧边栏中，并选择 **设置** 选项卡。
+13. 向下滚动到 **应用 URI** 设置部分
+14. 将 **回调 URL** 你之前从 GitBook 集成对话框复制的内容粘贴到 **允许的回调 URL** 输入框。
+15. 点击 <strong>保存。</strong>
+16. 返回到 **Auth0 集成** 安装页面 **在 GitBook 中**.
+17. 关闭集成对话框，然后点击站点页面中的 **设置** 选项卡。
+18. 浏览到 **受众** 并选择 **经过身份验证的访问** （如果尚未选择）。
+19. 选择 **Auth0** 从下拉菜单中 **身份验证后端** 部分。
+20. 点击 **更新受众**.
+21. 前往站点概览页面，然后点击 **发布** 如果站点尚未发布。
+
+你的网站现在已通过身份验证访问发布，并使用你的 Auth0 作为身份提供方。
+
+要进行测试，请点击 **访问**。系统会要求你使用 Auth0 登录，这将确认你的网站已通过 Auth0 的身份验证访问发布。
+
+### 3\. 为自适应内容配置 Auth0（可选）
+
+<Iframe src="https://www.youtube.com/embed/uhWeQkgyg8Y" title="Embedded content" />
+
+要在你的经过身份验证访问的网站中利用自适应内容功能， [配置 Auth0 应用](https://auth0.com/docs/secure/tokens/json-web-tokens/create-custom-claims) 以便将额外的用户信息作为声明包含在身份验证令牌中。
+
+这些声明以键值对的形式传递给 GitBook，可用于 [自适应内容](/zh/docs/fa-bu/adaptive-content/adapting-your-content) 为你的站点访客动态调整。

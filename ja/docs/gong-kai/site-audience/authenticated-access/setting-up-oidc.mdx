@@ -1,0 +1,76 @@
+---
+title: OIDCの設定
+description: ドキュメント訪問者向けのOIDCログイン画面を設定します
+metaTitle: OIDCの設定 | GitBook Documentation
+ogImage: https://test-dai.imgix.net/org-4afef969-21f9-40f3-b5b8-b06c8b6cf68f/doc-22a3b060-9539-4176-97e4-49120e02f5d1/0a5a1a9630785855-organizations-d8f63b60-89ae-11e7-8574-5927d48c4877-sites-site_p4Xo4-socialprevie.jpg?fm=auto&auto=compress%2Cformat
+---
+
+<Callout kind="alert">
+  このガイドでは、ドキュメント用の保護されたサインイン画面を設定する手順を説明します。このガイドを進める前に、まず次のプロセスを完了していることを確認してください。 [認証済みアクセスを有効にする](/ja/docs/gong-kai/site-audience/authenticated-access/enabling-authenticated-access).
+</Callout>
+
+OIDC を使用して認証済みアクセスで GitBook サイトを設定する手順は、以下のとおりです。
+
+<Steps>
+  <Step title="アイデンティティプロバイダーで新しいアプリケーションを作成する">
+    アイデンティティプロバイダーのダッシュボードからアプリケーションを作成します。
+  </Step>
+
+  <Step title="OIDC インテグレーションをインストールして設定する">
+    Auth0 インテグレーションをインストールし、必要な設定を追加します。
+  </Step>
+</Steps>
+
+OIDC は OpenID Connect の略で、OAuth の上に構築されたアイデンティティ層です。多くのアイデンティティプロバイダーは OIDC に準拠しており、GitBook の認証済みアクセス用 OIDC インテグレーションを使用すると、コンテンツを認証済みアクセスの背後に公開でき、コンテンツへのアクセスはアイデンティティプロバイダーによって制御されます。
+
+<Callout kind="info">
+  このガイドはすべてのアイデンティティプロバイダー向けの一般的なガイドであるため、いくつかの詳細はお使いのアイデンティティプロバイダーによって異なる場合があります。説明のため、このガイドではアイデンティティプロバイダーとして Google を使用します。
+</Callout>
+
+### アイデンティティプロバイダーで新しいアプリケーションを作成する
+
+インテグレーションを動作させるには、アイデンティティプロバイダー側で設定しておく必要がある項目がいくつかあります。
+
+アイデンティティプロバイダー内で新しいアプリを作成する必要があります。その種類は「Web Application」である必要があります。Google では、「API とサービス」、「認証情報」、その後「OAuth 2.0 クライアント ID」の下でこれを作成します。\\
+
+<Image src="https://test-dai.imgix.net/org-4afef969-21f9-40f3-b5b8-b06c8b6cf68f/doc-22a3b060-9539-4176-97e4-49120e02f5d1/4829a3c17e7aa442-spaces-NkEGS7hzeqa35sMXQZ4X-uploads-8ra7t88ktqM7yX7w1l4m-Screen-Shot-2024-05-15-.png?fm=auto&auto=compress%2Cformat" alt="A screenshot showing creation of an OAuth client in an identity provider" />
+
+［認証情報を作成］をクリックし、［OAuth クライアント ID］を選択して、種類として［Web Application］を選び、適切な名前を付けます。次に、［承認済みのリダイレクト URI］に GitBook から取得したコールバック URL を入力します。
+
+［作成］をクリックします。クライアント ID とクライアントシークレットを控えておきます。GitBook でインテグレーションの設定を完了する際に必要になります。
+
+### OIDC インテグレーションをインストールして設定する
+
+GitBook アプリ内のインテグレーションに移動し、カテゴリとして認証済みアクセスを選択して、OIDC インテグレーションをインストールします。選択した docs サイトに OIDC インテグレーションをインストールします。
+
+<Image src="https://test-dai.imgix.net/org-4afef969-21f9-40f3-b5b8-b06c8b6cf68f/doc-22a3b060-9539-4176-97e4-49120e02f5d1/5df07994d99e5bac-spaces-NkEGS7hzeqa35sMXQZ4X-uploads-CZy21M4LIPwMVSxI3ec1-Screen-Shot-2024-12-13-.png?fm=auto&auto=compress%2Cformat" alt="A GitBook screenshot showing the OIDC integration installation" />
+
+サイトへのインストールが完了したら、設定に移動し、［保存］ボタンのすぐ上にあるコールバック URL を控えておきます。アイデンティティプロバイダーの設定に必要になる場合があります。
+
+インテグレーションをインストールしたセクションの OIDC インテグレーション設定画面を開きます。
+
+次の画像のようになるはずです
+
+<Image src="https://test-dai.imgix.net/org-4afef969-21f9-40f3-b5b8-b06c8b6cf68f/doc-22a3b060-9539-4176-97e4-49120e02f5d1/31999d593233ba8d-spaces-NkEGS7hzeqa35sMXQZ4X-uploads-04b2yAGjDIJQsA2aPIEO-Screen-Shot-2024-12-13-.png?fm=auto&auto=compress%2Cformat" alt="A GitBook screenshot showing the OIDC configuration screen" />
+
+クライアント ID とクライアントシークレットには、アイデンティティプロバイダーで取得した値を貼り付けます。
+
+次に、アイデンティティプロバイダーの認可エンドポイントとアクセストークンエンドポイントを見つける必要があります。Google の場合、これらは `https://accounts.google.com/o/oauth2/v2/auth` 、 `https://oauth2.googleapis.com/token` です。
+
+<Callout kind="info">
+  Google を使用していない場合、これらのエンドポイントは異なります。お使いのアイデンティティプロバイダーのドキュメントを参照して、これらのエンドポイントを確認してください
+</Callout>
+
+OAuth スコープについても、その値はアイデンティティプロバイダーによって異なります。Google の場合は、次を入力できます `openid`.
+
+<Callout kind="info">
+  アイデンティティプロバイダーのドキュメントにある許可されたスコープの一覧を確認し、最も権限の少ないスコープの値を入力してください。私たちは、ユーザーが認証済みであることを確認するためにアクセストークンのみを使用し、それ以外の情報を取得するためにはアクセストークンを使用しません。そのため、最小権限のスコープを入力することが最も安全な推奨事項です。
+</Callout>
+
+Save を押します。
+
+次に、GitBook でインテグレーションのモーダルを閉じ、Manage site ボタンをクリックします。に移動し **対象**、次を選択します **認証アクセス**、バックエンドとして OIDC を選択します。次に、 **対象を更新**。サイトの画面に移動して **公開** をクリックします。<br /><br />サイトはこれで、Auth0 アプリケーションによって制御される認証済みアクセスの背後に公開されました。試すには、［訪問］をクリックします。OIDC でサインインするよう求められ、サイトが Auth0 を使用した認証済みアクセスの背後に公開されていることが確認できます。
+
+### PKCE を有効にする
+
+アイデンティティプロバイダーが PKCE を必要とする、または推奨する場合は、 **PKCE を使用** を OIDC インテグレーションの設定画面でオンにします。このオプションは、インテグレーションが認証プロバイダーと開始する認可コードフローに対して、Proof Key for Code Exchange (PKCE) を有効にします。

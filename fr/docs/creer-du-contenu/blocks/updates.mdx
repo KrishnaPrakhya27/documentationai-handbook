@@ -1,0 +1,52 @@
+---
+title: Mises à jour
+description: Ajoutez une ou plusieurs mises à jour à une page — parfait pour ajouter un journal des modifications à votre site
+metaTitle: Mises à jour | GitBook Documentation
+ogImage: https://test-dai.imgix.net/org-4afef969-21f9-40f3-b5b8-b06c8b6cf68f/doc-22a3b060-9539-4176-97e4-49120e02f5d1/0a5a1a9630785855-organizations-d8f63b60-89ae-11e7-8574-5927d48c4877-sites-site_p4Xo4-socialprevie.jpg?fm=auto&auto=compress%2Cformat
+---
+
+Un bloc de mises à jour vous permet d’ajouter un journal des modifications à n’importe quelle page. Chaque mise à jour comporte une date, des étiquettes facultatives, et prend en charge n’importe quel contenu de bloc à l’intérieur — texte, images, blocs de code, listes, et plus encore.
+
+### Ajouter des mises à jour
+
+Insérez un bloc de mises à jour sur n’importe quelle page. Une fois qu’il est sur la page, survolez une mise à jour existante au-dessus ou en dessous pour en ajouter une autre à la suite.
+
+Pour modifier le format de la date, cliquez sur la date dans le bloc. Vous pouvez afficher la date complète, une version abrégée ou uniquement les chiffres (par exemple, 12/25/2025).
+
+### Étiquettes
+
+Chaque mise à jour peut avoir ses propres étiquettes. Utilisez le sélecteur d’étiquettes sous la date pour en ajouter, en supprimer ou les réorganiser.
+
+### Flux RSS
+
+Toute page contenant un bloc de mises à jour obtient automatiquement un flux RSS — aucune configuration supplémentaire requise.
+
+Vos lecteurs peuvent ouvrir le flux depuis le bouton en haut de la page, copier l’URL et l’ajouter à leur lecteur préféré. Les nouvelles mises à jour que vous publiez y sont automatiquement envoyées.
+
+Si une page ne contient pas de bloc de mises à jour, elle n’aura pas de flux RSS. Il suffit d’en ajouter un à la page pour le générer.
+
+#### Disponibilité du forfait
+
+Le bloc de mises à jour est disponible sur les [offres payantes]. Si vous ne voyez pas l’option d’ajouter un bloc de mises à jour, vérifiez que votre offre y donne accès.
+
+#### Si votre flux n’apparaît pas
+
+Si le bouton RSS n’apparaît pas sur une page publiée, vérifiez que la page contient au moins un bloc de mises à jour. Le flux est lié à la présence de ce bloc — s’il est absent, le flux ne sera pas généré. Si le bloc est bien en place et que le flux n’apparaît toujours pas, contactez [l’assistance GitBook](https://www.gitbook.com/contact).
+
+### Exemple
+
+<Update label="2025-12-25">
+  ## Une toute nouvelle mise à jour
+
+  Utilisez ce bloc pour informer les utilisateurs d’une nouvelle mise à jour. Ajoutez-y tous les blocs supplémentaires dont vous avez besoin — images, code, listes, et plus encore.
+</Update>
+
+```markdown
+{% updates format="full" %}
+{% update date="2025-12-25" tags="beta" %}
+## Une toute nouvelle mise à jour
+
+Ce bloc est parfait pour informer les utilisateurs de tout ce qu’il faut savoir sur une toute nouvelle mise à jour de votre produit. Vous pouvez facilement ajouter d’autres blocs dans ce bloc de mise à jour, y compris des images, du code, des listes et bien plus encore.
+{% endupdate %}
+{% endupdates %}
+```

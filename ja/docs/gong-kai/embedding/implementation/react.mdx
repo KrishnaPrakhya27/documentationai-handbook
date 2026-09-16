@@ -1,0 +1,284 @@
+---
+title: React
+description: 事前構築済みのReactコンポーネントを使って、ReactアプリケーションにDocs Embedを追加します
+metaTitle: React | GitBook Documentation
+ogImage: https://test-dai.imgix.net/org-4afef969-21f9-40f3-b5b8-b06c8b6cf68f/doc-22a3b060-9539-4176-97e4-49120e02f5d1/0a5a1a9630785855-organizations-d8f63b60-89ae-11e7-8574-5927d48c4877-sites-site_p4Xo4-socialprevie.jpg?fm=auto&auto=compress%2Cformat
+---
+
+React プロジェクト向けに、GitBook は事前構築済みのコンポーネントを提供しており、ドキュメントの埋め込みをシンプルかつ自然な形で行えます。これらのコンポーネントは、状態管理、コンテキスト、ライフサイクルを自動的に処理します。
+
+## 手順
+
+<Steps>
+  <Step title="パッケージをインストール">
+    追加する `@gitbook/embed` React プロジェクトに:
+
+    ```bash
+    npm install @gitbook/embed
+    ```
+
+    完全な API リファレンスとソースコードについては、 [`@gitbook/embed` GitHub 上のパッケージを参照してください](https://github.com/GitbookIO/gitbook/tree/main/packages/embed).
+  </Step>
+
+  <Step title="React コンポーネントをインポートする">
+    インポートする `GitBookProvider` 、 `GitBookFrame` components:
+
+    ```jsx
+    import {
+      GitBookProvider,
+      GitBookFrame,
+    } from "@gitbook/embed/react";
+    ```
+  </Step>
+
+  <Step title="アプリを GitBookProvider でラップする">
+    コンポーネントツリーのルート、または埋め込みが必要な場所にプロバイダーを追加します:
+
+    ```jsx
+    function App() {
+      return (
+        <GitBookProvider siteURL="https://docs.company.com">
+          <YourAppContent />
+        </GitBookProvider>
+      );
+    }
+    ```
+  </Step>
+
+  <Step title="GitBookFrame コンポーネントを追加する">
+    埋め込みを表示したい場所にフレームコンポーネントを配置します:
+
+    ```jsx
+    function App() {
+      return (
+        <GitBookProvider siteURL="https://docs.company.com">
+          <div className="app">
+            <YourAppContent />
+            <GitBookFrame
+              visitor={{
+                token: 'your-jwt-token', // 任意: Adaptive Content または認証済みアクセス用
+                unsignedClaims: { userId: '123' } // 任意: 動的式のためのカスタムクレーム
+              }}
+            />
+          </div>
+        </GitBookProvider>
+      );
+    }
+    ```
+
+    <Callout kind="info">
+      Assistant タブを使用する場合は、iframe に `allow="clipboard-write"` 埋め込みをレンダリングする iframe 上で。React の統合では iframe の設定はアプリ側で行います。スタンドアロン版 [Script タグ](/ja/docs/gong-kai/embedding/implementation/script) 実装ではこれが自動的に追加されます。
+    </Callout>
+  </Step>
+
+  <Step title="埋め込みをカスタマイズする">
+    フレームコンポーネントに設定用の props を渡します:
+
+    ```jsx
+    <GitBookProvider siteURL="https://docs.company.com">
+      <GitBookFrame
+        trademark={false}
+        tabs={['assistant', 'search', 'docs']}
+        colorScheme="dark"
+        greeting={{ title: 'ようこそ!', subtitle: 'どのようにお手伝いできますか?' }}
+        assistantName="Support Copilot"
+        closeButton={true}
+        suggestions={['GitBook とは何ですか?', 'どうやって始めればよいですか?']}
+        actions={[
+          {
+            icon: 'circle-question',
+            label: 'サポートに問い合わせる',
+            onClick: () => window.open('https://support.example.com', '_blank')
+          }
+        ]}
+        tools={[/* ... */]}
+        visitor={{
+          token: 'your-jwt-token',
+          unsignedClaims: { userId: '123' }
+        }}
+      />
+    </GitBookProvider>
+    ```
+
+    を省略すると、埋め込みは iframe の CSS に従います `colorScheme`。これにより、アプリのテーマに自動的に一致させられます。 `color-scheme`useGitBook フックで埋め込みを制御する
+  </Step>
+
+  <Step title="フックを使って、埋め込みをプログラムから操作します:">
+    を使用するか、サーバーを `useGitBook` import &#123; useGitBook &#125; from "@gitbook/embed/react";
+
+    ```jsx
+    function HelpButton() {
+
+    const gitbook = useGitBook();
+      const frameURL = gitbook.getFrameURL({ visitor: { token: '...' } });
+      const handleNavigate = () => {
+      
+      iframe.src = frameURL;
+        const iframe = document.createElement('iframe');
+        iframe.allow = 'clipboard-write';
+        frame.navigateToPage('/getting-started');
+        const frame = gitbook.createFrame(iframe);
+        frame.postUserMessage('How do I get started?');
+        frame.navigateToAssistant();
+        return <button onClick={handleNavigate}>Get Help</button>;
+      };
+
+      条件に応じて埋め込みを表示する
+    }
+    ```
+  </Step>
+
+  <Step title="必要なときだけ埋め込みを表示します:">
+    const [showEmbed, setShowEmbed] = useState(false);
+
+    ```jsx
+    function App() {
+      <button onClick={() => setShowEmbed(true)}>Get Help</button>
+
+      return (
+        <GitBookProvider siteURL="https://docs.company.com">
+          {showEmbed && <GitBookFrame />}
+          Next.js またはサーバーサイドレンダリングで使用する
+        </GitBookProvider>
+      );
+    }
+    ```
+  </Step>
+
+  <Step title="SSR の問題を避けるため、コンポーネントを動的にインポートします:">
+    &#105;mport dynamic from "next/dynamic";
+
+    ```jsx
+    const GitBookProvider = dynamic(
+
+    () => import("@gitbook/embed/react").then((mod) => mod.GitBookProvider),
+      { ssr: false }
+      const GitBookFrame = dynamic(
+    );
+
+    () => import("@gitbook/embed/react").then((mod) => mod.GitBookFrame),
+      Props と設定
+      const GitBookFrame = dynamic(
+    );
+    ```
+  </Step>
+</Steps>
+
+## GitBookProvider の props:
+
+**プロパティ**
+
+| 必須 | 種類 | はい | 既定 | 説明 |
+| --- | --- | --- | --- | --- |
+| `siteURL` | `string` | N/A | N/A | GitBook ドキュメントサイトの URL（例: `https://docs.company.com`). |
+| `children` | `ReactNode` | N/A | N/A | プロバイダー内でレンダリングされる子コンポーネント。 |
+
+<strong>GitBookFrame の props:</strong>
+
+すべての設定オプションは、次の props として渡せます: `<GitBookFrame>`。利用可能なオプションは以下の設定セクションを参照してください。
+
+| 必須 | 種類 | はい | 既定 | 説明 |
+| --- | --- | --- | --- | --- |
+| `className` | `string` | いいえ | `null` | フレームコンテナに適用する CSS クラス名。 |
+| `style` | `object` | いいえ | `{}` | フレームコンテナに適用するインラインスタイル。 |
+| `colorScheme` | `これにより親ページまたはブラウザの設定を継承できます。` | いいえ | CSS から継承 `color-scheme` | に渡されます。 |
+| `assistantName` | `string` | いいえ | `null` | UI に表示される Assistant 名を上書きします。 |
+| `closeButton` | `真偽値` | いいえ | `null` | Assistant 内に閉じるボタンを表示します。 |
+| `visitor` | `object` | いいえ | `{}` | 認証済みアクセスのオプション（以下を参照）。 |
+
+<strong>useGitBook フック:</strong>
+
+次を返します `GitBookClient` 以下のメソッドを持つインスタンス:
+
+- `getFrameURL(options?: { visitor?: {...}, colorScheme?: 'light' | 'dark' })` → `string` \- iframe の URL を取得する
+- `createFrame(iframe: HTMLIFrameElement)` → `GitBookFrameClient` \- フレームクライアントを作成する
+
+フレームクライアントは次を提供します:
+
+- `navigateToPage(path: string)` → `void`
+- `navigateToAssistant()` → `void`
+- `postUserMessage(message: string)` → `void`
+- `clearChat()` → `void`
+- `configure(settings: {...})` → `void`
+- `on(event: string, listener: Function)` → `() => void`
+
+## 設定オプション
+
+設定オプションは、次の props として利用できます: `<GitBookFrame>`:
+
+### `タブ`
+
+で利用できます。
+
+検索はデフォルトで有効です。もし `タブ`、埋め込みには指定したタブのみが表示されます。
+
+- **種類**: `('assistant' | 'search' | 'docs')[]`
+
+### `colorScheme`
+
+に渡されます。
+
+埋め込みの配色を上書きします。 `color-scheme`指定しない場合、埋め込みは iframe の CSS に従い、
+
+- **種類**: `これにより親ページまたはブラウザの設定を継承できます。`
+
+### `actions`
+
+タブと並んでサイドバーに表示されるカスタムアクションボタンです。各アクションボタンはクリック時にコールバックを実行します。
+
+**注**: これは以前は `buttons`と呼ばれていました。 `actions` 代わりにこちらを使用してください。
+
+- **種類**: `Array<{ icon: string, label: string, onClick: () => void }>`
+
+### `greeting`
+
+Assistant タブに表示されるウェルカムメッセージ。
+
+- **種類**: `{ title: string, subtitle: string }`
+
+### `assistantName`
+
+UI に表示される Assistant 名を上書きします。
+
+- **種類**: `string`
+- **最大長**: `32` 文字
+
+### `closeButton`
+
+Assistant 内に閉じるボタンを表示します。
+
+- **種類**: `真偽値`
+
+### `suggestions`
+
+Assistant のウェルカム画面に表示される推奨質問。
+
+- **種類**: `string[]`
+
+### `trademark`
+
+Docs Embed フッターや Assistant のブランド表記を含む、埋め込み UI 内の GitBook 商標を表示または非表示にします。
+
+- **種類**: `真偽値`
+- **既定**: `true`
+
+### `tools`
+
+Assistant を拡張するためのカスタム AI ツール。詳細は [カスタムツールの作成](/ja/docs/gong-kai/embedding/configuration/creating-custom-tools) をご覧ください。
+
+- **種類**: `Array<{ name: string, description: string, inputSchema: object, execute: Function, confirmation?: {...} }>`
+
+### `visitor` (認証済みアクセス)
+
+次に使用されます [Adaptive Content](/ja/docs/gong-kai/adaptive-content) 、 [認証済みアクセス](/ja/docs/gong-kai/site-audience/authenticated-access).
+
+- **種類**: `{ token?: string, unsignedClaims?: Record<string, unknown> }`
+
+## よくある落とし穴
+
+- **GitBookProvider でラップしていない** – `GitBookFrame` 動作するには親要素が必要です。 `GitBookProvider` SSR で動的インポートを使わない場合
+- <strong>– このコンポーネントはブラウザ API を使用するため、Next.js や他の SSR フレームワークでは動的にインポートする必要があります。</strong> siteURL が公開済みドキュメントと一致しない
+- <strong>– 」「を確認してください</strong> prop が実際のドキュメントサイトの URL と完全に一致していることを `siteURL` provider の外で useGitBook を呼び出す
+- **このフックは、次の子であるコンポーネント内で使う必要があります** – `useGitBook` フックは、次の子であるコンポーネント内で使用する必要があります `GitBookProvider`.
+- **ツリー内に複数のプロバイダーがある** – 複数の `GitBookProvider` インスタンスをネストしないでください。コンテキストの競合を引き起こす可能性があります。
+- **古いコンポーネント名を使う** – コンポーネントは現在 `GitBookFrame`ではなく `GitBookAssistantFrame`.

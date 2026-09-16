@@ -1,0 +1,94 @@
+---
+title: Contenu réutilisable
+description: Créez des blocs de contenu réutilisables qui peuvent être utilisés dans plusieurs sections, et qui sont tous mis à jour en même temps lorsque vous modifiez une instance
+metaTitle: Contenu réutilisable | GitBook Documentation
+ogImage: https://test-dai.imgix.net/org-4afef969-21f9-40f3-b5b8-b06c8b6cf68f/doc-22a3b060-9539-4176-97e4-49120e02f5d1/0a5a1a9630785855-organizations-d8f63b60-89ae-11e7-8574-5927d48c4877-sites-site_p4Xo4-socialprevie.jpg?fm=auto&auto=compress%2Cformat
+---
+
+Le contenu réutilisable vous permet de synchroniser le contenu sur plusieurs pages et sections, afin que vous puissiez modifier toutes les occurrences du bloc en même temps.
+
+<Image src="https://test-dai.imgix.net/org-4afef969-21f9-40f3-b5b8-b06c8b6cf68f/doc-22a3b060-9539-4176-97e4-49120e02f5d1/d5792c7704a40a02-spaces-NkEGS7hzeqa35sMXQZ4X-uploads-21nR8UJaA970B2iHPCWL-creating-content-reusab.png?fm=auto&auto=compress%2Cformat" alt="A GitBook screenshot showing reusable content" caption="Créez du contenu réutilisable au sein d'une section." />
+
+## Notions fondamentales
+
+Le contenu réutilisable fonctionne comme n'importe quel autre contenu : vous pouvez le modifier via des demandes de modification, l'inclure dans des workflows de relecture, et il s'affichera correctement sur tout site publié.
+
+Bien que le contenu réutilisable puisse être référencé dans plusieurs sections, il appartient à une seule *section parente*.
+
+### Le concept de « section parente »
+
+La section parente est la section qui possède le contenu réutilisable. C'est le seul endroit où ce contenu peut être modifié.
+
+Même si les mises à jour du contenu réutilisable apparaissent instantanément dans toutes les occurrences, toutes les modifications doivent provenir de la section parente, soit par une modification directe, soit via une demande de modification.
+
+Les sections prennent en charge à la fois les workflows éditoriaux et la sécurité. Comme GitBook applique une édition basée sur les permissions, le contenu réutilisable ne peut être modifié que depuis sa section parente. Cela garantit que les droits de modification sont respectés, même lorsque le contenu est réutilisé dans toute l'organisation.
+
+### Limites connues
+
+#### Intégrations
+
+Les blocs fournis par les intégrations ne sont pas pris en charge dans le contenu réutilisable. En effet, dans GitBook, les intégrations sont installées par section, et la limitation de l'accès garantit que les intégrations tierces n'ont que les permissions que vous leur accordez. Référencer du contenu réutilisable entre sections romprait cette frontière de sécurité.
+
+#### Recherche
+
+Actuellement, le contenu réutilisable n'apparaît dans les résultats de recherche que dans sa section parente. Nous travaillons activement à supprimer cette limitation afin que le contenu réutilisable apparaisse dans les résultats de recherche partout où il est référencé.
+
+## Dans l'application
+
+### **Créer du contenu réutilisable**
+
+Pour créer du contenu réutilisable, sélectionnez un ou plusieurs blocs, puis ouvrez le **menu Actions** <Image src="https://test-dai.imgix.net/org-4afef969-21f9-40f3-b5b8-b06c8b6cf68f/doc-22a3b060-9539-4176-97e4-49120e02f5d1/4fa265378c13a520-spaces-NkEGS7hzeqa35sMXQZ4X-uploads-89MTSo5XRpPMVr1T0rxS-actions.svg?rasterize-bypass=true" alt="The Actions menu icon in GitBook" /> , sélectionnez **Convertir en**, puis choisissez **Contenu réutilisable**. Vous pouvez également donner un nom à votre bloc pour le retrouver et le réutiliser plus facilement plus tard.
+
+Vous pouvez aussi sélectionner un ou plusieurs blocs, puis appuyer sur **Cmd + C** pour ouvrir une invite vous demandant si vous souhaitez créer du contenu réutilisable.
+
+### **Insérer du contenu réutilisable**
+
+Vous pouvez insérer du contenu réutilisable comme n'importe quel autre bloc. Appuyez sur `/` sur une ligne vide pour ouvrir la **palette d'insertion**. Vous pouvez également cliquer sur le `+` à côté de n'importe quel bloc ou ligne vide.
+
+Le panneau de contenu réutilisable dans la barre latérale des pages répertorie les blocs de contenu créés précédemment dans votre section actuelle.
+
+Pour insérer du contenu réutilisable depuis la section actuelle ou une autre section, vous pouvez accéder à :
+
+1. Ouvrez le sélecteur de contenu réutilisable depuis le **palette d'insertion** ou `+` menu.
+2. Utilisez le sélecteur de section en haut pour sélectionner la section source.
+3. Recherchez le bloc réutilisable par son nom, puis sélectionnez-le pour l'insérer.
+
+L'insertion de contenu provenant d'une autre section ne transfère pas la propriété. Seule la section parente peut modifier le contenu réutilisable. Les mises à jour de cette section parente continuent à se synchroniser dans chaque occurrence.
+
+### **Modifier le contenu réutilisable**
+
+Le contenu réutilisable est comme n'importe quel autre contenu : vous pouvez modifier directement n'importe quelle occurrence si les modifications en direct sont activées, ou via une demande de modification sinon. Toutes les modifications que vous apportez seront synchronisées partout où le contenu est utilisé.
+
+Si vous apportez des modifications dans une demande de modification, le contenu sera synchronisé avec toutes les autres occurrences une fois cette demande de modification fusionnée.
+
+### **Dissocier le contenu réutilisable**
+
+Vous pouvez dissocier le contenu réutilisable en ouvrant le **menu Actions** <Image src="https://test-dai.imgix.net/org-4afef969-21f9-40f3-b5b8-b06c8b6cf68f/doc-22a3b060-9539-4176-97e4-49120e02f5d1/4fa265378c13a520-spaces-NkEGS7hzeqa35sMXQZ4X-uploads-89MTSo5XRpPMVr1T0rxS-actions.svg?rasterize-bypass=true" alt="The Actions menu icon in GitBook" /> et en sélectionnant **Dissocier**. La dissociation convertira le contenu en blocs ordinaires.
+
+Une fois dissocié, les modifications que vous apportez au bloc ou aux blocs ne seront pas répercutées dans les autres occurrences, et les modifications que vous apportez dans ces occurrences ne seront pas répercutées dans le bloc dissocié. Toutes les autres occurrences du contenu réutilisable restent synchronisées entre elles.
+
+### Supprimer le contenu réutilisable
+
+Vous pouvez supprimer entièrement le contenu réutilisable de votre section si vous le souhaitez. Repérez le contenu réutilisable dans la table des matières de la page, puis ouvrez le **menu Actions** <Image src="https://test-dai.imgix.net/org-4afef969-21f9-40f3-b5b8-b06c8b6cf68f/doc-22a3b060-9539-4176-97e4-49120e02f5d1/4fa265378c13a520-spaces-NkEGS7hzeqa35sMXQZ4X-uploads-89MTSo5XRpPMVr1T0rxS-actions.svg?rasterize-bypass=true" alt="The Actions menu icon in GitBook" /> à côté du contenu que vous souhaitez supprimer, et sélectionnez **Supprimer**.
+
+La suppression du contenu réutilisable va **le supprimer de toutes les pages où il est utilisé**. Cette action est irréversible.
+
+## Synchronisation avec GitHub et GitLab
+
+Le contenu réutilisable est entièrement pris en charge lors de la synchronisation avec GitHub et GitLab. Votre contenu réutilisable sera exporté vers un `includes` dossier dédié, chaque contenu étant un fichier Markdown distinct.
+
+Votre contenu est ensuite référencé dans vos autres pages à l'aide de la `includes` directive.
+
+<Callout kind="info">
+  Lors de la synchronisation, le `.gitbook/includes` répertoire est créé à la racine de chaque section synchronisée (qui n'est peut-être pas la racine de l'ensemble du dépôt). Si votre `.gitbook/includes` dossier ou ses fichiers apparaissent dans la table des matières de votre section, vous devrez peut-être les masquer manuellement dans la table des matières.
+</Callout>
+
+#### Exemple
+
+<Callout kind="success">
+  Si vous écrivez du côté GitHub, assurez-vous que le chemin d'accès à l'include est relatif au fichier contenant la référence (et non à la racine du dépôt).
+</Callout>
+
+```markdown
+{% include "../../.gitbook/includes/reusable-block.md" %}
+```

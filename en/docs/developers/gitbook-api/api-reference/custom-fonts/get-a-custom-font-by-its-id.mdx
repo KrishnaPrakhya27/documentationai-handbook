@@ -1,0 +1,77 @@
+---
+title: Get a custom font by its ID
+metaTitle: Get a custom font by its ID | Developers | GitBook Documentation
+ogImage: https://test-dai.imgix.net/org-4afef969-21f9-40f3-b5b8-b06c8b6cf68f/doc-22a3b060-9539-4176-97e4-49120e02f5d1/0a5a1a9630785855-organizations-d8f63b60-89ae-11e7-8574-5927d48c4877-sites-site_p4Xo4-socialprevie.jpg?fm=auto&auto=compress%2Cformat
+---
+
+**GET** `/orgs/{organizationId}/fonts/{fontId}`
+
+**Parameters**
+
+<ParamField header="Authorization" param-type="string" required={true} />
+
+<ParamField path="organizationId" param-type="string" required={true}>
+  The unique id of the organization
+</ParamField>
+
+<ParamField path="fontId" param-type="string" required={true}>
+  The unique ID of a font
+</ParamField>
+
+**Responses**
+
+`200` Custom font.
+
+<ResponseField name="id" field-type="string" required={true}>
+  A globally unique identifier for the font definition.
+</ResponseField>
+
+<ResponseField name="custom" field-type="boolean" required={true}>
+  Whether the font is a custom font. If false, this font is provided by GitBook.
+</ResponseField>
+
+<ResponseField name="fontFamily" field-type="string" required={true}>
+  The human-readable font-family name used in CSS (e.g., "Open Sans", "Playfair Display").
+</ResponseField>
+
+<ResponseField name="fontFaces" field-type="array" required={true}>
+  A list of font-face definitions, specifying variations such as weight and style.
+
+  <Expandable title="Array Items">
+    <ResponseField name="weight" field-type="integer" required={true}>
+      Numeric representation of the font weight (400=regular, 500=medium, 700=bold, 900=black).
+    </ResponseField>
+
+    <ResponseField name="sources" field-type="array" required={true}>
+      Font source files provided in supported formats (e.g., woff2, woff).
+
+      <Expandable title="Array Items">
+        <ResponseField name="url" field-type="string" required={true} />
+
+        <ResponseField name="format" field-type="string" enum="woff2,woff">
+          The format of the font file. Prefer 'woff2' for modern browsers.
+        </ResponseField>
+      </Expandable>
+    </ResponseField>
+  </Expandable>
+</ResponseField>
+
+<ResponseField name="permissions" field-type="object" required={true}>
+  The set of permissions for the font definition
+
+  <Expandable title="Object Properties">
+    <ResponseField name="edit" field-type="boolean" required={true}>
+      Can the user edit the font definition
+    </ResponseField>
+  </Expandable>
+</ResponseField>
+
+`404` Not Found
+
+<ResponseField name="error" field-type="object" required={true}>
+  <Expandable title="Object Properties">
+    <ResponseField name="code" field-type="integer" required={true} enum="404" />
+
+    <ResponseField name="message" field-type="string" required={true} />
+  </Expandable>
+</ResponseField>

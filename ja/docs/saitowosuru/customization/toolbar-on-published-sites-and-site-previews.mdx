@@ -1,0 +1,49 @@
+---
+title: 公開サイトとサイトプレビューのツールバー
+description: GitBookにログインしているときに公開サイトに表示されるツールバーについて詳しく学びましょう
+metaTitle: 公開サイトとサイトプレビューのツールバー | GitBook Documentation
+ogImage: https://test-dai.imgix.net/org-4afef969-21f9-40f3-b5b8-b06c8b6cf68f/doc-22a3b060-9539-4176-97e4-49120e02f5d1/0a5a1a9630785855-organizations-d8f63b60-89ae-11e7-8574-5927d48c4877-sites-site_p4Xo4-socialprevie.jpg?fm=auto&auto=compress%2Cformat
+---
+
+ライブドキュメントサイトを表示していると、ブラウザーウィンドウの下部にツールバーが表示されることがあります。クリックするだけで便利なオプションにすばやくアクセスできます:
+
+- エディターを開いてサイトのコンテンツを表示・編集する
+- GitBook でサイトの設定を開く
+- サイトのカスタマイズ設定を開く
+- サイト分析を開く
+
+<Callout kind="alert">
+  ツールバーは **GitBook 組織にログインしているメンバーにのみ表示されます**。GitBook 組織のメンバーではないサイト訪問者は **ツールバーを表示できません**.
+</Callout>
+
+また、次のときには少し異なるバージョンのツールバーも表示されます [サイトのプレビュー URL を開くと](/ja/docs/gong-tong-zuo-ye/change-requests#preview-a-change-request) GitBook アプリから、アプリに戻ってフィードバックを追加したり編集を続けたりできます。
+
+#### ツールバーはいつ表示されますか？
+
+次の状況でツールバーが表示されます:
+
+- GitBook にログインした状態でライブサイトを表示しているとき
+- サイトの以前のバージョンを次の方法でプレビューしているとき [バージョン履歴](/ja/docs/kontentsuwo/version-control)
+- 提案された変更へのリンクをプレビューしているとき。たとえば、 [変更リクエスト](/ja/docs/gong-tong-zuo-ye/change-requests) GitBook で作成されたもの、または次を通じて作成された pull request など [Git Sync](/ja/docs/docs-as-code/git-sync/github-pull-request-preview)
+
+#### なぜツールバーが表示されないのですか？
+
+GitBook にログインしているのにツールバーが表示されない場合、ブラウザーがサードパーティ Cookie をブロックしている可能性があります。
+
+ツールバーは、公開済みのドキュメントサイトまたはプレビュー URL 上で GitBook セッションを認識するためにサードパーティ Cookie を使用します。ブラウザーがそれらの Cookie をブロックしていると、ツールバーは表示されないことがあります。
+
+ツールバーを表示するには、ブラウザー設定でドキュメントのドメインに対するサードパーティ Cookie を有効にしてから、ページを再読み込みしてください。
+
+<Callout kind="info">
+  この問題は、より厳しいプライバシー設定を持つブラウザーや拡張機能でよく発生します。
+</Callout>
+
+#### ツールバーを非表示にできますか？
+
+はい。ツールバーの最後のボタンをクリックすると、表示方法を変更するためのさまざまなオプションを選べます:
+
+1. <strong>最小化:</strong> ツールバーが小さな球体に縮小されます。再び展開するには、それをクリックするだけです。
+2. <strong>1 セッションだけ閉じる:</strong> 閉じるまで、現在のタブからツールバーを完全に削除します。
+3. <strong>今後表示しない:</strong> ツールバーを非表示にし、その選択を記憶します。ブラウザーのローカルストレージを消去すると、ツールバーを復元できます。
+
+<Image src="https://test-dai.imgix.net/org-4afef969-21f9-40f3-b5b8-b06c8b6cf68f/doc-22a3b060-9539-4176-97e4-49120e02f5d1/2f634e934f7e40de-spaces-NkEGS7hzeqa35sMXQZ4X-uploads-o8cxPQCicYRqWQiOoney-gitbook-ui-preview-tool.jpg?fm=auto&auto=compress%2Cformat" alt="" />

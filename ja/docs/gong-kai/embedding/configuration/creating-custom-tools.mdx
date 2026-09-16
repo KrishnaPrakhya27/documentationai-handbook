@@ -1,0 +1,205 @@
+---
+title: カスタムツールに接続する
+description: アプリから呼び出せるあらゆるツール、特にサポートワークフローにGitBook Assistantを接続します
+metaTitle: カスタムツールに接続する | GitBook Documentation
+ogImage: https://test-dai.imgix.net/org-4afef969-21f9-40f3-b5b8-b06c8b6cf68f/doc-22a3b060-9539-4176-97e4-49120e02f5d1/0a5a1a9630785855-organizations-d8f63b60-89ae-11e7-8574-5927d48c4877-sites-site_p4Xo4-socialprevie.jpg?fm=auto&auto=compress%2Cformat
+---
+
+カスタムツールを使うと、GitBook アシスタントはその中で [Docs Embed](/ja/docs/gong-kai/embedding) 実際のアクションを実行できます。
+
+次のものに接続できます。 *任意の* アプリがアクセスできるツール。これには、バックエンド API、サードパーティ SDK、社内システムが含まれます。
+
+アプリが呼び出せるなら、アシスタントも呼び出せます。
+
+一般的な例：
+
+- ユーザーに代わってサポートチケットを作成または更新する
+- あらかじめ入力されたメッセージ付きでサポートチャットを開き、サポートへ引き継ぐ
+
+  <Callout kind="success">
+    **サポートへの引き継ぎ** は、カスタムツールを始めるのに最適な方法です。ユーザーの問題を最も早く解消できます。
+  </Callout>
+- 製品アクションをトリガーする（MFA をリセットする、招待を再送する、機能フラグを有効にする）
+- バックエンドでアカウントのステータスを確認する
+- Jira、Linear、Slack、Zendesk などのツールでワークフローを開始する
+
+<Callout kind="info">
+  Embed 設定で定義したツールに加えて、アシスタントは任意の [設定済みの MCP サーバーも使用できます](/ja/docs/notamenoai/mcp-servers-for-published-docs) に **設定 → AI & MCP**.
+</Callout>
+
+### ツールが実行される場所
+
+ツールの `execute` 関数は、埋め込み統合と同じ環境で実行されます。
+
+通常は、アプリ内のユーザーのブラウザーで実行されるということです。
+
+そのため、次のことができます。
+
+- 独自のバックエンドエンドポイントを呼び出す
+- アプリにすでに読み込まれているサードパーティ SDK（たとえば Intercom）を呼び出す
+- モーダル、ディープリンク、または製品内 UI を開く
+
+<Callout kind="alert">
+  秘密情報をクライアント側コードに置かないでください。代わりにバックエンドを呼び出します。
+</Callout>
+
+### ツールを追加する
+
+ツールを定義する：
+
+- 〜を通じて `window.GitBook("configure", …)` 〜向けの [script タグ](/ja/docs/gong-kai/embedding/implementation/script) 実装
+- 〜を通じて `tools` 〜の prop を通じて [Node.js/NPM](/ja/docs/gong-kai/embedding/implementation/nodejs) パッケージおよび [React](/ja/docs/gong-kai/embedding/implementation/react) コンポーネント
+
+<Callout kind="info">
+  ツールは埋め込みと同じものではありません **actions**.
+
+  - 使用 **actions** ユーザーがクリックするボタン用です。
+  - アシスタントにコードを選ばせて実行させたいときにツールを使います。
+</Callout>
+
+#### ツールのテンプレート（招待メールの再送）
+
+例を見てみましょう：
+
+```javascript
+window.GitBook("configure", {
+  tools: [
+    {
+      // ツールに名前と説明を付けて登録します。
+      name: "resend_invite",
+      description:
+        "ユーザーが見つけられない、または期限切れだと言う場合に、招待メールを再送します。",
+
+      // 入力スキーマは、execute 関数でアクセスできるデータです。
+      inputSchema: {
+        type: "object",
+        properties: {
+          email: {
+            type: "string",
+            description:
+              "招待を再送する宛先のメールアドレス。不明な場合は、まずユーザーに確認してください。",
+          },
+        },
+        required: ["email"],
+      },
+
+      // execute 関数が実行される前に表示される、任意の確認ボタンです。
+      confirmation: { icon: "paper-plane", label: "招待を再送しますか？" },
+
+      // execute 関数は、ツールが使用されたときに呼び出される関数です。
+      execute: async (input) => {
+        const { email } = input;
+
+        const result = await fetch("/api/invites/resend", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ email }),
+        }).then((r) => r.json());
+
+        return {
+          // 出力は AI に返されます。
+          output: {
+            recipient: email,
+            status: result.status ?? "success",
+          },
+          // 要約はユーザーに表示されます。
+          summary: {
+            icon: "check",
+            text: "招待メールを再送しました。",
+          },
+        };
+      },
+    },
+  ],
+});
+```
+
+### ツールの使われ方
+
+ツールを登録すると、アシスタントはユーザーの質問とあなたのツールに基づいて、自動的に選択できます —  `説明`.
+
+必須項目が不足している場合、アシスタントは追加の質問を行うべきです。
+
+追加すると `confirmation`、ツールが実行される前にユーザーの承認が必要です。
+
+### ツールのフィールド
+
+- `name`：一意の識別子。
+- `説明`：アシスタント向けの「いつ使うか」のヒント。
+- `inputSchema`：ツール入力用の JSON Schema。
+- `confirmation` （任意）：ツール実行前に表示される確認ボタン。
+- `execute(input)`：アクションを実行する非同期関数。
+
+  - 戻り値 `{ output, summary }`.
+  - `output` はアシスタントに返されます。
+  - `summary` はユーザーに表示されます。
+
+#### 確認
+
+使用 `confirmation` ユーザーにアクションを承認してほしいときに使います。予期しない副作用を防ぐのに役立ちます。
+
+`confirmation` 受け取るもの：
+
+- `label` （必須）：ボタンのテキスト。
+- `アイコン` （任意）： [Font Awesome](https://fontawesome.com/search) アイコン名。
+
+### サポートのワークフロー
+
+サポートは、ツールの中で最も効果の大きいユースケースです。
+
+アシスタントに次のことを任せられます。
+
+- 不足している詳細を収集する
+- システム内でチケットを作成する
+- 文脈が事前入力された有人サポートチャネルを開く
+
+#### テンプレート：事前入力メッセージ付きのサポートチャットを開く
+
+人間へのスムーズな引き継ぎを行いたいときに使います。
+
+```javascript
+window.GitBook("configure", {
+  tools: [
+    {
+      name: "open_support_chat",
+      description:
+        "事前入力されたメッセージでサポートチャットを開き、ユーザーがすぐにサポートへ連絡できるようにします。",
+      inputSchema: {
+        type: "object",
+        properties: {
+          message: {
+            type: "string",
+            description:
+              "サポートに送るメッセージ。不足している場合は、まずユーザーに確認してください。",
+          },
+        },
+      },
+      confirmation: { icon: "circle-question", label: "サポートチャットを開く" },
+      execute: (input) => {
+        // GitBook アシスタントを閉じる
+        window.GitBook('close');
+     
+        // 例：
+        // - Intercom: Intercom('showNewMessage', input.message);
+        // - Zendesk: zE('messenger', 'open');
+        
+        return {
+          output: {
+            status: "success",
+          },
+          summary: { icon: 'check', text: "サポートに転送しました。" },
+        };
+      },
+    },
+  ],
+});
+```
+
+<Callout kind="info">
+  これを常時表示の **サポートに問い合わせる** 埋め込みサイドバーのアクションと組み合わせてください。アクションの設定方法は、次を参照してください。 [埋め込みのカスタマイズ](/ja/docs/gong-kai/embedding/configuration/customizing-docs-embed).
+</Callout>
+
+### 次のステップ
+
+- 埋め込み API の全体像が必要ですか？次を参照してください。 [API リファレンス](/ja/docs/gong-kai/embedding/configuration/reference).
+- さらに UI コントロール（挨拶、候補、アクション）が必要ですか？次を参照してください。 [埋め込みのカスタマイズ](/ja/docs/gong-kai/embedding/configuration/customizing-docs-embed).

@@ -1,0 +1,177 @@
+---
+title: 適応型コンテンツを有効にする
+description: ユーザーデータをGitBookに渡す認証方法を選択します。
+metaTitle: 適応型コンテンツを有効にする | GitBook Documentation
+ogImage: https://test-dai.imgix.net/org-4afef969-21f9-40f3-b5b8-b06c8b6cf68f/doc-22a3b060-9539-4176-97e4-49120e02f5d1/0a5a1a9630785855-organizations-d8f63b60-89ae-11e7-8574-5927d48c4877-sites-site_p4Xo4-socialprevie.jpg?fm=auto&auto=compress%2Cformat
+---
+
+読者向けにドキュメント体験をカスタマイズし始めるには、アダプティブコンテンツを有効にし、訪問者データを GitBook にどのように渡すかを決める必要があります。これにより、サイトのコンテンツは閲覧者に応じて動的に適応します。
+
+### アダプティブコンテンツを有効にする
+
+ユーザーデータを GitBook に渡せるようにする前に、サイトでアダプティブコンテンツを使用するよう設定する必要があります。
+
+次へ進んで [サイトの設定](/ja/docs/saitowosuru/site-settings)、そして有効にする **アダプティブコンテンツ** サイトのオーディエンス設定から。有効にすると、生成された「Visitor token signing key」が取得でき、これがアダプティブコンテンツの設定を続けるために必要になります。
+
+<Image src="https://test-dai.imgix.net/org-4afef969-21f9-40f3-b5b8-b06c8b6cf68f/doc-22a3b060-9539-4176-97e4-49120e02f5d1/8869a4621dc60744-spaces-NkEGS7hzeqa35sMXQZ4X-uploads-5EeWAo5Ij6CKrp69uMl5-26_01_06_enable_adaptiv.png?fm=auto&auto=compress%2Cformat" alt="A GitBook screenshot showing the enable adaptive content toggle" caption="サイトの設定でアダプティブコンテンツを有効にする" />
+
+### ビジタースキーマを設定する
+
+アダプティブコンテンツを有効にしたら、ユーザーがサイトを訪れたときに GitBook が受け取ると想定するクレームの種類について、スキーマを定義する必要があります。
+
+ビジタースキーマは、これらのクレームが GitBook に送られる際の構造を反映している必要があります。
+
+たとえば、訪問者が製品のベータユーザーである可能性があると想定する場合、次のようなビジタースキーマを設定します。
+
+```json
+{
+  "type": "object",
+  "properties": {
+    "isBetaUser": {
+      "type": "boolean",
+      "description": "訪問者がベータユーザーかどうか。"
+    }
+  },
+  "additionalProperties": false
+}
+```
+
+これにより、クレームを設定する際にオートコンプリートも使いやすくなります [条件エディタ](/ja/docs/gong-kai/adaptive-content/adapting-your-content#working-with-the-condition-editor)。ビジタースキーマでサポートされるのは以下の型のみです：
+
+<Tabs>
+  <Tab title="文字列">
+    文字列として渡されるクレームを読み取ります。
+
+    GitBook は動的文字列を受け付けます。つまり、ユーザー名や開発者トークンなどの文字列データを動的に渡せます。
+
+    文字列には **任意の enum** キーを含めることもでき、GitBook が受け取るデータを設定済みの値のいずれかに制限できます。
+
+    ```json
+    {
+      "type": "object",
+      "properties": {
+        "language": {
+              "type": "string",
+              "description": "訪問者の言語",
+              // 任意の enum プロパティ
+              "enum": [
+                "en",
+                "fr",
+                "it"
+              ]
+      },
+      "additionalProperties": false
+    }
+    ```
+
+    <Callout kind="alert">
+      動的文字列（enum キーなしで定義された文字列）は、次の場合にのみ受け入れられます [インライン式](/ja/docs/kontentsuwo/variables-and-expressions#use-variables-in-your-content)。要素（ページ、セクション、ブロック）の表示条件式は、enum キーで定義された文字列でのみ機能します。
+    </Callout>
+  </Tab>
+
+  <Tab title="真偽値">
+    真偽値として渡されるクレームを読み取ります。
+
+    ```json
+    {
+      "type": "object",
+      "properties": {
+        "isBetaUser": {
+          "type": "boolean",
+          "description": "訪問者がベータユーザーかどうか。"
+        },
+      },
+      "additionalProperties": false
+    }
+    ```
+  </Tab>
+
+  <Tab title="オブジェクト">
+    関連する値をまとめるために、クレームをオブジェクトに入れ子で含めます。
+
+    ```json
+    {
+      // トップレベルのクレーム
+      "type": "object",
+      "properties": {
+        // ネストされたクレーム
+        "access": {
+          "type": "object",
+          "description": "ユーザーの製品機能へのアクセス",
+          "properties": {
+            "isAlphaUser": {
+              "type": "boolean",
+              "description": "訪問者が Alpha ユーザーかどうか。"
+            },
+            "isBetaUser": {
+              "type": "boolean",
+              "description": "訪問者がベータユーザーかどうか。"
+            },
+          },
+          "additionalProperties": false
+        }
+      },
+      "additionalProperties": false
+    }
+    ```
+  </Tab>
+</Tabs>
+
+### 署名なしクレームを設定する
+
+署名なしクレームは、クライアントアプリケーションによって署名されていない可能性のある、受け渡されるクレームを識別する特定の種類のクレームです。ビジタースキーマでは、クレームを次のように設定する必要があります `署名なし` URL パラメーター、署名なし Cookie、機能フラグを通じてクレームを渡す場合。
+
+署名なしクレームを扱う場合は、署名済みクレームと並べて、スキーマ内の「unsigned」プロップで期待するクレームを宣言する必要があります。
+
+```json
+{
+  "type": "object",
+  "properties": {
+    "isBetaUser": {
+      "type": "boolean",
+      "description": "訪問者がベータユーザーかどうか。"
+    },
+    // 署名なしクレームを追加
+    "unsigned": {
+      "type": "object",
+      "description": "サイト訪問者の署名なしクレーム",
+      "properties": {
+        "language": {
+          "type": "string",
+          "description": "訪問者の言語",
+          // 任意の enum プロパティ
+          "enum": [
+            "en",
+            "fr",
+            "it"
+          ]
+        }
+      },
+      "additionalProperties": false
+    }
+  },
+  "additionalProperties": false
+}
+```
+
+### 訪問者データを GitBook に渡す
+
+GitBook では、サイトのコンテンツを適応させるために訪問者データを渡すさまざまな方法を用意しています。スキーマを定義したら、訪問者データを GitBook にどのように渡すかを決める必要があります。
+
+<Columns cols={2}>
+  <Card title="Cookie" href="/ja/docs/gong-kai/adaptive-content/enabling-adaptive-content/cookies" icon="cookie">
+    公開 Cookie または署名付き Cookie を通じて、訪問者データをドキュメントに渡します。
+  </Card>
+
+  <Card title="URL" href="/ja/docs/gong-kai/adaptive-content/enabling-adaptive-content/url" icon="link">
+    URL のクエリパラメーターを通じて、訪問者データをドキュメントに渡します。
+  </Card>
+
+  <Card title="機能フラグ" href="/ja/docs/gong-kai/adaptive-content/enabling-adaptive-content/feature-flags" icon="flag">
+    機能フラグプロバイダーを通じて、訪問者データをドキュメントに渡します。
+  </Card>
+
+  <Card title="認証アクセス" href="/ja/docs/gong-kai/adaptive-content/enabling-adaptive-content/authenticated-access" icon="lock">
+    認証プロバイダーを通じて、訪問者データをドキュメントに渡します。
+  </Card>
+</Columns>

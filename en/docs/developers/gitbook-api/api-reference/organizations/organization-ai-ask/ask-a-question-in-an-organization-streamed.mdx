@@ -1,0 +1,47 @@
+---
+title: Ask a question in an organization (streamed)
+metaTitle: Ask a question in an organization (streamed) | Developers | GitBook Documentation
+ogImage: https://test-dai.imgix.net/org-4afef969-21f9-40f3-b5b8-b06c8b6cf68f/doc-22a3b060-9539-4176-97e4-49120e02f5d1/0a5a1a9630785855-organizations-d8f63b60-89ae-11e7-8574-5927d48c4877-sites-site_p4Xo4-socialprevie.jpg?fm=auto&auto=compress%2Cformat
+---
+
+Ask a question to an AI across spaces that is accessible by the currently authenticated target and stream the answer as a Server-Sent Events URL.
+
+**GET** `/orgs/{organizationId}/ask/stream`
+
+**Parameters**
+
+<ParamField header="Authorization" param-type="string" />
+
+<ParamField path="organizationId" param-type="string" required={true}>
+  The unique id of the organization
+</ParamField>
+
+<ParamField query="query" param-type="string" required={true} />
+
+<ParamField query="format" param-type="string" enum="document,markdown">
+  Output format for the content.
+</ParamField>
+
+<ParamField query="details" param-type="boolean">
+  Return query details in the result
+</ParamField>
+
+**Responses**
+
+`200` OK
+
+<ResponseField name="type" field-type="string" required={true} enum="answer" />
+
+<ResponseField name="answer" field-type="object" required={true}>
+  Answer from AI for a question asked on a content.
+
+  <Expandable title="Object Properties">
+    <ResponseField name="answer" field-type="string" />
+
+    <ResponseField name="followupQuestions" field-type="string[]" required={true} />
+
+    <ResponseField name="sources" field-type="string[]" required={true}>
+      The sources used to generate the answer.
+    </ResponseField>
+  </Expandable>
+</ResponseField>

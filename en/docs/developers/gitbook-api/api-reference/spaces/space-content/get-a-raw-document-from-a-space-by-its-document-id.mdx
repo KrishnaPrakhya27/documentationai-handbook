@@ -1,0 +1,49 @@
+---
+title: Get a raw document from a space by its document ID
+metaTitle: Get a raw document from a space by its document ID | Developers | GitBook Documentation
+ogImage: https://test-dai.imgix.net/org-4afef969-21f9-40f3-b5b8-b06c8b6cf68f/doc-22a3b060-9539-4176-97e4-49120e02f5d1/0a5a1a9630785855-organizations-d8f63b60-89ae-11e7-8574-5927d48c4877-sites-site_p4Xo4-socialprevie.jpg?fm=auto&auto=compress%2Cformat
+---
+
+Returns the structured JSON document for a specific document ID within a space. Documents are the low-level block-based representation of page content. Use this when you have a documentId and need the raw block structure. To retrieve a page's document by pageId, use the page document endpoint instead.
+
+**GET** `/spaces/{spaceId}/documents/{documentId}`
+
+**Parameters**
+
+<ParamField header="Authorization" param-type="string" />
+
+<ParamField path="spaceId" param-type="string" required={true}>
+  The unique id of the space
+</ParamField>
+
+<ParamField path="documentId" param-type="string" required={true}>
+  ID of the document in the space
+</ParamField>
+
+<ParamField query="schema" param-type="string" enum="current,next">
+  Version of the schema used for the document.
+</ParamField>
+
+**Responses**
+
+`200` Document
+
+<ResponseField name="object" field-type="string" required={true} enum="document" />
+
+<ResponseField name="data" field-type="object" required={true}>
+  <Expandable title="Object Properties">
+    <ResponseField name="schemaVersion" field-type="integer">
+      The schema version of the document. If undefined, the document is considered to be of the latest schema version.
+    </ResponseField>
+  </Expandable>
+</ResponseField>
+
+<ResponseField name="nodes" field-type="string[]" required={true} />
+
+<ResponseField name="meta" field-type="object">
+  <Expandable title="Object Properties">
+    <ResponseField name="token" field-type="string">
+      A content token that can be used to fetch the content referenced in this document from the API.
+    </ResponseField>
+  </Expandable>
+</ResponseField>

@@ -1,0 +1,32 @@
+---
+title: Glossary
+description: Manage custom terms translations used by the translation feature.
+metaTitle: Glossary | Developers | GitBook Documentation
+ogImage: https://test-dai.imgix.net/org-4afef969-21f9-40f3-b5b8-b06c8b6cf68f/doc-22a3b060-9539-4176-97e4-49120e02f5d1/0a5a1a9630785855-organizations-d8f63b60-89ae-11e7-8574-5927d48c4877-sites-site_p4Xo4-socialprevie.jpg?fm=auto&auto=compress%2Cformat
+---
+
+Define terms and specify their translations for different languages to ensure consistent wording.
+
+## The GlossaryEntry object
+
+<ResponseField name="object" field-type="string" required={true} enum="glossary-entry" />
+
+<ResponseField name="id" field-type="string" required={true}>
+  Unique identifier of the glossary entry
+</ResponseField>
+
+<ResponseField name="translations" field-type="object" required={true}>
+  Mapping of language codes to translated terms
+</ResponseField>
+
+<ResponseField name="createdAt" field-type="string" required={true} />
+
+<ResponseField name="updatedAt" field-type="string" required={true} />
+
+<ResponseField name="urls" field-type="object" required={true}>
+  <Expandable title="Object Properties">
+    <ResponseField name="location" field-type="string" required={true}>
+      URL of the glossary entry in the API
+    </ResponseField>
+  </Expandable>
+</ResponseField>

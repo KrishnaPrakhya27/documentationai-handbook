@@ -1,0 +1,45 @@
+---
+title: List custom scripts injected into a site's published pages
+metaTitle: List custom scripts injected into a site's published pages | Developers | GitBook Documentation
+ogImage: https://test-dai.imgix.net/org-4afef969-21f9-40f3-b5b8-b06c8b6cf68f/doc-22a3b060-9539-4176-97e4-49120e02f5d1/0a5a1a9630785855-organizations-d8f63b60-89ae-11e7-8574-5927d48c4877-sites-site_p4Xo4-socialprevie.jpg?fm=auto&auto=compress%2Cformat
+---
+
+Returns all integration scripts configured to be injected into the published pages of a site, such as analytics trackers, chat widgets, or custom JavaScript. Use this to audit which third-party scripts are active on the site.
+
+**GET** `/orgs/{organizationId}/sites/{siteId}/integration-scripts`
+
+**Parameters**
+
+<ParamField header="Authorization" param-type="string" />
+
+<ParamField path="organizationId" param-type="string" required={true}>
+  The unique id of the organization
+</ParamField>
+
+<ParamField path="siteId" param-type="string" required={true}>
+  The unique id of the site
+</ParamField>
+
+**Responses**
+
+`200` OK
+
+<ResponseField name="script" field-type="string" required={true} />
+
+<ResponseField name="contentSecurityPolicy" field-type="string">
+  Content Security Policy to secure the loading of this script.
+</ResponseField>
+
+<ResponseField name="cookies" field-type="boolean" required={true}>
+  If true, the script will potentially load use cookies and visitors should be aware.
+</ResponseField>
+
+`400` Bad Request
+
+<ResponseField name="error" field-type="object" required={true}>
+  <Expandable title="Object Properties">
+    <ResponseField name="code" field-type="integer" required={true} enum="400" />
+
+    <ResponseField name="message" field-type="string" required={true} />
+  </Expandable>
+</ResponseField>

@@ -1,0 +1,173 @@
+---
+title: 内容配置
+description: 通过代码配置 Git 同步
+metaTitle: 内容配置 | GitBook Documentation
+ogImage: https://test-dai.imgix.net/org-4afef969-21f9-40f3-b5b8-b06c8b6cf68f/doc-22a3b060-9539-4176-97e4-49120e02f5d1/0a5a1a9630785855-organizations-d8f63b60-89ae-11e7-8574-5927d48c4877-sites-site_p4Xo4-socialprevie.jpg?fm=auto&auto=compress%2Cformat
+---
+
+Git Sync 使用三个文件。请选择控制您所需 Git Sync 部分的文件：
+
+- `gitbook-docs.yaml` 用于配置站点并将空间映射到仓库目录。
+- `.gitbook.yaml` 用于配置 GitBook 如何读取某个空间的内容。
+- `SUMMARY.md` 定义空间的导航。
+
+### 使用 gitbook-docs.yaml 配置站点
+
+`gitbook-docs.yaml` 用于配置整个站点。它位于 Git Sync 项目目录中。当您未设置时，GitBook 会使用仓库根目录 **项目目录**.
+
+使用 `gitbook-docs.yaml` 用于定义您的站点结构并将每个空间映射到一个目录。每一项在 `site.structure` 具有一个稳定的 `键`。某个空间的 `content.directory` 用于设置其仓库目录。如果站点中的某个空间未同步到该站点的仓库，则其 `content.directory` 为 `null`.
+
+#### 键用于标识您的空间
+
+Git Sync 通过其 `键`来识别每个空间和章节，而不是通过其标题、路径或目录。键是 GitBook 将中的条目与 `gitbook-docs.yaml` 在一次同步到下一次同步之间，与现有内容进行匹配的方式。
+
+<Callout kind="danger">
+  <strong>更改某个空间的 `键` 会替换该空间。</strong> GitBook 会将旧键视为已移除，并将新键视为一个新空间。它会创建一个新空间，从映射目录中将您的内容导入其中，并将原始空间保留在您的组织中，使其与站点分离。
+
+  您的页面会恢复，但会出现在一个拥有新空间 ID 的新空间中。引用旧 ID 的链接、卡片和 API 调用将停止解析，而任何只存在于 GitBook 中而非您的仓库中的内容都会保留在原始空间中。
+
+  恢复原始键并不能撤销这一点。它会创建另一个新空间并将内容导入其中。
+</Callout>
+
+在首次创建条目时，您可以自由选择键；GitBook 会在保存站点内容映射时为您生成键。一旦空间上线，请将其键视为永久：
+
+- 要重命名空间，请更改其 `title`。键保持不变。
+- 要更改空间的 URL，请更改其 `path`。键保持不变。
+
+此示例将英文和法文空间映射到不同的目录：
+
+```yaml title="gitbook-docs.yaml"
+$schema: https://api.gitbook.com/gitbook-docs.yaml
+site:
+  title: 文档
+  structure:
+    - type: section
+      key: documentation
+      title: 文档
+      path: documentation
+      children:
+        - type: space
+          key: docs-en
+          title: 英文
+          path: docs
+          default: true
+          content:
+            directory: ./docs/en
+            language: en
+        - type: space
+          key: docs-fr
+          title: 法语
+          path: fr
+          content:
+            directory: ./docs/fr
+            language: fr
+```
+
+<Expandable title="配置其他站点属性">
+  使用这些可选属性来完善您的站点结构：
+
+  | 属性 | 用于 |
+  | --- | --- |
+  | `type: section-group` | 将相关章节归入共享的导航标题下。 |
+  | `描述` | 为某个章节添加描述。 |
+  | `图标` | 为章节或章节组添加图标。 |
+  | `本地化标题` | 翻译章节、章节组或空间标题。 |
+  | `本地化描述` | 翻译章节描述。 |
+  | `隐藏` | 在站点导航中隐藏某个空间。 |
+
+  GitBook 会创建或更新 `gitbook-docs.yaml` ，当它保存站点内容映射时。
+</Expandable>
+
+### 使用 .gitbook.yaml 配置空间
+
+`.gitbook.yaml` 用于配置一个空间。它位于该空间映射的目录中。可用于设置内容根目录、首页、导航文件和重定向。
+
+主要设置如下：
+
+- `root` 用于设置 GitBook 读取的目录。默认值为 `./`.
+- `structure.readme` 用于设置首页。默认值为 `README.md`.
+- `structure.summary` 用于设置导航文件。默认值为 `SUMMARY.md`.
+- `redirects` 将空间内的旧路径映射到新路径。
+
+下面是一个典型配置：
+
+```yaml title=".gitbook.yaml"
+root: ./
+
+structure:
+  readme: README.md
+  summary: SUMMARY.md
+
+redirects:
+  previous/page: new-folder/page.md
+```
+
+#### 设置内容根目录
+
+设置 `root` 当空间内容位于子目录中时：
+
+```yaml title=".gitbook.yaml"
+root: ./docs/
+```
+
+<Callout kind="alert">
+  中的路径 `.gitbook.yaml` 相对于 `root`。使用 `root: ./docs/`, `structure.summary: ./product/SUMMARY.md` 会解析为 `./docs/product/SUMMARY.md`.
+</Callout>
+
+在单体仓库中， `root` 仅适用于映射的空间目录内。它不会使同级目录可用。对于多空间仓库设置，请参见 [Monorepo](/zh/docs/wen-dang-ji-dai-ma/git-sync/monorepos).
+
+#### 设置首页和导航文件
+
+使用 `structure.readme` 以及 `structure.summary` 以设置自定义文件路径：
+
+```yaml title=".gitbook.yaml"
+structure:
+  readme: ./product/README.md
+  summary: ./product/SUMMARY.md
+```
+
+<Callout kind="alert">
+  启用 Git Sync 后，请在 `README.md` 仓库中管理这些文件。在 GitBook 中编辑它们可能会导致冲突或重复页面。
+</Callout>
+
+#### 配置重定向
+
+在 `.gitbook.yaml`中配置空间级重定向。重定向路径仅适用于该空间内。
+
+您还可以在 GitBook 应用中管理站点级重定向。请参阅 [站点重定向](/zh/docs/fa-bu/site-redirects).
+
+### 使用 SUMMARY.md 配置导航
+
+`SUMMARY.md` 定义某个空间的目录。GitBook 会在已配置的 `root` 目录中查找它。
+
+如果 GitBook 找不到 `SUMMARY.md`，它会从文件夹和 Markdown 文件推断导航。GitBook 会创建或更新 `SUMMARY.md` ，当您在 GitBook 中更改导航时。
+
+使用标题表示页面组，使用嵌套链接表示子页面：
+
+```markdown title="SUMMARY.md"
+# 摘要
+
+## 产品
+
+* [概览](README.md)
+  * [入门指南](getting-started.md)
+  * [配置](configuration.md)
+
+## 参考
+
+* [API 参考](api.md)
+```
+
+每个 Markdown 文件在 `SUMMARY.md`中只能出现一次。一个页面在一个空间中只能有一个 URL。
+
+#### 设置导航标签
+
+当导航标签与页面标题不同时，请添加页面链接标题：
+
+```markdown title="SUMMARY.md"
+# 摘要
+
+* [页面主标题](page.md "导航标签")
+```
+
+GitBook 会在侧边栏、分页和相对链接中使用页面链接标题。如果没有设置，GitBook 会使用页面标题。

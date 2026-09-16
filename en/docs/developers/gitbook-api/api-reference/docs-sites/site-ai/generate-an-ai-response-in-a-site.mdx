@@ -1,0 +1,173 @@
+---
+title: Generate an AI response in a site
+metaTitle: Generate an AI response in a site | Developers | GitBook Documentation
+ogImage: https://test-dai.imgix.net/org-4afef969-21f9-40f3-b5b8-b06c8b6cf68f/doc-22a3b060-9539-4176-97e4-49120e02f5d1/0a5a1a9630785855-organizations-d8f63b60-89ae-11e7-8574-5927d48c4877-sites-site_p4Xo4-socialprevie.jpg?fm=auto&auto=compress%2Cformat
+---
+
+Generate an AI response in a conversation.
+
+**POST** `/orgs/{organizationId}/sites/{siteId}/ai/response`
+
+**Parameters**
+
+<ParamField header="Authorization" param-type="string" />
+
+<ParamField path="organizationId" param-type="string" required={true}>
+  The unique id of the organization
+</ParamField>
+
+<ParamField path="siteId" param-type="string" required={true}>
+  The unique id of the site
+</ParamField>
+
+**Request body**
+
+<ParamField body="previousResponseId" param-type="string">
+  The ID of the previous response to continue from
+</ParamField>
+
+<ParamField body="input" param-type="array" required={true}>
+  The messages to send to the AI agent.
+
+  <Expandable title="Array Items">
+    <ParamField body="role" param-type="string" required={true} enum="user,assistant,developer" />
+
+    <ParamField body="content" param-type="string" required={true} />
+
+    <ParamField body="context" param-type="object">
+      Context about the current user sending a message.
+
+      <Expandable title="Object Properties">
+        <ParamField body="location" param-type="object">
+          <Expandable title="Object Properties">
+            <ParamField body="spaceId" param-type="string" required={true}>
+              ID of the current space.
+            </ParamField>
+
+            <ParamField body="pageId" param-type="string" required={true}>
+              ID of the current page.
+            </ParamField>
+          </Expandable>
+        </ParamField>
+
+        <ParamField body="comments" param-type="array">
+          Comments on the content the user is referring to in the message.
+
+          <Expandable title="Array Items">
+            <ParamField body="id" param-type="string" required={true}>
+              ID of the comment.
+            </ParamField>
+
+            <ParamField body="content" param-type="string">
+              Snapshot of the comment for display.
+            </ParamField>
+          </Expandable>
+        </ParamField>
+
+        <ParamField body="selection" param-type="object">
+          Range of the current selection in a document.
+
+          <Expandable title="Object Properties">
+            <ParamField body="anchorKey" param-type="string" required={true} />
+
+            <ParamField body="anchorOffset" param-type="integer" required={true} />
+
+            <ParamField body="focusKey" param-type="string" required={true} />
+
+            <ParamField body="focusOffset" param-type="integer" required={true} />
+
+            <ParamField body="content" param-type="string">
+              Snapshot of the selection for display.
+            </ParamField>
+          </Expandable>
+        </ParamField>
+      </Expandable>
+    </ParamField>
+
+    <ParamField body="attachments" param-type="string[]" />
+  </Expandable>
+</ParamField>
+
+<ParamField body="model" param-type="string" enum="fast,reasoning-low,reasoning-medium,reasoning-high" />
+
+<ParamField body="tools" param-type="array">
+  Custom tools to provide to the AI agent.
+
+  <Expandable title="Array Items">
+    <ParamField body="name" param-type="string" required={true}>
+      The name of the tool. It should be unique within the agent.
+    </ParamField>
+
+    <ParamField body="description" param-type="string" required={true}>
+      The description of the tool, passed to the AI agent.
+    </ParamField>
+
+    <ParamField body="inputSchema" param-type="object">
+      JSON schema describing the input of the tool.
+
+      <Expandable title="Object Properties">
+        <ParamField body="type" param-type="string" required={true} enum="object" />
+
+        <ParamField body="properties" param-type="object" required={true} />
+      </Expandable>
+    </ParamField>
+  </Expandable>
+</ParamField>
+
+<ParamField body="toolCall" param-type="object">
+  Result of a tool call.
+
+  <Expandable title="Object Properties">
+    <ParamField body="tool" param-type="string" required={true}>
+      The name of the tool that was called.
+    </ParamField>
+
+    <ParamField body="toolCallId" param-type="string" required={true}>
+      The ID of the tool call.
+    </ParamField>
+
+    <ParamField body="output" param-type="object" required={true}>
+      The output to the tool call.
+    </ParamField>
+
+    <ParamField body="summary" param-type="object">
+      Summary of a generic tool call.
+
+      <Expandable title="Object Properties">
+        <ParamField body="icon" param-type="string" required={true}>
+          Name of the icon
+        </ParamField>
+
+        <ParamField body="text" param-type="string" required={true}>
+          Text to display to the user to describe the tool call.
+        </ParamField>
+      </Expandable>
+    </ParamField>
+  </Expandable>
+</ParamField>
+
+<ParamField body="session" param-type="object">
+  Identifiers for a GitBook site session, used for analytics and adaptive content.
+
+  <Expandable title="Object Properties">
+    <ParamField body="visitorId" param-type="string" required={true}>
+      GitBook's unique identifier of the visitor.
+    </ParamField>
+
+    <ParamField body="sessionId" param-type="string" required={true}>
+      GitBook's unique identifier of the visitor's session.
+    </ParamField>
+  </Expandable>
+</ParamField>
+
+<ParamField body="channel" param-type="object">
+  The channel from which the question was asked, if applicable.
+
+  <Expandable title="Object Properties">
+    <ParamField body="type" param-type="string" required={true} enum="site,embed,api" />
+  </Expandable>
+</ParamField>
+
+**Responses**
+
+`200` OK

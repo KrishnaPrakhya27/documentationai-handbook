@@ -1,0 +1,61 @@
+---
+title: List all custom content blocks provided by integrations in a space
+metaTitle: List all custom content blocks provided by integrations in a space | Developers | GitBook Documentation
+ogImage: https://test-dai.imgix.net/org-4afef969-21f9-40f3-b5b8-b06c8b6cf68f/doc-22a3b060-9539-4176-97e4-49120e02f5d1/0a5a1a9630785855-organizations-d8f63b60-89ae-11e7-8574-5927d48c4877-sites-site_p4Xo4-socialprevie.jpg?fm=auto&auto=compress%2Cformat
+---
+
+Returns all custom block types contributed by integrations installed on the space. Integration blocks are custom content elements (e.g. embedded widgets, code runners) that integrations register for use in pages. Use this to discover what custom block types are available in a given space.
+
+**GET** `/spaces/{spaceId}/integration-blocks`
+
+**Parameters**
+
+<ParamField header="Authorization" param-type="string" />
+
+<ParamField path="spaceId" param-type="string" required={true}>
+  The unique id of the space
+</ParamField>
+
+**Responses**
+
+`200` list of installed integration blocks
+
+<ResponseField name="name" field-type="string" required={true}>
+  Unique named identifier for the integration
+</ResponseField>
+
+<ResponseField name="blocks" field-type="array" required={true}>
+  <Expandable title="Array Items">
+    <ResponseField name="id" field-type="string" required={true}>
+      Unique ID in the integration for the block. It also represents the UI component used.
+    </ResponseField>
+
+    <ResponseField name="title" field-type="string" required={true}>
+      Short descriptive title for the block.
+    </ResponseField>
+
+    <ResponseField name="description" field-type="string">
+      Long descriptive text for the block.
+    </ResponseField>
+
+    <ResponseField name="icon" field-type="string">
+      URL of the icon to represent this block.
+    </ResponseField>
+
+    <ResponseField name="urlUnfurl" field-type="string[]">
+      URLs patterns to convert as this block.
+    </ResponseField>
+
+    <ResponseField name="markdown" field-type="string" />
+  </Expandable>
+</ResponseField>
+
+`404` Not Found
+
+<ResponseField name="error" field-type="object" required={true}>
+  <Expandable title="Object Properties">
+    <ResponseField name="code" field-type="integer" required={true} enum="404" />
+
+    <ResponseField name="message" field-type="string" required={true} />
+  </Expandable>
+</ResponseField>

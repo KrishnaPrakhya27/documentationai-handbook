@@ -1,0 +1,299 @@
+---
+title: Authentification
+description: Utilisez Docs Embed avec des sites nécessitant une authentification en transmettant des jetons visiteur ou en utilisant l’accès authentifié
+metaTitle: Authentification | GitBook Documentation
+ogImage: https://test-dai.imgix.net/org-4afef969-21f9-40f3-b5b8-b06c8b6cf68f/doc-22a3b060-9539-4176-97e4-49120e02f5d1/0a5a1a9630785855-organizations-d8f63b60-89ae-11e7-8574-5927d48c4877-sites-site_p4Xo4-socialprevie.jpg?fm=auto&auto=compress%2Cformat
+---
+
+Si votre documentation GitBook nécessite une authentification, Docs Embed a besoin d'un jeton visiteur GitBook pour accéder au contenu.
+
+Il existe deux approches :
+
+1. **Transmettre le jeton directement** (recommandé) - Initialisez l'intégration avec un jeton visiteur GitBook.
+2. **Utiliser la détection basée sur les cookies** \- Vérifiez la présence du jeton visiteur GitBook avant le chargement.
+
+## Approche 1 : transmettre le jeton directement (recommandé)
+
+Lors de l'initialisation de l'intégration, transmettez le jeton visiteur GitBook comme `visitor.token`.
+
+`visitor.token` n'est pas un jeton d'accès brut ni un jeton ID de votre fournisseur d'identité. C'est le jeton visiteur GitBook émis par GitBook pour l'accès authentifié à la documentation. Le `your-jwt-token` valeurs dans ces exemples représentent ce jeton émis par GitBook.
+
+<Tabs>
+  <Tab title="Script autonome">
+    ```html
+    <script src="https://docs.company.com/~gitbook/embed/script.js?jwt_token=your-jwt-token"></script>
+    <script>
+      window.GitBook(
+        "init",
+        { siteURL: "https://docs.company.com" },
+        { visitor: { token: "your-jwt-token" } }
+      );
+      window.GitBook("show");
+    </script>
+    ```
+  </Tab>
+
+  <Tab title="Package NPM">
+    ```javascript
+    import { createGitBook } from "@gitbook/embed";
+
+    const gitbook = createGitBook({
+      siteURL: "https://docs.company.com",
+    });
+
+    const iframe = document.createElement("iframe");
+    iframe.src = gitbook.getFrameURL({
+      visitor: {
+        token: "your-jwt-token",
+        unsignedClaims: { userId: "123", plan: "premium" },
+      },
+    });
+    ```
+  </Tab>
+
+  <Tab title="Composants React">
+    ```jsx
+    <GitBookProvider siteURL="https://docs.company.com">
+      <GitBookFrame
+        visitor={{
+          token: "your-jwt-token",
+          unsignedClaims: { userId: "123" },
+        }}
+      />
+    </GitBookProvider>
+    ```
+  </Tab>
+</Tabs>
+
+<Callout kind="info">
+  L'API de configuration de l'intégration n'a pas changé. Transmettez les jetons visiteur émis par GitBook comme `visitor.token`.
+
+  Pour les sites authentifiés, GitBook transmet ce jeton au site sous la forme `jwt_token` dans l'URL de l'iframe/du script. Si vous chargez le script autonome depuis un site authentifié, vous devez inclure `jwt_token` dans le `<script src>` URL.
+</Callout>
+
+## Sites basés sur OIDC
+
+Docs Embed accepte le flux de jeton visiteur GitBook à l'aide de HS256. Vous ne pouvez pas modifier ni configurer cet algorithme pour accepter des jetons de fournisseur d'identité RS256.
+
+Ne transmettez pas le jeton d'accès ou le jeton ID d'un fournisseur OIDC en tant que `visitor.token`. Les jetons Auth0 et Descope utilisant RS256 sont incompatibles, et Docs Embed les rejette en raison de leur algorithme de signature. Ne transmettez pas, ne re-signez pas et ne générez pas un jeton visiteur GitBook à partir d'un jeton de fournisseur d'identité.
+
+Pour un site de documentation basé sur OIDC, utilisez ce flux :
+
+1. Envoyez l'utilisateur vers l'URL de votre site de documentation protégé, par exemple `https://docs.example.com`.
+2. Terminez la connexion OIDC interactive normale sur le site de documentation.
+3. Après que GitBook a établi la session du site de documentation et stocke `gitbook-visitor-token`, récupérez ce jeton.
+4. Transmettez le jeton avec l'approche basée sur les cookies ou sur le jeton direct sur cette page.
+
+Ce flux nécessite une connexion préalable réussie au site de documentation. Il nécessite également le cookie requis et la disponibilité du domaine.
+
+<Callout kind="alert">
+  Docs Embed ne peut pas démarrer, rediriger ou terminer silencieusement l'échange d'autorisation OIDC du site de documentation. Si un visiteur authentifié pour la première fois doit accéder entièrement depuis l'intégration, il n'existe aucun chemin d'intégration pris en charge. Faites-le passer par une étape explicite de connexion au site de documentation avant de charger l'intégration authentifiée.
+</Callout>
+
+## Approche 2 : détection basée sur les cookies
+
+Si votre site de documentation stocke le jeton visiteur dans des cookies (comme `gitbook-visitor-token`), vous pouvez le vérifier avant de charger l'intégration.
+
+Après qu'un utilisateur s'est connecté à votre site de documentation authentifié, GitBook stocke un jeton visiteur dans les cookies de son navigateur sous la clé `gitbook-visitor-token`. L'intégration a besoin de ce jeton pour récupérer le contenu de votre documentation.
+
+<strong>Le flux :</strong>
+
+1. L'utilisateur se connecte à votre site de documentation.
+2. GitBook stocke le jeton visiteur dans les cookies du navigateur.
+3. Votre application vérifie la présence du jeton.
+4. Si le jeton existe, chargez l'intégration et transmettez le jeton.
+5. Si le jeton n'existe pas, envoyez l'utilisateur sur votre site de documentation pour se connecter.
+
+<Tabs>
+  <Tab title="Script autonome">
+    **Extrait à copier-coller**
+
+    Utilisez cet extrait uniquement après que l'utilisateur a terminé la connexion au site de documentation :
+
+    ```html
+    <script>
+      (function () {
+        // Vérifier la présence du jeton visiteur dans les cookies
+        function getCookie(name) {
+          var value = "; " + document.cookie;
+          var parts = value.split("; " + name + "=");
+          if (parts.length === 2) return parts.pop().split(";").shift();
+        }
+
+        var token = getCookie("gitbook-visitor-token");
+
+        if (!token) {
+          console.warn("[Docs Embed] Connectez-vous sur https://docs.example.com avant de charger l'intégration.");
+          return;
+        }
+
+        // Le jeton existe, chargez l'intégration
+        var script = document.createElement("script");
+        script.src =
+          "https://docs.example.com/~gitbook/embed/script.js?jwt_token=" +
+          encodeURIComponent(token);
+        script.async = true;
+        script.onload = function () {
+          window.GitBook(
+            "init",
+            { siteURL: "https://docs.example.com" },
+            { visitor: { token: token } }
+          );
+          window.GitBook("show");
+        };
+        document.head.appendChild(script);
+      })();
+    </script>
+    ```
+
+    <Callout kind="alert">
+      Remplacez `docs.example.com` par l'URL réelle de votre site de documentation.
+    </Callout>
+
+    **Alternative : inviter les utilisateurs à se connecter**
+
+    Si le jeton est manquant, envoyez l'utilisateur vers l'URL protégée du site de documentation. Cela lance le flux de connexion OIDC interactif pris en charge :
+
+    ```html
+    <script>
+      (function () {
+        function getCookie(name) {
+          var value = "; " + document.cookie;
+          var parts = value.split("; " + name + "=");
+          if (parts.length === 2) return parts.pop().split(";").shift();
+        }
+
+        var token = getCookie("gitbook-visitor-token");
+
+        if (!token) {
+          // Rediriger vers la documentation ou afficher un message
+          alert("Veuillez vous connecter à votre documentation pour accéder à l'aide.");
+          window.location.href = "https://docs.example.com";
+          return;
+        }
+
+        // Charger l'intégration avec le jeton
+        var script = document.createElement("script");
+        script.src =
+          "https://docs.example.com/~gitbook/embed/script.js?jwt_token=" +
+          encodeURIComponent(token);
+        script.async = true;
+        script.onload = function () {
+          window.GitBook(
+            "init",
+            { siteURL: "https://docs.example.com" },
+            { visitor: { token: token } }
+          );
+          window.GitBook("show");
+        };
+        document.head.appendChild(script);
+      })();
+    </script>
+    ```
+  </Tab>
+
+  <Tab title="Package NPM">
+    Lorsque vous utilisez le package NPM, vérifiez la présence du jeton avant l'initialisation :
+
+    ```javascript
+    import { createGitBook } from "@gitbook/embed";
+
+    function initializeEmbed() {
+      // Vérifier le jeton dans les cookies
+      const getCookie = (name) => {
+        const value = `; ${document.cookie}`;
+        const parts = value.split(`; ${name}=`);
+        if (parts.length === 2) return parts.pop().split(";").shift();
+      };
+
+      const token = getCookie("gitbook-visitor-token");
+
+      if (!token) {
+        console.warn("[Docs Embed] Connectez-vous au site de documentation avant de charger l'intégration.");
+        return null;
+      }
+
+      const gitbook = createGitBook({
+        siteURL: "https://docs.example.com",
+      });
+
+      const iframe = document.createElement("iframe");
+      iframe.src = gitbook.getFrameURL({
+        visitor: { token: token },
+      });
+      const frame = gitbook.createFrame(iframe);
+
+      document.getElementById("embed-container").appendChild(iframe);
+      return frame;
+    }
+
+    initializeEmbed();
+    ```
+  </Tab>
+
+  <Tab title="Composants React">
+    Pour les applications React, affichez l'intégration de manière conditionnelle après que la connexion au site de documentation a créé le jeton visiteur :
+
+    ```jsx
+    import { useEffect, useState } from "react";
+    import { GitBookProvider, GitBookFrame } from "@gitbook/embed/react";
+
+    function App() {
+      const [token, setToken] = useState(null);
+
+      useEffect(() => {
+        // Vérifier le jeton dans les cookies
+        const getCookie = (name) => {
+          const value = `; ${document.cookie}`;
+          const parts = value.split(`; ${name}=`);
+          if (parts.length === 2) return parts.pop().split(";").shift();
+        };
+
+        const visitorToken = getCookie("gitbook-visitor-token");
+        setToken(visitorToken);
+      }, []);
+
+      if (!token) {
+        return (
+          <div>
+            <p>Veuillez vous connecter pour accéder à l'aide.</p>
+            <a href="https://docs.example.com">Se connecter</a>
+          </div>
+        );
+      }
+
+      return (
+        <GitBookProvider siteURL="https://docs.example.com">
+          <YourAppContent />
+          <GitBookFrame visitor={{ token: token }} />
+        </GitBookProvider>
+      );
+    }
+    ```
+  </Tab>
+</Tabs>
+
+## Pièges courants
+
+- **Utiliser un jeton de fournisseur d'identité** – N'utilisez pas un jeton d'accès OIDC ni un jeton ID comme `visitor.token`. Utilisez le jeton visiteur HS256 émis par GitBook après l'authentification au site de documentation.
+- **Chargement de l'intégration avant la connexion** – Envoyez les visiteurs qui arrivent pour la première fois vers le site de documentation afin de terminer la connexion avant de charger le script ou les composants.
+- **Le jeton ne persiste pas entre les domaines** – Les cookies ne persistent pas entre différents domaines en raison des politiques de sécurité du navigateur. Votre application et la documentation doivent être sur le même domaine ou sous-domaine, ou bien vous devez transmettre le jeton directement.
+- **Jeton expiré** – Les jetons peuvent expirer. Si l'intégration renvoie des erreurs d'authentification, invitez les utilisateurs à se reconnecter.
+- **Utilisation d'un mauvais nom de cookie** – Le jeton est stocké comme `gitbook-visitor-token`, pas `gitbook-token` ou d'autres variantes.
+- **Ne pas transmettre le jeton à init/getFrameURL** – Lorsque vous utilisez l'approche basée sur les cookies, assurez-vous de transmettre le jeton à `GitBook('init', ..., { visitor: { token } })` ou `getFrameURL({ visitor: { token } })`.
+
+## Débogage
+
+Pour vérifier que le jeton est présent, ouvrez la console de votre navigateur et exécutez :
+
+```javascript
+document.cookie.split(";").find((c) => c.includes("gitbook-visitor-token"));
+```
+
+Si cela renvoie `undefined`, l'utilisateur ne s'est pas encore connecté à votre documentation.
+
+## Étapes suivantes
+
+- [Personnalisation de l'intégration](/fr/docs/publier/embedding/configuration/customizing-docs-embed) – Ajouter des messages de bienvenue et des actions
+- [Création d'outils personnalisés](/fr/docs/publier/embedding/configuration/creating-custom-tools) – Intégrer à vos API produit
+- [Documentation Docs Embed](/fr/docs/publier/embedding) – Guide complet d'intégration

@@ -1,0 +1,658 @@
+---
+title: Publish an integration
+metaTitle: Publish an integration | Developers | GitBook Documentation
+ogImage: https://test-dai.imgix.net/org-4afef969-21f9-40f3-b5b8-b06c8b6cf68f/doc-22a3b060-9539-4176-97e4-49120e02f5d1/0a5a1a9630785855-organizations-d8f63b60-89ae-11e7-8574-5927d48c4877-sites-site_p4Xo4-socialprevie.jpg?fm=auto&auto=compress%2Cformat
+---
+
+**POST** `/integrations/{integrationName}`
+
+**Parameters**
+
+<ParamField header="Authorization" param-type="string" />
+
+<ParamField path="integrationName" param-type="string" required={true}>
+  Name of the integration.
+</ParamField>
+
+**Request body**
+
+<ParamField body="runtime" param-type="string" enum="v1,v2">
+  The runtime version to use for the integration. If not specified, the integration will use the default runtime.
+</ParamField>
+
+<ParamField body="icon" param-type="string">
+  Base64 content of the icon
+</ParamField>
+
+<ParamField body="title" param-type="string" required={true}>
+  Title of the integration
+</ParamField>
+
+<ParamField body="description" param-type="string" required={true}>
+  Description of the integration
+</ParamField>
+
+<ParamField body="summary" param-type="string">
+  Long form markdown summary of the integration
+</ParamField>
+
+<ParamField body="previewImages" param-type="string[]" />
+
+<ParamField body="visibility" param-type="string" enum="public,private,unlisted" />
+
+<ParamField body="target" param-type="string" enum="all,site,space,organization">
+  The target on which the integration can operate and needs to be configured for
+</ParamField>
+
+<ParamField body="scopes" param-type="string[]" required={true} enum="space:content:read,space:content:write,space:metadata:read,space:metadata:write,space:git:sync,page:feedback:read,site:metadata:read,site:views:read,site:script:inject,site:script:cookies,site:visitor:auth,site:visitor:claims,site:adaptive:read,site:adaptive:write,conversations:ingest,openapi:read,openapi:write">
+  Permissions that should be granted to the integration
+</ParamField>
+
+<ParamField body="categories" param-type="string[]" enum="analytics,collaboration,content,marketing,visitor-auth,other">
+  Categories for which the integration is listed in the marketplace
+</ParamField>
+
+<ParamField body="blocks" param-type="array">
+  Custom blocks defined by this integration.
+
+  <Expandable title="Array Items">
+    <ParamField body="id" param-type="string" required={true}>
+      Unique ID in the integration for the block. It also represents the UI component used.
+    </ParamField>
+
+    <ParamField body="title" param-type="string" required={true}>
+      Short descriptive title for the block.
+    </ParamField>
+
+    <ParamField body="description" param-type="string">
+      Long descriptive text for the block.
+    </ParamField>
+
+    <ParamField body="icon" param-type="string">
+      URL of the icon to represent this block.
+    </ParamField>
+
+    <ParamField body="urlUnfurl" param-type="string[]">
+      URLs patterns to convert as this block.
+    </ParamField>
+
+    <ParamField body="markdown" param-type="string" />
+  </Expandable>
+</ParamField>
+
+<ParamField body="contentSources" param-type="array">
+  <Expandable title="Array Items">
+    <ParamField body="id" param-type="string" required={true}>
+      Unique ID in the integration for the source.
+    </ParamField>
+
+    <ParamField body="title" param-type="string" required={true}>
+      Short descriptive title for the source.
+    </ParamField>
+
+    <ParamField body="description" param-type="string">
+      Long descriptive text for the source.
+    </ParamField>
+
+    <ParamField body="icon" param-type="string">
+      URL of the icon to represent this source.
+    </ParamField>
+
+    <ParamField body="configuration" param-type="object" required={true}>
+      ContentKit component for configuration
+
+      <Expandable title="Object Properties">
+        <ParamField body="componentId" param-type="string" required={true}>
+          ID of the ContentKit component defined in the integration
+        </ParamField>
+      </Expandable>
+    </ParamField>
+  </Expandable>
+</ParamField>
+
+<ParamField body="externalLinks" param-type="array">
+  External urls configured by the developer of the integration
+
+  <Expandable title="Array Items">
+    <ParamField body="url" param-type="string" required={true} />
+
+    <ParamField body="label" param-type="string" required={true} />
+  </Expandable>
+</ParamField>
+
+<ParamField body="configurations" param-type="object">
+  <Expandable title="Object Properties">
+    <ParamField body="account" param-type="string" />
+
+    <ParamField body="space" param-type="string" />
+
+    <ParamField body="site" param-type="string" />
+  </Expandable>
+</ParamField>
+
+<ParamField body="script" param-type="string" required={true}>
+  Content of the script to use
+</ParamField>
+
+<ParamField body="organization" param-type="string" required={true}>
+  The ID or subdomain of the organization under which the integration should be published
+</ParamField>
+
+<ParamField body="secrets" param-type="object">
+  Secrets stored on the integration and passed at runtime.
+</ParamField>
+
+<ParamField body="contentSecurityPolicy" param-type="string">
+  Security policy to validate the content of the integrations scripts and Contentkit. Will be sent as
+  headers when processing the script fetch event and the blocks fetch events.
+</ParamField>
+
+**Responses**
+
+`200` OK
+
+<ResponseField name="object" field-type="string" required={true} enum="integration" />
+
+<ResponseField name="name" field-type="string" required={true}>
+  Unique named identifier for the integration
+</ResponseField>
+
+<ResponseField name="version" field-type="number" required={true}>
+  Version of the integration
+</ResponseField>
+
+<ResponseField name="title" field-type="string" required={true}>
+  Title of the integration
+</ResponseField>
+
+<ResponseField name="description" field-type="string">
+  Description of the integration
+</ResponseField>
+
+<ResponseField name="summary" field-type="string">
+  Long form markdown summary of the integration
+</ResponseField>
+
+<ResponseField name="previewImages" field-type="string[]" required={true}>
+  URLs of images to showcase the integration
+</ResponseField>
+
+<ResponseField name="target" field-type="string" required={true} enum="all,site,space,organization">
+  The target on which the integration can operate and needs to be configured for
+</ResponseField>
+
+<ResponseField name="verified" field-type="boolean" required={true}>
+  If true, the integration has been verified by the GitBook team
+</ResponseField>
+
+<ResponseField name="visibility" field-type="string" required={true} enum="public,private,unlisted" />
+
+<ResponseField name="scopes" field-type="string[]" required={true} enum="space:content:read,space:content:write,space:metadata:read,space:metadata:write,space:git:sync,page:feedback:read,site:metadata:read,site:views:read,site:script:inject,site:script:cookies,site:visitor:auth,site:visitor:claims,site:adaptive:read,site:adaptive:write,conversations:ingest,openapi:read,openapi:write">
+  Permissions that should be granted to the integration
+</ResponseField>
+
+<ResponseField name="categories" field-type="string[]" required={true} enum="analytics,collaboration,content,marketing,visitor-auth,other">
+  Categories for which the integration is listed in the marketplace
+</ResponseField>
+
+<ResponseField name="blocks" field-type="array">
+  Custom blocks defined by this integration.
+
+  <Expandable title="Array Items">
+    <ResponseField name="id" field-type="string" required={true}>
+      Unique ID in the integration for the block. It also represents the UI component used.
+    </ResponseField>
+
+    <ResponseField name="title" field-type="string" required={true}>
+      Short descriptive title for the block.
+    </ResponseField>
+
+    <ResponseField name="description" field-type="string">
+      Long descriptive text for the block.
+    </ResponseField>
+
+    <ResponseField name="icon" field-type="string">
+      URL of the icon to represent this block.
+    </ResponseField>
+
+    <ResponseField name="urlUnfurl" field-type="string[]">
+      URLs patterns to convert as this block.
+    </ResponseField>
+
+    <ResponseField name="markdown" field-type="string" />
+  </Expandable>
+</ResponseField>
+
+<ResponseField name="contentSources" field-type="array">
+  <Expandable title="Array Items">
+    <ResponseField name="id" field-type="string" required={true}>
+      Unique ID in the integration for the source.
+    </ResponseField>
+
+    <ResponseField name="title" field-type="string" required={true}>
+      Short descriptive title for the source.
+    </ResponseField>
+
+    <ResponseField name="description" field-type="string">
+      Long descriptive text for the source.
+    </ResponseField>
+
+    <ResponseField name="icon" field-type="string">
+      URL of the icon to represent this source.
+    </ResponseField>
+
+    <ResponseField name="configuration" field-type="object" required={true}>
+      ContentKit component for configuration
+
+      <Expandable title="Object Properties">
+        <ResponseField name="componentId" field-type="string" required={true}>
+          ID of the ContentKit component defined in the integration
+        </ResponseField>
+      </Expandable>
+    </ResponseField>
+  </Expandable>
+</ResponseField>
+
+<ResponseField name="configurations" field-type="object">
+  <Expandable title="Object Properties">
+    <ResponseField name="account" field-type="string" />
+
+    <ResponseField name="space" field-type="string" />
+
+    <ResponseField name="site" field-type="string" />
+  </Expandable>
+</ResponseField>
+
+<ResponseField name="externalLinks" field-type="array" required={true}>
+  External urls configured by the developer of the integration
+
+  <Expandable title="Array Items">
+    <ResponseField name="url" field-type="string" required={true} />
+
+    <ResponseField name="label" field-type="string" required={true} />
+  </Expandable>
+</ResponseField>
+
+<ResponseField name="owner" field-type="object" required={true}>
+  <Expandable title="Object Properties">
+    <ResponseField name="object" field-type="string" required={true} enum="organization">
+      Type of Object, always equals to "organization"
+    </ResponseField>
+
+    <ResponseField name="id" field-type="string" required={true}>
+      Unique identifier for the organization
+    </ResponseField>
+
+    <ResponseField name="title" field-type="string" required={true}>
+      Name of the organization
+    </ResponseField>
+
+    <ResponseField name="createdAt" field-type="string" required={true} />
+
+    <ResponseField name="emailDomains" field-type="string[]" required={true} />
+
+    <ResponseField name="hostname" field-type="string">
+      Default hostname for the organization's public content, e.g. &lt;org-hostname>.gitbook.io
+    </ResponseField>
+
+    <ResponseField name="type" field-type="string" required={true} enum="business,community" />
+
+    <ResponseField name="useCase" field-type="string" enum="internalDocs,docsSite,audienceControlledSite,productDocs,teamKnowledgeBase,designSystem,openSourceDocs,notes,other" />
+
+    <ResponseField name="communityType" field-type="string" enum="nonProfit,openSource,education" />
+
+    <ResponseField name="defaultRole" field-type="string">
+      The role of a member in an organization, null for guests
+    </ResponseField>
+
+    <ResponseField name="defaultContent" field-type="string">
+      The default content for the organization
+    </ResponseField>
+
+    <ResponseField name="sso" field-type="boolean">
+      Whether SSO is enforced organization-wide
+    </ResponseField>
+
+    <ResponseField name="ai" field-type="boolean">
+      If true, the organization is configured to use all our AI features.
+    </ResponseField>
+
+    <ResponseField name="inviteLinks" field-type="boolean" required={true}>
+      If true, invite links are enabled for this organization.
+    </ResponseField>
+
+    <ResponseField name="auditLogs" field-type="boolean">
+      Whether audit logs can currently be accessed for this organization.
+    </ResponseField>
+
+    <ResponseField name="plan" field-type="string" required={true} enum="free_2024,plus_2024,pro_2024,enterprise_2024,community_2024,free,plus,pro,internal">
+      Name of the product
+    </ResponseField>
+
+    <ResponseField name="billing" field-type="object">
+      <Expandable title="Object Properties">
+        <ResponseField name="interval" field-type="string" required={true} enum="monthly,yearly">
+          Interval for a billing subscription
+        </ResponseField>
+
+        <ResponseField name="endDate" field-type="string" required={true} />
+
+        <ResponseField name="hasPaymentFailed" field-type="boolean" required={true}>
+          If true, we were unable to collect the last payment
+        </ResponseField>
+
+        <ResponseField name="canCheckout" field-type="boolean" required={true}>
+          If true, organization can create a checkout session to subscribe/update billing.
+          If false, organization must resolve other billing issues before a checkout can be done.
+        </ResponseField>
+
+        <ResponseField name="isScheduledToCancel" field-type="boolean" required={true}>
+          If true, the billing is set to cancel at the end of its current period
+        </ResponseField>
+
+        <ResponseField name="pricing" field-type="object" required={true}>
+          Pricing information for an organization
+
+          <Expandable title="Object Properties">
+            <ResponseField name="members" field-type="object" required={true}>
+              Pricing for members (organization plan)
+
+              <Expandable title="Object Properties">
+                <ResponseField name="plus_2024" field-type="object" required={true}>
+                  Pricing pair for monthly and yearly intervals
+
+                  <Expandable title="Object Properties">
+                    <ResponseField name="monthly" field-type="number" required={true}>
+                      Monthly price in USD
+                    </ResponseField>
+
+                    <ResponseField name="yearly" field-type="number" required={true}>
+                      Yearly price in USD (per month)
+                    </ResponseField>
+                  </Expandable>
+                </ResponseField>
+
+                <ResponseField name="pro_2024" field-type="object" required={true}>
+                  Pricing pair for monthly and yearly intervals
+
+                  <Expandable title="Object Properties">
+                    <ResponseField name="monthly" field-type="number" required={true}>
+                      Monthly price in USD
+                    </ResponseField>
+
+                    <ResponseField name="yearly" field-type="number" required={true}>
+                      Yearly price in USD (per month)
+                    </ResponseField>
+                  </Expandable>
+                </ResponseField>
+              </Expandable>
+            </ResponseField>
+
+            <ResponseField name="sites" field-type="object" required={true}>
+              Pricing for site types (site plans)
+
+              <Expandable title="Object Properties">
+                <ResponseField name="premium" field-type="object" required={true}>
+                  Pricing pair for monthly and yearly intervals
+
+                  <Expandable title="Object Properties">
+                    <ResponseField name="monthly" field-type="number" required={true}>
+                      Monthly price in USD
+                    </ResponseField>
+
+                    <ResponseField name="yearly" field-type="number" required={true}>
+                      Yearly price in USD (per month)
+                    </ResponseField>
+                  </Expandable>
+                </ResponseField>
+
+                <ResponseField name="ultimate" field-type="object" required={true}>
+                  Pricing pair for monthly and yearly intervals
+
+                  <Expandable title="Object Properties">
+                    <ResponseField name="monthly" field-type="number" required={true}>
+                      Monthly price in USD
+                    </ResponseField>
+
+                    <ResponseField name="yearly" field-type="number" required={true}>
+                      Yearly price in USD (per month)
+                    </ResponseField>
+                  </Expandable>
+                </ResponseField>
+              </Expandable>
+            </ResponseField>
+          </Expandable>
+        </ResponseField>
+
+        <ResponseField name="usageAddons" field-type="object" required={true}>
+          Configuration for the usage-based addons
+        </ResponseField>
+
+        <ResponseField name="minUsers" field-type="number">
+          The minimum number of members allowed for this organization.
+        </ResponseField>
+
+        <ResponseField name="maxUsers" field-type="number">
+          The maximum number of members allowed for this organization
+        </ResponseField>
+
+        <ResponseField name="minPremiumSites" field-type="number">
+          The minimum number of premium sites allowed for this organization.
+        </ResponseField>
+
+        <ResponseField name="maxPremiumSites" field-type="number">
+          The maximum number of premium sites allowed for this organization.
+        </ResponseField>
+
+        <ResponseField name="minUltimateSites" field-type="number">
+          The minimum number of ultimate sites allowed for this organization.
+        </ResponseField>
+
+        <ResponseField name="maxUltimateSites" field-type="number">
+          The maximum number of ultimate sites allowed for this organization.
+        </ResponseField>
+
+        <ResponseField name="paidMembers" field-type="number">
+          The number of paid members on the current subscription.
+        </ResponseField>
+
+        <ResponseField name="paidPremiumSites" field-type="number">
+          The number of paid premium sites on the current subscription.
+        </ResponseField>
+
+        <ResponseField name="paidUltimateSites" field-type="number">
+          The number of paid ultimate sites on the current subscription.
+        </ResponseField>
+
+        <ResponseField name="canChangeInterval" field-type="boolean" required={true}>
+          Whether changing billing interval is allowed
+        </ResponseField>
+
+        <ResponseField name="canUseSAML" field-type="boolean" required={true}>
+          Whether configuring SAML is allowed
+        </ResponseField>
+
+        <ResponseField name="creditsBundle" field-type="string" required={true}>
+          The AI credit bundle the organization tops up every month, or null when the organization is not billed for AI usage. `none` means pay as you go.
+        </ResponseField>
+
+        <ResponseField name="aiCreditAlertThreshold" field-type="string" required={true}>
+          Percentage of total AI credits remaining at which to send a low-balance alert, or null when the alert is disabled.
+        </ResponseField>
+      </Expandable>
+    </ResponseField>
+
+    <ResponseField name="mergeRules" field-type="string" required={true} />
+
+    <ResponseField name="urls" field-type="object" required={true}>
+      URLs associated with the object
+
+      <Expandable title="Object Properties">
+        <ResponseField name="location" field-type="string" required={true}>
+          URL of the organization in the API
+        </ResponseField>
+
+        <ResponseField name="app" field-type="string" required={true}>
+          URL of the organization in the application
+        </ResponseField>
+
+        <ResponseField name="logo" field-type="string" />
+      </Expandable>
+    </ResponseField>
+
+    <ResponseField name="trial" field-type="object" required={true}>
+      <Expandable title="Object Properties">
+        <ResponseField name="status" field-type="string" required={true} enum="notapplicable,none,active,ended,expired">
+          - notapplicable, no trial can be started for this organization. - none, no trial has been started yet. - active, trial is active. - ended, the trial has ended and the user has choosen to stay on the free plan or has upgraded to a paid plan. - expired, the trial has ended but the user hasn't deciced yet what to do.
+        </ResponseField>
+
+        <ResponseField name="count" field-type="integer" required={true}>
+          Number of trials the organization has consumed.
+        </ResponseField>
+
+        <ResponseField name="endDate" field-type="string" />
+
+        <ResponseField name="decision" field-type="string" enum="downgrade">
+          The decision taken by the user at the end of the trial
+        </ResponseField>
+      </Expandable>
+    </ResponseField>
+
+    <ResponseField name="customHostname" field-type="string">
+      Custom hostname linked to this organization
+    </ResponseField>
+
+    <ResponseField name="blocked" field-type="object">
+      If the organization is blocked, information about the block will appear here
+
+      <Expandable title="Object Properties">
+        <ResponseField name="source" field-type="string" enum="backoffice,external,internal">
+          Source for an organization block
+        </ResponseField>
+
+        <ResponseField name="reason" field-type="string" required={true}>
+          A short description giving context on the reason for the block.
+        </ResponseField>
+      </Expandable>
+    </ResponseField>
+
+    <ResponseField name="internal_billingMigration" field-type="object">
+      <Expandable title="Object Properties">
+        <ResponseField name="deadline" field-type="string" />
+
+        <ResponseField name="discountPercent" field-type="number">
+          A discount the organization may have received thanks to migrating early.
+        </ResponseField>
+
+        <ResponseField name="discountEndDate" field-type="string" />
+      </Expandable>
+    </ResponseField>
+
+    <ResponseField name="permissions" field-type="object" required={true}>
+      The set of permissions for the organization
+
+      <Expandable title="Object Properties">
+        <ResponseField name="view" field-type="boolean" required={true}>
+          Can the user view the organization.
+        </ResponseField>
+
+        <ResponseField name="access" field-type="boolean" required={true}>
+          Can the user view the organization in the application.
+        </ResponseField>
+
+        <ResponseField name="admin" field-type="boolean" required={true}>
+          Can the user manage the title, members, etc.
+        </ResponseField>
+
+        <ResponseField name="ownTeam" field-type="boolean" required={true}>
+          Is the user a team owner.
+        </ResponseField>
+
+        <ResponseField name="createContent" field-type="boolean" required={true}>
+          Can the user create new spaces/collections in the organization.
+        </ResponseField>
+
+        <ResponseField name="createOpenAPISpec" field-type="boolean" required={true}>
+          Can the user create new OpenAPI specifications.
+        </ResponseField>
+
+        <ResponseField name="viewBilling" field-type="boolean" required={true}>
+          Can the user view the billing details of the organization.
+        </ResponseField>
+
+        <ResponseField name="listMembers" field-type="boolean" required={true}>
+          Can the user list the members of the organization.
+        </ResponseField>
+
+        <ResponseField name="listTeams" field-type="boolean" required={true}>
+          Can the user list the teams in the organization.
+        </ResponseField>
+
+        <ResponseField name="listIntegrations" field-type="boolean" required={true}>
+          Can the user list the integrations in the organization.
+        </ResponseField>
+
+        <ResponseField name="listInstallations" field-type="boolean" required={true}>
+          Can the user list the integration installations in the organization.
+        </ResponseField>
+
+        <ResponseField name="installIntegration" field-type="boolean" required={true}>
+          Can the user install integrations in the organization.
+        </ResponseField>
+      </Expandable>
+    </ResponseField>
+  </Expandable>
+</ResponseField>
+
+<ResponseField name="urls" field-type="object" required={true}>
+  URLs associated with the object
+
+  <Expandable title="Object Properties">
+    <ResponseField name="location" field-type="string" required={true}>
+      URL of the integration in the API
+    </ResponseField>
+
+    <ResponseField name="icon" field-type="string">
+      URL of the icon associated to the integration
+    </ResponseField>
+
+    <ResponseField name="app" field-type="string" required={true}>
+      URL of the integration in the application
+    </ResponseField>
+
+    <ResponseField name="assets" field-type="string" required={true}>
+      URL of the integration's assets.
+    </ResponseField>
+
+    <ResponseField name="publicEndpoint" field-type="string" required={true}>
+      Public HTTP endpoint for the integration
+    </ResponseField>
+
+    <ResponseField name="publicContentEndpoint" field-type="string" required={true}>
+      Public endpoint serving the integration's rendered content (e.g. WebFrames), isolated from the cookie-bearing publicEndpoint origin. Equals publicEndpoint when no separate content origin is configured.
+    </ResponseField>
+  </Expandable>
+</ResponseField>
+
+<ResponseField name="permissions" field-type="object" required={true}>
+  The set of permissions for the integration
+
+  <Expandable title="Object Properties">
+    <ResponseField name="admin" field-type="boolean" required={true} />
+  </Expandable>
+</ResponseField>
+
+<ResponseField name="contentSecurityPolicy" field-type="string">
+  Security policy to validate the content of the integrations scripts and Contentkit. Will be sent as
+  headers when processing the script fetch event and the blocks fetch events.
+</ResponseField>
+
+`404` Not Found
+
+<ResponseField name="error" field-type="object" required={true}>
+  <Expandable title="Object Properties">
+    <ResponseField name="code" field-type="integer" required={true} enum="404" />
+
+    <ResponseField name="message" field-type="string" required={true} />
+  </Expandable>
+</ResponseField>

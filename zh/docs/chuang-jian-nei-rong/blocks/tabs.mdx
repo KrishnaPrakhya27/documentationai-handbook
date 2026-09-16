@@ -1,0 +1,52 @@
+---
+title: 标签页
+description: 添加标签页，以便在不创建冗长、难以导航的页面的情况下展示大块相关信息
+metaTitle: 标签页 | GitBook Documentation
+ogImage: https://test-dai.imgix.net/org-4afef969-21f9-40f3-b5b8-b06c8b6cf68f/doc-22a3b060-9539-4176-97e4-49120e02f5d1/0a5a1a9630785855-organizations-d8f63b60-89ae-11e7-8574-5927d48c4877-sites-site_p4Xo4-socialprevie.jpg?fm=auto&auto=compress%2Cformat
+---
+
+选项卡块是一个单一块，可添加多个选项卡。
+
+每个选项卡都可以包含多个其他块，且类型不限。因此，你可以在同一个选项卡块中的各个选项卡里添加代码块、图片、集成块等更多内容。
+
+### 添加或删除选项卡
+
+要向选项卡块中添加新选项卡，请将鼠标悬停在选项卡边缘上，然后单击出现的 `+` 按钮。要删除选项卡，请打开该选项卡的 **选项菜单** <Image src="https://test-dai.imgix.net/org-4afef969-21f9-40f3-b5b8-b06c8b6cf68f/doc-22a3b060-9539-4176-97e4-49120e02f5d1/4c115a43418b42e3-spaces-NkEGS7hzeqa35sMXQZ4X-uploads-aS1QvPIBVYwhpFTGcPBN-options-menu.svg?rasterize-bypass=true" alt="The Options menu icon in GitBook" /> 然后选择 **删除**.
+
+### 添加、更改或移除图标
+
+要添加或更改图标，请打开该选项卡的 **选项菜单** <Image src="https://test-dai.imgix.net/org-4afef969-21f9-40f3-b5b8-b06c8b6cf68f/doc-22a3b060-9539-4176-97e4-49120e02f5d1/4c115a43418b42e3-spaces-NkEGS7hzeqa35sMXQZ4X-uploads-aS1QvPIBVYwhpFTGcPBN-options-menu.svg?rasterize-bypass=true" alt="The Options menu icon in GitBook" />。然后选择 **设置图标** 或 **更改图标**，并选择一个图标。
+
+要移除图标，请打开该选项卡的 **选项菜单** <Image src="https://test-dai.imgix.net/org-4afef969-21f9-40f3-b5b8-b06c8b6cf68f/doc-22a3b060-9539-4176-97e4-49120e02f5d1/4c115a43418b42e3-spaces-NkEGS7hzeqa35sMXQZ4X-uploads-aS1QvPIBVYwhpFTGcPBN-options-menu.svg?rasterize-bypass=true" alt="The Options menu icon in GitBook" />。然后选择 **移除图标**.
+
+### 示例
+
+以下是一个列出与特定平台相关说明的示例：
+
+<Tabs>
+  <Tab title="Windows">
+    以下是 Windows 的说明
+  </Tab>
+
+  <Tab title="macOS">
+    以下是 macOS 的说明
+  </Tab>
+
+  <Tab title="Linux">
+    以下是 Linux 的说明
+  </Tab>
+</Tabs>
+
+### Markdown 中的表示方式
+
+```markdown
+{% tabs %}
+
+{% tab title="Windows" icon="windows" %} 以下是 Windows 的说明 {% endtab %}
+
+{% tab title="macOS" icon="apple" %} 以下是 macOS 的说明 {% endtab %}
+
+{% tab title="Linux" icon="linux" %} 以下是 Linux 的说明 {% endtab %}
+
+{% endtabs %}
+```

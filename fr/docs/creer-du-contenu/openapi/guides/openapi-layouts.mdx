@@ -1,0 +1,72 @@
+---
+title: Mises en page OpenAPI
+description: Choisissez entre une page par étiquette et une page par opération pour votre référence d’API
+metaTitle: Mises en page OpenAPI | GitBook Documentation
+ogImage: https://test-dai.imgix.net/org-4afef969-21f9-40f3-b5b8-b06c8b6cf68f/doc-22a3b060-9539-4176-97e4-49120e02f5d1/0a5a1a9630785855-organizations-d8f63b60-89ae-11e7-8574-5927d48c4877-sites-site_p4Xo4-socialprevie.jpg?fm=auto&auto=compress%2Cformat
+---
+
+Lorsque vous insérez un **Référence OpenAPI**, GitBook peut organiser les opérations de deux façons.
+
+Choisissez la mise en page qui correspond à la manière dont vous souhaitez que les utilisateurs parcourent votre API.
+
+### Accédez à ce paramètre
+
+Pour choisir une mise en page :
+
+1. Dans votre section, cliquez sur <strong>Ajouter un nouveau...</strong> → **Référence OpenAPI**. Vous pouvez également modifier une Référence OpenAPI existante.
+2. Choisissez votre spécification OpenAPI.
+3. Dans **Structure de la page**, sélectionnez **Une page par tag** ou **Une page par opération**.
+
+Pour connaître le flux de configuration complet, consultez [Insérer une référence d'API dans votre documentation](/fr/docs/creer-du-contenu/openapi/insert-api-reference-in-your-docs).
+
+### Mises en page disponibles
+
+GitBook prend en charge deux mises en page :
+
+- **Une page par tag** crée une page pour chaque tag. Chaque page répertorie toutes les opérations portant ce tag.
+- **Une page par opération** crée une page pour chaque opération. GitBook regroupe ces pages par tag dans la table des matières.
+
+### Exemple d'entrée
+
+Les deux mises en page partent des mêmes données OpenAPI :
+
+```yaml title="openapi.yaml"
+paths:
+  /users:
+    get:
+      tags:
+        - users
+      summary: Liste des utilisateurs
+    post:
+      tags:
+        - users
+      summary: Créer un utilisateur
+```
+
+### Une page par tag
+
+Utilisez cette mise en page lorsque chaque tag représente une section claire de votre API.
+
+Elle fonctionne bien lorsque vous souhaitez des pages de synthèse, moins d'éléments dans la navigation et des points de terminaison associés sur la même page.
+
+Avec cette mise en page, les deux opérations apparaissent sur la même page générée pour le `users` tag.
+
+### Une page par opération
+
+Utilisez cette mise en page lorsque vous souhaitez des liens directs vers des points de terminaison individuels.
+
+Elle fonctionne bien pour les grandes API, ou lorsque chaque point de terminaison a besoin de sa propre page dans la navigation.
+
+Avec cette mise en page, GitBook crée une page pour `GET /users` et une page pour `POST /users`. Les deux pages apparaissent sous le `users` groupe de tags.
+
+### Recommandation rapide
+
+Choisissez **Une page par tag** pour les petites API, ou lorsque chaque tag constitue une section claire.
+
+Choisissez **Une page par opération** pour les grandes API, ou lorsque vous voulez une page dédiée pour chaque point de terminaison.
+
+### Contrôlez la navigation générée
+
+Dans les deux mises en page, GitBook utilise vos tags OpenAPI pour organiser la référence.
+
+Pour contrôler l'ordre, la hiérarchie, les titres de page, les icônes et les descriptions, consultez [Structurer votre référence d'API](/fr/docs/creer-du-contenu/openapi/guides/structuring-your-api-reference).

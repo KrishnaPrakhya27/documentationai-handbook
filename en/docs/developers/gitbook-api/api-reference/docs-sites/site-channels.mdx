@@ -1,0 +1,34 @@
+---
+title: Site channels
+description: Configure site channels for your docs site.
+metaTitle: Site channels | Developers | GitBook Documentation
+ogImage: https://test-dai.imgix.net/org-4afef969-21f9-40f3-b5b8-b06c8b6cf68f/doc-22a3b060-9539-4176-97e4-49120e02f5d1/0a5a1a9630785855-organizations-d8f63b60-89ae-11e7-8574-5927d48c4877-sites-site_p4Xo4-socialprevie.jpg?fm=auto&auto=compress%2Cformat
+---
+
+Manage the channels used as origins for questions and answers in your site ask data.
+
+## The SiteChannel object
+
+<ResponseField name="object" field-type="string" required={true} enum="site-channel" />
+
+<ResponseField name="id" field-type="string" required={true}>
+  Unique identifier for the site channel.
+</ResponseField>
+
+<ResponseField name="status" field-type="string" required={true} enum="active,pending" />
+
+<ResponseField name="role" field-type="string" required={true} enum="collaborator,support" />
+
+<ResponseField name="answers" field-type="integer" required={true}>
+  Number of answers linked to this channel.
+</ResponseField>
+
+<ResponseField name="createdAt" field-type="string" required={true} />
+
+<ResponseField name="urls" field-type="object" required={true}>
+  <Expandable title="Object Properties">
+    <ResponseField name="location" field-type="string" required={true}>
+      URL of the site channel in the API.
+    </ResponseField>
+  </Expandable>
+</ResponseField>

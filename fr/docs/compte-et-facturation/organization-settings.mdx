@@ -1,0 +1,105 @@
+---
+title: Paramètres de l’organisation
+metaTitle: Paramètres de l’organisation | GitBook Documentation
+ogImage: https://test-dai.imgix.net/org-4afef969-21f9-40f3-b5b8-b06c8b6cf68f/doc-22a3b060-9539-4176-97e4-49120e02f5d1/0a5a1a9630785855-organizations-d8f63b60-89ae-11e7-8574-5927d48c4877-sites-site_p4Xo4-socialprevie.jpg?fm=auto&auto=compress%2Cformat
+---
+
+<Callout kind="info">
+  Seuls les administrateurs d’une organisation peuvent accéder aux paramètres de l’organisation.
+</Callout>
+
+Consultez et gérez les paramètres de votre organisation GitBook. Ils incluent les membres, les méthodes de connexion, les règles de fusion, la facturation et les formules.
+
+<Image src="https://test-dai.imgix.net/org-4afef969-21f9-40f3-b5b8-b06c8b6cf68f/doc-22a3b060-9539-4176-97e4-49120e02f5d1/b607d58b2669e741-spaces-NkEGS7hzeqa35sMXQZ4X-uploads-uslrejntFsDDPniNzkHX-22_01_06_organization_s.png?fm=auto&auto=compress%2Cformat" alt="A GitBook screenshot showing the organization settings page" caption="La page des paramètres de votre organisation." />
+
+### Accédez aux paramètres d’une organisation
+
+1. En haut de la barre latérale, ouvrez le menu de l’organisation.
+2. Cliquez sur **Paramètres**.
+
+Les paramètres s’ouvrent dans un écran dédié. Vos paramètres personnels **Compte** incluent **Général**, **Notifications**, **Organisations**, et **Outils de développement**. Vos **Organisation** paramètres apparaissent dans la barre latérale. Cliquez sur **Retour à l’application** pour revenir à votre travail.
+
+Le **Organisation** groupe contient les pages suivantes :
+
+<Expandable title="Général">
+  **Profil de l’organisation**
+
+  Mettez à jour le logo et le nom de votre organisation.
+
+  **Fonctionnalités GitBook AI**
+
+  [GitBook AI](/fr/docs/creer-du-contenu/searching-your-content/gitbook-ai)La recherche alimentée par GitBook AI permet aux membres de poser des questions sur votre contenu en langage naturel. Vous pouvez aussi activer GitBook AI pour le contenu publié dans les paramètres de personnalisation de votre site [paramètres de personnalisation](/fr/docs/gerer-votre-site/customization).
+
+  **Actions**
+
+  Supprimez votre organisation depuis cette section.
+
+  <Callout kind="danger">
+    <strong>La suppression d’une organisation est définitive.</strong> GitBook supprime toutes les données associées. Pour conserver le contenu appartenant à l’organisation, [déplacez-le vers une autre organisation](/fr/docs/creer-du-contenu/content-structure/space#move-a-space) d’abord.
+  </Callout>
+</Expandable>
+
+<Expandable title="Membres">
+  Ajoutez et supprimez [des membres](/fr/docs/collaborer/member-management). Vous pouvez également mettre à jour le [rôle](/fr/docs/collaborer/member-management/roles).
+</Expandable>
+
+<Expandable title="Règles de fusion">
+  Contrôlez la manière dont les demandes de modification sont examinées et fusionnées dans toute votre organisation. Les règles de l’organisation s’appliquent par défaut à chaque section. Chaque section peut hériter de ces règles, les remplacer ou les désactiver. En savoir plus sur [les règles de fusion](/fr/docs/collaborer/merge-rules).
+</Expandable>
+
+<Expandable title="GitBook Agent">
+  Gérez les paramètres au niveau de l’organisation pour [GitBook Agent](/fr/docs/agent-gitbook/overview).
+</Expandable>
+
+<Expandable title="Intégrations">
+  Vérifiez quelles intégrations sont installées pour votre organisation. Vous pouvez aussi [installer de nouvelles intégrations](/fr/docs/gerer-votre-site/install-an-integration).
+</Expandable>
+
+<Expandable title="OpenAPI">
+  Gérez les spécifications OpenAPI utilisées par les sites de votre organisation pour les références d’API.
+</Expandable>
+
+<Expandable title="Traductions">
+  Gérez les paramètres globaux de l’organisation pour les traductions automatiques.
+</Expandable>
+
+<Expandable title="Liens d’invitation">
+  Créez et gérez des liens permettant aux personnes de rejoindre votre organisation.
+</Expandable>
+
+<Expandable title="Équipes">
+  [Équipes](/fr/docs/collaborer/member-management/teams) regroupent les membres de l’organisation. Vous pouvez accorder l’accès aux membres d’une équipe.
+</Expandable>
+
+<Expandable title="SSO">
+  **Domaines e-mail**
+
+  Pour chaque domaine que vous ajoutez, les personnes ayant une adresse e-mail sur ce domaine peuvent accéder à l’organisation après avoir créé un compte GitBook. Choisissez leur valeur par défaut [rôle](/fr/docs/collaborer/member-management/roles).
+
+  **SAML**
+
+  Si vous êtes sur l’offre Enterprise, configurez l’authentification unique SAML avec votre fournisseur d’identité préféré. [Contactez le service commercial](mailto:sales@gitbook.com) pour passer à l’offre Enterprise.
+</Expandable>
+
+<Expandable title="Facturation">
+  Consultez votre offre actuelle et changez d’offre. Utilisez le commutateur pour afficher les prix annuels, avec 2 mois offerts, ou les prix mensuels. Utilisez ensuite le bouton de mise à niveau ou de rétrogradation sous chaque offre.
+
+  Consultez notre [politique de facturation](/fr/docs/compte-et-facturation/plans/billing-policy) pour savoir comment nous calculons les frais lorsque vous changez d’offre en cours de cycle.
+
+  Cliquez sur **Gérer la facturation** pour ouvrir Stripe. Vous pourrez y gérer votre moyen de paiement et vos informations de facturation. Vous pouvez aussi [annuler votre offre](/fr/docs/compte-et-facturation/plans/cancelling-a-plan). Si vous renouvelez avant la fin de la période de facturation, votre offre se poursuit sans interruption.
+</Expandable>
+
+### Transférer la propriété d’une organisation
+
+Les administrateurs disposent des mêmes droits dans GitBook — ils peuvent gérer la facturation, les membres et la publication — donc transférer la propriété revient à faire du nouveau propriétaire un administrateur :
+
+1. Assurez-vous que le nouveau propriétaire est un [administrateur](/fr/docs/collaborer/member-management/roles) dans l’organisation.
+2. Pour procéder au transfert complet, demandez à l’autre administrateur de vous retirer de l’organisation. Vous perdrez l’accès au contenu de l’organisation.
+
+Pour conserver l’organisation tout en vous connectant avec une adresse e-mail différente, mettez à jour votre e-mail sous **Compte → Général** dans l’écran des paramètres à la place.
+
+### Que devient le contenu supprimé
+
+La suppression d’une organisation supprime définitivement tout le contenu qui lui est associé — il en va de même pour la suppression d’un compte qui est l’unique membre d’une organisation. Si un compte supprimé appartenait à une organisation comptant plusieurs membres, le contenu de l’organisation — y compris les contributions de ce membre — reste intact.
+
+Si le contenu a été supprimé il y a moins de sept jours, vous pouvez le restaurer depuis la **Corbeille**. GitBook ne conserve pas de sauvegardes au-delà de cette période de sept jours, donc le contenu supprimé il y a plus de sept jours ne peut pas être récupéré.

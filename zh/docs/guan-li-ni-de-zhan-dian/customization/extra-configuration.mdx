@@ -1,0 +1,64 @@
+---
+title: 额外配置
+description: 为你已发布的文档配置额外选项
+metaTitle: 额外配置 | GitBook Documentation
+ogImage: https://test-dai.imgix.net/org-4afef969-21f9-40f3-b5b8-b06c8b6cf68f/doc-22a3b060-9539-4176-97e4-49120e02f5d1/0a5a1a9630785855-organizations-d8f63b60-89ae-11e7-8574-5927d48c4877-sites-site_p4Xo4-socialprevie.jpg?fm=auto&auto=compress%2Cformat
+---
+
+在 **配置** 在该选项卡中，您可以更改与您的站点相关的其他设置。例如，您可以设置界面本地化、链接行为和页面操作，帮助用户将您的内容添加到 ChatGPT 等 AI 工具中。
+
+在本页中，您将了解这些选项各自的作用，以及如何启用或禁用它们。
+
+### 本地化用户界面
+
+您可以从语言列表中选择一种语言，以本地化已发布内容的用户界面。这会将翻译应用于界面中不可自定义的区域。
+
+此设置将 *不* 不会自动翻译您的实际内容，但它可以帮助界面与您正在编写的语言保持一致。要了解更多关于翻译内容的信息，请前往 [翻译](/zh/docs/gitbook-agent/translations) 部分。
+
+我们尚未提供您想看到的某种语言吗？ [告诉我们](https://github.com/GitbookIO/gitbook/issues)，或 [贡献您自己的翻译](https://www.gitbook.com/solutions/open-source)!
+
+### 主链接
+
+在 **主链接** 部分的 **配置** 选项卡中，您可以为文档站点左上角的徽标设置自定义 URL。
+
+默认情况下，点击徽标或站点标题会将用户带回文档站点的第一页。您可以设置站点外部的自定义 URL——或者站点内的某个页面、章节或变体——来替代打开。如果您的文档是更大网站的一部分，这有助于访客导航回您的着陆页。
+
+### 外部链接
+
+该 **外部链接** 部分 **配置** 选项卡控制您的站点用户点击外部 URL 链接时的行为。默认情况下，这些链接会在同一选项卡中打开，但如果您愿意，可以将其改为在新选项卡中打开。
+
+### 页面操作
+
+页面操作会在文档的每个页面中添加一个页面级下拉菜单，使用户能够对页面内容执行快速操作——非常适合将您的文档内容作为 AI 提示词中的上下文。
+
+如果您不希望在已发布的文档中显示页面选项，您可以在 **配置** 选项卡中禁用此选项。
+
+如果您禁用 **页面操作**，GitBook 也会禁用位于 `~gitbook/mcp`。要使用 MCP，请保持 **页面操作** 在……中启用 **站点自定义** → **页面操作**.
+
+<Image src="https://test-dai.imgix.net/org-4afef969-21f9-40f3-b5b8-b06c8b6cf68f/doc-22a3b060-9539-4176-97e4-49120e02f5d1/f746cbf5b24ee063-spaces-NkEGS7hzeqa35sMXQZ4X-uploads-4mfIo4JtAIRCQNm1fDB6-Configure-2x.png?fm=auto&auto=compress%2Cformat" alt="" />
+
+#### 在 AI 提供方中打开
+
+启用此选项可显示一个操作，用页面内容在 ChatGPT 或 Claude 中打开。
+
+#### 复制/以 Markdown 查看
+
+启用此选项可显示一个将页面复制或以 Markdown 形式查看的操作。
+
+#### 连接 MCP 服务器
+
+启用此选项可在页面操作菜单中显示 MCP 服务器链接。
+
+此选项并不会启用 MCP 服务器本身。MCP 服务器仅在 **页面操作** 启用时才可工作。要了解更多，请参阅 [已发布文档的 MCP 服务器](/zh/docs/wei-du-zhe-ti-gong-de-ai/mcp-servers-for-published-docs).
+
+#### 在 GitHub/GitLab 上编辑
+
+如果您的章节已连接到 Git 仓库，您可以在 **配置** 选项卡中启用此选项，以显示一个链接，让用户可从您关联的仓库为文档做出贡献。
+
+#### 导出 PDF
+
+启用此选项可允许访客 [导出 PDF](/zh/docs/fa-bu/pdf-export) 您的文档。
+
+### 隐私政策
+
+在 **隐私政策** 部分的 **配置** 选项卡中，您可以链接到您自己的隐私政策，以帮助访客了解您的 GitBook 内容如何使用 Cookie 以及您如何保护他们的隐私。如果您选择不设置，您的站点将默认使用 [GitBook 的隐私政策](/en/docs/policies/privacy-and-security/statement/cookies).

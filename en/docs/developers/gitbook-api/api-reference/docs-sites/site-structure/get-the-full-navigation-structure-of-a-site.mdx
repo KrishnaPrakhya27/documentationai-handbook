@@ -1,0 +1,39 @@
+---
+title: Get the full navigation structure of a site
+metaTitle: Get the full navigation structure of a site | Developers | GitBook Documentation
+ogImage: https://test-dai.imgix.net/org-4afef969-21f9-40f3-b5b8-b06c8b6cf68f/doc-22a3b060-9539-4176-97e4-49120e02f5d1/0a5a1a9630785855-organizations-d8f63b60-89ae-11e7-8574-5927d48c4877-sites-site_p4Xo4-socialprevie.jpg?fm=auto&auto=compress%2Cformat
+---
+
+Returns the complete hierarchical structure of a site, including all sections, section groups, and site spaces in their current order. Use this to understand how a site's navigation is organized before making structural changes, or to render the full navigation tree of a site.
+
+**GET** `/orgs/{organizationId}/sites/{siteId}/structure`
+
+**Parameters**
+
+<ParamField header="Authorization" param-type="string" />
+
+<ParamField path="organizationId" param-type="string" required={true}>
+  The unique id of the organization
+</ParamField>
+
+<ParamField path="siteId" param-type="string" required={true}>
+  The unique id of the site
+</ParamField>
+
+<ParamField query="shareKey" param-type="string">
+  For sites published via share-links, the share key is useful to resolve published URLs.
+</ParamField>
+
+**Responses**
+
+`200` OK
+
+`404` Not Found
+
+<ResponseField name="error" field-type="object" required={true}>
+  <Expandable title="Object Properties">
+    <ResponseField name="code" field-type="integer" required={true} enum="404" />
+
+    <ResponseField name="message" field-type="string" required={true} />
+  </Expandable>
+</ResponseField>

@@ -1,0 +1,63 @@
+---
+title: Dépannage
+description: Résolvez les problèmes de chargement, de connexion et de cache dans l’application GitBook
+metaTitle: Dépannage | GitBook Documentation
+ogImage: https://test-dai.imgix.net/org-4afef969-21f9-40f3-b5b8-b06c8b6cf68f/doc-22a3b060-9539-4176-97e4-49120e02f5d1/0a5a1a9630785855-organizations-d8f63b60-89ae-11e7-8574-5927d48c4877-sites-site_p4Xo4-socialprevie.jpg?fm=auto&auto=compress%2Cformat
+---
+
+#### Les pages ou les intégrations ne se chargent pas
+
+Si l'application GitBook ne se charge pas, plante sur certaines pages, affiche « Nous n'avons pas pu charger l'intégration » ou si les tableaux de bord d'analytique restent vides, la cause habituelle est un bloqueur de publicités ou une extension de confidentialité qui bloque certaines parties de l'application.
+
+1. Désactivez temporairement votre bloqueur de publicités ou votre extension de confidentialité, puis rechargez la page.
+2. Si vous ne voulez pas le désactiver complètement, ajoutez les domaines ci-dessous [Domaines autorisés](#allowed-domains) à la liste d'autorisation de votre extension.
+3. Actualisez la page pour vérifier qu'elle se charge correctement.
+
+#### « Connexion perdue »
+
+« Connexion perdue » signifie que GitBook ne peut pas établir les connexions réseau dont il a besoin — généralement parce qu'un élément de votre ordinateur ou de votre réseau les bloque. Les causes courantes incluent les extensions de navigateur, les pare-feu, les logiciels de sécurité, les proxys et les problèmes réseau temporaires.
+
+Suivez ces étapes dans l'ordre :
+
+1. <strong>Videz votre cache et redémarrez votre navigateur.</strong> Cela résout la plupart des problèmes de connexion temporaires.
+2. **Redémarrez votre connexion Wi‑Fi ou Ethernet**, puis réessayez.
+3. <strong>Essayez un autre navigateur ou appareil.</strong> Si GitBook fonctionne ailleurs, le problème est propre à votre configuration d'origine — précisez quel navigateur vous utilisiez lorsque vous contactez le support.
+4. **Désactivez les extensions du navigateur** une par une pour identifier la cause.
+5. **Vérifiez votre pare-feu ou votre logiciel de sécurité** contre [Domaines autorisés](#allowed-domains).
+
+Vérifiez également [la page d'état de GitBook](https://www.gitbookstatus.com/) pour toute panne en cours.
+
+#### Effectuez un rechargement forcé de votre navigateur
+
+L'équipe d'assistance pourrait vous demander de *forcé* recharger votre navigateur. Cela diffère d'un simple rechargement — cela efface les fichiers en cache que la page utilise encore.
+
+<Tabs>
+  <Tab title="Chrome, Firefox et Edge">
+    Sur **Windows**, maintenez la touche CTRL enfoncée et appuyez sur F5. Sur **Mac**, maintenez les touches CMD et SHIFT enfoncées, puis appuyez sur R.
+  </Tab>
+
+  <Tab title="Safari">
+    Commencez par vider le cache : maintenez les touches OPT et CMD enfoncées, puis appuyez sur E. Ensuite, actualisez la page actuelle : maintenez la touche CMD enfoncée, puis appuyez sur R.
+  </Tab>
+</Tabs>
+
+#### Domaines autorisés
+
+Si un pare-feu, un proxy ou une application de sécurité bloque le trafic, ajoutez ces domaines à votre liste d'autorisation.
+
+<strong>Obligatoire.</strong> GitBook ne fonctionne pas sans ceux-ci :
+
+- `*.gitbook.com` — y compris `app.gitbook.com`, `api.gitbook.com`, et `files.gitbook.com`
+- `*.gitbook.io`
+- `*.googleapis.com` — y compris `firebase.googleapis.com`, `firestore.googleapis.com`, et `www.googleapis.com`
+- `*.googleusercontent.com`
+- `cdn.iframe.ly` — nécessaire pour le contenu intégré
+
+<strong>Facultatif.</strong> Ils couvrent l'analyse et la surveillance des erreurs. Les bloquer n'affecte pas le fonctionnement de GitBook :
+
+- `segment-cdn.gitbook.com` et `segment-api.gitbook.com`
+- `clearbit-risk.gitbook.com`
+- `*.googletagmanager.com`
+- `*.sentry.io`
+
+Si le problème persiste après toutes ces étapes, contactez l'assistance en fournissant des détails sur votre navigateur, votre appareil et votre configuration réseau.

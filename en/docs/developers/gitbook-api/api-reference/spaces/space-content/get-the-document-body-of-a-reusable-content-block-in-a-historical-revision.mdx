@@ -1,0 +1,64 @@
+---
+title: Get the document body of a reusable content block in a historical revision
+metaTitle: Get the document body of a reusable content block in a historical revision | Developers | GitBook Documentation
+ogImage: https://test-dai.imgix.net/org-4afef969-21f9-40f3-b5b8-b06c8b6cf68f/doc-22a3b060-9539-4176-97e4-49120e02f5d1/0a5a1a9630785855-organizations-d8f63b60-89ae-11e7-8574-5927d48c4877-sites-site_p4Xo4-socialprevie.jpg?fm=auto&auto=compress%2Cformat
+---
+
+Returns the structured JSON document (block tree) for a reusable content block within a specific historical revision of a space. Use this to read the actual content of a shared snippet at a point in time. For the metadata, use the reusable content by ID endpoint.
+
+**GET** `/spaces/{spaceId}/revisions/{revisionId}/reusable-contents/{reusableContentId}/document`
+
+**Parameters**
+
+<ParamField header="Authorization" param-type="string" />
+
+<ParamField path="spaceId" param-type="string" required={true}>
+  The unique id of the space
+</ParamField>
+
+<ParamField path="revisionId" param-type="string" required={true}>
+  The unique id of the revision
+</ParamField>
+
+<ParamField path="reusableContentId" param-type="string" required={true}>
+  The unique id of the reusable content
+</ParamField>
+
+<ParamField query="evaluated" param-type="string">
+  Controls whether the document should be evaluated.
+
+  - When set to `true`, the entire document will be evaluated.
+  - When set to `deterministic-only`, only expressions that depend
+    exclusively on deterministic inputs will be evaluated.
+</ParamField>
+
+<ParamField query="dereferenced" param-type="string">
+  Controls whether the document should be deferenced (eference to other content will be resolved and expanded).
+
+  - When set to `true`, the entire document will be deferenced
+  - When set to `reusable-contents`, only reusable contents will be deferenced.
+</ParamField>
+
+**Responses**
+
+`200` OK
+
+<ResponseField name="object" field-type="string" required={true} enum="document" />
+
+<ResponseField name="data" field-type="object" required={true}>
+  <Expandable title="Object Properties">
+    <ResponseField name="schemaVersion" field-type="integer">
+      The schema version of the document. If undefined, the document is considered to be of the latest schema version.
+    </ResponseField>
+  </Expandable>
+</ResponseField>
+
+<ResponseField name="nodes" field-type="string[]" required={true} />
+
+<ResponseField name="meta" field-type="object">
+  <Expandable title="Object Properties">
+    <ResponseField name="token" field-type="string">
+      A content token that can be used to fetch the content referenced in this document from the API.
+    </ResponseField>
+  </Expandable>
+</ResponseField>

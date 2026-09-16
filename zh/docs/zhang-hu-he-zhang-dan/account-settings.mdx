@@ -1,0 +1,87 @@
+---
+title: 个人设置
+description: 查看并管理你的 GitBook 个人账户设置
+metaTitle: 个人设置 | GitBook Documentation
+ogImage: https://test-dai.imgix.net/org-4afef969-21f9-40f3-b5b8-b06c8b6cf68f/doc-22a3b060-9539-4176-97e4-49120e02f5d1/0a5a1a9630785855-organizations-d8f63b60-89ae-11e7-8574-5927d48c4877-sites-site_p4Xo4-socialprevie.jpg?fm=auto&auto=compress%2Cformat
+---
+
+您可以管理您的登录详情、第三方登录选项、GitBook 子域名、界面主题、通知、集成以及 API 访问令牌。
+
+<Image src="https://test-dai.imgix.net/org-4afef969-21f9-40f3-b5b8-b06c8b6cf68f/doc-22a3b060-9539-4176-97e4-49120e02f5d1/c3145c9eac95cce9-spaces-NkEGS7hzeqa35sMXQZ4X-uploads-2E6zG4rAbCopn4gDLXWJ-22_01_06_account_settin.png?fm=auto&auto=compress%2Cformat" alt="A GitBook screenshot showing the personal settings page" caption="您的个人设置页面。" />
+
+### 如何访问您的个人账户设置
+
+返回您的组织 **主页** 并点击 **设置**，在 **管理** 在侧边栏中。账户和组织设置共用一个页面，并分组为 **账户** 以及 **组织** 在左侧边栏中。您的个人设置位于 **账户**。点击 **返回应用** 以返回您的内容。
+
+<Expandable title="常规">
+  **您的个人资料**
+
+  您可以更新您的头像和全名。
+
+  **登录详情**
+
+  您可以更新用于登录您的 GitBook 账户的电子邮件地址和密码。 <strong>注意：</strong> 如果您在 2021 年 10 月 9 日或之后创建了账户，您的账户就没有密码，您将改用魔法链接登录。
+
+  **第三方登录**
+
+  您也可以使用您的 Google 和/或 GitHub 凭据登录 GitBook。
+
+  **发布**
+
+  位于您的个人资料库中的每个已发布 GitBook 区块都将拥有由两部分组成的域名：
+
+  1. `[something].gitbook.io` （这是 GitBook 子域名）
+  2. `/[spaceURL]` （这是在该区块自身的设置中设定的）
+
+  您可以在此更新 GitBook 子域名，以及默认内容——即当访客直接访问您的 GitBook 子域名时会看到的区块。
+
+  **偏好设置**
+
+  您可以选择您偏好的界面主题——深色、浅色，或与您的系统偏好一致。 <strong>注意：</strong> 此设置仅会影响您登录 GitBook 应用时的体验，不会以任何方式影响您已发布的内容。
+
+  **故障排除**
+
+  您也可以选择启用高级日志记录。这些高级日志有助于我们的团队更有效地排查问题。
+
+  **账户操作**
+
+  在此部分，您可以退出登录，或删除您的账户。 <strong>注意：如果您删除账户，将无法撤销！</strong> 所有关联数据也将一并删除。
+</Expandable>
+
+<Expandable title="通知">
+  GitBook 可以为您提供两种 [通知](/zh/docs/xie-zuo/notifications) ——电子邮件通知和应用内通知。从这个设置页面，您可以决定在不同事件发生时希望接收哪些类型的通知。
+</Expandable>
+
+<Expandable title="组织">
+  您的个人账户可能是任意数量组织的成员，而此选项卡可以视为通往 [组织设置页面](/zh/docs/zhang-hu-he-zhang-dan/organization-settings) 的快捷方式。您也可以从此页面创建新组织。
+</Expandable>
+
+<Expandable title="开发者工具">
+  在此页面，您可以管理并创建 [GitBook API](https://developer.gitbook.com/).
+</Expandable>
+
+### <strong>我如何重置我的密码？</strong>
+
+请注意，如果您的账户是在 2021 年 10 月 10 日之后创建的，那么它没有密码。您可以通过请求魔法链接来登录：
+
+1. 访问 [https://app.gitbook.com](https://app.gitbook.com)
+2. 输入与您注册的个人账户相关联的电子邮件地址
+3. 点击 **继续**
+4. 点击 **发送链接** （请确保检查您的垃圾邮件文件夹）
+
+如果您 *想* 重置您的密码：
+
+1. 访问 [https://app.gitbook.com](https://app.gitbook.com)
+2. 请按照 <strong>忘记密码？</strong> 页面底部的链接
+3. 输入与您注册的个人账户相关联的电子邮件地址
+4. 点击 **发送链接** （请确保检查您的垃圾邮件文件夹）
+
+### 登录故障排查
+
+**账户被管理员禁用** ——GitBook 会自动阻止表现出可疑行为的账户，以防止垃圾账号和诈骗账号。如果您认为您的账户被错误封禁，请联系支持；解封请求将逐案审核。
+
+**加入组织的链接无法正常工作** — 一个 `auth/invalid-email` 错误意味着受邀加入组织的电子邮件地址与当前登录的 GitBook 账户邮箱不匹配。请询问邀请您的人他们使用的是哪个地址，或者请他们邀请另一个地址。
+
+**错误：auth/expired-action-code** — 登录或邀请链接已过有效期。请生成新链接，或向发送者索取一个新的链接。
+
+**错误：auth/email-already-in-use** — 您正在使用 GitHub 账户登录，而该账户已关联到另一个 GitBook 账户。请参阅 [可能重复的账户](/zh/docs/wen-dang-ji-dai-ma/git-sync/troubleshooting#potential-duplicated-accounts-when-signing-in) ，了解识别并解除关联的步骤。

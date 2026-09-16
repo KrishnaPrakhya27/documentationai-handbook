@@ -1,0 +1,121 @@
+---
+title: Create a context connection
+metaTitle: Create a context connection | Developers | GitBook Documentation
+ogImage: https://test-dai.imgix.net/org-4afef969-21f9-40f3-b5b8-b06c8b6cf68f/doc-22a3b060-9539-4176-97e4-49120e02f5d1/0a5a1a9630785855-organizations-d8f63b60-89ae-11e7-8574-5927d48c4877-sites-site_p4Xo4-socialprevie.jpg?fm=auto&auto=compress%2Cformat
+---
+
+**POST** `/orgs/{organizationId}/sites/{siteId}/context-connections`
+
+**Parameters**
+
+<ParamField header="Authorization" param-type="string" />
+
+<ParamField path="organizationId" param-type="string" required={true}>
+  The unique id of the organization
+</ParamField>
+
+<ParamField path="siteId" param-type="string" required={true}>
+  The unique id of the site
+</ParamField>
+
+**Request body**
+
+<ParamField body="usageSettings" param-type="object">
+  <Expandable title="Object Properties">
+    <ParamField body="changeRequests" param-type="boolean" required={true}>
+      Whether to use context to propose change requests
+    </ParamField>
+
+    <ParamField body="search" param-type="boolean" required={true}>
+      Whether to expose records in search results
+    </ParamField>
+
+    <ParamField body="sync" param-type="boolean">
+      Whether the connection syncs GitBook change-request state outward to the connected external system (outbound write). Requires a write-capable token or role.
+    </ParamField>
+
+    <ParamField body="searchBoost" param-type="string" required={true} enum="x0.8,x1.0,x1.2">
+      Relative score adjustment applied to records from a connection when searching.
+    </ParamField>
+  </Expandable>
+</ParamField>
+
+<ParamField body="filter" param-type="string">
+  Optional filter used to restrict which items are ingested from the source. Its meaning depends on the connector: it can be a tag, label, or an expression. When empty or omitted, all resolved items are ingested.
+</ParamField>
+
+**Responses**
+
+`201` Created connection
+
+<ResponseField name="object" field-type="string" required={true} enum="context-connection" />
+
+<ResponseField name="id" field-type="string" required={true}>
+  The ID of the connection
+</ResponseField>
+
+<ResponseField name="createdAt" field-type="string" required={true} />
+
+<ResponseField name="syncedAt" field-type="string" />
+
+<ResponseField name="label" field-type="string">
+  Optional label for the connection
+</ResponseField>
+
+<ResponseField name="filter" field-type="string">
+  Optional filter used to restrict which items are ingested from the source. Its meaning depends on the connector: it can be a tag, label, or an expression. When empty or omitted, all resolved items are ingested.
+</ResponseField>
+
+<ResponseField name="status" field-type="string" required={true} enum="pending,syncing,succeeded,failed" />
+
+<ResponseField name="records" field-type="integer" required={true}>
+  Number of records ingested from this connection
+</ResponseField>
+
+<ResponseField name="failureMessage" field-type="string">
+  Failure message when synchronization fails
+</ResponseField>
+
+<ResponseField name="failureReason" field-type="string" enum="authentication,misconfigured,rate_limited,upstream_unavailable,unknown">
+  Why a synchronization failed, indicating who can resolve it. `authentication` and `misconfigured` need the connection to be reconfigured; `rate_limited` and `upstream_unavailable` are the source's own limits or downtime and are retried; `unknown` could not be attributed to the source's response.
+</ResponseField>
+
+<ResponseField name="email" field-type="object">
+  Parameters associated with the connection when it is an email connection
+
+  <Expandable title="Object Properties">
+    <ResponseField name="ingestionAddress" field-type="string">
+      Inbound email address for the connection
+    </ResponseField>
+  </Expandable>
+</ResponseField>
+
+<ResponseField name="usageSettings" field-type="object" required={true}>
+  <Expandable title="Object Properties">
+    <ResponseField name="changeRequests" field-type="boolean" required={true}>
+      Whether to use context to propose change requests
+    </ResponseField>
+
+    <ResponseField name="search" field-type="boolean" required={true}>
+      Whether to expose records in search results
+    </ResponseField>
+
+    <ResponseField name="sync" field-type="boolean">
+      Whether the connection syncs GitBook change-request state outward to the connected external system (outbound write). Requires a write-capable token or role.
+    </ResponseField>
+
+    <ResponseField name="searchBoost" field-type="string" required={true} enum="x0.8,x1.0,x1.2">
+      Relative score adjustment applied to records from a connection when searching.
+    </ResponseField>
+  </Expandable>
+</ResponseField>
+
+<ResponseField name="urls" field-type="object" required={true}>
+  URLs associated with the connection
+
+  <Expandable title="Object Properties">
+    <ResponseField name="location" field-type="string" required={true}>
+      URL of the connection in the API
+    </ResponseField>
+  </Expandable>
+</ResponseField>

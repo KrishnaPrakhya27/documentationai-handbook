@@ -1,0 +1,80 @@
+---
+title: ヒント
+description: 重要な情報の特定部分に読者の注意を引くために、ページにヒントを追加します。
+metaTitle: ヒント | GitBook Documentation
+ogImage: https://test-dai.imgix.net/org-4afef969-21f9-40f3-b5b8-b06c8b6cf68f/doc-22a3b060-9539-4176-97e4-49120e02f5d1/0a5a1a9630785855-organizations-d8f63b60-89ae-11e7-8574-5927d48c4877-sites-site_p4Xo4-socialprevie.jpg?fm=auto&auto=compress%2Cformat
+---
+
+ヒント、またはコールアウトは、チップ、警告、その他の重要な情報など、ドキュメント内の特定の要素に読者の注意を向けるのに最適な方法です。
+
+ヒントのスタイルは4種類あります — スタイルはブロックの **オプションメニュー** <Image src="https://test-dai.imgix.net/org-4afef969-21f9-40f3-b5b8-b06c8b6cf68f/doc-22a3b060-9539-4176-97e4-49120e02f5d1/4c115a43418b42e3-spaces-NkEGS7hzeqa35sMXQZ4X-uploads-aS1QvPIBVYwhpFTGcPBN-options-menu.svg?rasterize-bypass=true" alt="The Options menu icon in GitBook" /> を開き、好みのスタイルを選択することで変更できます。各スタイルには既定のアイコンがありますが、アイコンをクリックして [アイコンセット](/ja/docs/kontentsuwo/formatting/inline#icons).
+
+ヒントブロックは [インラインコンテンツ](/ja/docs/kontentsuwo/formatting/inline) 、 [書式設定](/ja/docs/kontentsuwo/formatting)、および特定のブロックタイプもサポートしています。ヒント内で使用できるブロックタイプを確認するには、 `/` 空行で押し、次を確認してください [挿入パレット](/ja/docs/kontentsuwo/blocks#inserting-a-new-content-block).
+
+### ヒントブロックの例
+
+<Callout kind="info">
+  **情報ヒント** は、一般的な情報を示したり、ヒントやコツを提供したりするのに最適です。
+</Callout>
+
+<Callout kind="success">
+  **成功ヒント** は、前向きな行動や成果を示すのに適しています。
+</Callout>
+
+<Callout kind="alert">
+  **警告ヒント** は、重要な情報や致命的でない警告を示すのに適しています。
+</Callout>
+
+<Callout kind="danger">
+  **危険ヒント** は、破壊的な操作を強調したり、重要な情報に注意を向けたりするのに適しています。
+</Callout>
+
+<Callout kind="info">
+  このヒントブロックにはカスタムアイコンがあります。
+</Callout>
+
+<Callout kind="info">
+  #### **これはH2見出しです**
+
+  これは1行です
+
+  これはインラインの <Image src="https://test-dai.imgix.net/org-4afef969-21f9-40f3-b5b8-b06c8b6cf68f/doc-22a3b060-9539-4176-97e4-49120e02f5d1/1a24909b6a7822e5-spaces-NkEGS7hzeqa35sMXQZ4X-uploads-0FzoF68PAY3Rv297meNB-command.svg?rasterize-bypass=true" alt="The Apple computer command icon" /> 画像
+
+  - これは2番目の <mark>順不同リストと色を使った行です</mark>
+</Callout>
+
+ヒントに見出しを追加するには、ヒント内の最初のブロックとして見出しブロックを作成する必要があります。
+
+### Markdownでの表記
+
+```markdown
+{% hint style="info" %}
+**情報ヒント**は、一般的な情報を示したり、ヒントやコツを提供したりするのに最適です。
+{% endhint %}
+
+{% hint style="success" %}
+**成功ヒント**は、前向きな行動や成果を示すのに適しています。
+{% endhint %}
+
+{% hint style="warning" %}
+**警告ヒント**は、重要な情報や致命的でない警告を示すのに適しています。
+{% endhint %}
+
+{% hint style="danger" %}
+**危険ヒント**は、破壊的な操作を強調したり、重要な情報に注意を向けたりするのに適しています。
+{% endhint %}
+
+{% hint style="info" icon="books" %}
+このヒントブロックにはカスタムアイコンがあります。
+{% endhint %}
+
+{% hint style="info" %}
+## これはH2見出しです
+
+これは1行です
+
+これはインライン <img src="../../.gitbook/assets/25_01_10_command_icon_light.svg" alt="Appleコンピュータのコマンドアイコン" data-size="line"> 画像
+
+- これは2つ目の <mark style="color:orange;background-color:purple;">順不同リストと色を使った行</mark>
+{% endhint %}
+```

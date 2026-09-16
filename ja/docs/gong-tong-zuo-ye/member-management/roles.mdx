@@ -1,0 +1,90 @@
+---
+title: 役割
+description: GitBook内のすべての役割の内訳です。各役割で何ができるか、また組織全体のアクセス制御にどう使うかを説明します
+metaTitle: 役割 | GitBook Documentation
+ogImage: https://test-dai.imgix.net/org-4afef969-21f9-40f3-b5b8-b06c8b6cf68f/doc-22a3b060-9539-4176-97e4-49120e02f5d1/0a5a1a9630785855-organizations-d8f63b60-89ae-11e7-8574-5927d48c4877-sites-site_p4Xo4-socialprevie.jpg?fm=auto&auto=compress%2Cformat
+---
+
+組織にメンバーを追加する際、彼らに **デフォルトロール**を割り当てることができます。このロールは、権限を組織から継承するあらゆるコンテンツに適用されます。デフォルトロールを理解することは、GitBookの権限管理を最大限に活用するうえで重要です。
+
+以下のドキュメントをご覧ください [**権限と継承**](/ja/docs/gong-tong-zuo-ye/member-management/permissions-and-inheritance) GitBook内のコンテンツ全体で権限がどのように連鎖するかの全体像については、
+
+### GitBookのロール
+
+ロールとは、メンバーがコンテンツ（管理者の場合は組織）に対して持つアクセスレベルと制御レベルを定義する方法です。
+
+<Callout kind="alert">
+  ロールに関係なく、組織の全メンバーは請求上の総メンバー数に含まれます。メンバー管理について詳しくは、 [メンバーの招待と削除](/ja/docs/gong-tong-zuo-ye/member-management/invite-members-to-your-organization).
+</Callout>
+
+各ロールは、リストの上に進むにつれてアクセス権が段階的に高くなります。まずは最も低いアクセス権から見ていきましょう。
+
+<Expandable title="ゲストロール">
+  ゲストロールは、GitBook内で非常に特定の役割です。ゲストとは、 **組織のデフォルトロールがない**メンバーのことです。ゲストはそれ以外では標準ユーザーとして扱われますが、権限はコンテンツレベルで明示的に設定する必要があります。
+
+  組織にゲストを招待すると、そのゲストは直接追加されたコンテンツしか表示できません。外部の関係者や契約者を組織に追加したいけれど、デフォルトでどのコンテンツへのアクセスも付与したくない場合に便利です。
+
+  <Callout kind="alert">
+    ゲストメンバーは、請求上、組織の総メンバー数に含まれます。
+  </Callout>
+</Expandable>
+
+<Expandable title="閲覧者">
+  ReaderはGitBookで最も基本的なロールで、読み取り専用アクセスを提供します。
+
+  <Callout kind="info">
+    Reader席は、すべてのプランの組織で有料です。
+  </Callout>
+</Expandable>
+
+<Expandable title="コメント投稿者">
+  CommenterはReaderと同じ読み取り専用アクセスを持ちますが、コンテンツやスペースにコメントを残すこともできます（その仕組みの詳細は、 [comments](/ja/docs/gong-tong-zuo-ye/comments) ドキュメントをご覧ください）。
+</Expandable>
+
+<Expandable title="エディター">
+  EditorはCommenterと同様に読み取りとコメントができますが、さらにいくつかの方法でコンテンツを編集することもできます。まず、 **open** を [ライブ編集](/ja/docs/gong-tong-zuo-ye/live-edits)ライブ編集が **ロックされている**場合、編集者は作成して送信できます [変更リクエスト](/ja/docs/gong-tong-zuo-ye/change-requests)。編集者は変更リクエストをマージできません。
+</Expandable>
+
+<Expandable title="レビュー担当者">
+  ReviewerはEditorと同じ権限をすべて持っていますが、自分および他人の変更リクエストをマージすることもできます。
+</Expandable>
+
+<Expandable title="作成者">
+  Creatorは本質的にコンテンツレベルの管理者です。Reviewerと同じ権限をすべて持つほか、スペース、コレクション、サイトの作成と削除、変更リクエストのマージ、コンテンツレベルでの権限管理も行えます。
+
+  <Callout kind="info">
+    もしCreatorが別のGitBook組織でもCreatorまたは管理者であれば、 [組織間でコンテンツを移動できます](/ja/docs/kontentsuwo/content-structure/space#move-a-space).
+  </Callout>
+</Expandable>
+
+<Expandable title="管理">
+  管理者は組織にとってのスーパーユーザーのような存在で、完全なアクセス権を持っています。請求に影響する変更を加えたり、メンバーを管理したり、組織のあらゆる領域を管理することに安心できる相手なら、その人を管理者に設定してください。
+
+  <Callout kind="info">
+    もし管理者が別のGitBook組織でもCreatorまたは管理者であれば、 [組織間でコンテンツを移動できます](/ja/docs/kontentsuwo/content-structure/space#move-a-space).
+  </Callout>
+</Expandable>
+
+### ドキュメントサイト上のロール
+
+ロールが [サイトレベルで](/ja/docs/gong-tong-zuo-ye/member-management/permissions-and-inheritance)適用される場合、 **管理者** サイト設定を変更できるのは管理者のみです。その他のロールは、アクセス権のあるスペース内のコンテンツに引き続き貢献・編集できますが、サイト自体を管理することはできません。以下の表では、各ロールがサイト権限にどのように対応するかを示しています。
+
+| 権限レベル | サイト上の権限 |
+| --- | --- |
+| 管理者 | 編集と閲覧 |
+| 作成者 | 表示 |
+| レビュー担当者 | 表示 |
+| エディター | 表示 |
+| コメント投稿者 | 表示 |
+| 閲覧者 | 表示 |
+| アクセス権なし | 閲覧不可 |
+
+### **Readerロールと公開ドキュメントの閲覧者**
+
+Readerロールは、有料席を持つ招待済みの組織メンバーです。公開ドキュメントの閲覧者は、招待も有料席も必要としないサイト訪問者です。
+
+|  | Readerロール（あなたの組織） | 公開ドキュメントの閲覧者（サイト訪問者） |
+| --- | --- | --- |
+| **招待が必要** | N/A | いいえ |
+| **有料席** | N/A | いいえ |
+| **コンテンツへのアクセス** | 公開済みおよび未公開（権限がある場合） | 公開済みのみ |

@@ -1,0 +1,81 @@
+---
+title: Publier un site de documentation
+description: Publiez votre documentation sur Internet sous forme de site de documentation
+metaTitle: Publier un site de documentation | GitBook Documentation
+ogImage: https://test-dai.imgix.net/org-4afef969-21f9-40f3-b5b8-b06c8b6cf68f/doc-22a3b060-9539-4176-97e4-49120e02f5d1/0a5a1a9630785855-organizations-d8f63b60-89ae-11e7-8574-5927d48c4877-sites-site_p4Xo4-socialprevie.jpg?fm=auto&auto=compress%2Cformat
+---
+
+Lorsque vous avez terminé d’écrire, de modifier ou d’importer votre contenu, publiez-le pour l’audience sélectionnée.
+
+Le contenu d’un site de documentation se trouve dans ses [sections](/fr/docs/gerer-votre-site/site-structure). La structure que vous modifiez est celle que voient les visiteurs. Les nouvelles sections commencent comme des brouillons, afin que vous contrôliez ce qui apparaît sur votre site publié.
+
+<Image src="https://test-dai.imgix.net/org-4afef969-21f9-40f3-b5b8-b06c8b6cf68f/doc-22a3b060-9539-4176-97e4-49120e02f5d1/6bfce242bfb3164c-spaces-NkEGS7hzeqa35sMXQZ4X-uploads-aTAoahHyizxbZzQ10kq9-publishing-documentatio.png?fm=auto&auto=compress%2Cformat" alt="A GitBook screenshot showing the organization Home" caption="Accueil de votre organisation." />
+
+### Créer un site de documentation
+
+Pour créer un site de documentation :
+
+1. Depuis votre organisation **Accueil**, cliquez sur l’ <strong>+</strong> icône à côté de **Sites**.
+2. Saisissez un nom que les visiteurs reconnaîtront.
+3. Cliquez sur **Créer**.
+4. Sélectionnez un point de départ : un modèle de documentation, une importation, une spécification OpenAPI, une section vierge ou Git Sync.
+
+Pour un guide d’installation complet, consultez le [Démarrage rapide](/fr/docs/getting-started/quickstart).
+
+<Callout kind="info">
+  Vous pouvez gérer les autorisations du site dans **Paramètres** → **Membres**. Cela vous permet de contrôler qui peut afficher ou modifier chaque site indépendamment des paramètres de l’organisation. Voir [Rôles](/fr/docs/collaborer/member-management/roles) pour plus de détails.
+</Callout>
+
+### Publier un site de documentation
+
+Pour publier votre site :
+
+1. Depuis votre organisation **Accueil**, ouvrez votre site.
+2. Cliquez sur **Publier** dans l’en-tête du site.
+
+Les sites sont publics par défaut. Modifiez la visibilité de votre site dans **Paramètres** → **Audience**. Voir [Paramètres du site](/fr/docs/gerer-votre-site/site-settings).
+
+Choisissez l’une de ces options d’audience :
+
+<Columns cols={2}>
+  <Card title="Public" href="/fr/docs/publier/publish-a-docs-site/public-publishing" image="https://test-dai.imgix.net/org-4afef969-21f9-40f3-b5b8-b06c8b6cf68f/doc-22a3b060-9539-4176-97e4-49120e02f5d1/91e8d5b5185d7056-spaces-NkEGS7hzeqa35sMXQZ4X-uploads-oilRMA6SHJfDUlmxzFSc-Public.png?fm=auto&auto=compress%2Cformat">
+    Publiez votre documentation publiquement sur le Web.
+  </Card>
+
+  <Card title="Privé avec des liens de partage" href="/fr/docs/publier/site-audience/share-links" image="https://test-dai.imgix.net/org-4afef969-21f9-40f3-b5b8-b06c8b6cf68f/doc-22a3b060-9539-4176-97e4-49120e02f5d1/6bcc6c7bd8685cb1-spaces-NkEGS7hzeqa35sMXQZ4X-uploads-fc0Pst5E74fYtiKz3Evt-Share-links.png?fm=auto&auto=compress%2Cformat">
+    Publiez votre documentation avec des liens de partage privés.
+  </Card>
+
+  <Card title="Accès authentifié" href="/fr/docs/publier/site-audience/authenticated-access" image="https://test-dai.imgix.net/org-4afef969-21f9-40f3-b5b8-b06c8b6cf68f/doc-22a3b060-9539-4176-97e4-49120e02f5d1/d4b5e742d763a7b4-spaces-NkEGS7hzeqa35sMXQZ4X-uploads-vnW7XiU7dys1vIf7Hi6l-Auth-access.png?fm=auto&auto=compress%2Cformat">
+    Protégez votre documentation publiée derrière une connexion OAuth.
+  </Card>
+</Columns>
+
+### Prévisualiser votre site
+
+Cliquez sur **Aperçu** dans l’en-tête du site pour voir votre contenu tel que le verront les visiteurs — avant de publier le site, ou pendant que vous travaillez sur des modifications. Relisez votre contenu et vos personnalisations, puis publiez lorsque tout est correct.
+
+### Supprimer ou dépublier un site de documentation
+
+Pour dépublier votre site, ouvrez **Paramètres** → **Général** et sélectionnez **Dépublier le site**. Une fois confirmé, le site n’est plus accessible aux visiteurs.
+
+La dépublication ne modifie pas votre facturation. Pour ajuster le nombre de sites que vous payez, mettez à jour votre forfait dans les paramètres de facturation de votre organisation.
+
+#### Mon site est toujours accessible après la dépublication ou la suppression
+
+Si vous pouvez toujours ouvrir l’URL, l’ancienne version est généralement mise en cache — dans votre navigateur, sur un CDN ou dans un résultat de moteur de recherche. Pour confirmer que le site n’est plus en ligne, ouvrez l’URL dans une fenêtre privée, ou videz le cache de votre navigateur pour ce site, puis rechargez.
+
+#### Mon site apparaît toujours dans les moteurs de recherche
+
+Les moteurs de recherche mettent du temps à mettre à jour leurs index, donc un site dépublié peut apparaître dans les résultats pendant un certain temps. La durée dépend de facteurs tels que la fréquence d’exploration et le nombre d’autres sites qui renvoient vers la page.
+
+Pour accélérer le processus, demandez une nouvelle exploration depuis Google Search Console : ouvrez l’ **Inspection de l’URL** onglet, saisissez l’URL et cliquez sur **Demander l’indexation**. Google examine la demande et supprime la page de son index si elle n’est plus publiée.
+
+Vous pouvez vérifier si votre site est toujours indexé en recherchant dans Google `site:` suivi de l’URL de votre site.
+
+Pour supprimer un site de documentation :
+
+1. Ouvrez **Paramètres** → **Général**.
+2. Sélectionnez [**Supprimer le site**](/fr/docs/gerer-votre-site/site-settings#delete-site).
+
+La suppression d’un site supprime définitivement ses paramètres et ses personnalisations. Votre contenu reste dans votre organisation — retrouvez-le dans [Tout le contenu](/fr/docs/creer-du-contenu/content-structure/all-content).

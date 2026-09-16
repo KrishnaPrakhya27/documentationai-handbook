@@ -1,0 +1,66 @@
+---
+title: Update the published content authentication configuration for a site
+metaTitle: Update the published content authentication configuration for a site | Developers | GitBook Documentation
+ogImage: https://test-dai.imgix.net/org-4afef969-21f9-40f3-b5b8-b06c8b6cf68f/doc-22a3b060-9539-4176-97e4-49120e02f5d1/0a5a1a9630785855-organizations-d8f63b60-89ae-11e7-8574-5927d48c4877-sites-site_p4Xo4-socialprevie.jpg?fm=auto&auto=compress%2Cformat
+---
+
+Modifies the authentication method used to protect a site's published content. Use this to enable, disable, or change the auth method for a published site.
+
+**PATCH** `/orgs/{organizationId}/sites/{siteId}/publishing/auth`
+
+**Parameters**
+
+<ParamField header="Authorization" param-type="string" />
+
+<ParamField path="organizationId" param-type="string" required={true}>
+  The unique id of the organization
+</ParamField>
+
+<ParamField path="siteId" param-type="string" required={true}>
+  The unique id of the site
+</ParamField>
+
+**Request body**
+
+<ParamField body="fallbackURL" param-type="string">
+  A fallback URL that will be used if authentication fails. If not provided, the fallback URL will not be changed. If set to null, the fallback URL will be unset.
+</ParamField>
+
+<ParamField body="logoutURL" param-type="string">
+  A logout URL used to log visitors out from the upstream custom auth backend. If not provided, the logout URL will not be changed. If set to null, the logout URL will be unset.
+</ParamField>
+
+**Responses**
+
+`200` OK
+
+<ResponseField name="object" field-type="string" required={true} enum="publishing-auth">
+  Type of Object, always equals to "publishing-auth"
+</ResponseField>
+
+<ResponseField name="privateKey" field-type="string" required={true}>
+  Private key used to sign JWT tokens.
+</ResponseField>
+
+<ResponseField name="fallbackURL" field-type="string">
+  URL to redirect to when the authenticated access secret is invalid.
+</ResponseField>
+
+<ResponseField name="logoutURL" field-type="string">
+  URL used to log visitors out from the upstream custom auth backend.
+</ResponseField>
+
+<ResponseField name="integration" field-type="string">
+  Name of the authenticated access integration installed on the site (if any).
+  It is also the one being used as VA backend when the published auth settings are configured to use "integration" as backend.
+</ResponseField>
+
+`400` Bad Request
+
+<ResponseField name="error" field-type="object" required={true}>
+  <Expandable title="Object Properties">
+    <ResponseField name="code" field-type="integer" required={true} enum="400" />
+
+    <ResponseField name="message" field-type="string" required={true} />
+  </Expandable>
+</ResponseField>

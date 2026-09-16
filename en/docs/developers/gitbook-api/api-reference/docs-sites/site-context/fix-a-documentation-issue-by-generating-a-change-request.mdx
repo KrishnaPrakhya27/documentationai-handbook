@@ -1,0 +1,29 @@
+---
+title: Fix a documentation issue by generating a change request
+metaTitle: Fix a documentation issue by generating a change request | Developers | GitBook Documentation
+ogImage: https://test-dai.imgix.net/org-4afef969-21f9-40f3-b5b8-b06c8b6cf68f/doc-22a3b060-9539-4176-97e4-49120e02f5d1/0a5a1a9630785855-organizations-d8f63b60-89ae-11e7-8574-5927d48c4877-sites-site_p4Xo4-socialprevie.jpg?fm=auto&auto=compress%2Cformat
+---
+
+Starts GitBook's AI on fixing a documentation issue directly: it drafts the content change and opens it as a change request for review, rather than editing content in place. This is the primary way to act on "fix issues/gaps/broken links in my docs" requests once `listSiteFindings` has surfaced the relevant findings. Processing is asynchronous; poll `listChangeRequestsForSiteFinding` for the resulting change request, then review and merge it with `submitOrMergeChangeRequest`.
+
+**POST** `/orgs/{organizationId}/sites/{siteId}/findings/{siteFindingId}/change-requests`
+
+**Parameters**
+
+<ParamField header="Authorization" param-type="string" />
+
+<ParamField path="organizationId" param-type="string" required={true}>
+  The unique id of the organization
+</ParamField>
+
+<ParamField path="siteId" param-type="string" required={true}>
+  The unique id of the site
+</ParamField>
+
+<ParamField path="siteFindingId" param-type="string" required={true}>
+  The unique id of the site finding
+</ParamField>
+
+**Responses**
+
+`202` Site finding processing has been started

@@ -1,0 +1,299 @@
+---
+title: 認証
+description: 訪問者トークンを渡すか認証付きアクセスを使うことで、認証が必要なサイトでDocs Embedを利用します
+metaTitle: 認証 | GitBook Documentation
+ogImage: https://test-dai.imgix.net/org-4afef969-21f9-40f3-b5b8-b06c8b6cf68f/doc-22a3b060-9539-4176-97e4-49120e02f5d1/0a5a1a9630785855-organizations-d8f63b60-89ae-11e7-8574-5927d48c4877-sites-site_p4Xo4-socialprevie.jpg?fm=auto&auto=compress%2Cformat
+---
+
+GitBook のドキュメントに認証が必要な場合、Docs Embed がコンテンツにアクセスするには GitBook のビジタートークンが必要です。
+
+方法は 2 つあります:
+
+1. **トークンを直接渡す** （推奨）- GitBook のビジタートークンを使って embed を初期化します。
+2. **Cookie ベースの検出を使う** \- 読み込み前に GitBook のビジタートークンを確認します。
+
+## 方法 1: トークンを直接渡す（推奨）
+
+embed を初期化する際に、GitBook のビジタートークンを `visitor.token`.
+
+`visitor.token` としてください。これは、ID プロバイダーの生のアクセストークンや ID トークンではありません。GitBook が認証済みドキュメントアクセス用に発行する GitBook のビジタートークンです。 `your-jwt-token` これらの例の値は、その GitBook 発行トークンを表します。
+
+<Tabs>
+  <Tab title="スタンドアロン スクリプト">
+    ```html
+    <script src="https://docs.company.com/~gitbook/embed/script.js?jwt_token=your-jwt-token"></script>
+    <script>
+      window.GitBook(
+        "init",
+        { siteURL: "https://docs.company.com" },
+        { visitor: { token: "your-jwt-token" } }
+      );
+      window.GitBook("show");
+    </script>
+    ```
+  </Tab>
+
+  <Tab title="NPM パッケージ">
+    ```javascript
+    import { createGitBook } from "@gitbook/embed";
+
+    const gitbook = createGitBook({
+      siteURL: "https://docs.company.com",
+    });
+
+    const iframe = document.createElement("iframe");
+    iframe.src = gitbook.getFrameURL({
+      visitor: {
+        token: "your-jwt-token",
+        unsignedClaims: { userId: "123", plan: "premium" },
+      },
+    });
+    ```
+  </Tab>
+
+  <Tab title="React コンポーネント">
+    ```jsx
+    <GitBookProvider siteURL="https://docs.company.com">
+      <GitBookFrame
+        visitor={{
+          token: "your-jwt-token",
+          unsignedClaims: { userId: "123" },
+        }}
+      />
+    </GitBookProvider>
+    ```
+  </Tab>
+</Tabs>
+
+<Callout kind="info">
+  Embed の config API は変更されていません。GitBook 発行のビジタートークンを `visitor.token`.
+
+  として、認証済みサイトでは GitBook がこのトークンをサイトに渡します。 `jwt_token` を iframe/script の URL に含めます。認証済みサイトからスタンドアロンのスクリプトを読み込む場合は、 `jwt_token` の `<script src>` の URL に含める必要があります。
+</Callout>
+
+## OIDC 対応サイト
+
+Docs Embed は HS256 を使用する GitBook のビジタートークンフローを受け付けます。このアルゴリズムを変更して、RS256 の ID プロバイダートークンを受け入れるようにすることはできません。
+
+OIDC プロバイダーのアクセストークンや ID トークンを `visitor.token`として渡さないでください。Auth0 や Descope の RS256 を使うトークンは互換性がなく、署名アルゴリズムのため Docs Embed はそれらを拒否します。ID プロバイダートークンをそのまま渡したり、再署名したり、GitBook のビジタートークンを生成したりしないでください。
+
+OIDC 対応のドキュメントサイトの場合は、次のフローを使います:
+
+1. ユーザーを、次のような保護されたドキュメントサイトの URL に送ります。 `https://docs.example.com`.
+2. ドキュメントサイトで通常の対話型 OIDC サインインを完了します。
+3. GitBook がドキュメントサイトのセッションを確立し、 `gitbook-visitor-token`を保存した後、そのトークンを取得します。
+4. このページで、Cookie ベースまたは直接トークンの方法を使ってトークンを渡します。
+
+このフローには、事前にドキュメントサイトへのサインインが成功している必要があります。また、必要な Cookie とドメインの利用可能性も必要です。
+
+<Callout kind="alert">
+  Docs Embed は、ドキュメントサイトの OIDC 認可ハンドシェイクを開始したり、途中でリダイレクトしたり、サイレントに完了したりできません。初回の認証済み訪問者が embed 内だけでアクセスする必要がある場合、サポートされている統合方法はありません。認証済み embed を読み込む前に、明示的なドキュメントサイトへのサインイン手順を通してください。
+</Callout>
+
+## 方法 2: Cookie ベースの検出
+
+ドキュメントサイトがビジタートークンを Cookie に保存している場合（ `gitbook-visitor-token`のように）、embed を読み込む前に確認できます。
+
+ユーザーが認証済みドキュメントサイトにサインインすると、GitBook はブラウザーの Cookie に `gitbook-visitor-token`というキーでビジタートークンを保存します。embed はドキュメントからコンテンツを取得するためにこのトークンを必要とします。
+
+<strong>フロー:</strong>
+
+1. ユーザーがドキュメントサイトにサインインします。
+2. GitBook がブラウザー Cookie にビジタートークンを保存します。
+3. アプリがトークンを確認します。
+4. トークンが存在する場合は、embed を読み込み、トークンを渡します。
+5. トークンが存在しない場合は、ユーザーをドキュメントサイトに送ってサインインさせます。
+
+<Tabs>
+  <Tab title="スタンドアロン スクリプト">
+    **コピペ用スニペット**
+
+    このスニペットは、ユーザーがドキュメントサイトへのサインインを完了した後にのみ使用してください:
+
+    ```html
+    <script>
+      (function () {
+        // Cookie 内のビジタートークンを確認
+        function getCookie(name) {
+          var value = "; " + document.cookie;
+          var parts = value.split("; " + name + "=");
+          if (parts.length === 2) return parts.pop().split(";").shift();
+        }
+
+        var token = getCookie("gitbook-visitor-token");
+
+        if (!token) {
+          console.warn("[Docs Embed] embed を読み込む前に https://docs.example.com でサインインしてください。");
+          return;
+        }
+
+        // トークンが存在するので、embed を読み込む
+        var script = document.createElement("script");
+        script.src =
+          "https://docs.example.com/~gitbook/embed/script.js?jwt_token=" +
+          encodeURIComponent(token);
+        script.async = true;
+        script.onload = function () {
+          window.GitBook(
+            "init",
+            { siteURL: "https://docs.example.com" },
+            { visitor: { token: token } }
+          );
+          window.GitBook("show");
+        };
+        document.head.appendChild(script);
+      })();
+    </script>
+    ```
+
+    <Callout kind="alert">
+      置換 `docs.example.com` を実際のドキュメントサイトの URL に置き換えてください。
+    </Callout>
+
+    **代替案: ユーザーにサインインを促す**
+
+    トークンがない場合は、ユーザーを保護されたドキュメントサイトの URL に送ります。これにより、サポートされている対話型 OIDC サインインフローが開始されます:
+
+    ```html
+    <script>
+      (function () {
+        function getCookie(name) {
+          var value = "; " + document.cookie;
+          var parts = value.split("; " + name + "=");
+          if (parts.length === 2) return parts.pop().split(";").shift();
+        }
+
+        var token = getCookie("gitbook-visitor-token");
+
+        if (!token) {
+          // ドキュメントにリダイレクトするか、メッセージを表示
+          alert("ヘルプにアクセスするには、ドキュメントにサインインしてください。");
+          window.location.href = "https://docs.example.com";
+          return;
+        }
+
+        // トークン付きで embed を読み込む
+        var script = document.createElement("script");
+        script.src =
+          "https://docs.example.com/~gitbook/embed/script.js?jwt_token=" +
+          encodeURIComponent(token);
+        script.async = true;
+        script.onload = function () {
+          window.GitBook(
+            "init",
+            { siteURL: "https://docs.example.com" },
+            { visitor: { token: token } }
+          );
+          window.GitBook("show");
+        };
+        document.head.appendChild(script);
+      })();
+    </script>
+    ```
+  </Tab>
+
+  <Tab title="NPM パッケージ">
+    NPM パッケージを使用する場合は、初期化前にトークンを確認してください:
+
+    ```javascript
+    import { createGitBook } from "@gitbook/embed";
+
+    function initializeEmbed() {
+      // Cookie 内のトークンを確認
+      const getCookie = (name) => {
+        const value = `; ${document.cookie}`;
+        const parts = value.split(`; ${name}=`);
+        if (parts.length === 2) return parts.pop().split(";").shift();
+      };
+
+      const token = getCookie("gitbook-visitor-token");
+
+      if (!token) {
+        console.warn("[Docs Embed] embed を読み込む前にドキュメントサイトにサインインしてください。");
+        return null;
+      }
+
+      const gitbook = createGitBook({
+        siteURL: "https://docs.example.com",
+      });
+
+      const iframe = document.createElement("iframe");
+      iframe.src = gitbook.getFrameURL({
+        visitor: { token: token },
+      });
+      const frame = gitbook.createFrame(iframe);
+
+      document.getElementById("embed-container").appendChild(iframe);
+      return frame;
+    }
+
+    initializeEmbed();
+    ```
+  </Tab>
+
+  <Tab title="React コンポーネント">
+    React アプリでは、ドキュメントサイトへのサインインでビジタートークンが作成された後に、embed を条件付きでレンダリングします:
+
+    ```jsx
+    import { useEffect, useState } from "react";
+    import { GitBookProvider, GitBookFrame } from "@gitbook/embed/react";
+
+    function App() {
+      const [token, setToken] = useState(null);
+
+      useEffect(() => {
+        // Cookie 内のトークンを確認
+        const getCookie = (name) => {
+          const value = `; ${document.cookie}`;
+          const parts = value.split(`; ${name}=`);
+          if (parts.length === 2) return parts.pop().split(";").shift();
+        };
+
+        const visitorToken = getCookie("gitbook-visitor-token");
+        setToken(visitorToken);
+      }, []);
+
+      if (!token) {
+        return (
+          <div>
+            <p>ヘルプにアクセスするにはサインインしてください。</p>
+            <a href="https://docs.example.com">サインイン</a>
+          </div>
+        );
+      }
+
+      return (
+        <GitBookProvider siteURL="https://docs.example.com">
+          <YourAppContent />
+          <GitBookFrame visitor={{ token: token }} />
+        </GitBookProvider>
+      );
+    }
+    ```
+  </Tab>
+</Tabs>
+
+## よくある落とし穴
+
+- **ID プロバイダートークンの使用** – OIDC のアクセストークンや ID トークンを `visitor.token`として使用しないでください。ドキュメントサイト認証後に GitBook 発行の HS256 ビジタートークンを使用してください。
+- **embed をサインイン前に読み込む** – 初回訪問者には、スクリプトやコンポーネントを読み込む前にドキュメントサイトでサインインを完了させてください。
+- **トークンがドメイン間で保持されない** – ブラウザーのセキュリティポリシーにより、Cookie は異なるドメイン間では保持されません。アプリとドキュメントは同じドメインまたはサブドメイン上にある必要があります。そうでない場合は、トークンを直接渡してください。
+- **トークンの有効期限切れ** – トークンは期限切れになることがあります。embed が認証エラーを返す場合は、ユーザーに再度サインインしてもらってください。
+- **Cookie 名が間違っている** – トークンは `gitbook-visitor-token`ではなく `gitbook-token` または他のバリエーションとして保存されています。
+- **init/getFrameURL にトークンを渡していない** – Cookie ベースの方法を使う場合は、必ずトークンを `GitBook('init', ..., { visitor: { token } })` または `getFrameURL({ visitor: { token } })`.
+
+## デバッグ
+
+トークンが存在することを確認するには、ブラウザーのコンソールを開いて次を実行します:
+
+```javascript
+document.cookie.split(";").find((c) => c.includes("gitbook-visitor-token"));
+```
+
+これが `undefined`を返す場合、ユーザーはまだドキュメントにサインインしていません。
+
+## 次のステップ
+
+- [埋め込みのカスタマイズ](/ja/docs/gong-kai/embedding/configuration/customizing-docs-embed) – ウェルカムメッセージとアクションを追加
+- [カスタムツールの作成](/ja/docs/gong-kai/embedding/configuration/creating-custom-tools) – プロダクト API と統合
+- [Docs Embed のドキュメント](/ja/docs/gong-kai/embedding) – 埋め込み完全ガイド

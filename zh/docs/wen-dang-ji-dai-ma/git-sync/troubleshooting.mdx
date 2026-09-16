@@ -1,0 +1,186 @@
+---
+title: 故障排除
+description: 解决常见的 Git 同步、仓库、重定向和登录问题
+metaTitle: 故障排除 | GitBook Documentation
+ogImage: https://test-dai.imgix.net/org-4afef969-21f9-40f3-b5b8-b06c8b6cf68f/doc-22a3b060-9539-4176-97e4-49120e02f5d1/0a5a1a9630785855-organizations-d8f63b60-89ae-11e7-8574-5927d48c4877-sites-site_p4Xo4-socialprevie.jpg?fm=auto&auto=compress%2Cformat
+---
+
+请使用这些解决方案来解决常见的 Git Sync 和仓库问题。展开某个主题可查看相关检查项和后续步骤。
+
+### 同步错误和访问
+
+<Expandable title="向受保护分支的仓库推送时出错">
+  当你的 Git 分支受保护时会出现此错误：
+
+  ```
+  错误：缺少向 refs/heads/main 受保护分支推送的权限。请在你的 Git 提供商中检查分支配置。
+  ```
+
+  Git Sync 需要 GitBook 应用在不受限制的情况下向你的仓库推送更改，包括在设置期间。允许 GitBook 应用绕过分支保护，才能使同步正常工作。
+
+  只要允许应用绕过这些限制，GitBook 就支持以下分支保护：
+
+  - 在合并前要求拉取请求
+  - 限制谁可以向匹配分支推送
+
+  在 GitHub 中，打开你的仓库的分支保护设置，并允许 `gitbook-com` 绕过这些限制。
+</Expandable>
+
+<Expandable title="Git Sync 状态显示意外错误">
+  <strong>如果错误是在 GitBook 中合并变更请求时出现的：</strong> 创建一个包含小改动的新变更请求——例如添加一个词——然后合并它。这会重新触发同步，而 GitBook 会再次导出所有内容，包括上次失败同步中的更改。
+
+  <strong>如果错误是在从 GitHub 或 GitLab 合并提交时出现的：</strong> 在你的仓库中创建一个包含小改动的新提交。合并后，GitBook 会再次从仓库导入所有内容，包括上次失败同步中的更改。
+
+  <strong>如果错误是在首次设置期间出现的：</strong> 移除 GitHub 或 GitLab 集成，重新在你的部分中启用它，并再次执行设置流程。
+
+  如果以上步骤都无效， [联系支持](/zh/docs/bang-zhu/contact-support).
+</Expandable>
+
+<Expandable title="Git 身份验证失败">
+  当你尝试向尚未授予 GitBook 访问权限的仓库推送时，会出现此消息。在这种情况下，从你的仓库同步到 GitBook 可以工作，但反向不行——而且你的仓库可能不会正确列出。
+
+  对于 GitHub，请在 GitHub 设置中授予访问权限：打开 **管理组织 → 集成 → 应用**，点击 **配置** ，找到 GitBook，并选择 GitBook 应用可访问的仓库。
+
+  对于 GitLab，请确保你的访问令牌配置了 `api`, `read_repository`，以及 `write_repository` 访问权限。
+</Expandable>
+
+<Expandable title="GitHub 预览未显示">
+  如果你的 GitHub 预览未显示，可能是因为你的 GitSync 集成是在 2022 年 1 月之前配置的。该日期之前配置的 GitSync 版本不包含 GitHub 预览。
+
+  你应该会收到一条通知，要求你接受更新后的权限请求，以启用对 PR 的只读访问。
+
+  如果你没有收到该通知，要排查问题，你需要更新到新版本：
+
+  1. 从你的组织中卸载 GitSync 集成。
+  2. 使用更新后的权限重新安装新版本。
+
+  请注意，卸载 GitSync 集成后，需要在之前连接过的任何部分上重新配置该集成。
+</Expandable>
+
+### 仓库内容和结构
+
+<Expandable title="Git Sync 文件大小限制">
+  Git Sync 将单个文件大小限制为最大 100MB。为提高性能和同步速度，请优化仓库中各文件和资源的大小。
+</Expandable>
+
+<Expandable title="我的目录结构不正确">
+  你的 `SUMMARY.md` 文件会在 GitBook 上镜像你的目录——其结构方式会反映在你的内容中。请确保该文件反映你希望在文档中看到的结构。请参见 [内容配置](/zh/docs/wen-dang-ji-dai-ma/git-sync/content-configuration#summary) 以了解预期格式。
+</Expandable>
+
+<Expandable title="我对另一个空间的链接在我编辑后返回 404 gitbook-docs.yaml">
+  跨空间链接通过空间 ID 解析。Git Sync 会根据 `gitbook-docs.yaml` 中的 `键`其键来标识每个空间，因此更改空间的键会替换该空间：GitBook 会创建一个新的空间，从映射的目录中将你的内容导入其中，并将原始空间保留在你的组织中，使其与站点脱离连接。
+
+  你的页面会回来，但空间 ID 会改变。指向旧 ID 的链接、卡片和 `SUMMARY.md` 条目会失效。
+
+  新 ID 是永久的。恢复原始键不会把旧 ID 带回来——它只会创建另一个带有新 ID 的新空间。请将受影响的引用重新指向当前空间，并为已更改的已发布 URL 添加 [网站重定向](/zh/docs/fa-bu/site-redirects) 。
+
+  如果你需要其中某些不在仓库中的内容，原始空间仍保留在你的组织中。 [联系支持](/zh/docs/bang-zhu/contact-support) 并提供原始空间 ID，如果你找不到它。
+</Expandable>
+
+<Expandable title="Git Sync 也会同步拉取请求吗？">
+  不会。在 GitHub 或 GitLab 中创建拉取请求不会在 GitBook 中创建变更请求，在 GitBook 中创建变更请求也不会在你的仓库中创建拉取请求。
+</Expandable>
+
+### 常见 Git Sync 问题
+
+<Expandable title="我遇到了 GitHub 同步错误">
+  #### 在你的仓库中创建 README 文件
+
+  启用 Git Sync 后，请注意不要通过 GitBook 界面创建 readme 文件。通过 GitBook 界面创建 readme 文件会：
+
+  - 在你的仓库中创建重复的 README 文件
+  - 导致 GitBook 和 GitHub 之间的渲染冲突
+  - 可能破坏构建和部署流程
+  - 导致文件优先级不可预测
+
+  这包括名为 README.md、readme.md、Readme.md 以及 README（无扩展名）的文件。相反，请记得直接在你的 git 仓库中管理 README 文件。
+
+  #### 仍然遇到错误？
+
+  请确保：
+
+  - 你的仓库 **有一个** `README.md` **文件** 位于其根目录（或位于 `root` 中指定的文件夹 `.gitbook.yaml`），并且该文件是直接在你的 git 仓库中创建的。该文件是必需的，并用作你文档的主页。有关更多详情，请参阅我们的 [内容配置](/zh/docs/wen-dang-ji-dai-ma/git-sync/content-configuration).
+  - 如果你的 Markdown 文件中有 YAML frontmatter，请使用 [linter](http://www.yamllint.com)。
+</Expandable>
+
+<Expandable title="GitBook 没有使用我的 docs 文件夹">
+  默认情况下，GitBook 使用仓库根目录作为起点。可以指定某个特定目录来限定 markdown 文件范围。有关更多详情，请查看我们关于 [内容配置](/zh/docs/wen-dang-ji-dai-ma/git-sync/content-configuration) 的文档。
+</Expandable>
+
+<Expandable title="GitBook 正在创建新的 Markdown 文件">
+  **在与现有 Git 仓库同步并从 GitBook 编辑时** ，GitBook 可能会创建新的 markdown 文件，而不是使用现有文件。这是为了确保 GitBook 不会覆盖在你仓库中原本就存在的文件。
+</Expandable>
+
+<Expandable title="重定向未正常工作">
+  YAML 文件需要正确格式化，重定向才能工作。缩进或空白等错误会导致你的重定向无法正常工作。 [验证你的 YAML 文件](https://www.yamllint.com/) 可以确保重定向顺利工作。
+
+  设置重定向时，不要添加任何前导斜杠。例如，尝试重定向到 `./misc/support.md` 将不起作用。
+
+  还需要注意，只要某个路径下存在页面，GitBook 就不会去寻找可能的重定向。因此，如果你要为旧页面设置到新页面的重定向，你需要先删除旧页面，重定向才会生效。
+</Expandable>
+
+<Expandable title="我的仓库未列出">
+  #### GitHub 仓库
+
+  请确保你已将 GitBook GitHub 应用安装到正确的位置（安装应用时，你可以选择将其安装到你的个人 GitHub，或安装到你有权限的任何组织），并且已为该应用授予正确的仓库权限。
+
+  #### GitLab 仓库
+
+  请确保你的访问令牌已配置以下访问权限：
+
+  - `api`
+  - `read_repository`
+  - `write_repository`
+</Expandable>
+
+<Expandable title="在我向仓库添加文件后没有任何反应">
+  <Callout kind="alert">
+    **本节专门处理当 `SUMMARY.md` 文件已存在**
+
+    如果你的仓库不包含 `SUMMARY.md` 文件，GitBook 会在首次同步时自动创建一个。这意味着，如果你在设置 Git sync 后至少曾在 GitBook 中编辑过一次内容，GitBook 应该已经自动创建了此文件。
+  </Callout>
+
+  如果在你通过添加或修改 markdown 文件更新仓库后，你没有在 GitBook 中看到更新体现，且侧边栏在同步期间也没有指示错误，那么你修改的文件很可能未列在 [你的 `SUMMARY.md` 文件](/zh/docs/wen-dang-ji-dai-ma/git-sync/content-configuration#summary)中。
+
+  这可能是因为你手动创建了该文件，或者因为你在 GitBook 中进行了编辑，而同步中的 GitBook 导出到 Git 阶段为你创建了它。
+
+  该文件的内容会镜像你的 [目录](/zh/docs/can-kao/gitbook-ui#table-of-contents) 在 GitBook 上，并在 Git 到 GitBook 导入阶段用于重新创建你的目录，并将仓库中的后续更新与 GitBook 上现有内容重新协调。
+
+  如果在确保你的所有文件都包含在 `SUMMARY.md` 文件中后，GitBook 仍然没有任何反应，请不要犹豫， [联系支持](/zh/docs/bang-zhu/contact-support) 寻求帮助。
+</Expandable>
+
+<Expandable title="登录时我有重复账户">
+  此错误通常出现在你用于设置同步的 GitHub 账户已经关联到另一个 GitBook 用户账户时。
+
+  识别 GitHub 账户已链接到哪个 GitBook 账户的一个好方法是：
+
+  1. 从你当前的 GitBook 用户会话中登出（即 `name@email.com`)
+  2. 从所有 GitHub 用户会话中登出。
+  3. 前往 [登录页面](https://app.gitbook.com/login).
+  4. 选择“使用 GitHub 登录”选项。
+  5. 输入你的 GitHub 凭据。
+  6. 登录后，前往 [账户设置](https://app.gitbook.com/account) 并执行以下任一操作：
+
+     1. 在个人设置中的“Third-party Login > GitHub”部分解除该账户链接
+     2. 如果你不再需要它，就彻底删除该账户。
+  7. 从会话中登出。
+  8. 使用你的 `name@email.com` GitBook 账户重新登录。
+  9. 再次尝试设置 Git Sync。
+</Expandable>
+
+<Expandable title="不安全的文件正在阻止 Git Sync">
+  如果你的空间包含 GitBook 认为导出不安全的文件，Git Sync 可能会失败（例如 `.js`).
+
+  你可能会看到类似以下的错误：
+
+  > `文件“<filename>”无法导出，因为它被视为不安全`
+
+  不安全文件必须从 GitBook 空间中移除，而不只是从 Git 仓库中移除。
+
+  1. 在受影响的空间中创建变更请求
+  2. 打开 **文件** 选项卡
+  3. 删除不安全的文件
+  4. 合并变更请求
+
+  一旦从空间中移除了不安全文件，Git Sync 应该会恢复正常。
+</Expandable>

@@ -1,0 +1,353 @@
+---
+title: API 参考
+description: 了解在以编程方式使用 Docs Embed 时可用的方法
+metaTitle: API 参考 | GitBook Documentation
+ogImage: https://test-dai.imgix.net/org-4afef969-21f9-40f3-b5b8-b06c8b6cf68f/doc-22a3b060-9539-4176-97e4-49120e02f5d1/0a5a1a9630785855-organizations-d8f63b60-89ae-11e7-8574-5927d48c4877-sites-site_p4Xo4-socialprevie.jpg?fm=auto&auto=compress%2Cformat
+---
+
+Docs Embed 根据你的集成方式提供不同的 API。本参考涵盖所有集成方式中可用的方法。
+
+## 方法对比
+
+| 方法 | 独立脚本 | NPM 包 | React 组件 |
+| --- | --- | --- | --- |
+| **初始化** | `GitBook('init', options, frameOptions)` | `createGitBook(options)` | `<GitBookProvider siteURL="...">` |
+| **颜色方案覆盖** | `GitBook('init', options, { colorScheme })` | `client.getFrameURL({ colorScheme })` | `<GitBookFrame colorScheme="..." />` |
+| **获取 frame URL** | ❌（内部处理） | `client.getFrameURL(options)` | `useGitBook().getFrameURL(options)` |
+| **创建 frame 客户端** | ❌（内部处理） | `client.createFrame(iframe)` | `useGitBook().createFrame(iframe)` |
+| **显示/隐藏小部件** | `GitBook('show')` / `GitBook('hide')` | ❌ | ❌ |
+| **打开/关闭窗口** | `GitBook('open')` / `GitBook('close')` / `GitBook('toggle')` | ❌ | ❌ |
+| **跳转到页面** | `GitBook('navigateToPage', path)` | `frame.navigateToPage(path)` | 通过 frame 客户端 |
+| **跳转到助手** | `GitBook('navigateToAssistant')` | `frame.navigateToAssistant()` | 通过 frame 客户端 |
+| **发送消息** | `GitBook('postUserMessage', message)` | `frame.postUserMessage(message)` | 通过 frame 客户端 |
+| **清空聊天** | `GitBook('clearChat')` | `frame.clearChat()` | 通过 frame 客户端 |
+| **配置** | `GitBook('configure', settings)` | `frame.configure(settings)` | 属性 `<GitBookFrame>` |
+| **事件监听器** | ❌ | `frame.on(event, listener)` | 通过 frame 客户端 |
+| **卸载** | `GitBook('unload')` | ❌ | ❌ |
+
+## 独立脚本 API
+
+### 初始化
+
+#### `GitBook('init', options, frameOptions)`
+
+使用站点 URL 和可选的已认证访问来初始化小部件。
+
+<strong>参数：</strong>
+
+- `options`: `{ siteURL: string }` \- 你的 GitBook 文档站点 URL
+- `frameOptions`: `{ visitor?: { token?: string, unsignedClaims?: Record<string, unknown> }, colorScheme?: 'light' | 'dark' }` （可选）- frame 选项
+
+<strong>示例：</strong>
+
+```javascript
+window.GitBook('init', 
+  { siteURL: 'https://docs.company.com' },
+  { visitor: { token: 'your-jwt-token' }, colorScheme: 'dark' }
+);
+```
+
+当省略时， `colorScheme` 遵循 iframe 的 CSS `color-scheme`.
+
+### 小部件控制
+
+#### 显示小部件
+
+如果 GitBook 小部件已隐藏，则显示它。
+
+<strong>示例：</strong>
+
+```js
+window.GitBook("show");
+```
+
+#### 隐藏小部件
+
+隐藏 GitBook 小部件，但不卸载它。
+
+<strong>示例：</strong>
+
+```js
+window.GitBook("hide");
+```
+
+#### 打开窗口
+
+打开 Docs Embed 窗口。
+
+<strong>示例：</strong>
+
+```js
+window.GitBook("open");
+```
+
+#### 关闭窗口
+
+关闭 Docs Embed 窗口。
+
+<strong>示例：</strong>
+
+```js
+window.GitBook("close");
+```
+
+#### 切换窗口
+
+切换 Docs Embed 窗口的打开或关闭状态。
+
+<strong>示例：</strong>
+
+```js
+window.GitBook("toggle");
+```
+
+#### 卸载小部件
+
+从你的网站中完全移除 GitBook 小部件。
+
+<strong>示例：</strong>
+
+```js
+window.GitBook("unload");
+```
+
+### 导航
+
+#### `GitBook('navigateToPage', path)`
+
+根据路径跳转到 GitBook 文档中的特定页面。
+
+<strong>参数：</strong>
+
+- `path` （字符串）：要跳转到的页面路径
+
+<strong>示例：</strong>
+
+```javascript
+// 跳转到快速入门指南
+window.GitBook("navigateToPage", "/getting-started");
+
+// 跳转到特定的 API 文档页面
+window.GitBook("navigateToPage", "/api/authentication");
+
+// 跳转到 FAQ 部分
+window.GitBook("navigateToPage", "/faq/billing");
+```
+
+#### `GitBook('navigateToAssistant')`
+
+直接跳转到助手标签页。
+
+<strong>示例：</strong>
+
+```javascript
+// 切换到助手标签页
+window.GitBook("navigateToAssistant");
+
+// 你可以在按钮点击时使用它
+document.getElementById("help-button").addEventListener("click", () => {
+  window.GitBook("navigateToAssistant");
+});
+```
+
+### 聊天
+
+#### `GitBook('postUserMessage', message)`
+
+像用户输入的一样向聊天发送一条消息。
+
+<strong>参数：</strong>
+
+- `message` （字符串）：要发送到聊天的消息
+
+<strong>示例：</strong>
+
+```javascript
+// 发送预定义消息
+window.GitBook("postUserMessage", "我如何重置我的密码？");
+
+// 根据用户操作发送消息
+function askAboutBilling() {
+  window.GitBook("postUserMessage", "我有一些账单方面的问题");
+}
+
+// 发送带上下文的消息
+const userPlan = "premium";
+window.GitBook(
+  "postUserMessage",
+  `我使用的是 ${userPlan} 套餐，需要高级功能方面的帮助`
+);
+```
+
+#### `GitBook('clearChat')`
+
+清除当前聊天会话中的所有消息。
+
+<strong>示例：</strong>
+
+```javascript
+// 清空聊天
+window.GitBook("clearChat");
+
+// 清空聊天并开始新的对话
+function startNewConversation() {
+  window.GitBook("clearChat");
+  window.GitBook("postUserMessage", "你好，我需要帮助处理一个新问题");
+}
+
+// 切换上下文时清空聊天
+document.getElementById("new-topic").addEventListener("click", () => {
+  window.GitBook("clearChat");
+  window.GitBook("navigateToAssistant");
+});
+```
+
+### 配置
+
+#### `GitBook('configure', settings)`
+
+使用自定义选项配置嵌入。参见 [配置部分](/zh/docs/fa-bu/embedding/implementation/script#configuration-options) 以查看可用选项。
+
+<strong>示例：</strong>
+
+```javascript
+window.GitBook('configure', {
+  trademark: false,
+  tabs: ['assistant', 'search', 'docs'],
+  actions: [
+    {
+      icon: 'circle-question',
+      label: '联系支持',
+      onClick: () => window.open('https://support.example.com', '_blank')
+    }
+  ],
+  greeting: { title: '欢迎！', subtitle: '我能帮你什么？' },
+  assistantName: '支持副驾',
+  closeButton: true,
+  suggestions: ['什么是 GitBook？', '我该如何开始？']
+});
+```
+
+## NPM 包 API
+
+### 客户端工厂
+
+#### `createGitBook(options)`
+
+创建一个 GitBook 客户端实例。
+
+<strong>参数：</strong>
+
+- `options`: `{ siteURL: string }` \- 你的 GitBook 文档站点 URL
+
+<strong>返回：</strong> `GitBookClient`
+
+<strong>示例：</strong>
+
+```javascript
+import { createGitBook } from '@gitbook/embed';
+
+const gitbook = createGitBook({
+  siteURL: 'https://docs.company.com'
+});
+```
+
+#### `client.getFrameURL(options)`
+
+获取带可选已认证访问的 iframe URL。
+
+<strong>参数：</strong>
+
+- `options`: `{ visitor?: { token?: string, unsignedClaims?: Record<string, unknown> }, colorScheme?: 'light' | 'dark' }` （可选）
+
+<strong>返回：</strong> `字符串`
+
+<strong>示例：</strong>
+
+```javascript
+const iframeURL = gitbook.getFrameURL({
+  colorScheme: 'dark',
+  visitor: {
+    token: 'your-jwt-token',
+    unsignedClaims: { userId: '123', plan: 'premium' }
+  }
+});
+```
+
+#### `client.createFrame(iframe)`
+
+创建一个 frame 客户端与 iframe 通信。
+
+<strong>参数：</strong>
+
+- `iframe`: `HTMLIFrameElement` \- iframe 元素
+
+<strong>返回：</strong> `GitBookFrameClient`
+
+<strong>示例：</strong>
+
+```javascript
+const iframe = document.createElement('iframe');
+iframe.src = gitbook.getFrameURL();
+const frame = gitbook.createFrame(iframe);
+```
+
+### Frame 客户端方法
+
+#### `frame.navigateToPage(path)`
+
+跳转到 docs 标签页中的特定页面。
+
+<strong>参数：</strong>
+
+- `path`: `字符串` \- 页面路径
+
+#### `frame.navigateToAssistant()`
+
+切换到助手标签页。
+
+#### `frame.postUserMessage(message)`
+
+向聊天发送一条消息。
+
+<strong>参数：</strong>
+
+- `message`: `字符串` \- 要发送的消息
+
+#### `frame.clearChat()`
+
+清除聊天历史。
+
+#### `frame.configure(settings)`
+
+配置嵌入。参见 [配置部分](/zh/docs/fa-bu/embedding/implementation/nodejs#configuration-options) 以查看可用选项。
+
+#### `frame.on(event, listener)`
+
+注册事件监听器。
+
+<strong>参数：</strong>
+
+- `事件`: `字符串` \- 事件名称
+- `监听器`: `函数` \- 回调函数
+
+<strong>返回：</strong> `() => void` \- 取消订阅函数
+
+<strong>示例：</strong>
+
+```javascript
+const unsubscribe = frame.on('close', () => {
+  console.log('Frame 已关闭');
+});
+
+// 稍后取消订阅
+unsubscribe();
+```
+
+## React 组件 API
+
+参见 [React 集成指南](/zh/docs/fa-bu/embedding/implementation/react) 以了解组件 props 和 `useGitBook` hook API。
+
+`GitBookFrame` 支持 `assistantName`, `closeButton`, `colorScheme="light" | "dark"`，以及用于已认证访问的 `visitor` 属性。
+
+`useGitBook().getFrameURL()` 接受与 NPM 包相同的 `colorScheme` 参数。

@@ -1,0 +1,130 @@
+---
+title: Blocs de code
+description: Ajoutez un bloc de code à une page pour inclure du code d’exemple, des configurations, des extraits de code, et plus encore
+metaTitle: Blocs de code | GitBook Documentation
+ogImage: https://test-dai.imgix.net/org-4afef969-21f9-40f3-b5b8-b06c8b6cf68f/doc-22a3b060-9539-4176-97e4-49120e02f5d1/0a5a1a9630785855-organizations-d8f63b60-89ae-11e7-8574-5927d48c4877-sites-site_p4Xo4-socialprevie.jpg?fm=auto&auto=compress%2Cformat
+---
+
+Vous pouvez ajouter du code à vos pages GitBook à l’aide de blocs de code.
+
+Lorsque vous ajoutez un bloc de code, vous pouvez choisir de [définir la syntaxe](#set-syntax...), [afficher les numéros de ligne](#with-line-numbers), [afficher une légende](#with-caption), et [renvoyer les lignes](#wrap-code). Il est aussi facile de [copier le contenu d’un bloc de code dans le presse-papiers](#copying-the-code), afin de pouvoir l’utiliser ailleurs
+
+Un bloc de code peut être utile pour :
+
+- Partager des configurations
+- Ajouter des extraits de code
+- Partager des fichiers de code
+- Afficher des exemples d’utilisation d’outils en ligne de commande
+- Montrer comment appeler des points de terminaison d’API
+- Et bien plus encore !
+
+### Ajouter un bloc de code
+
+1. Pour ajouter un bloc de code, placez votre curseur sur une ligne vide et saisissez `/`.
+2. Dans le menu d’insertion rapide, sélectionnez **Bloc de code**.
+3. GitBook insère le bloc et place votre curseur à l’intérieur, prêt à coller ou à saisir du code.
+
+### Exemple de bloc de code
+
+```javascript title="index.js"
+‌import * as React from 'react';
+import ReactDOM from 'react-dom';
+import App from './App';
+
+ReactDOM.render(<App />, window.document.getElementById('root'));
+```
+
+Vous pouvez également combiner les blocs de code avec un [bloc d’onglets](/fr/docs/creer-du-contenu/blocks/tabs) pour proposer le même exemple de code dans plusieurs langues différentes :
+
+<Tabs>
+  <Tab title="JavaScript">
+    ```javascript
+    let greeting = function (name) {
+      console.log(`Hello, ${name}!`);
+    };
+    greeting("Anna");
+    ```
+  </Tab>
+
+  <Tab title="Ruby">
+    ```ruby
+    greeting = lambda {|name| puts "Hello, #{name}!"}
+    greeting.("Anna")
+    ```
+  </Tab>
+
+  <Tab title="Elixir">
+    ```elixir
+    greeting = fn name -> IO.puts("Hello, #{name}!") end
+    greeting.("Anna")
+    ```
+  </Tab>
+</Tabs>
+
+### Options des blocs de code
+
+Lorsque vous cliquez sur le **menu Options** <Image src="https://test-dai.imgix.net/org-4afef969-21f9-40f3-b5b8-b06c8b6cf68f/doc-22a3b060-9539-4176-97e4-49120e02f5d1/4c115a43418b42e3-spaces-NkEGS7hzeqa35sMXQZ4X-uploads-aS1QvPIBVYwhpFTGcPBN-options-menu.svg?rasterize-bypass=true" alt="The Options menu icon in GitBook" /> à côté du bloc de code, ou sur le **menu Actions** <Image src="https://test-dai.imgix.net/org-4afef969-21f9-40f3-b5b8-b06c8b6cf68f/doc-22a3b060-9539-4176-97e4-49120e02f5d1/4fa265378c13a520-spaces-NkEGS7hzeqa35sMXQZ4X-uploads-89MTSo5XRpPMVr1T0rxS-actions.svg?rasterize-bypass=true" alt="The Actions menu icon in GitBook" /> dans le bloc lui-même, vous verrez un certain nombre d’options que vous pouvez définir.
+
+#### Définir la syntaxe…
+
+Vous pouvez définir la syntaxe de votre bloc de code dans n’importe quelle langue prise en charge. Cela activera également la coloration syntaxique dans cette langue.
+
+<Callout kind="info">
+  Nous utilisons [Prism](https://github.com/PrismJS/prism) pour la coloration syntaxique. Vous pouvez utiliser [Test Drive Prism](https://prismjs.com/test.html#language=markup) pour vérifier les langues prises en charge par Prism. Si vous remarquez une différence entre GitBook et Prism, il est possible que nous ayons une ou deux versions de retard. Nous nous rattraperons bientôt !
+</Callout>
+
+```text title="filename.txt"
+// Du code
+```
+
+<a id="with-line-numbers"></a>
+
+#### Avec numéros de ligne
+
+Cela activera et désactivera les numéros de ligne pour votre code.
+
+Afficher les numéros de ligne est utile lorsque le code représente le contenu d’un fichier dans son ensemble, ou lorsque vous avez de longs blocs de code avec beaucoup de lignes. Masquer les numéros de ligne est utile pour les extraits, les instructions d’utilisation pour la ligne de commande ou les expressions de terminal et des scénarios similaires.
+
+#### Avec légende
+
+Cela activera et désactivera une légende placée en haut du bloc, au-dessus de vos lignes de code.
+
+La légende est souvent le nom d’un fichier, comme dans [notre exemple ci-dessus](#example-of-a-code-block), mais vous pouvez aussi l’utiliser comme titre, description ou tout autre élément de votre choix.
+
+#### Retour à la ligne du code
+
+Cela activera et désactivera le retour à la ligne du code, de sorte que les longues lignes de code soient renvoyées pour être toutes visibles en même temps sur la page.
+
+Le retour à la ligne est utile lorsque votre code est long et que vous voulez éviter que le lecteur fasse défiler horizontalement pour le lire. Si vous l’activez **Retour à la ligne du code** vous pouvez aussi afficher les numéros de ligne — cela facilitera la lecture du code et la compréhension de l’endroit où commencent les nouvelles lignes.
+
+#### Extensible
+
+Cela activera l’affichage du code en entier (lorsque l’option est désactivée) ou dans une fenêtre réduite du code que l’utilisateur peut développer (lorsque l’option est activée).
+
+La vue réduite affiche par défaut 10 lignes de code avec un bouton pour développer et afficher le bloc de code complet. S’il y a moins de 10 lignes de code, tout le contenu sera affiché.
+
+### Actions sur les blocs de code
+
+En plus des options ci-dessus, vous pouvez également changer la langue d’affichage du bloc de code et copier instantanément votre code.
+
+<a id="copying-the-code"></a>
+
+#### Copier le code
+
+Survolez un bloc de code et un certain nombre d’icônes apparaîtront. Cliquez sur l’icône du milieu pour copier le contenu du bloc de code dans votre presse-papiers.
+
+### Représentation en Markdown
+
+````markdown
+{% code title="index.js" overflow="wrap" lineNumbers="true" %}
+
+```javascript
+‌import * as React from 'react';
+import ReactDOM from 'react-dom';
+import App from './App';
+
+ReactDOM.render(<App />, window.document.getElementById('root'));
+```
+
+{% endcode %}
+````

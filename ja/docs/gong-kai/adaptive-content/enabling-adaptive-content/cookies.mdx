@@ -1,0 +1,124 @@
+---
+title: Cookie
+description: 公開Cookieまたは署名付きCookieを通じて、訪問者データをドキュメントに渡します
+metaTitle: Cookie | GitBook Documentation
+ogImage: https://test-dai.imgix.net/org-4afef969-21f9-40f3-b5b8-b06c8b6cf68f/doc-22a3b060-9539-4176-97e4-49120e02f5d1/0a5a1a9630785855-organizations-d8f63b60-89ae-11e7-8574-5927d48c4877-sites-site_p4Xo4-socialprevie.jpg?fm=auto&auto=compress%2Cformat
+---
+
+<Callout kind="info">
+  ガイドを見て、 [詳細な手順](/en/docs/guides/docs-personalization-and-authentication/setting-up-adaptive-content) Cookieを使ったアダプティブコンテンツの設定方法について。
+</Callout>
+
+<Callout kind="alert">
+  アダプティブコンテンツを機能フラグと併用するには、アプリケーションにコードを追加する必要があります。
+
+  この方法は、サイトが次の下で配信されている場合にのみ機能します [カスタムドメイン](/ja/docs/gong-kai/custom-domain).
+</Callout>
+
+訪問者のブラウザCookieを通じて、訪問者データをドキュメントに渡すことができます。以下は各方法の概要です。
+
+| 方法 | ユースケース | 設定のしやすさ | セキュリティ | 形式 |
+| --- | --- | --- | --- | --- |
+| 署名付きCookie `gitbook-visitor-token` | APIテスト用認証情報、顧客識別 | 署名とカスタムドメインが必要 | ✅ プロパティはバックエンドでのみ定義できます | JWT |
+| 公開Cookie `gitbook-visitor-public` | 機能フラグ、ロール | 設定が簡単 | ❌ 訪問者がプロパティを上書きできます | JSON |
+
+### 公開Cookie
+
+GitBook に公開Cookieからデータを渡すには、アプリケーションから公開 `gitbook-visitor-public` Cookie。
+
+以下はシンプルな JavaScript の例です：
+
+```javascript
+import Cookies from 'js-cookie';
+
+const cookieData = {
+  isLoggedIn: true,
+  isBetaUser: false,
+};
+
+Cookies.set('gitbook-visitor-public', JSON.stringify(cookieData), {
+  secure: true,
+  domain: '*.acme.org',
+})
+```
+
+<Callout kind="alert">
+  公開Cookieを通じて渡されるデータは、訪問者スキーマ内で次の [署名なし](/ja/docs/gong-kai/adaptive-content/enabling-adaptive-content#set-an-unsigned-claim) オブジェクト。
+</Callout>
+
+### 署名付きCookie
+
+GitBook により安全にデータを渡すには、データを次の形式で送信する必要があります [JSON Web Token](https://jwt.io/introduction) アプリケーションから、次の名前のCookieに入れて `gitbook-visitor-token` ドメインに紐づけます。
+
+これを設定するには、アプリケーションのログインフローを次の手順に合わせて調整する必要があります：
+
+<Steps>
+  <Step title="ユーザーがアプリケーションにログインしたときにJWTを生成する">
+    ユーザーが製品にログインするたびに、認証済みユーザー情報の選択した属性を含むJWTを生成します。
+  </Step>
+
+  <Step title="サイトの訪問者署名キーを使ってJWTに署名する">
+    次に、サイトの **訪問者署名キー**を使ってJWTに署名してください。これは、Adaptive Contentを有効にした後、サイトのオーディエンス設定で確認できます。
+  </Step>
+
+  <Step title="JWTをワイルドカードセッションCookieに保存する">
+    最後に、ユーザー情報を含む署名済みJWTをワイルドカードセッションCookieに保存する必要があります **製品ドメイン配下に**.
+
+    たとえば、アプリケーションが次の下で配信されている場合 `app.acme.org` ドメインでは、Cookieは次の下で作成する必要があります `.acme.org` ワイルドカードドメイン。
+  </Step>
+</Steps>
+
+以下はシンプルな TypeScript の例です：
+
+```typescript
+import * as jose from 'jose';
+
+import { Request, Response } from 'express';
+
+import { getUserInfo } from '../services/user-info-service';
+import { getFeatureFlags } from '../services/feature-flags-service';
+
+const GITBOOK_VISITOR_SIGNING_KEY = process.env.GITBOOK_VISITOR_SIGNING_KEY;
+const GITBOOK_VISITOR_COOKIE_NAME = 'gitbook-visitor-token';
+
+
+export async function handleAppLoginRequest(req: Request, res: Response) {
+   // ログイン要求を処理するためのビジネスロジック
+   // たとえば、資格情報を確認してユーザーを認証する
+   //
+   // 例：
+   // const loggedInUser = await authenticateUser(req.body.username, req.body.password);
+
+   // ユーザーを認証した後、GitBook に渡したいユーザー情報を取得します
+   // データベースまたはユーザーサービスから。
+   const userInfo = await getUserInfo(loggedInUser.id);
+      
+   // ユーザー情報でJWTペイロードを構築します
+   const gitbookVisitorClaims = {
+       firstName: userInfo.firstName,
+       lastName: userInfo.lastName,
+       isBetaUser: userInfo.isBetaUser
+       products: userInfo.products.map((product) => product.name),
+       featureFlags: await getFeatureFlags({userId: loggedInUser.id})
+   }
+   
+   // クレームを使って署名済みJWTを生成します
+   const gitbookVisitorJWT = await new jose.SignJWT(gitbookVisitorClaims)
+     .setProtectedHeader({ alg: 'HS256' })
+     .setIssuedAt()
+     .setExpirationTime('2h') // 任意の2時間の有効期限
+     .sign(GITBOOK_VISITOR_SIGNING_KEY);
+     
+  // エンコードされたJWTを含む`gitbook-visitor-token` Cookieを
+  // ログインハンドラのレスポンスに含めます
+  res.cookie(GITBOOK_VISITOR_COOKIE_NAME, gitbookVisitorJWT, {
+     httpOnly: true,
+     secure: process.env.NODE_ENV === 'production',
+     maxAge: 2 * 60 * 60 * 1000, // 任意の2時間の有効期限
+     domain: '.acme.org' //
+  });
+  
+  // ユーザーをアプリへリダイレクトする処理を含む、ログインハンドラの残りのロジック
+  res.redirect('/'); // 例のリダイレクト
+}
+```

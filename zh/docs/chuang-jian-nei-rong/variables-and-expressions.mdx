@@ -1,0 +1,48 @@
+---
+title: 变量和表达式
+description: 创建可复用变量，可在页面和分区中引用
+metaTitle: 变量和表达式 | GitBook Documentation
+ogImage: https://test-dai.imgix.net/org-4afef969-21f9-40f3-b5b8-b06c8b6cf68f/doc-22a3b060-9539-4176-97e4-49120e02f5d1/0a5a1a9630785855-organizations-d8f63b60-89ae-11e7-8574-5927d48c4877-sites-site_p4Xo4-socialprevie.jpg?fm=auto&auto=compress%2Cformat
+---
+
+使用变量，你可以创建可重复使用的文本，可在 [表达式](/zh/docs/chuang-jian-nei-rong/formatting/inline#expressions) 以及 [自适应内容的条件中](/zh/docs/fa-bu/adaptive-content/adapting-your-content#working-with-the-condition-editor).
+
+如果你在内容中多次重复同一个名称、短语或版本号，你可以创建一个 **变量** 来帮助确保所有这些实例保持同步且准确——如果你以后需要更新它们，或者它们很复杂且经常被输错，这会很有用。
+
+你可以创建作用域限定为单个页面或单个部分的变量。
+
+### 创建新变量
+
+要创建新变量，请点击 **资料库** 在编辑一个打开的 [更改请求](/zh/docs/xie-zuo/change-requests)。然后，点击 **变量**.
+
+你可以使用顶部的切换按钮来查看和创建变量，其作用域可以是你当前所在的页面，或当前部分中的所有页面。
+
+点击 **创建变量** 将打开一个弹窗，你可以为变量命名并设置其值。
+
+点击 **添加变量** 以保存你的变量。
+
+<Image src="https://test-dai.imgix.net/org-4afef969-21f9-40f3-b5b8-b06c8b6cf68f/doc-22a3b060-9539-4176-97e4-49120e02f5d1/1b45aae2ae8c3065-spaces-NkEGS7hzeqa35sMXQZ4X-uploads-QwfTEGjsxDThqQFvgOm8-Add-variable-2x.png?fm=auto&auto=compress%2Cformat" alt="A GitBook screenshot showing the Add variables screen. The variable Name box has been filled with the text ‘latest_version’ and the Value box has been filled with the text ‘v3.04.1’" caption="你可以将变量添加到单个页面或整个部分。当你更新变量的值时，它的每个实例都会更新。" />
+
+<Callout kind="info">
+  变量名必须以字母开头，并且可以包含字母、数字和下划线。
+</Callout>
+
+### 在内容中使用变量
+
+变量可以在……中被引用和使用 [表达式](/zh/docs/chuang-jian-nei-rong/formatting/inline#expressions) ——你可以将其以内联方式插入内容中。插入表达式后，双击它即可打开表达式编辑器。
+
+<Callout kind="info">
+  表达式只能用于文档的页面内容中。它们不能用于页面标题或页面元数据。
+</Callout>
+
+在你的页面下定义的变量可通过以下方式访问： `page.vars` 对象。同样，在整个部分中定义的变量可通过以下方式访问： `space.vars` 对象。
+
+<Callout kind="info">
+  在表达式中，部分作用域的变量位于 `space.vars` ——GitBook API 将部分表示为 `space` 对象。
+</Callout>
+
+<Image src="https://test-dai.imgix.net/org-4afef969-21f9-40f3-b5b8-b06c8b6cf68f/doc-22a3b060-9539-4176-97e4-49120e02f5d1/808ca61d28ee1024-spaces-NkEGS7hzeqa35sMXQZ4X-uploads-aRWyFWMI24Cy2nVZmSzE-Using-variable-2x.png?fm=auto&auto=compress%2Cformat" alt="A GitBook screenshot showing an expression block within the editor. The expression editor is open below it and the ‘space.vars.latest_version’ variable has been selected" caption="你可以在表达式中将变量添加到内容里。表达式编辑器提供自动补全选项，帮助你找到所需的变量。" />
+
+### 更新变量
+
+在变更请求中，你可以在任何时候更新变量。更新其值会同步更新所有引用它的表达式块中的值。一旦变更请求合并，已更改的变量就会在任何已发布的网站上生效。

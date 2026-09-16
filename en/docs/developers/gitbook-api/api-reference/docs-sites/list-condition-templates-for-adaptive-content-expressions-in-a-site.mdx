@@ -1,0 +1,37 @@
+---
+title: List condition templates for adaptive content expressions in a site
+metaTitle: List condition templates for adaptive content expressions in a site | Developers | GitBook Documentation
+ogImage: https://test-dai.imgix.net/org-4afef969-21f9-40f3-b5b8-b06c8b6cf68f/doc-22a3b060-9539-4176-97e4-49120e02f5d1/0a5a1a9630785855-organizations-d8f63b60-89ae-11e7-8574-5927d48c4877-sites-site_p4Xo4-socialprevie.jpg?fm=auto&auto=compress%2Cformat
+---
+
+Returns pre-generated condition templates derived from the site's visitor attributes schema. These templates can be used as building blocks when writing adaptive content expressions to conditionally show or hide content for different visitor types. Use this to discover available conditions before authoring adaptive rules.
+
+**GET** `/orgs/{organizationId}/sites/{siteId}/adaptive-schema/template-conditions`
+
+**Parameters**
+
+<ParamField header="Authorization" param-type="string" />
+
+<ParamField path="organizationId" param-type="string" required={true}>
+  The unique id of the organization
+</ParamField>
+
+<ParamField path="siteId" param-type="string" required={true}>
+  The unique id of the site
+</ParamField>
+
+**Responses**
+
+`200` List of template conditions generated based on the site visitor schema.
+
+<ResponseField name="items" field-type="array" required={true}>
+  <Expandable title="Array Items">
+    <ResponseField name="description" field-type="string" required={true}>
+      A short description of the suggested condition.
+    </ResponseField>
+
+    <ResponseField name="condition" field-type="string" required={true}>
+      The suggested condition.
+    </ResponseField>
+  </Expandable>
+</ResponseField>

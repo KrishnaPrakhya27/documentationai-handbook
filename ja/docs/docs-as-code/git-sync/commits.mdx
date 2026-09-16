@@ -1,0 +1,36 @@
+---
+title: コミットメッセージと自動リンク
+metaTitle: コミットメッセージと自動リンク | GitBook Documentation
+ogImage: https://test-dai.imgix.net/org-4afef969-21f9-40f3-b5b8-b06c8b6cf68f/doc-22a3b060-9539-4176-97e4-49120e02f5d1/0a5a1a9630785855-organizations-d8f63b60-89ae-11e7-8574-5927d48c4877-sites-site_p4Xo4-socialprevie.jpg?fm=auto&auto=compress%2Cformat
+---
+
+デフォルトでは、GitBook から Git リポジトリへコンテンツをエクスポートする際、GitBook はマージされた変更リクエストに基づいてコミットメッセージを生成します:
+
+```
+GITBOOK-14: ユーザー管理に関するドキュメントを改善
+```
+
+## 自動リンク `GITBOOK-<num>` GitHub と GitLab で
+
+GitBook の変更リクエスト ID を自動的に解決したい場合（例: *GITBOOK-123*）をコミット内のリンクに変換するには、GitHub の *自動リンク参照* 機能を使って有効化できます。手順については [GitHub](https://help.github.com/en/github/administering-a-repository/configuring-autolinks-to-reference-external-resources).
+
+次の URL 形式を使用してください。ここで `spaceId` はセクションの URL に対応します:
+
+`<https://app.gitbook.com/s/{spaceId}/~/changes/<num>/`
+
+<Image src="https://test-dai.imgix.net/org-4afef969-21f9-40f3-b5b8-b06c8b6cf68f/doc-22a3b060-9539-4176-97e4-49120e02f5d1/13555172df35b148-spaces-NkEGS7hzeqa35sMXQZ4X-uploads-XMOX8gtwZIZGwdSWhSdX-gitsync-autolink-2x.png?fm=auto&auto=compress%2Cformat" alt="A GitBook screenshot showing autolink setup" caption="自動リンクの設定。" />
+
+## コミットメッセージのテンプレートをカスタマイズする
+
+GitBook を [monorepo](/ja/docs/docs-as-code/git-sync/monorepos)と一緒に使用している場合、またはコミットメッセージに特定のガイドラインがある場合は、Git にコミットをプッシュする際に GitBook が使用するメッセージをカスタマイズしたいかもしれません。
+
+テンプレートには次のプレースホルダーを含めることができます:
+
+- `{change_request_number}` 変更リクエストの一意の数値 ID
+- `{change_request_subject}` マージ時の変更リクエストの件名、または `件名なし` 何も指定されていない場合。
+
+デフォルトのテンプレートは次のとおりです:
+
+```
+GITBOOK-{change_request_number}: {change_request_subject}
+```

@@ -1,0 +1,179 @@
+---
+title: AIアシスタント
+description: AIアシスタントは、ドキュメントだけでなく、知識ベース全体から得た正確で文脈に沿った回答をユーザーに提供します
+metaTitle: AIアシスタント | GitBook Documentation
+ogImage: https://test-dai.imgix.net/org-4afef969-21f9-40f3-b5b8-b06c8b6cf68f/doc-22a3b060-9539-4176-97e4-49120e02f5d1/0a5a1a9630785855-organizations-d8f63b60-89ae-11e7-8574-5927d48c4877-sites-site_p4Xo4-socialprevie.jpg?fm=auto&auto=compress%2Cformat
+---
+
+<Image src="https://test-dai.imgix.net/org-4afef969-21f9-40f3-b5b8-b06c8b6cf68f/doc-22a3b060-9539-4176-97e4-49120e02f5d1/dfb18b4167641ecd-spaces-NkEGS7hzeqa35sMXQZ4X-uploads-lzOUuOwM4Vffctmf3VHC-25_03_31_gitbook_assist.png?fm=auto&auto=compress%2Cformat" alt="GitBook Assistant" caption="GitBook Assistant" />
+
+AI Assistant は、自然言語を使用してドキュメントに関する迅速で正確な回答をユーザーに提供します。ユーザーに合わせてパーソナライズされ、Web サイトや製品に埋め込むことができ、公開済みドキュメントのサイドバーまたは検索ボックスに表示できます。
+
+ユーザーが最も必要とする場所とタイミングで、すべてのユーザーが利用できる製品エキスパートだと考えてください。
+
+Assistant はエージェント型検索を使用し、ユーザーの現在のページ、以前に読んだページ、過去の会話に基づいてクエリのコンテキストを理解します。
+
+以下のボックスで Assistant に質問してみてください：
+
+## AI Assistant を設定する
+
+AI Assistant を設定するには、 **カスタマイズ**、 **ツール** をサイトのサイドバーで開き、】【t\_577c0d39】. Here you can enable the Assistant and customize its instructions, welcome message, and suggested questions. **AIアシスタント**をクリックします。ここで Assistant を有効にし、指示、ウェルカムメッセージ、候補の質問をカスタマイズできます。
+
+### カスタム指示を追加する
+
+カスタム指示では Assistant の口調を調整し、製品固有の知識や用語を追加できます。これにより、回答を一貫して全体的なスタイルに合わせられます。
+
+<Callout kind="info">
+  カスタム指示は Assistant の口調と知識を洗練します。組み込みのガードレールを上書きすることはできません。
+</Callout>
+
+### ウェルカムメッセージをカスタマイズする
+
+ウェルカムメッセージは、進行中の会話がない状態で訪問者が Assistant を開いたときに最初に表示されるものです。期待値を設定したり、ユーザーを特定のワークフローへ案内したりするために使用してください。
+
+### 候補の質問を追加する
+
+候補の質問は、進行中の会話がない状態で Assistant を開いたときに表示される、あらかじめ用意されたプロンプトです。ユーザーが質問できる内容を理解するのに役立ち、有用な回答やワークフローへユーザーを案内することにも役立ちます。
+
+#### 候補の質問に関するベストプラクティス：
+
+- 実際のユーザーの目標（セットアップ、トラブルシューティング、統合）から始めます。
+- ユーザーが使う言葉を使用します（社内コードネームは避けます）。
+- 具体的にします。「～について教えて」よりも「どうすれば～できますか？」の方が効果的です。
+- クイックスタート、ハウツー、トラブルシューティング、リファレンスなど、さまざまな目的をカバーします。
+
+<Callout kind="info">
+  Assistant を製品に埋め込む場合は、埋め込み設定で候補を動的に設定することもできます。 [埋め込みのカスタマイズ](/ja/docs/gong-kai/embedding/configuration/customizing-docs-embed#adding-suggestions).
+</Callout>
+
+<a id="choose-your-sites-search-experience"></a>
+
+### Assistant の表示場所を選択する
+
+次の項目の下で **外観**で、 **配置** を設定して、読者が Assistant を利用する場所を選択します：
+
+- **サイドバー** （デフォルト）— 完全なチャット体験。Ultimate サイトプランで利用可能
+- **検索ボックス** — キーワード検索結果とともに表示されるインライン回答。Premium および Ultimate サイトプランで利用可能
+
+<Callout kind="info">
+  Assistant のあいさつはサイドバー配置にのみ適用されるため、 **配置** が次に設定されている間は非表示になります **検索ボックス**.
+</Callout>
+
+<Callout kind="alert">
+  を **AIアシスタント** オフにしてから再度オンにすると、 **配置** に対する **サイドバー**がリセットされます。サイトで検索ボックス配置を使用している場合は、Assistant を再度有効にした後にもう一度設定してください。
+</Callout>
+
+## 公開済みドキュメントで AI Assistant を使用する
+
+読者が Assistant を利用する方法は、その配置によって異なります。
+
+### サイドバー配置
+
+ユーザーは 3 つの方法で GitBook Assistant にアクセスできます：
+
+- 押します <kbd>⌘</kbd> \+ <kbd>I</kbd> Macではまたは <kbd>Ctrl</kbd> \+ <kbd>I</kbd> PC の場合
+- をクリックするか、 **GitBook Assistant**  の横にあるボタン <strong>質問または検索…</strong> バー
+- 質問を <strong>質問または検索…</strong> バーに入力し、メニュー上部の「質問する…」オプションを選択します
+
+### 検索ボックス配置
+
+が **配置** に設定されている場合、 **検索ボックス**、ユーザーは <strong>質問または検索…</strong> バーで、キーワード結果とともに直接質問できます。
+
+直接クリックするか、 <kbd>⌘</kbd> \+ <kbd>K</kbd> を Mac で、または <kbd>Ctrl</kbd> \+ <kbd>K</kbd> を PC で押すことで開けます。
+
+要約された回答に加えて、その下には Assistant が回答の作成に使用したソースを表示する展開可能なセクションと、フォローアップとしてクリックできる関連質問も表示されます。
+
+Assistant は、ドキュメントサイトのコンテンツと、 [接続](/ja/docs/notamenoai/connections).
+
+<Callout kind="alert">
+  Assistant は、異なる [ドキュメントサイト](/ja/docs/gong-kai/publish-a-docs-site).
+
+  公開済みの [セクション](/ja/docs/saitowosuru/site-structure/site-sections) が同じサイト内にある場合にのみ、複数セクションの検索を利用できます。
+</Callout>
+
+## 公開済みドキュメントを検索する
+
+キーワード検索は、Assistant がオンかどうかにかかわらず、すべてのサイトで自動的に有効になります。
+
+ユーザーはドキュメントサイト内でキーワードを検索し、サイト全体の特定のページやページセクションにすばやく移動できます。
+
+## AI Assistant を製品に埋め込む
+
+GitBook Assistant を製品や Web サイトに直接埋め込むことで、ユーザーはアプリケーションを離れることなく AI を活用したヘルプにすぐアクセスできます。Assistant は、 [Docs Embed](/ja/docs/gong-kai/embedding)の一部として埋め込むことができます。これには、AI を活用したチャット用の Assistant タブ、範囲を絞った検索用の Search タブ、ドキュメントを閲覧するための Docs タブが含まれます。
+
+使用しているスタックに適した埋め込み方法を選択してください：
+
+- [**スタンドアロンの script タグ**](/ja/docs/gong-kai/embedding/implementation/script) –  `<script>` タグを使用したクイックセットアップ
+- [**Node.js/NPM**](/ja/docs/gong-kai/embedding/implementation/nodejs) – サーバーサイドまたはビルド時の統合
+- [**React コンポーネント**](/ja/docs/gong-kai/embedding/implementation/react) – ビルド済みの React コンポーネント
+
+### Assistant の埋め込みに関する追加ガイド：
+
+- [認証が必要なドキュメントで埋め込み Assistant を使用する](/ja/docs/gong-kai/embedding/using-with-authenticated-docs) – ドキュメントでサインインが必要な場合に必須
+- [Assistant の埋め込みをカスタマイズする](/ja/docs/gong-kai/embedding/configuration/customizing-docs-embed) – ウェルカムメッセージ、アクション、候補
+- [カスタム埋め込みツールを作成する](/ja/docs/gong-kai/embedding/configuration/creating-custom-tools) – Assistant を API に接続する
+- [API リファレンス](/ja/docs/gong-kai/embedding/configuration/reference) – 利用可能なすべてのメソッドとイベント
+
+## AI Assistant の知識を拡張する
+
+AI Assistant は、以下を通じて外部知識を利用できます： [接続](/ja/docs/notamenoai/connections) 、 [MCP サーバー](/ja/docs/notamenoai/mcp-servers-for-published-docs).
+
+GitBook でレコードをサイトに同期する場合は接続を使用し、AI Assistant をカスタムツールに接続する場合は MCP サーバーを使用できます。
+
+<Columns cols={2}>
+  <Card title="接続">
+    接続は、コンテンツ量の多いソースに最適です：
+
+    - GitHub の Issue とディスカッション
+    - Slack または Discord の会話
+    - サポートコンテンツ
+    - 外部ドキュメント、ヘルプセンター、Web サイト
+  </Card>
+
+  <Card title="MCP サーバー">
+    MCP サーバーは、ライブツールとデータに最適です：
+
+    - 現在のアカウントまたは製品の状態
+    - 頻繁に変更される内部システム
+    - チケット作成やバグ報告などのアクション
+    - GitBook に同期したくないソース
+  </Card>
+</Columns>
+
+<Tabs>
+  <Tab title="接続を追加する">
+    <Steps>
+      <Step title="サイトの設定を開く">
+        サイトのダッシュボードを開きます。次に、 **設定** → **接続**.
+      </Step>
+
+      <Step title="ソースを接続する">
+        ソースタイプを選択します。次に認証するか、インポートする URL を入力します。
+      </Step>
+
+      <Step title="レコードを AI Assistant に公開する">
+        をオンにします **検索 / Assistant に公開** （接続用）。
+
+        GitBook は、その後これらのレコードを検索と AI Assistant で使用できます。
+      </Step>
+    </Steps>
+  </Tab>
+
+  <Tab title="MCP サーバーを追加する">
+    <Steps>
+      <Step title="サイトの設定を開く">
+        サイトのダッシュボードを開きます。次に、 **設定** → **AI と MCP**.
+      </Step>
+
+      <Step title="新しいサーバーを追加する">
+        MCP サーバーのテーブルで、 **MCP サーバーを追加**.
+      </Step>
+
+      <Step title="サーバーの詳細を入力する">
+        サーバーに名前を付けます。URL を追加します。
+
+        次に、GitBook が各リクエストで送信する必要がある HTTP ヘッダーを設定します。
+      </Step>
+    </Steps>
+  </Tab>
+</Tabs>

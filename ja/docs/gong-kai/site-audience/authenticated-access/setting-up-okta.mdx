@@ -1,0 +1,88 @@
+---
+title: Oktaの設定
+description: ドキュメント訪問者向けのOktaログイン画面を設定します
+metaTitle: Oktaの設定 | GitBook Documentation
+ogImage: https://test-dai.imgix.net/org-4afef969-21f9-40f3-b5b8-b06c8b6cf68f/doc-22a3b060-9539-4176-97e4-49120e02f5d1/0a5a1a9630785855-organizations-d8f63b60-89ae-11e7-8574-5927d48c4877-sites-site_p4Xo4-socialprevie.jpg?fm=auto&auto=compress%2Cformat
+---
+
+<Callout kind="alert">
+  このガイドでは、ドキュメント用の保護されたサインイン画面を設定する手順を説明します。このガイドを進める前に、まず次のプロセスを完了していることを確認してください。 [認証済みアクセスを有効にする](/ja/docs/gong-kai/site-audience/authenticated-access/enabling-authenticated-access).
+</Callout>
+
+Okta を使用して認証アクセス付きの GitBook サイトをセットアップする手順は、次のとおりです:
+
+<Steps>
+  <Step title="新しい Okta アプリケーションを作成する">
+    Okta ダッシュボードから Okta アプリケーションを作成します。
+  </Step>
+
+  <Step title="Okta インテグレーションをインストールして設定する">
+    Okta インテグレーションをインストールし、必要な設定を追加します。
+  </Step>
+
+  <Step title="適応型コンテンツ用に Okta を設定する（任意）">
+    GitBook の適応型コンテンツで動作するように Okta を設定します。
+  </Step>
+</Steps>
+
+### 新しい Okta アプリケーションを作成する
+
+まず、Okta プラットフォーム（管理者版）にサインインし、左側のサイドバーにある Applications ボタンをクリックして、新しいアプリ統合を作成します（または既存のものを使用します）。
+
+<Image src="https://test-dai.imgix.net/org-4afef969-21f9-40f3-b5b8-b06c8b6cf68f/doc-22a3b060-9539-4176-97e4-49120e02f5d1/1b54e7cdb4ad87ba-spaces-NkEGS7hzeqa35sMXQZ4X-uploads-8roQ3QDR5zsyFh2FoQS4-Screen-Shot-2023-10-30-.png?fm=auto&auto=compress%2Cformat" alt="An Okta screenshot showing the create app integration screen" />
+
+Create App Integration をクリックし、サインイン方法として OIDC - OpenID Connect を選択します。その後、アプリケーションタイプとして Web Application を選択します。
+
+<Image src="https://test-dai.imgix.net/org-4afef969-21f9-40f3-b5b8-b06c8b6cf68f/doc-22a3b060-9539-4176-97e4-49120e02f5d1/4dd960d2464f0b02-spaces-NkEGS7hzeqa35sMXQZ4X-uploads-qgFHYo6HOUGF8dUTFEJM-Screen-Shot-2023-10-30-.png?fm=auto&auto=compress%2Cformat" alt="An Okta screenshot showing the integration setup" />
+
+適切な名前を付け、そのページ上の他の設定は変更しないでください。割り当てについては、適切なチェックボックスを選択します。Save をクリックします。
+
+次の画面で、Client ID と Client Secret をコピーします。右上のドロップダウンをクリックして、メールアドレスのすぐ下にある Okta Domain をコピーします。
+
+<Image src="https://test-dai.imgix.net/org-4afef969-21f9-40f3-b5b8-b06c8b6cf68f/doc-22a3b060-9539-4176-97e4-49120e02f5d1/a3ae098ddc270e3c-spaces-NkEGS7hzeqa35sMXQZ4X-uploads-JQWvrITuUlno737DbQKM-Screen-Shot-2023-10-30-.png?fm=auto&auto=compress%2Cformat" alt="An Okta screenshot showing where to copy client credentials" />
+
+Okta インテグレーションを設定するために、これらの値が必要になります。
+
+### Okta インテグレーションをインストールして設定する
+
+公開したいサイトの Integrations タブに移動し、Okta インテグレーションを見つけます。
+
+<Image src="https://test-dai.imgix.net/org-4afef969-21f9-40f3-b5b8-b06c8b6cf68f/doc-22a3b060-9539-4176-97e4-49120e02f5d1/c74994ebdf91855a-spaces-NkEGS7hzeqa35sMXQZ4X-uploads-eFArORtsvAcvgwbDZNce-Screen-Shot-2024-12-13-.png?fm=auto&auto=compress%2Cformat" alt="A GitBook screenshot showing the site settings page" />
+
+サイトにインテグレーションをインストールします。
+
+サイトへのインストール後、Client ID、Okta Domain、および Client Secret の入力を求める画面が表示されます。
+
+<Image src="https://test-dai.imgix.net/org-4afef969-21f9-40f3-b5b8-b06c8b6cf68f/doc-22a3b060-9539-4176-97e4-49120e02f5d1/01bbd6ae1c4c3cb7-spaces-NkEGS7hzeqa35sMXQZ4X-uploads-HrwQ0ASv1tD6kTZPVLMY-Screen-Shot-2024-12-13-.png?fm=auto&auto=compress%2Cformat" alt="A GitBook screenshot showing the Okta credentials modal" />
+
+Client ID、Okta Domain（ `https://`のプレフィックスがある場合は削除）および Client Secret には、Okta ダッシュボードからコピーした値を貼り付けます。
+
+Save をクリックします。
+
+モーダルに表示されている URL をコピーし、Okta の Sign-In redirect URI として入力します（下のスクリーンショットのとおりです）。Save を押します。
+
+<Image src="https://test-dai.imgix.net/org-4afef969-21f9-40f3-b5b8-b06c8b6cf68f/doc-22a3b060-9539-4176-97e4-49120e02f5d1/a0bc1d3c93bde414-spaces-NkEGS7hzeqa35sMXQZ4X-uploads-pPZlqJlE6koyHrWhSp8i-Screen-Shot-2024-01-14-.png?fm=auto&auto=compress%2Cformat" alt="An Okta screenshot showing the sign-in redirect URI configuration" />
+
+次に、GitBook でインテグレーションのモーダルを閉じ、Manage site ボタンをクリックします。に移動し **対象**, を選択し **認証アクセス**, バックエンドとして Okta を選択します。その後、 **対象を更新**。サイトの画面に移動して **公開**をクリックします。<br /><br />サイトは現在、Auth0 アプリケーションによって制御される認証アクセスの背後で公開されています。試すには、Visit をクリックします。Okta でのサインインを求められ、Auth0 を使用した認証アクセスの背後でサイトが公開されていることが確認できます。
+
+### 適応型コンテンツ用に Okta を設定する（任意）
+
+認証アクセス付きの GitBook サイトで Adaptive Content を有効にするには、認証トークンに関連するユーザーデータをクレームとして含めるように Okta アプリケーションを設定する必要があります。
+
+クレームは、GitBook に送信されるトークンに埋め込まれたキーと値のペアです。これらのクレームは、ユーザーの役割、プラン、所在地、またはその他の識別属性に基づいて、ドキュメントを動的に調整するために使用できます。
+
+Okta は複数種類のクレームをサポートしています:
+
+- **標準クレーム**<br />これは、 `email`, `name`のような一般的なクレームや、 `groups`) を含みます。これらはデフォルトで含まれている場合がありますが、一貫して利用できるようにするには、トークン設定に明示的に追加する必要があることがよくあります。
+- **カスタム クレーム**<br />Okta では、 [カスタムユーザー属性](https://help.okta.com/en-us/content/topics/users-groups-profiles/usgp-add-custom-user-attributes.htm) または式ベースのロジックを使用してカスタムクレームを定義できます。これにより、プランの階層、アカウント ID、内部チームフラグのような、非常に特定的な値を渡すことができます。
+- **クレームとしてのグループ**<br />Okta のグループをクレームとして渡すこともできます。これは、「エンタープライズユーザー」や「ベータテスター」のような対象セグメントを定義する際に特に便利です。これらは、認可サーバーのクレーム設定でフィルタリングおよびマッピングできます。
+
+Okta でクレームを追加またはカスタマイズするには:
+
+1. Okta Admin Console を開きます。
+2. に移動します **Security > API > Authorization Servers**.
+3. GitBook サイトで使用している認可サーバーを編集します。
+4. の下の **Claims** タブで、必要なクレームをトークンに含めるルールを追加します。
+5. GitBook サイトがそれらのクレームを正しく読み取り、マッピングしていることを確認してください。
+
+クレームが GitBook に渡されるようになったら、 [コンテンツの適応](/ja/docs/gong-kai/adaptive-content/adapting-your-content) の手順に従って、どのコンテンツを誰に表示するかを定義します。

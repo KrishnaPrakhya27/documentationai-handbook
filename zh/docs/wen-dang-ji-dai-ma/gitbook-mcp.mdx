@@ -1,0 +1,263 @@
+---
+title: GitBook MCP
+description: 将 AI 编码助手连接到 GitBook，使其能够创建站点、打开变更请求，并通过 GitBook 的 API 编辑内容
+metaTitle: GitBook MCP | GitBook Documentation
+ogImage: https://test-dai.imgix.net/org-4afef969-21f9-40f3-b5b8-b06c8b6cf68f/doc-22a3b060-9539-4176-97e4-49120e02f5d1/0a5a1a9630785855-organizations-d8f63b60-89ae-11e7-8574-5927d48c4877-sites-site_p4Xo4-socialprevie.jpg?fm=auto&auto=compress%2Cformat
+---
+
+GitBook 提供了一个 MCP 服务器，使 AI 工具能够对你组织中的内容进行操作。
+
+Claude Code、Codex、Cursor 等工具以及其他 MCP 客户端都可以用它来创建和配置站点、打开变更请求、起草内容、编辑页面以及重组文档。
+
+安装我们的官方插件：
+
+[安装 Claude 插件](https://claude.ai/directory/connectors/gitbook-mcp) [安装 ChatGPT 插件](https://chatgpt.com/apps/gitbook/asdk_app_6a576f075ec4819196c203b7049542be) [安装 Cursor 插件](https://cursor.com/marketplace/gitbook)
+
+<Callout kind="info">
+  需要一个用于已发布文档站点的只读 MCP 服务器吗？GitBook 会为你自动创建一个——请参见 [已发布文档的 MCP 服务器](/zh/docs/wei-du-zhe-ti-gong-de-ai/mcp-servers-for-published-docs) 了解更多。
+</Callout>
+
+## GitBook 的 MCP 端点
+
+将你的 MCP 客户端指向：
+
+```http
+https://mcp.gitbook.com/mcp
+```
+
+<Callout kind="info">
+  在浏览器中打开此 URL 会返回错误。请在能够发出 HTTP 请求的 MCP 客户端中使用它。
+</Callout>
+
+## 连接你的客户端
+
+在你喜欢的客户端中添加 GitBook MCP：
+
+<Tabs>
+  <Tab title="Claude">
+    为 Claude 安装官方 GitBook 插件：
+
+    [安装 Claude 插件](https://claude.ai/directory/connectors/gitbook-mcp)
+
+    或者从终端添加服务器：
+
+    ```bash
+    claude mcp add --transport http gitbook https://mcp.gitbook.com/mcp
+    ```
+
+    然后使用以下命令启动 Claude Code `claude` 并运行 `/mcp` 以完成浏览器登录。
+
+    如果你更喜欢个人访问令牌，请将其作为授权头传递：
+
+    ```bash
+    claude mcp add --transport http gitbook https://mcp.gitbook.com/mcp \
+      --header "Authorization: Bearer <YOUR_TOKEN>"
+    ```
+  </Tab>
+
+  <Tab title="ChatGPT">
+    为 ChatGPT 安装官方 GitBook 插件：
+
+    [安装 ChatGPT 插件](https://chatgpt.com/apps/gitbook/asdk_app_6a576f075ec4819196c203b7049542be)
+
+    或者从终端添加服务器：
+
+    ```bash
+    codex mcp add gitbook --url https://mcp.gitbook.com/mcp
+    ```
+
+    然后通过浏览器登录。
+
+    如果你想改用个人访问令牌，请将以下内容添加到 `~/.codex/config.toml`:
+
+    ```toml
+    [mcp_servers.gitbook]
+    url = "https://mcp.gitbook.com/mcp"
+    bearer_token_env_var = "GITBOOK_MCP_TOKEN"
+    enabled = true
+    ```
+  </Tab>
+
+  <Tab title="Cursor">
+    为 Cursor 安装官方 GitBook 插件：
+
+    [安装 Cursor 插件](https://cursor.com/marketplace/gitbook)
+
+    或者将服务器添加到 `~/.cursor/mcp.json`，或添加到你的项目中： `.cursor/mcp.json`:
+
+    ```json
+    {
+      "mcpServers": {
+        "gitbook": {
+          "url": "https://mcp.gitbook.com/mcp"
+        }
+      }
+    }
+    ```
+
+    然后在 Cursor 提示你时登录。
+  </Tab>
+
+  <Tab title="VS Code">
+    将服务器添加到 `.vscode/mcp.json` 中，位于你的工作区：
+
+    ```json
+    {
+      "servers": {
+        "gitbook": {
+          "type": "http",
+          "url": "https://mcp.gitbook.com/mcp"
+        }
+      }
+    }
+    ```
+
+    然后从 MCP 视图启动它并登录。
+  </Tab>
+
+  <Tab title="其他">
+    任何兼容 MCP 的客户端都可以通过可流式 HTTP 连接。
+
+    将其指向：
+
+    ```
+    https://mcp.gitbook.com/mcp
+    ```
+
+    GitBook 仅支持可流式 HTTP。 `stdio` 以及 `SSE` 不受支持。
+
+    如果你使用 OAuth，通常不需要任何额外的身份验证字段。
+
+    如果你改用个人访问令牌，请将其作为 bearer token 发送：
+
+    ```http
+    Authorization: Bearer <YOUR_PAT>
+    ```
+  </Tab>
+</Tabs>
+
+## 为 GitBook 的 MCP 进行身份验证
+
+GitBook MCP 支持两种身份验证方式：OAuth 和个人访问令牌。
+
+<Tabs>
+  <Tab title="OAuth">
+    将你的客户端指向 MCP 服务器 URL。客户端会发现授权服务器、注册自身，并自动打开浏览器登录流程。
+
+    如果你使用 OAuth，不要手动添加 bearer token。客户端会在登录过程中获取它。
+  </Tab>
+
+  <Tab title="个人访问令牌">
+    如果你想跳过浏览器流程，请将令牌作为 bearer token 发送：
+
+    ```http
+    Authorization: Bearer <YOUR_PAT>
+    ```
+
+    你可以在你的 [开发者设置](https://app.gitbook.com/account/developer).
+
+    这适用于脚本化设置，或当你的客户端已经在本地管理密钥时。
+  </Tab>
+</Tabs>
+
+## 使用 GitBook 的 MCP
+
+Create and configure a new docs site.
+
+```text
+使用 GitBook MCP 工具，为我创建一个新的文档站点。
+
+1. 列出我的组织，并在创建任何内容之前确认要使用哪一个。
+2. 问这个站点是做什么的，以及我有什么内容（文件夹、仓库，还是只有一个描述）。如果我指向一个来源，请把你在那里找到的内容复述给我，以便我确认是否正确。
+3. 给我一个简短计划——站点名称、空间、页面结构——然后等待我的同意。
+4. 创建站点，添加内容并发布。然后获取在线 URL 确认它可用，并把它分享给我。
+```
+
+Open a change request and draft content.
+
+```text
+使用 GitBook MCP 工具，在一个变更请求中为我的文档起草新内容——不要直接编辑线上内容。
+
+1. 列出我的组织和站点，并确认要在哪个空间中工作。
+2. 问我内容应涵盖什么，然后打开一个变更请求并在其中起草页面。
+3. 匹配我现有页面的语气和结构——先阅读几页。
+4. 完成后，分享变更请求预览链接，这样我就可以在 GitBook 中审核并合并它。
+```
+
+Move, rename, or restructure pages across a site.
+
+```text
+使用 GitBook MCP 工具，帮助我重组文档站点。
+
+1. 列出我的组织和站点，确认是哪一个，然后获取其当前结构并展示给我。
+2. 问我想更改什么，然后以一个简单的前后树形结构提出新结构——在我批准之前不要移动任何内容。
+3. 应用这些更改，在可能的情况下保持 URL 和内部链接不变；标记任何会失效的内容。
+4. 向我展示最终结构以及变更请求或线上结果，以便验证。
+```
+
+## GitBook MCP 与已发布文档 MCP 的区别
+
+GitBook 有两种 MCP 模式：
+
+- [**已发布文档的 MCP 服务器**](/zh/docs/wei-du-zhe-ti-gong-de-ai/mcp-servers-for-published-docs) 让 AI 工具对已发布内容拥有只读访问权限。
+- **GitBook MCP** 通过 GitBook API 让 AI 工具访问你的内容和工作流。
+
+当你希望文档读者和最终用户能从你发布的文档中查找信息时，请使用已发布文档 MCP。
+
+当你希望团队中的代理通过自动化工作流编辑和管理文档时，请使用 GitBook MCP。
+
+## 常见问题
+
+<Expandable title="当我连接 MCP 客户端时，GitBook MCP 支持哪种传输方式？">
+  GitBook MCP 支持可流式 HTTP。
+
+  GitBook MCP 不支持 `stdio` 或 `SSE`.
+
+  如果你的客户端要求额外字段，通常可以将它们留空。
+</Expandable>
+
+<Expandable title="我把客户端连接到 GitBook MCP 时，需要添加 bearer token 吗？">
+  只有在你使用以下方式进行身份验证时，才需要添加 bearer token： [个人访问令牌](https://app.gitbook.com/account/developer).
+
+  如果你使用 OAuth，不要手动添加 bearer token。你的客户端会在登录流程中获取它。
+</Expandable>
+
+<Expandable title="为什么我把 GitBook MCP 服务器添加到客户端后什么都没发生？">
+  是的。在某些 MCP 客户端中这是正常的。
+
+  添加服务器通常只会保存配置。有些客户端只有在首次连接、列出工具或打开 MCP 面板时才会开始身份验证。
+</Expandable>
+
+<Expandable title="为什么我点击为 GitBook MCP 进行身份验证后什么都没发生？">
+  有些客户端会在短暂延迟后打开浏览器登录流程。
+
+  在网络缓慢或不稳定时，这个延迟可能更长。
+
+  如果大约一分钟后仍未打开浏览器标签页，请检查你的网络、弹窗设置和默认浏览器。
+</Expandable>
+
+<Expandable title="GitBook MCP 身份验证流程中会发生什么？">
+  当身份验证成功时，流程通常如下：
+
+  1. 客户端连接到 MCP 服务器。
+  2. 你的浏览器打开登录流程。
+  3. 你登录并批准访问。
+  4. 客户端将服务器显示为已连接，或者 MCP 工具变为可用。
+</Expandable>
+
+<Expandable title="我怎样才能知道我的客户端是否已成功通过 GitBook MCP 完成身份验证？">
+  具体信号取决于你的客户端，但结果通常很明显。
+
+  大多数客户端会移除身份验证提示、将服务器显示为已连接，或者允许助手列出并调用 MCP 工具。
+
+  如果 **Authenticate** 按钮一直可见且没有出现任何工具，流程很可能没有完成。
+</Expandable>
+
+<Expandable title="如果 GitBook MCP 身份验证仍然卡住，我应该检查什么？">
+  试试以下检查：
+
+  - 确认服务器 URL 指向 MCP 端点。
+  - 确认客户端使用 HTTP 传输。
+  - 在稳定的网络下重试。
+  - 如果客户端缓存了失败状态，请移除并重新添加服务器。
+</Expandable>

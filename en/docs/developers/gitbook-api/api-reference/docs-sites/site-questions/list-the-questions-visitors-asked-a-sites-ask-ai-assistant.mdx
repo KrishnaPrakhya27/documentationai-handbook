@@ -1,0 +1,201 @@
+---
+title: List the questions visitors asked a site's Ask AI assistant
+metaTitle: List the questions visitors asked a site's Ask AI assistant | Developers | GitBook Documentation
+ogImage: https://test-dai.imgix.net/org-4afef969-21f9-40f3-b5b8-b06c8b6cf68f/doc-22a3b060-9539-4176-97e4-49120e02f5d1/0a5a1a9630785855-organizations-d8f63b60-89ae-11e7-8574-5927d48c4877-sites-site_p4Xo4-socialprevie.jpg?fm=auto&auto=compress%2Cformat
+---
+
+Returns a paginated list of the questions visitors asked a site's Ask AI assistant, each with usage stats. Use it to discover what users are looking for and where the documentation has gaps.
+
+**GET** `/orgs/{organizationId}/sites/{siteId}/questions`
+
+**Parameters**
+
+<ParamField header="Authorization" param-type="string" />
+
+<ParamField path="organizationId" param-type="string" required={true}>
+  The unique id of the organization
+</ParamField>
+
+<ParamField path="siteId" param-type="string" required={true}>
+  The unique id of the site
+</ParamField>
+
+<ParamField query="from" param-type="string">
+  Filter stats to answers created at or after this timestamp.
+</ParamField>
+
+<ParamField query="to" param-type="string">
+  Filter stats to answers created at or before this timestamp.
+</ParamField>
+
+<ParamField query="type" param-type="string" enum="exploring,how-to,troubleshooting,reference,unknown">
+  Filter questions by question type.
+</ParamField>
+
+<ParamField query="relevance" param-type="string[]" enum="relevant,spam,off-topic,unclear">
+  Filter questions by question relevance.
+</ParamField>
+
+<ParamField query="channelType" param-type="string[]">
+  Filter questions by answer channel type.
+</ParamField>
+
+<ParamField query="answered" param-type="string[]" enum="no,partially,yes">
+  Filter questions by answer resolution.
+</ParamField>
+
+<ParamField query="topic" param-type="string[]">
+  Filter questions by associated site topic IDs.
+</ParamField>
+
+<ParamField query="order" param-type="string" enum="asc,desc">
+  An order for the items in the list
+</ParamField>
+
+<ParamField query="sort" param-type="string" enum="askedAt,stats.answered,stats.feedback,stats.answers">
+  Sort questions by latest ask activity, answered rate, or positive feedback rate. If omitted, ordering stays on canonical question creation date to preserve current behavior.
+</ParamField>
+
+<ParamField query="page" param-type="string">
+  Identifier of the page results to fetch.
+</ParamField>
+
+<ParamField query="limit" param-type="number">
+  The number of results per page
+</ParamField>
+
+**Responses**
+
+`200` OK
+
+<ResponseField name="next" field-type="object">
+  <Expandable title="Object Properties">
+    <ResponseField name="page" field-type="string" required={true}>
+      Unique identifier to query the next results page
+    </ResponseField>
+  </Expandable>
+</ResponseField>
+
+<ResponseField name="count" field-type="number">
+  Total count of objects in the list
+</ResponseField>
+
+<ResponseField name="items" field-type="array" required={true}>
+  <Expandable title="Array Items">
+    <ResponseField name="object" field-type="string" required={true} enum="site-question" />
+
+    <ResponseField name="id" field-type="string" required={true}>
+      The ID of the site question.
+    </ResponseField>
+
+    <ResponseField name="question" field-type="string" required={true}>
+      Canonical text for the unique site question.
+    </ResponseField>
+
+    <ResponseField name="type" field-type="string" required={true} enum="exploring,how-to,troubleshooting,reference,unknown">
+      Type classification of the user question.
+    </ResponseField>
+
+    <ResponseField name="createdAt" field-type="string" required={true} />
+
+    <ResponseField name="askedAt" field-type="string" required={true} />
+
+    <ResponseField name="stats" field-type="object" required={true}>
+      Aggregated stats for questions and linked answers.
+
+      <Expandable title="Object Properties">
+        <ResponseField name="total" field-type="number" required={true}>
+          Total count of questions included in the aggregation.
+        </ResponseField>
+
+        <ResponseField name="answers" field-type="number" required={true}>
+          Total count of answers linked to the questions.
+        </ResponseField>
+
+        <ResponseField name="feedback" field-type="object" required={true}>
+          Aggregated feedback for answers linked to a site question.
+
+          <Expandable title="Object Properties">
+            <ResponseField name="positive" field-type="number" required={true}>
+              Count of answers with positive feedback.
+            </ResponseField>
+
+            <ResponseField name="negative" field-type="number" required={true}>
+              Count of answers with negative feedback.
+            </ResponseField>
+
+            <ResponseField name="unrated" field-type="number" required={true}>
+              Count of answers without feedback.
+            </ResponseField>
+          </Expandable>
+        </ResponseField>
+
+        <ResponseField name="answered" field-type="object" required={true}>
+          Aggregated answered assessment for answers linked to a site question.
+
+          <Expandable title="Object Properties">
+            <ResponseField name="yes" field-type="number" required={true}>
+              Count of answers assessed as fully answered.
+            </ResponseField>
+
+            <ResponseField name="partially" field-type="number" required={true}>
+              Count of answers assessed as partially answered.
+            </ResponseField>
+
+            <ResponseField name="no" field-type="number" required={true}>
+              Count of answers assessed as not answered.
+            </ResponseField>
+          </Expandable>
+        </ResponseField>
+
+        <ResponseField name="relevance" field-type="object" required={true}>
+          <Expandable title="Object Properties">
+            <ResponseField name="relevant" field-type="number" required={true} />
+
+            <ResponseField name="spam" field-type="number" required={true} />
+
+            <ResponseField name="off-topic" field-type="number" required={true} />
+
+            <ResponseField name="unclear" field-type="number" required={true} />
+          </Expandable>
+        </ResponseField>
+
+        <ResponseField name="types" field-type="object" required={true}>
+          <Expandable title="Object Properties">
+            <ResponseField name="exploring" field-type="number" required={true} />
+
+            <ResponseField name="how-to" field-type="number" required={true} />
+
+            <ResponseField name="troubleshooting" field-type="number" required={true} />
+
+            <ResponseField name="reference" field-type="number" required={true} />
+
+            <ResponseField name="unknown" field-type="number" required={true} />
+          </Expandable>
+        </ResponseField>
+
+        <ResponseField name="channelTypes" field-type="object" required={true}>
+          Count of answers by site channel type, including core channels.
+        </ResponseField>
+
+        <ResponseField name="channels" field-type="object" required={true}>
+          Count of answers by site channel ID.
+        </ResponseField>
+
+        <ResponseField name="weeklyPulse" field-type="number[]" required={true}>
+          Weekly count of related question answers for the past 3 months.
+        </ResponseField>
+      </Expandable>
+    </ResponseField>
+
+    <ResponseField name="urls" field-type="object" required={true}>
+      URLs associated with the site question.
+
+      <Expandable title="Object Properties">
+        <ResponseField name="location" field-type="string" required={true}>
+          URL of the site question in the API.
+        </ResponseField>
+      </Expandable>
+    </ResponseField>
+  </Expandable>
+</ResponseField>

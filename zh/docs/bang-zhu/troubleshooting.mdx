@@ -1,0 +1,63 @@
+---
+title: 故障排除
+description: 解决 GitBook 应用中的加载、连接和缓存问题
+metaTitle: 故障排除 | GitBook Documentation
+ogImage: https://test-dai.imgix.net/org-4afef969-21f9-40f3-b5b8-b06c8b6cf68f/doc-22a3b060-9539-4176-97e4-49120e02f5d1/0a5a1a9630785855-organizations-d8f63b60-89ae-11e7-8574-5927d48c4877-sites-site_p4Xo4-socialprevie.jpg?fm=auto&auto=compress%2Cformat
+---
+
+#### 页面或集成无法加载
+
+如果 GitBook 应用无法加载、在某些页面崩溃、显示“我们无法加载该集成”，或者分析仪表板一直为空，通常是广告拦截器或隐私扩展阻止了应用的部分内容。
+
+1. 暂时禁用你的广告拦截器或隐私扩展，然后重新加载页面。
+2. 如果你不想完全禁用它，请将下方的域名添加到 [允许的域名](#allowed-domains) 添加到你的扩展允许列表中。
+3. 刷新页面，检查是否能正确加载。
+
+#### “连接已断开”
+
+“连接已断开”意味着 GitBook 无法建立所需的网络连接——通常是因为你的电脑或网络中的某些东西阻止了这些连接。常见原因包括浏览器扩展、防火墙、安全软件、代理以及临时网络问题。
+
+按以下步骤依次排查：
+
+1. <strong>清除缓存并重启浏览器。</strong> 这可以解决大多数临时连接问题。
+2. **重启你的 Wi‑Fi 或以太网连接**，然后重试。
+3. <strong>尝试使用其他浏览器或设备。</strong> 如果 GitBook 在其他环境下可用，说明问题只出在你原来的设置上——联系支持时请说明你当时使用的浏览器。
+4. **禁用浏览器扩展** 逐个排查以找出原因。
+5. **检查你的防火墙或安全软件** 针对 [允许的域名](#allowed-domains).
+
+另外还请检查 [GitBook 状态页面](https://www.gitbookstatus.com/) 是否有任何当前故障。
+
+#### 强制刷新你的浏览器
+
+支持团队可能会要求你 *强制* 刷新浏览器。这与普通刷新不同——它会清除页面仍在使用的缓存文件。
+
+<Tabs>
+  <Tab title="Chrome、Firefox 和 Edge">
+    在 **Windows**，按住 CTRL 键并按 F5。在 **Mac**，按住 CMD 和 SHIFT 键并按 R。
+  </Tab>
+
+  <Tab title="Safari">
+    首先清空缓存：按住 OPT 和 CMD 键并按 E。然后刷新当前页面：按住 CMD 键并按 R。
+  </Tab>
+</Tabs>
+
+#### 允许的域名
+
+如果防火墙、代理或安全应用阻止了流量，请将这些域名添加到你的允许列表中。
+
+<strong>必需。</strong> 没有这些，GitBook 无法正常工作：
+
+- `*.gitbook.com` ——包括 `app.gitbook.com`, `api.gitbook.com`，以及 `files.gitbook.com`
+- `*.gitbook.io`
+- `*.googleapis.com` ——包括 `firebase.googleapis.com`, `firestore.googleapis.com`，以及 `www.googleapis.com`
+- `*.googleusercontent.com`
+- `cdn.iframe.ly` ——嵌入内容所需
+
+<strong>可选。</strong> 这些用于分析和错误监控。阻止它们不会影响 GitBook 的工作：
+
+- `segment-cdn.gitbook.com` 以及 `segment-api.gitbook.com`
+- `clearbit-risk.gitbook.com`
+- `*.googletagmanager.com`
+- `*.sentry.io`
+
+如果在完成以上所有步骤后问题仍然存在，请联系支持，并提供有关你的浏览器、设备和网络设置的详细信息。

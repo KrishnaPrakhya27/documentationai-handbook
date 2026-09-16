@@ -1,0 +1,97 @@
+---
+title: カード
+description: 画像の有無を問わず、カードセットで情報をより動的に表示します
+metaTitle: カード | GitBook Documentation
+ogImage: https://test-dai.imgix.net/org-4afef969-21f9-40f3-b5b8-b06c8b6cf68f/doc-22a3b060-9539-4176-97e4-49120e02f5d1/0a5a1a9630785855-organizations-d8f63b60-89ae-11e7-8574-5927d48c4877-sites-site_p4Xo4-socialprevie.jpg?fm=auto&auto=compress%2Cformat
+---
+
+カードを使うと、テキストと画像をグリッド状に組み合わせて、見た目の美しいページレイアウトを作成できます。ランディングページの構築や、その他のコンテンツを非線形に表示するのに最適です。
+
+調整できます [中サイズまたは大サイズのカードを切り替えます](#changing-the-size-of-cards) そして、それらを関連するリソースにリンクできます。
+
+### カードの例
+
+<Columns cols={2}>
+  <Card title="GitBookホームページ" href="https://www.gitbook.com/" image="https://test-dai.imgix.net/org-4afef969-21f9-40f3-b5b8-b06c8b6cf68f/doc-22a3b060-9539-4176-97e4-49120e02f5d1/b72dde5b58b44a80-spaces-NkEGS7hzeqa35sMXQZ4X-uploads-HAbAKXyi5SHXH1rDhg4E-GitBook-homepage.png?fm=auto&auto=compress%2Cformat">
+    当社のウェブサイトをご覧いただき、GitBookの詳細をご確認ください。
+  </Card>
+
+  <Card title="開発者向けドキュメント" href="https://developer.gitbook.com/" image="https://test-dai.imgix.net/org-4afef969-21f9-40f3-b5b8-b06c8b6cf68f/doc-22a3b060-9539-4176-97e4-49120e02f5d1/389e633b6f221178-spaces-NkEGS7hzeqa35sMXQZ4X-uploads-1wL4yuiP0Pi9Oeu0wnmm-Developer-docs.png?fm=auto&auto=compress%2Cformat">
+    独自のGitBook連携を構築しましょう。
+  </Card>
+
+  <Card title="GitBookに登録" href="https://app.gitbook.com/join" image="https://test-dai.imgix.net/org-4afef969-21f9-40f3-b5b8-b06c8b6cf68f/doc-22a3b060-9539-4176-97e4-49120e02f5d1/2920ea6276656489-spaces-NkEGS7hzeqa35sMXQZ4X-uploads-g2kgdfMsxOpWQx1Meq8s-Sign-up.png?fm=auto&auto=compress%2Cformat">
+    無料で始めるにはここをクリックしてください。
+  </Card>
+</Columns>
+
+### リンクの追加
+
+カードにカーソルを合わせて、その **オプションメニュー** <Image src="https://test-dai.imgix.net/org-4afef969-21f9-40f3-b5b8-b06c8b6cf68f/doc-22a3b060-9539-4176-97e4-49120e02f5d1/4c115a43418b42e3-spaces-NkEGS7hzeqa35sMXQZ4X-uploads-aS1QvPIBVYwhpFTGcPBN-options-menu.svg?rasterize-bypass=true" alt="The Options menu icon in GitBook" />。ここでターゲットリンクを追加できるので、読者はカードをクリックすると直接その場所へ移動できます。
+
+<Callout kind="success">
+  カードを作成する際は、 **ハイパーリンクではなくターゲットリンクを使用することをおすすめします**。ターゲットリンクを使うと、読者はカードのどこをクリックしてもリンク先URLにアクセスできます。
+</Callout>
+
+### 画像の追加
+
+カードにカーソルを合わせて、その **オプションメニュー** <Image src="https://test-dai.imgix.net/org-4afef969-21f9-40f3-b5b8-b06c8b6cf68f/doc-22a3b060-9539-4176-97e4-49120e02f5d1/4c115a43418b42e3-spaces-NkEGS7hzeqa35sMXQZ4X-uploads-aS1QvPIBVYwhpFTGcPBN-options-menu.svg?rasterize-bypass=true" alt="The Options menu icon in GitBook" />。ここでカードにカバー画像を追加できます。あるいは、カード自体の **カバー画像を追加** オプションをクリックするだけです。
+
+これにより **ファイルを選択** モーダルが開きます。ここに新しい画像をドラッグ＆ドロップするか、セクションに以前アップロードした画像ファイルを使用できます。
+
+#### ダークモード用の画像の追加
+
+ダークモードでのみ表示されるカバー画像も追加できます。
+
+そのためには、カードの **オプションメニュー** <Image src="https://test-dai.imgix.net/org-4afef969-21f9-40f3-b5b8-b06c8b6cf68f/doc-22a3b060-9539-4176-97e4-49120e02f5d1/4c115a43418b42e3-spaces-NkEGS7hzeqa35sMXQZ4X-uploads-aS1QvPIBVYwhpFTGcPBN-options-menu.svg?rasterize-bypass=true" alt="" /> を選択し、 **カバー** \> **カバーを編集** \> **ダークモード用カバーを追加**。これにより **ファイルを選択** モーダルが開き、新しい画像をドラッグ＆ドロップするか、以前にアップロードした画像を選択できます。
+
+#### 適切な画像サイズの選択
+
+GitBookは、横長画像をデスクトップとモバイルで自動的に16:9比率にトリミングします。アップロードした画像が縦長または1:1比率の場合、デスクトップでは16:9にトリミングされ、モバイルでは正方形または縦長として表示されます。
+
+<Image src="https://test-dai.imgix.net/org-4afef969-21f9-40f3-b5b8-b06c8b6cf68f/doc-22a3b060-9539-4176-97e4-49120e02f5d1/881b72bf0a9c933a-spaces-NkEGS7hzeqa35sMXQZ4X-uploads-nX5tZdJgW1Yhf61ZXpGJ-26_01_06_cards_desktop-.png?fm=auto&auto=compress%2Cformat" alt="A GitBook screenshot showing card images on desktop" caption="デスクトップでは、カード画像はサイズに関係なくすべて横長の16:9比率で表示されます。統一感のため、同じサイズを使用することをおすすめします。" />
+
+<Image src="https://test-dai.imgix.net/org-4afef969-21f9-40f3-b5b8-b06c8b6cf68f/doc-22a3b060-9539-4176-97e4-49120e02f5d1/c6833caa909f2b47-spaces-NkEGS7hzeqa35sMXQZ4X-uploads-xUUSyA6H7QwA8p9Nihz1-26_01_06_cards_mobile-2.png?fm=auto&auto=compress%2Cformat" alt="A GitBook screenshot showing card images on mobile" caption="モバイルでは、正方形または縦長の画像は左のように表示されます。横長の画像は右のように表示されます。" />
+
+デスクトップとモバイルで一貫性を保つため、カード用の画像はすべて16:9形式（例: 1920px × 1080px）でアップロードすることをおすすめします。
+
+カードのレイアウトを画面サイズに応じて変化させたい場合は、1:1比率の画像をアップロードし、画像の内容を中央に配置することをおすすめします。
+
+### カードのサイズの変更
+
+カードサイズは、 **オプションメニュー** <Image src="https://test-dai.imgix.net/org-4afef969-21f9-40f3-b5b8-b06c8b6cf68f/doc-22a3b060-9539-4176-97e4-49120e02f5d1/4c115a43418b42e3-spaces-NkEGS7hzeqa35sMXQZ4X-uploads-aS1QvPIBVYwhpFTGcPBN-options-menu.svg?rasterize-bypass=true" alt="The Options menu icon in GitBook" /> カードブロックの左側にあるメニューを開いて選択できます。The **中** オプションでは1つの横一列に3つのカードを作成し、 **大** オプションでは各行に大きめのカードを2つ表示します。
+
+### Markdownでの表記
+
+```markdown
+<table data-view="cards">
+  <thead>
+    <tr>
+      <th></th>
+      <th></th>
+      <th data-hidden data-card-target data-type="content-ref"></th>
+      <th data-hidden data-card-cover data-type="files"></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><strong>例のタイトル 1</strong></td>
+      <td>例の説明 1。</td>
+      <td><a href="https://example.com">https://example.com</a></td>
+      <td><a href="https://example.com/image1.svg">example_image1.svg</a></td>
+    </tr>
+    <tr>
+      <td><strong>例のタイトル 2</strong></td>
+      <td>例の説明 2。</td>
+      <td><a href="https://example.com">https://example.com</a></td>
+      <td><a href="https://example.com/image2.svg">example_image2.svg</a></td>
+    </tr>
+    <tr>
+      <td><strong>例のタイトル 3</strong></td>
+      <td>例の説明 3。</td>
+      <td><a href="https://example.com">https://example.com</a></td>
+      <td><a href="https://example.com/image3.svg">example_image3.svg</a></td>
+    </tr>
+  </tbody>
+</table>
+```

@@ -1,0 +1,79 @@
+---
+title: Markdown
+description: 直接在编辑器中编写 Markdown，使用常见语法轻松创建内容
+metaTitle: Markdown | GitBook Documentation
+ogImage: https://test-dai.imgix.net/org-4afef969-21f9-40f3-b5b8-b06c8b6cf68f/doc-22a3b060-9539-4176-97e4-49120e02f5d1/0a5a1a9630785855-organizations-d8f63b60-89ae-11e7-8574-5927d48c4877-sites-site_p4Xo4-socialprevie.jpg?fm=auto&auto=compress%2Cformat
+---
+
+<Image src="https://test-dai.imgix.net/org-4afef969-21f9-40f3-b5b8-b06c8b6cf68f/doc-22a3b060-9539-4176-97e4-49120e02f5d1/2d1b93c62f8d0718-spaces-NkEGS7hzeqa35sMXQZ4X-uploads-Mbo91kXRJGPsIzXxsgpU-markdown-2x.png?fm=auto&auto=compress%2Cformat" alt="An image containing the markdown logo" caption="在 GitBook 中编写 Markdown。" />
+
+GitBook 的编辑器允许你使用 Markdown 创建格式化内容。
+
+Markdown 是一种流行的标记语法，以简洁著称。GitBook 支持它，作为一种便于键盘操作的方式来编写富文本和结构化文本。
+
+<Callout kind="info">
+  你可以通过访问以下内容来进一步了解 Markdown 本身： [CommonMark](https://commonmark.org/help/).
+</Callout>
+
+### 文本格式
+
+GitBook 支持所有经典的内联 Markdown 格式：
+
+| 格式 | Markdown 版本 | 结果 |
+| --- | --- | --- |
+| 加粗 | `**粗体**` | **粗体** |
+| 斜体 | `_斜体_` | *斜体* |
+| 删除线 | `~删除线~` | ~~删除线~~ |
+| 行内代码 | `` `代码` `` | `代码` |
+
+### 换行
+
+按 `Enter 键` 以开始一个新段落。
+
+按 `Shift` \+ `Enter 键` 在同一段落中插入软换行。
+
+### 粘贴 Markdown
+
+当直接将 Markdown 内容粘贴到编辑器中时，重要的是使用 **粘贴并匹配样式** 选项（通常 <kbd>Shift</kbd> \+ <kbd>Cmd</kbd> \+ <kbd>V</kbd> 在 Mac 上或 <kbd>Shift</kbd> \+ <kbd>Ctrl</kbd> \+ <kbd>V</kbd> 在 Windows 上）。
+
+如果你使用标准的粘贴选项来粘贴从另一个编辑器或网页复制的内容，它可能会被插入为代码块而不是格式化文本。
+
+### 标题
+
+- 一级标题： `# 一级标题`
+- 二级标题： `## 二级标题`
+- 三级标题： `### 三级标题`
+
+### 代码块
+
+```` ```⏎ ```` 会创建一个新的代码块。
+
+```` ```py⏎ ```` 会创建一个带有 Python 语法高亮的新代码块。
+
+我们使用 [Prism](https://github.com/PrismJS/prism) 进行语法高亮。使用 [Test Drive Prism](https://prismjs.com/test.html#language=markup) 来查看支持的语言。
+
+如果 GitBook 和 Prism 有所不同，我们的版本可能会落后了一两个版本。
+
+### 列表
+
+GitBook 会在你输入时自动检测并创建有序列表和无序列表。
+
+- 以一行开头，输入 `-` 或 `*` 以开始无序项目符号列表。
+- 以一行开头，输入 `1.` 以开始编号列表。
+- 以一行开头，输入 `- [ ]` 以开始任务列表。
+
+编写列表时，按 `Tab` 进行缩进，并按 `Shift+Tab` 来减少缩进。
+
+### 引用
+
+以一行开头，输入 `>` 以创建块引用。如果你从开头到结尾选中整个段落，输入 `>` 会将内容包裹在块引用中。
+
+> 这是一个块引用。
+
+### 分隔线
+
+输入 `---` 然后按 `Enter 键` 即可在页面上创建一条分隔线。
+
+---
+
+这是分隔线的一个示例。

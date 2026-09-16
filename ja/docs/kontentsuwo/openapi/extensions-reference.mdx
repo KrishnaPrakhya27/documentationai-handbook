@@ -1,0 +1,293 @@
+---
+title: 拡張機能リファレンス
+description: GitBookがサポートするOpenAPI拡張機能の完全なリファレンス
+metaTitle: 拡張機能リファレンス | GitBook Documentation
+ogImage: https://test-dai.imgix.net/org-4afef969-21f9-40f3-b5b8-b06c8b6cf68f/doc-22a3b060-9539-4176-97e4-49120e02f5d1/0a5a1a9630785855-organizations-d8f63b60-89ae-11e7-8574-5927d48c4877-sites-site_p4Xo4-socialprevie.jpg?fm=auto&auto=compress%2Cformat
+---
+
+拡張機能を使って OpenAPI 仕様を強化できます— `x-` x- プレフィックスで始まるカスタムフィールドです。
+
+GitBook を使うと、OpenAPI スペックに追加できるさまざまな拡張機能を通じて、公開サイト上で API の見た目や動作を調整できます。
+
+詳しくは [ガイドセクション](/ja/docs/kontentsuwo/openapi/guides) をご覧ください。OpenAPI 拡張機能を使ってドキュメントを設定する方法の詳細を確認できます。
+
+<Expandable title="x-page-title | x-displayName">
+  ナビゲーションとページタイトルで使われるタグの表示名を変更します。
+
+  ```yaml title="openapi.yaml"
+  openapi: '3.0'
+  info: ...
+  tags:
+    - name: users
+      x-page-title: Users
+  ```
+</Expandable>
+
+<Expandable title="x-page-description">
+  ページに説明を追加します。
+
+  ```yaml title="openapi.yaml"
+  openapi: '3.0'
+  info: ...
+  tags:
+    - name: "users"
+      x-page-title: "Users"
+      x-page-description: "ユーザーアカウントとプロフィールを管理します。"
+  ```
+</Expandable>
+
+<Expandable title="x-page-icon">
+  ページに Font Awesome アイコンを追加します。利用可能なアイコンを参照してください [こちら](https://fontawesome.com/search).
+
+  ```yaml title="openapi.yaml"
+  openapi: '3.0'
+  info: ...
+  tags:
+    - name: "users"
+      x-page-title: "Users"
+      x-page-description: "ユーザーアカウントとプロフィールを管理します。"
+      x-page-icon: "user"
+  ```
+</Expandable>
+
+<Expandable title="parent | x-parent">
+  GitBook でページを整理するために、タグに階層構造を追加します。
+
+  <Callout kind="alert">
+    `parent` は OpenAPI 3.2+ における正式なプロパティ名です。OpenAPI 3.2 より前のバージョン（3.0.x、3.1.x）を使う場合は、 `x-parent` 代わりにこちらを使用してください。
+  </Callout>
+
+  ```yaml title="openapi.yaml"
+  openapi: '3.2'
+  info: ...
+  tags:
+    - name: organization
+    - name: admin
+      parent: organization
+    - name: user
+      parent: organization    
+  ```
+</Expandable>
+
+<Expandable title="x-hideTryItPanel">
+  OpenAPI ブロックで「試す」ボタンを表示または非表示にします。
+
+  ```yaml title="openapi.yaml"
+  openapi: '3.0'
+  info: ...
+  tags: [...]
+  paths:
+    /example:
+      get:
+        summary: 例の概要
+        description: 例の説明
+        operationId: examplePath
+        responses: [...]
+        parameters: [...]
+        x-hideTryItPanel: true
+  ```
+</Expandable>
+
+<Expandable title="x-expandAllResponses">
+  1つずつではなく、すべてのレスポンスセクションを既定で展開します。
+
+  ルートに追加するとすべての操作に適用されます。操作に追加すると、そのエンドポイントにのみ適用されます。
+
+  ```yaml
+  openapi: '3.0'
+  info: ...
+
+  # すべての操作でレスポンスをすべて展開
+  x-expandAllResponses: true
+
+  paths:
+    /pets:
+      get:
+        summary: ペット一覧
+        responses: [...]
+        # 単一の操作では無効化
+        x-expandAllResponses: false
+  ```
+</Expandable>
+
+<Expandable title="x-expandAllModelSections">
+  ネストされたオブジェクトのプロパティをユーザー操作なしで表示し、すべてのモデル/スキーマセクションを既定で展開します。
+
+  ルートに追加するとすべての操作に適用されます。操作に追加すると、そのエンドポイントにのみ適用されます。
+
+  ```yaml
+  openapi: '3.0'
+  info: ...
+
+  # すべての操作でモデルセクションをすべて展開
+  x-expandAllModelSections: true
+
+  paths:
+    /pets:
+      post:
+        summary: ペットを作成
+        requestBody: [...]
+        responses: [...]
+        # 単一の操作では無効化
+        x-expandAllModelSections: false
+  ```
+</Expandable>
+
+<Expandable title="x-enable-proxy">
+  GitBook の OpenAPI プロキシ経由で「試す」リクエストを送信します。
+
+  ルートに追加するとすべての操作に適用されます。操作に追加すると、そのエンドポイントにのみ適用されます。操作はルートの値より優先されます。
+
+  ```yaml title="openapi.yaml"
+  openapi: '3.0.3'
+  info: ...
+
+  # すべての操作でプロキシを有効化
+  x-enable-proxy: true
+
+  paths:
+    /health:
+      get:
+        summary: ヘルスチェック
+        # 単一の操作では無効化
+        x-enable-proxy: false
+        responses:
+          '200':
+            description: OK
+  ```
+
+  詳細はこちら [OpenAPI プロキシの使用](/ja/docs/kontentsuwo/openapi/guides/using-openapi-proxy).
+</Expandable>
+
+<Expandable title="x-codeSamples">
+  OpenAPI ブロックのカスタムコードサンプルを表示、非表示、または追加します。
+
+  **フィールド**
+
+  | フィールド名 | 種類 | 説明 |
+  | --- | :---: | --- |
+  | `lang` | string | コードサンプルの言語。値は次のいずれかである必要があります [list](https://github.com/github/linguist/blob/master/lib/linguist/popular.yml) |
+  | `label` | string | コードサンプルのラベル。たとえば `Node` または `Python2.7`, *optional*, `lang` が既定で使用されます |
+  | `source` | string | コードサンプルのソースコード |
+
+  ```yaml title="openapi.yaml"
+  openapi: '3.0'
+  info: ...
+  tags: [...]
+  paths:
+    /example:
+      get:
+        summary: 例の概要
+        description: 例の説明
+        operationId: examplePath
+        responses: [...]
+        parameters: [...]
+        x-codeSamples:
+          - lang: 'cURL'
+            label: 'CLI'
+            source: |
+              curl -L \\
+              -H 'Authorization: Bearer <token>' \\
+              'https://api.gitbook.com/v1/user'
+  ```
+</Expandable>
+
+<Expandable title="x-enumDescriptions">
+  各 `enum` 値ごとに個別の説明を追加します。
+
+  ```yaml title="openapi.yaml"
+  openapi: '3.0'
+  info: ...
+  components:
+    schemas:
+      project_status:
+        type: string
+        enum:
+          - LIVE
+          - PENDING
+          - REJECTED
+        x-enumDescriptions:
+          LIVE: プロジェクトは公開中です。
+          PENDING: プロジェクトは承認待ちです。
+          REJECTED: プロジェクトは却下されました。
+  ```
+</Expandable>
+
+<Expandable title="x-internal | x-gitbook-ignore">
+  API リファレンスからエンドポイントを非表示にします。
+
+  ```yaml title="openapi.yaml"
+  openapi: '3.0'
+  info: ...
+  tags: [...]
+  paths:
+    /example:
+      get:
+        summary: 例の概要
+        description: 例の説明
+        operationId: examplePath
+        responses: [...]
+        parameters: [...]
+        x-internal: true
+  ```
+</Expandable>
+
+<Expandable title="x-stability">
+  不安定または進行中のエンドポイントにマークを付けます。
+
+  サポートされる値: `experimental`, `alpha`, `beta`.
+
+  ```yaml title="openapi.yaml"
+  openapi: '3.0'
+  info: ...
+  tags: [...]
+  paths:
+    /example:
+      get:
+        summary: 例の概要
+        description: 例の説明
+        operationId: examplePath
+        x-stability: experimental
+  ```
+</Expandable>
+
+<Expandable title="deprecated">
+  エンドポイントが非推奨かどうかを示します。非推奨のエンドポイントには、公開サイトで非推奨警告が表示されます。
+
+  ```yaml title="openapi.yaml"
+  openapi: '3.0'
+  info: ...
+  tags: [...]
+  paths:
+    /example:
+      get:
+        summary: 例の概要
+        description: 例の説明
+        operationId: examplePath
+        responses: [...]
+        parameters: [...]
+        deprecated: true
+  ```
+</Expandable>
+
+<Expandable title="x-deprecated-sunset">
+  非推奨の操作にサンセット日を追加します。
+
+  サポートされる値: **ISO 8601** 形式（YYYY-MM-DD）
+
+  ```yaml title="openapi.yaml"
+  openapi: '3.0'
+  info: ...
+  tags: [...]
+  paths:
+    /example:
+      get:
+        summary: 例の概要
+        description: 例の説明
+        operationId: examplePath
+        responses: [...]
+        parameters: [...]
+        deprecated: true
+        x-deprecated-sunset: 2030-12-05
+  ```
+</Expandable>

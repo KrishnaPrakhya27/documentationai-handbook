@@ -1,0 +1,25 @@
+---
+title: Décrire les énumérations
+description: Découvrez comment ajouter des descriptions aux énumérations
+metaTitle: Décrire les énumérations | GitBook Documentation
+ogImage: https://test-dai.imgix.net/org-4afef969-21f9-40f3-b5b8-b06c8b6cf68f/doc-22a3b060-9539-4176-97e4-49120e02f5d1/0a5a1a9630785855-organizations-d8f63b60-89ae-11e7-8574-5927d48c4877-sites-site_p4Xo4-socialprevie.jpg?fm=auto&auto=compress%2Cformat
+---
+
+Lorsqu’une opération d’API inclut une énumération, vous pouvez ajouter `x-enumDescriptions` pour fournir plus de contexte sur chaque option. GitBook affichera les valeurs de l’énumération et leurs descriptions dans un tableau à côté de l’opération.
+
+```yaml title="openapi.yaml"
+openapi: '3.0'
+info: ...
+components:
+  schemas:
+    project_status:
+      type: string
+      enum:
+        - LIVE
+        - PENDING
+        - REJECTED
+      x-enumDescriptions:
+        LIVE : Le projet est en ligne.
+        PENDING : Le projet est en attente d’approbation.
+        REJECTED : Le projet a été rejeté.
+```

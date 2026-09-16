@@ -1,0 +1,68 @@
+---
+title: 文件
+description: 管理并向你的站点添加文件，例如 PDF、视频、文档等
+metaTitle: 文件 | GitBook Documentation
+ogImage: https://test-dai.imgix.net/org-4afef969-21f9-40f3-b5b8-b06c8b6cf68f/doc-22a3b060-9539-4176-97e4-49120e02f5d1/0a5a1a9630785855-organizations-d8f63b60-89ae-11e7-8574-5927d48c4877-sites-site_p4Xo4-socialprevie.jpg?fm=auto&auto=compress%2Cformat
+---
+
+你可以将文件上传到你的 GitBook 部分，并将它们添加到页面中，供人们查看或下载。
+
+你可以将某些文件（例如图片和 OpenAPI 文件）直接显示在页面上，供人们无需点击即可查看。对于其他文件（例如 PDF），用户则需要点击才能查看或下载。
+
+你还可以选择在插入到页面中的任意文件下方添加说明文字，以便在需要时提供更多信息。
+
+### 文件示例
+
+<Card href="/files/8baa695d9855e2732e0d9da5d1d738fce6871f61" />
+
+这是文件下方的说明文字。
+
+### 上传文件
+
+你可以在以下位置管理已上传的文件： **资料库** 选项卡。该 **资料库** 选项卡位于 **页面** 右侧，位于左侧导航顶部。
+
+要上传文件，请将其拖放到 **拖放你的文件或浏览** 区域，或者选中它并使用系统文件选择对话框选择你要上传的文件。
+
+<Callout kind="alert">
+  GitBook 允许你上传每个文件最大 100MB 的文件。
+</Callout>
+
+当你添加图片块或 OpenAPI 块时，也可以将文件添加到页面中。创建这些块之一时， **资料库** 选项卡会打开，因此你可以选择一个文件，或上传一个新文件。
+
+<Callout kind="info">
+  <strong>提示：</strong> 你也可以直接从文件系统将图片拖放到编辑器中——或者将复制的图片粘贴到内容中。GitBook 会自动将它们添加到 **资料库** 对应部分的选项卡中，因此你之后可以查看和管理它们。
+</Callout>
+
+### 重命名文件
+
+要重命名文件，请打开该文件的 **操作菜单** <Image src="https://test-dai.imgix.net/org-4afef969-21f9-40f3-b5b8-b06c8b6cf68f/doc-22a3b060-9539-4176-97e4-49120e02f5d1/4fa265378c13a520-spaces-NkEGS7hzeqa35sMXQZ4X-uploads-89MTSo5XRpPMVr1T0rxS-actions.svg?rasterize-bypass=true" alt="The Actions menu icon in GitBook" /> ，然后点击 **编辑**。在对话框提示中，输入文件的新名称。
+
+### 删除文件
+
+要删除文件，请打开该文件的 **操作菜单** <Image src="https://test-dai.imgix.net/org-4afef969-21f9-40f3-b5b8-b06c8b6cf68f/doc-22a3b060-9539-4176-97e4-49120e02f5d1/4fa265378c13a520-spaces-NkEGS7hzeqa35sMXQZ4X-uploads-89MTSo5XRpPMVr1T0rxS-actions.svg?rasterize-bypass=true" alt="The Actions menu icon in GitBook" /> ，然后点击 **删除**。在对话框中确认你确实要删除该文件后，文件将被删除。
+
+<Callout kind="alert">
+  <strong>注意：</strong> 请务必更新所有包含已删除文件的页面！引用已删除文件的文件块将显示为空块，或者 *无法加载图片* 错误。
+</Callout>
+
+### 替换文件
+
+如果某个文件只是需要更新到新版本，你可以替换它。这样会移除旧文件，并用新文件替代它。之前引用旧文件的任何块随后都会引用新文件。
+
+要替换文件，请打开该文件的 **操作菜单** <Image src="https://test-dai.imgix.net/org-4afef969-21f9-40f3-b5b8-b06c8b6cf68f/doc-22a3b060-9539-4176-97e4-49120e02f5d1/4fa265378c13a520-spaces-NkEGS7hzeqa35sMXQZ4X-uploads-89MTSo5XRpPMVr1T0rxS-actions.svg?rasterize-bypass=true" alt="The Actions menu icon in GitBook" /> ，然后点击 **替换**。在出现的文件替换对话框中，选择新文件并等待上传进度完成。你的文件会在其出现在你部分中的所有位置自动更新。
+
+例如，如果你进行了大规模的产品重新设计，需要更新出现在多个页面上的过时 UI 截图，这会很有帮助。替换原始文件会更新你部分中所有位置的截图，为你节省时间和精力。
+
+<Callout kind="info">
+  <strong>提示：</strong> 一旦你上传了图片或文件，就可以通过创建图片块或文件块，并从 **资料库** 选项卡中选择它，在你部分中的任何位置引用它。
+
+  我们建议你这样做，而不是每次想要插入图片时都重新上传，这样以后替换图片会更容易，也能避免出现多个同名文件。
+</Callout>
+
+### Markdown 中的表示方式
+
+```markdown
+{% file src="https://example.com/example.pdf" %}
+    这是示例文件的说明文字。
+{% endfile %}
+```

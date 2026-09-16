@@ -1,0 +1,213 @@
+---
+title: Guide de style
+description: Définissez les règles de rédaction de votre équipe dans un guide de style dédié et gardez chaque contributeur, humain ou agent GitBook, cohérent.
+metaTitle: Guide de style | GitBook Documentation
+ogImage: https://test-dai.imgix.net/org-4afef969-21f9-40f3-b5b8-b06c8b6cf68f/doc-22a3b060-9539-4176-97e4-49120e02f5d1/0a5a1a9630785855-organizations-d8f63b60-89ae-11e7-8574-5927d48c4877-sites-site_p4Xo4-socialprevie.jpg?fm=auto&auto=compress%2Cformat
+---
+
+Un guide de style contient les règles et conventions de rédaction de votre équipe. C’est la source unique de vérité pour la manière dont le contenu de votre site doit être rédigé — voix et ton, terminologie, formatage et structure.
+
+Un guide de style sert deux publics :
+
+- <strong>Votre équipe :</strong> les rédacteurs et les relecteurs disposent d’une référence commune sur la manière d’écrire, ce qui garantit la cohérence de la documentation, quel que soit l’éditeur.
+- <strong>Agent GitBook :</strong> l’Agent lit votre guide de style et le considère comme la source de vérité qu’il doit suivre chaque fois qu’il rédige, modifie ou relit du contenu. Il remplace les paramètres par défaut de l’Agent et les conventions de rédaction générales.
+
+### Comment l’Agent GitBook utilise votre guide de style
+
+L’Agent GitBook charge intégralement la première page de votre guide de style dans son contexte à chaque tâche, de sorte que cette page guide toujours son travail. Il ne lit les autres pages qu’à la demande, à l’aide de la table des matières.
+
+<strong>Placez vos règles principales sur la première page.</strong> Conservez-y toutes les règles que vous souhaitez faire appliquer, et utilisez les pages supplémentaires pour les détails que l’Agent pourra récupérer lorsque cela sera pertinent. Vos modifications l’emportent toujours : modifiez une règle et l’Agent suivra votre version ; supprimez une règle et l’Agent cessera de l’appliquer.
+
+Le guide de style est l’unique source de règles de l’Agent. Si votre guide de style mentionne un guide amont — comme celui de Google ou de Microsoft — comme base, cette mention sert de contexte pour les lecteurs humains, et non d’instruction à l’Agent. Si une convention est importante pour vous, écrivez-la.
+
+#### Règles applicables et recommandations
+
+Les guides de style distinguent deux niveaux de contenu, et la différence tient au fait qu’une règle porte ou non un identifiant numéroté :
+
+- **Règles numérotées** (comme `G-10` ou `MS-9`) constituent le niveau applicable. L’Agent signale directement les violations de ces règles et cite l’identifiant, afin que vous puissiez relier chaque alerte à la règle exacte qui l’a déclenchée.
+- **Recommandations non numérotées** — comme une description de la voix — relèvent du jugement. L’Agent les applique lorsqu’il rédige et les propose comme suggestions à la relecture humaine, mais il ne les signale jamais comme des violations.
+
+Pour ajouter une règle applicable, attribuez-lui le prochain numéro après le plus grand numéro existant, quel que soit l’endroit où se trouve la règle. Ne renumérotez jamais et ne réutilisez jamais un identifiant — les anciennes alertes et votre journal de décisions s’y réfèrent. Avec le temps, les numéros ne correspondront pas à l’ordre des pages ; c’est normal. Le seul rôle d’un identifiant est de rester stable.
+
+<Callout kind="info">
+  Dans le modèle de départ, le `SG-` préfixe est à vous de le modifier — mais gardez-le stable une fois que vous commencez à utiliser le guide.
+</Callout>
+
+### Créer un guide de style
+
+Vous pouvez commencer la configuration d’un guide de style depuis deux endroits :
+
+- Dans la barre latérale de votre site, sous **Outils**, cliquez sur **Guide de style**, puis cliquez sur **Configurer**.
+- Ouvrez **Paramètres → Guide de style** et configurez-le depuis là.
+
+Choisissez ensuite un point de départ (voir ci-dessous) :
+
+- Réutiliser un guide de style existant de votre organisation.
+- Choisir un modèle — Départ, Google ou Microsoft.
+- Importer un fichier ou depuis une URL, si vous avez déjà un guide de style.
+
+La première fois que vous ouvrez votre guide de style, GitBook affiche une courte introduction expliquant que vous le modifiez comme n’importe quel autre contenu.
+
+#### Utiliser un guide de style existant
+
+Si votre organisation utilise déjà des guides de style ailleurs, ils apparaissent en haut de l’écran de configuration, avec les sites qui les utilisent. Lorsque vous en choisissez un, vous pouvez :
+
+- **L’utiliser tel quel** — le rattacher, partagé avec les autres sites qui l’utilisent. Les modifications s’appliquent partout où il est utilisé.
+- **Le dupliquer** — créer une copie dédiée à ce site (nommée `Guide de style - {site name}`) que vous pouvez faire évoluer indépendamment.
+
+#### Choisir un modèle
+
+GitBook propose trois modèles de départ :
+
+| Modèle | Idéal pour |
+| --- | --- |
+| **Modèle de départ** | Définir votre propre voix et vos propres règles à partir de zéro. Chaque section explique ce qui doit s’y trouver et pourquoi, avec une structure de base à compléter vous-même. |
+| **Guide de style Google** | Une rédaction claire, précise et professionnelle pour un public de développeurs. Généré à partir du guide de style de la documentation développeur de Google. |
+| **Guide de style Microsoft** | Une rédaction chaleureuse, simple et humaine pour un large public — y compris des lecteurs qui ne sont pas experts en technologie. Généré à partir du Microsoft Writing Style Guide. |
+
+Les modèles Google et Microsoft sont préremplis avec des règles applicables tirées de leurs guides sources — couvrant la voix, les listes de mots, la grammaire, le formatage, les procédures, la rédaction accessible et le langage inclusif — et sont prêts à être utilisés tels quels. Tout est modifiable : un modèle est un point de départ, pas un contrat.
+
+<Callout kind="info">
+  GitBook examine et met à jour les modèles de base lorsque les guides sources changent, afin que les modèles restent synchronisés avec les guides dont ils sont générés.
+</Callout>
+
+<strong>Personnalisez les sections « Besoin de votre saisie »</strong>
+
+Chaque modèle marque les parties que vous devez personnaliser avec un indice **Besoin de votre saisie** . Avant que votre guide de style soit prêt à l’emploi, complétez-les — elles incluent généralement :
+
+- La date d’instantané de la version du guide de base que le modèle reflète (modèles Google et Microsoft)
+- Le nom de votre produit et la mission de votre documentation
+- Qui lit et rédige votre documentation, et ce que couvre le guide
+- Les noms de vos produits, les noms de fonctionnalités et tous les termes sur lesquels votre équipe débat, ajoutés à la liste de mots
+- Un responsable, une fréquence de relecture et la manière de proposer des modifications
+- Une première entrée dans le journal des décisions
+
+Tout ce qui n’a pas d’indice est prérempli et prêt à être utilisé tel quel. Les règles provisoires que vous n’avez pas encore complétées sont inactives — l’Agent ne les appliquera pas tant que vous n’aurez pas remplacé les espaces réservés par du contenu réel.
+
+#### Importer un fichier
+
+Si vous conservez déjà un guide de style dans un autre outil, vous pouvez l’importer au lieu de partir d’un modèle :
+
+1. Dans l’écran de configuration, cliquez sur **Importer un fichier**.
+2. Déposez vos fichiers Markdown, HTML, DOCX ou ZIP — ou parcourez pour les choisir.
+3. En option, activez **Améliorer l’import avec l’IA** pour affiner et nettoyer automatiquement le contenu importé.
+4. Cliquez sur **Lancer l’import**.
+
+#### Importer depuis une URL
+
+Si votre guide de style est publié en ligne, GitBook peut l’importer directement :
+
+1. Dans l’écran de configuration, cliquez sur **Importer depuis une URL**.
+2. Saisissez le lien de la documentation que vous souhaitez importer.
+3. En option, activez **Améliorer l’import avec l’IA** pour affiner et nettoyer automatiquement le contenu importé.
+
+GitBook importe toutes les pages publiques sous l’URL que vous saisissez, jusqu’à 200 pages. Par exemple, si vous importez `website.com/docs/`, il inclura `website.com/docs/article`, mais pas `website.com/other-parent/page`. Pour les sites plus volumineux, importez séparément des sous-chemins plus petits.
+
+### Que mettre dans votre guide de style
+
+Un guide de style est particulièrement utile lorsqu’il consigne les décisions qui sont faciles à rater ou incohérentes au sein d’une équipe. Les modèles partagent une structure commune, et chaque section règle une catégorie différente de débat stylistique :
+
+- <strong>Introduction :</strong> à quoi sert le guide et à quoi sert votre documentation. Un guide qui a une finalité déclarée est maintenu ; un guide sans objectif est abandonné.
+- <strong>Public et périmètre :</strong> qui lit votre documentation, qui l’écrit et ce que couvre le guide. La moitié des débats de style sont en réalité des débats sur le public déguisés ; tranchez-les ici une bonne fois pour toutes.
+- <strong>Voix et ton :</strong> la manière dont vous vous adressez au lecteur et votre degré de formalité ou de convivialité, ainsi que les règles applicables à tout ce qui peut être vérifié mécaniquement, comme la ponctuation et les contractions.
+- <strong>Liste de mots :</strong> les noms de vos produits, la casse exacte, les termes préférés et les débats terminologiques tranchés. N’enregistrez que les termes sur lesquels votre équipe a débattu ; gardez des entrées brèves.
+- <strong>Grammaire et mécanique :</strong> les valeurs par défaut au niveau de la phrase pour la personne, le temps et la voix. La colonne des exceptions compte autant que la règle : elle empêche l’Agent de signaler du texte légitime.
+- <strong>Formatage :</strong> la casse des titres, les éléments d’interface, les liens, le code, et quand utiliser des listes, des étapes, des conseils et d’autres blocs.
+- <strong>Procédures de rédaction :</strong> format des étapes, verbes à l’impératif, une action par étape.
+- <strong>Messages d’erreur et états d’échec :</strong> règles de ton pour les moments où les lecteurs sont les plus stressés. Facultatif ; supprimez cette section si votre documentation ne contient pas de texte d’erreur.
+- **Rédaction accessible** et <strong>Langage inclusif :</strong> règles vérifiables, presque universelles, que la plupart des équipes adoptent telles quelles.
+- <strong>Types de contenu et modèles :</strong> vos types de pages, afin que les rédacteurs et l’Agent sachent quelle structure une page doit suivre. De nombreuses équipes utilisent un cadre comme [Diátaxis](https://diataxis.fr/).
+- <strong>Responsabilité et mises à jour :</strong> le responsable, la fréquence de relecture et la manière de proposer une modification. Un guide que personne ne possède dérive vers la fiction.
+- <strong>Journal des décisions :</strong> la mémoire institutionnelle. Modifier une règle modifie ce que l’Agent applique ; le journal se souvient pourquoi, afin que les débats tranchés restent tranchés. Enregistrez ici chaque écart délibéré par rapport à un guide de base.
+
+### Modifier votre guide de style
+
+Vous modifiez un guide de style de la même manière que vous modifiez le reste de votre documentation :
+
+- <strong>Dans GitBook :</strong> faites vos modifications dans une demande de modification, puis fusionnez-les lorsque vous êtes prêt.
+- <strong>Avec Git Sync :</strong> si le guide de style est synchronisé avec GitHub ou GitLab, modifiez-le en Markdown dans votre dépôt.
+
+Pour ouvrir votre guide de style, utilisez l’entrée **Guide de style** dans la barre latérale de votre site, ou l’action **Modifier** dans **Paramètres → Guide de style**.
+
+### Partager un guide de style entre plusieurs sites
+
+Un guide de style appartient à votre organisation, donc plusieurs sites peuvent s’appuyer sur le même guide — l’agent de modification applique les mêmes règles de rédaction partout, et toute votre documentation suit une seule voix.
+
+Après avoir créé un guide de style, GitBook propose de le lier à tout autre site de votre organisation qui n’en a pas encore. Vous pouvez aussi rattacher un guide de style existant — partagé ou dupliqué — lors de la configuration d’un site, comme décrit précédemment.
+
+Pour voir tous les guides de style de votre organisation et les sites qui utilisent chacun d’eux, ouvrez l’entrée **Guides de style** dans la barre latérale de votre organisation.
+
+#### Dissocier un guide de style
+
+Pour empêcher un site d’utiliser son guide de style, ouvrez **Paramètres → Guide de style** et cliquez sur **Dissocier**. La dissociation conserve le guide de style — il peut toujours être utilisé par d’autres sites. Si aucun autre site n’y fait référence, GitBook propose de le supprimer définitivement.
+
+### Mettre votre guide de style au travail
+
+Avec votre guide de style en place, demandez à l’Agent GitBook de passer en revue votre documentation existante afin de l’aligner sur le guide de style. À partir de là, l’Agent vérifie que votre guide de style est respecté chaque fois qu’il rédige, modifie ou relit du contenu — en signalant les violations des règles numérotées avec leurs identifiants, et en proposant les recommandations non numérotées comme suggestions pour relecture humaine.
+
+Il existe deux façons principales de lancer une relecture du guide de style sur vos modifications :
+
+#### Relire une page avant de demander une relecture
+
+Pendant que vous travaillez sur une page, vous pouvez demander à l’Agent de vérifier la page par rapport à votre guide de style — utilisez **Vérifier la cohérence avec le guide de style** dans le menu Améliorer, ou demandez-le dans le chat. L’Agent examine la page et laisse des commentaires résumant ce qu’il a trouvé.
+
+#### Demander une relecture du guide de style sur une demande de modification
+
+Lorsque votre site a un guide de style, l’Agent GitBook apparaît comme relecteur suggéré sur vos demandes de modification, avec l’étiquette **Relecture du guide de style**:
+
+1. Dans votre demande de modification, cliquez sur **Demander une relecture**.
+2. Ajoutez un titre et une description pour vos modifications — ou cliquez sur **Générer** pour laisser l’Agent les rédiger à partir de vos modifications.
+3. Sous **Relecteurs**, cliquez sur **Demander** à côté de **Agent GitBook** pour lancer une relecture du guide de style de la demande de modification. Vous pouvez ajouter des relecteurs humains en parallèle, ou laisser la liste vide pour notifier tous les relecteurs de votre organisation.
+
+L’Agent examine vos modifications au regard du guide de style et demande des changements sur la demande de modification s’il trouve des violations, en citant les règles qui ont déclenché chaque alerte.
+
+### Comment l’Agent applique votre guide de style
+
+Lorsque l’Agent GitBook travaille avec votre guide de style, sa mission est de respecter vos règles — et non d’améliorer la rédaction en général. Il est conçu pour être précis, prudent et cohérent : le même contenu vérifié par rapport au même guide de style produit toujours les mêmes résultats.
+
+#### Votre guide de style est l’unique source de règles
+
+L’Agent n’applique jamais une règle provenant d’un guide amont, d’une connaissance générale du bon style, ou de tout autre guide de style qu’il connaît, sauf si la règle est écrite dans votre guide de style.
+
+L’Agent respecte également quelques règles sur la manière dont vos règles sont rédigées :
+
+- <strong>Les règles provisoires sont inactives.</strong> Les pages de modèle contiennent du texte d’espace réservé entre crochets, comme `[Nom du produit]` ou `[Ajouter une règle]`. Une règle dont le contenu n’est encore qu’un texte d’espace réservé n’est pas encore une règle — l’Agent ne l’appliquera pas. Si votre guide de style est principalement composé d’espaces réservés, l’Agent vous indique qu’il est largement incomplet et que l’application se limite aux règles que vous avez terminées, plutôt que de présenter une vérification partielle comme exhaustive.
+- <strong>Les exceptions sont respectées.</strong> De nombreuses règles comportent des exceptions (« le passif convient lorsque l’acteur est inconnu »). Le texte qui entre dans le cadre d’une exception listée n’est pas une violation.
+- <strong>Les règles explicites comptent même sans identifiant.</strong> Si vous rédigez une règle sans identifiant numéroté mais qu’elle ressemble à une instruction explicite et vérifiable (« n’utilisez jamais de point-virgule »), l’Agent l’applique et la cite par une courte citation plutôt que par un identifiant.
+
+#### Quand l’Agent examine
+
+Lors d’une relecture de guide de style — sur une page ou sur une demande de modification — l’Agent signale les problèmes mais ne change rien. Chaque alerte comprend :
+
+- <strong>Règle :</strong> l’identifiant de règle de votre guide de style (par exemple `G-10`), ou une courte citation de votre règle si elle n’a pas d’identifiant.
+- <strong>Emplacement :</strong> le titre ou la ligne où se trouve le problème, ainsi que le texte en cause.
+- <strong>Problème :</strong> une phrase indiquant la violation.
+- <strong>Correction :</strong> le texte corrigé, prêt à être collé.
+
+Les relectures sont limitées à **5 alertes par passage**. S’il existe davantage de problèmes, l’Agent signale les 5 plus prioritaires et termine par une note d’une ligne indiquant qu’il existe d’autres problèmes, avec un décompte. Les alertes sont classées par catégorie — d’abord le choix des mots et la terminologie, puis le formatage et la ponctuation, puis la grammaire, puis les procédures — et, au sein d’une catégorie, dans l’ordre des pages.
+
+Les recommandations non numérotées — voix, ton et conseils structurels — n’apparaissent jamais sous forme d’alerte. Au maximum, l’Agent ajoute une seule note combinée « à faire relire par un humain » par passage, couvrant tout ce qui relève du niveau de jugement.
+
+#### Quand l’Agent modifie
+
+Lorsque vous demandez à l’Agent de corriger du contenu ou de l’aligner sur votre guide de style, il applique directement les règles numérotées partout où la correction ne laisse aucune ambiguïté. Lorsqu’une règle peut raisonnablement donner lieu à deux résultats défendables, l’Agent laisse le texte inchangé et le liste comme suggestion au lieu de deviner.
+
+Après modification, l’Agent produit un résumé des changements regroupé par identifiant de règle, avec des compteurs — par exemple : « G-7 : remplacement de “click on” par “click”, 6 occurrences. » Les suggestions du niveau jugement apparaissent dans une liste séparée à la fin.
+
+#### Ce que l’Agent ne touche jamais
+
+Dans les relectures comme dans les modifications, l’Agent ne signale ni ne modifie jamais :
+
+- Le contenu des blocs de code, du code en ligne, des sorties de commande ou des identifiants d’API et de produit
+- Les citations directes et les éléments cités
+- Le texte exempté par l’exception propre à une règle
+- Le sens ou les faits de votre contenu
+- Tout ce qui n’est couvert que par une règle absente de votre guide de style
+
+#### Cohérence
+
+L’Agent applique les règles telles qu’elles sont rédigées, même s’il pourrait ne pas être d’accord — il n’atténue, n’affermit ni ne réinterprète jamais une règle pour l’adapter au contenu. Si une règle est ambiguë telle qu’elle est rédigée, l’Agent en applique la lecture littérale et note l’ambiguïté dans sa note de relecture humaine, plutôt que d’inventer une intention. Et si votre site n’a pas de guide de style configuré, l’Agent ne se rabat pas sur un jugement général — il vous propose plutôt de vous aider à en créer un.
+
+### Guides de style et instructions personnalisées
+
+Un guide de style complète les instructions personnalisées au niveau du site que vous pouvez donner à l’Agent GitBook. Les instructions personnalisées sont des consignes courtes et spécifiques au site ; un guide de style est un document complet et partagé de vos règles de rédaction.

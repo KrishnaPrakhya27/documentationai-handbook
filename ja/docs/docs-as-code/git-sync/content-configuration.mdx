@@ -1,0 +1,173 @@
+---
+title: コンテンツ設定
+description: コードを使ってGit Syncを設定する
+metaTitle: コンテンツ設定 | GitBook Documentation
+ogImage: https://test-dai.imgix.net/org-4afef969-21f9-40f3-b5b8-b06c8b6cf68f/doc-22a3b060-9539-4176-97e4-49120e02f5d1/0a5a1a9630785855-organizations-d8f63b60-89ae-11e7-8574-5927d48c4877-sites-site_p4Xo4-socialprevie.jpg?fm=auto&auto=compress%2Cformat
+---
+
+Git Sync は 3 つのファイルを使用します。必要な Git Sync の部分を制御するファイルを選択してください:
+
+- `gitbook-docs.yaml` サイトを構成し、スペースをリポジトリのディレクトリにマッピングします。
+- `.gitbook.yaml` GitBook が 1 つのスペースのコンテンツをどのように読み取るかを構成します。
+- `SUMMARY.md` スペースのナビゲーションを定義します。
+
+### gitbook-docs.yaml でサイトを構成する
+
+`gitbook-docs.yaml` サイト全体を構成します。これは Git Sync プロジェクト ディレクトリにあります。GitBook は、a を設定しない場合、リポジトリのルートを使用します **プロジェクトディレクトリ**.
+
+使用 `gitbook-docs.yaml` を使用してサイト構造を定義し、各スペースをディレクトリにマッピングします。各項目は `site.structure` には安定した `キー`があります。スペースの `content.directory` はそのリポジトリ ディレクトリを設定します。サイト内のスペースがサイトのリポジトリと同期しない場合、その `content.directory` が `null`.
+
+#### キーはスペースを識別します
+
+Git Sync は各スペースとセクションをその `キー`ではなく、タイトル、パス、ディレクトリではなく、その `gitbook-docs.yaml` で識別します。キーは、GitBook が次の同期までに
+
+<Callout kind="danger">
+  <strong>スペースの `キー` を変更すると、そのスペースが置き換えられます。</strong> GitBook は古いキーを削除されたものとして扱い、新しいキーを新しいスペースとして扱います。新しいスペースを作成し、マッピングされたディレクトリからコンテンツをインポートし、元のスペースは組織内に残したままサイトから切り離します。
+
+  ページは戻ってきますが、新しいスペース ID を持つ別のスペースになります。古い ID を参照するリンク、カード、API 呼び出しは解決されなくなり、リポジトリではなく GitBook 内にのみ存在するものは元のスペースに残ります。
+
+  元のキーを復元しても、これは元に戻りません。別の新しいスペースが作成され、そこにインポートされます。
+</Callout>
+
+エントリを最初に作成するとき、キーは自由に選んで問題なく、GitBook はサイト コンテンツのマッピングを保存するときに自動生成します。スペースが公開されたら、そのキーは永久的なものとして扱ってください:
+
+- スペースの名前を変更するには、その `title`を変更します。キーはそのままです。
+- スペースの URL を変更するには、その `path`を変更します。キーはそのままです。
+
+この例では、英語とフランス語のスペースを別々のディレクトリにマッピングしています:
+
+```yaml title="gitbook-docs.yaml"
+$schema: https://api.gitbook.com/gitbook-docs.yaml
+site:
+  title: ドキュメント
+  structure:
+    - type: section
+      key: documentation
+      title: ドキュメント
+      path: documentation
+      children:
+        - type: space
+          key: docs-en
+          title: 英語
+          path: docs
+          default: true
+          content:
+            directory: ./docs/en
+            language: en
+        - type: space
+          key: docs-fr
+          title: フランス語
+          path: fr
+          content:
+            directory: ./docs/fr
+            language: fr
+```
+
+<Expandable title="追加のサイト プロパティを構成する">
+  これらの任意のプロパティを使ってサイト構造を調整します:
+
+  | プロパティ | 用途 |
+  | --- | --- |
+  | `type: section-group` | 関連するセクションを共通のナビゲーション見出しの下にまとめます。 |
+  | `説明` | セクションに説明を追加します。 |
+  | `アイコン` | セクションまたはセクション グループにアイコンを追加します。 |
+  | `localizedTitle` | セクション、セクション グループ、またはスペースのタイトルを翻訳します。 |
+  | `localizedDescription` | セクションの説明を翻訳します。 |
+  | `非表示` | スペースをサイトのナビゲーションから非表示にします。 |
+
+  GitBook は `gitbook-docs.yaml` サイトのコンテンツ マッピングを保存するときに作成または更新します。
+</Expandable>
+
+### .gitbook.yaml でスペースを構成する
+
+`.gitbook.yaml` 1 つのスペースを構成します。これはそのスペースにマッピングされたディレクトリにあります。コンテンツのルート、最初のページ、ナビゲーション ファイル、リダイレクトを設定するために使用します。
+
+主な設定は次のとおりです:
+
+- `ルート` GitBook が読み取るディレクトリを設定します。既定値は `./`.
+- `structure.readme` 最初のページを設定します。既定値は `README.md`.
+- `structure.summary` ナビゲーション ファイルを設定します。既定値は `SUMMARY.md`.
+- `リダイレクト` スペース内で古いパスを新しいパスにマッピングします。
+
+典型的な構成は次のとおりです:
+
+```yaml title=".gitbook.yaml"
+root: ./
+
+structure:
+  readme: README.md
+  summary: SUMMARY.md
+
+redirects:
+  previous/page: new-folder/page.md
+```
+
+#### コンテンツ ルートを設定する
+
+設定する `ルート` スペースのコンテンツがサブディレクトリ内にある場合:
+
+```yaml title=".gitbook.yaml"
+root: ./docs/
+```
+
+<Callout kind="alert">
+  〜内のパスは `.gitbook.yaml` に対する相対パスです `ルート`。〜を使うと `root: ./docs/`, `structure.summary: ./product/SUMMARY.md` は次に解決されます `./docs/product/SUMMARY.md`.
+</Callout>
+
+モノレポでは、 `ルート` はマッピングされたスペース ディレクトリ内にのみ適用されます。兄弟ディレクトリは利用できるようになりません。複数スペースのリポジトリ構成については、 [モノレポ](/ja/docs/docs-as-code/git-sync/monorepos).
+
+#### 最初のページとナビゲーション ファイルを設定する
+
+使用 `structure.readme` 、 `structure.summary` カスタム ファイル パスを設定するには:
+
+```yaml title=".gitbook.yaml"
+structure:
+  readme: ./product/README.md
+  summary: ./product/SUMMARY.md
+```
+
+<Callout kind="alert">
+  Git Sync が有効な場合は、 `README.md` リポジトリ内のファイルを管理してください。GitBook で編集すると、競合や重複ページが発生する可能性があります。
+</Callout>
+
+#### リダイレクトを構成する
+
+スペース レベルのリダイレクトを `.gitbook.yaml`で構成します。リダイレクト パスはそのスペース内でのみ適用されます。
+
+GitBook アプリでは、サイト レベルのリダイレクトも管理できます。参照: [サイトのリダイレクト](/ja/docs/gong-kai/site-redirects).
+
+### SUMMARY.md でナビゲーションを構成する
+
+`SUMMARY.md` スペースの目次を定義します。GitBook は、それを構成済みの `ルート` ディレクトリで探します。
+
+GitBook が `SUMMARY.md`を見つけられない場合、フォルダと Markdown ファイルからナビゲーションを推測します。GitBook は `SUMMARY.md` GitBook でナビゲーションを変更すると、作成または更新します。
+
+ページ グループには見出しを、子ページにはネストされたリンクを使用します:
+
+```markdown title="SUMMARY.md"
+# 概要
+
+## 製品
+
+* [概要](README.md)
+  * [はじめに](getting-started.md)
+  * [設定](configuration.md)
+
+## 参考
+
+* [API リファレンス](api.md)
+```
+
+各 Markdown ファイルは〜に 1 回だけ表示できます `SUMMARY.md`。1 つのページが 1 つのスペースで持てる URL は 1 つだけです。
+
+#### ナビゲーション ラベルを設定する
+
+ナビゲーション ラベルがページ タイトルと異なる場合は、ページリンクのタイトルを追加します:
+
+```markdown title="SUMMARY.md"
+# 概要
+
+* [ページのメインタイトル](page.md "ナビゲーション ラベル")
+```
+
+GitBook はサイドバー、ページ送り、相対リンクでページリンクのタイトルを使用します。指定しない場合、GitBook はページ タイトルを使用します。

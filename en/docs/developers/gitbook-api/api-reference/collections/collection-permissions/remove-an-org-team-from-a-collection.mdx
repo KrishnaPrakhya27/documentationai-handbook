@@ -1,0 +1,25 @@
+---
+title: Remove an org team from a collection
+metaTitle: Remove an org team from a collection | Developers | GitBook Documentation
+ogImage: https://test-dai.imgix.net/org-4afef969-21f9-40f3-b5b8-b06c8b6cf68f/doc-22a3b060-9539-4176-97e4-49120e02f5d1/0a5a1a9630785855-organizations-d8f63b60-89ae-11e7-8574-5927d48c4877-sites-site_p4Xo4-socialprevie.jpg?fm=auto&auto=compress%2Cformat
+---
+
+**DELETE** `/collections/{collectionId}/permissions/teams/{teamId}`
+
+**Parameters**
+
+<ParamField header="Authorization" param-type="string" />
+
+<ParamField path="collectionId" param-type="string" required={true}>
+  The unique id of the collection
+</ParamField>
+
+<ParamField path="teamId" param-type="string" required={true}>
+  The unique ID of the Team
+</ParamField>
+
+**Responses**
+
+`204` The team was not found in the collection
+
+`205` The team has been removed from the collection

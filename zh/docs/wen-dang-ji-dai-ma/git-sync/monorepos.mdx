@@ -1,0 +1,110 @@
+---
+title: 单体仓库
+description: 在单体仓库中使用 Git 同步，并将空间映射到独立目录
+metaTitle: 单体仓库 | GitBook Documentation
+ogImage: https://test-dai.imgix.net/org-4afef969-21f9-40f3-b5b8-b06c8b6cf68f/doc-22a3b060-9539-4176-97e4-49120e02f5d1/0a5a1a9630785855-organizations-d8f63b60-89ae-11e7-8574-5927d48c4877-sites-site_p4Xo4-socialprevie.jpg?fm=auto&auto=compress%2Cformat
+---
+
+使用站点范围的 Git Sync，从一个仓库和分支同步多个空间。将每个空间映射到其自己的目录中 `gitbook-docs.yaml`.
+
+### 站点范围 Git Sync 的工作原理
+
+站点的 **项目目录** 设置 Git Sync 安装目录。 `gitbook-docs.yaml` 位于其中。如果留空，GitBook 将使用仓库根目录。
+
+在 `gitbook-docs.yaml`，每个空间都有一个 `content.directory`。该目录包含该空间的 `.gitbook.yaml`, `README.md`, `SUMMARY.md`、以及内容文件。
+
+有关这些文件的概览，请参阅 [内容配置](/zh/docs/wen-dang-ji-dai-ma/git-sync/content-configuration).
+
+### 将空间映射到目录
+
+使用 **内容映射** 在 Git Sync 面板中映射每个空间。GitBook 会将映射保存到 `gitbook-docs.yaml`.
+
+目录路径的工作方式如下：
+
+| 路径 | 含义 |
+| --- | --- |
+| `./docs` | 站点 Project 目录中的一个目录。 |
+| `/docs` | 从仓库根目录开始的一个目录。 |
+| `docs` | 与……相同 `./docs`. |
+
+例如，此仓库将三个空间映射为：
+
+```
+/
+  gitbook-docs.yaml
+  documentation/
+    .gitbook.yaml
+    README.md
+    SUMMARY.md
+    .gitbook/
+      assets/
+        logo.png
+  developers/
+    .gitbook.yaml
+    README.md
+    SUMMARY.md
+  changelog/
+    .gitbook.yaml
+    README.md
+    SUMMARY.md
+```
+
+此 `gitbook-docs.yaml` 将每个空间映射到其目录：
+
+```yaml title="gitbook-docs.yaml"
+$schema: https://api.gitbook.com/gitbook-docs.yaml
+site:
+  structure:
+    - type: space
+      key: documentation
+      title: 文档
+      path: documentation
+      content:
+        目录：./documentation
+    - type: space
+      键：developers
+      标题：开发者
+      路径：developers
+      content:
+        目录：./developers
+    - type: space
+      键：changelog
+      标题：更新日志
+      路径：changelog
+      content:
+        目录：./changelog
+```
+
+### 保持空间内容自包含
+
+每个空间只同步分配给它的目录。GitBook 不会在映射目录之间自动共享内容或资源。
+
+将每个引用的资源都保留在其空间的映射目录中。如果多个空间都需要同一资源，请在每个目录中添加一份副本，或重组仓库。
+
+该 `.gitbook.yaml` `root` 该设置控制 GitBook 在该空间的映射目录中读取内容的位置。它不会使同级目录可用。
+
+### 移动映射的目录
+
+通过同时更新其文件和映射来移动某个空间的内容：
+
+1. 在仓库中移动该空间的内容文件和资源。
+2. 在 `gitbook-docs.yaml`，更新该空间的 `content.directory`。保留其 `键` 不变。
+3. 在同一个提交中提交这两个更改。
+
+<Callout kind="info">
+  如果 GitBook 在这两个更改都存在之前导入，映射的空间可能会显示为空。
+</Callout>
+
+<Callout kind="danger">
+  <strong>不要重命名 `键` 以匹配新目录。</strong> 键和目录名称是相互独立的。更改某个空间的键会用一个具有新空间 ID 的新空间替换该空间，而恢复原始键也不会把旧 ID 带回来。请参阅 [键用于标识您的空间](/zh/docs/wen-dang-ji-dai-ma/git-sync/content-configuration#keys-identify-your-spaces).
+</Callout>
+
+GitBook 生成的键 — `space-1`, `space-2` — 并不反映目录名称，而且让两者保持一致也没有任何好处。
+
+### 使用单个空间 Git Sync
+
+当某个空间需要另一个仓库或分支时，请使用单个空间 Git Sync。例如，当私有空间必须单独同步时，就使用它。
+
+首先从站点的内容映射中移除该空间。然后从该空间配置 Git Sync。
+
+要配置该空间，请参阅 [启用 GitHub Sync](/zh/docs/wen-dang-ji-dai-ma/git-sync/enabling-github-sync) 或 [启用 GitLab Sync](/zh/docs/wen-dang-ji-dai-ma/git-sync/enabling-gitlab-sync)。在范围步骤中，选择 **空间 Git Sync**.

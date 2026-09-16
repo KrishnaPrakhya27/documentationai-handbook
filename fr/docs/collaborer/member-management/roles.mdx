@@ -1,0 +1,90 @@
+---
+title: Rôles
+description: Un aperçu de chaque rôle dans GitBook — ce que chacun peut faire, et comment les utiliser pour contrôler l’accès dans votre organisation
+metaTitle: Rôles | GitBook Documentation
+ogImage: https://test-dai.imgix.net/org-4afef969-21f9-40f3-b5b8-b06c8b6cf68f/doc-22a3b060-9539-4176-97e4-49120e02f5d1/0a5a1a9630785855-organizations-d8f63b60-89ae-11e7-8574-5927d48c4877-sites-site_p4Xo4-socialprevie.jpg?fm=auto&auto=compress%2Cformat
+---
+
+Lorsque vous ajoutez des membres à votre organisation, vous pouvez leur attribuer un **rôle par défaut**. Ce rôle s'appliquera à tout contenu qui hérite de ses autorisations de l'organisation. Comprendre les rôles par défaut est essentiel pour tirer le meilleur parti de la manière dont GitBook gère la gestion des autorisations.
+
+Consultez notre documentation sur [**les autorisations et l'héritage**](/fr/docs/collaborer/member-management/permissions-and-inheritance) pour un aperçu complet de la manière dont les autorisations se propagent dans tout le contenu de GitBook.
+
+### Les rôles dans GitBook
+
+Les rôles sont la manière dont vous définissez le niveau d'accès et de contrôle que les membres ont sur le contenu (et sur l'organisation, dans le cas des administrateurs).
+
+<Callout kind="alert">
+  Quel que soit leur rôle, chaque membre d'une organisation est comptabilisé dans le nombre total de membres à des fins de facturation. Pour en savoir plus sur la gestion des membres, consultez [l'invitation et la suppression de membres](/fr/docs/collaborer/member-management/invite-members-to-your-organization).
+</Callout>
+
+Chaque rôle bénéficie de niveaux d'accès progressivement plus élevés à mesure que vous remontez la liste. Commençons par le niveau d'accès le plus bas et remontons :
+
+<Expandable title="Rôle invité">
+  Le rôle invité est un rôle très spécifique dans GitBook. Les invités sont des membres qui ont **aucun rôle par défaut dans l'organisation**. Un invité agit comme un utilisateur standard à tous les autres égards ; il suffit que ses autorisations soient définies explicitement au niveau du contenu.
+
+  Inviter un invité dans l'organisation signifie qu'il ne verra toujours que le contenu auquel il a été directement ajouté. C'est idéal si vous souhaitez ajouter des parties prenantes externes ou des prestataires à votre organisation, sans avoir à vous soucier de leur donner par défaut accès à du contenu.
+
+  <Callout kind="alert">
+    Les membres invités sont comptabilisés dans le nombre total de membres d'une organisation à des fins de facturation.
+  </Callout>
+</Expandable>
+
+<Expandable title="Lecteur">
+  Un lecteur est le rôle le plus basique dans GitBook : il donne un accès en lecture seule.
+
+  <Callout kind="info">
+    Les postes de lecteur sont payants pour les organisations sur tous les forfaits.
+  </Callout>
+</Expandable>
+
+<Expandable title="Commentateur">
+  Les commentateurs ont le même accès en lecture seule que les lecteurs, mais ils peuvent également laisser des commentaires sur le contenu et les espaces (pour en savoir plus sur son fonctionnement, consultez notre [commentaires](/fr/docs/collaborer/comments) documentation).
+</Expandable>
+
+<Expandable title="Éditeur">
+  Les éditeurs peuvent lire et commenter, comme un commentateur, mais ils peuvent aussi modifier le contenu de plusieurs façons. Premièrement, pour les espaces qui sont **ouverts** pour [les modifications en direct](/fr/docs/collaborer/live-edits), les éditeurs peuvent modifier le contenu directement. Deuxièmement, pour les espaces qui ont les modifications en direct **verrouillées**, les éditeurs peuvent créer et soumettre [des demandes de modification](/fr/docs/collaborer/change-requests). Les éditeurs ne peuvent pas fusionner les demandes de modification.
+</Expandable>
+
+<Expandable title="Relecteur">
+  Les relecteurs disposent de toutes les mêmes autorisations qu’un éditeur, mais ils peuvent aussi fusionner leurs propres demandes de modification ainsi que celles des autres.
+</Expandable>
+
+<Expandable title="Créateur">
+  Les créateurs sont essentiellement des administrateurs au niveau du contenu. Ils disposent de toutes les mêmes autorisations qu’un relecteur, mais ils peuvent aussi créer et supprimer des espaces, des collections et des sites, fusionner des demandes de modification et gérer les autorisations au niveau du contenu.
+
+  <Callout kind="info">
+    Si un créateur est également créateur ou administrateur dans une autre organisation GitBook, il peut [déplacer du contenu entre les organisations](/fr/docs/creer-du-contenu/content-structure/space#move-a-space).
+  </Callout>
+</Expandable>
+
+<Expandable title="Administrateur">
+  Un administrateur est comme un super-utilisateur pour votre organisation — il dispose d’un accès complet ! Définissez quelqu’un comme administrateur si vous êtes à l’aise avec le fait qu’il apporte des modifications pouvant avoir un impact sur la facturation, la gestion des membres et, de manière générale, le contrôle de tous les domaines de l’organisation.
+
+  <Callout kind="info">
+    Si un administrateur est également créateur ou administrateur dans une autre organisation GitBook, il peut [déplacer du contenu entre les organisations](/fr/docs/creer-du-contenu/content-structure/space#move-a-space).
+  </Callout>
+</Expandable>
+
+### Rôles sur un site de documentation
+
+Lorsque les rôles sont appliqués au [niveau du site](/fr/docs/collaborer/member-management/permissions-and-inheritance), seuls **Administrateurs** peuvent modifier les paramètres du site. Tous les autres rôles peuvent toujours contribuer au contenu et le modifier dans les espaces auxquels ils ont accès — ils ne peuvent simplement pas gérer le site lui-même. Le tableau ci-dessous montre comment chaque rôle correspond à ses autorisations sur le site.
+
+| Niveau d'autorisation | Autorisations sur le site |
+| --- | --- |
+| Administrateur | Modifier et consulter |
+| Créateur | Consulter |
+| Relecteur | Consulter |
+| Éditeur | Consulter |
+| Commentateur | Consulter |
+| Lecteur | Consulter |
+| Aucun accès | Ne peut pas consulter |
+
+### **Rôle de lecteur et lecteur de documentation publique**
+
+Le rôle de lecteur est celui d’un membre invité de l’organisation avec un poste payant. Un lecteur de documentation publique est un visiteur du site qui n’a besoin ni d’invitation ni de poste payant.
+
+|  | Rôle de lecteur (votre organisation) | Lecteur de documentation publique (visiteur du site) |
+| --- | --- | --- |
+| **Invitation requise** | Oui | Non |
+| **Poste payant** | Oui | Non |
+| **Accès au contenu** | Publié et non publié (avec autorisation) | Publié uniquement |

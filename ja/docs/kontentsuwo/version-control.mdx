@@ -1,0 +1,58 @@
+---
+title: バージョン管理
+description: 変更を追跡し、以前のバージョンに戻すなどができます
+metaTitle: バージョン管理 | GitBook Documentation
+ogImage: https://test-dai.imgix.net/org-4afef969-21f9-40f3-b5b8-b06c8b6cf68f/doc-22a3b060-9539-4176-97e4-49120e02f5d1/0a5a1a9630785855-organizations-d8f63b60-89ae-11e7-8574-5927d48c4877-sites-site_p4Xo4-socialprevie.jpg?fm=auto&auto=compress%2Cformat
+---
+
+コンテンツに対して人々が行ったすべての変更を、次を使って監視できます **バージョン履歴** サイドパネル
+
+<a id="see-the-activity-of-a-specific-draft"></a>
+
+### バージョン履歴
+
+セクションのバージョン履歴では、その中のコンテンツを変更したすべての操作の一覧を確認できます。これには次が含まれます:
+
+- 誰かがそのセクションにライブ編集を行ったとき。
+- 誰かが変更リクエストをマージしたとき。
+- 誰かが Git Sync を実行したとき。
+
+### コンテンツの過去のバージョンを表示
+
+コンテンツの過去のバージョンと行われた変更を確認するには、セクションヘッダーの **バージョン履歴** <Image src="https://test-dai.imgix.net/org-4afef969-21f9-40f3-b5b8-b06c8b6cf68f/doc-22a3b060-9539-4176-97e4-49120e02f5d1/3954e3d9e39aa47e-spaces-NkEGS7hzeqa35sMXQZ4X-uploads-VEyYlyeOFMIwGJkpdIWh-history.svg?rasterize-bypass=true" alt="The Version history icon in GitBook" /> ボタンをクリックするか、 **アクションメニュー** <Image src="https://test-dai.imgix.net/org-4afef969-21f9-40f3-b5b8-b06c8b6cf68f/doc-22a3b060-9539-4176-97e4-49120e02f5d1/0a460c049ef3df1f-spaces-NkEGS7hzeqa35sMXQZ4X-uploads-PnnI41SqLSaKBNwT98fW-actions-horizontal.svg?rasterize-bypass=true" alt="The Actions menu icon in GitBook" /> セクションまたは変更リクエストのタイトルの横にある **バージョン履歴**.
+
+リスト内の任意の項目をクリックすると、この変更が行われた時点でコンテンツがどのように表示されていたかを確認できます。これは、変更リクエストを表示する場合と非常によく似ています。
+
+### 変更を表示
+
+コンテンツの古いバージョンを表示しているときに、古いコンテンツと現在のコンテンツとの差分をハイライト表示することを選択できます。変更リクエストの差分ビューに似ています。
+
+これを有効または無効にするには、 **変更を表示** の下部にある切り替えを使用します **バージョン履歴** サイドパネル
+
+変更を表示を有効にすると、変更されたコンテンツはコンテンツブロックの左側にあるアイコンでハイライトされます。
+
+### 公開済みの過去バージョンを表示
+
+公開済みセクションのバージョン履歴を調査している場合、公開コンテキスト（つまり、エンドユーザーが目にするもの）で以前のバージョンがどのように見えたかのプレビューも表示できます。
+
+これは次の方法で行えます:
+
+<Steps>
+  <Step title="Step">
+    バージョン履歴のサイドパネルで、リビジョンを選択します
+  </Step>
+
+  <Step title="Step">
+    URLの末尾にあるIDをコピーします
+  </Step>
+
+  <Step title="Step">
+    公開済みドキュメントのURLの末尾に次のように追加します `/~/revisions/<id>`
+  </Step>
+</Steps>
+
+### 以前のバージョンにロールバック
+
+ロールバックすると、セクションのコンテンツを以前の時点の状態に戻せます。これは、誤って破壊的な変更を加えたりコンテンツを削除してしまい、セクションの以前のバージョンにすぐ戻したい場合に役立ちます。
+
+セクションの以前のバージョンにロールバックするには、サイドパネルでバージョンにカーソルを合わせ、 **操作ボタン** <Image src="https://test-dai.imgix.net/org-4afef969-21f9-40f3-b5b8-b06c8b6cf68f/doc-22a3b060-9539-4176-97e4-49120e02f5d1/4fa265378c13a520-spaces-NkEGS7hzeqa35sMXQZ4X-uploads-89MTSo5XRpPMVr1T0rxS-actions.svg?rasterize-bypass=true" alt="The Actions menu icon in GitBook" /> に戻って **ロールバック**.

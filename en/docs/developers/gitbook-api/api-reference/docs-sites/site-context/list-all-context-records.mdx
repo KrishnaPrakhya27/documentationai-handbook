@@ -1,0 +1,107 @@
+---
+title: List all context records
+metaTitle: List all context records | Developers | GitBook Documentation
+ogImage: https://test-dai.imgix.net/org-4afef969-21f9-40f3-b5b8-b06c8b6cf68f/doc-22a3b060-9539-4176-97e4-49120e02f5d1/0a5a1a9630785855-organizations-d8f63b60-89ae-11e7-8574-5927d48c4877-sites-site_p4Xo4-socialprevie.jpg?fm=auto&auto=compress%2Cformat
+---
+
+**GET** `/orgs/{organizationId}/sites/{siteId}/context-records`
+
+**Parameters**
+
+<ParamField header="Authorization" param-type="string" />
+
+<ParamField path="organizationId" param-type="string" required={true}>
+  The unique id of the organization
+</ParamField>
+
+<ParamField path="siteId" param-type="string" required={true}>
+  The unique id of the site
+</ParamField>
+
+<ParamField query="page" param-type="string">
+  Identifier of the page results to fetch.
+</ParamField>
+
+<ParamField query="limit" param-type="number">
+  The number of results per page
+</ParamField>
+
+<ParamField query="type" param-type="string" enum="ticket,document">
+  Filter context records by type.
+</ParamField>
+
+<ParamField query="connector" param-type="string">
+  Filter context records by connector type.
+</ParamField>
+
+<ParamField query="connection" param-type="string">
+  Filter context records by connection id.
+</ParamField>
+
+<ParamField query="topic" param-type="string">
+  Filter context records by associated site topic ID.
+</ParamField>
+
+**Responses**
+
+`200` OK
+
+<ResponseField name="next" field-type="object">
+  <Expandable title="Object Properties">
+    <ResponseField name="page" field-type="string" required={true}>
+      Unique identifier to query the next results page
+    </ResponseField>
+  </Expandable>
+</ResponseField>
+
+<ResponseField name="count" field-type="number">
+  Total count of objects in the list
+</ResponseField>
+
+<ResponseField name="items" field-type="array" required={true}>
+  <Expandable title="Array Items">
+    <ResponseField name="object" field-type="string" required={true} enum="context-record" />
+
+    <ResponseField name="id" field-type="string" required={true}>
+      The ID of the record
+    </ResponseField>
+
+    <ResponseField name="title" field-type="string" required={true}>
+      Title for the context record
+    </ResponseField>
+
+    <ResponseField name="description" field-type="string">
+      Optional short description of the context record
+    </ResponseField>
+
+    <ResponseField name="type" field-type="string" required={true} enum="ticket,document" />
+
+    <ResponseField name="createdAt" field-type="string" required={true} />
+
+    <ResponseField name="processedAt" field-type="string" />
+
+    <ResponseField name="connection" field-type="string" required={true}>
+      The connection ID associated with the record
+    </ResponseField>
+
+    <ResponseField name="connector" field-type="string" required={true} />
+
+    <ResponseField name="topics" field-type="string[]">
+      The associated topics of the record
+    </ResponseField>
+
+    <ResponseField name="urls" field-type="object" required={true}>
+      URLs associated with the record
+
+      <Expandable title="Object Properties">
+        <ResponseField name="location" field-type="string" required={true}>
+          URL of the record in the API
+        </ResponseField>
+
+        <ResponseField name="source" field-type="string">
+          URL of the record in the source
+        </ResponseField>
+      </Expandable>
+    </ResponseField>
+  </Expandable>
+</ResponseField>

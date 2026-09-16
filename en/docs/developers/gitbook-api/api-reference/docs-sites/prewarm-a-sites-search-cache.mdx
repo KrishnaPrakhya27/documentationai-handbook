@@ -1,0 +1,25 @@
+---
+title: Prewarm a site's search cache
+metaTitle: Prewarm a site's search cache | Developers | GitBook Documentation
+ogImage: https://test-dai.imgix.net/org-4afef969-21f9-40f3-b5b8-b06c8b6cf68f/doc-22a3b060-9539-4176-97e4-49120e02f5d1/0a5a1a9630785855-organizations-d8f63b60-89ae-11e7-8574-5927d48c4877-sites-site_p4Xo4-socialprevie.jpg?fm=auto&auto=compress%2Cformat
+---
+
+Hints the search backend that latency-sensitive site search requests are likely to arrive soon. Call this when a visitor opens the site's search interface.
+
+**POST** `/orgs/{organizationId}/sites/{siteId}/search/prewarm`
+
+**Parameters**
+
+<ParamField header="Authorization" param-type="string" />
+
+<ParamField path="organizationId" param-type="string" required={true}>
+  The unique id of the organization
+</ParamField>
+
+<ParamField path="siteId" param-type="string" required={true}>
+  The unique id of the site
+</ParamField>
+
+**Responses**
+
+`204` Search cache warmup accepted

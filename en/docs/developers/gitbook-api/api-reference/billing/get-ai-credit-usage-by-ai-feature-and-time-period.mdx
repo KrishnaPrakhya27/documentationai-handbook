@@ -1,0 +1,69 @@
+---
+title: Get AI credit usage by AI feature and time period
+metaTitle: Get AI credit usage by AI feature and time period | Developers | GitBook Documentation
+ogImage: https://test-dai.imgix.net/org-4afef969-21f9-40f3-b5b8-b06c8b6cf68f/doc-22a3b060-9539-4176-97e4-49120e02f5d1/0a5a1a9630785855-organizations-d8f63b60-89ae-11e7-8574-5927d48c4877-sites-site_p4Xo4-socialprevie.jpg?fm=auto&auto=compress%2Cformat
+---
+
+Returns recorded AI usage for an organization. Calendar buckets use UTC; weeks start on Monday. Requires organization administrator permissions.
+
+**GET** `/orgs/{organizationId}/billing/ai-usage`
+
+**Parameters**
+
+<ParamField header="Authorization" param-type="string" required={true} />
+
+<ParamField path="organizationId" param-type="string" required={true}>
+  The unique id of the organization
+</ParamField>
+
+<ParamField query="from" param-type="string" required={true}>
+  Inclusive start timestamp. Cannot be older than two years from now.
+</ParamField>
+
+<ParamField query="to" param-type="string" required={true}>
+  Exclusive end timestamp.
+</ParamField>
+
+<ParamField query="interval" param-type="string" enum="day,week,month,year">
+  Calendar interval used to aggregate usage.
+</ParamField>
+
+**Responses**
+
+`200` AI usage, including empty periods in the requested range.
+
+<ResponseField name="from" field-type="string" required={true}>
+  Inclusive start of the queried range.
+</ResponseField>
+
+<ResponseField name="to" field-type="string" required={true}>
+  Exclusive end of the queried range, capped at the current instant.
+</ResponseField>
+
+<ResponseField name="periods" field-type="array" required={true}>
+  Chronological calendar buckets. Edge buckets include only the requested dates.
+
+  <Expandable title="Array Items">
+    <ResponseField name="date" field-type="string" required={true}>
+      UTC date at the start of this calendar bucket.
+    </ResponseField>
+
+    <ResponseField name="credits" field-type="number" required={true}>
+      Total credits used in this bucket.
+    </ResponseField>
+
+    <ResponseField name="features" field-type="array" required={true}>
+      <Expandable title="Array Items">
+        <ResponseField name="feature" field-type="string" required={true}>
+          AI feature category with recorded credit usage.
+        </ResponseField>
+
+        <ResponseField name="credits" field-type="number" required={true} />
+
+        <ResponseField name="creditsPercent" field-type="number" required={true}>
+          Percentage of this bucket's total credits (0 to 100).
+        </ResponseField>
+      </Expandable>
+    </ResponseField>
+  </Expandable>
+</ResponseField>

@@ -1,0 +1,251 @@
+---
+title: Configuration d’un backend personnalisé
+description: Configurez un écran de connexion personnalisé pour les visiteurs de votre documentation
+metaTitle: Configuration d’un backend personnalisé | GitBook Documentation
+ogImage: https://test-dai.imgix.net/org-4afef969-21f9-40f3-b5b8-b06c8b6cf68f/doc-22a3b060-9539-4176-97e4-49120e02f5d1/0a5a1a9630785855-organizations-d8f63b60-89ae-11e7-8574-5927d48c4877-sites-site_p4Xo4-socialprevie.jpg?fm=auto&auto=compress%2Cformat
+---
+
+<Callout kind="alert">
+  Ce guide vous accompagne dans la configuration d’un écran de connexion protégé pour votre documentation. Avant de suivre ce guide, assurez-vous d’abord d’avoir effectué le processus de [activation de l’accès authentifié](/fr/docs/publier/site-audience/authenticated-access/enabling-authenticated-access).
+</Callout>
+
+Ce guide vous accompagne dans la configuration d’un écran de connexion protégé pour votre site de documentation GitBook à l’aide de votre propre **personnalisé** backend d’authentification.
+
+<Callout kind="info">
+  Si vous utilisez l’un des fournisseurs d’authentification que nous prenons en charge ou si vous avez un [OpenID Connect](https://auth0.com/docs/authenticate/protocols/openid-connect-protocol) (OIDC) compatible backend, consultez nos guides d’intégration pour une configuration plus simple :<br /><br />[Auth0](/fr/docs/publier/site-audience/authenticated-access/setting-up-auth0) | [Azure AD](/fr/docs/publier/site-audience/authenticated-access/setting-up-azure-ad) | [Okta](/fr/docs/publier/site-audience/authenticated-access/setting-up-okta) | [AWS Cognito](/fr/docs/publier/site-audience/authenticated-access/setting-up-aws-cognito) | [OIDC](/fr/docs/publier/site-audience/authenticated-access/setting-up-oidc)
+</Callout>
+
+### Vue d’ensemble
+
+Pour configurer un système d’authentification personnalisé pour votre site GitBook, suivez ces étapes clés :
+
+<Steps>
+  <Step title="Step">
+    [**Créer un backend personnalisé pour authentifier vos utilisateurs**](#id-1.-create-a-custom-backend-to-authenticate-your-users)
+
+    Implémentez un backend qui invite les utilisateurs à se connecter et les authentifie.
+  </Step>
+
+  <Step title="Step">
+    [**Signer et transmettre un jeton JWT à GitBook**](#id-2.-sign-and-pass-a-jwt-token-to-gitbook)
+
+    Créez un jeton JWT et signez-le avec la clé privée de votre site.
+  </Step>
+
+  <Step title="Step">
+    [**Configurer une URL de connexion**](#id-3.-configure-a-login-url)
+
+    Configurez une URL à utiliser lorsqu’un visiteur non authentifié accède à votre site.
+  </Step>
+
+  <Step title="Step">
+    [<strong>Configurer un accès authentifié multi-tenant (facultatif)</strong>](#id-4.-set-up-multi-tenant-authenticated-access)
+
+    Configurez votre backend pour gérer l’authentification sur plusieurs sites GitBook.
+  </Step>
+
+  <Step title="Step">
+    [<strong>Configurer votre backend pour le contenu adaptatif (facultatif)</strong>](#id-5.-configure-your-backend-for-adaptive-content)
+
+    Configurez votre backend pour fonctionner avec le contenu adaptatif dans GitBook.
+  </Step>
+</Steps>
+
+### 1\. Créer un backend personnalisé pour authentifier vos utilisateurs
+
+Pour commencer à authentifier les utilisateurs avant qu’ils puissent visiter votre documentation, vous devrez mettre en place un serveur capable de gérer la connexion et l’authentification des utilisateurs.
+
+Votre backend doit :
+
+- Inviter les utilisateurs à se connecter à l’aide de votre méthode d’authentification préférée.
+- Valider les identifiants des utilisateurs et les authentifier.
+- Générer et signer un <strong>jeton Web JSON (JWT)</strong> après une authentification réussie.
+- Rediriger les utilisateurs vers GitBook avec le JWT inclus dans l’URL.
+
+### 2\. Signer et transmettre un jeton JWT à GitBook
+
+Une fois que votre backend authentifie un utilisateur, il doit **générer un JWT** et **le transmettre à GitBook** lors de **la redirection** vers votre site. Le jeton doit être signé à l’aide de la **clé privée** fournie dans les paramètres d’audience de votre site après [activation de l’accès authentifié](/fr/docs/publier/site-audience/authenticated-access/enabling-authenticated-access#enable-authenticated-access).
+
+L’exemple suivant devrait montrer à quoi pourrait ressembler un gestionnaire de requêtes de connexion dans votre backend personnalisé :
+
+```typescript title="index.ts"
+import { Request, Response } from 'express';
+import * as jose from 'jose';
+
+import { getUserInfo } from '../services/user-info-service';
+import { getFeatureFlags } from '../services/feature-flags-service';
+
+const GITBOOK_VISITOR_SIGNING_KEY = process.env.GITBOOK_VISITOR_SIGNING_KEY!;
+const GITBOOK_DOCS_URL = 'https://mycompany.gitbook.io/myspace';
+
+export async function handleAppLoginRequest(req: Request, res: Response) {
+    // Votre logique métier pour gérer la requête de connexion
+    // Par exemple, vérifier les identifiants et authentifier l’utilisateur
+    //
+    // p. ex. :
+    // const loggedInUser = await authenticateUser(req.body.username, req.body.password);
+    
+    // Générer un JWT signé
+    const gitbookVisitorJWT = await new jose.SignJWT({})
+        .setProtectedHeader({ alg: 'HS256' })
+        .setIssuedAt()
+        .setExpirationTime('2h') // Expiration arbitraire de 2 heures
+        .sign(new TextEncoder().encode(GITBOOK_VISITOR_SIGNING_KEY));
+    
+    // Rediriger l’utilisateur vers GitBook avec le jeton JWT dans l’URL
+    const redirectURL = `${GITBOOK_DOCS_URL}/?jwt_token=${gitbookVisitorJWT}`;
+    res.redirect(redirectURL);
+}
+```
+
+#### Déconnecter les visiteurs de leur session GitBook
+
+Pour déconnecter un visiteur de sa session GitBook, redirigez-le vers l’URL de votre site avec `~gitbook/auth/logout` ajouté :
+
+`https://mycompany.gitbook.io/myspace/~gitbook/auth/logout`
+
+Ce point de terminaison ne déconnecte le visiteur que de GitBook. Si vous souhaitez également le déconnecter de votre propre fournisseur d’identité, gérez cela séparément dans votre propre flux de déconnexion.
+
+### 3\. Configurer une URL de connexion
+
+L’URL de connexion est utilisée lorsqu’un visiteur non authentifié tente d’accéder à votre site protégé. GitBook le redirigera ensuite vers cette URL.
+
+Cette URL doit pointer vers un gestionnaire dans votre backend personnalisé, où vous pouvez lui demander de se connecter, l’authentifier, puis le rediriger vers votre site avec le JWT inclus dans l’URL.
+
+Par exemple, si votre écran de connexion se trouve à `https://example.com/login`, vous devez inclure cette valeur comme URL de connexion.
+
+Vous pouvez configurer cette URL de connexion dans les paramètres d’audience de votre site, sous l’onglet « Accès authentifié ».
+
+<Image src="https://test-dai.imgix.net/org-4afef969-21f9-40f3-b5b8-b06c8b6cf68f/doc-22a3b060-9539-4176-97e4-49120e02f5d1/c618973167d3fb29-spaces-NkEGS7hzeqa35sMXQZ4X-uploads-B48PEdMz1tCDf0Q0lo4d-Screenshot-2025-03-25-a.png?fm=auto&auto=compress%2Cformat" alt="A GitBook screenshot showing where to configure a login URL" caption="Configurer une URL de connexion" />
+
+#### Utiliser le point de terminaison de connexion de GitBook
+
+Si vous souhaitez un lien de connexion sur votre site publié, créez un lien vers `<publishedSiteURL>/~gitbook/auth/login`.
+
+Ce point de terminaison redirige le visiteur vers le backend d’authentification configuré pour le site. Il ajoute également un paramètre de `location` de requête qui correspond à la page de départ.
+
+Cela est utile pour les liens d’en-tête et autres points d’entrée où vous souhaitez renvoyer les visiteurs vers la même page après la connexion.
+
+Lors de la redirection vers l’URL de connexion, GitBook inclut un `location` paramètre de requête vers l’URL de connexion que vous pouvez utiliser dans votre gestionnaire pour rediriger l’utilisateur vers l’emplacement d’origine de l’utilisateur :
+
+```javascript
+const gitbookVisitorJWT = await new jose.SignJWT({})
+    .setProtectedHeader({ alg: 'HS256' })
+    .setIssuedAt()
+    .setExpirationTime('2h') // Expiration arbitraire de 2 heures
+    .sign(new TextEncoder().encode(GITBOOK_VISITOR_SIGNING_KEY));
+    
+// Rediriger vers l’URL d’origine de la documentation GitBook avec le JWT inclus en tant que paramètre de requête jwt_token
+// Si un emplacement est fourni, l’utilisateur sera redirigé vers sa destination d’origine
+const redirectURL = `${GITBOOK_DOCS_URL}/${req.query.location || ''}?jwt_token=${gitbookVisitorJWT}`;
+res.redirect(redirectURL);
+```
+
+<Callout kind="alert">
+  Parce que GitBook s’appuie sur le `location` paramètre de recherche - vous ne pouvez pas l’utiliser dans votre URL de connexion. Par exemple, `https://auth.gitbook.com/?location=something` n’est pas une URL de connexion valide.
+</Callout>
+
+#### Utiliser le point de terminaison de déconnexion de GitBook
+
+Si vous souhaitez un lien de déconnexion sur votre site publié, créez un lien vers `<publishedSiteURL>/~gitbook/auth/logout`.
+
+Ce point de terminaison déconnecte le visiteur de sa session GitBook.
+
+### 4\. Configurer un accès authentifié multi-tenant (facultatif)
+
+Si vous utilisez GitBook comme plateforme pour fournir du contenu à vos différents clients, vous devez probablement configurer un accès authentifié multi-tenant. Votre backend d’authentification doit être responsable de la gestion de l’authentification sur plusieurs sites différents. C’est possible dans GitBook avec quelques ajustements mineurs du code de votre backend d’authentification personnalisé.
+
+#### Ajouter tous les tenants à votre serveur d’authentification
+
+Votre backend d’authentification devra connaître les clés de signature JWT et les URL de tous les sites GitBook qu’il est censé gérer. Si vous avez deux sites dans votre organisation pour le client A et le client B, vous pouvez imaginer votre code d’authentification stockant une telle correspondance :
+
+```typescript
+const CUSTOMER_A = {
+  jwtSigningKey: 'aaa-aaa-aaa-aaa',
+  url: 'https://mycompany.gitbook.io/customer-a'
+};
+
+const CUSTOMER_B = {
+  jwtSigningKey: 'bbb-bbb-bbb-bbb',
+  url: 'https://mycompany.gitbook.io/customer-b'
+};
+```
+
+#### Donner un contexte supplémentaire à votre serveur d’authentification
+
+Lorsqu’il n’est pas en mesure d’authentifier la requête d’un utilisateur, GitBook le redirige vers l’URL de connexion. Cette URL pointe vers votre backend d’authentification, qui est responsable d’authentifier l’utilisateur et de le rediriger vers le contenu demandé.
+
+Pour prendre en charge plusieurs tenants, votre backend d’authentification doit savoir à quel site GitBook l’utilisateur est censé accéder. Cette information peut être transmise dans l’URL de connexion.
+
+Ainsi, par exemple, vous pourriez configurer les URL de connexion de chaque site comme suit :
+
+Votre backend d’authentification peut alors vérifier ces informations et gérer la redirection vers le bon site en conséquence :
+
+```javascript
+const customerInfo = req.query.site === 'customer-a' ? CUSTOMER_A : CUSTOMER_B;
+  
+const gitbookVisitorJWT = await new jose.SignJWT({})
+    .setProtectedHeader({ alg: 'HS256' })
+    .setIssuedAt()
+    .setExpirationTime('2h') // Expiration arbitraire de 2 heures
+    .sign(new TextEncoder().encode(customerInfo.jwtSigningKey));
+    
+// Rediriger vers l’URL d’origine de la documentation GitBook avec le JWT inclus en tant que paramètre de requête jwt_token
+// Si un emplacement est fourni, l’utilisateur sera redirigé vers sa destination d’origine
+const redirectURL = `${customerInfo.url}/${req.query.location || ''}?jwt_token=${gitbookVisitorJWT}`;
+res.redirect(redirectURL);
+```
+
+### 5\. Configurer votre backend pour le contenu adaptatif (facultatif)
+
+Pour tirer parti de la fonctionnalité de contenu adaptatif dans votre configuration d’accès authentifié, vous pouvez inclure des attributs utilisateur supplémentaires (claims) dans la charge utile du JWT généré par votre backend personnalisé et les inclure dans l’URL lors de la redirection de l’utilisateur vers le site.
+
+Ces claims, lorsqu’ils sont inclus dans le JWT, sont utilisés par GitBook pour [adapter le contenu](/fr/docs/publier/adaptive-content/adapting-your-content) dynamiquement pour les visiteurs de votre site.
+
+Pour tout assembler, l’exemple de code suivant montre comment vous pourriez inclure ces claims dans le JWT, qui pourra ensuite être utilisé par GitBook pour adapter le contenu à vos visiteurs :
+
+```typescript title="index.ts"
+import { Request, Response } from 'express';
+import * as jose from 'jose';
+
+import { getUserInfo } from '../services/user-info-service';
+import { getFeatureFlags } from '../services/feature-flags-service';
+
+const GITBOOK_VISITOR_SIGNING_KEY = process.env.GITBOOK_VISITOR_SIGNING_KEY!;
+const GITBOOK_DOCS_URL = 'https://mycompany.gitbook.io/myspace';
+
+export async function handleAppLoginRequest(req: Request, res: Response) {
+    // Votre logique métier pour gérer la requête de connexion
+    // Par exemple, vérifier les identifiants et authentifier l’utilisateur
+    //
+    // p. ex. :
+    // const loggedInUser = await authenticateUser(req.body.username, req.body.password);
+    
+    // Pour les besoins de cet exemple, supposons un objet utilisateur connecté
+    const loggedInUser = { id: '12345' }; // Remplacez par la logique d’authentification réelle
+
+    // Récupérer les informations de l’utilisateur à transmettre à GitBook
+    const userInfo = await getUserInfo(loggedInUser.id);
+    
+    // Générer un JWT signé et inclure les attributs utilisateur comme claims
+    const gitbookVisitorClaims = {
+        firstName: userInfo.firstName,
+        lastName: userInfo.lastName,
+        isBetaUser: userInfo.isBetaUser,
+        products: userInfo.products.map((product) => product.name),
+        featureFlags: await getFeatureFlags({ userId: loggedInUser.id })
+    };
+    
+    const gitbookVisitorJWT = await new jose.SignJWT(gitbookVisitorClaims)
+        .setProtectedHeader({ alg: 'HS256' })
+        .setIssuedAt()
+        .setExpirationTime('2h') // Expiration arbitraire de 2 heures
+        .sign(new TextEncoder().encode(GITBOOK_VISITOR_SIGNING_KEY));
+    
+    // Rediriger l’utilisateur vers GitBook avec le jeton JWT dans l’URL
+    const redirectURL = `${GITBOOK_DOCS_URL}/?jwt_token=${gitbookVisitorJWT}`;
+    res.redirect(redirectURL);
+}
+```
+
+Après avoir configuré et défini les bons claims à envoyer à GitBook, rendez-vous dans «[Adapter votre contenu](/fr/docs/publier/adaptive-content/adapting-your-content)» pour continuer la configuration de votre site.

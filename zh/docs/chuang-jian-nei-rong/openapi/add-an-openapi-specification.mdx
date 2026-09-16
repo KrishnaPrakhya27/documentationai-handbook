@@ -1,0 +1,54 @@
+---
+title: 添加 OpenAPI 规范
+description: 了解如何在 GitBook 应用中或通过 CLI 添加和更新 OpenAPI 规范
+metaTitle: 添加 OpenAPI 规范 | GitBook Documentation
+ogImage: https://test-dai.imgix.net/org-4afef969-21f9-40f3-b5b8-b06c8b6cf68f/doc-22a3b060-9539-4176-97e4-49120e02f5d1/0a5a1a9630785855-organizations-d8f63b60-89ae-11e7-8574-5927d48c4877-sites-site_p4Xo4-socialprevie.jpg?fm=auto&auto=compress%2Cformat
+---
+
+如果你有一个 OpenAPI 规范，可以通过直接上传文件、链接到托管 URL，或者使用 [GitBook CLI](/en/docs/developers/integrations/reference).
+
+GitBook 支持 [Swagger 2.0](https://github.com/OAI/OpenAPI-Specification/blob/main/versions/2.0.md), [OpenAPI 3.0](https://github.com/OAI/OpenAPI-Specification/blob/main/versions/3.0.3.md)，以及 [OpenAPI 3.1](https://github.com/OAI/OpenAPI-Specification/blob/main/versions/3.1.1.md) 适用于文件上传、托管 URL 和 CLI 发布的规范。有关当前兼容性摘要，请参阅 [OpenAPI 兼容性](/zh/docs/chuang-jian-nei-rong/openapi#openapi-compatibility).
+
+<Image src="https://test-dai.imgix.net/org-4afef969-21f9-40f3-b5b8-b06c8b6cf68f/doc-22a3b060-9539-4176-97e4-49120e02f5d1/2fc277eeb719b403-spaces-NkEGS7hzeqa35sMXQZ4X-uploads-6pg8vIZeVQESjhTw5yI2-generate-api-docs-2x.png?fm=auto&auto=compress%2Cformat" alt="A GitBook screenshot showing the modal for generating API docs automatically" />
+
+### 如何添加规范
+
+1. 打开 **OpenAPI** 侧边栏中的部分
+2. 点击 **添加规范**
+3. 为你的规范命名。这有助于识别它，尤其是在你管理多个规范时
+4. 请选择以下之一：
+
+   - 上传文件（例如 *openapi.yaml*)
+   - 输入托管规范的 URL
+   - 使用 CLI 发布规范
+
+<Image src="https://test-dai.imgix.net/org-4afef969-21f9-40f3-b5b8-b06c8b6cf68f/doc-22a3b060-9539-4176-97e4-49120e02f5d1/fc85ba50453906b9-spaces-NkEGS7hzeqa35sMXQZ4X-uploads-pTRwMrbHyYlKZy07CsAp-api_spec_modal-2x.png?fm=auto&auto=compress%2Cformat" alt="A GitBook screenshot showing the Add an OpenAPI specification modal" caption="添加 OpenAPI 规范模态框。" />
+
+### 更新你的规范
+
+无论最初是如何添加的，你都可以随时使用 GitBook 界面或 CLI 更新你的 OpenAPI 规范。
+
+#### 在 GitBook 应用中
+
+在 OpenAPI 面板中：
+
+- 如果你的规范链接到 URL：
+
+  - GitBook 会自动检查更新 **每 6 小时**.
+  - 要立即获取更新，请点击 **检查更新**.
+- 如果你的规范是以文件形式上传的：
+
+  - 点击 **更新** 以上传新版本。
+- 你可以通过点击 **编辑** 面包屑操作菜单中的
+
+#### 使用 CLI
+
+使用相同的命令更新你的规范：
+
+```bash
+gitbook openapi publish --spec api-spec-name --organization organization_id <path-or-url>
+```
+
+你也可以使用 CLI 来 **检查更新** 通过在相同的 URL 上运行 publish 命令来
+
+阅读我们的 [与 CI/CD 集成](/zh/docs/chuang-jian-nei-rong/openapi/guides/support-for-ci-cd-with-api-blocks) 指南，了解如何自动化更新你的规范。

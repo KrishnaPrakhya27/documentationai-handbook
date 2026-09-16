@@ -1,0 +1,60 @@
+---
+title: 添加自定义代码示例
+description: 了解如何配置自定义代码示例，以便在 API 端点旁展示
+metaTitle: 添加自定义代码示例 | GitBook Documentation
+ogImage: https://test-dai.imgix.net/org-4afef969-21f9-40f3-b5b8-b06c8b6cf68f/doc-22a3b060-9539-4176-97e4-49120e02f5d1/0a5a1a9630785855-organizations-d8f63b60-89ae-11e7-8574-5927d48c4877-sites-site_p4Xo4-socialprevie.jpg?fm=auto&auto=compress%2Cformat
+---
+
+GitBook 可以自动为每个 API 操作生成通用代码示例。如果你更希望展示自定义或更详细的代码片段，请添加 `x-codeSamples` 到你的 OpenAPI 定义中。这样，你就可以控制端点的演示方式，并提供语言或 SDK 特定的示例。
+
+```yaml title="openapi.yaml"
+paths:
+  /users:
+    get:
+      summary: 检索用户
+      x-codeSamples:
+        - lang: JavaScript
+          label: Node SDK
+          source: |
+            import { createAPIClient } from 'my-api-sdk';
+
+            const client = createAPIClient({ apiKey: 'my-api-key' });
+            client.users.list().then(users => {
+              console.log(users);
+            });
+        - 语言：Java
+          标签：Java SDK
+          source: |
+            MyApiClient client = new MyApiClient("my-api-key");
+            List<User> users = client.getUsers();
+            System.out.println(users);
+```
+
+**关键点**
+
+- `x-codeSamples` 是一个代码示例对象数组。
+- 每个对象定义：
+
+  - `lang`：代码的语言（例如，JavaScript、Java）。
+  - `label`：代码块的简短标签。
+  - `source`：实际的代码片段。
+
+### 快速指南
+
+<Expandable title="如何从 Fern 添加自定义代码示例？">
+  在你的 OpenAPI 定义中使用 Fern 生成的 SDK 示例作为自定义代码示例。
+
+  本指南涵盖查找生成的示例、格式化 `x-codeSamples`，以及将它们添加到 API 操作中。
+</Expandable>
+
+<Expandable title="如何从 Stainless 添加自定义代码示例？">
+  在你的 OpenAPI 定义中使用 Stainless 生成的 SDK 示例作为自定义代码示例。
+
+  本指南涵盖查找生成的示例、格式化 `x-codeSamples`，以及将它们添加到 API 操作中。
+</Expandable>
+
+<Expandable title="如何从 HeyAPI 添加自定义代码示例？">
+  在你的 OpenAPI 定义中使用 HeyAPI 生成的 SDK 示例作为自定义代码示例。
+
+  本指南涵盖查找生成的示例、格式化 `x-codeSamples`，以及将它们添加到 API 操作中。
+</Expandable>

@@ -1,0 +1,46 @@
+---
+title: GitHub & GitLab Sync
+description: GitBookの双方向連携で、GitBookのドキュメントをGitHubまたはGitLabと同期します
+metaTitle: GitHub & GitLab Sync | GitBook Documentation
+ogImage: https://test-dai.imgix.net/org-4afef969-21f9-40f3-b5b8-b06c8b6cf68f/doc-22a3b060-9539-4176-97e4-49120e02f5d1/0a5a1a9630785855-organizations-d8f63b60-89ae-11e7-8574-5927d48c4877-sites-site_p4Xo4-socialprevie.jpg?fm=auto&auto=compress%2Cformat
+---
+
+<Image src="https://test-dai.imgix.net/org-4afef969-21f9-40f3-b5b8-b06c8b6cf68f/doc-22a3b060-9539-4176-97e4-49120e02f5d1/7d07647a983c5d64-spaces-NkEGS7hzeqa35sMXQZ4X-uploads-dfcOvA0AfLVpJN5AGk3M-Site-wide-Git-Sync.png?fm=auto&auto=compress%2Cformat" alt="A GitBook screenshot showing the Git Sync setup" caption="GitBook のドキュメント用に Git Sync をセットアップします。" />
+
+### 概要
+
+Git Sync を使うと、技術チームは GitHub または GitLab のリポジトリを GitBook と同期し、Markdown ファイルのリポジトリを美しく使いやすいドキュメントに変換できます。GitHub または GitLab 上のコードベースとコンテンツを同期したまま、GitBook の強力なエディタで直接編集できます。
+
+Git Sync は双方向なので、GitBook のエディタで直接行った変更は自動的に同期され、GitHub または GitLab で行われたコミットも同様に同期されます。これにより、開発者は GitHub または GitLab から直接コミットでき、テクニカルライター、インストラクショナルデザイナー、プロダクトマネージャーは GitBook で直接変更を編集し、議論し、フィードバックできます。
+
+### Git Sync をセットアップ
+
+<Columns cols={2}>
+  <Card title="GitHub Sync をセットアップ" href="/ja/docs/docs-as-code/git-sync/enabling-github-sync" icon="github">
+    GitBook 用の GitHub 連携を設定し、認証します。
+  </Card>
+
+  <Card title="GitLab Sync をセットアップ" href="/ja/docs/docs-as-code/git-sync/enabling-gitlab-sync" icon="gitlab">
+    GitBook 用の GitLab 連携を設定し、認証します。
+  </Card>
+</Columns>
+
+<Callout kind="info">
+  Git Sync はエンタープライズのお客様向けに IP 許可リストをサポートしています。GitHub、GitLab、または社内ネットワークが承認済み IP からのトラフィックのみを受け入れる場合は、連携を有効にする前に、これらの Git Sync の送信 IP を許可リストに追加してください:
+
+  - `34.136.22.210`
+  - `34.29.189.57`
+  - `35.223.181.150`
+  - `34.72.115.112`
+  - `136.116.236.109`
+</Callout>
+
+<Callout kind="info">
+  のみ [管理者と作成者](/ja/docs/gong-tong-zuo-ye/member-management/roles) が Git Sync を有効化および設定できます。
+</Callout>
+
+### AI エージェントとの作業
+
+Git Sync を使ってローカルでドキュメント作業を行うときは、GitBook の [skill.md ファイル](/ja/docs/docs-as-code/ai-coding-assistants-and-skillmd) を使って、GitBook のブロック、機能、ベストプラクティスに関するコンテキストを AI コーディングアシスタントに提供できます。
+
+に移動します [Agent skills](/ja/docs/docs-as-code/ai-coding-assistants-and-skillmd) 詳細については。

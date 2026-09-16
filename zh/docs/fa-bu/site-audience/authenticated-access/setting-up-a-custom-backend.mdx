@@ -1,0 +1,251 @@
+---
+title: 设置自定义后端
+description: 为你的文档访客设置自定义登录界面
+metaTitle: 设置自定义后端 | GitBook Documentation
+ogImage: https://test-dai.imgix.net/org-4afef969-21f9-40f3-b5b8-b06c8b6cf68f/doc-22a3b060-9539-4176-97e4-49120e02f5d1/0a5a1a9630785855-organizations-d8f63b60-89ae-11e7-8574-5927d48c4877-sites-site_p4Xo4-socialprevie.jpg?fm=auto&auto=compress%2Cformat
+---
+
+<Callout kind="alert">
+  本指南将带你完成为文档设置受保护登录页面的过程。在阅读本指南之前，请确保你已经先完成了以下过程： [启用已认证访问](/zh/docs/fa-bu/site-audience/authenticated-access/enabling-authenticated-access).
+</Callout>
+
+本指南将带你使用你自己的 **自定义** 认证后端为你的 GitBook 文档站点设置受保护登录页面。
+
+<Callout kind="info">
+  如果你使用的是我们支持的身份验证提供商之一，或者你有一个 [OpenID Connect](https://auth0.com/docs/authenticate/protocols/openid-connect-protocol) （OIDC）兼容的后端，请查看我们的集成指南，以获得更简化的设置：<br /><br />[Auth0](/zh/docs/fa-bu/site-audience/authenticated-access/setting-up-auth0) | [Azure AD](/zh/docs/fa-bu/site-audience/authenticated-access/setting-up-azure-ad) | [Okta](/zh/docs/fa-bu/site-audience/authenticated-access/setting-up-okta) | [AWS Cognito](/zh/docs/fa-bu/site-audience/authenticated-access/setting-up-aws-cognito) | [OIDC](/zh/docs/fa-bu/site-audience/authenticated-access/setting-up-oidc)
+</Callout>
+
+### 概述
+
+要为你的 GitBook 站点设置自定义认证系统，请遵循以下关键步骤：
+
+<Steps>
+  <Step title="Step">
+    [**创建一个自定义后端来验证你的用户**](#id-1.-create-a-custom-backend-to-authenticate-your-users)
+
+    实现一个后端，提示用户登录并对其进行认证。
+  </Step>
+
+  <Step title="Step">
+    [**签名并将一个 JWT 令牌传递给 GitBook**](#id-2.-sign-and-pass-a-jwt-token-to-gitbook)
+
+    创建一个 JWT 令牌，并使用你站点的私钥对其签名。
+  </Step>
+
+  <Step title="Step">
+    [**配置登录 URL**](#id-3.-configure-a-login-url)
+
+    配置一个 URL，当未认证访客访问你的站点时将使用该 URL。
+  </Step>
+
+  <Step title="Step">
+    [<strong>设置多租户已认证访问（可选）</strong>](#id-4.-set-up-multi-tenant-authenticated-access)
+
+    配置你的后端以处理跨多个 GitBook 站点的认证。
+  </Step>
+
+  <Step title="Step">
+    [<strong>为自适应内容配置你的后端（可选）</strong>](#id-5.-configure-your-backend-for-adaptive-content)
+
+    配置你的后端以便与 GitBook 中的自适应内容配合使用。
+  </Step>
+</Steps>
+
+### 1\. 创建一个自定义后端来验证你的用户
+
+为了在访客访问你的文档之前开始对其进行认证，你需要设置一个能够处理用户登录和认证的服务器。
+
+你的后端应该：
+
+- 使用你首选的身份验证方法提示用户登录。
+- 验证用户凭据并对其进行认证。
+- 生成并签名一个 <strong>JSON Web Token（JWT）</strong> ，在认证成功后。
+- 使用 URL 中包含的 JWT 将用户重定向到 GitBook。
+
+### 2\. 签名并将一个 JWT 令牌传递给 GitBook
+
+一旦你的后端认证了用户，它必须 **生成一个 JWT** 并 **将其传递给 GitBook** 当 **重定向** 他们到你的站点时。该令牌应使用 **私钥** 在你站点的受众设置中提供的 [启用已认证访问](/zh/docs/fa-bu/site-audience/authenticated-access/enabling-authenticated-access#enable-authenticated-access).
+
+下面的示例应展示你的自定义后端中的登录请求处理程序可能是什么样子：
+
+```typescript title="index.ts"
+import { Request, Response } from 'express';
+import * as jose from 'jose';
+
+import { getUserInfo } from '../services/user-info-service';
+import { getFeatureFlags } from '../services/feature-flags-service';
+
+const GITBOOK_VISITOR_SIGNING_KEY = process.env.GITBOOK_VISITOR_SIGNING_KEY!;
+const GITBOOK_DOCS_URL = 'https://mycompany.gitbook.io/myspace';
+
+export async function handleAppLoginRequest(req: Request, res: Response) {
+    // 你的业务逻辑，用于处理登录请求
+    // 例如，检查凭据并验证用户
+    //
+    // 例如：
+    // const loggedInUser = await authenticateUser(req.body.username, req.body.password);
+    
+    // 生成一个已签名的 JWT
+    const gitbookVisitorJWT = await new jose.SignJWT({})
+        .setProtectedHeader({ alg: 'HS256' })
+        .setIssuedAt()
+        .setExpirationTime('2h') // 任意的 2 小时过期时间
+        .sign(new TextEncoder().encode(GITBOOK_VISITOR_SIGNING_KEY));
+    
+    // 使用 URL 中的 JWT 令牌将用户重定向到 GitBook
+    const redirectURL = `${GITBOOK_DOCS_URL}/?jwt_token=${gitbookVisitorJWT}`;
+    res.redirect(redirectURL);
+}
+```
+
+#### 将访客从其 GitBook 会话中注销
+
+要让访客退出其 GitBook 会话，请将其重定向到你的站点 URL，并在后面追加 `~gitbook/auth/logout` ：
+
+`https://mycompany.gitbook.io/myspace/~gitbook/auth/logout`
+
+此端点只会让访客退出 GitBook。如果你还想让他们退出你自己的身份提供商，请在你自己的登出流程中单独处理。
+
+### 3\. 配置登录 URL
+
+当未认证访客尝试访问你的受保护站点时，会使用登录 URL。然后 GitBook 会将他们重定向到该 URL。
+
+该 URL 应指向你自定义后端中的一个处理程序，在那里你可以提示他们登录、进行认证，然后将他们重定向回带有 URL 中 JWT 的站点。
+
+例如，如果你的登录页面位于 `https://example.com/login`，你应将此值作为登录 URL。
+
+你可以在站点受众设置中的“已认证访问”选项卡下配置此登录 URL。
+
+<Image src="https://test-dai.imgix.net/org-4afef969-21f9-40f3-b5b8-b06c8b6cf68f/doc-22a3b060-9539-4176-97e4-49120e02f5d1/c618973167d3fb29-spaces-NkEGS7hzeqa35sMXQZ4X-uploads-B48PEdMz1tCDf0Q0lo4d-Screenshot-2025-03-25-a.png?fm=auto&auto=compress%2Cformat" alt="A GitBook screenshot showing where to configure a login URL" caption="配置登录 URL" />
+
+#### 使用 GitBook 的登录端点
+
+如果你想在已发布的站点上提供一个登录链接，请链接到 `<publishedSiteURL>/~gitbook/auth/login`.
+
+此端点会将访客重定向到为该站点配置的认证后端。它还会添加一个 `location` 查询参数，该参数与他们开始访问的页面相匹配。
+
+这对于页眉链接和其他入口点很有用，你希望访客登录后返回同一页面。
+
+当重定向到登录 URL 时，GitBook 会包含一个 `location` 查询参数添加到登录 URL 中，你可以在处理程序中利用它将用户重定向回用户的原始位置：
+
+```javascript
+const gitbookVisitorJWT = await new jose.SignJWT({})
+    .setProtectedHeader({ alg: 'HS256' })
+    .setIssuedAt()
+    .setExpirationTime('2h') // 任意的 2 小时过期时间
+    .sign(new TextEncoder().encode(GITBOOK_VISITOR_SIGNING_KEY));
+    
+// 将重定向到原始 GitBook 文档 URL，并将 JWT 作为 jwt_token 查询参数包含其中
+// 如果提供了 location，用户将被重定向回其原始目标
+const redirectURL = `${GITBOOK_DOCS_URL}/${req.query.location || ''}?jwt_token=${gitbookVisitorJWT}`;
+res.redirect(redirectURL);
+```
+
+<Callout kind="alert">
+  因为 GitBook 依赖于 `location` search 参数——你不能在登录 URL 中使用它。例如， `https://auth.gitbook.com/?location=something` 不是有效的登录 URL。
+</Callout>
+
+#### 使用 GitBook 的登出端点
+
+如果你想在已发布的站点上提供一个登出链接，请链接到 `<publishedSiteURL>/~gitbook/auth/logout`.
+
+此端点会将访客从其 GitBook 会话中注销。
+
+### 4\. 设置多租户已认证访问（可选）
+
+如果你将 GitBook 作为一个平台向不同客户提供内容，那么你很可能需要设置多租户已认证访问。你的认证后端需要负责处理跨多个不同站点的认证。通过对自定义认证后端代码进行一些小调整，这在 GitBook 中是可行的。
+
+#### 将所有租户添加到你的认证服务器
+
+你的认证后端需要知道它预计要处理的所有 GitBook 站点的 JWT 签名密钥和 URL。假设你所在组织中有两个站点，分别面向 Customer A 和 Customer B，你可以想象你的认证代码会存储这样的映射：
+
+```typescript
+const CUSTOMER_A = {
+  jwtSigningKey: 'aaa-aaa-aaa-aaa',
+  url: 'https://mycompany.gitbook.io/customer-a'
+};
+
+const CUSTOMER_B = {
+  jwtSigningKey: 'bbb-bbb-bbb-bbb',
+  url: 'https://mycompany.gitbook.io/customer-b'
+};
+```
+
+#### 为你的认证服务器提供额外上下文
+
+当 GitBook 无法认证用户的请求时，它会将他们重定向到登录 URL。该 URL 指向你的认证后端，负责认证用户并将他们重定向回所请求的内容。
+
+要支持多个租户，你的认证后端需要知道用户要访问的是哪个 GitBook 站点。此信息可以通过登录 URL 传递。
+
+例如，你可以按如下方式为每个站点设置登录 URL：
+
+然后你的认证后端可以检查这些信息，并相应地处理重定向到正确站点：
+
+```javascript
+const customerInfo = req.query.site === 'customer-a' ? CUSTOMER_A : CUSTOMER_B;
+  
+const gitbookVisitorJWT = await new jose.SignJWT({})
+    .setProtectedHeader({ alg: 'HS256' })
+    .setIssuedAt()
+    .setExpirationTime('2h') // 任意的 2 小时过期时间
+    .sign(new TextEncoder().encode(customerInfo.jwtSigningKey));
+    
+// 将重定向到原始 GitBook 文档 URL，并将 JWT 作为 jwt_token 查询参数包含其中
+// 如果提供了 location，用户将被重定向回其原始目标
+const redirectURL = `${customerInfo.url}/${req.query.location || ''}?jwt_token=${gitbookVisitorJWT}`;
+res.redirect(redirectURL);
+```
+
+### 5\. 为自适应内容配置你的后端（可选）
+
+要在你的已认证访问设置中利用自适应内容功能，你可以在自定义后端生成的 JWT 负载中包含额外的用户属性（声明），并在将用户重定向到站点时将其包含在 URL 中。
+
+当这些声明包含在 JWT 中时，GitBook 会使用它们来 [自适应内容](/zh/docs/fa-bu/adaptive-content/adapting-your-content) 为你的站点访客动态调整。
+
+综合起来，下面的代码示例演示了你可以如何在 JWT 中包含这些声明，之后 GitBook 可以使用它们为你的访客调整内容：
+
+```typescript title="index.ts"
+import { Request, Response } from 'express';
+import * as jose from 'jose';
+
+import { getUserInfo } from '../services/user-info-service';
+import { getFeatureFlags } from '../services/feature-flags-service';
+
+const GITBOOK_VISITOR_SIGNING_KEY = process.env.GITBOOK_VISITOR_SIGNING_KEY!;
+const GITBOOK_DOCS_URL = 'https://mycompany.gitbook.io/myspace';
+
+export async function handleAppLoginRequest(req: Request, res: Response) {
+    // 你的业务逻辑，用于处理登录请求
+    // 例如，检查凭据并验证用户
+    //
+    // 例如：
+    // const loggedInUser = await authenticateUser(req.body.username, req.body.password);
+    
+    // 为本示例起见，假设有一个已登录用户对象
+    const loggedInUser = { id: '12345' }; // 用实际认证逻辑替换
+
+    // 检索要传递给 GitBook 的用户信息
+    const userInfo = await getUserInfo(loggedInUser.id);
+    
+    // 生成一个已签名的 JWT，并将用户属性作为声明包含其中
+    const gitbookVisitorClaims = {
+        firstName: userInfo.firstName,
+        lastName: userInfo.lastName,
+        isBetaUser: userInfo.isBetaUser,
+        products: userInfo.products.map((product) => product.name),
+        featureFlags: await getFeatureFlags({ userId: loggedInUser.id })
+    };
+    
+    const gitbookVisitorJWT = await new jose.SignJWT(gitbookVisitorClaims)
+        .setProtectedHeader({ alg: 'HS256' })
+        .setIssuedAt()
+        .setExpirationTime('2h') // 任意的 2 小时过期时间
+        .sign(new TextEncoder().encode(GITBOOK_VISITOR_SIGNING_KEY));
+    
+    // 使用 URL 中的 JWT 令牌将用户重定向到 GitBook
+    const redirectURL = `${GITBOOK_DOCS_URL}/?jwt_token=${gitbookVisitorJWT}`;
+    res.redirect(redirectURL);
+}
+```
+
+在完成设置并配置要发送给 GitBook 的正确声明后，前往“[自适应你的内容](/zh/docs/fa-bu/adaptive-content/adapting-your-content)”继续配置你的站点。

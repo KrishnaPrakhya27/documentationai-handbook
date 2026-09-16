@@ -1,0 +1,284 @@
+---
+title: React
+description: Utilisez des composants React préconstruits pour ajouter Docs Embed à votre application React
+metaTitle: React | GitBook Documentation
+ogImage: https://test-dai.imgix.net/org-4afef969-21f9-40f3-b5b8-b06c8b6cf68f/doc-22a3b060-9539-4176-97e4-49120e02f5d1/0a5a1a9630785855-organizations-d8f63b60-89ae-11e7-8574-5927d48c4877-sites-site_p4Xo4-socialprevie.jpg?fm=auto&auto=compress%2Cformat
+---
+
+Pour les projets React, GitBook fournit des composants préconstruits qui rendent l’intégration de votre documentation simple et idiomatique. Les composants gèrent automatiquement l’état, le contexte et le cycle de vie.
+
+## Étapes
+
+<Steps>
+  <Step title="Installez le package">
+    Ajoutez `@gitbook/embed` à votre projet React :
+
+    ```bash
+    npm install @gitbook/embed
+    ```
+
+    Pour la référence complète de l’API et le code स्रोत, consultez le [`@gitbook/embed` package sur GitHub](https://github.com/GitbookIO/gitbook/tree/main/packages/embed).
+  </Step>
+
+  <Step title="Importez les composants React">
+    Importez `GitBookProvider` et `GitBookFrame` composants :
+
+    ```jsx
+    import {
+      GitBookProvider,
+      GitBookFrame,
+    } from "@gitbook/embed/react";
+    ```
+  </Step>
+
+  <Step title="Encapsulez votre application avec GitBookProvider">
+    Ajoutez le provider à la racine de votre arbre de composants ou à l’endroit où vous avez besoin de l’intégration :
+
+    ```jsx
+    function App() {
+      return (
+        <GitBookProvider siteURL="https://docs.company.com">
+          <YourAppContent />
+        </GitBookProvider>
+      );
+    }
+    ```
+  </Step>
+
+  <Step title="Ajoutez le composant GitBookFrame">
+    Placez le composant frame à l’endroit où vous souhaitez voir apparaître l’intégration :
+
+    ```jsx
+    function App() {
+      return (
+        <GitBookProvider siteURL="https://docs.company.com">
+          <div className="app">
+            <YourAppContent />
+            <GitBookFrame
+              visitor={{
+                token: 'your-jwt-token', // Optionnel : pour Adaptive Content ou l’accès authentifié
+                unsignedClaims: { userId: '123' } // Optionnel : revendications personnalisées pour les expressions dynamiques
+              }}
+            />
+          </div>
+        </GitBookProvider>
+      );
+    }
+    ```
+
+    <Callout kind="info">
+      Si vous utilisez l’onglet Assistant, définissez `allow="clipboard-write"` sur l’iframe qui rend l’intégration. Les intégrations React laissent la configuration de l’iframe à votre application. L’implémentation autonome de la [balise Script](/fr/docs/publier/embedding/implementation/script) l’ajoute automatiquement.
+    </Callout>
+  </Step>
+
+  <Step title="Personnalisez l’intégration">
+    Passez des props de configuration au composant frame :
+
+    ```jsx
+    <GitBookProvider siteURL="https://docs.company.com">
+      <GitBookFrame
+        trademark={false}
+        tabs={['assistant', 'search', 'docs']}
+        colorScheme="dark"
+        greeting={{ title: 'Bienvenue !', subtitle: 'Comment puis-je vous aider ?' }}
+        assistantName="Support Copilot"
+        closeButton={true}
+        suggestions={['Qu’est-ce que GitBook ?', 'Comment puis-je commencer ?']}
+        actions={[
+          {
+            icon: 'circle-question',
+            label: 'Contacter le support',
+            onClick: () => window.open('https://support.example.com', '_blank')
+          }
+        ]}
+        tools={[/* ... */]}
+        visitor={{
+          token: 'your-jwt-token',
+          unsignedClaims: { userId: '123' }
+        }}
+      />
+    </GitBookProvider>
+    ```
+
+    Si vous omettez `colorScheme`, l’intégration suit le `color-scheme`CSS de l’iframe. Cela lui permet de correspondre automatiquement au thème de votre application.
+  </Step>
+
+  <Step title="Contrôlez l’intégration avec le hook useGitBook">
+    Utilisez le `useGitBook` hook pour interagir avec l’intégration par programmation :
+
+    ```jsx
+    import { useGitBook } from "@gitbook/embed/react";
+
+    function HelpButton() {
+      const gitbook = useGitBook();
+      const frameURL = gitbook.getFrameURL({ visitor: { token: '...' } });
+      
+      const handleNavigate = () => {
+        const iframe = document.createElement('iframe');
+        iframe.src = frameURL;
+        iframe.allow = 'clipboard-write';
+        const frame = gitbook.createFrame(iframe);
+        frame.navigateToPage('/getting-started');
+        frame.navigateToAssistant();
+        frame.postUserMessage('Comment puis-je commencer ?');
+      };
+
+      return <button onClick={handleNavigate}>Obtenir de l’aide</button>;
+    }
+    ```
+  </Step>
+
+  <Step title="Rendez l’intégration conditionnelle">
+    Affichez l’intégration uniquement lorsque c’est nécessaire :
+
+    ```jsx
+    function App() {
+      const [showEmbed, setShowEmbed] = useState(false);
+
+      return (
+        <GitBookProvider siteURL="https://docs.company.com">
+          <button onClick={() => setShowEmbed(true)}>Obtenir de l’aide</button>
+          {showEmbed && <GitBookFrame />}
+        </GitBookProvider>
+      );
+    }
+    ```
+  </Step>
+
+  <Step title="Utilisez avec Next.js ou le rendu côté serveur">
+    Importez dynamiquement les composants pour éviter les problèmes de SSR :
+
+    ```jsx
+    import dynamic from "next/dynamic";
+
+    const GitBookProvider = dynamic(
+      () => import("@gitbook/embed/react").then((mod) => mod.GitBookProvider),
+      { ssr: false }
+    );
+
+    const GitBookFrame = dynamic(
+      () => import("@gitbook/embed/react").then((mod) => mod.GitBookFrame),
+      { ssr: false }
+    );
+    ```
+  </Step>
+</Steps>
+
+## Props et configuration
+
+<strong>Props de GitBookProvider :</strong>
+
+| Prop | Type | Requis | Par défaut | Description |
+| --- | --- | --- | --- | --- |
+| `siteURL` | `string` | Oui | S/O | L’URL de votre site de documentation GitBook (par ex. : `https://docs.company.com`). |
+| `children` | `ReactNode` | Oui | S/O | Composants enfants à rendre à l’intérieur du provider. |
+
+<strong>Props de GitBookFrame :</strong>
+
+Toutes les options de configuration peuvent être passées comme props à `<GitBookFrame>`. Consultez la section Configuration ci-dessous pour connaître les options disponibles.
+
+| Prop | Type | Requis | Par défaut | Description |
+| --- | --- | --- | --- | --- |
+| `className` | `string` | Non | `null` | Nom de classe CSS à appliquer au conteneur de frame. |
+| `style` | `object` | Non | `{}` | Styles en ligne à appliquer au conteneur de frame. |
+| `colorScheme` | `'light' \| 'dark'` | Non | Hérite du CSS `color-scheme` | Remplace le schéma de couleurs de l’intégration. |
+| `assistantName` | `string` | Non | `null` | Remplace le nom de l’assistant affiché dans l’interface. |
+| `closeButton` | `boolean` | Non | `null` | Affiche un bouton de fermeture dans l’Assistant. |
+| `visitor` | `object` | Non | `{}` | Options d’accès authentifié (voir ci-dessous). |
+
+<strong>Hook useGitBook :</strong>
+
+Renvoie une `GitBookClient` instance avec les méthodes suivantes :
+
+- `getFrameURL(options?: { visitor?: {...}, colorScheme?: 'light' | 'dark' })` → `string` \- Obtenir l’URL de l’iframe
+- `createFrame(iframe: HTMLIFrameElement)` → `GitBookFrameClient` \- Créer un client de frame
+
+Le client de frame fournit :
+
+- `navigateToPage(path: string)` → `void`
+- `navigateToAssistant()` → `void`
+- `postUserMessage(message: string)` → `void`
+- `clearChat()` → `void`
+- `configure(settings: {...})` → `void`
+- `on(event: string, listener: Function)` → `() => void`
+
+## Options de configuration
+
+Les options de configuration sont disponibles comme props sur `<GitBookFrame>`:
+
+### `tabs`
+
+Remplace les onglets affichés.
+
+La recherche est activée par défaut. Si vous définissez `tabs`, l’intégration n’affiche que les onglets que vous listez.
+
+- **Type**: `('assistant' | 'search' | 'docs')[]`
+
+### `colorScheme`
+
+Remplace le schéma de couleurs de l’intégration.
+
+Lorsqu’il est omis, l’intégration suit le `color-scheme`CSS de l’iframe, ce qui lui permet d’hériter de la page parente ou de la préférence du navigateur.
+
+- **Type**: `'light' | 'dark'`
+
+### `actions`
+
+Boutons d’action personnalisés rendus dans la barre latérale à côté des onglets. Chaque bouton d’action déclenche un rappel lorsqu’il est cliqué.
+
+**Remarque**: C’était auparavant nommé `buttons`. Utilisez `actions` à la place.
+
+- **Type**: `Array<{ icon: string, label: string, onClick: () => void }>`
+
+### `greeting`
+
+Message de bienvenue affiché dans l’onglet Assistant.
+
+- **Type**: `{ title: string, subtitle: string }`
+
+### `assistantName`
+
+Remplace le nom de l’assistant affiché dans l’interface.
+
+- **Type**: `string`
+- <strong>Longueur max.</strong>: `32` caractères
+
+### `closeButton`
+
+Affiche un bouton de fermeture dans l’Assistant.
+
+- **Type**: `boolean`
+
+### `suggestions`
+
+Questions suggérées affichées sur l’écran de bienvenue de l’Assistant.
+
+- **Type**: `string[]`
+
+### `trademark`
+
+Afficher ou masquer la marque GitBook dans l’interface intégrée — y compris le pied de page de Docs Embed et le branding de l’Assistant.
+
+- **Type**: `boolean`
+- **Par défaut**: `true`
+
+### `tools`
+
+Outils IA personnalisés pour étendre l’Assistant. Voir [Créer des outils personnalisés](/fr/docs/publier/embedding/configuration/creating-custom-tools) pour plus de détails.
+
+- **Type**: `Array<{ name: string, description: string, inputSchema: object, execute: Function, confirmation?: {...} }>`
+
+### `visitor` (Accès authentifié)
+
+Utilisé pour [Contenu adaptatif](/fr/docs/publier/adaptive-content) et [Accès authentifié](/fr/docs/publier/site-audience/authenticated-access).
+
+- **Type**: `{ token?: string, unsignedClaims?: Record<string, unknown> }`
+
+## Pièges courants
+
+- **Ne pas envelopper avec GitBookProvider** – Le `GitBookFrame` nécessite un parent `GitBookProvider` pour fonctionner.
+- **Utilisation avec le SSR sans import dynamique** – Le composant utilise des API du navigateur et doit être importé dynamiquement dans Next.js ou d’autres frameworks SSR.
+- **siteURL ne correspondant pas aux docs publiées** – Assurez-vous que le `siteURL` prop correspond exactement à l’URL de votre site de docs en production.
+- **Appeler useGitBook en dehors du provider** – Le `useGitBook` hook doit être utilisé dans un composant enfant de `GitBookProvider`.
+- **Plusieurs providers dans l’arbre** – Évitez d’imbriquer plusieurs `GitBookProvider` instances, car cela peut provoquer des conflits de contexte.
+- **Utilisation d’anciens noms de composants** – Le composant est maintenant `GitBookFrame`, pas `GitBookAssistantFrame`.

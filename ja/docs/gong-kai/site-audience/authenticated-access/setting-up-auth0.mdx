@@ -1,0 +1,99 @@
+---
+title: Auth0の設定
+description: ドキュメント訪問者向けのAuth0ログイン画面を設定します
+metaTitle: Auth0の設定 | GitBook Documentation
+ogImage: https://test-dai.imgix.net/org-4afef969-21f9-40f3-b5b8-b06c8b6cf68f/doc-22a3b060-9539-4176-97e4-49120e02f5d1/0a5a1a9630785855-organizations-d8f63b60-89ae-11e7-8574-5927d48c4877-sites-site_p4Xo4-socialprevie.jpg?fm=auto&auto=compress%2Cformat
+---
+
+<Callout kind="info">
+  ガイドを見て、 [詳細な手順](/en/docs/guides/docs-personalization-and-authentication/how-to-personalize-your-gitbook-site-using-auth0-and-adaptive-content) Auth0 を使用した認証付きアクセスとアダプティブ コンテンツの設定について。
+</Callout>
+
+<Callout kind="alert">
+  このガイドでは、ドキュメント用の保護されたサインイン画面の設定方法を説明します。このガイドに進む前に、まず次の手順を完了していることを確認してください [認証済みアクセスを有効にする](/ja/docs/gong-kai/site-audience/authenticated-access/enabling-authenticated-access).
+</Callout>
+
+Auth0 を使用して GitBook サイトに認証付きアクセスを設定する手順は、次のとおりです：
+
+<Steps>
+  <Step title="Step">
+    [**Auth0 で新しいアプリケーションを作成する**](#id-1.-create-a-new-application-in-auth0)
+
+    Auth0 ダッシュボードで Auth0 アプリケーションを作成します。
+  </Step>
+
+  <Step title="Step">
+    [**Auth0 連携をインストールして設定する**](#id-2.-install-and-configure-the-auth0-integration)
+
+    Auth0 連携をインストールし、必要な設定を GitBook サイトに追加します。
+  </Step>
+
+  <Step title="Step">
+    [<strong>アダプティブ コンテンツ用に Auth0 を設定する（任意）</strong>](#id-3.-configure-auth0-for-adaptive-content-optional)
+
+    GitBook のアダプティブ コンテンツで動作するように Auth0 を設定します。
+  </Step>
+</Steps>
+
+### 1\. Auth0 で新しいアプリケーションを作成する
+
+まず、Auth0 プラットフォームのダッシュボードで新しいアプリケーションを作成します。このアプリケーションにより、GitBook Auth0 連携は、サイトへのアクセスを許可する前にユーザーの本人確認を行うためのトークンを要求することができます。
+
+1. Auth0 にサインインする [ダッシュボード](https://manage.auth0.com/dashboard/).
+2. に移動します **アプリケーション > アプリケーション** を左サイドバーから開きます。
+3. 次をクリックします <strong>\+ アプリケーションを作成</strong> ボタンをクリックし、アプリに名前を付けます。
+4. の下の <strong>アプリケーションの種類を選択し、</strong> 選択して **Regular Web Applications**.
+5. 次の場所で **クイックスタート** 新しく作成したアプリの画面で、 <strong>Node.js（Express）</strong> を選び、次に **自分のアプリを統合したい**.
+6. その後、下のような設定画面が表示されます。<br /> **設定を保存して続行**.<br />
+
+   <Image src="https://test-dai.imgix.net/org-4afef969-21f9-40f3-b5b8-b06c8b6cf68f/doc-22a3b060-9539-4176-97e4-49120e02f5d1/e59f528f7ebbb93f-spaces-NkEGS7hzeqa35sMXQZ4X-uploads-HoIpHTIRmkCvhw1kBVZZ-auth0_app_configure_scr.png?fm=auto&auto=compress%2Cformat" alt="" />
+7. 次をクリックします **設定** タブから選択することで、セクション内のどこでも参照できます。
+8. コピーして以下を控えてください **ドメイン**, **クライアント ID** 、 **クライアント シークレット**.
+
+<Callout kind="alert">
+  次の点を確認してください： **少なくとも 1 つの接続が有効になっていること** Auth0 アプリケーションの **接続** タブから選択することで、セクション内のどこでも参照できます。
+</Callout>
+
+### 2\. Auth0 連携をインストールして設定する
+
+Auth0 アプリケーションを作成したら、次のステップは GitBook に Auth0 連携をインストールし、先ほど生成した認証情報を使って Auth0 アプリケーションとリンクすることです：
+
+1. 認証付きアクセスを有効にし、ID プロバイダーとして Auth0 を使用したいサイトに移動します。
+2. 次をクリックします **統合** サイト設定の右上にあるボタン。<br />
+
+   <Image src="https://test-dai.imgix.net/org-4afef969-21f9-40f3-b5b8-b06c8b6cf68f/doc-22a3b060-9539-4176-97e4-49120e02f5d1/2084b09d489dfd9b-spaces-NkEGS7hzeqa35sMXQZ4X-uploads-gBMsbydNsuqx7eqcz0JN-va_site_integration_ove.png?fm=auto&auto=compress%2Cformat" alt="" />
+3. をクリックします **認証済みアクセス** サイドバーのカテゴリから。
+4. 次を選択します **Auth0** 連携。
+5. クリックして **このサイトにインストール**.<br />
+
+   <Image src="https://test-dai.imgix.net/org-4afef969-21f9-40f3-b5b8-b06c8b6cf68f/doc-22a3b060-9539-4176-97e4-49120e02f5d1/74e34be0d73aacb8-spaces-NkEGS7hzeqa35sMXQZ4X-uploads-98d9Svq3PBdpaiRuyV14-auth0_install_integrati.png?fm=auto&auto=compress%2Cformat" alt="" />
+6. サイトに統合をインストールした後、統合の構成画面が表示されるはずです:<br />
+
+   <Image src="https://test-dai.imgix.net/org-4afef969-21f9-40f3-b5b8-b06c8b6cf68f/doc-22a3b060-9539-4176-97e4-49120e02f5d1/22beb3b27078f686-spaces-NkEGS7hzeqa35sMXQZ4X-uploads-GpdmoJqOQvrwFBaQ17Gv-auth0_configure_integra.png?fm=auto&auto=compress%2Cformat" alt="" />
+7. 次を入力します **ドメイン**, **クライアント ID** 、 **クライアント シークレット** 先ほど Auth0 アプリケーションを作成した際にコピーした値。Auth0 Domain には、Auth0 からコピーした Domain を入力します（先頭に `https://`).
+8. <strong>（任意）</strong> 次の項目を有効にします： **JWT トークンにクレームを含める** サイトで次を有効にしている場合は、ダイアログ下部のオプションを [アダプティブコンテンツ](/ja/docs/gong-kai/adaptive-content/enabling-adaptive-content).
+9. コピーして以下を控えてください **Callback** **URL** 表示されている **ダイアログの下部にある**.
+10. クリックして **保存**.
+11. Auth0 ダッシュボードで先ほど作成した Auth0 アプリケーションに戻ります。
+12. 次へ移動します **アプリケーション > アプリケーション** をサイドバーで開き、 **設定** タブから選択することで、セクション内のどこでも参照できます。
+13. までスクロールし、 **Application URIs** 設定セクションを表示します
+14. 次の項目を貼り付けます： **Callback URL** 先ほど GitBook 連携ダイアログからコピーしたものを、 **Allowed Callback URL** 入力欄に。
+15. クリックして <strong>保存します。</strong>
+16. 次に戻ります **Auth0 連携** インストール画面 **GitBook の**.
+17. 統合ダイアログを閉じ、次をクリックします **設定** サイドバーのタブ。
+18. 次へ移動します **対象** をクリックして、次を選択します **認証アクセス** （まだ選択されていない場合）。
+19. を選択します **Auth0** のドロップダウンから **認証バックエンド** セクションを選択します。
+20. クリックして **対象を更新**.
+21. サイトの概要画面に移動し、次をクリックします **公開** まだ公開されていない場合。
+
+これで、ID プロバイダーとして Auth0 を使用した認証付きアクセスの背後でサイトが公開されました。
+
+動作を確認するには、次をクリックします： **訪れて**。Auth0 でのサインインを求められ、これにより、サイトが Auth0 を使用した認証付きアクセスの背後で公開されていることが確認されます。
+
+### 3\. アダプティブ コンテンツ用に Auth0 を設定する（任意）
+
+<Iframe src="https://www.youtube.com/embed/uhWeQkgyg8Y" title="Embedded content" />
+
+認証付きアクセスのサイトでアダプティブ コンテンツ機能を活用するには、 [Auth0 アプリケーションを設定して](https://auth0.com/docs/secure/tokens/json-web-tokens/create-custom-claims) 認証トークンに追加のユーザー情報をクレームとして含めます。
+
+これらのクレームはキーとバリューのペアとして表され、GitBook に渡されて、次の用途に使用できます [コンテンツを適応させる](/ja/docs/gong-kai/adaptive-content/adapting-your-content) ために使われます。

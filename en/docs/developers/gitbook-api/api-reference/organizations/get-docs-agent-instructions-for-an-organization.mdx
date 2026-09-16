@@ -1,0 +1,61 @@
+---
+title: Get Docs agent instructions for an organization
+metaTitle: Get Docs agent instructions for an organization | Developers | GitBook Documentation
+ogImage: https://test-dai.imgix.net/org-4afef969-21f9-40f3-b5b8-b06c8b6cf68f/doc-22a3b060-9539-4176-97e4-49120e02f5d1/0a5a1a9630785855-organizations-d8f63b60-89ae-11e7-8574-5927d48c4877-sites-site_p4Xo4-socialprevie.jpg?fm=auto&auto=compress%2Cformat
+---
+
+**GET** `/orgs/{organizationId}/agent-instructions`
+
+**Parameters**
+
+<ParamField header="Authorization" param-type="string" required={true} />
+
+<ParamField path="organizationId" param-type="string" required={true}>
+  The unique id of the organization
+</ParamField>
+
+**Responses**
+
+`200` OK
+
+<ResponseField name="object" field-type="string" required={true} enum="agent-instructions" />
+
+<ResponseField name="instructions" field-type="object" required={true}>
+  <Expandable title="Object Properties">
+    <ResponseField name="object" field-type="string" required={true} enum="document" />
+
+    <ResponseField name="data" field-type="object" required={true}>
+      <Expandable title="Object Properties">
+        <ResponseField name="schemaVersion" field-type="integer">
+          The schema version of the document. If undefined, the document is considered to be of the latest schema version.
+        </ResponseField>
+      </Expandable>
+    </ResponseField>
+
+    <ResponseField name="nodes" field-type="string[]" required={true} />
+
+    <ResponseField name="meta" field-type="object">
+      <Expandable title="Object Properties">
+        <ResponseField name="token" field-type="string">
+          A content token that can be used to fetch the content referenced in this document from the API.
+        </ResponseField>
+      </Expandable>
+    </ResponseField>
+  </Expandable>
+</ResponseField>
+
+<ResponseField name="updatedAt" field-type="string" required={true} />
+
+<ResponseField name="updatedBy" field-type="string" required={true}>
+  Identifier of the member who last updated the instructions.
+</ResponseField>
+
+<ResponseField name="urls" field-type="object" required={true}>
+  URLs related to the custom instructions.
+
+  <Expandable title="Object Properties">
+    <ResponseField name="location" field-type="string" required={true}>
+      Relative URL to the resource in the API.
+    </ResponseField>
+  </Expandable>
+</ResponseField>

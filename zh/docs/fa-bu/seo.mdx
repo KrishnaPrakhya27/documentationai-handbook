@@ -1,0 +1,52 @@
+---
+title: SEO
+description: GitBook 会自动处理大部分 SEO。已发布站点具备响应式、预渲染，并通过全球 CDN 提供服务，你几乎无需额外配置。
+metaTitle: SEO | GitBook Documentation
+ogImage: https://test-dai.imgix.net/org-4afef969-21f9-40f3-b5b8-b06c8b6cf68f/doc-22a3b060-9539-4176-97e4-49120e02f5d1/0a5a1a9630785855-organizations-d8f63b60-89ae-11e7-8574-5927d48c4877-sites-site_p4Xo4-socialprevie.jpg?fm=auto&auto=compress%2Cformat
+---
+
+### GitBook 自动执行的操作
+
+#### 响应式设计
+
+已发布内容可适应任何屏幕尺寸——手机、平板和桌面设备。
+
+#### URL 和元数据
+
+- 默认情况下，页面 URL 基于页面标题，但可自定义。
+- 规范 URL 可防止重复内容问题。
+- HTML 和 Open Graph 标题取自页面标题和站点标题。
+- Meta 和 Open Graph 描述取自页面描述。
+- 图片支持替代文本，这有助于搜索引擎和无障碍访问。
+- HTML 在服务器端预渲染，因此爬虫无需 JavaScript 即可索引你的内容。
+
+<Callout kind="info">
+  GitBook 不会生成关键词 meta 标签。现代搜索引擎不使用它们进行排名—— [谷歌在 2009 年证实了这一点](https://developers.google.com/search/blog/2009/09/google-does-not-use-keywords-meta-tag).
+</Callout>
+
+#### 站点地图
+
+GitBook 会为任何未设置为不列出的已发布站点自动生成站点地图。要找到它，请在 `/sitemap-pages.xml` 你的网站主页 URL 后附加——例如， [gitbook.com/docs/sitemap-pages.xml](https://gitbook.com/docs/sitemap-pages.xml).
+
+#### CDN 和缓存
+
+所有已发布内容都会缓存并通过全球 CDN 提供。更快的加载时间可同时改善用户体验和搜索排名。
+
+### 你可以做什么
+
+#### 设置自定义域名
+
+像 `docs.example.com` 这样的自定义域名，相比 `yourorganization.gitbook.io` 子域名，可提升搜索可见性。设置自定义域名 →
+
+#### 提高索引速度
+
+GitBook 无法控制搜索引擎索引你内容的速度，但有两件事可以帮助：
+
+1. 从已被索引的页面链接到你的网站。当谷歌重新抓取这些页面时，就更有可能发现你的网站。
+2. 直接向谷歌提交你的网站。这需要自定义域名，并通过 TXT DNS 记录进行所有权验证。 [将你的网站提交给谷歌 →](https://developers.google.com/search/docs/advanced/crawling/ask-google-to-recrawl)
+
+#### 设置重定向
+
+将内容迁移到 GitBook 或重组你的网站可能会破坏现有链接并影响 SEO。设置 [redirects](/zh/docs/fa-bu/site-redirects) → 以将旧 URL 转发到新 URL。
+
+当你移动或重命名页面时，GitBook 会自动创建一个 [HTTP 307 重定向](https://developer.mozilla.org/en-US/docs/Web/HTTP/Reference/Status/307) ，将旧 URL 重定向到新 URL。 [了解更多关于自动重定向的信息 →](/zh/docs/fa-bu/site-redirects#about-automatic-redirects)

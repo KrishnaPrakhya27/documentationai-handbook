@@ -1,0 +1,386 @@
+---
+title: スクリプトタグ
+description: 1つのscriptタグでDocs Embedウィジェットを任意のウェブサイトやWebアプリに追加する方法を学びます
+metaTitle: スクリプトタグ | GitBook Documentation
+ogImage: https://test-dai.imgix.net/org-4afef969-21f9-40f3-b5b8-b06c8b6cf68f/doc-22a3b060-9539-4176-97e4-49120e02f5d1/0a5a1a9630785855-organizations-d8f63b60-89ae-11e7-8574-5927d48c4877-sites-site_p4Xo4-socialprevie.jpg?fm=auto&auto=compress%2Cformat
+---
+
+Docs Embed をあなたのウェブサイトやアプリに追加する最も簡単な方法は、HTML に含めるスタンドアロンのスクリプトを使うことです。各 GitBook のドキュメントサイトには、ウィジェットを自動的に読み込み、あなたのドキュメントに接続する、すぐに使える埋め込みスクリプトが用意されています。このページでは、その方法を説明します。
+
+SDK、ビルド手順、フレームワーク統合は不要です。スクリプトを含めるだけで、ウィジェットがページに表示されます。
+
+## 始めましょう
+
+<Steps>
+  <Step title="埋め込みスクリプトの URL をコピー" titleType="h3">
+    GitBook アプリでドキュメントサイトに移動し、 **設定** タブからさらに **AI と MCP** へ進み、埋め込みスクリプトの URL をコピーします。
+
+    手動で作成することもできます:
+
+    ```
+    https://YOUR_DOCS_DOMAIN/~gitbook/embed/script.js
+    ```
+
+    次の `YOUR_DOCS_DOMAIN` を、実際のドキュメントサイトのドメインに置き換えてください。
+  </Step>
+
+  <Step title="HTML にスクリプトを追加" titleType="h3">
+    ページの HTML に次のタグを追加します。これを `<head>` またはその直前に `</body>`.
+
+    ```html
+    <script src="https://YOUR_DOCS_DOMAIN/~gitbook/embed/script.js"></script>
+    <script>window.GitBook('show');</script>
+    ```
+  </Step>
+
+  <Step title="ドキュメントに認証が必要な場合" titleType="h3">
+    ドキュメントが [認証の背後にある場合](/ja/docs/gong-kai/site-audience/authenticated-access)、スクリプトには署名付き JWT トークンを含める必要があります。
+
+    クエリパラメータとして追加します:
+
+    ```html
+    <script src="https://YOUR_DOCS_DOMAIN/~gitbook/embed/script.js?jwt_token=YOUR_TOKEN"></script>
+    ```
+  </Step>
+
+  <Step title="確認" titleType="h3">
+    ページを再読み込みしてください。
+
+    ウィジェットは右下隅に表示されるはずです。
+  </Step>
+</Steps>
+
+### 必要に応じて埋め込みを設定
+
+表示する前にウィジェットをカスタマイズできます。 `configure` スクリプトの読み込み後、そして `window.GitBook('show')`.
+
+```html
+<script src="https://YOUR_DOCS_DOMAIN/~gitbook/embed/script.js"></script>
+<script>
+  window.GitBook('configure', {
+    button: {
+      label: '質問する',
+      icon: 'assistant' // assistant | sparkle | help | book
+    },
+    trademark: false,
+    tabs: ['assistant', 'search', 'docs'],
+    actions: [
+      {
+        icon: 'circle-question',
+        label: 'サポートに連絡',
+        onClick: () => window.open('https://support.example.com', '_blank')
+      }
+    ],
+    greeting: {
+      title: 'ようこそ',
+      subtitle: '何かお手伝いできますか?'
+    },
+    assistantName: 'サポート Copilot',
+    closeButton: true,
+    suggestions: [
+      'GitBook とは?',
+      '始めるにはどうすればよいですか?'
+    ]
+  });
+
+  window.GitBook('show');
+</script>
+```
+
+この方法を使うと、次をカスタマイズできます:
+
+- ボタンのラベルとアイコン
+- ウィジェット内で表示されるタブ
+- カスタムアクションボタン
+- あいさつのタイトルとサブタイトル
+- UI に表示されるアシスタント名
+- アシスタント内の閉じるボタン
+- ユーザーに表示される提案プロンプト。
+
+検索はデフォルトで有効です。もし `タブ`、保持したい各タブをすべて列挙してください。
+
+### カラースキームを設定する
+
+デフォルトでは、埋め込みは iframe の CSS に従います `color-scheme`。これにより、アプリのテーマやブラウザの設定を自動的に継承できます。
+
+モードを強制したい場合は、埋め込みを初期化して `colorScheme` に `frameOptions`:
+
+```html
+<script src="https://YOUR_DOCS_DOMAIN/~gitbook/embed/script.js"></script>
+<script>
+  window.GitBook(
+    'init',
+    { siteURL: 'https://YOUR_DOCS_DOMAIN' },
+    { colorScheme: 'dark' }
+  );
+
+  window.GitBook('show');
+</script>
+```
+
+次のようなフレームレベルのオプションが必要な場合は、このパターンを使います: `colorScheme` または `visitor`.
+
+### ウィジェットの表示/非表示を制御
+
+API を通じて、実行時に表示と状態を制御できます。
+
+```html
+<script>
+  // ウィジェットを表示する
+  window.GitBook('show');
+
+  // ページからウィジェットを削除する
+  window.GitBook('hide');
+
+  // ウィジェットのパネルを開く
+  window.GitBook('open');
+
+  // ウィジェットのパネルを閉じる
+  window.GitBook('close');
+
+  // 開く/閉じるを切り替える
+  window.GitBook('toggle');
+</script>
+```
+
+これは、ウィジェットを独自の UI トリガーに接続したいときに便利です。
+
+### プログラムで移動と操作を行う
+
+コードからウィジェットを操作して、ページ移動、タブ切り替え、メッセージ送信ができます。
+
+```html
+<script>
+  // ウィジェット内で特定のドキュメントページを開く
+  window.GitBook('navigateToPage', '/getting-started');
+
+  // アシスタントタブに切り替える
+  window.GitBook('navigateToAssistant');
+
+  // アシスタントにユーザーメッセージを送信する
+  window.GitBook('postUserMessage', 'どうやって始めればよいですか?');
+
+  // 現在のチャット履歴を消去する
+  window.GitBook('clearChat');
+</script>
+```
+
+この機能の典型的な用途には次のようなものがあります:
+
+- アプリからドキュメントページへのディープリンクを追加する
+- 質問を事前入力する
+- フロー間で会話をリセットする
+
+### 埋め込みスクリプトを動的に読み込む
+
+ウィジェットを条件付きで読み込みたいだけの場合や、実行時に認証トークンを付与する必要がある場合は、スクリプトをプログラムで挿入します。
+
+```html
+<script>
+  function loadGitBookEmbed() {
+    var token = "" // サイトに認証が必要な場合は JWT トークンをここに入れてください
+    var script = document.createElement('script');
+    script.src = 'https://YOUR_DOCS_DOMAIN/~gitbook/embed/script.js'
+      + token ? '?jwt_token=' + encodeURIComponent(token) : ';
+    script.async = true;
+    script.onload = function () {
+      window.GitBook('show');
+    };
+    document.head.appendChild(script);
+  }
+
+  loadGitBookEmbed();
+</script>
+```
+
+ウィジェットがユーザーの操作または機能フラグの後にのみ読み込まれるべき場合は、このパターンを使います
+
+## API リファレンス
+
+### 初期化
+
+- `GitBook('init', options: { siteURL: string }, frameOptions?: { visitor?: {...}, colorScheme?: 'light' | 'dark' })` \- サイト URL と任意のフレームオプションでウィジェットを初期化する
+
+### ウィジェットの制御
+
+- `GitBook('show')` \- ウィジェットボタンを表示する
+- `GitBook('hide')` \- ウィジェットボタンを非表示にする
+- `GitBook('open')` \- ウィジェットウィンドウを開く
+- `GitBook('close')` \- ウィジェットウィンドウを閉じる
+- `GitBook('toggle')` \- ウィジェットウィンドウを切り替える
+
+### ナビゲーション
+
+- `GitBook('navigateToPage', path: string)` \- docs タブの特定ページへ移動
+- `GitBook('navigateToAssistant')` \- アシスタントタブへ移動する
+
+### チャット
+
+- `GitBook('postUserMessage', message: string)` \- チャットにメッセージを送信
+- `GitBook('clearChat')` \- チャット履歴をクリア
+
+### 設定
+
+- `GitBook('configure', settings: {...})` \- ウィジェット設定を構成する（以下の Configuration セクションを参照）
+- `GitBook('unload')` \- ページからウィジェットを完全に削除する
+
+## 設定オプション
+
+### `GitBook('configure')`
+
+ほとんどの設定オプションは、 `GitBook('configure', {...})`:
+
+#### `タブ`
+
+で利用できます。
+
+検索はデフォルトで有効です。もし `タブ`、埋め込みには指定したタブのみが表示されます。
+
+- **種類**: `('assistant' | 'search' | 'docs')[]`
+- **オプション**:
+
+  - `['assistant', 'search', 'docs']` \- すべてのタブを表示する
+  - `['search', 'docs']` \- 検索とドキュメントのみを表示する
+  - `['docs']` \- ドキュメントタブのみを表示する
+
+#### `actions`
+
+タブと並んでサイドバーに表示されるカスタムアクションボタンです。各アクションボタンはクリック時にコールバックを実行します。
+
+**注**: これは以前は `buttons`と呼ばれていました。 `actions` 代わりにこちらを使用してください。
+
+- **種類**: `Array<{ icon: string, label: string, onClick: () => void }>`
+- **プロパティ**:
+
+  - `アイコン`: `string` \- アイコン名。任意の [FontAwesome アイコン](https://fontawesome.com/search) がサポートされています
+  - `label`: `string` \- ボタンのラベルテキスト
+  - `onClick`: `() => void | Promise<void>` \- クリック時のコールバック関数
+
+#### `greeting`
+
+Assistant タブに表示されるウェルカムメッセージ。
+
+- **種類**: `{ title: string, subtitle: string }`
+
+#### `assistantName`
+
+UI に表示される Assistant 名を上書きします。
+
+- **種類**: `string`
+- **最大長**: `32` 文字
+- **例**:
+
+```javascript
+window.GitBook('configure', {
+  assistantName: 'Support Copilot'
+});
+```
+
+#### `closeButton`
+
+Assistant 内に閉じるボタンを表示します。
+
+- **種類**: `真偽値`
+- **例**:
+
+```javascript
+window.GitBook('configure', {
+  closeButton: true
+});
+```
+
+#### `suggestions`
+
+Assistant のウェルカム画面に表示される推奨質問。
+
+- **種類**: `string[]`
+
+#### `trademark`
+
+Docs Embed フッターや Assistant のブランド表記を含む、埋め込み UI 内の GitBook 商標を表示または非表示にします。
+
+- **種類**: `真偽値`
+- **既定**: `true`
+- **例**:
+
+```javascript
+window.GitBook('configure', {
+  trademark: false
+});
+```
+
+#### `tools`
+
+Assistant を拡張するためのカスタム AI ツール。詳細は [カスタムツールの作成](/ja/docs/gong-kai/embedding/configuration/creating-custom-tools) をご覧ください。
+
+- **種類**: `Array<{ name: string, description: string, inputSchema: object, execute: Function, confirmation?: {...} }>`
+
+#### `ボタン`
+
+埋め込みを起動するウィジェットボタンを構成します（スタンドアロンスクリプトのみ）。これにより、ページ右下に表示されるボタンのラベルとアイコンをカスタマイズできます。
+
+- **種類**: `{ label: string, icon: 'assistant' | 'sparkle' | 'help' | 'book' }`
+- **プロパティ**:
+
+  - `label`: `string` \- ボタンに表示されるテキスト
+  - `アイコン`: `'assistant' | 'sparkle' | 'help' | 'book'` \- ボタンに表示されるアイコン
+
+    - `assistant` \-  アシスタントアイコン
+    - `sparkle` \-  きらめきアイコン
+    - `help` \-  ヘルプ/質問アイコン
+    - `book` \-  本アイコン
+
+<strong>例:</strong>
+
+```javascript
+window.GitBook('configure', {
+  button: {
+    label: '質問する',
+    icon: 'assistant'
+  }
+});
+```
+
+<Callout kind="info">
+  <strong>注：</strong> このオプションは、スタンドアロンスクリプトタグ実装を使用している場合にのみ利用できます。React または Node.js の実装では、埋め込みを起動するための独自のボタンを作成する必要があります。
+</Callout>
+
+### `frameOptions`
+
+一部のオプションは、設定としてではなくフレーム上で設定されます。それらは `frameOptions` を呼び出すときに渡します `GitBook('init', options, frameOptions)`.
+
+#### `colorScheme`
+
+に渡されます。
+
+埋め込みの配色を上書きします。 `color-scheme`指定しない場合、埋め込みは iframe の CSS に従い、
+
+- **種類**: `これにより親ページまたはブラウザの設定を継承できます。`
+- **例**:
+
+```javascript
+window.GitBook(
+  'init',
+  { siteURL: 'https://docs.company.com' },
+  { colorScheme: 'dark' }
+);
+```
+
+#### `visitor` (認証済みアクセス)
+
+次で初期化するときに渡します `GitBook('init', options, frameOptions)`。用途は [Adaptive Content](/ja/docs/gong-kai/adaptive-content) 、 [認証済みアクセス](/ja/docs/gong-kai/site-audience/authenticated-access).
+
+- **種類**: `{ token?: string, unsignedClaims?: Record<string, unknown> }`
+- **プロパティ**:
+
+  - `token`: `string` （任意）- 署名付き JWT トークン
+  - `unsignedClaims`: `Record<string, unknown>` （任意）- 動的式用の署名なしクレーム
+
+## よくある落とし穴
+
+- **スクリプト URL が正しくありません** – 実際のドキュメント URL を使っていることを確認してください。例の `docs.company.com`.
+- **スクリプトの読み込み前に GitBook を呼び出している** – API 呼び出しは `script.onload` で包むか、スクリプトタグの後に配置してください。
+- **認証済みドキュメントにアクセスできない** – ドキュメントにサインインが必要な場合は、 `visitor.token` を初期化時に指定する必要があります。参照: [認証済みドキュメントでの利用](/ja/docs/gong-kai/embedding/using-with-authenticated-docs).
+- **CORS または CSP エラー** – サイトの Content Security Policy で、GitBook ドメインからのスクリプトと iframe の読み込みが許可されていることを確認してください。
+- **ウィジェットが表示されない** – ページ内の他の要素との z-index の競合を確認してください。ウィジェットは既定で高い z-index を使用します。
+- **初期化を忘れている** – 次を呼び出していることを確認してください `GitBook('init', { siteURL: '...' })` 他のメソッドを使う前に。

@@ -1,0 +1,153 @@
+---
+title: Update the AI agent configuration for a site
+metaTitle: Update the AI agent configuration for a site | Developers | GitBook Documentation
+ogImage: https://test-dai.imgix.net/org-4afef969-21f9-40f3-b5b8-b06c8b6cf68f/doc-22a3b060-9539-4176-97e4-49120e02f5d1/0a5a1a9630785855-organizations-d8f63b60-89ae-11e7-8574-5927d48c4877-sites-site_p4Xo4-socialprevie.jpg?fm=auto&auto=compress%2Cformat
+---
+
+Replaces the configuration for the AI built into the GitBook editor that helps authors draft, review, and refine content changes. Use this to customize how the AI behaves when assisting authors working on content for this site.
+
+**PUT** `/orgs/{organizationId}/sites/{siteId}/agent-settings`
+
+**Parameters**
+
+<ParamField header="Authorization" param-type="string" />
+
+<ParamField path="organizationId" param-type="string" required={true}>
+  The unique id of the organization
+</ParamField>
+
+<ParamField path="siteId" param-type="string" required={true}>
+  The unique id of the site
+</ParamField>
+
+**Request body**
+
+<ParamField body="scans" param-type="object" required={true}>
+  Settings related to scanning for a site.
+
+  <Expandable title="Object Properties">
+    <ParamField body="topics" param-type="string" required={true} enum="auto,never">
+      Controls when topics are being scanned for findings.
+    </ParamField>
+  </Expandable>
+</ParamField>
+
+<ParamField body="findings" param-type="object" required={true}>
+  Settings related to processing of findings for a site.
+
+  <Expandable title="Object Properties">
+    <ParamField body="changeRequests" param-type="string" required={true} enum="always,auto-fixable,never">
+      Controls how issue remediation change requests should be handled for a site.
+    </ParamField>
+  </Expandable>
+</ParamField>
+
+<ParamField body="editing" param-type="object" required={true}>
+  Site-specific instructions for the editing agent.
+
+  <Expandable title="Object Properties">
+    <ParamField body="customInstructions" param-type="object" required={true}>
+      <Expandable title="Object Properties">
+        <ParamField body="object" param-type="string" required={true} enum="document" />
+
+        <ParamField body="data" param-type="object" required={true}>
+          <Expandable title="Object Properties">
+            <ParamField body="schemaVersion" param-type="integer">
+              The schema version of the document. If undefined, the document is considered to be of the latest schema version.
+            </ParamField>
+          </Expandable>
+        </ParamField>
+
+        <ParamField body="nodes" param-type="string[]" required={true} />
+
+        <ParamField body="meta" param-type="object">
+          <Expandable title="Object Properties">
+            <ParamField body="token" param-type="string">
+              A content token that can be used to fetch the content referenced in this document from the API.
+            </ParamField>
+          </Expandable>
+        </ParamField>
+      </Expandable>
+    </ParamField>
+  </Expandable>
+</ParamField>
+
+**Responses**
+
+`200` OK
+
+<ResponseField name="object" field-type="string" required={true} enum="site-agent-settings" />
+
+<ResponseField name="updatedAt" field-type="string" />
+
+<ResponseField name="updatedBy" field-type="string">
+  Identifier of the member who last updated the settings.
+</ResponseField>
+
+<ResponseField name="urls" field-type="object" required={true}>
+  <Expandable title="Object Properties">
+    <ResponseField name="location" field-type="string" required={true}>
+      Relative URL to the resource in the API.
+    </ResponseField>
+  </Expandable>
+</ResponseField>
+
+<ResponseField name="scans" field-type="object" required={true}>
+  Settings related to scanning for a site.
+
+  <Expandable title="Object Properties">
+    <ResponseField name="topics" field-type="string" required={true} enum="auto,never">
+      Controls when topics are being scanned for findings.
+    </ResponseField>
+  </Expandable>
+</ResponseField>
+
+<ResponseField name="findings" field-type="object" required={true}>
+  Settings related to processing of findings for a site.
+
+  <Expandable title="Object Properties">
+    <ResponseField name="changeRequests" field-type="string" required={true} enum="always,auto-fixable,never">
+      Controls how issue remediation change requests should be handled for a site.
+    </ResponseField>
+  </Expandable>
+</ResponseField>
+
+<ResponseField name="editing" field-type="object" required={true}>
+  Site-specific instructions for the editing agent.
+
+  <Expandable title="Object Properties">
+    <ResponseField name="customInstructions" field-type="object" required={true}>
+      <Expandable title="Object Properties">
+        <ResponseField name="object" field-type="string" required={true} enum="document" />
+
+        <ResponseField name="data" field-type="object" required={true}>
+          <Expandable title="Object Properties">
+            <ResponseField name="schemaVersion" field-type="integer">
+              The schema version of the document. If undefined, the document is considered to be of the latest schema version.
+            </ResponseField>
+          </Expandable>
+        </ResponseField>
+
+        <ResponseField name="nodes" field-type="string[]" required={true} />
+
+        <ResponseField name="meta" field-type="object">
+          <Expandable title="Object Properties">
+            <ResponseField name="token" field-type="string">
+              A content token that can be used to fetch the content referenced in this document from the API.
+            </ResponseField>
+          </Expandable>
+        </ResponseField>
+      </Expandable>
+    </ResponseField>
+  </Expandable>
+</ResponseField>
+
+`400` Bad Request
+
+<ResponseField name="error" field-type="object" required={true}>
+  <Expandable title="Object Properties">
+    <ResponseField name="code" field-type="integer" required={true} enum="400" />
+
+    <ResponseField name="message" field-type="string" required={true} />
+  </Expandable>
+</ResponseField>

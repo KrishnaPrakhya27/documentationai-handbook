@@ -1,0 +1,33 @@
+---
+title: Get a specific historical revision of a space
+metaTitle: Get a specific historical revision of a space | Developers | GitBook Documentation
+ogImage: https://test-dai.imgix.net/org-4afef969-21f9-40f3-b5b8-b06c8b6cf68f/doc-22a3b060-9539-4176-97e4-49120e02f5d1/0a5a1a9630785855-organizations-d8f63b60-89ae-11e7-8574-5927d48c4877-sites-site_p4Xo4-socialprevie.jpg?fm=auto&auto=compress%2Cformat
+---
+
+Returns a specific revision snapshot of a space by its revision ID, including the page tree structure and revision metadata. Use this to inspect a historical state of a space. To access the current live content, use the space content endpoint instead.
+
+**GET** `/spaces/{spaceId}/revisions/{revisionId}`
+
+**Parameters**
+
+<ParamField header="Authorization" param-type="string" />
+
+<ParamField path="spaceId" param-type="string" required={true}>
+  The unique id of the space
+</ParamField>
+
+<ParamField path="revisionId" param-type="string" required={true}>
+  The unique id of the revision
+</ParamField>
+
+<ParamField query="metadata" param-type="boolean">
+  If `false` is passed, "git" mutable metadata will not returned. Passing `false` can optimize performances of the lookup.
+</ParamField>
+
+<ParamField query="computed" param-type="boolean">
+  If `false` is passed, content will not be computed
+</ParamField>
+
+**Responses**
+
+`200` OK

@@ -1,0 +1,52 @@
+---
+title: SEO
+description: GitBook gère automatiquement la plupart du SEO. Les sites publiés sont responsifs, pré-rendus et servis via un CDN mondial, avec très peu de configuration requise de votre part.
+metaTitle: SEO | GitBook Documentation
+ogImage: https://test-dai.imgix.net/org-4afef969-21f9-40f3-b5b8-b06c8b6cf68f/doc-22a3b060-9539-4176-97e4-49120e02f5d1/0a5a1a9630785855-organizations-d8f63b60-89ae-11e7-8574-5927d48c4877-sites-site_p4Xo4-socialprevie.jpg?fm=auto&auto=compress%2Cformat
+---
+
+### Ce que GitBook fait automatiquement
+
+#### Conception adaptative
+
+Le contenu publié s’adapte à toutes les tailles d’écran — téléphones, tablettes et ordinateurs de bureau.
+
+#### URL et métadonnées
+
+- Par défaut, les URL des pages sont basées sur le titre de la page, mais elles peuvent être personnalisées.
+- Les URL canoniques évitent les problèmes de contenu dupliqué.
+- Les titres HTML et Open Graph sont repris du titre de la page et du site.
+- Les descriptions Meta et Open Graph sont reprises de la description de la page.
+- Les images prennent en charge le texte alternatif, ce qui aide à la fois les moteurs de recherche et l’accessibilité.
+- Le HTML est pré-rendu côté serveur, donc les robots d’exploration n’ont pas besoin de JavaScript pour indexer votre contenu.
+
+<Callout kind="info">
+  GitBook ne génère pas de balises méta de mots-clés. Les moteurs de recherche modernes ne les utilisent pas pour le classement — [Google l’a confirmé en 2009](https://developers.google.com/search/blog/2009/09/google-does-not-use-keywords-meta-tag).
+</Callout>
+
+#### Sitemaps
+
+GitBook génère automatiquement un sitemap pour tout site publié qui n’est pas configuré comme non répertorié. Pour le trouver, ajoutez `/sitemap-pages.xml` à l’URL d’accueil de votre site — par exemple, [gitbook.com/docs/sitemap-pages.xml](https://gitbook.com/docs/sitemap-pages.xml).
+
+#### CDN et mise en cache
+
+Tout le contenu publié est mis en cache et diffusé via un CDN mondial. Des temps de chargement plus rapides améliorent à la fois l’expérience utilisateur et le référencement.
+
+### Ce que vous pouvez faire
+
+#### Définir un domaine personnalisé
+
+Un domaine personnalisé comme `docs.example.com` peut améliorer la visibilité dans les moteurs de recherche par rapport à un `yourorganization.gitbook.io` sous-domaine. Configurer un domaine personnalisé →
+
+#### Améliorer la vitesse d’indexation
+
+GitBook n’a aucun contrôle sur la vitesse à laquelle les moteurs de recherche indexent votre contenu, mais deux choses peuvent aider :
+
+1. Faites un lien vers votre site depuis des pages déjà indexées. Lorsque Google réexplore ces pages, il est plus susceptible de découvrir votre site.
+2. Soumettez directement votre site à Google. Cela nécessite un domaine personnalisé et une vérification de propriété via un enregistrement DNS TXT. [Soumettre votre site à Google →](https://developers.google.com/search/docs/advanced/crawling/ask-google-to-recrawl)
+
+#### Configurer des redirections
+
+Déplacer du contenu vers GitBook ou restructurer votre site peut rompre des liens existants et affecter le SEO. Configurez [des redirections](/fr/docs/publier/site-redirects) → pour rediriger les anciennes URL vers les nouvelles.
+
+Lorsque vous déplacez ou renommez une page, GitBook crée automatiquement une [redirection HTTP 307](https://developer.mozilla.org/en-US/docs/Web/HTTP/Reference/Status/307) de l’ancienne URL vers la nouvelle. [En savoir plus sur les redirections automatiques →](/fr/docs/publier/site-redirects#about-automatic-redirects)

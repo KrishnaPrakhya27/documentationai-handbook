@@ -1,0 +1,35 @@
+---
+title: GitHub 拉取请求预览
+description: 在 GitHub 中创建拉取请求时查看你的内容预览
+metaTitle: GitHub 拉取请求预览 | GitBook Documentation
+ogImage: https://test-dai.imgix.net/org-4afef969-21f9-40f3-b5b8-b06c8b6cf68f/doc-22a3b060-9539-4176-97e4-49120e02f5d1/0a5a1a9630785855-organizations-d8f63b60-89ae-11e7-8574-5927d48c4877-sites-site_p4Xo4-socialprevie.jpg?fm=auto&auto=compress%2Cformat
+---
+
+当你向已同步到 GitBook 区块的 GitHub 分支提交拉取请求（PR）时，你可以在合并前预览内容。这使你能够在合并更改之前检查其影响。
+
+你可以利用此功能在合并 PR 之前进行最后一层检查，让你在将更改合并到同步分支之前，先在非生产环境中查看这些更改。
+
+### 如何访问预览链接
+
+此行为可开箱即用，前提是你已授予 [GitBook GitHub 应用](https://github.com/apps/gitbook-com) PR 所需的只读权限。
+
+对于使用与 GitBook 区块同步的目标分支创建的每个 PR，你都会看到一个状态被添加到该 PR，其中包含一个唯一的预览 URL。点击 **详情** 该状态上的链接将带你前往内容的预览 URL。然后你可以在合并 PR 之前确保内容符合预期。
+
+<Callout kind="info">
+  预览链接仅对拥有 GitBook 账户的用户可访问。
+</Callout>
+
+### 安全注意事项
+
+出于安全原因，默认情况下，GitBook 目前不会为从你仓库的 fork 中打开的 PR 生成预览。由于 PR 预览的内容可通过你自己的域名访问，无论是在 `.gitbook.io` 或你的自定义域名上，用户可能会在你公开仓库的 fork 中生成恶意内容，并以你的名义将其提供。
+
+我们允许用户通过 Git Sync 设置中的一个选项显式配置此项。
+
+### 常见问题
+
+#### 为什么我在拉取请求中看不到我的 GitBook 文档预览？
+
+常见原因：
+
+- <strong>你的网站尚未发布。</strong> PR 预览 URL 从你已发布的文档站点提供（在 `.gitbook.io` 或你的自定义域名上）。
+- <strong>你的网站受身份验证访问保护。</strong> Git Sync PR 预览不适用于发布在 [经身份验证的访问](/zh/docs/fa-bu/site-audience/authenticated-access).
