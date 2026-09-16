@@ -1,0 +1,54 @@
+---
+title: 标题
+description: 向页面添加标题块，以组织内容并提升 SEO
+metaTitle: 标题 | GitBook Documentation
+ogImage: https://test-dai.imgix.net/org-4afef969-21f9-40f3-b5b8-b06c8b6cf68f/doc-22a3b060-9539-4176-97e4-49120e02f5d1/0a5a1a9630785855-organizations-d8f63b60-89ae-11e7-8574-5927d48c4877-sites-site_p4Xo4-socialprevie.jpg?fm=auto&auto=compress%2Cformat
+---
+
+标题有助于为文档提供结构——在标题中使用关键词也能帮助搜索引擎理解这种结构，从而帮助你的页面在搜索结果中排名更高。
+
+GitBook 提供三种级别的标题。标题级别 1（H1）和 2（H2）会显示在 [页面大纲](/zh/docs/can-kao/gitbook-ui#page-outline).
+
+### 锚点链接
+
+当你在页面中添加标题时，它会创建一个锚点链接。然后你可以直接链接到这些特定部分，把人们引导到相关信息。
+
+#### 链接到锚点
+
+你可以在公开内容，或只读模式下的私有内容中，通过将鼠标悬停在标题上并点击其旁边出现的 `#` 它旁边出现的那个。这会更新浏览器顶部栏中的 URL，因此你可以复制它并在其他地方使用。
+
+如果你想从你所在部分中的某个页面链接到特定锚点，你可以使用 [相对链接](/zh/docs/chuang-jian-nei-rong/formatting/inline#relative-links)，当你更改标题时它会自动更新，以防止链接失效。
+
+#### 编辑锚点
+
+默认情况下，锚点链接与标题中的文本相同。如果你计划在 GitBook 之外链接到该 URL，今后更改标题会导致锚点链接失效。之后，该链接会把访客带到页面顶部，而不是锚点位置。
+
+为避免这种情况，你可以通过打开 **选项菜单** <Image src="https://test-dai.imgix.net/org-4afef969-21f9-40f3-b5b8-b06c8b6cf68f/doc-22a3b060-9539-4176-97e4-49120e02f5d1/4c115a43418b42e3-spaces-NkEGS7hzeqa35sMXQZ4X-uploads-aS1QvPIBVYwhpFTGcPBN-options-menu.svg?rasterize-bypass=true" alt="The Options menu icon in GitBook" /> 标题的设置，然后选择 **编辑锚点**。然后你可以输入想要使用的锚点链接——即使你之后更改标题本身，它也会保持不变。
+
+### Markdown 中的表示方式
+
+GitBook 会生成经过 SEO 优化的页面，这意味着 GitBook 中的页面标题会在 markdown 中自动表示为一级标题：
+
+```markdown
+# 我是一个页面标题
+```
+
+这意味着如果你 [将内容与 Git 同步](/zh/docs/wen-dang-ji-dai-ma/git-sync)，通过编辑器添加的页面标题会显示为低一级：
+
+```markdown
+## 我的标题 1
+### 我的标题 2
+#### 我的标题 3
+```
+
+### 标题示例
+
+## 我的标题 1
+
+### 我的标题 2
+
+#### 我的标题 3
+
+<Callout kind="info">
+  页面标题与页面正文中的标题块是分开的。如果你在 **页面选项**中隐藏页面标题，你的 H1、H2 和 H3 标题仍然会显示。
+</Callout>

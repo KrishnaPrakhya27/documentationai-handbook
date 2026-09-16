@@ -1,0 +1,72 @@
+---
+title: 製品に埋め込む
+description: Docs Embedを使って、ドキュメントを製品やウェブサイトに埋め込みます。
+metaTitle: 製品に埋め込む | GitBook Documentation
+ogImage: https://test-dai.imgix.net/org-4afef969-21f9-40f3-b5b8-b06c8b6cf68f/doc-22a3b060-9539-4176-97e4-49120e02f5d1/0a5a1a9630785855-organizations-d8f63b60-89ae-11e7-8574-5927d48c4877-sites-site_p4Xo4-socialprevie.jpg?fm=auto&auto=compress%2Cformat
+---
+
+Docs Embed は、あらゆる製品やウェブサイトに追加できる、製品知識への強力な窓口です。ユーザーは [GitBook Assistant](/ja/docs/notamenoai/gitbook-ai-assistant)、製品を離れることなく、ドキュメントを検索したり、ページを直接閲覧したりできます。ボタンで埋め込みを開いたり、任意のコンポーネントに配置したり、完全にプログラムで制御したりできます。
+
+<Image src="https://test-dai.imgix.net/org-4afef969-21f9-40f3-b5b8-b06c8b6cf68f/doc-22a3b060-9539-4176-97e4-49120e02f5d1/61019d2f4b9d0980-spaces-NkEGS7hzeqa35sMXQZ4X-uploads-5krgZgNq1Mj79a3aVB7h-emebeddable_assistant.png?fm=auto&auto=compress%2Cformat" alt="Embed GitBook Assistant into your product or website" caption="ドキュメントを製品やウェブサイトに埋め込みましょう" />
+
+## 概要
+
+Docs Embed には 3 つのタブを含めることができます:
+
+- **アシスタント**： [GitBook Assistant](/ja/docs/notamenoai/gitbook-ai-assistant) — ユーザーが答えを見つけるのを支援する、AI 搭載のチャットインターフェース
+- **検索**：ページをすばやく見つけたり、対象を絞った質問をしたりするための検索中心の画面
+- **ドキュメント**：ドキュメントサイトを移動するためのブラウザー
+
+すべてのタブはデフォルトで有効です。もし `タブ`、埋め込みには指定したタブのみが表示されます。
+
+カスタムアクション、ツール、提案質問などを使って、デフォルト設定をカスタマイズし、上書きできます。 [認証済みアクセス](/ja/docs/gong-kai/site-audience/authenticated-access)、その他いろいろ。
+
+## 始めましょう
+
+<Steps>
+  <Step title="前提条件">
+    ドキュメントを埋め込む前に、次を確認してください:
+
+    1. **ドキュメントが公開されていること** かつ、URL からアクセス可能であること（例: `https://docs.company.com`).
+    2. **埋め込みスクリプトの URL を取得していること** サイト設定（Settings → AI & MCP → Embed）から。
+
+    <Callout kind="info">
+      アシスタントタブを使用したい場合は、 [GitBook Assistant を有効にする必要があります](/ja/docs/notamenoai/gitbook-ai-assistant) ドキュメントサイトで（Settings → AI & MCP）。
+    </Callout>
+  </Step>
+
+  <Step title="実装">
+    既存のスタックを使って、GitBook Assistant を製品にすばやく実装するには、当社のスキルを使用してください。
+
+    <Card href="/files/e598c82cf1e0ddfb459a241b4284058a74c255f5" />
+
+    あるいは、セットアップに合った方法について、以下のドキュメントを読み進めてください:
+
+    <Columns cols={2}>
+      <Card title="スタンドアロンの script タグ" href="/ja/docs/gong-kai/embedding/implementation/script" icon="code">
+        &lt;script> タグを追加するだけで最速でセットアップでき、その後に見た目をカスタマイズできます
+      </Card>
+
+      <Card title="Node.js/NPM" href="/ja/docs/gong-kai/embedding/implementation/nodejs" icon="box">
+        サーバーサイドレンダリングやビルド時の制御のために NPM でインストールします
+      </Card>
+
+      <Card title="React コンポーネント" href="/ja/docs/gong-kai/embedding/implementation/react" icon="react">
+        シームレスに統合するために、事前構築済みの React コンポーネントを使用します
+      </Card>
+    </Columns>
+
+    <Callout kind="info">
+      ドキュメントで [認証済みアクセス](/ja/docs/gong-kai/site-audience/authenticated-access)を使用している場合は、 [認証済みドキュメントで埋め込みを設定する方法の手順に従ってください](/ja/docs/gong-kai/embedding/using-with-authenticated-docs).
+    </Callout>
+  </Step>
+
+  <Step title="設定">
+    - [埋め込みのカスタマイズ](/ja/docs/gong-kai/embedding/configuration/customizing-docs-embed) – ウェルカムメッセージ、カスタムアクション、提案を追加する
+    - [カスタムツールの作成](/ja/docs/gong-kai/embedding/configuration/creating-custom-tools) – アシスタントを製品の API に接続する
+  </Step>
+</Steps>
+
+## さらに読む
+
+完全な API リファレンスとソースコードについては、 [`@gitbook/embed` GitHub 上のパッケージを参照してください](https://github.com/GitbookIO/gitbook/tree/main/packages/embed).

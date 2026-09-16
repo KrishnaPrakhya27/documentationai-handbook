@@ -1,0 +1,80 @@
+---
+title: 提示
+description: 向页面添加提示，以吸引读者注意特定的重要信息。
+metaTitle: 提示 | GitBook Documentation
+ogImage: https://test-dai.imgix.net/org-4afef969-21f9-40f3-b5b8-b06c8b6cf68f/doc-22a3b060-9539-4176-97e4-49120e02f5d1/0a5a1a9630785855-organizations-d8f63b60-89ae-11e7-8574-5927d48c4877-sites-site_p4Xo4-socialprevie.jpg?fm=auto&auto=compress%2Cformat
+---
+
+提示（或标注）是吸引读者注意文档中特定元素的绝佳方式，例如提示、警告和其他重要信息。
+
+共有四种不同的提示样式——你可以通过打开该块的 **选项菜单** <Image src="https://test-dai.imgix.net/org-4afef969-21f9-40f3-b5b8-b06c8b6cf68f/doc-22a3b060-9539-4176-97e4-49120e02f5d1/4c115a43418b42e3-spaces-NkEGS7hzeqa35sMXQZ4X-uploads-aS1QvPIBVYwhpFTGcPBN-options-menu.svg?rasterize-bypass=true" alt="The Options menu icon in GitBook" /> 并选择你想要的样式来更改样式。每种样式都使用默认图标，但你可以点击图标，并从 [我们的图标集](/zh/docs/chuang-jian-nei-rong/formatting/inline#icons).
+
+提示块支持 [行内内容](/zh/docs/chuang-jian-nei-rong/formatting/inline) 以及 [格式](/zh/docs/chuang-jian-nei-rong/formatting)，以及一些特定的块类型。要查看在提示中可以使用哪些块类型，请在 `/` 空白行上按 [插入面板](/zh/docs/chuang-jian-nei-rong/blocks#inserting-a-new-content-block).
+
+### 提示块示例
+
+<Callout kind="info">
+  **信息提示** 非常适合显示一般信息，或提供技巧与诀窍。
+</Callout>
+
+<Callout kind="success">
+  **成功提示** 适合显示积极的行为或成就。
+</Callout>
+
+<Callout kind="alert">
+  **警告提示** 适合显示重要信息或非关键性警告。
+</Callout>
+
+<Callout kind="danger">
+  **危险提示** 适合强调破坏性操作或引起对关键信息的注意。
+</Callout>
+
+<Callout kind="info">
+  这个提示块有一个自定义图标。
+</Callout>
+
+<Callout kind="info">
+  #### **这是一个 H2 标题**
+
+  这是一个行
+
+  这是一个行内 <Image src="https://test-dai.imgix.net/org-4afef969-21f9-40f3-b5b8-b06c8b6cf68f/doc-22a3b060-9539-4176-97e4-49120e02f5d1/1a24909b6a7822e5-spaces-NkEGS7hzeqa35sMXQZ4X-uploads-0FzoF68PAY3Rv297meNB-command.svg?rasterize-bypass=true" alt="The Apple computer command icon" /> 图片
+
+  - 这是第二个 <mark>使用无序列表和颜色的行</mark>
+</Callout>
+
+要为提示添加标题，你需要在提示中创建一个标题块，并将其作为第一个块。
+
+### Markdown 中的表示方式
+
+```markdown
+{% hint style="info" %}
+**信息提示** 非常适合显示一般信息，或提供技巧与诀窍。
+{% endhint %}
+
+{% hint style="success" %}
+**成功提示** 适合显示积极的行为或成就。
+{% endhint %}
+
+{% hint style="warning" %}
+**警告提示** 适合显示重要信息或非关键性警告。
+{% endhint %}
+
+{% hint style="danger" %}
+**危险提示** 适合强调破坏性操作或引起对关键信息的注意。
+{% endhint %}
+
+{% hint style="info" icon="books" %}
+这个提示块有一个自定义图标。
+{% endhint %}
+
+{% hint style="info" %}
+## 这是一个 H2 标题
+
+这是一个行
+
+这是一个行内 <img src="../../.gitbook/assets/25_01_10_command_icon_light.svg" alt="苹果电脑的 command 图标" data-size="line"> 图片
+
+- 这是第二行，使用无序列表和<mark style="color:orange;background-color:purple;">颜色</mark>
+{% endhint %}
+```

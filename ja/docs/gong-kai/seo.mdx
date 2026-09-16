@@ -1,0 +1,52 @@
+---
+title: SEO
+description: GitBookはほとんどのSEOを自動で処理します。公開サイトはレスポンシブで、事前レンダリングされ、グローバルCDN経由で配信されるため、ほとんど設定は不要です。
+metaTitle: SEO | GitBook Documentation
+ogImage: https://test-dai.imgix.net/org-4afef969-21f9-40f3-b5b8-b06c8b6cf68f/doc-22a3b060-9539-4176-97e4-49120e02f5d1/0a5a1a9630785855-organizations-d8f63b60-89ae-11e7-8574-5927d48c4877-sites-site_p4Xo4-socialprevie.jpg?fm=auto&auto=compress%2Cformat
+---
+
+### GitBook が自動的に行うこと
+
+#### レスポンシブデザイン
+
+公開されたコンテンツは、スマートフォン、タブレット、デスクトップなど、あらゆる画面サイズに適応します。
+
+#### URL とメタデータ
+
+- ページの URL は既定ではページタイトルに基づきますが、カスタマイズできます。
+- 正規 URL は重複コンテンツの問題を防ぎます。
+- HTML と Open Graph のタイトルは、ページタイトルとサイトタイトルから取得されます。
+- メタ説明と Open Graph の説明は、ページの説明から取得されます。
+- 画像は代替テキストをサポートしており、検索エンジンとアクセシビリティの両方に役立ちます。
+- HTML はサーバー側で事前レンダリングされるため、クローラーはコンテンツをインデックスするのに JavaScript を必要としません。
+
+<Callout kind="info">
+  GitBook はキーワードメタタグを生成しません。現代の検索エンジンはランキングにそれらを使用しません — [これは Google が 2009 年に確認しました](https://developers.google.com/search/blog/2009/09/google-does-not-use-keywords-meta-tag).
+</Callout>
+
+#### サイトマップ
+
+GitBook は、非公開に設定されていない公開済みサイトのサイトマップを自動生成します。見つけるには、末尾に `/sitemap-pages.xml` をサイトのホーム URL の末尾に追加します。例: [gitbook.com/docs/sitemap-pages.xml](https://gitbook.com/docs/sitemap-pages.xml).
+
+#### CDN とキャッシュ
+
+公開されたコンテンツはすべてキャッシュされ、グローバル CDN 経由で配信されます。読み込み時間が速いほど、ユーザー体験と検索順位の両方が向上します。
+
+### できること
+
+#### カスタムドメインを設定する
+
+のようなカスタムドメインは、 `docs.example.com` よりも検索での可視性を向上させる場合があります。 `yourorganization.gitbook.io` サブドメインよりも有利です。カスタムドメインを設定する →
+
+#### インデックス速度を改善する
+
+検索エンジンがコンテンツをどれだけ速くインデックスするかは GitBook では制御できませんが、次の 2 つが役立ちます:
+
+1. すでにインデックスされているページからあなたのサイトへリンクします。Google がそれらのページを再クロールすると、あなたのサイトを見つけやすくなります。
+2. サイトを Google に直接送信します。これにはカスタムドメインと、TXT DNS レコードによる所有権確認が必要です。 [サイトを Google に送信する →](https://developers.google.com/search/docs/advanced/crawling/ask-google-to-recrawl)
+
+#### リダイレクトを設定する
+
+コンテンツを GitBook に移行したり、サイトを再構成したりすると、既存のリンクが壊れ、SEO に影響する場合があります。を設定して [リダイレクト](/ja/docs/gong-kai/site-redirects) → で古い URL を新しい URL に転送します。
+
+ページを移動または名前変更すると、GitBook は自動的に [HTTP 307 リダイレクト](https://developer.mozilla.org/en-US/docs/Web/HTTP/Reference/Status/307) を古い URL から新しい URL へ作成します。 [自動リダイレクトについて詳しく見る →](/ja/docs/gong-kai/site-redirects#about-automatic-redirects)

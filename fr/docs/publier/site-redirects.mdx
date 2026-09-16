@@ -1,0 +1,123 @@
+---
+title: Redirections du site
+description: Configurez des redirections de site pour acheminer le trafic vers du contenu partout sur votre site
+metaTitle: Redirections du site | GitBook Documentation
+ogImage: https://test-dai.imgix.net/org-4afef969-21f9-40f3-b5b8-b06c8b6cf68f/doc-22a3b060-9539-4176-97e4-49120e02f5d1/0a5a1a9630785855-organizations-d8f63b60-89ae-11e7-8574-5927d48c4877-sites-site_p4Xo4-socialprevie.jpg?fm=auto&auto=compress%2Cformat
+---
+
+<Image src="https://test-dai.imgix.net/org-4afef969-21f9-40f3-b5b8-b06c8b6cf68f/doc-22a3b060-9539-4176-97e4-49120e02f5d1/461ab22ad63233d5-spaces-NkEGS7hzeqa35sMXQZ4X-uploads-SOD2dR0Bb3RtX6Avb7vg-26_01_06_redirects-2x.png?fm=auto&auto=compress%2Cformat" alt="A GitBook screenshot showing site redirects" caption="Les redirections de site sont utiles lors de la migration de la documentation ou de la restructuration du contenu afin d’éviter les liens cassés, qui peuvent avoir un impact sur le SEO." />
+
+Les redirections sont couramment utilisées lorsque vous migrez votre documentation d’un fournisseur à un autre — par exemple lorsque vous venez de déplacer la documentation vers GitBook. Les liens cassés peuvent avoir un impact sur le SEO, c’est pourquoi nous recommandons de mettre en place des redirections lorsque c’est nécessaire.
+
+En plus de [les redirections automatiques créées par GitBook](#about-automatic-redirects), vous pouvez créer une redirection depuis n’importe quel chemin du domaine de votre site.
+
+Les redirections peuvent être créées en tant que **En ligne** ou **Brouillon**. Les redirections en brouillon vous permettent de préparer et de vérifier les règles de redirection avant de les publier. Les brouillons n’affectent pas votre site en ligne tant qu’ils ne sont pas activés.
+
+## Gérer les redirections sur votre site
+
+Pour commencer, ouvrez les **Paramètres**, sous **Général** dans la barre latérale du site, puis cliquez sur **Redirections**.
+
+### Créer des redirections
+
+Cliquez sur **Ajouter une redirection** et sélectionnez l’option **Manuel** .
+
+Renseignez le **chemin source** — le slug d’URL que vous souhaitez rediriger — ainsi que le **contenu de destination** vers lequel vous souhaitez envoyer les visiteurs. Vous pouvez sélectionner n’importe quelle section, variante ou page de votre site.
+
+### Choisir un statut de redirection
+
+Lorsque vous créez ou modifiez une redirection, choisissez son statut HTTP :
+
+- <strong>Temporaire (307)</strong> indique aux navigateurs et aux moteurs de recherche que la destination peut changer. Utilisez-le pour un déplacement temporaire.
+- <strong>Permanent (308)</strong> indique aux navigateurs et aux moteurs de recherche que l’URL source a été déplacée de façon permanente. Utilisez-le lorsque vous ne prévoyez pas de restaurer l’ancienne URL.
+
+Les deux codes d’état conservent la méthode et le corps de la requête lors de la redirection.
+
+Cliquez sur **Activer la redirection** pour activer immédiatement la redirection.
+
+Si vous souhaitez créer la redirection sans la mettre encore en ligne, cliquez sur **Enregistrer en brouillon** à la place. Les redirections en brouillon apparaissent dans l’onglet **Brouillon** et peuvent être activées plus tard.
+
+Vous pouvez également créer des **redirections génériques** en ajoutant * à la fin du chemin source, par exemple :
+
+- /docs/* pour faire correspondre tout ce qui se trouve sous /docs/
+- /changelog* pour faire correspondre les chemins qui commencent par /changelog
+
+Lorsque votre chemin source inclut un joker (\*), vous pouvez activer **Remplacer le joker par le texte correspondant**.
+
+- <strong>Activé :</strong> la partie correspondant à * est ajoutée au chemin de destination.
+
+  - Exemple : source /docs/* → destination /help<br />/docs/install redirige vers /help/install
+- <strong>Désactivé :</strong> toutes les URL correspondantes redirigent vers la même destination fixe.
+
+  - Exemple : source /docs/* → destination /help<br />/docs/install redirige vers /help
+
+Si vous souhaitez ajouter une autre redirection vers la même page, activez **Ajouter une autre redirection** avant de cliquer sur **Activer la redirection** ou **Enregistrer en brouillon**.
+
+Lorsque vous ajoutez la redirection, la fenêtre modale restera ouverte avec le contenu de destination défini sur votre sélection précédente afin que vous puissiez ajouter rapidement un autre chemin source.
+
+<Callout kind="alert">
+  <strong>Remarque :</strong> GitBook résout les URL publiées sans tenir compte de la casse, de sorte que deux redirections qui ne diffèrent que par les majuscules et les minuscules sont traitées comme le même chemin. Si vous migrez depuis une plateforme qui utilise des URL sensibles à la casse, vous devrez peut-être regrouper les redirections avant l’importation.
+</Callout>
+
+### Modifier des redirections
+
+Pour modifier une redirection, cliquez sur l’ **icône Modifier** à côté dans la liste. Mettez à jour la redirection et cliquez sur **Activer la redirection** pour publier vos modifications.
+
+Si la redirection est actuellement un **brouillon**, vous pouvez également la publier directement depuis la fenêtre modale d’édition en cliquant sur **Activer la redirection**.
+
+### Activation des redirections en brouillon
+
+Les redirections en brouillon apparaissent dans l’onglet **Brouillon** du tableau des redirections.
+
+Vous pouvez publier une redirection en brouillon de deux façons :
+
+• Ouvrez la redirection et cliquez sur **Activer la redirection** dans la fenêtre modale d’édition.<br />• Utilisez le **interrupteur dans le tableau** pour activer directement la redirection.
+
+Une fois activée, la redirection passe dans l’onglet **En ligne** et commence immédiatement à rediriger les visiteurs.
+
+### Importer des redirections depuis un CSV
+
+Cliquez sur **Ajouter une redirection** et choisissez **Importer un CSV**.
+
+Importez un CSV avec les colonnes `source`, `contenu de destination`, et en option `intention`.
+
+- `source` est le chemin que vous souhaitez rediriger, par exemple /docs/site-redirects
+- `contenu de destination` peut être :
+
+  - une page spécifique, en utilisant l’URL d’administration de la page comme indiqué dans la capture d’écran ci-dessous
+  - une URL externe
+  - vide, selon l’intention
+- `intention` peut être :
+
+  - en ligne, laissé vide ou complètement omis, pour créer, mettre à jour ou supprimer une redirection en ligne
+  - brouillon pour créer, mettre à jour ou supprimer une redirection en brouillon
+  - publier pour publier une redirection en brouillon existante en ligne, `contenu de destination` doit être vide.
+
+<Image src="https://test-dai.imgix.net/org-4afef969-21f9-40f3-b5b8-b06c8b6cf68f/doc-22a3b060-9539-4176-97e4-49120e02f5d1/079fa8382bfdf476-spaces-NkEGS7hzeqa35sMXQZ4X-uploads-git-blob-1811bdc6a92d7e88fd724f3249aaae4a935.png?fm=auto&auto=compress%2Cformat" alt="" caption="Vous pouvez trouver l’URL d’administration GitBook d’une page dans ce menu" />
+
+Un maximum de 500 lignes est pris en charge par importation.
+
+Si votre CSV contient des valeurs source en double, seule la première ligne est traitée. L’importation fonctionne comme une opération d’upsert : les redirections existantes avec la même source sont mises à jour, et de nouvelles redirections sont créées pour les sources qui n’existent pas encore.
+
+Si certaines lignes échouent, un CSV d’erreurs est disponible via la notification en bas à droite. Il inclut la source, la destination et une brève explication de chaque erreur afin que vous puissiez corriger, supprimer la colonne des erreurs et réimporter.
+
+#### Exemples de CSV
+
+| source | contenu de destination | intention | Résultat |
+| --- | --- | --- | --- |
+| /docs/site-redirects | https://example.com/page | vide | Créer ou mettre à jour une redirection en ligne |
+| /docs/site-redirects | https://example.com/page | en ligne | Créer ou mettre à jour une redirection en ligne |
+| /docs/site-redirects | https://example.com/page | brouillon | Créer ou mettre à jour une redirection en brouillon |
+| /docs/site-redirects | vide | vide | Supprimer la redirection en ligne |
+| /docs/site-redirects | vide | en ligne | Supprimer la redirection en ligne |
+| /docs/site-redirects | vide | brouillon | Supprimer la redirection en brouillon |
+| /docs/site-redirects | vide | publier | Publier la redirection en brouillon existante en ligne |
+
+## À propos des redirections automatiques
+
+Chaque fois que des pages sont déplacées ou renommées, leur URL canonique change avec elles. Afin de conserver l’accessibilité de votre contenu, GitBook crée automatiquement une [redirection HTTP 307](https://developer.mozilla.org/en-US/docs/Web/HTTP/Reference/Status/307) de l’ancienne URL vers la nouvelle.
+
+Chaque fois qu’une URL est chargée, GitBook la résout selon les étapes suivantes :
+
+1. Le contenu du site est résolu vers son URL canonique en suivant l’une des redirections créées automatiquement.
+2. Si l’URL ne peut pas être résolue, elle est vérifiée par rapport aux [redirections au niveau de la section](/fr/docs/la-documentation-comme-code/git-sync/content-configuration#redirects), définies dans le fichier `.gitbook.yaml` .
+3. Enfin, l’URL est vérifiée par rapport aux redirections au niveau du site, créées via [le processus ci-dessus](#creating-redirects).

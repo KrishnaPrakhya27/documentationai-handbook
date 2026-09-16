@@ -1,0 +1,59 @@
+---
+title: Get a team
+metaTitle: Get a team | Developers | GitBook Documentation
+ogImage: https://test-dai.imgix.net/org-4afef969-21f9-40f3-b5b8-b06c8b6cf68f/doc-22a3b060-9539-4176-97e4-49120e02f5d1/0a5a1a9630785855-organizations-d8f63b60-89ae-11e7-8574-5927d48c4877-sites-site_p4Xo4-socialprevie.jpg?fm=auto&auto=compress%2Cformat
+---
+
+**GET** `/orgs/{organizationId}/teams/{teamId}`
+
+**Parameters**
+
+<ParamField header="Authorization" param-type="string" />
+
+<ParamField path="organizationId" param-type="string" required={true}>
+  The unique id of the organization
+</ParamField>
+
+<ParamField path="teamId" param-type="string" required={true}>
+  The unique ID of the Team
+</ParamField>
+
+**Responses**
+
+`200` OK
+
+<ResponseField name="object" field-type="string" required={true} enum="team">
+  Type of Object, always equals to "team"
+</ResponseField>
+
+<ResponseField name="id" field-type="string" required={true}>
+  Unique identifier for the team.
+</ResponseField>
+
+<ResponseField name="title" field-type="string" required={true}>
+  Title of the team
+</ResponseField>
+
+<ResponseField name="members" field-type="integer" required={true}>
+  Count of members in this team.
+</ResponseField>
+
+<ResponseField name="spaces" field-type="number" required={true}>
+  Count of spaces this team has access to.
+</ResponseField>
+
+<ResponseField name="createdAt" field-type="string" required={true} />
+
+<ResponseField name="permissions" field-type="object" required={true}>
+  The set of permissions for the team
+
+  <Expandable title="Object Properties">
+    <ResponseField name="admin" field-type="boolean" required={true}>
+      Can the user manage the team
+    </ResponseField>
+
+    <ResponseField name="view" field-type="boolean" required={true}>
+      Can the user view the team and list its members
+    </ResponseField>
+  </Expandable>
+</ResponseField>

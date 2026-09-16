@@ -1,0 +1,160 @@
+---
+title: Embedのカスタマイズ
+description: ウェルカムメッセージ、アクションなどを設定して、Docs Embedを製品やアプリに埋め込む際の体験をカスタマイズします
+metaTitle: Embedのカスタマイズ | GitBook Documentation
+ogImage: https://test-dai.imgix.net/org-4afef969-21f9-40f3-b5b8-b06c8b6cf68f/doc-22a3b060-9539-4176-97e4-49120e02f5d1/0a5a1a9630785855-organizations-d8f63b60-89ae-11e7-8574-5927d48c4877-sites-site_p4Xo4-socialprevie.jpg?fm=auto&auto=compress%2Cformat
+---
+
+後 [Docs Embed をウェブサイトまたはアプリに追加する](/ja/docs/gong-kai/embedding/implementation)、さらにサイドバーに実行可能なボタンを追加したり、コンテキストに応じた質問、タブなどでユーザーの行動を促す提案を追加したりして、体験をさらにカスタマイズできます。
+
+### ボタンのカスタマイズ（[スタンドアロン](/ja/docs/gong-kai/embedding/implementation/script) のみ）
+
+〜を使用する場合 [スタンドアロンの script タグ実装](/ja/docs/gong-kai/embedding/implementation/script)、埋め込みウィジェットを起動するボタンのラベルとアイコンをカスタマイズできます。
+
+<Callout kind="info">
+  このボタンのカスタマイズオプションは、 [スタンドアロンの script タグ実装](/ja/docs/gong-kai/embedding/implementation/script)。なお、 [React](/ja/docs/gong-kai/embedding/implementation/react) または [Node.js/NPM パッケージ](/ja/docs/gong-kai/embedding/implementation/nodejs) 実装では、埋め込みを起動する独自のボタンを作成する必要があります。
+</Callout>
+
+```javascript
+window.GitBook("configure", {
+  button: {
+    label: "質問する",
+    icon: "assistant", // 'assistant' | 'sparkle' | 'help' | 'book'
+  },
+});
+```
+
+<strong>利用可能なアイコンのオプション：</strong>
+
+- `assistant` \-  アシスタントのアイコン（デフォルト）
+- `sparkle` \-  きらめきアイコン
+- `help` \-  ヘルプ/質問アイコン
+- `book` \-  本アイコン
+
+### カラースキームの設定
+
+デフォルトでは、埋め込みは iframe の CSS に従います `color-scheme`。これにより、アプリのテーマやブラウザーの設定に自動的に一致させることができます。
+
+モードを強制したい場合は、 `colorScheme` 埋め込みを初期化する際、フレーム URL を構築する際、または React コンポーネントをレンダリングする際に `configure`.
+
+<Tabs>
+  <Tab title="スタンドアロンスクリプト">
+    ```javascript
+    window.GitBook(
+      "init",
+      { siteURL: "https://docs.company.com" },
+      { colorScheme: "dark" }
+    );
+    ```
+  </Tab>
+
+  <Tab title="Node.js/NPM">
+    ```javascript
+    const iframeURL = gitbook.getFrameURL({
+      colorScheme: "dark",
+    });
+    ```
+  </Tab>
+
+  <Tab title="React">
+    ```jsx
+    <GitBookFrame colorScheme="dark" />
+    ```
+  </Tab>
+</Tabs>
+
+### アクションの追加
+
+埋め込みにアクションを追加すると、UI でユーザーに追加のアクションを提供できます。各アクションは、ラベル、アイコン（ [Font Awesome](https://fontawesome.com/search?ip=brands%2Cclassic%2Cduotone)から選択）、および `onClick` ユーザーがアクションをクリックしたときに実行されるアクションで構成されます。追加したアクションは、タブと並んでサイドバーに表示されます。アクションは Docs Embed 自体を制御することも、任意のコードを実行することもできます。
+
+```javascript
+window.GitBook("configure", {
+  actions: [
+    {
+      label: "サポートに問い合わせる",
+      icon: "circle-question",
+      onClick: () => {
+        window.open("https://support.example.com", "_blank");
+      },
+    },
+    {
+      label: "ドキュメント",
+      icon: "book",
+      onClick: () => {
+        window.open("https://docs.example.com", "_blank");
+      },
+    },
+  ],
+});
+```
+
+### 提案の追加
+
+アシスタントタブに提案を追加でき、アシスタントが読み込まれるとユーザーがクリックして使えるプロンプトとして表示されます。
+
+```javascript
+window.GitBook("configure", {
+  suggestions: [
+    "新しいアカウントの使い始め方を教えて",
+    "パスワードをリセットするにはどうすればいいですか？",
+    "料金プランはどのようになっていますか？",
+  ],
+});
+```
+
+### 挨拶の追加
+
+アシスタントタブに表示されるウェルカムメッセージをカスタマイズします：
+
+```javascript
+window.GitBook("configure", {
+  greeting: {
+    title: "ようこそ！",
+    subtitle: "本日はどのようなご用件でしょうか？",
+  },
+});
+```
+
+### アシスタント名の上書き
+
+使用 `assistantName` UI に表示されるアシスタント名を上書きします。
+
+値は最大 32 文字まで含めることができます。
+
+```javascript
+window.GitBook("configure", {
+  assistantName: "Support Copilot",
+});
+```
+
+### 閉じるボタンの表示
+
+使用 `closeButton` アシスタント内に閉じるボタンを表示します。
+
+```javascript
+window.GitBook("configure", {
+  closeButton: true,
+});
+```
+
+### 商標の表示/非表示
+
+使用 `trademark` Docs Embed フッターとアシスタントのブランディングを含む、埋め込み UI 内の GitBook の商標を表示または非表示にします。
+
+```javascript
+window.GitBook("configure", {
+  trademark: false,
+});
+```
+
+### タブの設定
+
+表示するタブを上書きします。サイトが対応している限り、すべてのタブはデフォルトで有効です。たとえば、サイトでアシスタントが有効になっていない場合は表示されません。もし `タブ`、埋め込みには指定したタブのみが表示されます。
+
+```javascript
+window.GitBook("configure", {
+  tabs: ["assistant", "search", "docs"], // すべてのタブを表示
+  // tabs: ["search", "docs"], // 検索と docs のみを表示
+  // tabs: ['docs'], // docs タブのみを表示
+});
+```

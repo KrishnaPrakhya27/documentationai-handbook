@@ -1,0 +1,48 @@
+---
+title: 変数と式
+description: ページやセクションで参照できる再利用可能な変数を作成します
+metaTitle: 変数と式 | GitBook Documentation
+ogImage: https://test-dai.imgix.net/org-4afef969-21f9-40f3-b5b8-b06c8b6cf68f/doc-22a3b060-9539-4176-97e4-49120e02f5d1/0a5a1a9630785855-organizations-d8f63b60-89ae-11e7-8574-5927d48c4877-sites-site_p4Xo4-socialprevie.jpg?fm=auto&auto=compress%2Cformat
+---
+
+変数を使うと、条件に応じて参照できる再利用可能なテキストを作成できます [式](/ja/docs/kontentsuwo/formatting/inline#expressions) 、 [アダプティブコンテンツの条件](/ja/docs/gong-kai/adaptive-content/adapting-your-content#working-with-the-condition-editor).
+
+コンテンツ内で同じ名前、フレーズ、またはバージョン番号を何度も繰り返す場合は、 **変数** を作成して、それらのすべてを同期した正確な状態に保つのに役立てられます。更新が必要な場合や、複雑で টাইポが起こりやすい場合に便利です。
+
+単一ページ、または単一セクションにスコープを限定した変数を作成できます。
+
+### 新しい変数を作成
+
+新しい変数を作成するには、 **ライブラリ** 編集中の開いているドキュメントの目次で [変更リクエスト](/ja/docs/gong-tong-zuo-ye/change-requests)。次に、 **変数**.
+
+上部のトグルを使って、現在いるページにスコープを限定した変数と、現在のセクション内のすべてのページにスコープを限定した変数を表示・作成できます。
+
+をクリックすると **変数を作成** するためのモーダルが開き、変数の名前と値を入力できます。
+
+クリックして **変数を追加** して、変数を保存します。
+
+<Image src="https://test-dai.imgix.net/org-4afef969-21f9-40f3-b5b8-b06c8b6cf68f/doc-22a3b060-9539-4176-97e4-49120e02f5d1/1b45aae2ae8c3065-spaces-NkEGS7hzeqa35sMXQZ4X-uploads-QwfTEGjsxDThqQFvgOm8-Add-variable-2x.png?fm=auto&auto=compress%2Cformat" alt="A GitBook screenshot showing the Add variables screen. The variable Name box has been filled with the text ‘latest_version’ and the Value box has been filled with the text ‘v3.04.1’" caption="変数は、単一ページにもセクション全体にも追加できます。変数の値を更新すると、その変数のすべてのインスタンスが更新されます。" />
+
+<Callout kind="info">
+  変数名は英字で始める必要があり、英字、数字、アンダースコアを含めることができます。
+</Callout>
+
+### コンテンツ内で変数を使用する
+
+変数は、 [式](/ja/docs/kontentsuwo/formatting/inline#expressions) の中で参照して使用できます。これはインラインでコンテンツに挿入できます。式を挿入したら、ダブルクリックして式エディタを開きます。
+
+<Callout kind="info">
+  式は、ドキュメントのページ本文でのみ使用できます。ページタイトルやページのメタデータでは機能しません。
+</Callout>
+
+ページ下に定義した変数は、 `page.vars` オブジェクトから参照できます。同様に、セクション全体に定義した変数は、 `space.vars` オブジェクト。
+
+<Callout kind="info">
+  から参照できます。式では、セクションスコープの変数は `space.vars` の下にあり、— GitBook API ではセクションを `space` オブジェクトとして表します。
+</Callout>
+
+<Image src="https://test-dai.imgix.net/org-4afef969-21f9-40f3-b5b8-b06c8b6cf68f/doc-22a3b060-9539-4176-97e4-49120e02f5d1/808ca61d28ee1024-spaces-NkEGS7hzeqa35sMXQZ4X-uploads-aRWyFWMI24Cy2nVZmSzE-Using-variable-2x.png?fm=auto&auto=compress%2Cformat" alt="A GitBook screenshot showing an expression block within the editor. The expression editor is open below it and the ‘space.vars.latest_version’ variable has been selected" caption="式の中でコンテンツに変数を追加できます。式エディタには、必要な変数を見つけるのに役立つオートコンプリート候補があります。" />
+
+### 変数を更新する
+
+変更リクエストの途中であれば、いつでも変数を更新できます。値を更新すると、それを参照しているすべての式ブロックで値が更新されます。変更された変数は、変更リクエストがマージされると、公開済みのサイトすべてに反映されます。

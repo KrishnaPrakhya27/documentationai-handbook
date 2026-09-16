@@ -1,0 +1,54 @@
+---
+title: OpenAPI仕様を追加する
+description: GitBookアプリまたはCLIからOpenAPI仕様を追加・更新する方法を学びます
+metaTitle: OpenAPI仕様を追加する | GitBook Documentation
+ogImage: https://test-dai.imgix.net/org-4afef969-21f9-40f3-b5b8-b06c8b6cf68f/doc-22a3b060-9539-4176-97e4-49120e02f5d1/0a5a1a9630785855-organizations-d8f63b60-89ae-11e7-8574-5927d48c4877-sites-site_p4Xo4-socialprevie.jpg?fm=auto&auto=compress%2Cformat
+---
+
+OpenAPI 仕様がある場合は、ファイルを直接アップロードするか、ホストされたURLにリンクするか、または [GitBook CLI](/en/docs/developers/integrations/reference).
+
+GitBook は [Swagger 2.0](https://github.com/OAI/OpenAPI-Specification/blob/main/versions/2.0.md), [OpenAPI 3.0](https://github.com/OAI/OpenAPI-Specification/blob/main/versions/3.0.3.md)を読み取り、 [OpenAPI 3.1](https://github.com/OAI/OpenAPI-Specification/blob/main/versions/3.1.1.md) は、ファイルのアップロード、ホストされたURL、CLIによる公開に対応しています。現在の互換性の概要については、 [OpenAPI 互換性](/ja/docs/kontentsuwo/openapi#openapi-compatibility).
+
+<Image src="https://test-dai.imgix.net/org-4afef969-21f9-40f3-b5b8-b06c8b6cf68f/doc-22a3b060-9539-4176-97e4-49120e02f5d1/2fc277eeb719b403-spaces-NkEGS7hzeqa35sMXQZ4X-uploads-6pg8vIZeVQESjhTw5yI2-generate-api-docs-2x.png?fm=auto&auto=compress%2Cformat" alt="A GitBook screenshot showing the modal for generating API docs automatically" />
+
+### 仕様を追加する方法
+
+1. 〜を開き、 **OpenAPI** サイドバーのセクション
+2. をクリックします **仕様を追加**
+3. 仕様に名前を付けてください。これは識別に役立ちます。特に複数の仕様を管理している場合に便利です
+4. 次のいずれかを選択してください:
+
+   - ファイルをアップロードする（例: *openapi.yaml*)
+   - ホストされた仕様のURLを入力する
+   - CLI を使って仕様を公開する
+
+<Image src="https://test-dai.imgix.net/org-4afef969-21f9-40f3-b5b8-b06c8b6cf68f/doc-22a3b060-9539-4176-97e4-49120e02f5d1/fc85ba50453906b9-spaces-NkEGS7hzeqa35sMXQZ4X-uploads-pTRwMrbHyYlKZy07CsAp-api_spec_modal-2x.png?fm=auto&auto=compress%2Cformat" alt="A GitBook screenshot showing the Add an OpenAPI specification modal" caption="OpenAPI 仕様を追加するモーダル。" />
+
+### 仕様を更新する
+
+最初にどの方法で追加したかに関係なく、GitBook の UI または CLI を使って、OpenAPI 仕様はいつでも更新できます。
+
+#### GitBook アプリケーションで
+
+OpenAPI パネルで:
+
+- 仕様がURLにリンクされている場合:
+
+  - GitBook は更新を自動的に確認します **6時間ごとに**.
+  - 更新をすぐに取得するには、 **更新を確認**.
+- 仕様がファイルとしてアップロードされている場合:
+
+  - クリックして **更新** をクリックして新しいバージョンをアップロードします。
+- パンくずアクションメニューの **編集** をクリックすると、File から URL ソースに切り替えられます。
+
+#### CLI を使用する
+
+仕様を更新するには、同じコマンドを使用します:
+
+```bash
+gitbook openapi publish --spec api-spec-name --organization organization_id <path-or-url>
+```
+
+CLI を使って **更新を確認** 公開コマンドを同じURLで実行することで行えます。
+
+こちらの [CI/CDとの統合](/ja/docs/kontentsuwo/openapi/guides/support-for-ci-cd-with-api-blocks) ガイドを読んで、仕様の更新を自動化する方法をご確認ください。

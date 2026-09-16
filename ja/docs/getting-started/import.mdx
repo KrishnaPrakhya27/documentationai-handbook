@@ -1,0 +1,103 @@
+---
+title: GitBookへの移行
+description: Confluence、Notion、Gitなどから、既存コンテンツをGitBookに取り込む方法
+metaTitle: GitBookへの移行 | GitBook Documentation
+ogImage: https://test-dai.imgix.net/org-4afef969-21f9-40f3-b5b8-b06c8b6cf68f/doc-22a3b060-9539-4176-97e4-49120e02f5d1/0a5a1a9630785855-organizations-d8f63b60-89ae-11e7-8574-5927d48c4877-sites-site_p4Xo4-socialprevie.jpg?fm=auto&auto=compress%2Cformat
+---
+
+インポートツールを使用して、GitBook で既存のドキュメントを移行し、統合できます。
+
+組み込みのインポートツールを使用して、1ページまたは複数ページをインポートすることもできます — あるいは [Git Sync を使って Git リポジトリ全体をインポートすることもできます](#import-using-git-sync).
+
+## インポートパネルの使用
+
+インポートパネルを使うと、別のドキュメントサイトや既存のファイルからコンテンツを GitBook 組織へ簡単に移行できます。
+
+別のオンラインドキュメントサイトからインポートする場合は、そのサイトの URL を追加するだけで、残りは GitBook が処理します。
+
+デフォルトでは、GitBook は AI を使用してインポートプロセスを効率化します。これにより、GitBook の形式に完全には一致しないインポート済みコンテンツが自動的に洗練され、整えられます。そのため、出力はより洗練され、GitBook のブロックをより効果的に使用できるようになります。これはメニューから無効にできます。
+
+### 対応インポート形式
+
+GitBook は、次の形式のドキュメントサイトまたはファイルからのインポートをサポートしています：
+
+- Markdown（`.md` または `.markdown`)
+- HTML（`.html`)
+- Microsoft Word（`.docx`)
+
+GitBook は次のソースからのインポートもサポートしています：
+
+- Confluence
+- Notion
+- GitHub Wiki
+- Quip
+- Dropbox Paper
+- Google Docs
+
+複数ページを **インポートしたい場合**、HTML または Markdown ファイルを含む ZIP ファイルをアップロードするか、 **オンラインドキュメント** インポートオプションを使用できます。
+
+<Callout kind="info">
+  GitBook は Markdown ベースのため、Markdown 形式でコンテンツをインポートすると最良の結果が得られます。現在お使いのツールが Markdown でのエクスポートをサポートしている場合は、よりスムーズにインポートできるよう、その形式の使用をおすすめします。
+</Callout>
+
+### インポートパネル
+
+<Image src="https://test-dai.imgix.net/org-4afef969-21f9-40f3-b5b8-b06c8b6cf68f/doc-22a3b060-9539-4176-97e4-49120e02f5d1/9080ffc47674772f-spaces-NkEGS7hzeqa35sMXQZ4X-uploads-8omDHqTDwNkvdG6Hv81q-Import-2x--1-.png?fm=auto&auto=compress%2Cformat" alt="A GitBook screenshot showing the import panel" caption="GitBook のインポートパネル。" />
+
+新しいセクションを作成すると、表示されるモーダルでコンテンツをインポートするオプションがあります。空のセクションを作成した場合は、次の方法でもインポートできます： **クイックスタート** 新しい空白ページの下部にあるセクションを、 **編集**.
+
+または、ページやサブページをインポートするには、次を選択します： **新規追加** \> **ページをインポート** の下部で [目次](/ja/docs/rifarensu/gitbook-ui#table-of-contents)、または次を開いて **操作メニュー** <Image src="https://test-dai.imgix.net/org-4afef969-21f9-40f3-b5b8-b06c8b6cf68f/doc-22a3b060-9539-4176-97e4-49120e02f5d1/4fa265378c13a520-spaces-NkEGS7hzeqa35sMXQZ4X-uploads-89MTSo5XRpPMVr1T0rxS-actions.svg?rasterize-bypass=true" alt="The Actions menu icon in GitBook" /> ページのメニューから次を選択して **サブページをインポート**.
+
+入力元を選択した後、インポートしたいファイルを選択できます。
+
+<Callout kind="alert">
+  GitBook はさまざまなソースからコンテンツをインポートできますが、製品機能やドキュメント形式の違いにより、インポートされたコンテンツが元のソースと異なる場合があります。
+</Callout>
+
+### 制限事項
+
+現在、GitBook のインポートコンテンツには次の制限があります：
+
+- 1回のインポートでアップロードできるページ数の上限は **20**.
+- 1回のインポートでアップロードできるファイル数（画像など）の上限は **20**.
+
+GitBook ではこれらのインポート上限を引き上げることはできません。より多くのコンテンツを一度にインポートするには、次を使用してください： [Git Sync](/ja/docs/docs-as-code/git-sync)、最大 5,000 件の Markdown ページに対応しています。
+
+---
+
+<a id="import-using-git-sync"></a>
+
+## Git Sync を使って GitHub または GitLab のリポジトリからインポートする
+
+大量のコンテンツを GitBook にインポートする場合は、次の方法をおすすめします： [Git Sync](/ja/docs/docs-as-code/git-sync)。組み込みの移行ツールはほとんどのインポートに対応できますが、Git Sync はより大規模な移行を効率的に処理するのに適しています。
+
+<Callout kind="info">
+  コンテンツをインポートするための基本手順は以下にあります。より詳細な手順と動画デモについては、次の専用ガイドをご覧ください： [Git Sync を使用して GitBook にコンテンツをインポートする](/en/docs/guides/editing-and-publishing-documentation/import-or-migrate-your-content-to-gitbook-with-git-sync).
+</Callout>
+
+<Steps>
+  <Step title="コンテンツを Markdown に変換する">
+    GitBook は Markdown ベースのため、Markdown 形式でコンテンツをインポートすると最良の結果が得られます。現在お使いのツールが Markdown でのエクスポートをサポートしている場合は、よりスムーズにインポートできるよう、その形式の使用をおすすめします。
+
+    コンテンツがまだ Markdown ファイルでない場合は、次のようなスクリプトの使用をおすすめします： [Markitdown](https://github.com/microsoft/markitdown)）またはオンラインツールでコンテンツを変換してください。
+  </Step>
+
+  <Step title="GitHub または GitLab でコンテンツを整理する">
+    GitBook サイトをセットアップする際は、GitHub または GitLab リポジトリ内でコンテンツを効率よく整理することが重要です。Git Sync はセクション単位で行われるため、コンテンツのまとめ方を慎重に計画してください。複数のリポジトリやフォルダを作成し、必要な Markdown ファイルが正しい場所にあることを確認します。
+  </Step>
+
+  <Step title="セクションを設定し、Git Sync を構成する">
+    コンテンツを整理するには、必要に応じて GitBook で 1 つ以上のセクションを作成します。次をインストールしてください： [GitHub Sync](https://www.gitbook.com/integrations/github-sync) または [GitLab Sync](https://www.gitbook.com/integrations/gitlab-sync) を組織に導入し、それらのセクション用に構成します。セクションは、前の手順で設定したフォルダまたはリポジトリと同期する必要があります。
+  </Step>
+
+  <Step title="Git Sync の方向を GitHub → GitBook に設定して実行する">
+    設定手順に従う際は、GitHub → GitBook の方向を選択していることを必ず確認してください。これにより、フォルダまたはリポジトリの内容が GitHub または GitLab から GitBook に取り込まれます。
+  </Step>
+</Steps>
+
+## コンテンツをエクスポートする
+
+GitBook のコンテンツは 2 通りの方法でエクスポートできます：
+
+- **Markdown として**、Git リポジトリと同期することで行えます。アプリ内に直接 Markdown をエクスポートする機能はありません — エクスポートしたいセクションを、空の GitHub または GitLab リポジトリと次を使って同期してください： [Git Sync](/ja/docs/docs-as-code/git-sync)。すると、そのリポジトリが Markdown エクスポート先になります。一部のブロックは Markdown で表現できず、エクスポートでは HTML として表示されます。
+- **PDF として**、ページまたはセクションのアクションメニューから行えます。次を参照してください： [PDFエクスポート](/ja/docs/gong-kai/pdf-export)。非常に大きなセクションをエクスポートする際は、制限に達する場合があります。

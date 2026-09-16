@@ -1,0 +1,59 @@
+---
+title: Configurer un sous-répertoire avec Cloudflare
+description: Hébergez votre documentation dans un sous-répertoire /docs à l’aide de Cloudflare
+metaTitle: Configurer un sous-répertoire avec Cloudflare | GitBook Documentation
+ogImage: https://test-dai.imgix.net/org-4afef969-21f9-40f3-b5b8-b06c8b6cf68f/doc-22a3b060-9539-4176-97e4-49120e02f5d1/0a5a1a9630785855-organizations-d8f63b60-89ae-11e7-8574-5927d48c4877-sites-site_p4Xo4-socialprevie.jpg?fm=auto&auto=compress%2Cformat
+---
+
+<Steps>
+  <Step title="Configuration de votre site GitBook" titleType="h3">
+    Dans votre organisation GitBook, cliquez sur le nom de votre site de documentation dans la barre latérale, puis cliquez **Gérer le site** ou ouvrez le **Paramètres** onglet. Ouvrez la **Domaine et redirections** section et, sous « Sous-répertoire », cliquez sur **Configurer un sous-répertoire**.
+
+    Saisissez l'URL où vous souhaitez héberger votre documentation. Indiquez ensuite le sous-répertoire d'accès à la documentation, par ex. `tomatopy.pizza/docs`, puis cliquez sur **Configurer**.
+
+    Sous **Configuration supplémentaire**, vous verrez maintenant une URL de proxy. Vous l'utiliserez à l'étape suivante lors de la configuration de votre worker Cloudflare. Copiez-la dans votre presse-papiers.
+  </Step>
+
+  <Step title="Créez votre worker Cloudflare" titleType="h3">
+    Connectez-vous à votre compte Cloudflare et accédez à **Workers & Pages**
+
+    Cliquez sur le **Créer** bouton.
+
+    Sur l'écran « Créer une application », cliquez sur le **Hello world** bouton dans la carte « Commencer à partir d'un modèle ».
+
+    Donnez au worker un nom plus explicite, comme `mydocs-subpath-proxy`. Une fois le renommage du worker terminé, cliquez sur **Déployer**.
+  </Step>
+
+  <Step title="Configurez votre domaine personnalisé" titleType="h3">
+    Votre worker obtiendra une URL par défaut que vous pourrez utiliser. Pour configurer votre domaine personnalisé à la place (par exemple `tomatopy.pizza`), cliquez sur <strong>Paramètres.</strong> Ensuite, dans la section « Domaines et routes », cliquez sur <strong>\+ Ajouter</strong>.
+
+    Dans le panneau « Domaines et routes » qui s'ouvre, cliquez sur **Domaine personnalisé**, puis saisissez votre domaine personnalisé dans la zone de texte qui suit. Lorsque vous spécifiez le domaine personnalisé, *ne pas* inclure le sous-répertoire. Par exemple, `tomatopy.pizza` est correct, tandis que `tomatopy.pizza/docs` ne l'est pas.
+  </Step>
+
+  <Step title="Mettez à jour le code du worker" titleType="h3">
+    Une fois le déploiement du worker terminé, cliquez sur **Modifier le code**, ou cliquez sur **Continuer vers le projet**, puis le **Modifier le code** bouton en haut à droite.
+
+    Dans l'éditeur de code qui s'ouvre, remplacez le code d'exemple par l'extrait suivant :
+
+    ```javascript
+    export default {
+      fetch(request) { 
+        const SUBDIRECTORY = '/docs';
+        const url = new URL(request.url);
+        const target = "<INSÉREZ VOTRE URL DE PROXY DEPUIS GITBOOK>" + url.pathname.slice(SUBDIRECTORY.length);
+        const proxy = new URL(
+          target.endsWith('/') ? target.slice(0, -1) : target 
+        )
+        proxy.search = url.search;
+        return fetch(new Request(proxy, request));
+      }
+    };
+    ```
+
+    <Callout kind="info">
+      Veillez à mettre à jour l'URL à la ligne 5 avec l'URL de proxy obtenue depuis GitBook à la première étape.
+    </Callout>
+
+    Une fois cela fait, cliquez sur **Déployer**. Ce processus peut prendre quelques instants. Une fois terminé, lorsque vous visiterez l'URL, vous devriez voir votre site de documentation !
+  </Step>
+</Steps>

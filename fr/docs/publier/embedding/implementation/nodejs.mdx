@@ -1,0 +1,239 @@
+---
+title: Node.js/NPM
+description: Intégrez Docs Embed à l’aide du package NPM pour un contrôle complet au niveau de l’application
+metaTitle: Node.js/NPM | GitBook Documentation
+ogImage: https://test-dai.imgix.net/org-4afef969-21f9-40f3-b5b8-b06c8b6cf68f/doc-22a3b060-9539-4176-97e4-49120e02f5d1/0a5a1a9630785855-organizations-d8f63b60-89ae-11e7-8574-5927d48c4877-sites-site_p4Xo4-socialprevie.jpg?fm=auto&auto=compress%2Cformat
+---
+
+Si vous avez besoin de plus de contrôle et souhaitez travailler au niveau de l'application, vous pouvez installer le paquet d'intégration GitBook depuis npm. Cette approche est idéale pour le rendu côté serveur, l'intégration au moment de la compilation ou la gestion personnalisée des iframes.
+
+## Étapes
+
+<Steps>
+  <Step title="Installer le paquet">
+    Ajouter `@gitbook/embed` à votre projet :
+
+    ```bash
+    npm install @gitbook/embed
+    ```
+
+    Pour la référence complète de l'API et le code source, consultez le [`@gitbook/embed` paquet sur GitHub](https://github.com/GitbookIO/gitbook/tree/main/packages/embed).
+  </Step>
+
+  <Step title="Importer le paquet">
+    Dans le code de votre application, importez la `createGitBook` fonction :
+
+    ```javascript
+    import { createGitBook } from "@gitbook/embed";
+    ```
+
+    Ou en CommonJS :
+
+    ```javascript
+    const { createGitBook } = require("@gitbook/embed");
+    ```
+  </Step>
+
+  <Step title="Initialiser GitBook">
+    Créez une instance GitBook avec l'URL de votre site de documentation :
+
+    ```javascript
+    const gitbook = createGitBook({
+      siteURL: "https://docs.company.com",
+    });
+    ```
+  </Step>
+
+  <Step title="Créer une iframe">
+    Générez un élément iframe et définissez sa source sur l'URL d'intégration :
+
+    ```javascript
+    const iframe = document.createElement("iframe");
+    iframe.src = gitbook.getFrameURL({
+      visitor: {
+        token: 'your-jwt-token', // Facultatif : pour le contenu adaptatif ou l'accès authentifié
+        unsignedClaims: { // Facultatif : revendications personnalisées pour les expressions dynamiques
+          userId: '123',
+          plan: 'premium'
+        }
+      }
+    });
+    iframe.id = "gitbook-embed-container";
+    iframe.style.border = "none";
+    iframe.style.width = "100%";
+    iframe.style.height = "600px";
+    iframe.allow = "clipboard-write";
+    ```
+
+    <Callout kind="info">
+      Si vous utilisez l'onglet Assistant, définissez `allow="clipboard-write"` sur l'iframe. Le paquet NPM vous laisse configurer l'iframe. La version autonome [balise script](/fr/docs/publier/embedding/implementation/script) ajoute cela automatiquement.
+    </Callout>
+  </Step>
+
+  <Step title="Attacher le cadre">
+    Créez une instance de cadre GitBook et intégrez-la à votre page :
+
+    ```javascript
+    const frame = gitbook.createFrame(iframe);
+    document.getElementById("gitbook-embed-container").appendChild(iframe);
+    ```
+  </Step>
+
+  <Step title="Contrôler l'intégration par programmation">
+    Utilisez l'instance du cadre pour interagir avec l'intégration :
+
+    ```javascript
+    // Naviguer vers une page spécifique dans l'onglet docs
+    frame.navigateToPage("/getting-started");
+
+    // Passer à l'onglet assistant
+    frame.navigateToAssistant();
+
+    // Publier un message dans le chat
+    frame.postUserMessage("Comment puis-je commencer ?");
+
+    // Effacer l'historique du chat
+    frame.clearChat();
+    ```
+  </Step>
+
+  <Step title="Configurer l'intégration">
+    Configurez l'intégration avec des options de personnalisation :
+
+    ```javascript
+    frame.configure({
+      trademark: false,
+      tabs: ['assistant', 'search', 'docs'],
+      actions: [
+        {
+          icon: 'circle-question',
+          label: 'Contacter l'assistance',
+          onClick: () => window.open('https://support.example.com', '_blank')
+        }
+      ],
+      greeting: { title: 'Bienvenue !', subtitle: 'Comment puis-je vous aider ?' },
+      assistantName: 'Copilot d'assistance',
+      closeButton: true,
+      suggestions: ['Qu'est-ce que GitBook ?', 'Comment puis-je commencer ?'],
+      tools: [/* ... */]
+    });
+    ```
+  </Step>
+
+  <Step title="Écouter les événements">
+    Enregistrez des écouteurs d'événements pour réagir aux événements de l'intégration :
+
+    ```javascript
+    frame.on('close', () => {
+      console.log('Cadre fermé');
+    });
+
+    // Se désabonner une fois terminé
+    const unsubscribe = frame.on('navigate', (data) => {
+      console.log('Navigué vers :', data.path);
+    });
+    ```
+  </Step>
+</Steps>
+
+## Référence de l'API
+
+### Fabrique du client
+
+- `createGitBook(options: { siteURL: string })` → `GitBookClient`
+- `client.getFrameURL(options?: { visitor?: {...}, colorScheme?: 'light' | 'dark' })` → `string` \- Obtenir l'URL de l'iframe avec des options de cadre facultatives
+- `client.createFrame(iframe: HTMLIFrameElement)` → `GitBookFrameClient` \- Créer un client de cadre pour communiquer avec l'iframe
+
+### Méthodes du client de cadre
+
+- `frame.navigateToPage(path: string)` → `void` \- Naviguer vers une page spécifique dans l'onglet docs
+- `frame.navigateToAssistant()` → `void` \- Passer à l'onglet assistant
+- `frame.postUserMessage(message: string)` → `void` \- Publier un message dans le chat
+- `frame.clearChat()` → `void` \- Effacer l'historique du chat
+- `frame.configure(settings: Partial<GitBookEmbeddableConfiguration>)` → `void` \- Configurer l'intégration
+- `frame.on(event: string, listener: Function)` → `() => void` \- Enregistrer un écouteur d'événements (renvoie la fonction de désabonnement)
+
+## Options de configuration
+
+La plupart des options de personnalisation sont disponibles via `frame.configure({...})`.
+
+#### `onglets`
+
+Remplace les onglets affichés.
+
+La recherche est activée par défaut. Si vous définissez `onglets`, l'intégration affiche uniquement les onglets que vous listez.
+
+- **Type**: `('assistant' | 'search' | 'docs')[]`
+
+#### `actions`
+
+Boutons d'action personnalisés affichés dans la barre latérale à côté des onglets. Chaque bouton d'action déclenche un rappel lorsqu'il est cliqué.
+
+**Remarque**: C'était auparavant nommé `buttons`. Utilisez `actions` à la place.
+
+- **Type**: `Array<{ icon: string, label: string, onClick: () => void }>`
+
+#### `greeting`
+
+Message de bienvenue affiché dans l'onglet Assistant.
+
+- **Type**: `{ title: string, subtitle: string }`
+
+#### `assistantName`
+
+Remplace le nom de l'assistant affiché dans l'interface.
+
+- **Type**: `string`
+- **Longueur maximale**: `32` caractères
+
+#### `closeButton`
+
+Afficher un bouton de fermeture dans l'Assistant.
+
+- **Type**: `boolean`
+
+#### `suggestions`
+
+Questions suggérées affichées sur l'écran de bienvenue de l'Assistant.
+
+- **Type**: `string[]`
+
+#### `trademark`
+
+Afficher ou masquer la marque GitBook dans l'interface d'intégration — y compris le pied de page de l'intégration Docs et l'image de marque de l'Assistant.
+
+- **Type**: `boolean`
+- **Par défaut**: `true`
+
+#### `tools`
+
+Outils IA personnalisés pour étendre l'Assistant. Voir [Créer des outils personnalisés](/fr/docs/publier/embedding/configuration/creating-custom-tools) pour plus de détails.
+
+- **Type**: `Array<{ name: string, description: string, inputSchema: object, execute: Function, confirmation?: {...} }>`
+
+### Options de l'URL du cadre
+
+Certaines options sont transmises à `getFrameURL({...})`.
+
+#### `colorScheme`
+
+Remplace le schéma de couleurs de l'intégration.
+
+Lorsqu'il n'est pas spécifié, l'intégration suit le `color-scheme`CSS de l'iframe, ce qui lui permet d'hériter de la page parente ou de la préférence du navigateur.
+
+- **Type**: `'light' | 'dark'`
+
+### `visitor` (Accès authentifié)
+
+Passez à `getFrameURL({ visitor: {...} })`. Utilisé pour [le contenu adaptatif](/fr/docs/publier/adaptive-content) et [l'accès authentifié](/fr/docs/publier/site-audience/authenticated-access).
+
+- **Type**: `{ token?: string, unsignedClaims?: Record<string, unknown> }`
+
+## Pièges courants
+
+- **Oublier d'installer le paquet** – Exécutez `npm install @gitbook/embed` avant l'importation.
+- **siteURL manquant** – L'option `siteURL` est requise et doit correspondre à votre site de documentation publié.
+- **iFrame ne s'affiche pas** – Assurez-vous que le conteneur parent dispose d'une largeur/hauteur suffisante pour que l'iframe s'affiche.
+- **Méthodes du cadre appelées avant l'initialisation** – Attendez que `createFrame()` soit terminée avant d'appeler les méthodes du cadre.
+- **Ne pas se désabonner des événements** – N'oubliez pas d'appeler la fonction de désabonnement renvoyée par `frame.on()` pour éviter les fuites de mémoire.
+- **Utilisation d'anciennes méthodes de l'API** – Les méthodes comme `open()`, `close()`, `toggle()`, et `destroy()` ne sont pas disponibles dans le paquet NPM. Utilisez plutôt les méthodes du client de cadre.

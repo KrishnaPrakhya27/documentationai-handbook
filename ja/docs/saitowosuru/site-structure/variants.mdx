@@ -1,0 +1,66 @@
+---
+title: コンテンツバリエーション
+description: 複数の製品バージョンや言語向けのドキュメントを1つのサイトで公開します
+metaTitle: コンテンツバリエーション | GitBook Documentation
+ogImage: https://test-dai.imgix.net/org-4afef969-21f9-40f3-b5b8-b06c8b6cf68f/doc-22a3b060-9539-4176-97e4-49120e02f5d1/0a5a1a9630785855-organizations-d8f63b60-89ae-11e7-8574-5927d48c4877-sites-site_p4Xo4-socialprevie.jpg?fm=auto&auto=compress%2Cformat
+---
+
+同じドキュメントの複数バージョンを、1つのドキュメントサイトの一部として公開できます。これらのバリアントは、公開サイトの目次上部にあるバリアントピッカーから、エンドユーザーが利用できます。
+
+<Image src="https://test-dai.imgix.net/org-4afef969-21f9-40f3-b5b8-b06c8b6cf68f/doc-22a3b060-9539-4176-97e4-49120e02f5d1/64f4d3a9af8e928f-spaces-NkEGS7hzeqa35sMXQZ4X-uploads-2cQxJ5sTMVUkXOcuDEU8-Adding-a-section-2x.png?fm=auto&auto=compress%2Cformat" alt="A GitBook screenshot showing a docs site's structure" />
+
+### 複数の言語やバージョンを追加する
+
+複数のバリアントを持つサイトは、コンテンツのバリエーションをまとめて管理する必要がある場合に便利です。たとえば、API の複数バージョン（v1、v2、v3 など）をドキュメント化する場合や、異なる言語でコンテンツをドキュメント化する場合です。
+
+<Callout kind="info">
+  バリアントにはどんなコンテンツでも含められますが、次のような用途で使うことをおすすめします *同じコンテンツのバリエーション*。コンテンツの意味が異なる場合は、別のものとして追加することを検討してください [セクション](/ja/docs/saitowosuru/site-structure/site-sections) 代わりにこちらを使用してください。
+</Callout>
+
+翻訳や複数言語をバリアントとして追加する場合は、ドキュメントを閲覧するユーザーに最適な体験を提供するため、バリアントの言語を設定するのがベストプラクティスです。
+
+言語を設定した複数のバリアントを追加すると、言語ピッカーは右上に移動し、既定のバリアントピッカーよりもすっきりした、より直接的な体験になります。
+
+### ドキュメントサイトにバリアントを追加する
+
+構造エディターを開くには **サイト構造**、 **全般** サイトのサイドバー内にあります。ここでサイトのすべてのコンテンツを確認できます。
+
+バリアントを追加するには、 **バリアントを追加** 追加したいセクションのボタンをクリックし、追加するコンテンツを選択します。新しいバリアントは、選択したセクション内のバリアント一覧に追加され、サイトのバリアントのドロップダウンから訪問者が利用できるようになります。
+
+### バリアントを変更する
+
+各バリアントの名前とスラッグは、編集したいバリアントの表の行にある <Image src="https://test-dai.imgix.net/org-4afef969-21f9-40f3-b5b8-b06c8b6cf68f/doc-22a3b060-9539-4176-97e4-49120e02f5d1/ab76723fb229a5ad-spaces-NkEGS7hzeqa35sMXQZ4X-uploads-A3OfGjPkE5GnOQvN36jN-edit.svg?rasterize-bypass=true" alt="The Edit icon in GitBook" /> **編集** この操作でモーダルが開きます。変更したいフィールドを編集し、次に **保存** 保存するには、 **バリアントを削除する** 左下のボタンをクリックします。
+
+サイトが複数言語をサポートしている場合、バリアントのタイトルを翻訳して、ピッカーにローカライズされたラベルを表示することもできます。詳細は [多言語セクション](/ja/docs/saitowosuru/site-structure/multilingual-sections).
+
+<Callout kind="info">
+  バリアントのスラッグを変更すると、その正規 URL も変更されます。GitBook は古い URL から新しい URL への自動リダイレクトを作成します。また、 [手動でリダイレクトを作成することもできます](/ja/docs/gong-kai/site-redirects).
+</Callout>
+
+バリアントのコンテンツを置き換えるには、まずその **編集** <Image src="https://test-dai.imgix.net/org-4afef969-21f9-40f3-b5b8-b06c8b6cf68f/doc-22a3b060-9539-4176-97e4-49120e02f5d1/ab76723fb229a5ad-spaces-NkEGS7hzeqa35sMXQZ4X-uploads-A3OfGjPkE5GnOQvN36jN-edit.svg?rasterize-bypass=true" alt="The Edit icon in GitBook" /> ボタンをクリックして削除し、その後 **削除** モーダルの左下にある **バリアントを追加** 新しいコンテンツを追加するボタンをクリックします。
+
+### バリアントの並べ替え
+
+サイトでは、バリアントはあなたの **サイト構造** 表に表示される順序で表示されます。バリアントは、 **ドラッグハンドル** <Image src="https://test-dai.imgix.net/org-4afef969-21f9-40f3-b5b8-b06c8b6cf68f/doc-22a3b060-9539-4176-97e4-49120e02f5d1/4c115a43418b42e3-spaces-NkEGS7hzeqa35sMXQZ4X-uploads-aS1QvPIBVYwhpFTGcPBN-options-menu.svg?rasterize-bypass=true" alt="The Options menu icon in GitBook" /> をつかんで上下に移動することで並べ替えられます。変更後の順序はすぐにサイトに反映されます。
+
+スペースバーでセクションまたはバリアントを選択してから、矢印キーで上下に移動できます。スペースバーをもう一度押すと、新しい位置が確定します。
+
+### 既定のバリアントを設定する
+
+セクション内に複数のバリアントがある場合、そのうち1つが既定としてマークされます。このバリアントは、訪問者がサイトにアクセスしたとき（またはセクションにアクセスしたとき）に表示されます。その他のバリアントにはそれぞれ、サイトの URL に付加されるスラッグがあります。
+
+バリアントを既定に設定するには、 **操作メニュー** <Image src="https://test-dai.imgix.net/org-4afef969-21f9-40f3-b5b8-b06c8b6cf68f/doc-22a3b060-9539-4176-97e4-49120e02f5d1/4fa265378c13a520-spaces-NkEGS7hzeqa35sMXQZ4X-uploads-89MTSo5XRpPMVr1T0rxS-actions.svg?rasterize-bypass=true" alt="The Actions menu icon in GitBook" /> バリアントの表の行にある **既定に設定**.
+
+<Callout kind="info">
+  バリアントを既定に設定すると、スラッグ欄は削除され、代わりにセクションのルートから配信されます。GitBook は、訪問者がコンテンツを引き続き表示できるように、バリアントのスラッグを適切なパスへリダイレクトします。
+</Callout>
+
+### サイトからバリアントを削除する
+
+サイトからバリアントを削除するには、 **サイト構造**、 **全般** をサイトサイドバーから構造エディターを開き、削除したいコンテンツを見つけます。
+
+〜を開き、 **操作メニュー** <Image src="https://test-dai.imgix.net/org-4afef969-21f9-40f3-b5b8-b06c8b6cf68f/doc-22a3b060-9539-4176-97e4-49120e02f5d1/4fa265378c13a520-spaces-NkEGS7hzeqa35sMXQZ4X-uploads-89MTSo5XRpPMVr1T0rxS-actions.svg?rasterize-bypass=true" alt="The Actions menu icon in GitBook" /> 削除したいバリアントの **削除**.
+
+<Callout kind="success">
+  サイトからバリアントを削除すると、公開サイトからも削除されますが **コンテンツ自体は削除されません** — それでも [すべてのコンテンツ](/ja/docs/kontentsuwo/content-structure/all-content).
+</Callout>

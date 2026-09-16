@@ -1,0 +1,31 @@
+---
+title: Get a temporary URL to download a space or page as PDF
+metaTitle: Get a temporary URL to download a space or page as PDF | Developers | GitBook Documentation
+ogImage: https://test-dai.imgix.net/org-4afef969-21f9-40f3-b5b8-b06c8b6cf68f/doc-22a3b060-9539-4176-97e4-49120e02f5d1/0a5a1a9630785855-organizations-d8f63b60-89ae-11e7-8574-5927d48c4877-sites-site_p4Xo4-socialprevie.jpg?fm=auto&auto=compress%2Cformat
+---
+
+Returns a short-lived URL (valid for 1 hour) to download the space's content as a PDF file.
+
+**GET** `/spaces/{spaceId}/pdf`
+
+**Parameters**
+
+<ParamField header="Authorization" param-type="string" />
+
+<ParamField path="spaceId" param-type="string" required={true}>
+  The unique id of the space
+</ParamField>
+
+<ParamField query="only" param-type="boolean">
+  Generate a PDF only for the provided page.
+</ParamField>
+
+<ParamField query="page" param-type="string">
+  ID of a specific page to generate a PDF for.
+</ParamField>
+
+**Responses**
+
+`200` URL of the PDF
+
+<ResponseField name="url" field-type="string" required={true} />

@@ -1,0 +1,41 @@
+---
+title: 使用 Vercel 配置子目录
+description: 使用 Vercel 将你的文档托管在 /docs 子目录下
+metaTitle: 使用 Vercel 配置子目录 | GitBook Documentation
+ogImage: https://test-dai.imgix.net/org-4afef969-21f9-40f3-b5b8-b06c8b6cf68f/doc-22a3b060-9539-4176-97e4-49120e02f5d1/0a5a1a9630785855-organizations-d8f63b60-89ae-11e7-8574-5927d48c4877-sites-site_p4Xo4-socialprevie.jpg?fm=auto&auto=compress%2Cformat
+---
+
+<Steps>
+  <Step title="配置你的 GitBook 站点" titleType="h3">
+    在你的 GitBook 组织中，点击侧边栏中的文档站点名称，然后 **管理站点**，然后 **域名和重定向**。在“子目录”下，点击 **设置子目录**.
+
+    输入你希望托管文档的 URL。然后指定文档访问的子目录，例如 `tomatopy.pizza/docs`，并点击 **配置**.
+
+    在 **附加配置**，你现在会看到一个代理 URL。接下来在配置 Vercel 设置时会用到它。将其复制到剪贴板。
+  </Step>
+
+  <Step title="更新你的 vercel.json" titleType="h3">
+    在你的 Vercel 应用中，打开你的 `vercel.json`文件（如果你还没有的话，请在根目录中创建一个）。然后，添加以下内容：
+
+    ```json
+    {
+        "rewrites": [
+            {
+                "source": "/docs",
+                "destination": "<插入你从 GITBOOK 获取的代理 URL>"
+            },
+            {
+                "source": "/docs/:match*",
+                "destination": "<插入你从 GITBOOK 获取的代理 URL>/:match*"
+            }
+        ]
+    }
+    ```
+
+    *务必更新该 URL* 将第 5 行中的 URL 替换为你在第一步从 GitBook 获取的代理 URL。
+  </Step>
+
+  <Step title="重新部署你的应用并试试看！" titleType="h3">
+    使用更新后的配置重新部署你的 Vercel 应用。这可能需要一些时间。现在，访问该 URL 时，你应该能看到你的文档站点！
+  </Step>
+</Steps>

@@ -1,0 +1,130 @@
+---
+title: 设置 Azure AD
+description: 为你的文档访客设置 Azure AD 登录界面
+metaTitle: 设置 Azure AD | GitBook Documentation
+ogImage: https://test-dai.imgix.net/org-4afef969-21f9-40f3-b5b8-b06c8b6cf68f/doc-22a3b060-9539-4176-97e4-49120e02f5d1/0a5a1a9630785855-organizations-d8f63b60-89ae-11e7-8574-5927d48c4877-sites-site_p4Xo4-socialprevie.jpg?fm=auto&auto=compress%2Cformat
+---
+
+<Callout kind="alert">
+  本指南将带你完成为文档设置受保护登录页面的过程。在阅读本指南之前，请确保你已经先完成了以下过程： [启用已认证访问](/zh/docs/fa-bu/site-audience/authenticated-access/enabling-authenticated-access).
+</Callout>
+
+<Callout kind="info">
+  Azure 集成存在一个已知限制：身份验证后，标题 URL 片段会被移除。用户仍会进入正确的页面，但会被带到页面顶部，而不是 URL 中的标题位置。一旦用户通过身份验证，此行为在该会话期间将不再发生，用户将被定向到正确的标题位置。
+
+  这是由于 Microsoft 实施的一项安全措施。
+</Callout>
+
+### 概述
+
+要使用 Azure AD 为您的 GitBook 站点设置经过身份验证的访问，流程如下：
+
+<Steps>
+  <Step title="Step">
+    [**在 Azure AD 中创建应用注册**](#id-1.-create-an-app-registration-in-azure-a-d)
+
+    在 Microsoft Entra ID 管理仪表板中创建一个 Azure AD 应用注册。
+  </Step>
+
+  <Step title="Step">
+    [**在您的站点上安装并配置 Azure AD 集成**](#id-2.-install-and-configure-the-azure-a-d-integration)
+
+    安装 Azure AD 集成，并将所需配置添加到您的 GitBook 站点。
+  </Step>
+
+  <Step title="Step">
+    [<strong>为自适应内容配置 Azure AD（可选）</strong>](#id-3.-configure-azure-a-d-for-adaptive-content-optional)
+
+    配置您的 Azure AD，使其与 GitBook 中的自适应内容配合使用。
+  </Step>
+</Steps>
+
+### 1\. 在 Azure AD 中创建应用注册
+
+首先在 Microsoft Entra ID 仪表板中创建应用注册。此应用注册将允许 GitBook Azure AD 集成请求令牌，以在授予用户访问您的站点之前验证其身份。
+
+1. 登录到您的 Microsoft Entra ID 管理 [仪表板](https://entra.microsoft.com/).
+2. 前往 **标识** \> **应用程序** \> **应用注册** ，位于左侧边栏。
+3. 点击 <strong>\+ 新注册，</strong> 并为您的注册命名。
+4. 在 <strong>支持的帐户类型，</strong> 选择“<strong>仅此组织目录中的帐户（仅默认目录 - 单租户）”</strong>.
+5. 暂时将重定向 URI 字段留空——稍后需要填写。
+6. 点击 **注册** 以完成应用注册。<br />
+
+   <Image src="https://test-dai.imgix.net/org-4afef969-21f9-40f3-b5b8-b06c8b6cf68f/doc-22a3b060-9539-4176-97e4-49120e02f5d1/2da0684d25472e7f-spaces-NkEGS7hzeqa35sMXQZ4X-uploads-uB6p6HxRmveHp1cfsiKa-azure_ad_integration_re.png?fm=auto&auto=compress%2Cformat" alt="An Azure screenshot showing how to register an Azure AD app" caption="为 GitBook VA 集成注册一个应用。" />
+7. 然后您应该会看到新的应用注册 **概述** 页面。复制并记下 **应用程序（客户端）ID** 以及 **目录（租户）ID**.<br />
+
+   <Image src="https://test-dai.imgix.net/org-4afef969-21f9-40f3-b5b8-b06c8b6cf68f/doc-22a3b060-9539-4176-97e4-49120e02f5d1/89ea39a6b472459e-spaces-NkEGS7hzeqa35sMXQZ4X-uploads-ETQziXVuqGnho8GGOVBZ-azure_ad_integration_ap.png?fm=auto&auto=compress%2Cformat" alt="An Azure screenshot showing the app registration overview" caption="新创建的应用注册概览。" />
+8. 点击 **添加证书或机密**。您应该会看到以下 **证书和机密** 页面：<br />
+
+   <Image src="https://test-dai.imgix.net/org-4afef969-21f9-40f3-b5b8-b06c8b6cf68f/doc-22a3b060-9539-4176-97e4-49120e02f5d1/894a8961101ee978-spaces-NkEGS7hzeqa35sMXQZ4X-uploads-nXJbnpnGhOI6Udjrx8bS-azure_ad_integration_cl.png?fm=auto&auto=compress%2Cformat" alt="An Azure screenshot showing where to add a certificate or secret" caption="添加证书或机密。" />
+9. 点击 <strong>\+ 新建客户端机密</strong>.
+10. 为机密输入合适的说明，然后点击 **添加**.
+11. 复制并记下 **值** 字段（<em>**不** 即机密 ID</em>）对应的机密。
+
+### 2\. 安装并配置 Azure AD 集成
+
+创建 Azure AD 应用注册后，下一步是在 GitBook 中安装 Azure AD 集成，并使用您之前生成的凭据将其与 Azure 应用关联：
+
+1. 导航到您已 [启用经过身份验证的访问](/zh/docs/fa-bu/site-audience/authenticated-access/enabling-authenticated-access#enable-authenticated-access) 并希望将 Azure AD 作为身份提供方的网站。
+2. 点击 **集成** 按钮，位于站点设置右上角。<br />
+
+   <Image src="https://test-dai.imgix.net/org-4afef969-21f9-40f3-b5b8-b06c8b6cf68f/doc-22a3b060-9539-4176-97e4-49120e02f5d1/2084b09d489dfd9b-spaces-NkEGS7hzeqa35sMXQZ4X-uploads-gBMsbydNsuqx7eqcz0JN-va_site_integration_ove.png?fm=auto&auto=compress%2Cformat" alt="A GitBook screenshot showing the site settings overview" />
+3. 点击 **已认证访问** ，从侧边栏的类别中。
+4. 选择 **Azure** 集成。
+5. 点击 **安装到此站点**.<br />
+
+   <Image src="https://test-dai.imgix.net/org-4afef969-21f9-40f3-b5b8-b06c8b6cf68f/doc-22a3b060-9539-4176-97e4-49120e02f5d1/f619cf329a3b03e0-spaces-NkEGS7hzeqa35sMXQZ4X-uploads-CiveWUn0FWMEdS3YRU62-Screenshot-2025-03-24-a.png?fm=auto&auto=compress%2Cformat" alt="A GitBook screenshot showing installation of the Azure AD integration" />
+6. 在您的站点上安装集成后，您应该会看到该集成的配置界面：<br />
+
+   <Image src="https://test-dai.imgix.net/org-4afef969-21f9-40f3-b5b8-b06c8b6cf68f/doc-22a3b060-9539-4176-97e4-49120e02f5d1/d7ba337d1afb2e24-spaces-NkEGS7hzeqa35sMXQZ4X-uploads-vO9pXBCZkcprDDIVFkcf-Screenshot-2025-03-24-a.png?fm=auto&auto=compress%2Cformat" alt="A GitBook screenshot showing the Azure AD configuration dialog" />
+7. 输入 **客户端 ID**, **租户 ID**，以及 **客户端机密** 值，这些值是您在 [之前创建 Azure AD 应用注册后](#id-1.-create-an-app-registration-in-azure-a-d) 复制的，然后点击“保存”。
+8. 复制 **URL** ，它显示在 **对话框底部**.
+9. 返回到您之前在 Microsoft Entra ID 仪表板中创建的 Azure AD 应用注册。
+10. 浏览到 **管理** \> **身份验证** ，位于侧边栏中。
+11. 点击 <strong>\+ 添加平台</strong> 并选择 **Web** 卡片，在打开的面板中。<br />
+
+    <Image src="https://test-dai.imgix.net/org-4afef969-21f9-40f3-b5b8-b06c8b6cf68f/doc-22a3b060-9539-4176-97e4-49120e02f5d1/a7d6b9fb635d067e-spaces-NkEGS7hzeqa35sMXQZ4X-uploads-Ussw9BNY66urLYH376sE-Screenshot-2025-03-24-a.png?fm=auto&auto=compress%2Cformat" alt="An Azure screenshot showing authentication platform settings" />
+12. 粘贴您之前复制的 GitBook 集成 **URL** 到 **重定向 URI** 字段中，然后点击“配置”<br />
+
+    <Image src="https://test-dai.imgix.net/org-4afef969-21f9-40f3-b5b8-b06c8b6cf68f/doc-22a3b060-9539-4176-97e4-49120e02f5d1/a56c045c2cc284d2-spaces-NkEGS7hzeqa35sMXQZ4X-uploads-i9fVjsa351I6kVzJw64X-image.png?fm=auto&auto=compress%2Cformat" alt="An Azure screenshot showing where to enter the redirect URI" />
+13. 返回到 **Azure 集成** 安装页面 **在 GitBook 中**.
+14. 关闭集成对话框，然后点击站点页面中的 **设置** 选项卡。
+15. 浏览到 **受众** 并选择 **经过身份验证的访问** （如果尚未选择）。
+16. 选择 **Azure** 从下拉菜单中 **身份验证后端** 部分。
+17. 点击 **更新受众**.<br />
+
+    <Image src="https://test-dai.imgix.net/org-4afef969-21f9-40f3-b5b8-b06c8b6cf68f/doc-22a3b060-9539-4176-97e4-49120e02f5d1/5c02f35066860cdf-spaces-NkEGS7hzeqa35sMXQZ4X-uploads-inc5DrItbyXUIXP4K4ic-Screenshot-2025-03-24-a.png?fm=auto&auto=compress%2Cformat" alt="A GitBook screenshot showing authenticated access settings" />
+18. 前往站点概览页面，然后点击 **发布** 如果站点尚未发布。
+
+现在，您的站点已在 Azure AD 作为身份提供方的经过身份验证的访问后方发布。
+
+要进行测试，请点击“访问”。系统会要求您使用 Azure 登录，这确认了您的站点已通过 Azure 的经过身份验证的访问方式发布。
+
+<Callout kind="info">
+  在访问已发布内容 URL 并使用 Azure 凭据登录后，您可能会看到一个提示，告诉您需要向管理员“请求批准”。您的管理员可以通过访问已发布内容 URL、登录，并代表组织授予批准来完成此请求。
+</Callout>
+
+### 3\. 为自适应内容配置 Azure AD（可选）
+
+要在您的经过身份验证访问的站点中利用自适应内容功能，请配置 Azure AD 应用注册，以便将更多用户信息作为声明包含在身份验证令牌中。
+
+这些声明以键值对的形式传递给 GitBook，可用于 [自适应内容](/zh/docs/fa-bu/adaptive-content/adapting-your-content) 为你的站点访客动态调整。
+
+Azure AD 支持不同类型和级别的声明，每种都有各自的设置方法：
+
+- **标准声明**：可能包含在令牌中的常见声明，但默认并不总是存在。
+
+<Callout kind="info">
+  Azure AD 会保持令牌大小以优化性能。因此，许多声明 **不** 默认包含在令牌中，必须由应用显式请求。为确保诸如 `电子邮件` , `组` 或 `角色` 之类的声明被包含，它们必须被显式请求为 **可选声明**.
+</Callout>
+
+- **可选声明**：可为应用启用的额外预定义声明。
+- **自定义声明**：来自 Azure AD 中自定义用户属性或通过自定义声明提供程序从外部系统获取的声明。
+
+有关如何在您的 Azure AD 应用生成的令牌中包含这些不同类型声明的更多详情，请参阅以下 Microsoft Entra 文档指南：
+
+- [用户属性](https://learn.microsoft.com/en-us/entra/external-id/customers/how-to-add-attributes-to-token)
+- [可选声明](https://learn.microsoft.com/en-us/entra/identity-platform/optional-claims?toc=%2Fentra%2Fexternal-id%2Ftoc.json&bc=%2Fentra%2Fexternal-id%2Fbreadcrumb%2Ftoc.json&tabs=appui)
+- [自定义声明](https://learn.microsoft.com/en-us/entra/identity-platform/custom-claims-provider-overview)
+
+在完成设置并配置要发送给 GitBook 的正确声明后，前往“[自适应你的内容](/zh/docs/fa-bu/adaptive-content/adapting-your-content)”继续配置你的站点。

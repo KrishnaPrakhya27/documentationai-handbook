@@ -1,0 +1,46 @@
+---
+title: Synchronisation GitHub et GitLab
+description: Synchronisez votre documentation GitBook avec GitHub ou GitLab grâce à l’intégration bidirectionnelle de GitBook
+metaTitle: Synchronisation GitHub et GitLab | GitBook Documentation
+ogImage: https://test-dai.imgix.net/org-4afef969-21f9-40f3-b5b8-b06c8b6cf68f/doc-22a3b060-9539-4176-97e4-49120e02f5d1/0a5a1a9630785855-organizations-d8f63b60-89ae-11e7-8574-5927d48c4877-sites-site_p4Xo4-socialprevie.jpg?fm=auto&auto=compress%2Cformat
+---
+
+<Image src="https://test-dai.imgix.net/org-4afef969-21f9-40f3-b5b8-b06c8b6cf68f/doc-22a3b060-9539-4176-97e4-49120e02f5d1/7d07647a983c5d64-spaces-NkEGS7hzeqa35sMXQZ4X-uploads-dfcOvA0AfLVpJN5AGk3M-Site-wide-Git-Sync.png?fm=auto&auto=compress%2Cformat" alt="A GitBook screenshot showing the Git Sync setup" caption="Configurez Git Sync pour votre documentation GitBook." />
+
+### Vue d’ensemble
+
+Git Sync permet aux équipes techniques de synchroniser des dépôts GitHub ou GitLab avec GitBook et de transformer un dépôt de fichiers Markdown en une documentation attrayante et facile à utiliser. Modifiez directement dans l’éditeur puissant de GitBook tout en gardant le contenu synchronisé avec votre base de code sur GitHub ou GitLab.
+
+Git Sync est bidirectionnel, donc les modifications que vous apportez directement dans l’éditeur de GitBook sont synchronisées automatiquement, tout comme les commits effectués sur GitHub ou GitLab. Cela permet aux développeurs de valider directement depuis GitHub ou GitLab et aux rédacteurs techniques, concepteurs pédagogiques et chefs de produit de modifier, discuter des changements et faire part de leurs retours directement dans GitBook.
+
+### Configurez Git Sync
+
+<Columns cols={2}>
+  <Card title="Configurez GitHub Sync" href="/fr/docs/la-documentation-comme-code/git-sync/enabling-github-sync" icon="github">
+    Configurez et autorisez l’intégration GitHub pour GitBook.
+  </Card>
+
+  <Card title="Configurez GitLab Sync" href="/fr/docs/la-documentation-comme-code/git-sync/enabling-gitlab-sync" icon="gitlab">
+    Configurez et autorisez l’intégration GitLab pour GitBook.
+  </Card>
+</Columns>
+
+<Callout kind="info">
+  Git Sync prend en charge la liste d’autorisation des adresses IP pour les clients Enterprise. Si votre GitHub, GitLab ou réseau interne n’accepte le trafic que depuis des IP approuvées, ajoutez à la liste d’autorisation ces IP sortantes de Git Sync avant d’activer l’intégration :
+
+  - `34.136.22.210`
+  - `34.29.189.57`
+  - `35.223.181.150`
+  - `34.72.115.112`
+  - `136.116.236.109`
+</Callout>
+
+<Callout kind="info">
+  Seuls [les administrateurs et les créateurs](/fr/docs/collaborer/member-management/roles) peuvent activer et configurer Git Sync.
+</Callout>
+
+### Travailler avec des agents IA
+
+Lorsque vous travaillez localement sur votre documentation avec Git Sync, vous pouvez utiliser le [fichier skill.md de GitBook](/fr/docs/la-documentation-comme-code/ai-coding-assistants-and-skillmd) pour fournir à un assistant de codage IA du contexte sur les blocs, fonctionnalités et bonnes pratiques de GitBook.
+
+Rendez-vous sur [Agent skills](/fr/docs/la-documentation-comme-code/ai-coding-assistants-and-skillmd) pour en savoir plus.

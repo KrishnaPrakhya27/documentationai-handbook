@@ -1,0 +1,49 @@
+---
+title: Resolve a URL of a published content.
+metaTitle: Resolve a URL of a published content. | Developers | GitBook Documentation
+ogImage: https://test-dai.imgix.net/org-4afef969-21f9-40f3-b5b8-b06c8b6cf68f/doc-22a3b060-9539-4176-97e4-49120e02f5d1/0a5a1a9630785855-organizations-d8f63b60-89ae-11e7-8574-5927d48c4877-sites-site_p4Xo4-socialprevie.jpg?fm=auto&auto=compress%2Cformat
+---
+
+**POST** `/urls/published`
+
+**Parameters**
+
+<ParamField header="Authorization" param-type="string" />
+
+**Request body**
+
+<ParamField body="url" param-type="string" required={true} />
+
+<ParamField body="redirectOnError" param-type="boolean">
+  When true redirects the user to the authentication/fallback URL if the access token is invalid
+</ParamField>
+
+<ParamField body="visitor" param-type="object">
+  An object that describes the payload of site visitor info. It can include a jwt token with signed claims and/or a record of its unsigned claims.
+
+  <Expandable title="Object Properties">
+    <ParamField body="type" param-type="string" enum="human,agent">
+      Whether the visitor is a human or an AI agent. Defaults to human when omitted.
+    </ParamField>
+
+    <ParamField body="jwtToken" param-type="string">
+      JWT token generated for a authenticated access session.
+    </ParamField>
+
+    <ParamField body="unsignedClaims" param-type="object" />
+  </Expandable>
+</ParamField>
+
+**Responses**
+
+`200` OK
+
+`404` Not Found
+
+<ResponseField name="error" field-type="object" required={true}>
+  <Expandable title="Object Properties">
+    <ResponseField name="code" field-type="integer" required={true} enum="404" />
+
+    <ResponseField name="message" field-type="string" required={true} />
+  </Expandable>
+</ResponseField>

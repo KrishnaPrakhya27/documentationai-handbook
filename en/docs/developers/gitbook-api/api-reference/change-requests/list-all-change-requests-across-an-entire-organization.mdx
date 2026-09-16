@@ -1,0 +1,395 @@
+---
+title: List all change requests across an entire organization
+metaTitle: List all change requests across an entire organization | Developers | GitBook Documentation
+ogImage: https://test-dai.imgix.net/org-4afef969-21f9-40f3-b5b8-b06c8b6cf68f/doc-22a3b060-9539-4176-97e4-49120e02f5d1/0a5a1a9630785855-organizations-d8f63b60-89ae-11e7-8574-5927d48c4877-sites-site_p4Xo4-socialprevie.jpg?fm=auto&auto=compress%2Cformat
+---
+
+Returns a paginated list of change requests across all spaces in the organization. Use this for an organization-wide view of open drafts — for example, to find all change requests needing a specific reviewer's attention. For a single space's change requests, use the space-scoped endpoint instead.
+
+**GET** `/orgs/{organizationId}/change-requests`
+
+**Parameters**
+
+<ParamField header="Authorization" param-type="string" />
+
+<ParamField query="page" param-type="string">
+  Identifier of the page results to fetch.
+</ParamField>
+
+<ParamField query="limit" param-type="number">
+  The number of results per page
+</ParamField>
+
+<ParamField path="organizationId" param-type="string" required={true}>
+  The unique id of the organization
+</ParamField>
+
+<ParamField query="status" param-type="string[]" enum="draft,open,archived,merged">
+  If defined, only change requests matching the statuses will be returned.
+</ParamField>
+
+<ParamField query="creator" param-type="string">
+  If defined, only change requests created by this user will be returned.
+</ParamField>
+
+<ParamField query="contributor" param-type="string">
+  If defined, only change requests with contributions from this user will be returned.
+</ParamField>
+
+<ParamField query="requestedReviewer" param-type="string">
+  If defined, only change requests with a requested reviewer for this user will be returned.
+</ParamField>
+
+<ParamField query="site" param-type="string">
+  If defined, only change requests linked to this site will be returned.
+</ParamField>
+
+<ParamField query="space" param-type="string">
+  If defined, only change requests from this space will be returned.
+</ParamField>
+
+<ParamField query="topic" param-type="string">
+  If defined, only change requests linked to this site topic will be returned.
+</ParamField>
+
+<ParamField query="styleguideRun" param-type="string">
+  If defined, only change requests opened by this style guide check run will be returned.
+</ParamField>
+
+<ParamField query="finding" param-type="string" enum="none,all">
+  Controls whether change requests from triage are included. Pass `none` to exclude change requests from triage, or `all` to include them. Default is `none`.
+</ParamField>
+
+<ParamField query="orderBy" param-type="string" enum="updatedAt,createdAt">
+  The field to sort change requests by. Defaults to 'updatedAt'.
+</ParamField>
+
+**Responses**
+
+`200` List of the organization's change requests
+
+<ResponseField name="next" field-type="object">
+  <Expandable title="Object Properties">
+    <ResponseField name="page" field-type="string" required={true}>
+      Unique identifier to query the next results page
+    </ResponseField>
+  </Expandable>
+</ResponseField>
+
+<ResponseField name="count" field-type="number">
+  Total count of objects in the list
+</ResponseField>
+
+<ResponseField name="items" field-type="array" required={true}>
+  <Expandable title="Array Items">
+    <ResponseField name="object" field-type="string" required={true} enum="change-request">
+      Type of Object, always equals to "change-request"
+    </ResponseField>
+
+    <ResponseField name="id" field-type="string" required={true}>
+      Unique identifier for the change request
+    </ResponseField>
+
+    <ResponseField name="number" field-type="number" required={true}>
+      Incremental identifier of the change request
+    </ResponseField>
+
+    <ResponseField name="status" field-type="string" required={true} enum="draft,open,archived,merged" />
+
+    <ResponseField name="subject" field-type="string" required={true}>
+      Subject of the change request
+    </ResponseField>
+
+    <ResponseField name="description" field-type="object">
+      <Expandable title="Object Properties">
+        <ResponseField name="object" field-type="string" required={true} enum="document" />
+
+        <ResponseField name="data" field-type="object" required={true}>
+          <Expandable title="Object Properties">
+            <ResponseField name="schemaVersion" field-type="integer">
+              The schema version of the document. If undefined, the document is considered to be of the latest schema version.
+            </ResponseField>
+          </Expandable>
+        </ResponseField>
+
+        <ResponseField name="nodes" field-type="string[]" required={true} />
+
+        <ResponseField name="meta" field-type="object">
+          <Expandable title="Object Properties">
+            <ResponseField name="token" field-type="string">
+              A content token that can be used to fetch the content referenced in this document from the API.
+            </ResponseField>
+          </Expandable>
+        </ResponseField>
+      </Expandable>
+    </ResponseField>
+
+    <ResponseField name="createdBy" field-type="object" required={true}>
+      <Expandable title="Object Properties">
+        <ResponseField name="object" field-type="string" required={true} enum="user">
+          Type of Object, always equals to "user"
+        </ResponseField>
+
+        <ResponseField name="id" field-type="string" required={true}>
+          Unique identifier for the user
+        </ResponseField>
+
+        <ResponseField name="displayName" field-type="string" required={true}>
+          Full name for the user
+        </ResponseField>
+
+        <ResponseField name="email" field-type="string">
+          Email address of the user
+        </ResponseField>
+
+        <ResponseField name="photoURL" field-type="string">
+          URL of the user's profile picture
+        </ResponseField>
+
+        <ResponseField name="urls" field-type="object" required={true}>
+          URLs associated with the object
+
+          <Expandable title="Object Properties">
+            <ResponseField name="location" field-type="string" required={true}>
+              URL of the user in the API
+            </ResponseField>
+          </Expandable>
+        </ResponseField>
+      </Expandable>
+    </ResponseField>
+
+    <ResponseField name="createdAt" field-type="string" required={true} />
+
+    <ResponseField name="updatedAt" field-type="string" required={true} />
+
+    <ResponseField name="mergedBy" field-type="object">
+      <Expandable title="Object Properties">
+        <ResponseField name="object" field-type="string" required={true} enum="user">
+          Type of Object, always equals to "user"
+        </ResponseField>
+
+        <ResponseField name="id" field-type="string" required={true}>
+          Unique identifier for the user
+        </ResponseField>
+
+        <ResponseField name="displayName" field-type="string" required={true}>
+          Full name for the user
+        </ResponseField>
+
+        <ResponseField name="email" field-type="string">
+          Email address of the user
+        </ResponseField>
+
+        <ResponseField name="photoURL" field-type="string">
+          URL of the user's profile picture
+        </ResponseField>
+
+        <ResponseField name="urls" field-type="object" required={true}>
+          URLs associated with the object
+
+          <Expandable title="Object Properties">
+            <ResponseField name="location" field-type="string" required={true}>
+              URL of the user in the API
+            </ResponseField>
+          </Expandable>
+        </ResponseField>
+      </Expandable>
+    </ResponseField>
+
+    <ResponseField name="mergedAt" field-type="string" />
+
+    <ResponseField name="space" field-type="string" required={true}>
+      ID of the space in which the change request was created.
+    </ResponseField>
+
+    <ResponseField name="revision" field-type="string" required={true}>
+      ID of the active revision in the change request.
+    </ResponseField>
+
+    <ResponseField name="revisionInitial" field-type="string" required={true}>
+      ID of the initial revision in the space from which the change request was created.
+    </ResponseField>
+
+    <ResponseField name="revisionMergedAncestor" field-type="string">
+      ID of the latest revision when updating from main space content.
+    </ResponseField>
+
+    <ResponseField name="revisionMerged" field-type="string">
+      When merged, ID of the revision resulting from the merge.
+    </ResponseField>
+
+    <ResponseField name="comments" field-type="number" required={true}>
+      Count of opened comments on the change request.
+    </ResponseField>
+
+    <ResponseField name="siteTopic" field-type="object">
+      Site context associated with the change request when it was created from a site topic or finding.
+
+      <Expandable title="Object Properties">
+        <ResponseField name="site" field-type="string" required={true}>
+          ID of the site associated with the change request.
+        </ResponseField>
+
+        <ResponseField name="topic" field-type="string" required={true}>
+          ID of the site topic associated with the change request.
+        </ResponseField>
+
+        <ResponseField name="finding" field-type="string">
+          ID of the site finding associated with the change request, when applicable.
+        </ResponseField>
+      </Expandable>
+    </ResponseField>
+
+    <ResponseField name="styleguide" field-type="object">
+      Style guide check that opened the change request, when it came from one. A check can be run again on the change request already open on a space, rather than opening a second one, so several checks can share a change request.
+
+      <Expandable title="Object Properties">
+        <ResponseField name="site" field-type="string" required={true}>
+          ID of the site the style guide belongs to.
+        </ResponseField>
+
+        <ResponseField name="run" field-type="string" required={true}>
+          ID of the style guide check run that opened the change request.
+        </ResponseField>
+
+        <ResponseField name="changedPages" field-type="number">
+          Number of pages the check changed, recorded when it finished. Absent while it is still running, or when it never completed.
+        </ResponseField>
+
+        <ResponseField name="checkedAt" field-type="string" />
+      </Expandable>
+    </ResponseField>
+
+    <ResponseField name="outdated" field-type="boolean" required={true}>
+      If true, the change request is not up-to-date with latest changes in the main content.
+    </ResponseField>
+
+    <ResponseField name="imports" field-type="array">
+      Import runs targeting this change request, still running or ended recently, most recent first. Only returned when fetching a single change request.
+
+      <Expandable title="Array Items">
+        <ResponseField name="object" field-type="string" enum="import-run">
+          Type of Object, always equals to "import-run"
+        </ResponseField>
+
+        <ResponseField name="id" field-type="string" required={true}>
+          Unique ID of the import
+        </ResponseField>
+
+        <ResponseField name="startedAt" field-type="string" />
+
+        <ResponseField name="completedAt" field-type="string" />
+
+        <ResponseField name="createdAt" field-type="string" />
+
+        <ResponseField name="updatedAt" field-type="string" />
+
+        <ResponseField name="status" field-type="string" required={true} enum="pending,in-progress,completed,failed,cancelled">
+          Status of the import
+        </ResponseField>
+
+        <ResponseField name="reason" field-type="string">
+          Reason for the import failure when `status` is `failed`.
+        </ResponseField>
+
+        <ResponseField name="source" field-type="string" />
+
+        <ResponseField name="target" field-type="object">
+          <Expandable title="Object Properties">
+            <ResponseField name="space" field-type="string" required={true}>
+              ID of the space to import in
+            </ResponseField>
+
+            <ResponseField name="changeRequest" field-type="string">
+              ID of the change request to import in
+            </ResponseField>
+
+            <ResponseField name="page" field-type="string">
+              ID of the page to import in
+            </ResponseField>
+          </Expandable>
+        </ResponseField>
+
+        <ResponseField name="site" field-type="string">
+          ID of the site the target space belongs to, when it belongs to exactly one.
+        </ResponseField>
+
+        <ResponseField name="createdBy" field-type="string">
+          ID of the user who started the import.
+        </ResponseField>
+
+        <ResponseField name="urls" field-type="object">
+          URLs associated with the object
+
+          <Expandable title="Object Properties">
+            <ResponseField name="location" field-type="string" required={true}>
+              URL of the import run in the API
+            </ResponseField>
+          </Expandable>
+        </ResponseField>
+
+        <ResponseField name="pages" field-type="array">
+          Pages included in the import
+
+          <Expandable title="Array Items">
+            <ResponseField name="id" field-type="string" required={true}>
+              ID of page
+            </ResponseField>
+
+            <ResponseField name="sourceURL" field-type="string">
+              Source URL where the page has been imported from
+            </ResponseField>
+
+            <ResponseField name="type" field-type="string" required={true} enum="page,folder">
+              Type of page
+            </ResponseField>
+
+            <ResponseField name="status" field-type="string" required={true} enum="complete,pending">
+              Status of the page
+            </ResponseField>
+          </Expandable>
+        </ResponseField>
+      </Expandable>
+    </ResponseField>
+
+    <ResponseField name="links" field-type="array">
+      External links associated with the change request.
+
+      <Expandable title="Array Items">
+        <ResponseField name="id" field-type="string" required={true}>
+          The ID of the link.
+        </ResponseField>
+
+        <ResponseField name="ref" field-type="object" required={true}>
+          <Expandable title="Object Properties">
+            <ResponseField name="kind" field-type="string" required={true} enum="url" />
+
+            <ResponseField name="url" field-type="string" required={true} />
+          </Expandable>
+        </ResponseField>
+
+        <ResponseField name="title" field-type="string">
+          Optional title to display for the link.
+        </ResponseField>
+
+        <ResponseField name="expanded" field-type="string">
+          External ticket data resolved for this link by a configured connector.
+        </ResponseField>
+      </Expandable>
+    </ResponseField>
+
+    <ResponseField name="urls" field-type="object" required={true}>
+      URLs associated with the object
+
+      <Expandable title="Object Properties">
+        <ResponseField name="app" field-type="string" required={true}>
+          URL of the space in the application
+        </ResponseField>
+
+        <ResponseField name="location" field-type="string" required={true}>
+          URL of the user in the API
+        </ResponseField>
+      </Expandable>
+    </ResponseField>
+  </Expandable>
+</ResponseField>

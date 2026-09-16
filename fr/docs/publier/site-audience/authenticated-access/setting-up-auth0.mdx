@@ -1,0 +1,99 @@
+---
+title: Configuration d’Auth0
+description: Configurez un écran de connexion Auth0 pour les visiteurs de votre documentation
+metaTitle: Configuration d’Auth0 | GitBook Documentation
+ogImage: https://test-dai.imgix.net/org-4afef969-21f9-40f3-b5b8-b06c8b6cf68f/doc-22a3b060-9539-4176-97e4-49120e02f5d1/0a5a1a9630785855-organizations-d8f63b60-89ae-11e7-8574-5927d48c4877-sites-site_p4Xo4-socialprevie.jpg?fm=auto&auto=compress%2Cformat
+---
+
+<Callout kind="info">
+  Consultez nos guides pour trouver un [guide complet](/en/docs/guides/docs-personalization-and-authentication/how-to-personalize-your-gitbook-site-using-auth0-and-adaptive-content) sur la configuration de l’accès authentifié et du contenu adaptatif avec Auth0.
+</Callout>
+
+<Callout kind="alert">
+  Ce guide vous accompagne dans la configuration d’un écran de connexion protégé pour votre documentation. Avant de suivre ce guide, assurez-vous d’avoir d’abord consulté [Activation de l’accès authentifié](/fr/docs/publier/site-audience/authenticated-access/enabling-authenticated-access).
+</Callout>
+
+Pour configurer votre site GitBook avec un accès authentifié à l’aide d’Auth0, le processus se présente comme suit :
+
+<Steps>
+  <Step title="Step">
+    [**Créer une nouvelle application dans Auth0**](#id-1.-create-a-new-application-in-auth0)
+
+    Créez une application Auth0 dans votre tableau de bord Auth0.
+  </Step>
+
+  <Step title="Step">
+    [**Installer et configurer l’intégration Auth0**](#id-2.-install-and-configure-the-auth0-integration)
+
+    Installez l’intégration Auth0 et ajoutez la configuration requise à votre site GitBook.
+  </Step>
+
+  <Step title="Step">
+    [<strong>Configurer Auth0 pour le contenu adaptatif (facultatif)</strong>](#id-3.-configure-auth0-for-adaptive-content-optional)
+
+    Configurez Auth0 pour fonctionner avec le contenu adaptatif dans GitBook.
+  </Step>
+</Steps>
+
+### 1\. Créer une nouvelle application dans Auth0
+
+Commencez par créer une nouvelle application dans le tableau de bord de votre plateforme Auth0. Cette application permettra à l’intégration Auth0 de GitBook de demander des jetons afin de valider l’identité de l’utilisateur avant de lui accorder l’accès à votre site.
+
+1. Connectez-vous à votre Auth0 [tableau de bord](https://manage.auth0.com/dashboard/).
+2. Accédez à **Applications > Applications** dans la section de la barre latérale gauche.
+3. Cliquez sur le bouton <strong>\+ Créer une application</strong> et donnez un nom à votre application.
+4. Sous la <strong>Choisissez un type d’application,</strong> sélectionnez **Applications Web régulières**.
+5. Dans l’écran **Quickstart** de la nouvelle application créée, sélectionnez <strong>Node.js (Express)</strong> puis **Je veux intégrer mon application**.
+6. Vous devriez alors voir un écran de configuration comme ci-dessous.<br />Cliquez sur **Enregistrer les paramètres et continuer**.<br />
+
+   <Image src="https://test-dai.imgix.net/org-4afef969-21f9-40f3-b5b8-b06c8b6cf68f/doc-22a3b060-9539-4176-97e4-49120e02f5d1/e59f528f7ebbb93f-spaces-NkEGS7hzeqa35sMXQZ4X-uploads-HoIpHTIRmkCvhw1kBVZZ-auth0_app_configure_scr.png?fm=auto&auto=compress%2Cformat" alt="" />
+7. Cliquez sur le bouton **Paramètres** onglet.
+8. Copiez et notez le **domaine**, **ID client** et le **secret client**.
+
+<Callout kind="alert">
+  Veuillez vous assurer d’avoir **au moins une connexion activée** pour votre application Auth0 dans la section **Connexions** onglet.
+</Callout>
+
+### 2\. Installer et configurer l’intégration Auth0
+
+Une fois l’application Auth0 créée, l’étape suivante consiste à installer l’intégration Auth0 dans GitBook et à la lier à votre application Auth0 à l’aide des identifiants générés précédemment :
+
+1. Accédez au site sur lequel vous avez activé l’accès authentifié et où vous souhaitez utiliser Auth0 comme fournisseur d’identité.
+2. Cliquez sur le bouton **Intégrations** bouton en haut à droite dans les paramètres de votre site.<br />
+
+   <Image src="https://test-dai.imgix.net/org-4afef969-21f9-40f3-b5b8-b06c8b6cf68f/doc-22a3b060-9539-4176-97e4-49120e02f5d1/2084b09d489dfd9b-spaces-NkEGS7hzeqa35sMXQZ4X-uploads-gBMsbydNsuqx7eqcz0JN-va_site_integration_ove.png?fm=auto&auto=compress%2Cformat" alt="" />
+3. Cliquez sur **Accès authentifié** dans les catégories de la barre latérale.
+4. Sélectionnez l’intégration **Auth0** .
+5. Cliquez sur **Installer sur ce site**.<br />
+
+   <Image src="https://test-dai.imgix.net/org-4afef969-21f9-40f3-b5b8-b06c8b6cf68f/doc-22a3b060-9539-4176-97e4-49120e02f5d1/74e34be0d73aacb8-spaces-NkEGS7hzeqa35sMXQZ4X-uploads-98d9Svq3PBdpaiRuyV14-auth0_install_integrati.png?fm=auto&auto=compress%2Cformat" alt="" />
+6. Après avoir installé l’intégration sur votre site, vous devriez voir l’écran de configuration de l’intégration :<br />
+
+   <Image src="https://test-dai.imgix.net/org-4afef969-21f9-40f3-b5b8-b06c8b6cf68f/doc-22a3b060-9539-4176-97e4-49120e02f5d1/22beb3b27078f686-spaces-NkEGS7hzeqa35sMXQZ4X-uploads-GpdmoJqOQvrwFBaQ17Gv-auth0_configure_integra.png?fm=auto&auto=compress%2Cformat" alt="" />
+7. Saisissez les **domaine**, **ID client** et le **secret client** valeurs que vous avez copiées après avoir créé l’application Auth0 plus tôt. Pour le domaine Auth0, saisissez le domaine copié depuis Auth0 (assurez-vous de le faire précéder de `https://`).
+8. <strong>(facultatif)</strong> Activez l’option **Inclure les revendications dans le jeton JWT** au bas de la boîte de dialogue si vous avez activé le [contenu adaptatif](/fr/docs/publier/adaptive-content/enabling-adaptive-content).
+9. Copiez et notez le **URL de** **rappel** affichée **au bas de la boîte de dialogue**.
+10. Cliquez sur **Enregistrer**.
+11. Retournez à l’application Auth0 que vous avez créée précédemment dans le tableau de bord Auth0.
+12. Accédez à **Applications > Applications** dans la barre latérale et sélectionnez le **Paramètres** onglet.
+13. Faites défiler jusqu’à la **URIs de l’application** section des paramètres
+14. Collez l’ **URL de rappel** que vous avez copiée précédemment depuis la boîte de dialogue d’intégration GitBook dans le champ **URL de rappel autorisée** .
+15. Cliquez sur <strong>Enregistrez.</strong>
+16. Retournez à **l’écran d’installation de l’intégration Auth0** dans GitBook <strong>Fermez les boîtes de dialogue d’intégration et cliquez sur l’</strong>.
+17. onglet dans l’écran du site. **Paramètres** Audience
+18. Accédez à **et sélectionnez** Accès authentifié <strong>(si ce n’est pas déjà sélectionné).</strong> Sélectionnez
+19. dans la liste déroulante de la section **Auth0** du **backend d’authentification** .
+20. Cliquez sur **Mettre à jour l’audience**.
+21. Accédez à l’écran d’aperçu du site et cliquez sur **Publier** si le site n’est pas déjà publié.
+
+Votre site est désormais publié derrière un accès authentifié en utilisant votre Auth0 comme fournisseur d’identité.
+
+Pour le tester, cliquez sur **Visiter**. Il vous sera demandé de vous connecter avec Auth0, ce qui confirme que votre site est publié derrière un accès authentifié à l’aide d’Auth0.
+
+### 3\. Configurer Auth0 pour le contenu adaptatif (facultatif)
+
+<Iframe src="https://www.youtube.com/embed/uhWeQkgyg8Y" title="Embedded content" />
+
+Pour tirer parti de la fonctionnalité de contenu adaptatif dans votre site à accès authentifié, [configurez l’application Auth0](https://auth0.com/docs/secure/tokens/json-web-tokens/create-custom-claims) afin d’inclure des informations utilisateur supplémentaires dans le jeton d’authentification sous forme de revendications.
+
+Ces revendications, représentées sous forme de paires clé-valeur, sont transmises à GitBook et peuvent être utilisées pour [adapter le contenu](/fr/docs/publier/adaptive-content/adapting-your-content) dynamiquement pour les visiteurs de votre site.

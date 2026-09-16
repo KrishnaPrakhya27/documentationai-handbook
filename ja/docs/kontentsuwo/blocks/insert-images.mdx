@@ -1,0 +1,183 @@
+---
+title: 画像
+description: ページに画像または画像ギャラリーを追加し、ダークモード用の画像バリエーションを追加し、必要に応じて画像のサイズ変更や配置ができます
+metaTitle: 画像 | GitBook Documentation
+ogImage: https://test-dai.imgix.net/org-4afef969-21f9-40f3-b5b8-b06c8b6cf68f/doc-22a3b060-9539-4176-97e4-49120e02f5d1/0a5a1a9630785855-organizations-d8f63b60-89ae-11e7-8574-5927d48c4877-sites-site_p4Xo4-socialprevie.jpg?fm=auto&auto=compress%2Cformat
+---
+
+ページに画像を挿入し、サイズを選び、左・中央・右のいずれかに配置できます。必要に応じて、画像ブロックに代替テキストやキャプションも追加できます。
+
+<Callout kind="info">
+  <strong>ヒント：</strong> アクセシビリティの観点から、画像には代替テキストを設定することをおすすめします。
+</Callout>
+
+### 画像ブロックの例
+
+<Image src="https://test-dai.imgix.net/org-4afef969-21f9-40f3-b5b8-b06c8b6cf68f/doc-22a3b060-9539-4176-97e4-49120e02f5d1/faac263e727bdc04-photo-1446776709462-d6b525c57bd3.jpg?fm=auto&auto=compress%2Cformat" alt="A photograph taken from space looking back towards Earth. A satellite is in the foreground, and in the background is an ocean-covered part of our planet with patchy clouds." caption="キャプション付きの画像ブロックの例" />
+
+### 画像をアップロードする
+
+コンテンツに画像を追加する方法は 2 通りあります：
+
+1. ファイル管理システムから画像をページ上の空のブロックに直接ドラッグ＆ドロップします。
+2. [画像ブロックを追加し](/ja/docs/kontentsuwo/blocks#inserting-a-new-content-block) をページに追加し、 **画像を選択** ウィンドウ右側に表示されるサイドパネルを使用します。
+
+2つ目の手順に従うと、ファイルのアップロード、以前にアップロードしたファイルの選択、画像 URL の貼り付け、または [Unsplash](https://unsplash.com/) の内蔵検索を使用して画像を追加できます。
+
+<Callout kind="alert">
+  GitBook では、1 ファイルあたり最大 100MB の画像をアップロードできます。
+</Callout>
+
+セクション内のアセット総数に上限はありませんが、GitBook は濫用があった場合にアカウントをブロックする権利を留保します。アップロード上限を超えるファイルは、Google Drive や Dropbox などのサービスに保存し、ページからリンクしてください。
+
+アニメーション GIF は 1 ファイルあたり 200 フレームまでです。GIF を含む大きなファイルはページの読み込み時間を遅くするため、可能な限り大きなファイルを直接アップロードするのは避けてください。
+
+#### 画像ギャラリーを作成する
+
+画像ブロックに複数の画像を追加するとギャラリーが作成されます。これを行うには、ブロックの **オプションメニュー** <Image src="https://test-dai.imgix.net/org-4afef969-21f9-40f3-b5b8-b06c8b6cf68f/doc-22a3b060-9539-4176-97e4-49120e02f5d1/4c115a43418b42e3-spaces-NkEGS7hzeqa35sMXQZ4X-uploads-aS1QvPIBVYwhpFTGcPBN-options-menu.svg?rasterize-bypass=true" alt="The Options menu icon in GitBook" /> を選択し、 <strong>画像を追加…</strong> を開くには **画像を選択** サイドパネルを再度開きます。
+
+ギャラリーから画像を削除するには、 **編集メニュー** <Image src="https://test-dai.imgix.net/org-4afef969-21f9-40f3-b5b8-b06c8b6cf68f/doc-22a3b060-9539-4176-97e4-49120e02f5d1/ab76723fb229a5ad-spaces-NkEGS7hzeqa35sMXQZ4X-uploads-A3OfGjPkE5GnOQvN36jN-edit.svg?rasterize-bypass=true" alt="" /> を開き、 <strong>Delete ⌫</strong> キーを押します。
+
+<a id="light-and-dark-mode"></a>
+
+### ライトモードとダークモード向けの画像を追加する
+
+公開サイトのライトモード版とダークモード版に、それぞれ異なる画像を設定できます。GitBook は、訪問者がどちらのモードを使用しているかに応じて、正しい画像を自動的に表示します。
+
+ダークモード用の画像を追加するには、画像にカーソルを合わせ、 **編集メニュー** <Image src="https://test-dai.imgix.net/org-4afef969-21f9-40f3-b5b8-b06c8b6cf68f/doc-22a3b060-9539-4176-97e4-49120e02f5d1/ab76723fb229a5ad-spaces-NkEGS7hzeqa35sMXQZ4X-uploads-A3OfGjPkE5GnOQvN36jN-edit.svg?rasterize-bypass=true" alt="" /> に戻って **画像を置換** <Image src="https://test-dai.imgix.net/org-4afef969-21f9-40f3-b5b8-b06c8b6cf68f/doc-22a3b060-9539-4176-97e4-49120e02f5d1/5f8a3500be3b253d-spaces-NkEGS7hzeqa35sMXQZ4X-uploads-0mPo1tPDFeEbPOr1gc4V-replace-image.svg?rasterize-bypass=true" alt="The Replace image icon in GitBook" />.
+
+ドロップダウンメニューで、 **ダークモード用の画像を追加**. これを設定すると、この同じメニューからどちらの画像も置き換えられます。
+
+<Callout kind="alert">
+  <strong>注：</strong> GitBook では現在、ページのカバーや画像カバーなど、特定の場合のライト/ダークモード画像をサポートしていません： [カード](/ja/docs/kontentsuwo/blocks/cards).
+</Callout>
+
+### GitHub/GitLab Sync を通じたライト/ダークモード画像
+
+Markdown では HTML 構文（`<picture>` 、 `<source>`).
+
+ブロック画像の場合は、 `<figure>` HTML 要素を使い、 `<picture>` 、 `<source>` その中に
+
+```html
+Text before
+
+<figure>
+  <picture>
+    <source
+      srcset="
+        https://user-images.githubusercontent.com/3369400/139447912-e0f43f33-6d9f-45f8-be46-2df5bbc91289.png
+      "
+      media="(prefers-color-scheme: dark)"
+    />
+    <img
+      src="https://user-images.githubusercontent.com/3369400/139448065-39a229ba-4b06-434b-bc67-616e2ed80c8f.png"
+      alt="GitHub のロゴ"
+    />
+  </picture>
+  <figcaption>キャプションテキスト</figcaption>
+</figure>
+
+Text after
+```
+
+インライン画像（テキストと同じ行に配置される画像）の場合は、 `<picture>` HTML 要素を使い、 `<source>` その中に
+
+```html
+画像の前のテキスト
+<picture
+  ><source
+    srcset="
+      https://user-images.githubusercontent.com/3369400/139447912-e0f43f33-6d9f-45f8-be46-2df5bbc91289.png
+    "
+    media="(prefers-color-scheme: dark)" />
+  <img
+    src="https://user-images.githubusercontent.com/3369400/139448065-39a229ba-4b06-434b-bc67-616e2ed80c8f.png"
+    alt="GitHub のロゴ"
+/></picture>
+画像の後のテキスト
+```
+
+<Callout kind="alert">
+  <strong>注：</strong> まだサポートしていません [GitHub 専用の構文](https://github.blog/changelog/2021-11-24-specify-theme-context-for-images-in-markdown/) を通じて `#gh-dark-mode-only` または `#gh-light-mode-only`.
+</Callout>
+
+### サイズ変更
+
+画像のサイズを変更するには、画像にカーソルを合わせて **編集メニュー** <Image src="https://test-dai.imgix.net/org-4afef969-21f9-40f3-b5b8-b06c8b6cf68f/doc-22a3b060-9539-4176-97e4-49120e02f5d1/ab76723fb229a5ad-spaces-NkEGS7hzeqa35sMXQZ4X-uploads-A3OfGjPkE5GnOQvN36jN-edit.svg?rasterize-bypass=true" alt="" />を開き、 **サイズ** ボタンをクリックして、利用可能なオプションから画像サイズを変更します。
+
+<Image src="https://test-dai.imgix.net/org-4afef969-21f9-40f3-b5b8-b06c8b6cf68f/doc-22a3b060-9539-4176-97e4-49120e02f5d1/02d0e80cd9923dc0-spaces-NkEGS7hzeqa35sMXQZ4X-uploads-1cWY3c3CgGXIK4Bgnhb6-image_resizing-2x.png?fm=auto&auto=compress%2Cformat" alt="A GitBook screenshot showing how to resize an image" caption="画像のサイズを変更する" />
+
+- **小** – 画像サイズの 25%
+- **中** – 画像サイズの 50%
+- **大** – 画像サイズの 75%
+- **フィット** – すべてのサイズ指定を削除し、フルサイズで表示するか、最大幅を **735** **ピクセル** に制限して表示します（大きな画像の場合）。
+
+画像がエディタよりも幅広い場合、GitBook は画像の幅をエディタの幅に制限し、サイズ変更はこの制限に基づいて行われます。
+
+<Callout kind="info">
+  <strong>注：</strong> 画像ギャラリー内で画像のサイズを変更すると、個別の画像を変更した場合とは結果が異なることがあります。
+</Callout>
+
+### Git Sync を通じた画像のサイズ変更
+
+画像サイズをより細かく制御したい場合は、GitHub または GitLab の Markdown で正確なサイズを指定できます。
+
+画像をエクスポートする際は、HTML タグ `<img/>`を使用します。仕様に従い、 `width` 、 `height` 属性を使って画像の寸法を指定できます。これらの属性は、ピクセル単位の値、または数値と `%` 記号の組み合わせのみ受け付けます。\\n\\n画像サイズを指定する有効なバリエーションは次のとおりです：<br /><br />`<img width="100" />` 画像幅を 100 ピクセルに設定します<br />`<img width="100%" />` 画像をフルサイズに設定します（ただし、エディタによる制限があります）
+
+### 画像の配置
+
+デフォルトでは、画像ブロックは画像を中央揃えでフルサイズ表示します。
+
+画像の配置を変更するには、ブロックの **オプションメニュー** <Image src="https://test-dai.imgix.net/org-4afef969-21f9-40f3-b5b8-b06c8b6cf68f/doc-22a3b060-9539-4176-97e4-49120e02f5d1/4c115a43418b42e3-spaces-NkEGS7hzeqa35sMXQZ4X-uploads-aS1QvPIBVYwhpFTGcPBN-options-menu.svg?rasterize-bypass=true" alt="The Options menu icon in GitBook" /> を開き、希望する配置を選択します。これは、エディタより幅が狭い画像、またはすでに [サイズ変更した](#resizing).
+
+### 画像に枠を付ける
+
+画像ブロックに枠を追加して、画像の見た目を統一し、周囲のコンテンツと視覚的に分けることができます。
+
+<Image src="https://test-dai.imgix.net/org-4afef969-21f9-40f3-b5b8-b06c8b6cf68f/doc-22a3b060-9539-4176-97e4-49120e02f5d1/a866b872b4d0f798-spaces-NkEGS7hzeqa35sMXQZ4X-uploads-fL0VWcltHyuCKeqJsW0Q-image-frame-demo-2x.jpg?fm=auto&auto=compress%2Cformat" alt="A black and white photograph of a lone figure walking across a stark white landscape" caption="枠付き画像にはキャプションを付けることができ、キャプションの背後に控えめなグリッドが表示されます。" />
+
+画像に枠を追加するには、画像にカーソルを合わせ、ブロックの **オプションメニュー** <Image src="https://test-dai.imgix.net/org-4afef969-21f9-40f3-b5b8-b06c8b6cf68f/doc-22a3b060-9539-4176-97e4-49120e02f5d1/4c115a43418b42e3-spaces-NkEGS7hzeqa35sMXQZ4X-uploads-aS1QvPIBVYwhpFTGcPBN-options-menu.svg?rasterize-bypass=true" alt="" /> を開き、 **枠付き** トグルを有効にします。
+
+<Callout kind="info">
+  <strong>知っておくとよいこと：</strong> ブロック内で枠を付けられるのは単一画像のみです。複数画像を含む画像ブロックやインライン画像には枠を付けられません。
+</Callout>
+
+### Markdownでの表記
+
+```markdown
+//シンプルなブロック
+![](https://gitbook.com/images/gitbook.png)
+
+//キャプション付きブロック
+![GitBook のロゴ](https://gitbook.com/images/gitbook.png)
+
+//代替テキスト付きブロック
+
+<figure><img src="https://gitbook.com/images/gitbook.png" alt="GitBook のロゴ"></figure>
+
+//キャプションと代替テキスト付きブロック
+
+<figure><img src="https://gitbook.com/images/gitbook.png" alt="GitBook のロゴ"><figcaption><p>GitBook ロゴ</p></figcaption></figure>
+
+// 枠付き画像のブロック
+
+<div data-with-frame="true"><img src="https://gitbook.com/images/gitbook.png" alt="GitBook のロゴ"></div>
+
+//ダークモードとライトモードで異なる画像を使うブロック、キャプション付き
+
+<figure>
+  <picture>
+    <source srcset="https://user-images.githubusercontent.com/3369400/139447912-e0f43f33-6d9f-45f8-be46-2df5bbc91289.png" media="(prefers-color-scheme: dark)">
+    <img src="https://user-images.githubusercontent.com/3369400/139448065-39a229ba-4b06-434b-bc67-616e2ed80c8f.png" alt="GitHub のロゴ">
+  </picture>
+  <figcaption>キャプションテキスト</figcaption>
+</figure>
+```
+
+### 画像が読み込まれないのはなぜですか？
+
+「画像を読み込めません」というエラーは、画像が元の場所で変更または削除されたことを意味します。URL で画像を埋め込んだ場合、GitBook はその URL に依存します。画像が元の場所で移動または消失すると、ページ上に表示されなくなります。
+
+対処するには、画像を GitBook に直接アップロードするか、画像の場所が変わった場合は URL を更新してください。また、あるセクションから別のセクションへ画像をコピーした場合にもこのエラーが表示されることがあります。各セクションには独自のファイルディレクトリがあるためです。新しいセクションに画像を再アップロードしてください。
+
+セクションにアップロードされたすべてのファイルは、 **ライブラリ** タブで **ページ** 目次の上部にある

@@ -1,0 +1,51 @@
+---
+title: Query a site's analytics events
+metaTitle: Query a site's analytics events | Developers | GitBook Documentation
+ogImage: https://test-dai.imgix.net/org-4afef969-21f9-40f3-b5b8-b06c8b6cf68f/doc-22a3b060-9539-4176-97e4-49120e02f5d1/0a5a1a9630785855-organizations-d8f63b60-89ae-11e7-8574-5927d48c4877-sites-site_p4Xo4-socialprevie.jpg?fm=auto&auto=compress%2Cformat
+---
+
+Runs an aggregation query over a published site's Insights events, grouped and filtered over a time range. Use it to answer analytics questions about how visitors engage with a site's documentation: page views, visitors, searches, referrers, and broken URLs (404s). A 404 is a `page_view` or `search_open_result` event whose `page` is `null`, in the `site` display context; filter `eventPageNotFoundType` not in `conditional` to leave out 404s that adaptive content explains. Group by `datetime` for a trend over time and by `urlPath` for the top broken URLs.
+
+**POST** `/orgs/{organizationId}/sites/{siteId}/insights/events/aggregate`
+
+**Parameters**
+
+<ParamField header="Authorization" param-type="string" />
+
+<ParamField path="organizationId" param-type="string" required={true}>
+  The unique id of the organization
+</ParamField>
+
+<ParamField path="siteId" param-type="string" required={true}>
+  The unique id of the site
+</ParamField>
+
+**Request body**
+
+<ParamField body="select" param-type="string[]" />
+
+<ParamField body="where" param-type="array">
+  <Expandable title="Array Items">
+    <ParamField body="operator" param-type="string" enum="in,notIn,greaterThan,greaterThanOrEqual,lessThan,lessThanOrEqual" />
+  </Expandable>
+</ParamField>
+
+<ParamField body="groupBy" param-type="string[]" />
+
+<ParamField body="order" param-type="object">
+  <Expandable title="Object Properties">
+    <ParamField body="by" param-type="string" required={true} />
+
+    <ParamField body="direction" param-type="string" required={true} enum="asc,desc" />
+  </Expandable>
+</ParamField>
+
+<ParamField body="range" param-type="string" required={true} />
+
+<ParamField body="limit" param-type="integer" />
+
+**Responses**
+
+`200` Aggregated events in the site.
+
+<ResponseField name="columns" field-type="string[]" required={true} />

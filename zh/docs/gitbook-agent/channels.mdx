@@ -1,0 +1,237 @@
+---
+title: 渠道
+description: 在 Slack、GitHub 和 Linear 中使用 GitBook Assistant 和 GitBook Agent
+metaTitle: 渠道 | GitBook Documentation
+ogImage: https://test-dai.imgix.net/org-4afef969-21f9-40f3-b5b8-b06c8b6cf68f/doc-22a3b060-9539-4176-97e4-49120e02f5d1/0a5a1a9630785855-organizations-d8f63b60-89ae-11e7-8574-5927d48c4877-sites-site_p4Xo4-socialprevie.jpg?fm=auto&auto=compress%2Cformat
+---
+
+<Callout kind="alert">
+  #### 频道目前处于抢先体验阶段
+
+  我们正在逐步开放频道访问权限。请继续关注下方功能的更多进展。
+</Callout>
+
+频道将 [GitBook Assistant](/zh/docs/wei-du-zhe-ti-gong-de-ai/gitbook-ai-assistant) 以及 [GitBook Agent](/zh/docs/gitbook-agent/overview) 集成到你团队已经在使用的工具中。 `@GitBook` 在 Slack、GitHub 或 Linear 中提出问题、发起变更请求，并保持文档最新——无需离开现有工作流。
+
+添加频道时，你可以选择 GitBook 在该工具中的显示方式。每种配置都以以下两种模式之一运行：
+
+<strong>支持代理：</strong> GitBook Assistant 会直接在频道中回答你团队成员或访客的问题。提问即可获得从文档中提取的答案。在 Slack 中，这些回复中的引用会链接到其所引用文档的已发布站点 URL。例如，带引用的答案会链接到你的文档站点，而不是 `app.gitbook.com`.
+
+<strong>协作者：</strong> GitBook Agent 作为队友加入。提及 `@GitBook` 以发起变更请求、请求编辑，或让你的文档与该工具中的变化保持同步。在 Slack 中，消息可以链接到 `app.gitbook.com` 当它们引用内部工作流上下文时，例如变更请求或草稿内容。当 Agent 从频道创建变更请求时，它会自动将其链接到最初的线程、议题或拉取请求。
+
+你可以为同一频道运行多个配置——例如，一个面向客户的 Slack 频道使用支持代理模式，而另一个面向文档团队的频道使用协作者模式。
+
+要添加频道，请打开你站点的 **设置** 并点击 **渠道**.
+
+当支持问题、漏洞报告或产品反馈从 Slack、GitHub 或 Linear 中开始，而你希望 GitBook 直接在原处响应时，请使用频道。
+
+<Callout kind="info">
+  #### 想将 GitBook Assistant 嵌入你的网站或产品中吗？
+
+  前往 [嵌入到你的产品中](/zh/docs/fa-bu/embedding) 了解如何嵌入 GitBook Assistant。
+</Callout>
+
+<Image src="https://test-dai.imgix.net/org-4afef969-21f9-40f3-b5b8-b06c8b6cf68f/doc-22a3b060-9539-4176-97e4-49120e02f5d1/b8d77ca17e30b975-spaces-NkEGS7hzeqa35sMXQZ4X-uploads-vdGn4ibGuysRhvoOiAkI-26_05_01_channels-2x.png?fm=auto&auto=compress%2Cformat" alt="" />
+
+### 可用频道
+
+<Columns cols={2}>
+  <Card title="Slack">
+    可用
+  </Card>
+
+  <Card title="Linear">
+    可用
+  </Card>
+
+  <Card title="GitHub">
+    可用
+  </Card>
+</Columns>
+
+### 即将推出
+
+<Columns cols={2}>
+  <Card title="Discord">
+    计划中
+  </Card>
+
+  <Card title="Intercom">
+    计划中
+  </Card>
+
+  <Card title="Microsoft Teams">
+    计划中
+  </Card>
+
+  <Card title="Google Chat">
+    计划中
+  </Card>
+
+  <Card title="请求添加频道" href="https://github.com/orgs/GitbookIO/discussions/new?category=feature-requests" icon="arrow-up-right-from-square" />
+</Columns>
+
+### 概述
+
+频道将 GitBook 与外部工作流连接起来。
+
+它们可以让你：
+
+- 无需离开源会话即可回答问题。
+- 将现有文档上下文带入支持和产品工作流。
+- 通过 [GitBook Agent](/zh/docs/gitbook-agent/overview).
+
+当对话从 GitBook 之外开始，但答案或后续工作应归入你的文档流程时，请使用频道。
+
+### 支持的平台
+
+频道目前支持以下平台：
+
+- **Slack** 用于对话和支持线程。
+- **GitHub** 用于议题、拉取请求上下文和讨论工作流。
+- **Linear** 用于议题跟踪和产品反馈工作流。
+
+每个平台都使用相同的核心模型。
+
+GitBook 接收来自已连接平台的受支持事件，从你的知识库中收集上下文，并通过以下方式之一作出响应： [GitBook Assistant](/zh/docs/wei-du-zhe-ti-gong-de-ai/gitbook-ai-assistant) 或 [GitBook Agent](/zh/docs/gitbook-agent/overview).
+
+### 角色和权限
+
+频道支持两种角色：
+
+- **协作者** — 可以进行更改。
+- **支持代理** — 提供只读信息。
+
+根据频道需要完成的工作来选择角色。
+
+#### 协作者
+
+使用 **协作者** 当频道必须帮助将对话转化为文档工作时。
+
+协作者频道可以使用 GitBook Agent 来帮助在 GitBook 中创建或更新文档工作，例如开启或推进变更请求。
+
+#### 支持代理
+
+使用 **支持代理** 当频道只需要回答问题时。
+
+支持代理频道使用现有文档和已连接知识来回复只读上下文。它不会更改内容。
+
+### 它是如何运作的
+
+频道处理来自已连接平台的传入事件。
+
+传入事件可以是 Slack、GitHub 或 Linear 中的新消息、提及、议题更新或其他受支持的活动。
+
+GitBook 通过四个步骤处理这些事件：
+
+<Steps>
+  <Step title="接收事件" titleType="h3">
+    已连接平台会通过你安装的频道向 GitBook 发送受支持的事件。
+  </Step>
+
+  <Step title="收集上下文" titleType="h3">
+    GitBook 会查找相关文档上下文以及站点可用的任何其他知识。
+  </Step>
+
+  <Step title="应用频道角色" titleType="h3">
+    如果该频道是 **支持代理**，GitBook 会返回只读信息。
+
+    如果该频道是 **协作者**，GitBook 还可以通过 GitBook Agent 将对话转化为文档工作。
+  </Step>
+
+  <Step title="在源工具中回复" titleType="h3">
+    回复会回到 Slack、GitHub 或 Linear 中，因此工作流始终留在一个地方。
+  </Step>
+</Steps>
+
+<Callout kind="info">
+  确切的事件覆盖范围取决于平台以及你的抢先体验开放进度。如果某个触发器在你的工作区中尚不可用，则它尚未公开记录。
+</Callout>
+
+### 安装与授权
+
+要安装频道，请打开你站点的仪表板并选择 **设置** → **渠道**.
+
+然后选择你要连接的平台。
+
+每个平台都使用 OAuth 或应用安装流程。GitBook 会将你带到平台，你批准访问，然后返回 GitBook 完成设置。
+
+<Callout kind="alert">
+  平台特定的权限范围和管理员要求尚未完整记录。
+
+  在批准访问之前，请仔细查看授权屏幕。
+</Callout>
+
+<Tabs>
+  <Tab title="Slack">
+    <Steps>
+      <Step title="开始安装" titleType="h3">
+        在 **设置** → **渠道**，选择 **Slack**.
+      </Step>
+
+      <Step title="授权 Slack" titleType="h3">
+        如有需要，请登录 Slack。
+
+        然后选择你想安装该频道的 Slack 工作区，并批准所请求的访问权限。
+      </Step>
+
+      <Step title="在 GitBook 中完成设置" titleType="h3">
+        Slack 重定向回你后，在 GitBook 中完成频道设置。
+
+        选择频道应使用的角色并保存配置。
+      </Step>
+    </Steps>
+  </Tab>
+
+  <Tab title="GitHub">
+    <Steps>
+      <Step title="开始安装" titleType="h3">
+        在 **设置** → **渠道**，选择 **GitHub**.
+      </Step>
+
+      <Step title="授权 GitHub" titleType="h3">
+        如有需要，请登录 GitHub。
+
+        然后选择你要安装 GitBook 应用的个人账户或组织，并批准所请求的访问权限。
+      </Step>
+
+      <Step title="在 GitBook 中完成设置" titleType="h3">
+        GitHub 重定向回你后，在 GitBook 中完成频道设置。
+
+        选择频道应使用的角色并保存配置。
+      </Step>
+    </Steps>
+  </Tab>
+
+  <Tab title="Linear">
+    <Steps>
+      <Step title="开始安装" titleType="h3">
+        在 **设置** → **渠道**，选择 **Linear**.
+      </Step>
+
+      <Step title="授权 Linear" titleType="h3">
+        如有需要，请登录 Linear。
+
+        然后选择你要连接的 Linear 工作区并批准所请求的访问权限。
+      </Step>
+
+      <Step title="在 GitBook 中完成设置" titleType="h3">
+        Linear 重定向回你后，在 GitBook 中完成频道设置。
+
+        选择频道应使用的角色并保存配置。
+      </Step>
+    </Steps>
+  </Tab>
+</Tabs>
+
+### 反馈和表情反应
+
+表情反应让你的团队可以快速对频道回复提供反馈。
+
+当你想表明某个回复是否有帮助时，使用表情反应。
+
+这些反馈有助于 GitBook 了解哪些回复在真实工作流中表现良好。
+
+<Callout kind="info">
+  确切的表情反应映射尚未记录，而且在抢先体验期间可能因平台而异。
+</Callout>

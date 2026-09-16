@@ -1,0 +1,156 @@
+---
+title: Compétences de l’agent
+description: Utilisez le fichier officiel SKILL.md de GitBook pour donner aux assistants de codage IA comme Claude Code, Cursor ou Codex la connaissance des fonctionnalités et des blocs de GitBook
+metaTitle: Compétences de l’agent | GitBook Documentation
+ogImage: https://test-dai.imgix.net/org-4afef969-21f9-40f3-b5b8-b06c8b6cf68f/doc-22a3b060-9539-4176-97e4-49120e02f5d1/0a5a1a9630785855-organizations-d8f63b60-89ae-11e7-8574-5927d48c4877-sites-site_p4Xo4-socialprevie.jpg?fm=auto&auto=compress%2Cformat
+---
+
+GitBook fournit [des fichiers de compétences](https://github.com/GitbookIO/gitbook-skills/tree/main) qui enseignent aux assistants de codage IA comment modifier correctement la documentation GitBook. Si vous utilisez Claude Code, Cursor, Codex ou un autre assistant de codage externe, ajoutez des compétences GitBook afin que votre agent puisse travailler avec la syntaxe, les blocs et les fichiers de configuration GitBook.
+
+Cela s’intègre bien avec [Git Sync](/fr/docs/la-documentation-comme-code/git-sync) des workflows — apportez des modifications dans votre dépôt, validez-les, et votre site de documentation se met à jour automatiquement.
+
+<Callout kind="info">
+  Vous préférez écrire dans l’éditeur GitBook ? Utilisez [GitBook Agent](/fr/docs/agent-gitbook/overview) pour rédiger des brouillons, réécrire, relire et traduire du contenu sans quitter GitBook.
+</Callout>
+
+## Ajoutez les compétences GitBook à votre agent IA
+
+Utilisez cette option lorsque votre assistant de codage IA prend en charge les compétences basées sur des paquets.
+
+<Steps>
+  <Step title="Créer un jeton d’accès" titleType="h3">
+    Pour permettre à votre agent d’interagir avec GitBook, vous devez [créer un jeton d’accès](https://app.gitbook.com/account/developer) depuis vos paramètres développeur GitBook. GitBook utilise ce jeton pour authentifier votre agent lorsqu’il travaille avec les compétences GitBook.
+  </Step>
+
+  <Step title="Installer les compétences GitBook" titleType="h3">
+    Cette compétence fait partie du [`gitbook-skills`](https://github.com/GitbookIO/gitbook-skills) dépôt. Exécutez la commande suivante pour installer directement les compétences GitBook dans votre projet :
+
+    ```bash
+    npx skills add GitBookIO/gitbook-skills
+    ```
+  </Step>
+</Steps>
+
+## Ajouter les compétences GitBook en local
+
+Téléchargez les compétences GitBook si votre assistant ne prend pas en charge les compétences basées sur des paquets.
+
+<Steps>
+  <Step title="Créer un jeton d’accès" titleType="h3">
+    Pour permettre à votre agent d’interagir avec GitBook, vous devez [créer un jeton d’accès](https://app.gitbook.com/account/developer) depuis vos paramètres développeur GitBook. GitBook utilise ce jeton pour authentifier votre agent lorsqu’il travaille avec les compétences GitBook.
+  </Step>
+
+  <Step title="Télécharger les compétences GitBook" titleType="h3">
+    Installez les compétences GitBook avec `npx skills add GitBookIO/gitbook-skills` lorsque votre assistant le prend en charge.
+
+    Pour copier les fichiers manuellement dans votre projet, récupérez les compétences GitBook depuis le [`gitbook-skills`](https://github.com/GitbookIO/gitbook-skills) dépôt.
+
+    | Compétence | Description | Télécharger |
+    | --- | --- | --- |
+    | `configure-site` | Créez et maintenez des sites de documentation GitBook complets. | [GitHub](https://github.com/GitbookIO/gitbook-skills/tree/main/skills/configure-site)<br /> |
+    | `write-docs` | Rédigez, créez, modifiez et mettez en forme des pages de documentation GitBook. | [GitHub](https://github.com/GitbookIO/gitbook-skills/tree/main/skills/write-docs)<br /> |
+    | `write-openapi` | Rédigez, configurez, structurez et dépannez la documentation de référence d’API OpenAPI/Swagger. | [GitHub](https://github.com/GitbookIO/gitbook-skills/tree/main/skills/write-openapi) |
+    | `build-integration` | Créez des intégrations personnalisées pour GitBook. | [GitHub](https://github.com/GitbookIO/gitbook-skills/tree/main/skills/build-integration) |
+    | `cr-create` | Créez des demandes de modification GitBook, envoyez du contenu, demandez des revues et répondez aux commentaires. | [GitHub](https://github.com/GitbookIO/gitbook-skills/tree/main/skills/cr-create) |
+    | `cr-review` | Relisez les demandes de modification GitBook, résumez les changements, commentez, approuvez ou demandez des modifications. | [GitHub](https://github.com/GitbookIO/gitbook-skills/tree/main/skills/cr-review) |
+
+    <Callout kind="alert">
+      N’oubliez pas de mettre à jour votre dépôt local avec le dernier `SKILL.md` fichier à mesure que GitBook ajoute de nouvelles fonctionnalités.
+    </Callout>
+  </Step>
+</Steps>
+
+## Utiliser les compétences GitBook
+
+Scaffold a Git-synced docs site from a folder of markdown
+
+```text
+En utilisant les compétences GitBook, transformez ce dossier Markdown en un site de documentation GitBook alimenté par Git Sync.
+
+1. Lisez mon dossier de documentation et proposez une structure de site — espaces, arborescence des pages et navigation SUMMARY.md. Montrez-moi cela avant d’écrire quoi que ce soit.
+Générez la structure du dépôt au format monorepo de GitBook (README.md + SUMMARY.md par espace) et validez-la.
+3. Créez le site et les espaces, puis donnez-moi des instructions exactes, prêtes à copier-coller, pour l’unique étape que je fais dans l’interface GitBook : lier chaque espace à son répertoire avec Git Sync.
+4. Une fois que je confirme que la synchronisation est configurée, vérifiez que la structure du site correspond au plan.
+```
+
+Upgrade a plain markdown page into a polished GitBook page
+
+```text
+En utilisant les compétences GitBook, réécrivez cette page avec les blocs enrichis de GitBook — pour l’instant, elle n’est que du Markdown brut.
+
+1. Lisez la page et dites-moi ce que vous सुधारriez : exemples de code multilingues → onglets, guides pas à pas → steppers, encadrés → astuces, contenu « choose your path » → cartes.
+2. Appliquez les modifications en utilisant la syntaxe GitBook correcte, y compris le frontmatter (title, description, icon).
+3. Gardez mes mots — améliorez la structure, pas le ton.
+4. Dressez la liste de tout ce que je devrais vérifier après le rendu dans GitBook.
+```
+
+Generate an API reference from an OpenAPI spec
+
+```text
+En utilisant les compétences GitBook, configurez une section de référence d’API dans ma documentation à partir de ma spécification OpenAPI.
+
+1. Trouvez ma spécification (ou aidez-moi à en générer une à partir de la base de code si elle n’existe pas) et validez-la.
+2. Configurez des pages de point de terminaison générées automatiquement avec le bloc OpenAPI de GitBook dans SUMMARY.md — n’écrivez pas les pages de point de terminaison à la main ; la spécification reste la source de vérité.
+3. Ajoutez une courte page d’aperçu pour chaque groupe de ressources.
+4. Signalez les lacunes dans la spécification (descriptions manquantes, exemples, schémas de réponse) qui rendraient la référence rendue peu convaincante.
+```
+
+## FAQ
+
+<Expandable title="Que contient SKILL.md ?">
+  `SKILL.md` donne à votre assistant de codage IA le contexte dont il a besoin pour créer, modifier et mettre en forme correctement le contenu GitBook.
+
+  Il comprend :
+
+  - Une référence complète de la syntaxe des blocs personnalisés.
+  - Les formats des fichiers de configuration, y compris `.gitbook.yaml`, `SUMMARY.md`, et `.gitbook/vars.yaml`.
+  - Options de frontmatter, contrôles de mise en page, variables, expressions, tables de décision et pièges courants.
+</Expandable>
+
+<Expandable title="Comment tester le contenu généré par l’IA ?">
+  Révisez et testez toujours le contenu généré par des assistants IA. Lorsque vous travaillez avec un assistant entraîné sur le fichier de compétences :
+
+  - Vérifiez que les blocs personnalisés s’affichent correctement dans GitBook.
+  - Vérifiez que tous les liens internes fonctionnent.
+  - Confirmez que le frontmatter est un YAML valide.
+  - Testez que les variables font référence au bon périmètre.
+</Expandable>
+
+<Expandable title="Comment savoir si mon assistant utilise SKILL.md ?">
+  Demandez-lui d’expliquer comment il formaterait une page GitBook.
+
+  S’il fait référence aux blocs GitBook, au frontmatter, aux variables ou à des fichiers comme `SUMMARY.md`, la compétence est chargée.
+
+  S’il répond uniquement avec du Markdown générique, vérifiez les règles de votre projet et rechargez l’assistant.
+</Expandable>
+
+<Expandable title="Pourquoi l’assistant ignore-t-il la syntaxe spécifique à GitBook ?">
+  Cela signifie généralement que le fichier de compétences n’est pas chargé ou que les règles ne sont pas assez précises.
+
+  Assurez-vous que votre assistant lit `SKILL.md` depuis la racine du dépôt, ou utilise l’URL GitHub dans les instructions de son projet.
+
+  Si l’assistant met les instructions en cache, redémarrez la session après avoir ajouté ou mis à jour la règle.
+</Expandable>
+
+<Expandable title="Que faire si l’assistant génère du contenu GitBook invalide ?">
+  Vérifiez d’abord les points de défaillance courants :
+
+  - Blocs personnalisés non fermés
+  - YAML invalide dans le frontmatter
+  - Références de variables cassées
+  - Liens qui ne correspondent pas à la structure de vos pages
+
+  Vérifiez toujours la sortie dans GitBook avant de la valider.
+</Expandable>
+
+<Expandable title="Ai-je toujours besoin d’un jeton d’accès ?">
+  Vous avez besoin d’un jeton d’accès lorsque votre agent interagit directement avec GitBook. Vous pouvez créer un jeton d’accès personnel dans vos [paramètres développeur](https://app.gitbook.com/account/developer).
+
+  Si vous modifiez uniquement les fichiers localement avec `SKILL.md`, vous n’en aurez peut-être pas besoin tant que vous ne connectez pas l’assistant aux workflows ou aux API GitBook.
+</Expandable>
+
+<Expandable title="Et si la compétence semble obsolète ?">
+  Mettez à jour votre `SKILL.md`, ou redirigez votre assistant vers la source GitHub.
+
+  Si votre équipe a copié des parties du fichier dans des règles personnalisées, mettez-les également à jour.
+</Expandable>

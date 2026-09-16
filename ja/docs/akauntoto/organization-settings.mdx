@@ -1,0 +1,105 @@
+---
+title: 組織設定
+metaTitle: 組織設定 | GitBook Documentation
+ogImage: https://test-dai.imgix.net/org-4afef969-21f9-40f3-b5b8-b06c8b6cf68f/doc-22a3b060-9539-4176-97e4-49120e02f5d1/0a5a1a9630785855-organizations-d8f63b60-89ae-11e7-8574-5927d48c4877-sites-site_p4Xo4-socialprevie.jpg?fm=auto&auto=compress%2Cformat
+---
+
+<Callout kind="info">
+  組織内の管理者のみが組織設定にアクセスできます。
+</Callout>
+
+GitBook組織の設定を表示および管理します。これには、メンバー、サインイン方法、マージルール、請求、プランが含まれます。
+
+<Image src="https://test-dai.imgix.net/org-4afef969-21f9-40f3-b5b8-b06c8b6cf68f/doc-22a3b060-9539-4176-97e4-49120e02f5d1/b607d58b2669e741-spaces-NkEGS7hzeqa35sMXQZ4X-uploads-uslrejntFsDDPniNzkHX-22_01_06_organization_s.png?fm=auto&auto=compress%2Cformat" alt="A GitBook screenshot showing the organization settings page" caption="あなたの組織設定ページ。" />
+
+### 組織の設定にアクセスする
+
+1. サイドバーの上部で、組織メニューを開きます。
+2. クリックして **設定**.
+
+設定は専用画面で開きます。あなたの個人用 **アカウント** 設定には **全般**, **通知**, **組織**を読み取り、 **開発者ツール**。あなたの **組織** 設定はサイドバーに表示されます。クリック **アプリに戻る** と、作業に戻れます。
+
+サーバー側の **組織** グループには次のページが含まれます：
+
+<Expandable title="全般">
+  **組織プロフィール**
+
+  組織のロゴと名前を更新します。
+
+  **GitBook AI機能**
+
+  [GitBook AI](/ja/docs/kontentsuwo/searching-your-content/gitbook-ai)搭載の検索では、メンバーがコンテンツについて自然言語で質問できます。また、サイトの [カスタマイズ設定で公開コンテンツに対してGitBook AIを有効にすることもできます。](/ja/docs/saitowosuru/customization).
+
+  **アクション**
+
+  このセクションから組織を削除します。
+
+  <Callout kind="danger">
+    <strong>組織の削除は取り消せません。</strong> GitBookは関連データをすべて削除します。組織所有のコンテンツを保持するには、 [別の組織に移動します](/ja/docs/kontentsuwo/content-structure/space#move-a-space) まず。
+  </Callout>
+</Expandable>
+
+<Expandable title="メンバー">
+  追加と削除 [メンバー](/ja/docs/gong-tong-zuo-ye/member-management)。また、各メンバーの [role](/ja/docs/gong-tong-zuo-ye/member-management/roles).
+</Expandable>
+
+<Expandable title="マージルール">
+  組織全体で変更リクエストがどのようにレビューされ、マージされるかを管理します。組織ルールは既定で各セクションに適用されます。各セクションは、それらのルールを継承、置換、または無効化できます。詳細はこちら： [マージルール](/ja/docs/gong-tong-zuo-ye/merge-rules).
+</Expandable>
+
+<Expandable title="GitBook Agent">
+  次の組織レベル設定を管理します： [GitBook Agent](/ja/docs/gitbook-agent/overview).
+</Expandable>
+
+<Expandable title="統合">
+  組織にインストールされている連携を確認できます。また、 [新しい連携をインストールする](/ja/docs/saitowosuru/install-an-integration).
+</Expandable>
+
+<Expandable title="OpenAPI">
+  組織のサイトがAPIリファレンスに使用するOpenAPI仕様を管理します。
+</Expandable>
+
+<Expandable title="翻訳">
+  自動翻訳の組織全体設定を管理します。
+</Expandable>
+
+<Expandable title="招待リンク">
+  人々が組織に参加できるリンクを作成・管理します。
+</Expandable>
+
+<Expandable title="チーム">
+  [チーム](/ja/docs/gong-tong-zuo-ye/member-management/teams) 組織メンバーをグループ化します。チームのメンバーにアクセス権を付与できます。
+</Expandable>
+
+<Expandable title="SSO">
+  **メールドメイン**
+
+  追加した各ドメインについて、そのドメインのメールアドレスを持つ人はGitBookアカウントを作成すると組織にアクセスできます。既定の [role](/ja/docs/gong-tong-zuo-ye/member-management/roles).
+
+  **SAML**
+
+  Enterpriseプランをご利用の場合は、希望するIDプロバイダーでSAMLシングルサインオンを設定してください。 [営業担当に問い合わせる](mailto:sales@gitbook.com) Enterpriseにアップグレードするには。
+</Expandable>
+
+<Expandable title="請求">
+  現在のプランを表示し、プランを切り替えます。トグルを使って、2か月分無料の年間価格または月額価格を表示します。その後、各プランの下にあるアップグレードまたはダウングレードのボタンを使用します。
+
+  こちらをご覧ください [請求ポリシー](/ja/docs/akauntoto/plans/billing-policy) プランを途中で変更した場合の料金の計算方法を確認するには。
+
+  クリックして **請求を管理** Stripeを開きます。そこで、お支払い方法と請求情報を管理できます。また、 [プランをキャンセルする](/ja/docs/akauntoto/plans/cancelling-a-plan)。請求期間が終了する前に更新すれば、プランは中断なく継続します。
+</Expandable>
+
+### 組織の所有権を移譲する
+
+GitBookでは管理者は同じ権限を共有しています。請求、メンバー、公開を管理できるため、所有権の移譲とは新しい所有者を管理者にすることを意味します：
+
+1. 新しい所有者が [管理者](/ja/docs/gong-tong-zuo-ye/member-management/roles) であることを確認してください。
+2. 完全に引き継ぐには、もう一人の管理者にあなたを組織から削除してもらってください。組織のコンテンツへのアクセスを失います。
+
+組織はそのままに、別のメールアドレスでサインインしたい場合は、次でメールを更新してください： **アカウント → 一般** 代わりに設定画面で。
+
+### 削除されたコンテンツはどうなるか
+
+組織を削除すると、それに関連付けられたすべてのコンテンツが永久に削除されます。これは、組織の唯一のメンバーであるアカウントを削除する場合も同様です。削除されたアカウントが複数メンバーの組織に属していた場合、そのメンバーの योगदानを含む組織のコンテンツはそのまま残ります。
+
+コンテンツが削除されてから7日未満の場合は、次から復元できます： **ゴミ箱**。GitBookはこの7日間を超えてバックアップを保存しないため、7日以上前に削除されたコンテンツは復元できません。

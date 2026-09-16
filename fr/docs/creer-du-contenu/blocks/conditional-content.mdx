@@ -1,0 +1,43 @@
+---
+title: Contenu conditionnel
+metaTitle: Contenu conditionnel | GitBook Documentation
+ogImage: https://test-dai.imgix.net/org-4afef969-21f9-40f3-b5b8-b06c8b6cf68f/doc-22a3b060-9539-4176-97e4-49120e02f5d1/0a5a1a9630785855-organizations-d8f63b60-89ae-11e7-8574-5927d48c4877-sites-site_p4Xo4-socialprevie.jpg?fm=auto&auto=compress%2Cformat
+---
+
+Les blocs de contenu conditionnel vous permettent de contrôler qui peut voir un bloc de contenu donné sur votre page en fonction des données utilisateur et des variables. Ces variables peuvent être transmises via des cookies, des indicateurs de fonctionnalité, un accès authentifié ou des paramètres d’URL.
+
+### Créer du contenu conditionnel
+
+Pour ajouter un bloc conditionnel, commencez une nouvelle ligne dans l’éditeur et saisissez <kbd>/</kbd>, puis sélectionnez <Image src="https://test-dai.imgix.net/org-4afef969-21f9-40f3-b5b8-b06c8b6cf68f/doc-22a3b060-9539-4176-97e4-49120e02f5d1/ecbe087f090f9eff-spaces-NkEGS7hzeqa35sMXQZ4X-uploads-51vQZhUqnkdsYpyUo1Pj-page-condition.svg?rasterize-bypass=true" alt="The Page condition icon in GitBook" /> **Contenu conditionnel**.
+
+Après avoir inséré le bloc, cliquez sur l’insigne rouge de condition en haut à droite du bloc.
+
+En cliquant dessus, vous pourrez ajouter une condition via l’ [éditeur de conditions](/fr/docs/publier/adaptive-content/adapting-your-content#working-with-the-condition-editor). Vous pourrez écrire votre condition sous forme d’ [expression](/fr/docs/creer-du-contenu/variables-and-expressions) qui s’exécutera sur les données définies dans votre site. Vous pouvez faire référence à des données provenant de [variables](/fr/docs/creer-du-contenu/variables-and-expressions), ou à des données provenant des visiteurs via leurs [revendications](/fr/docs/publier/adaptive-content/enabling-adaptive-content#set-your-visitor-schema).
+
+Vous pouvez également cibler les visiteurs humains ou les agents IA. Voir [ciblage des visiteurs humains et des agents IA](/fr/docs/publier/adaptive-content/adapting-your-content#target-human-visitors-and-ai-agents).
+
+Voir [contenu adaptatif](/fr/docs/publier/adaptive-content) pour plus de détails.
+
+### Exemple
+
+Les exemples ci-dessous utilisent un paramètre d’URL lié au bouton pour contrôler quel bloc de contenu conditionnel est visible.
+
+Ce bloc n’est visible que pour les utilisateurs **sans** l’attribut A.
+
+[Voir avec l’attribut A](/en/docs/create-content/blocks/conditional-content?visitor.example_attribute_A=true)
+
+## Représentation en Markdown
+
+```markdown
+## Exemple
+
+{% if visitor.claims.unsigned.example_attribute_A %}
+Ce bloc n’est visible que pour les utilisateurs **avec** l’attribut A.
+<a href="https://gitbook.com/docs/create-content/blocks/conditional-content?visitor.example_attribute_A=false" class="button primary">Voir sans l’attribut A</a>
+{% endif %}
+
+{% if !visitor.claims.unsigned.example_attribute_A %}
+Ce bloc n’est visible que pour les utilisateurs **sans** l’attribut A.
+<a href="https://gitbook.com/docs/create-content/blocks/conditional-content?visitor.example_attribute_A=true" class="button primary">Voir avec l’attribut A</a>
+{% endif %}
+```

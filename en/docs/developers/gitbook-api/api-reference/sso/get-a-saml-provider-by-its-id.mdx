@@ -1,0 +1,128 @@
+---
+title: Get a SAML provider by its ID
+metaTitle: Get a SAML provider by its ID | Developers | GitBook Documentation
+ogImage: https://test-dai.imgix.net/org-4afef969-21f9-40f3-b5b8-b06c8b6cf68f/doc-22a3b060-9539-4176-97e4-49120e02f5d1/0a5a1a9630785855-organizations-d8f63b60-89ae-11e7-8574-5927d48c4877-sites-site_p4Xo4-socialprevie.jpg?fm=auto&auto=compress%2Cformat
+---
+
+**GET** `/orgs/{organizationId}/saml/{samlProviderId}`
+
+**Parameters**
+
+<ParamField header="Authorization" param-type="string" required={true} />
+
+<ParamField path="organizationId" param-type="string" required={true}>
+  The unique id of the organization
+</ParamField>
+
+<ParamField path="samlProviderId" param-type="string" required={true}>
+  The unique id of the SAML provider
+</ParamField>
+
+**Responses**
+
+`200` OK
+
+<ResponseField name="object" field-type="string" required={true} enum="saml-provider">
+  Type of Object, always equals to "saml-provider"
+</ResponseField>
+
+<ResponseField name="id" field-type="string" required={true}>
+  Unique identifier for the provider.
+</ResponseField>
+
+<ResponseField name="label" field-type="string" required={true} />
+
+<ResponseField name="ssoURL" field-type="string" required={true} />
+
+<ResponseField name="entityID" field-type="string" required={true} />
+
+<ResponseField name="certificate" field-type="string" required={true} />
+
+<ResponseField name="defaultTeam" field-type="object">
+  <Expandable title="Object Properties">
+    <ResponseField name="object" field-type="string" required={true} enum="team">
+      Type of Object, always equals to "team"
+    </ResponseField>
+
+    <ResponseField name="id" field-type="string" required={true}>
+      Unique identifier for the team.
+    </ResponseField>
+
+    <ResponseField name="title" field-type="string" required={true}>
+      Title of the team
+    </ResponseField>
+
+    <ResponseField name="members" field-type="integer" required={true}>
+      Count of members in this team.
+    </ResponseField>
+
+    <ResponseField name="spaces" field-type="number" required={true}>
+      Count of spaces this team has access to.
+    </ResponseField>
+
+    <ResponseField name="createdAt" field-type="string" required={true} />
+
+    <ResponseField name="permissions" field-type="object" required={true}>
+      The set of permissions for the team
+
+      <Expandable title="Object Properties">
+        <ResponseField name="admin" field-type="boolean" required={true}>
+          Can the user manage the team
+        </ResponseField>
+
+        <ResponseField name="view" field-type="boolean" required={true}>
+          Can the user view the team and list its members
+        </ResponseField>
+      </Expandable>
+    </ResponseField>
+  </Expandable>
+</ResponseField>
+
+<ResponseField name="defaultRole" field-type="string" required={true}>
+  The role of a member in an organization, null for guests
+</ResponseField>
+
+<ResponseField name="createdAt" field-type="string" required={true} />
+
+<ResponseField name="status" field-type="string" required={true} enum="active,pending">
+  Status of the provider.
+
+  - `active`: The provider is active and can be used to authenticate users.
+  - `pending`: The provider is pending and is not yet fully configured.
+</ResponseField>
+
+<ResponseField name="service" field-type="object" required={true}>
+  Metadata about the service provider.
+
+  <Expandable title="Object Properties">
+    <ResponseField name="acsURL" field-type="string" required={true}>
+      Assertion Consumer Service (ACS) URL
+    </ResponseField>
+
+    <ResponseField name="startURL" field-type="string" required={true}>
+      Start URL for the Identity Provider
+    </ResponseField>
+
+    <ResponseField name="entityID" field-type="string" required={true} />
+  </Expandable>
+</ResponseField>
+
+<ResponseField name="urls" field-type="object" required={true}>
+  URLs associated with the object
+
+  <Expandable title="Object Properties">
+    <ResponseField name="location" field-type="string" required={true}>
+      URL of the SAML Provider in the API
+    </ResponseField>
+  </Expandable>
+</ResponseField>
+
+`404` Not Found
+
+<ResponseField name="error" field-type="object" required={true}>
+  <Expandable title="Object Properties">
+    <ResponseField name="code" field-type="integer" required={true} enum="404" />
+
+    <ResponseField name="message" field-type="string" required={true} />
+  </Expandable>
+</ResponseField>

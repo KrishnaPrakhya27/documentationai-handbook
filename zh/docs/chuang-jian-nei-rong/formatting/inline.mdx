@@ -1,0 +1,247 @@
+---
+title: 行内内容
+description: 使用行内工具面板添加图片、链接、数学与 TeX 等内容
+metaTitle: 行内内容 | GitBook Documentation
+ogImage: https://test-dai.imgix.net/org-4afef969-21f9-40f3-b5b8-b06c8b6cf68f/doc-22a3b060-9539-4176-97e4-49120e02f5d1/0a5a1a9630785855-organizations-d8f63b60-89ae-11e7-8574-5927d48c4877-sites-site_p4Xo4-socialprevie.jpg?fm=auto&auto=compress%2Cformat
+---
+
+<Image src="https://test-dai.imgix.net/org-4afef969-21f9-40f3-b5b8-b06c8b6cf68f/doc-22a3b060-9539-4176-97e4-49120e02f5d1/69b1d06ab8cca249-spaces-NkEGS7hzeqa35sMXQZ4X-uploads-QcBDNerKxNvi1X3Jnk2R-26_01_22_inline-palette.png?fm=auto&auto=compress%2Cformat" alt="A GitBook screenshot showing inline content options" caption="为内容添加行内元素。" />
+
+行内面板让你无需把手从键盘上移开，就能快速为文本块添加额外内容。只需按 `/` 在任意文本块上即可打开行内面板。正斜杠将被替换为你选择插入的内容。
+
+## 注释
+
+借助注释，你可以在不打断读者阅读思路的情况下，为文字补充更多上下文。你可以用它们来解释词语的含义、插入额外信息等。读者将鼠标悬停在带注释的文本上时，便可在文本上方显示注释。
+
+### 创建注释
+
+要创建注释，请选中你想要注释的文本，然后点击 **注释** 菜单中的选项。写完注释后，点击注释外部即可继续在文本块中写作。
+
+### Markdown 表示
+
+你可以将内容写为 [Markdown 脚注](https://www.markdownguide.org/extended-syntax/#footnotes) ，将其作为 GitBook 中的注释添加。脚注标记应紧跟在你想要注释的词语之后；它们不应出现在标点符号或其他符号之后。
+
+```markdown
+这里有一个简单的脚注[^1]，还有一个更长的脚注[^bignote]。
+
+[^1]: 这是第一条脚注。
+
+[^bignote]: 这里有一个包含多个段落和代码的脚注。
+
+    缩进段落即可将其包含在脚注中。
+
+    `{ my code }`
+
+    想加多少段落都可以。
+```
+
+### 渲染示例
+
+Markdown 源内容会在所引用的文本上创建一个注释：
+
+```markdown
+注释添加了额外的上下文[^annotation-example]。
+
+[^annotation-example]: 将鼠标悬停在“额外上下文”上即可阅读此注释。
+```
+
+其渲染结果如下。将鼠标悬停在带注释的文本上可预览注释：
+
+注释添加了额外的上下文。[^1]
+
+## 图片
+
+行内图片会与页面中的文本并排显示。
+
+默认情况下，图片会按其原始尺寸显示，最大宽度为 300px。你可以点击图片打开格式设置面板，然后选择以下三个选项之一来更改尺寸：
+
+1. <strong>行内尺寸：</strong> 图片会按字体大小等比例缩放——非常适合图标和徽章。
+2. <strong>原始尺寸：</strong> 图片将以原始尺寸保持行内显示，最大宽度为 300 像素。
+3. <strong>转换为块：</strong> 这会将行内图片变为图片块，其宽度与内容相同。
+
+<Callout kind="info">
+  图片块提供更多选项，包括更多尺寸以及添加说明文字的能力——但它们不会与文本并排显示。
+</Callout>
+
+### Markdown 表示法
+
+```markdown
+这是一个行内图片：<img src=".gitbook/assets/GitBook - Dark.jpg" alt="GitBook 标志深色版本" data-size="line">
+```
+
+其渲染结果如下：这是一个行内图片： <Image src="https://test-dai.imgix.net/org-4afef969-21f9-40f3-b5b8-b06c8b6cf68f/doc-22a3b060-9539-4176-97e4-49120e02f5d1/69b1d06ab8cca249-spaces-NkEGS7hzeqa35sMXQZ4X-uploads-QcBDNerKxNvi1X3Jnk2R-26_01_22_inline-palette.png?fm=auto&auto=compress%2Cformat" alt="GitBook logo" />
+
+## 表情符号
+
+你可以通过按下 `/` 打开行内面板来添加表情符号。或者，输入 `:` ，表情符号列表就会直接在行内弹出——你可以开始输入表情符号的名称来缩小选择范围。
+
+### Markdown 表示法
+
+```markdown
+:house:
+:smile:
+:dog:
+```
+
+其渲染结果如下： 🏠 😄 🐶  
+
+## 链接
+
+你可以插入三种不同类型的链接：
+
+- [相对链接](#relative-links)
+- [绝对链接](#absolute-links)
+- [电子邮件地址 `mailto` 链接](#email-address-mailto-links)
+
+### 相对链接
+
+相对链接是通过链接到你所在章节中已存在页面而创建的链接。使用相对链接的好处是：如果页面的 URL、名称或位置发生变化，它的引用会自动保持最新——这样你最终会得到更少的失效链接。
+
+下面是插入相对链接的方法：
+
+1. 在段落中你想插入链接的位置单击，或者选中一些文本。
+2. 按 / 打开行内面板并选择“链接”，点击 **链接** 上下文菜单中的按钮，或者按 <strong>⌘ + K</strong>.
+3. 开始输入你想链接到的页面标题。
+4. 从下拉搜索结果中选择该页面。
+5. 按 `Enter`.
+
+### 绝对链接
+
+绝对链接是你可以复制并粘贴到内容中的外部链接。当你想链接到文档之外的内容时，它们非常有用。
+
+要插入绝对链接：
+
+1. 在段落中你想插入链接的位置单击，或者选中一些文本。
+2. 按 / 打开行内面板并选择“链接”，点击 **链接** 上下文菜单中的按钮，或者按 <strong>⌘ + K</strong>.
+3. 粘贴你想要链接的 URL。
+4. 按 `Enter`.
+
+<Callout kind="info">
+  <strong>为什么外部链接不会在新标签页中打开？</strong>
+
+  当你在文档中添加指向外部网站的链接时，它会在同一标签页中打开。
+
+  GitBook 遵循这一 [W3C 推荐的行为](https://www.w3.org/TR/WCAG20-TECHS/G200.html) 以支持 [无障碍访问](https://it.wisc.edu/learn/make-it-accessible/websites-and-web-applications/when-to-open-links-in-a-new-tab/) 并为读者确保一致且包容的体验。
+</Callout>
+
+### 电子邮件地址 mailto 链接
+
+电子邮件地址 `mailto` 链接很有用，当你希望访问者点击一个链接时，它会打开默认邮件客户端，并将 `收件人` 字段中的内容填入你链接的电子邮件地址，这样他们就可以写邮件发送。
+
+下面是插入电子邮件地址 `mailto` 链接的方法：
+
+1. 在段落中你想插入链接的位置单击，或者选中一些文本。
+2. 按 / 打开行内面板并选择“链接”，点击 **链接** 上下文菜单中的按钮，或者按 <strong>⌘ + K</strong>.
+3. 粘贴或输入 `mailto:something@address.com`，将 `something@address.com` 替换为你想使用的电子邮件地址。
+4. 按 `Enter`.
+
+### Markdown 表示法
+
+```markdown
+[这是一个指向本节中另一页面的相对链接](../content-structure/page.md)
+[这是一个绝对链接](https://www.gitbook.com/blog)
+[这是一个链接](mailto:support@gitbook.com) 指向我们的支持邮箱地址
+```
+
+其渲染结果如下：
+
+[这是一个指向本节中另一页面的相对链接](/zh/docs/chuang-jian-nei-rong/content-structure)<br />[这是一个绝对链接](https://www.gitbook.com/blog)<br />[这是一个链接](mailto:support@gitbook.com) 指向我们的支持邮箱地址
+
+## 数学公式与 TeX
+
+使用此选项，你可以在内容中创建行内数学公式。我们使用 [KaTeX](https://katex.org/docs/supported.html) 库来渲染公式。
+
+<Callout kind="info">
+  你也可以在空白块中打开命令面板，并选择第二个数学公式与 TeX 选项，从而插入块级数学公式。
+</Callout>
+
+### Markdown 表示法
+
+```markdown
+这是一个行内公式：$$f(x) = x * e^{2 pi i \xi x}$$
+```
+
+其渲染结果如下：这是一个行内公式： $$f(x) = x * e^&#123;2 pi i \\xi x&#125;$$
+
+## 按钮
+
+按钮是突出行动号召，或者为你的文档添加搜索栏或 Ask AI 栏的绝佳方式。你可以用它们把读者带到某个地方，或帮助他们找到答案。
+
+### 按钮操作
+
+按钮不仅仅能链接到 URL。你还可以直接在页面上将按钮变成搜索栏或 GitBook Assistant 提问栏。这些操作在已发布的页面上也同样有效——如下方示例所示。
+
+你可以配置以下操作：
+
+#### **添加链接按钮**
+
+将读者带到另一个页面或外部 URL：[进一步了解 Assistant](/zh/docs/wei-du-zhe-ti-gong-de-ai/gitbook-ai-assistant)
+
+#### **添加搜索栏**
+
+打开搜索，并可选预设查询： 
+
+#### **添加 Ask AI/GitBook Assistant 栏**
+
+打开 GitBook Assistant，并可选预设提示词： 
+
+#### **添加禁用按钮**
+
+显示一个有意处于非激活状态的按钮：[未激活按钮](/zh/docs/chuang-jian-nei-rong/formatting/inline)
+
+### 创建并配置按钮
+
+1. 输入 `/` 并选择 **按钮**.
+2. 点击按钮可打开 **标签** 菜单。
+3. 选择一个操作，然后设置标签和样式。
+4. 可选：添加预设搜索查询或 Assistant 提示词。
+
+### 样式
+
+链接按钮和未激活按钮都具有主样式和次样式。以下是几个示例：
+
+[注册 GitBook](https://app.gitbook.com/join) [回到顶部](#annotations)
+
+### Markdown 表示法
+
+```markdown
+<a href="https://app.gitbook.com" class="button primary">GitBook</a>
+```
+
+其渲染结果如下： [GitBook](https://app.gitbook.com)
+
+## 图标
+
+图标为段落、卡片和其他内容添加视觉上下文。它们使用你在自定义设置中定义的视觉样式。
+
+使用一个 `<i>` 元素，并同时使用图标名称的两种形式。Font Awesome 类名和标记必须匹配：
+
+```markdown
+<i class="fa-rocket">:rocket:</i>
+```
+
+从中选择一个图标名称 [Font Awesome 图标选择器](https://fontawesome.com/search)。不受支持的名称可能无法渲染，或无法在 Git Sync 中保留。
+
+   
+
+### Markdown 表示法
+
+```markdown
+<i class="fa-github">:github:</i>
+```
+
+其渲染结果如下： 
+
+## 表达式
+
+表达式允许你动态显示在变量中定义的内容。表达式可以从 `/` 菜单中插入。插入后，点击表达式会打开表达式编辑器，使你能够引用并 [有条件地格式化](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Conditional_operator) 你的变量。
+
+### Markdown 表示法
+
+```markdown
+欢迎来到 <code class="expression">page.vars.inlineExampleProduct</code>。
+```
+
+其渲染结果如下：欢迎来到 `page.vars.inlineExampleProduct`.
+
+[^1]: 这是一个注释。

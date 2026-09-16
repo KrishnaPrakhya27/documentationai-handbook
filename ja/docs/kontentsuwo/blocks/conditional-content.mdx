@@ -1,0 +1,43 @@
+---
+title: 条件付きコンテンツ
+metaTitle: 条件付きコンテンツ | GitBook Documentation
+ogImage: https://test-dai.imgix.net/org-4afef969-21f9-40f3-b5b8-b06c8b6cf68f/doc-22a3b060-9539-4176-97e4-49120e02f5d1/0a5a1a9630785855-organizations-d8f63b60-89ae-11e7-8574-5927d48c4877-sites-site_p4Xo4-socialprevie.jpg?fm=auto&auto=compress%2Cformat
+---
+
+条件付きコンテンツブロックを使うと、ユーザーデータや変数に基づいて、ページ上の特定のコンテンツブロックを誰が閲覧できるかを制御できます。これらの変数は、Cookie、機能フラグ、認証済みアクセス、またはURLパラメータを介して渡すことができます。
+
+### 条件付きコンテンツを作成
+
+条件付きブロックを追加するには、エディタで新しい行を開始し、 <kbd>/</kbd>と入力してから、 <Image src="https://test-dai.imgix.net/org-4afef969-21f9-40f3-b5b8-b06c8b6cf68f/doc-22a3b060-9539-4176-97e4-49120e02f5d1/ecbe087f090f9eff-spaces-NkEGS7hzeqa35sMXQZ4X-uploads-51vQZhUqnkdsYpyUo1Pj-page-condition.svg?rasterize-bypass=true" alt="The Page condition icon in GitBook" /> **条件付きコンテンツ**.
+
+ブロックを挿入したら、ブロック右上の赤い条件バッジをクリックします。
+
+これをクリックすると、 [条件エディタ](/ja/docs/gong-kai/adaptive-content/adapting-your-content#working-with-the-condition-editor)を使って条件を追加できます。条件は [式](/ja/docs/kontentsuwo/variables-and-expressions) として記述でき、サイトで定義されたデータに対して実行されます。 [変数](/ja/docs/kontentsuwo/variables-and-expressions)、または訪問者の [クレーム](/ja/docs/gong-kai/adaptive-content/enabling-adaptive-content#set-your-visitor-schema).
+
+人間の訪問者やAIエージェントを対象にすることもできます。 [人間の訪問者とAIエージェントを対象にする](/ja/docs/gong-kai/adaptive-content/adapting-your-content#target-human-visitors-and-ai-agents).
+
+参照： [アダプティブコンテンツ](/ja/docs/gong-kai/adaptive-content) の詳細をご覧ください。
+
+### 例
+
+以下の例では、ボタンからリンクされたURLパラメータを使用して、どの条件付きコンテンツブロックを表示するかを制御しています。
+
+このブロックは、ユーザーのみに表示されます **なしで** 属性A。
+
+[属性Aありで表示](/en/docs/create-content/blocks/conditional-content?visitor.example_attribute_A=true)
+
+## Markdownでの表現
+
+```markdown
+## 例
+
+{% if visitor.claims.unsigned.example_attribute_A %}
+このブロックは、**属性Aを持つ**ユーザーにのみ表示されます。
+<a href="https://gitbook.com/docs/create-content/blocks/conditional-content?visitor.example_attribute_A=false" class="button primary">属性Aなしで表示</a>
+{% endif %}
+
+{% if !visitor.claims.unsigned.example_attribute_A %}
+このブロックは、**属性Aを持たない**ユーザーにのみ表示されます。
+<a href="https://gitbook.com/docs/create-content/blocks/conditional-content?visitor.example_attribute_A=true" class="button primary">属性Aありで表示</a>
+{% endif %}
+```

@@ -1,0 +1,99 @@
+---
+title: SSO 与 SAML
+description: 了解如何通过 SSO 与 SAML 分享你的 GitBook 内容
+metaTitle: SSO 与 SAML | GitBook Documentation
+ogImage: https://test-dai.imgix.net/org-4afef969-21f9-40f3-b5b8-b06c8b6cf68f/doc-22a3b060-9539-4176-97e4-49120e02f5d1/0a5a1a9630785855-organizations-d8f63b60-89ae-11e7-8574-5927d48c4877-sites-site_p4Xo4-socialprevie.jpg?fm=auto&auto=compress%2Cformat
+---
+
+虽然对于小团队或那些想要高度控制的人来说，手动管理组织成员也没问题，但有时你只是需要以更自动化的方式开放访问。GitBook 允许你通过两种方式来配置这一点：基础的电子邮件域 SSO，以及更复杂的 SAML 集成。
+
+## 通过电子邮件域进行单点登录
+
+当你创建或管理组织时，你可以添加一个你希望允许访问 GitBook 组织的电子邮件域列表。这意味着，任何拥有与你配置的 SSO 域匹配且已验证的电子邮件地址的人，都可以加入你的组织。
+
+你可以在 **单点登录** 你所在组织的 **设置**；输入一个以逗号分隔的电子邮件域列表，作为你希望允许 SSO 访问的域，就可以了。
+
+<Image src="https://test-dai.imgix.net/org-4afef969-21f9-40f3-b5b8-b06c8b6cf68f/doc-22a3b060-9539-4176-97e4-49120e02f5d1/006805aa95a3852e-spaces-NkEGS7hzeqa35sMXQZ4X-uploads-F860Y1oqJmnsPKOjZ1n2-account-settings-sso.svg?rasterize-bypass=true" alt="A GitBook screenshot showing how to configure SSO" caption="为你的组织设置 SSO。" />
+
+<Callout kind="info">
+  任何通过 SSO 电子邮件域加入的人，默认都将获得访客访问权限；你可以随时在组织设置的成员部分更改他们的角色。
+</Callout>
+
+**基于 SAML 的单点登录** （SSO）可让成员通过你选择的身份提供商（IdP）访问 GitBook。
+
+GitBook 可轻松与你现有的身份提供商（IdP）集成，这样你就可以使用与其他服务提供商相同的凭据和登录体验，为员工提供 GitBook 的单点登录。
+
+通过使用 SSO，你的员工可以使用熟悉的身份提供商界面登录 GitBook，而不是 GitBook 登录页面。随后，员工的浏览器会将他们转发到 GitBook。启用 SSO 且 GitBook 自身的登录机制被停用时，IdP 会授予对 GitBook 的访问权限。这样，身份验证安全就转移到了你的 IdP 上，并与其他服务提供商协调一致。
+
+## GitBook SSO 的前提条件
+
+- 贵公司的身份提供商（IdP）必须支持 **SAML 2.0** 标准。
+- 你必须在 IdP 上拥有管理员权限。
+- 你必须是你想要在其上设置 SAML 的 GitBook 组织的管理员。
+
+### 在 GitBook 中设置
+
+你必须是 [组织管理员](/zh/docs/xie-zuo/member-management/roles#admin) ，才能为你的 GitBook 组织启用 SSO。
+
+在你的 IdP 上配置好 SSO 之后，你将能够输入元数据。设置成功后，管理员会看到确认对话框，并显示面向最终用户的 SSO 登录 URL。 **当设置完成时，GitBook 不会发送公告邮件**。管理员有责任通知公司员工（并将登录 URL 告知他们），以便他们可以通过 SSO 访问 GitBook。
+
+<Callout kind="info">
+  组织管理员仍然可以使用非 SSO 方式登录，因此你可能仍会看到 Google、GitHub 或电子邮件按钮。即使 **强制 SSO** 已启用，这也是正常的。
+
+  这可以防止在 SSO 设置错误后你的组织被锁定。管理员始终可以登录并移除或修复 SSO 设置。
+</Callout>
+
+你需要从 IdP 元数据中获取以下内容，以注册 SAML 提供商：
+
+- 一笔 **label** ——这可以是任何内容，它会显示在登录页面上
+- 一个 **实体 ID**
+- 一笔 **单点登录 URL**
+- 一个 **X.509 证书** ——请确保复制并粘贴完整证书！
+
+### 在 IdP 中设置
+
+大多数符合 SAML 2.0 标准的身份提供商在设置时都需要相同的服务提供商信息（在本例中为 GitBook）。这些值是你 GitBook 组织专属的，可在 **设置 -> SSO** 选项卡中找到，该 GitBook 组织即为你想要启用 SSO 的组织。
+
+这些值中的大多数都可以直接复制到你的 IdP 中，以完成 SAML 配置。
+
+GitBook 要求 **NameID** 包含用户的电子邮件地址。技术上我们要找的是： `urn:oasis:names:tc:SAML:1.1:nameid-format:emailAddress` 作为 Name-ID 格式——许多提供商（如 Google）都允许你设置诸如 **EMAIL**.
+
+### 自定义属性
+
+GitBook 会从 SAML 断言响应中提取以下自定义属性，并在创建用户时使用它们。
+
+| 字段 | 描述 |
+| --- | --- |
+| `first_name` | `first_name` 以及 `last_name` 这些字段会组合起来，生成用户在 GitBook 中显示的姓名 |
+| `last_name` | `first_name` 以及 `last_name` 这些字段会组合起来，生成用户在 GitBook 中显示的姓名 |
+
+## 创建最终用户账户
+
+要添加成员，请在你的 IdP 中为他们创建账户。新成员第一次通过 IdP 登录 GitBook 时，GitBook 会通过自动 IdP 预配为他们创建一个 GitBook 账户。该用户将以组织成员身份访问组织资源。
+
+<Callout kind="danger">
+  设置要求电子邮件地址使用小写。请勿使用大小写混合的电子邮件地址。
+</Callout>
+
+## 移除账户
+
+从 IdP 中移除某个成员会阻止该用户登录到对应的 GitBook 账户， **但不会从 GitBook 中删除该账户**。我们还建议将该账户从 GitBook 组织中移除。
+
+## 控制访问
+
+一旦你设置了 SAML SSO，谁可以访问你的 GitBook 账户就由 IdP 来控制。
+
+## 安全提示
+
+如果你已有一个与我们从身份提供商获取的相同电子邮件地址的 GitBook 账户，并且你不是你要登录的组织的成员，出于安全原因，我们将无法使用 SAML 配置自动将你添加到该组织。你有两个选择：
+
+1. 删除你现有的 GitBook 账户，然后使用 SAML 登录你想加入的组织。随后，GitBook 会为你创建一个新账户，你也会被加入该组织
+2. 或者，请你的管理员邀请你加入该组织：
+
+如果你的组织没有启用“强制 SSO”，那么你组织的管理员可以通过组织设置中的成员页面邀请用户。
+
+如果你的组织已启用“强制 SSO”，管理员将需要使用 GitBook 的 `邀请` API 端点来邀请用户加入组织。对此 API 的调用如下所示；
+
+```
+curl --request POST --header "Authorization: Bearer <your_access_token>" --url "https://api.gitbook.com/v1/orgs/<org_id>/invites" --header 'Content-Type: application/json' --data-raw '{ "sso": true, "role": "<role>", "emails":["<email>"] }'
+```

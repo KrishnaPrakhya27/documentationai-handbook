@@ -1,0 +1,85 @@
+---
+title: CI/CDとの統合
+description: GitBookでOpenAPI仕様の更新を自動化する方法を学びましょう
+metaTitle: CI/CDとの統合 | GitBook Documentation
+ogImage: https://test-dai.imgix.net/org-4afef969-21f9-40f3-b5b8-b06c8b6cf68f/doc-22a3b060-9539-4176-97e4-49120e02f5d1/0a5a1a9630785855-organizations-d8f63b60-89ae-11e7-8574-5927d48c4877-sites-site_p4Xo4-socialprevie.jpg?fm=auto&auto=compress%2Cformat
+---
+
+GitBook は、OpenAPI 仕様の管理にすでに使用している任意の CI/CD パイプラインと連携できます。GitBook CLI を使えば、API リファレンスの更新を自動化できます。
+
+### 仕様ファイルをアップロードする
+
+OpenAPI 仕様が CI プロセス中に生成される場合は、ビルド環境から直接アップロードできます:
+
+```bash
+# GitBook API トークンを環境変数として設定する
+export GITBOOK_TOKEN=<api-token>
+
+gitbook openapi publish \
+  --spec spec_name \
+  --organization organization_id \
+  example.openapi.yaml
+```
+
+### 新しいソース URL を設定するか、更新をトリガーする
+
+OpenAPI 仕様が URL でホストされている場合、GitBook は自動的に更新をチェックします。更新を強制するには（たとえばリリース後に）、次を実行します:
+
+```bash
+# GitBook API トークンを環境変数として設定する
+export GITBOOK_TOKEN=<api-token>
+
+gitbook openapi publish \
+  --spec spec_name \
+  --organization organization_id \
+  https://api.example.com/openapi.yaml
+```
+
+### GitHub Actions で仕様を更新する
+
+OpenAPI 仕様を公開するワークフローを設定する場合は、リポジトリで次の手順を完了してください:
+
+1. リポジトリで、「設定 → シークレットと変数 → Actions」に移動します。
+2. シークレットを追加します: `GITBOOK_TOKEN` （GitBook API トークン）。
+3. 変数を追加します（または、ワークフロー内にハードコードします）:
+
+   - `GITBOOK_SPEC_NAME` → GitBook 内での仕様名
+   - `GITBOOK_ORGANIZATION_ID` → GitBook の組織 ID
+4. ワークフローファイルを次の名前で保存します `.github/workflows/gitbook-openapi-publish.yml`.
+5. 変更を「main」にプッシュします（またはワークフローを手動で実行します）。
+
+その後、このアクションを使って仕様を更新できます:
+
+```yaml title=".github/workflows/gitbook-openapi-publish.yml"
+name: GitBook に OpenAPI を公開
+
+on:
+  push:
+    branches: [ "main" ]
+    paths:
+      - "**/*.yaml"
+      - "**/*.yml"
+      - "**/*.json"
+  workflow_dispatch:
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    env:
+      # 必須のシークレット
+      GITBOOK_TOKEN: ${{ secrets.GITBOOK_TOKEN }}
+      # できればリポジトリ/組織の変数を使い、必要ならインライン文字列をフォールバックにします
+      GITBOOK_SPEC_NAME: ${{ vars.GITBOOK_SPEC_NAME }}
+      GITBOOK_ORGANIZATION_ID: ${{ vars.GITBOOK_ORGANIZATION_ID }}
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: GitBook に仕様ファイルを公開
+        run: |
+          npx -y @gitbook/cli@latest openapi publish \
+            --spec "$GITBOOK_SPEC_NAME" \
+            --organization "$GITBOOK_ORGANIZATION_ID" \
+            <path_to_spec>
+```

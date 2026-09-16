@@ -1,0 +1,74 @@
+---
+title: 変更リクエスト
+description: 変更リクエストを通じてコンテンツ編集を共同で進めます
+metaTitle: 変更リクエスト | GitBook Documentation
+ogImage: https://test-dai.imgix.net/org-4afef969-21f9-40f3-b5b8-b06c8b6cf68f/doc-22a3b060-9539-4176-97e4-49120e02f5d1/0a5a1a9630785855-organizations-d8f63b60-89ae-11e7-8574-5927d48c4877-sites-site_p4Xo4-socialprevie.jpg?fm=auto&auto=compress%2Cformat
+---
+
+変更リクエストは、メインコンテンツのコピーです。これはブランチという概念に基づいており、GitHub のプルリクエストや GitLab のマージリクエストを使ったことがある人にはなじみのある仕組みです。
+
+変更リクエストでは、コンテンツの編集、更新、削除、変更内容のレビュー依頼を行い、最後にそれらをメイン版へマージできます。
+
+サイト全体の公開中の変更リクエストを参照・管理するには、 [変更リクエスト画面](/ja/docs/gong-tong-zuo-ye/change-requests/change-requests-screen).
+
+<Image src="https://test-dai.imgix.net/org-4afef969-21f9-40f3-b5b8-b06c8b6cf68f/doc-22a3b060-9539-4176-97e4-49120e02f5d1/f91d675b30e06009-spaces-NkEGS7hzeqa35sMXQZ4X-uploads-wn8xlD4x46N7JblHVSnP-collaboration-change-re.png?fm=auto&auto=compress%2Cformat" alt="A GitBook screenshot showing the change requests panel" caption="変更リクエストを通じてコンテンツを編集します。" />
+
+<a id="diff-mode"></a>
+
+### 差分ビューで変更を確認
+
+〜を開き、 **変更** タブで、変更リクエスト内の編集内容を確認します。すべてのページを文脈の中で確認することも、変更されたページだけに絞って確認することもできます。
+
+エディタ下部のフローティング差分ナビゲーターを使うと、変更されたブロック間を移動したり、差分のある次のページへ進んだり、利用可能なレビュー操作で最後の変更からレビューを完了したりできます。
+
+<Callout kind="info">
+  既定では、変更は「分割ビュー」で表示されます。左側にページの「変更前」バージョン、右側に「変更後」の状態が表示されます。単一カラムのレイアウトで変更をインライン表示したい場合は、目次パネル右上の差分モードボタンをクリックしてください。
+</Callout>
+
+### 変更リクエストを作成してマージする
+
+<Steps>
+  <Step title="変更リクエストを開く" titleType="h3">
+    コンテンツを編集するには、変更リクエストを開きます。開く方法はいくつかあります。
+
+    - クリックして **編集** セクションの右上隅にある。
+    - GitBook Agent に依頼して作成してもらいます。
+    - GitBook Agent は、ドキュメントの不足を検知すると自動的に作成することがあります。
+
+    手動で開いた場合、GitBook が変更リクエストを作成し、エディタで開きます。
+  </Step>
+
+  <Step title="変更を加える" titleType="h3">
+    エディタで直接コンテンツを編集するか、GitBook Agent と作業します。
+
+    先へ進む前に変更内容を確認してください。レビューを依頼する準備ができるまで、編集を続けられます。
+  </Step>
+
+  <Step title="レビューを依頼する" titleType="h3">
+    〜を開き、 **概要** タブを開き、1人以上のレビュー担当者をタグ付けします。
+
+    レビュー担当者は、変更を承認したり、コメントを残したり、追加の編集を依頼したりできます。誰もタグ付けしない場合は、そのセクションでレビュー権限を持つ全員に通知されます。セクションにレビュー担当者がいない場合は、代わりに編集者と管理者に通知されます。
+
+    誰かが変更を依頼した場合は、マージする前に変更リクエストを更新してください。GitBook Agent に変更リクエストのレビューを依頼することもできます。
+  </Step>
+
+  <Step title="マージ" titleType="h3">
+    変更リクエストが承認されたら、 **概要** タブを開き、 **マージ**.
+
+    GitBook は変更内容をすぐに公開中のドキュメントに反映します。セクションでマージルールを使用している場合、GitBook はマージ前にそれらを確認します。
+
+    マージは元に戻せません。内容を元に戻したり調整したりするには、新しい変更リクエストを開いてください。
+  </Step>
+</Steps>
+
+### 変更リクエストの使い方
+
+<Columns cols={2}>
+  <Card title="変更リクエスト画面" href="/ja/docs/gong-tong-zuo-ye/change-requests/change-requests-screen">
+    組織全体の変更リクエストを表示・管理する
+  </Card>
+
+  <Card title="スペース内の変更リクエスト" href="/ja/docs/gong-tong-zuo-ye/change-requests/change-requests-in-a-space">
+    1つのスペース内で変更リクエストを作成し、レビューする
+  </Card>
+</Columns>

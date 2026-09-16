@@ -1,0 +1,31 @@
+---
+title: Merge a change request into the space's live content
+metaTitle: Merge a change request into the space's live content | Developers | GitBook Documentation
+ogImage: https://test-dai.imgix.net/org-4afef969-21f9-40f3-b5b8-b06c8b6cf68f/doc-22a3b060-9539-4176-97e4-49120e02f5d1/0a5a1a9630785855-organizations-d8f63b60-89ae-11e7-8574-5927d48c4877-sites-site_p4Xo4-socialprevie.jpg?fm=auto&auto=compress%2Cformat
+---
+
+Merges the change request's draft content into the space's primary (published) content, making all changes live. If the result is "conflicts", the merge was still applied but the space may need manual conflict resolution. Consider running updateChangeRequest first to sync with the latest live content and reduce conflicts.
+
+**POST** `/spaces/{spaceId}/change-requests/{changeRequestId}/merge`
+
+**Parameters**
+
+<ParamField header="Authorization" param-type="string" />
+
+<ParamField path="spaceId" param-type="string" required={true}>
+  The unique id of the space
+</ParamField>
+
+<ParamField path="changeRequestId" param-type="string" required={true}>
+  The unique ID of the change request or its number identifier in the space
+</ParamField>
+
+**Responses**
+
+`200` OK
+
+<ResponseField name="revision" field-type="string" required={true}>
+  ID of the resulting revision
+</ResponseField>
+
+<ResponseField name="result" field-type="string" required={true} enum="merge,conflicts" />

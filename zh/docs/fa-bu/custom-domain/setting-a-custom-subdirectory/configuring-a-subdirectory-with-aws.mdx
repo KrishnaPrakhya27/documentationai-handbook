@@ -1,0 +1,232 @@
+---
+title: 使用 AWS、CloudFront 和 Route 53 配置子目录
+description: 使用 AWS CloudFront 和 Route 53 将你的文档托管在 /docs 子目录下。
+metaTitle: 使用 AWS、CloudFront 和 Route 53 配置子目录 | GitBook Documentation
+ogImage: https://test-dai.imgix.net/org-4afef969-21f9-40f3-b5b8-b06c8b6cf68f/doc-22a3b060-9539-4176-97e4-49120e02f5d1/0a5a1a9630785855-organizations-d8f63b60-89ae-11e7-8574-5927d48c4877-sites-site_p4Xo4-socialprevie.jpg?fm=auto&auto=compress%2Cformat
+---
+
+<Callout kind="info">
+  本指南介绍如何使用 AWS CloudFront 和 Lambda@Edge 设置子目录。这是 AWS 用户的一种方案。如果你有不同的 AWS 配置（例如使用运行 NGINX 的 EC2 实例的负载均衡器），你可能需要以不同方式配置你的反向代理。联系 支持 如果你需要其他配置的指导。
+</Callout>
+
+<Steps>
+  <Step title="配置你的 GitBook 站点">
+    在你的 GitBook 组织中，点击侧边栏中的文档站点名称，然后点击 **管理站点** 或者打开 **设置** 选项卡。打开 **域名和重定向** 部分，然后在“Subdirectory”下，点击 **设置子目录**.
+
+    输入你希望托管文档的 URL。然后指定文档访问的子目录，例如 `example.com/docs`，并点击 **配置**.
+
+    在 **附加配置**，你现在会看到一个代理 URL。你将在下一步配置 Lambda 函数时使用它。将其复制到剪贴板。
+  </Step>
+
+  <Step title="创建你的 Lambda@Edge 函数">
+    登录 AWS 控制台并导航到 **Lambda**.
+
+    点击 **创建函数** 按钮。
+
+    选择 **从头开始编写**，然后：
+
+    - 给你的函数起一个描述性名称，例如 `gitbook-subpath-proxy。`
+    - 选择 **Node.js** 作为运行时（使用最新可用版本）。
+    - 将架构和其他设置保持为默认值。
+
+    点击 **创建函数**.
+  </Step>
+
+  <Step title="更新 Lambda 函数代码">
+    在 Lambda 函数编辑器中，将默认代码替换为以下内容：
+
+    ```javascript
+    export const handler = async (event) => {
+    	const request = event.Records[0].cf.request;
+    	
+    	// 如果你的子目录不是 /docs，请更新
+    	const subdirectory = '/docs';
+    	
+    	// 请在下方使用你的代理 URL 进行更新
+    	const target = new URL('<proxy URL you got from GitBook>');
+
+    	// 重写：/docs* -> proxy.gitbook.site
+    	if (request.uri.startsWith(subdirectory)) {
+    		request.uri = target.pathname + request.uri.substring(subdirectory.length);
+
+    		// 如果存在，移除末尾斜杠
+    		if (request.uri.endsWith('/')) {
+    			request.uri = request.uri.slice(0, -1);
+    		}
+
+    		request.origin = {
+    			custom: {
+    				domainName: target.host,
+    				port: 443,
+    				protocol: 'https',
+    				path: '',
+    				sslProtocols: ['TLSv1.2'],
+    				readTimeout: 30,
+    				keepaliveTimeout: 5,
+    				customHeaders: {},
+    			},
+    		};
+
+    		request.headers['host'] = [{ key: 'host', value: target.host }];
+    		request.headers['x-forwarded-host'] = [{ key: 'x-forwarded-host', value: target.host }];
+    	}
+        
+    	return request;
+    };
+    ```
+
+    <Callout kind="alert">
+      确保更新 `target` 第 8 行中的值，替换为你在第一步从 GitBook 获得的代理 URL。这看起来会像 `https://proxy.gitbook.site/sites/site_XXXX`
+    </Callout>
+
+    <Callout kind="alert">
+      另外也要更新 `subdirectory` 第 5 行中的值，如果你使用的子目录路径不是 `/docs`.
+    </Callout>
+
+    点击 **部署** 以保存更改。
+  </Step>
+
+  <Step title="为 Lambda@Edge 配置 Lambda 权限">
+    在你可以将 Lambda 函数与 CloudFront 一起使用之前，需要配置执行角色以允许 Lambda@Edge 代入它。
+
+    1. 在你的 Lambda 函数中，点击 **配置** 选项卡
+    2. 点击 **权限** 左侧边栏中的
+    3. 在 **执行角色**，点击角色名称以在 IAM 中打开它
+    4. 点击 **信任关系** 选项卡
+    5. 点击 **编辑信任策略**
+    6. 将信任策略替换为以下内容：
+
+    ```json
+    {
+        "Version": "2012-10-17",
+        "Statement": [
+            {
+                "Effect": "Allow",
+                "Principal": {
+                    "Service": [
+                        "edgelambda.amazonaws.com",
+                        "lambda.amazonaws.com"
+                    ]
+                },
+                "Action": "sts:AssumeRole"
+            }
+        ]
+    }
+    ```
+
+    点击 **更新策略** 以保存。
+  </Step>
+
+  <Step title="发布你的 Lambda 函数">
+    Lambda@Edge 需要一个已发布版本（而不仅仅是 `$LATEST`).
+
+    1. 在你的 Lambda 函数中，点击 **操作** 右上角的下拉菜单
+    2. 选择 **发布新版本**
+    3. 可选地添加一个描述，例如“CloudFront 的初始版本”
+    4. 点击 **发布**
+    5. <strong>重要：</strong> 复制页面顶部显示的已发布版本的 ARN（它会在末尾包含一个版本号，例如 `arn:aws:lambda:us-east-1:123456789:function:gitbook-subpath-proxy:1`)
+
+    <Callout kind="alert">
+      Lambda@Edge 函数必须在 **us-east-1** （弗吉尼亚北部）区域中创建。如果你在其他区域创建了函数，则需要在 us-east-1 中重新创建它。
+    </Callout>
+  </Step>
+
+  <Step title="创建你的 CloudFront 分配">
+    导航到 **CloudFront** 在 AWS 控制台中，然后点击 **创建分配**.
+
+    配置以下设置。未指定的设置保持默认值。
+
+    **指定源站**
+
+    | 设置 | 值 |
+    | --- | --- |
+    | **源站类型** | 其他 |
+    | **自定义源站** | 你的主网站域名（例如， `example.com`) |
+
+    **缓存设置**
+
+    | 设置 | 值 |
+    | --- | --- |
+    | **缓存策略** | CachingDisabled |
+    | **源站请求策略** | AllViewerExceptHostHeader |
+
+    点击 <strong>接下来，</strong> 选择你偏好的安全防护，然后再次点击 **下一步** 。
+
+    点击 **创建分配**.
+
+    等待分配部署完成（状态将从“In Progress”变为“Enabled”）。这可能需要几分钟。
+  </Step>
+
+  <Step title="将 Lambda@Edge 与 CloudFront 关联">
+    一旦你的 CloudFront 分配已部署：
+
+    1. 点击你的分配 ID 以打开其设置
+    2. 前往 **行为** 选项卡
+    3. 选择默认行为并点击 **编辑**
+    4. 向下滚动到 **函数关联**
+    5. 在 **源请求**，选择 **Lambda@Edge**
+    6. 在 **Lambda 函数 ARN** 字段，粘贴你已发布的 Lambda 函数的 ARN（来自第 5 步）
+    7. 检查 **包括正文** 以便函数在需要时访问请求正文
+    8. 点击 **保存更改**
+  </Step>
+
+  <Step title="配置域名和 DNS 记录">
+    1. 在你的 CloudFront 分配主页上，点击 **常规** 选项卡，并在 **备用域名**，点击 **添加域名**
+    2. 输入你正在为其配置子目录的域名，例如 `example.com` 并点击 **下一步**
+    3. 选择你现有的 TLS 证书，或者在需要时创建一个新的，然后点击 **下一步** 再次
+  </Step>
+
+  <Step title="从 CloudFront 配置 Route 53 DNS 记录">
+    如果你使用 Route 53 进行 DNS，你需要创建或更新 DNS 记录，使其指向你的 CloudFront 分配。
+
+    1. 在保持在 CloudFront 分配主页上的同时，确保你位于 **常规** 选项卡，然后在你在 <strong>备用域名中配置的 URL 下方，</strong> 点击 <strong>将域名路由到 CloudFront。</strong>
+    2. 点击 **自动设置路由** 以为你的域名创建 A 和 AAAA DNS 记录
+
+    <Callout kind="info">
+      如果你不使用 Route 53，则需要更新 DNS 提供商的设置，将你的域名指向你的 CloudFront 分配域名。你可以在 CloudFront 分配详情中的“Distribution domain name”下找到它。
+    </Callout>
+  </Step>
+
+  <Step title="测试你的配置">
+    一旦所有更改已传播完成（这可能需要 10–15 分钟）：
+
+    1. 打开浏览器并访问带有子目录路径的你的域名（例如， `https://example.com/docs`)
+    2. 你应该能看到你的 GitBook 文档站点！
+
+    如果站点没有立即加载，请尝试：
+
+    - 再等待几分钟以完成 DNS 传播
+    - 清除浏览器缓存或尝试无痕窗口
+    - 运行 `nslookup yourdomain.com` 在终端中以验证 DNS 是否正确解析
+    - 检查 CloudFront 分配状态是否为“Enabled”而不是“In Progress”
+
+    <Callout kind="success">
+      恭喜！你的 GitBook 文档现在可以通过你的自定义子目录访问了。
+    </Callout>
+  </Step>
+</Steps>
+
+### 故障排除
+
+<strong>Lambda 函数未触发：</strong>
+
+- 确保你已发布 Lambda 函数的版本（不要使用 `$LATEST`)
+- 验证 Lambda 函数位于 us-east-1 区域
+- 检查信任策略是否包含 `edgelambda.amazonaws.com`
+
+<strong>DNS 未解析：</strong>
+
+- DNS 更改可能需要时间传播（最长可达 48 小时，不过通常会快得多）
+- 验证你的 Route 53 记录是否指向正确的 CloudFront 分配
+- 检查你是否删除了任何旧的冲突 DNS 记录
+
+<strong>SSL 证书错误：</strong>
+
+- 确保 AWS Certificate Manager 中的 SSL 证书包含你的自定义域名
+- 用于 CloudFront 的证书必须在 us-east-1 区域中创建
+
+<strong>子目录未生效：</strong>
+
+- 验证 `SUBDIRECTORY` 在你的 Lambda 函数中的值与你在 GitBook 中配置的值一致
+- 检查 `target` 在你的 Lambda 函数中的值是否正确
+- 查看 CloudFront 日志，看看请求是否到达了分配

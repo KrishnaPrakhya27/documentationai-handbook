@@ -1,0 +1,197 @@
+---
+title: List the answers a site's Ask AI assistant generated
+metaTitle: List the answers a site's Ask AI assistant generated | Developers | GitBook Documentation
+ogImage: https://test-dai.imgix.net/org-4afef969-21f9-40f3-b5b8-b06c8b6cf68f/doc-22a3b060-9539-4176-97e4-49120e02f5d1/0a5a1a9630785855-organizations-d8f63b60-89ae-11e7-8574-5927d48c4877-sites-site_p4Xo4-socialprevie.jpg?fm=auto&auto=compress%2Cformat
+---
+
+Returns a paginated list of individual Ask AI answers generated for a site. Each is the assistant's response to a specific asked question, with the raw question text, channel, and feedback. Use it to review answer quality and what users asked across the site.
+
+**GET** `/orgs/{organizationId}/sites/{siteId}/answers`
+
+**Parameters**
+
+<ParamField header="Authorization" param-type="string" />
+
+<ParamField path="organizationId" param-type="string" required={true}>
+  The unique id of the organization
+</ParamField>
+
+<ParamField path="siteId" param-type="string" required={true}>
+  The unique id of the site
+</ParamField>
+
+<ParamField query="question" param-type="string">
+  Filter answers to a specific site question ID.
+</ParamField>
+
+<ParamField query="from" param-type="string">
+  Filter answers created at or after this timestamp.
+</ParamField>
+
+<ParamField query="to" param-type="string">
+  Filter answers created at or before this timestamp.
+</ParamField>
+
+<ParamField query="language" param-type="string">
+  Filter answers by ISO language code.
+</ParamField>
+
+<ParamField query="answered" param-type="string[]" enum="no,partially,yes">
+  Filter answers by answered resolution.
+</ParamField>
+
+<ParamField query="helpfulness" param-type="string" enum="low,medium,high">
+  Filter answers by answered helpfulness.
+</ParamField>
+
+<ParamField query="relevance" param-type="string[]" enum="relevant,spam,off-topic,unclear">
+  Filter answers by question relevance.
+</ParamField>
+
+<ParamField query="channelType" param-type="string[]">
+  Filter answers by answer channel type.
+</ParamField>
+
+<ParamField query="question.type" param-type="string" enum="exploring,how-to,troubleshooting,reference,unknown">
+  Filter answers by question type.
+</ParamField>
+
+<ParamField query="topic" param-type="string">
+  Filter answers by associated site topic ID.
+</ParamField>
+
+<ParamField query="thread" param-type="string">
+  Filter answers by thread root answer ID. Includes the root answer itself.
+</ParamField>
+
+<ParamField query="page" param-type="string">
+  Identifier of the page results to fetch.
+</ParamField>
+
+<ParamField query="limit" param-type="number">
+  The number of results per page
+</ParamField>
+
+**Responses**
+
+`200` OK
+
+<ResponseField name="next" field-type="object">
+  <Expandable title="Object Properties">
+    <ResponseField name="page" field-type="string" required={true}>
+      Unique identifier to query the next results page
+    </ResponseField>
+  </Expandable>
+</ResponseField>
+
+<ResponseField name="count" field-type="number">
+  Total count of objects in the list
+</ResponseField>
+
+<ResponseField name="items" field-type="array" required={true}>
+  <Expandable title="Array Items">
+    <ResponseField name="object" field-type="string" required={true} enum="site-question-answer" />
+
+    <ResponseField name="id" field-type="string" required={true}>
+      The ID of the site question answer.
+    </ResponseField>
+
+    <ResponseField name="question" field-type="object" required={true}>
+      <Expandable title="Object Properties">
+        <ResponseField name="id" field-type="string" required={true}>
+          The ID of the parent site question.
+        </ResponseField>
+
+        <ResponseField name="type" field-type="string" required={true} enum="exploring,how-to,troubleshooting,reference,unknown">
+          Type classification of the user question.
+        </ResponseField>
+      </Expandable>
+    </ResponseField>
+
+    <ResponseField name="topics" field-type="string[]" required={true}>
+      The IDs of the associated site topics.
+    </ResponseField>
+
+    <ResponseField name="input" field-type="object" required={true}>
+      <Expandable title="Object Properties">
+        <ResponseField name="text" field-type="string" required={true}>
+          Normalized question text for this answer.
+        </ResponseField>
+
+        <ResponseField name="raw" field-type="string" required={true}>
+          Raw question text as asked by the user.
+        </ResponseField>
+      </Expandable>
+    </ResponseField>
+
+    <ResponseField name="thread" field-type="object">
+      <Expandable title="Object Properties">
+        <ResponseField name="id" field-type="string" required={true}>
+          The ID of the thread this answer belongs to.
+        </ResponseField>
+
+        <ResponseField name="previous" field-type="string" required={true}>
+          ID of the previous answer in the same thread.
+        </ResponseField>
+      </Expandable>
+    </ResponseField>
+
+    <ResponseField name="session" field-type="object">
+      Identifiers for a GitBook site session, used for analytics and adaptive content.
+
+      <Expandable title="Object Properties">
+        <ResponseField name="visitorId" field-type="string" required={true}>
+          GitBook's unique identifier of the visitor.
+        </ResponseField>
+
+        <ResponseField name="sessionId" field-type="string" required={true}>
+          GitBook's unique identifier of the visitor's session.
+        </ResponseField>
+      </Expandable>
+    </ResponseField>
+
+    <ResponseField name="feedback" field-type="object">
+      <Expandable title="Object Properties">
+        <ResponseField name="rating" field-type="integer" required={true} enum="-1,1">
+          Feedback rating provided by the user.
+        </ResponseField>
+      </Expandable>
+    </ResponseField>
+
+    <ResponseField name="responseId" field-type="string" required={true}>
+      The response identifier for this answer.
+    </ResponseField>
+
+    <ResponseField name="language" field-type="string" required={true}>
+      ISO language code of the question.
+    </ResponseField>
+
+    <ResponseField name="answered" field-type="string" required={true} enum="no,partially,yes">
+      Whether the response answered the question.
+    </ResponseField>
+
+    <ResponseField name="helpfulness" field-type="string" required={true} enum="low,medium,high">
+      Helpfulness of the response for the end user need.
+    </ResponseField>
+
+    <ResponseField name="relevance" field-type="string" required={true} enum="relevant,spam,off-topic,unclear">
+      Relevance classification of the user question.
+    </ResponseField>
+
+    <ResponseField name="channel" field-type="string" required={true} />
+
+    <ResponseField name="createdAt" field-type="string" required={true} />
+
+    <ResponseField name="updatedAt" field-type="string" />
+
+    <ResponseField name="urls" field-type="object" required={true}>
+      URLs associated with the site question answer.
+
+      <Expandable title="Object Properties">
+        <ResponseField name="location" field-type="string" required={true}>
+          URL of the site question answer in the API.
+        </ResponseField>
+      </Expandable>
+    </ResponseField>
+  </Expandable>
+</ResponseField>

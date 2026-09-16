@@ -1,0 +1,315 @@
+---
+title: 编写 OpenAPI 参考文档
+description: "在 GitBook 中编写、配置、组织和排查 OpenAPI/Swagger API 参考文档。凡是涉及 GitBook OpenAPI 区块或 `\u007B% openapi %\u007D` 区块、添加或更新时均可使用此项，"
+metaTitle: 编写 OpenAPI 参考文档 | GitBook Documentation
+ogImage: https://test-dai.imgix.net/org-4afef969-21f9-40f3-b5b8-b06c8b6cf68f/doc-22a3b060-9539-4176-97e4-49120e02f5d1/0a5a1a9630785855-organizations-d8f63b60-89ae-11e7-8574-5927d48c4877-sites-site_p4Xo4-socialprevie.jpg?fm=auto&auto=compress%2Cformat
+---
+
+在 GitBook 中编写、配置、组织和排查 OpenAPI/Swagger API 参考文档。凡是涉及 GitBook OpenAPI 区块或 \`&#123;% openapi %&#125;\` 区块、添加或更新时均可使用此项，
+
+GitBook 会将 OpenAPI 文档转换为可交互、可测试的 API 参考块。你提供一个规范（JSON 或 YAML 格式），它会渲染端点、参数、模式、认证，以及页内请求运行器。大多数自定义都发生在规范本身内部，通过 `x-*` 扩展，而不是在 GitBook 界面中，因此这里的大部分工作都是正确地编辑 OpenAPI YAML。
+
+本技能涵盖完整范围：将规范导入 GitBook、生成参考页面、组织导航、让“Test it”运行器工作、控制操作和模式的显示方式，以及从 CI/CD 自动更新。
+
+## 如何与 GitBook 交互
+
+本技能的大部分内容——编辑 OpenAPI YAML/JSON 本身——与传输方式无关。但将规范 *导入* GitBook，或生成/插入参考页面，确实会涉及 GitBook，而且有不止一种方式可以做到：GitBook 的 MCP 服务器和 REST API。请查看当前会话中实际可用的内容，并优先 **先使用 MCP**：如果 GitBook MCP 工具已经连接，请用它们处理其覆盖的任何事项（发布/更新规范、生成参考页面），而不是直接调用 API。不要为此运行检测脚本——你已经知道自己可用的工具/MCP 连接；直接利用这点即可。
+
+下面的步骤是按结果来描述的（“添加规范”、“生成参考页面”），而不是绑定到某一种传输方式，因此无论你使用哪一种都适用。如果 GitBook MCP 工具已连接，请直接调用它们——它们自己的 schema 描述了参数。如果你改走 REST API 路径，那么确切的端点和请求体在下面的“添加或更新规范”中。
+
+- **GitBook MCP** ——覆盖下方所述相同能力的完整读写接口，而不是更窄的视图。如果它尚未连接，而且任务足够重要、值得使用（发布新规范、生成完整参考——而不是一次性的微调），请提议进行设置： `claude mcp add --transport http gitbook-mcp https://mcp.gitbook.com/mcp` （然后 `/mcp` 完成 OAuth 登录——或者附加 `--header "Authorization: Bearer $GITBOOK_TOKEN"` 以跳过浏览器流程）。Codex 等效命令： `codex mcp add gitbook-mcp --url https://mcp.gitbook.com/mcp`。注意：这与 GitBook 另一个只读的“已发布文档”MCP 服务器不同，后者只暴露已发布内容。
+- **REST API** (`https://api.gitbook.com/v1`）——当 MCP 未连接，或当 MCP 不覆盖某些内容时的备用方案。需要 `GITBOOK_TOKEN` 作为每个请求的 bearer 头。
+
+同一个个人访问令牌（来自 [https://app.gitbook.com/account/developer）可作为两者的](https://app.gitbook.com/account/developer）可作为两者的) bearer token。MCP 还支持 OAuth 作为比粘贴令牌更友好的替代方案。
+
+**如果你最终需要一个令牌** （REST API 路径，或不使用 OAuth 的 MCP），请在会话开始时检查：
+
+```bash
+[ -n "$GITBOOK_TOKEN" ] && echo "Token found" || echo "GITBOOK_TOKEN is not set"
+```
+
+如果 `GITBOOK_TOKEN` 未设置，请直接问用户：
+
+1. 告诉他们需要一个 GitBook 个人访问令牌。引导他们访问 <strong>[https://app.gitbook.com/account/developer](https://app.gitbook.com/account/developer)</strong> 来创建一个。
+2. 请他们把令牌粘贴到对话中。立即将其导出为环境变量（`export GITBOOK_TOKEN=<pasted value>`），并且不要在回复中把它重复出来。
+3. 在确认令牌已存在于环境变量之前，不要进行任何 API 调用。
+
+绝不要将令牌写入文件，绝不要在回复中回显，绝不要提交到仓库。
+
+GitBook CLI 的 `gitbook openapi publish` 命令（见下方“添加或更新规范”）可以访问与 API 和 MCP 相同的底层能力——它只是一个便捷封装，而不是不同的功能集，并且使用相同的 `GITBOOK_TOKEN`.
+
+## 先了解的关键事实
+
+这些因素几乎会影响每一个决策，因此在编辑任何内容之前先将它们牢记于心。
+
+- <strong>支持的版本。</strong> GitBook 支持 Swagger 2.0 和 OpenAPI 3.0 规范。某些功能需要更新的版本：webhook 需要 OpenAPI 3.1，而官方 `parent` tag 属性需要 OpenAPI 3.2+（在 3.0.x 和 3.1.x 中使用 `x-parent` ）。在使用受版本限制的功能之前，务必检查规范的 `openapi:`/`swagger:` 版本。
+- <strong>“Test it” 运行器由 Scalar 提供支持。</strong> 默认情况下，它会在读者的浏览器中发起请求，除非你通过 GitBook 的代理路由它们。
+- <strong>规范的来源是文件或 URL——这决定了更新方式，而不是你用来设置它的传输方式（MCP、API、CLI 或 UI）。</strong> URL 来源每 6 小时自动刷新；文件来源只有在重新上传或重新发布时才会更改。
+- <strong>`x-*` 扩展使用命名空间，因此可以安全地保留在共享规范中。</strong> 不理解某个扩展的工具会忽略它，因此为 GitBook 加强过的规范在别处仍然可以验证并正常工作。
+
+## 你想做什么？
+
+将任务对应到正确的部分。更深入的参考资料有两份文件与本文件放在一起：
+
+- 编辑或查找任何 `x-*` 扩展，并查看每个扩展的完整 YAML：请阅读 `references/extensions.md`.
+- 让交互式运行器端到端工作（认证方案、服务器、CORS、代理）：请阅读 `references/test-it-setup.md`.
+
+| 任务 | 前往 |
+| --- | --- |
+| 将规范导入 GitBook，或更新一个规范 | “添加或更新规范” |
+| 生成参考页面，或将单个端点/模式插入页面中 | “插入 API 参考” |
+| 拆分、排序、嵌套、命名或设置图标你的页面 | “组织参考结构” |
+| 让“Test it”正常工作，修复 CORS，配置认证 | “配置 Test it 运行器” + `references/test-it-setup.md` |
+| 将端点标记为实验性、已弃用或隐藏 | “管理操作生命周期” |
+| 查找扩展的准确名称/作用域 | “扩展速查表” + `references/extensions.md` |
+| 从流水线自动发布规范 | “使用 CI/CD 自动化” |
+
+## 添加或更新规范
+
+在任何块或页面可以引用一个规范之前，它必须已存在于该组织中。添加和更新在每一种传输方式上都是相同的底层操作——请根据上方“如何与 GitBook 交互”选择你拥有的方式。无论使用哪一种，都请预先给规范一个名称/slug：这既是后续引用它的方式，也是区分多个规范的方式。
+
+**GitBook MCP** ——如果已连接，请直接使用其规范工具从文件或 URL 创建或更新规范；其 schema 同时涵盖两种源类型。
+
+**REST API** ——使用 URL 来源创建：
+
+```bash
+curl -s -X POST -H "Authorization: Bearer $GITBOOK_TOKEN" \
+  -H "Content-Type: application/json" \
+  -d '{"slug": "<spec-name>", "source": {"url": "<hosted-url>"}}' \
+  https://api.gitbook.com/v1/orgs/$ORG_ID/openapi
+```
+
+或者从文件：
+
+```bash
+curl -s -X POST -H "Authorization: Bearer $GITBOOK_TOKEN" \
+  -F "slug=<spec-name>" \
+  -F "file=@./openapi.yaml" \
+  https://api.gitbook.com/v1/orgs/$ORG_ID/openapi
+```
+
+以同样方式更新（替换）现有规范，目标为 `PATCH /v1/orgs/{orgId}/openapi/{specId}`.
+
+**GitBook CLI** ——对相同 API 调用的薄封装，适用于脚本和流水线（同一命令可添加或更新；对 URL 运行时也会强制刷新）：
+
+```bash
+gitbook openapi publish --spec <spec-name> --organization <organization-id> <path-or-url>
+```
+
+关于流水线自动化，请参阅“使用 CI/CD 自动化”。CLI 详情：[https://gitbook.com/docs/developers/integrations/reference](/en/docs/developers/integrations/reference)
+
+**GitBook 应用界面** ——打开 **OpenAPI** 侧边栏中的部分，点击 **添加规范**，命名后再选择上传文件或输入托管 URL。更新取决于来源：URL 来源会每 6 小时自动检查一次（点击 **检查更新** 可立即拉取；通过 **编辑** 在面包屑操作菜单中将 File 切换为 URL）；文件来源需要 **更新** 来上传新版本。
+
+## 插入 API 参考
+
+一旦规范存在，就可以通过以下两种方式之一将其展示在文档中。
+
+<strong>生成整套页面（推荐用于完整参考）。</strong> 在目标空间的目录中，点击底部的 <strong>添加新内容...</strong> ，然后选择 **OpenAPI Reference**，选择规范并插入。GitBook 会为规范中的每个 tag 创建一个页面（见“组织参考结构”），并可选地创建一个列出每个 schema 的模型页面。这些页面会在规范更新时自动更新。
+
+<strong>将单个操作或 schema 插入现有页面。</strong> 按 `/`，搜索 **OpenAPI**，选择规范，然后选择 **继续**，接着选择要嵌入的具体操作和/或 schema。
+
+<strong>块语法。</strong> 直接编写 GitBook markdown 时，一个 OpenAPI 操作块如下所示（内部那一行重复了源）：
+
+```
+{% openapi src="https://petstore3.swagger.io/api/v3/openapi.json" path="/pet" method="post" %}
+https://petstore3.swagger.io/api/v3/openapi.json
+{% endopenapi %}
+```
+
+要在行内突出显示一个或多个 schema（例如在 tag 描述中），请使用 schemas 块：
+
+```
+{% openapi-schemas spec="petstore" schemas="Pet" grouped="false" %}
+Pet 对象
+{% endopenapi-schemas %}
+```
+
+## 组织参考结构
+
+GitBook 根据规范的 `tags`构建导航，因此组织参考结构主要就是组织 tags。此处提到的每个扩展的完整 YAML 示例都在 `references/extensions.md`.
+
+- <strong>将操作拆分到多个页面：</strong> 让操作使用相同的 tag，每个 tag 就会成为自己的页面。
+
+  ```yaml
+  paths:
+    /pet:
+      put:
+        tags:
+          - pet
+        summary: 更新一个现有宠物。
+        operationId: updatePet
+  ```
+- <strong>排序页面：</strong> 页面顺序遵循顶层 `tags` 数组中条目的顺序。
+
+  ```yaml
+  tags:
+    - name: pet
+    - name: store
+    - name: user
+  ```
+- <strong>将页面嵌套到分组中：</strong> 使用 `parent` （OpenAPI 3.2+）或 `x-parent` （3.0.x/3.1.x）将某个 tag 指向其父 tag。
+
+  ```yaml
+  tags:
+    - name: everything
+    - name: pet
+      x-parent: everything
+    - name: store
+      x-parent: everything
+  ```
+
+  如果父页面没有 `description`，GitBook 会自动渲染基于卡片的布局，并链接其子页面。
+- **通过 tag 级扩展为每个页面添加标题、图标和描述** 。图标可接受任意 Font Awesome 名称（[https://fontawesome.com/search）。](https://fontawesome.com/search）。)
+
+  ```yaml
+  tags:
+    - name: pet
+      x-page-title: Pet              # 在目录和页面标题中的标题
+      x-page-icon: dog               # 在目录和标题旁的图标
+      x-page-description: 宠物太棒了！   # 显示在标题正上方
+      description: 关于你的宠物的一切 # 页面正文
+  ```
+- <strong>编写丰富的描述。</strong> Tag `description` 字段支持 GitBook markdown，包括诸如 `{% tabs %}`之类的高级块，因此页面简介可以远不止纯文本。
+- **记录 webhooks** （OpenAPI 3.1），并在顶层使用 `webhooks` 字段，它与 `paths`:
+
+  ```yaml
+  openapi: 3.1.0
+  webhooks:
+    newPet:
+      post:
+        summary: 新宠物事件
+        requestBody:
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Pet"
+        responses:
+          "200":
+            description: 接收成功
+  ```
+
+## 配置 Test it 运行器
+
+交互式运行器的效果取决于规范对它的描述程度。运行器会针对 `servers` 数组中的 URL，并且只能呈现规范在 `components.securitySchemes`下声明的认证。对于任何非平凡情况（Bearer/JWT、API key、OAuth2、多服务器或模板化服务器 URL、按操作覆盖），请阅读 `references/test-it-setup.md`，其中为每种模式提供了可直接复制的 YAML。
+
+你会经常遇到两个快速决策：
+
+- <strong>“为什么我的规范没有加载？” / “为什么 Test it 失败？”（URL 规范）。</strong> 这几乎总是 CORS 问题。通过 URL 添加的规范要求 API 允许来自文档来源的跨域 GET 请求（例如 `https://your-site.gitbook.io` 或你的自定义域名）。公开且无需凭证的端点可以返回 `Access-Control-Allow-Origin: *`.
+- <strong>API 不能启用 CORS？</strong> 使用 `x-enable-proxy: true` 通过 GitBook 的代理路由请求（整个规范在根部设置，或在单个操作上设置；以操作级别的值为准）。代理会转发所有 HTTP 方法、头、cookie 和请求体，但只会转发到 `servers`中列出的 URL，因此请确保你想测试的每个基础 URL 都在该数组里。详情见 `references/test-it-setup.md`.
+
+若要从端点（或整个规范）中移除运行器，请将 `x-hideTryItPanel: true`.
+
+## 管理操作生命周期
+
+当端点尚未准备好用于生产或正在逐步下线时很常见。除非特别说明，以下所有内容都是操作级别的。
+
+- <strong>还不稳定：</strong> `x-stability: experimental` （也可用 `alpha` 或 `beta`).
+- <strong>已弃用：</strong> `deprecated: true`。已弃用的端点会在已发布站点上显示弃用警告。
+- <strong>带有结束日期的弃用：</strong> 添加 `x-deprecated-sunset: 2030-12-05` （ISO 8601， `YYYY-MM-DD`).
+- <strong>完全隐藏一个端点：</strong> `x-internal: true` （或其别名 `x-gitbook-ignore: true`).
+- <strong>隐藏一个响应示例：</strong> 将 `x-hideSample: true` 设置在该响应对象上（例如在 `responses.200`).
+
+```yaml
+paths:
+  /pet:
+    put:
+      operationId: updatePet
+      x-stability: experimental
+      deprecated: true
+      x-deprecated-sunset: 2030-12-05
+```
+
+## 扩展速查表
+
+所有 GitBook 支持的扩展一目了然。要查看任意一行的完整 YAML 示例，请打开 `references/extensions.md`.
+
+| 扩展 | 用途 | 所在位置 |
+| --- | --- | --- |
+| `x-page-title` / `x-displayName` | tag 的显示名称（导航 + 页面标题） | tag |
+| `x-page-description` | 显示在页面标题上方的简短描述 | tag |
+| `x-page-icon` | 页面的 Font Awesome 图标 | tag |
+| `parent` / `x-parent` | 将 tag 嵌套到父 tag 下（`parent` = 3.2+, `x-parent` = 3.0.x/3.1.x） | tag |
+| `x-hideTryItPanel` | 显示或隐藏“Test it”运行器 | 根部或操作 |
+| `x-expandAllResponses` | 默认展开所有响应部分 | 根部或操作 |
+| `x-expandAllModelSections` | 默认展开所有模型/schema 部分 | 根部或操作 |
+| `x-enable-proxy` | 通过 GitBook 的代理路由“Test it”请求 | 根部或操作（以操作为准） |
+| `x-codeSamples` | 提供自定义代码示例（`lang`, `label`, `source`) | operation |
+| `x-enumDescriptions` | 为 `enum`中的每个值提供描述，并渲染为表格 | schema |
+| `x-internal` / `x-gitbook-ignore` | 从参考中隐藏一个端点 | operation |
+| `x-stability` | 标记 `experimental`, `alpha`，或 `beta` | operation |
+| `deprecated` | 将一个操作标记为已弃用 | operation |
+| `x-deprecated-sunset` | 已弃用操作的结束日期（`YYYY-MM-DD`) | operation |
+| `x-hideSample` | 隐藏单个响应示例 | 响应对象 |
+| `x-gitbook-prefix` | 自定义认证前缀（例如 `Token`）；不允许用于 `http` scheme | 安全方案 |
+| `x-gitbook-token-placeholder` | 运行器中显示的默认令牌占位符 | 安全方案 |
+
+有两个值得强调的显示扩展，因为它们带有一个可由操作选择退出的根级默认值：
+
+```yaml
+openapi: '3.0'
+x-expandAllResponses: true        # 每个操作的默认值
+x-expandAllModelSections: true
+paths:
+  /pets:
+    get:
+      x-expandAllResponses: false # 不启用此项
+```
+
+自定义代码示例会替换 GitBook 自动生成的代码片段，并支持多种语言：
+
+```yaml
+paths:
+  /users:
+    get:
+      summary: 获取用户
+      x-codeSamples:
+        - lang: JavaScript
+          label: Node SDK
+          source: |
+            import { createAPIClient } from 'my-api-sdk';
+            const client = createAPIClient({ apiKey: 'my-api-key' });
+            client.users.list().then(console.log);
+        - lang: cURL
+          label: CLI
+          source: |
+            curl -L -H 'Authorization: Bearer <token>' \
+              'https://api.example.com/v1/users'
+```
+
+## 使用 CI/CD 自动化
+
+使用 CLI 可从任意流水线发布规范。将 `GITBOOK_TOKEN` 设置为密钥，然后运行 `openapi publish` 针对构建期间生成的文件或 URL 运行（URL 在发布后会强制刷新）。
+
+```bash
+export GITBOOK_TOKEN=<api-token>
+gitbook openapi publish \
+  --spec <spec-name> \
+  --organization <organization-id> \
+  example.openapi.yaml
+```
+
+GitHub Actions 示例，在规范更改并推送到 `main`:
+
+```yaml
+name: 将 OpenAPI 发布到 GitBook
+on:
+  push:
+    branches: ["main"]
+    paths: ["**/*.yaml", "**/*.yml", "**/*.json"]
+  workflow_dispatch:
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    env:
+      GITBOOK_TOKEN: ${{ secrets.GITBOOK_TOKEN }}
+      GITBOOK_SPEC_NAME: ${{ vars.GITBOOK_SPEC_NAME }}
+      GITBOOK_ORGANIZATION_ID: ${{ vars.GITBOOK_ORGANIZATION_ID }}
+    steps:
+      - uses: actions/checkout@v4
+      - name: 将规范发布到 GitBook
+        run: |
+          npx -y @gitbook/cli@latest openapi publish \
+            --spec "$GITBOOK_SPEC_NAME" \
+            --organization "$GITBOOK_ORGANIZATION_ID" \
+            <path_to_spec>
+```

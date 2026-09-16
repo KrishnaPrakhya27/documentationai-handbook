@@ -1,0 +1,37 @@
+---
+title: How to handle merge conflicts in GitBook
+description: Why do merge conflicts happen in GitBook and how do you resolve them? Our guide can help.
+metaTitle: How to handle merge conflicts in GitBook | Guides | GitBook Documentation
+ogImage: https://test-dai.imgix.net/org-4afef969-21f9-40f3-b5b8-b06c8b6cf68f/doc-22a3b060-9539-4176-97e4-49120e02f5d1/0a5a1a9630785855-organizations-d8f63b60-89ae-11e7-8574-5927d48c4877-sites-site_p4Xo4-socialprevie.jpg?fm=auto&auto=compress%2Cformat
+---
+
+Merge conflicts in GitBook occur when changes in a [change request](/en/docs/collaborate/change-requests) conflict with primary content. Here’s how to resolve them to maintain the best version of your documentation:
+
+<Steps>
+  <Step title="Understand the conflic" titleType="h3">
+    Conflicts can happen when a merge introduces incompatible changes, such as when you edit a content block that has been changed, or you remove files that GitBook is trying to update. 
+
+    For example, if someone else on your team opens a change request at the same time you do, edits a few blocks and merges it, this will update the primary content. Your branch will be outdated, and you’ll be prompted to update your change request to bring in their changes. 
+
+    However, if you’ve edited the same blocks as your teammate, you’ll need to decide which version you want to keep, and GitBook will flag it as a conflict.
+
+    <Image src="https://test-dai.imgix.net/org-4afef969-21f9-40f3-b5b8-b06c8b6cf68f/doc-22a3b060-9539-4176-97e4-49120e02f5d1/cd63f9e18d86e22f-spaces-LBGJKQic7BQYBXmVSjy0-uploads-keFeGvrJ4sFGxco2fcq1-conflicts-detected.jpg?fm=auto&auto=compress%2Cformat" alt="" caption="If you try to update or merge a change request with conflicts, you’ll see a prompt and can follow the flow to resolve them." />
+  </Step>
+
+  <Step title="Review and resolve conflicts" titleType="h3">
+    If there’s a conflict in your change request, you’ll see a notification when you try to merge. GitBook will show how many conflicts there are, and guide you through reviewing the two versions:
+
+    - <mark>Primary (Purple)</mark> – The content currently in your GitBook space.
+    - <mark>Changed (Green)</mark> – The changes proposed in this change request.
+
+    You can use the **Keep primary** or **Keep changed** buttons to decide which version to keep.
+
+    <Image src="https://test-dai.imgix.net/org-4afef969-21f9-40f3-b5b8-b06c8b6cf68f/doc-22a3b060-9539-4176-97e4-49120e02f5d1/4a9a089e7b00ddc3-spaces-LBGJKQic7BQYBXmVSjy0-uploads-KwXN75C7HqIpYkXtkiTQ-resolve-conflicts.jpg?fm=auto&auto=compress%2Cformat" alt="" caption="GitBook will show you both the primary and the changed version of each block, so you can compare the two and choose which one to keep." />
+  </Step>
+
+  <Step title="Mark as resolved and merge" titleType="h3">
+    Once you’ve resolved all the conflicts in your change request, you can hit **Mark as resolved** to confirm that you’ve updated all the issues. You can then merge your change request as normal by hitting the **Merge** button in the top-right corner of the screen.
+
+    <Image src="https://test-dai.imgix.net/org-4afef969-21f9-40f3-b5b8-b06c8b6cf68f/doc-22a3b060-9539-4176-97e4-49120e02f5d1/3342e9607775c520-spaces-LBGJKQic7BQYBXmVSjy0-uploads-vtlGKAusvfoBwoezV6E3-resolve-page.jpg?fm=auto&auto=compress%2Cformat" alt="" caption="Once you’ve solved all of your merge conflicts, mark the whole page as resolved to finish the process. Now your content is ready to merge!" />
+  </Step>
+</Steps>

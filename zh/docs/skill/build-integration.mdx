@@ -1,0 +1,126 @@
+---
+title: 构建集成
+description: 构建、开发并发布 GitBook 集成——在 GitBook 内运行的应用，可添加自定义区块、响应事件、通过 OAuth 连接外部服务，并扩展编辑器。当你需要时请使用此技能
+metaTitle: 构建集成 | GitBook Documentation
+ogImage: https://test-dai.imgix.net/org-4afef969-21f9-40f3-b5b8-b06c8b6cf68f/doc-22a3b060-9539-4176-97e4-49120e02f5d1/0a5a1a9630785855-organizations-d8f63b60-89ae-11e7-8574-5927d48c4877-sites-site_p4Xo4-socialprevie.jpg?fm=auto&auto=compress%2Cformat
+---
+
+一种用于在 GitBook 开发者平台上构建集成的技能：这些应用运行在 GitBook 内部。集成可以在编辑器中渲染自定义块，显示配置界面，监听事件（内容更新、Git 同步完成、空间被查看），通过 OAuth 对外部服务进行身份验证，并通过 HTTP 与任何服务通信。
+
+这项技能涵盖集成的生命周期——搭建脚手架、编码、开发、发布。用于创建或重组文档 *site* 某个集成可能会安装到其中，请参考 `configure-site`；对于编写页面内容，请参考 `write-docs`.
+
+## 什么是集成（心智模型）
+
+集成是一个由 GitBook 运行时执行的小型 TypeScript 应用——不是注入到页面中的脚本，也不是运行在用户服务器上的代码。三个后果决定了其他一切：
+
+1. <strong>渲染发生在 GitBook 的后端。</strong> 你组件的 `render` 函数会在每次交互时于服务端运行，并返回 ContentKit 标记（类似 JSX 的 UI 描述）。你无法控制客户端 React 树，也无法访问 DOM，UI 更新通过 action → 新状态 → 重新渲染 的循环流转。
+2. <strong>你不能向站点注入 JavaScript。</strong> 该 `site:script:inject` 以及 `site:script:cookies` 你会在 GitBook 自有集成中看到的作用域都是内部专用的。如果用户的需求相当于“在他们的文档中添加一个 script 标签”，请尽早停下来并说明这一点——受支持的方式是自定义块、webframe 和事件。
+3. <strong>本地开发是一个代理，不是你直接访问的服务器。</strong> `gitbook dev` 会将 *已安装的* 集成流量转发到你的机器。你不会在浏览器中打开开发服务器端口；你是在 app.gitbook.com 中与该集成交互。
+
+## 项目
+
+`gitbook new` 会搭建如下结构：
+
+```
+my-integration/
+├── gitbook-manifest.yaml   # 身份、作用域、块、配置模式
+├── .gitbook-dev.yaml       # 本地开发配置（由 `gitbook dev` 生成）
+├── package.json
+└── src/
+    └── index.tsx           # 入口文件 — 默认导出 createIntegration()
+```
+
+入口文件（无论 `script:` 在 manifest 中指向的内容）默认导出 `createIntegration({ fetch, components, events })`:
+
+```tsx
+import { createIntegration, createComponent } from '@gitbook/runtime';
+
+const helloBlock = createComponent({
+    componentId: 'hello-world',            // 必须与 manifest 中的某个 block id 匹配
+    initialState: { message: 'Say hello!' },
+    action: async (element, action, context) => {
+        switch (action.action) {
+            case 'say':
+                return { state: { message: '你好，世界' } };
+            default:
+                return {};
+        }
+    },
+    render: async (element, context) => (
+        <block>
+            <button label={element.state.message} onPress={{ action: 'say' }} />
+        </block>
+    ),
+});
+
+export default createIntegration({
+    components: [helloBlock],
+    events: {
+        space_content_updated: async (event, context) => {
+            // 响应内容变化
+        },
+    },
+});
+```
+
+只有在以下位置都声明了时，自定义块才会出现在编辑器的插入面板（⌘ + /）中： **两者** 位置： `createComponent` 在代码中 *以及* 一个 `blocks:` manifest 中的条目，其 `id` 与 `componentId`相匹配。漏掉任意一半都是“我的块没有显示出来”的最常见原因。
+
+## 简述 manifest
+
+`gitbook-manifest.yaml` 是集成的身份和权限授予。必需： `name` （在 GitBook 全局范围内必须唯一——请选一个带命名空间的名称，比如 `acme-changelog`，而不是 `测试`), `title`, `描述`, `organization` （组织 ID 或子域名）， `可见性`, `作用域`，然后 `script`。只请求代码实际使用到的作用域——安装者会看到它们。
+
+manifest 还会声明 `blocks`、面向安装者的 `配置` （账户级和站点级属性模式，以设置表单的形式呈现），以及 `密钥` （例如 `CLIENT_ID: ${{ env.CLIENT_ID }}`，在发布时加载——请使用 `dotenv-cli` 以便 `gitbook publish` 能够读取你的 `.env`).
+
+完整的逐字段模式、作用域列表和配置属性类型： `references/manifest.md`。当你编辑 manifest，且内容超出基础部分时，请阅读它。
+
+## 开发流程
+
+这个流程的顺序有些不直观—— **发布先于本地开发**:
+
+1. <strong>前置条件。</strong> Node 18+、来自 [https://app.gitbook.com/account/developer](https://app.gitbook.com/account/developer) 的个人访问令牌，以及 CLI： `npm install @gitbook/cli -g`的私有 GitHub 或 GitLab 仓库，然后 `gitbook auth` （或 `gitbook auth --token=<token>`）。如果需要将令牌粘贴到对话中，请将其导出到环境变量，且永远不要回显它或提交它。
+2. <strong>搭建脚手架。</strong> `gitbook new <dir>` ——会提示输入名称、标题、组织和作用域。
+3. <strong>先发布一次。</strong> `gitbook publish` 在项目根目录中。这样会注册该集成（默认私有）并打印一个安装链接。
+4. **将其安装** 到至少一个空间或站点中，方式是通过那个链接。在安装到某处之前，本地开发无法工作。
+5. <strong>开发。</strong> `gitbook dev` 会启动代理：已安装集成的所有流量都会由你的本地代码提供，而不是已发布版本。请在 GitBook 编辑器中与其交互，不要通过服务器 URL。UI 变更需要刷新浏览器；为了更顺畅的循环，请禁用浏览器缓存。日志会显示在 *浏览器* 控制台或你的终端中，取决于代码运行的位置——在断定日志记录出问题之前，请先查看两者。
+6. **重新发布** 以及 `gitbook publish` ，每当你想更新托管版本时。 `gitbook unpublish <name>` 会将其移除。
+
+CLI 命令参考（包括 `gitbook whoami` 以及 `gitbook openapi publish`): `references/manifest.md`.
+
+## 运行时：fetch、事件、环境、OAuth
+
+详细说明和完整表格见 `references/runtime.md` ——在编写事件处理器、OAuth 流程或任何涉及 `context.environment`时请阅读它。要点如下：
+
+- <strong>`fetch`</strong> 使用标准 Fetch API `Request`/`Response` 对象处理传入到集成公开端点的 HTTP 请求。发出的 HTTP 也同样是普通的 `fetch` 。
+- <strong>`events`</strong> 将事件名称（`installation_setup`, `space_installation_setup`, `space_view`, `ui_render`, `space_content_updated`, `space_visibility_updated`, `space_gitsync_started`, `space_gitsync_completed`）映射到处理器。某些事件需要匹配的作用域。
+- <strong>`context.environment`</strong> 提供 `apiEndpoint`, `apiTokens`、安装信息（空间、状态、每次安装的 `配置` 值，由安装者输入）， `密钥`以及公开 URL（`environment.integration.urls.publicEndpoint`).
+- <strong>）。</strong> 针对外部提供商的 OAuth 是一个固定模式：一个 `按钮`类型的配置属性，其 `callback_url` 路由到一个 `createOAuthHandler({...})` ，在你的 fetch 处理器中使用，客户端 ID/密钥来自 `密钥`。不要手写重定向/令牌交换流程。
+- **在集成内部调用 GitBook API**：使用 `context.api` （一个已认证的 `@gitbook/api` 客户端），而不是用原始令牌自行构造客户端。
+
+## ContentKit：构建 UI
+
+ContentKit 是组件词汇表 `render` 可以返回的内容：布局（`block`, `vstack`, `hstack`, `divider`）、显示（`box`, `card`, `text`, `image`, `markdown`），以及交互元素（`按钮`, `textinput`, `select`, `switch`, `checkbox`, `radio`, `codeblock`, `webframe`, `modal`）。交互模型一句话概括：输入将其值绑定到一个 `state` 键；按钮分发动作；你的 `action` reducer 返回新状态；GitBook 重新渲染。
+
+先阅读 `references/contentkit.md` 在编写任何不只是一个简单按钮的组件之前先阅读它——其中包含完整的属性表，以及那些很难凭空猜到的模式：用于实时预览的动态状态绑定、webframe `postMessage` 通信、带有 `returnValue`的模态框、通过 `@editor.node.updateProps`持久化属性、通过 `@link.unfurl` \+ `urlUnfurl` 进行链接展开的 manifest 模式，以及块的 Markdown 代码块序列化。
+
+## 发布与分享
+
+manifest 中的可见性控制传播范围：
+
+- `私有` （默认）——只能由所属组织的成员安装。适合内部工具；开发期间就保持这个设置。
+- `未列出` ——任何组织都可以安装，但只能通过共享安装链接。适合与特定客户或测试者共享。
+- `公开` ——任何人都可安装；在提交到集成市场之前必须这样做（这是一项单独的审核流程——参见 GitBook 的“submit your app for review”文档）。
+
+重新运行 `gitbook publish` 在更改可见性之后。建议 `公开`之前，先检查 manifest 是否足够完善： `图标`, `简介` （Markdown，≤2048 个字符）， `预览图片` （1600×800）， `分类`, `外部链接`.
+
+## 工作方式
+
+- **新项目请用 CLI 搭建脚手架，而不是手工创建** —— `gitbook new` 会正确配置 manifest、TypeScript 配置和 `@gitbook/runtime` 版本。
+- **追踪某个块的 id 链** （manifest `blocks[].id` ↔ `componentId`）——每当组件表现异常时都要这样做。
+- **把密钥保持在 manifest 文件之外** ——始终使用 `${{ env.X }}` 这种间接方式，绝不要使用字面值。
+- **当用户的目标是从 <em><strong>**外部**</strong></em> GitBook** 进行内容或站点自动化（调用 REST API 的脚本、CI 流水线）时，集成可能不是合适的工具——直接使用带个人令牌的 API 更简单。当代码必须运行在 *内部* GitBook 中时，集成才真正发挥作用：块、配置 UI、对事件的响应、代表安装者进行 OAuth。
+
+## 参考
+
+- `references/manifest.md` ——每个 `gitbook-manifest.yaml` 字段、全部作用域、配置属性类型、密钥、CLI 命令参考、安装/配置流程。
+- `references/runtime.md` — `createIntegration` / `createComponent` / `createOAuthHandler` 签名、事件目录、 `context.environment` 形状、HTTP 输入输出。
+- `references/contentkit.md` ——完整组件参考，包括属性、内置动作和交互范式（动态绑定、webframe、模态框、展开、Markdown 序列化）。

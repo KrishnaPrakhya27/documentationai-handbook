@@ -1,0 +1,70 @@
+---
+title: Documentation prête pour les LLM
+description: Rendez votre documentation publiée plus facile à découvrir, lire et utiliser pour les outils d’IA
+metaTitle: Documentation prête pour les LLM | GitBook Documentation
+ogImage: https://test-dai.imgix.net/org-4afef969-21f9-40f3-b5b8-b06c8b6cf68f/doc-22a3b060-9539-4176-97e4-49120e02f5d1/0a5a1a9630785855-organizations-d8f63b60-89ae-11e7-8574-5927d48c4877-sites-site_p4Xo4-socialprevie.jpg?fm=auto&auto=compress%2Cformat
+---
+
+GitBook publie automatiquement des formats adaptés à l’IA pour votre site de documentation.
+
+Ils aident les grands modèles de langage (LLM), les agents de codage et les systèmes de recherche basés sur l’IA. Ces outils peuvent découvrir et récupérer une documentation précise sans analyser le HTML.
+
+## Pages Markdown
+
+Ajoutez `.md` à l’URL de n’importe quelle page publiée pour afficher son Markdown. Markdown fournit aux outils d’IA un contenu structuré sans le HTML environnant.
+
+[Consultez le fichier .md de cette page](https://gitbook.com/docs/publishing-documentation/llm-ready-docs.md)
+
+## llms.txt
+
+[llms.txt](https://llmstxt.org/) est une norme proposée pour le contenu web adapté aux LLM. Ajoutez `/llms.txt` à l’URL racine de votre site de documentation.
+
+Il répertorie chaque page publiée avec une version Markdown. Les outils d’IA peuvent utiliser cet index pour découvrir votre documentation.
+
+[Consultez le /llms.txt pour la documentation GitBook](https://gitbook.com/docs/llms.txt)
+
+## llms-full.txt
+
+Ajoutez `/llms-full.txt` à l’URL racine de votre site de documentation. Ce fichier regroupe l’ensemble de votre documentation en un seul endroit.
+
+Les pages masquées sont incluses dans `llms-full.txt`. Masquer une page la supprime seulement de la table des matières publiée.
+
+[Consultez le fichier /llms-full.txt pour la documentation GitBook](https://gitbook.com/docs/llms-full.txt)
+
+## Serveur MCP pour les docs publiées
+
+GitBook expose un serveur Model Context Protocol (MCP) pour chaque site de documentation publié. Les outils compatibles peuvent découvrir et récupérer votre documentation sous forme de ressources structurées.
+
+Les pages masquées restent accessibles via le serveur MCP du site. Masquer une page la supprime seulement de la table des matières publiée.
+
+Ajoutez `/~gitbook/mcp` à l’URL racine de votre site de documentation. Par exemple, le serveur MCP de GitBook est `https://gitbook.com/docs/~gitbook/mcp`.
+
+<Callout kind="info">
+  Ouvrir cette URL dans un navigateur renvoie une erreur. Utilisez un outil capable d’effectuer des requêtes HTTP.
+</Callout>
+
+En savoir plus dans [les serveurs MCP pour les docs publiées](/fr/docs/lia-pour-vos-lecteurs/mcp-servers-for-published-docs).
+
+## Optimiser votre documentation pour l’IA
+
+GitBook gère la couche de diffusion. Votre rédaction façonne la qualité des réponses de l’IA.
+
+Rédigez un contenu que les outils d’IA peuvent interpréter de manière fiable :
+
+- Attribuez à chaque page un objectif clair.
+- Utilisez des titres descriptifs et des sections courtes.
+- Indiquez directement les contraintes, les valeurs par défaut et les exigences.
+- Incluez des exemples concrets et des valeurs exactes.
+- Mettez à jour le contenu lorsque votre produit change.
+
+Ces pratiques améliorent la recherche d’informations, réduisent l’ambiguïté et aident les utilisateurs à trouver des réponses.
+
+### Maintenir les traductions synchronisées
+
+Si vous publiez en plusieurs langues, gardez chaque traduction alignée sur sa source.
+
+[Traductions](/fr/docs/agent-gitbook/translations) vous permettent de localiser le contenu avec GitBook Agent. Lorsque le contenu source change, GitBook peut maintenir les versions traduites alignées.
+
+### Mesurer le trafic IA
+
+Utilisez [Statistiques du site](/fr/docs/analytique/insights) pour suivre le trafic provenant des LLM et des clients MCP.

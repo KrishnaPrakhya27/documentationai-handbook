@@ -1,0 +1,293 @@
+---
+title: Get the conversation thread for an Ask AI answer
+metaTitle: Get the conversation thread for an Ask AI answer | Developers | GitBook Documentation
+ogImage: https://test-dai.imgix.net/org-4afef969-21f9-40f3-b5b8-b06c8b6cf68f/doc-22a3b060-9539-4176-97e4-49120e02f5d1/0a5a1a9630785855-organizations-d8f63b60-89ae-11e7-8574-5927d48c4877-sites-site_p4Xo4-socialprevie.jpg?fm=auto&auto=compress%2Cformat
+---
+
+Returns the full conversation thread for a given Ask AI answer: the sequence of follow-up questions and responses in that exchange.
+
+**GET** `/orgs/{organizationId}/sites/{siteId}/answers/{siteQuestionAnswerId}/thread`
+
+**Parameters**
+
+<ParamField header="Authorization" param-type="string" />
+
+<ParamField path="organizationId" param-type="string" required={true}>
+  The unique id of the organization
+</ParamField>
+
+<ParamField path="siteId" param-type="string" required={true}>
+  The unique id of the site
+</ParamField>
+
+<ParamField path="siteQuestionAnswerId" param-type="string" required={true}>
+  The unique id of the site question answer
+</ParamField>
+
+**Responses**
+
+`200` OK
+
+<ResponseField name="object" field-type="string" required={true} enum="site-question-answer" />
+
+<ResponseField name="id" field-type="string" required={true}>
+  The ID of the site question answer.
+</ResponseField>
+
+<ResponseField name="question" field-type="object" required={true}>
+  <Expandable title="Object Properties">
+    <ResponseField name="id" field-type="string" required={true}>
+      The ID of the parent site question.
+    </ResponseField>
+
+    <ResponseField name="type" field-type="string" required={true} enum="exploring,how-to,troubleshooting,reference,unknown">
+      Type classification of the user question.
+    </ResponseField>
+  </Expandable>
+</ResponseField>
+
+<ResponseField name="topics" field-type="string[]" required={true}>
+  The IDs of the associated site topics.
+</ResponseField>
+
+<ResponseField name="input" field-type="object" required={true}>
+  <Expandable title="Object Properties">
+    <ResponseField name="text" field-type="string" required={true}>
+      Normalized question text for this answer.
+    </ResponseField>
+
+    <ResponseField name="raw" field-type="string" required={true}>
+      Raw question text as asked by the user.
+    </ResponseField>
+  </Expandable>
+</ResponseField>
+
+<ResponseField name="thread" field-type="object">
+  <Expandable title="Object Properties">
+    <ResponseField name="id" field-type="string" required={true}>
+      The ID of the thread this answer belongs to.
+    </ResponseField>
+
+    <ResponseField name="previous" field-type="string" required={true}>
+      ID of the previous answer in the same thread.
+    </ResponseField>
+  </Expandable>
+</ResponseField>
+
+<ResponseField name="session" field-type="object">
+  Identifiers for a GitBook site session, used for analytics and adaptive content.
+
+  <Expandable title="Object Properties">
+    <ResponseField name="visitorId" field-type="string" required={true}>
+      GitBook's unique identifier of the visitor.
+    </ResponseField>
+
+    <ResponseField name="sessionId" field-type="string" required={true}>
+      GitBook's unique identifier of the visitor's session.
+    </ResponseField>
+  </Expandable>
+</ResponseField>
+
+<ResponseField name="feedback" field-type="object">
+  <Expandable title="Object Properties">
+    <ResponseField name="rating" field-type="integer" required={true} enum="-1,1">
+      Feedback rating provided by the user.
+    </ResponseField>
+  </Expandable>
+</ResponseField>
+
+<ResponseField name="responseId" field-type="string" required={true}>
+  The response identifier for this answer.
+</ResponseField>
+
+<ResponseField name="language" field-type="string" required={true}>
+  ISO language code of the question.
+</ResponseField>
+
+<ResponseField name="answered" field-type="string" required={true} enum="no,partially,yes">
+  Whether the response answered the question.
+</ResponseField>
+
+<ResponseField name="helpfulness" field-type="string" required={true} enum="low,medium,high">
+  Helpfulness of the response for the end user need.
+</ResponseField>
+
+<ResponseField name="relevance" field-type="string" required={true} enum="relevant,spam,off-topic,unclear">
+  Relevance classification of the user question.
+</ResponseField>
+
+<ResponseField name="channel" field-type="string" required={true} />
+
+<ResponseField name="createdAt" field-type="string" required={true} />
+
+<ResponseField name="updatedAt" field-type="string" />
+
+<ResponseField name="urls" field-type="object" required={true}>
+  URLs associated with the site question answer.
+
+  <Expandable title="Object Properties">
+    <ResponseField name="location" field-type="string" required={true}>
+      URL of the site question answer in the API.
+    </ResponseField>
+  </Expandable>
+</ResponseField>
+
+<ResponseField name="response" field-type="object" required={true}>
+  <Expandable title="Object Properties">
+    <ResponseField name="id" field-type="string" required={true} />
+
+    <ResponseField name="role" field-type="string" required={true} enum="user,assistant,developer" />
+
+    <ResponseField name="steps" field-type="array" required={true}>
+      <Expandable title="Array Items">
+        <ResponseField name="startCondition" field-type="string" enum="compaction">
+          Describe the state in which the steps started.
+        </ResponseField>
+
+        <ResponseField name="content" field-type="object">
+          <Expandable title="Object Properties">
+            <ResponseField name="object" field-type="string" required={true} enum="document" />
+
+            <ResponseField name="data" field-type="object" required={true}>
+              <Expandable title="Object Properties">
+                <ResponseField name="schemaVersion" field-type="integer">
+                  The schema version of the document. If undefined, the document is considered to be of the latest schema version.
+                </ResponseField>
+              </Expandable>
+            </ResponseField>
+
+            <ResponseField name="nodes" field-type="string[]" required={true} />
+
+            <ResponseField name="meta" field-type="object">
+              <Expandable title="Object Properties">
+                <ResponseField name="token" field-type="string">
+                  A content token that can be used to fetch the content referenced in this document from the API.
+                </ResponseField>
+              </Expandable>
+            </ResponseField>
+          </Expandable>
+        </ResponseField>
+
+        <ResponseField name="reasoning" field-type="object">
+          <Expandable title="Object Properties">
+            <ResponseField name="object" field-type="string" required={true} enum="document" />
+
+            <ResponseField name="data" field-type="object" required={true}>
+              <Expandable title="Object Properties">
+                <ResponseField name="schemaVersion" field-type="integer">
+                  The schema version of the document. If undefined, the document is considered to be of the latest schema version.
+                </ResponseField>
+              </Expandable>
+            </ResponseField>
+
+            <ResponseField name="nodes" field-type="string[]" required={true} />
+
+            <ResponseField name="meta" field-type="object">
+              <Expandable title="Object Properties">
+                <ResponseField name="token" field-type="string">
+                  A content token that can be used to fetch the content referenced in this document from the API.
+                </ResponseField>
+              </Expandable>
+            </ResponseField>
+          </Expandable>
+        </ResponseField>
+
+        <ResponseField name="toolCalls" field-type="string[]" />
+
+        <ResponseField name="phase" field-type="string" enum="commentary,final_answer">
+          The phase of a step in a message from the AI agent.
+        </ResponseField>
+
+        <ResponseField name="timing" field-type="object">
+          The timing of the step.
+
+          <Expandable title="Object Properties">
+            <ResponseField name="reasoning" field-type="object">
+              <Expandable title="Object Properties">
+                <ResponseField name="start" field-type="string" required={true} />
+
+                <ResponseField name="end" field-type="string" required={true} />
+              </Expandable>
+            </ResponseField>
+          </Expandable>
+        </ResponseField>
+
+        <ResponseField name="attachments" field-type="string[]" />
+
+        <ResponseField name="context" field-type="object">
+          Context about the current user sending a message.
+
+          <Expandable title="Object Properties">
+            <ResponseField name="location" field-type="object">
+              <Expandable title="Object Properties">
+                <ResponseField name="spaceId" field-type="string" required={true}>
+                  ID of the current space.
+                </ResponseField>
+
+                <ResponseField name="pageId" field-type="string" required={true}>
+                  ID of the current page.
+                </ResponseField>
+              </Expandable>
+            </ResponseField>
+
+            <ResponseField name="comments" field-type="array">
+              Comments on the content the user is referring to in the message.
+
+              <Expandable title="Array Items">
+                <ResponseField name="id" field-type="string" required={true}>
+                  ID of the comment.
+                </ResponseField>
+
+                <ResponseField name="content" field-type="string">
+                  Snapshot of the comment for display.
+                </ResponseField>
+              </Expandable>
+            </ResponseField>
+
+            <ResponseField name="selection" field-type="object">
+              Range of the current selection in a document.
+
+              <Expandable title="Object Properties">
+                <ResponseField name="anchorKey" field-type="string" required={true} />
+
+                <ResponseField name="anchorOffset" field-type="integer" required={true} />
+
+                <ResponseField name="focusKey" field-type="string" required={true} />
+
+                <ResponseField name="focusOffset" field-type="integer" required={true} />
+
+                <ResponseField name="content" field-type="string">
+                  Snapshot of the selection for display.
+                </ResponseField>
+              </Expandable>
+            </ResponseField>
+          </Expandable>
+        </ResponseField>
+      </Expandable>
+    </ResponseField>
+
+    <ResponseField name="task" field-type="string" />
+
+    <ResponseField name="response" field-type="object">
+      The response that generated this message.
+
+      <Expandable title="Object Properties">
+        <ResponseField name="stopReason" field-type="string" enum="aborted">
+          The reason the response was stopped. If not defined, the response finished normally.
+        </ResponseField>
+
+        <ResponseField name="id" field-type="string">
+          The ID of the response that generated this message. It can be undefined if the stream was aborted.
+        </ResponseField>
+
+        <ResponseField name="previous" field-type="string">
+          The ID of the previous response that this message is based on.
+        </ResponseField>
+      </Expandable>
+    </ResponseField>
+
+    <ResponseField name="createdAt" field-type="string">
+      When the message was added to the conversation. Absent on messages recorded before this field existed.
+    </ResponseField>
+  </Expandable>
+</ResponseField>

@@ -1,0 +1,156 @@
+---
+title: Agentスキル
+description: GitBookの公式SKILL.mdファイルを使って、Claude Code、Cursor、CodexのようなAIコーディングアシスタントに、GitBookの機能やブロックの知識を与えます
+metaTitle: Agentスキル | GitBook Documentation
+ogImage: https://test-dai.imgix.net/org-4afef969-21f9-40f3-b5b8-b06c8b6cf68f/doc-22a3b060-9539-4176-97e4-49120e02f5d1/0a5a1a9630785855-organizations-d8f63b60-89ae-11e7-8574-5927d48c4877-sites-site_p4Xo4-socialprevie.jpg?fm=auto&auto=compress%2Cformat
+---
+
+GitBookは提供しています [スキルファイル](https://github.com/GitbookIO/gitbook-skills/tree/main) AIコーディングアシスタントに、GitBookのドキュメントを正しく編集する方法を教えるものです。Claude Code、Cursor、Codex、または別の外部コーディングアシスタントを使っている場合は、GitBookスキルを追加して、エージェントがGitBookの構文、ブロック、設定ファイルを扱えるようにしてください。
+
+これは次と相性が良いです [Git Sync](/ja/docs/docs-as-code/git-sync) のワークフローです — リポジトリで変更を加え、コミットすると、ドキュメントサイトが自動で更新されます。
+
+<Callout kind="info">
+  GitBookエディタで書くほうがよいですか？ [GitBook Agent](/ja/docs/gitbook-agent/overview) を使えば、GitBookを離れずに下書き、書き直し、レビュー、翻訳ができます。
+</Callout>
+
+## AIエージェントにGitBookスキルを追加する
+
+AIコーディングアシスタントがパッケージベースのスキルをサポートしている場合にこのオプションを使用します。
+
+<Steps>
+  <Step title="アクセストークンを作成する" titleType="h3">
+    エージェントがGitBookとやり取りできるようにするには、 [アクセストークンを作成する](https://app.gitbook.com/account/developer) GitBookの開発者設定から作成する必要があります。GitBookは、このトークンをGitBookスキルで作業する際のエージェント認証に使用します。
+  </Step>
+
+  <Step title="GitBookスキルをインストールする" titleType="h3">
+    このスキルは次のリポジトリの一部です [`gitbook-skills`](https://github.com/GitbookIO/gitbook-skills) リポジトリ。次のコマンドを実行して、GitBookスキルをプロジェクトに直接インストールします：
+
+    ```bash
+    npx skills add GitBookIO/gitbook-skills
+    ```
+  </Step>
+</Steps>
+
+## GitBookスキルをローカルに追加する
+
+アシスタントがパッケージベースのスキルをサポートしていない場合は、GitBookのスキルをダウンロードしてください。
+
+<Steps>
+  <Step title="アクセストークンを作成する" titleType="h3">
+    エージェントがGitBookとやり取りできるようにするには、 [アクセストークンを作成する](https://app.gitbook.com/account/developer) GitBookの開発者設定から作成する必要があります。GitBookは、このトークンをGitBookスキルで作業する際のエージェント認証に使用します。
+  </Step>
+
+  <Step title="GitBookスキルをダウンロードする" titleType="h3">
+    GitBookスキルを次でインストールする `npx skills add GitBookIO/gitbook-skills` アシスタントが対応している場合。
+
+    ファイルを手動でプロジェクトにコピーするには、次の場所からGitBookスキルを入手してください： [`gitbook-skills`](https://github.com/GitbookIO/gitbook-skills) リポジトリ。
+
+    | スキル | 説明 | ダウンロード |
+    | --- | --- | --- |
+    | `configure-site` | GitBookドキュメントサイト全体を作成し、維持します。 | [GitHub](https://github.com/GitbookIO/gitbook-skills/tree/main/skills/configure-site)<br /> |
+    | `write-docs` | GitBookのドキュメントページを執筆、作成、編集、整形します。 | [GitHub](https://github.com/GitbookIO/gitbook-skills/tree/main/skills/write-docs)<br /> |
+    | `write-openapi` | OpenAPI/SwaggerのAPIリファレンスドキュメントを作成、設定、構成し、トラブルシュートします。 | [GitHub](https://github.com/GitbookIO/gitbook-skills/tree/main/skills/write-openapi) |
+    | `build-integration` | GitBook向けのカスタム統合を構築します。 | [GitHub](https://github.com/GitbookIO/gitbook-skills/tree/main/skills/build-integration) |
+    | `cr-create` | GitBookの変更リクエストを作成し、コンテンツをプッシュし、レビューを依頼し、コメントに対応します。 | [GitHub](https://github.com/GitbookIO/gitbook-skills/tree/main/skills/cr-create) |
+    | `cr-review` | GitBookの変更リクエストをレビューし、変更点を要約し、コメントし、承認するか、変更を依頼します。 | [GitHub](https://github.com/GitbookIO/gitbook-skills/tree/main/skills/cr-review) |
+
+    <Callout kind="alert">
+      ローカルリポジトリを最新の `SKILL.md` ファイルに更新することを忘れないでください。GitBookに新機能が追加されるたびに更新してください。
+    </Callout>
+  </Step>
+</Steps>
+
+## GitBookスキルの使用
+
+Scaffold a Git-synced docs site from a folder of markdown
+
+```text
+GitBookスキルを使って、このMarkdownフォルダをGit Syncで管理されるGitBookドキュメントサイトに変換してください。
+
+1. ドキュメントフォルダを読み取り、サイト構成案を提案してください — スペース、ページツリー、SUMMARY.mdナビゲーション。何も書く前に見せてください。
+2. リポジトリをGitBookのモノレポ構成（各スペースごとにREADME.md + SUMMARY.md）で作成し、コミットしてください。
+3. サイトとスペースを作成し、その後、GitBook UIで私が行う1つの手順 — 各スペースをGit Syncでそれぞれのディレクトリに接続する作業 — について、正確にそのまま貼り付けられる手順を教えてください。
+4. 同期の設定が完了したら、サイト構成が計画どおりか確認してください。
+```
+
+Upgrade a plain markdown page into a polished GitBook page
+
+```text
+GitBookスキルを使って、このページをGitBookのリッチブロックで書き直してください — 現在は通常のMarkdownです。
+
+1. ページを読んで、何を改善すべきか教えてください：複数言語のコードサンプル → タブ、順序付きの手順説明 → ステッパー、注意書き → ヒント、「選択してください」系の内容 → カード。
+2. frontmatter（title、description、icon）を含め、正しいGitBook構文で変更を適用してください。
+3. 表現はそのままにしてください — 口調ではなく構成を改善してください。
+4. GitBookでレンダリングされた後に私が再確認すべき点をすべて挙げてください。
+```
+
+Generate an API reference from an OpenAPI spec
+
+```text
+GitBookスキルを使って、OpenAPI仕様からドキュメント内にAPIリファレンスセクションをセットアップしてください。
+
+1. 仕様を見つけるか、存在しない場合はコードベースから生成するのを手伝って、それを検証してください。
+2. SUMMARY.mdでGitBookのOpenAPIブロックを使って自動生成されるエンドポイントページを設定してください — エンドポイントページは手書きしないでください。仕様を唯一の正しい情報源として維持します。
+3. 各リソースグループごとに短い概要ページを追加してください。
+4. 表示されるリファレンスを弱くする仕様の不足（説明、例、レスポンススキーマの欠落）を指摘してください。
+```
+
+## よくある質問
+
+<Expandable title="SKILL.mdには何が含まれていますか？">
+  `SKILL.md` AIコーディングアシスタントがGitBookコンテンツを正しく作成、編集、整形するために必要なコンテキストを与えます。
+
+  含まれる内容：
+
+  - カスタムブロック用の完全な構文リファレンス。
+  - 設定ファイル形式。含まれるもの： `.gitbook.yaml`, `SUMMARY.md`を読み取り、 `.gitbook/vars.yaml`.
+  - frontmatterオプション、レイアウト制御、変数、式、決定表、およびよくある落とし穴。
+</Expandable>
+
+<Expandable title="AI生成コンテンツをどうテストしますか？">
+  AIアシスタントが生成したコンテンツは、必ずレビューしてテストしてください。スキルファイルで学習したアシスタントを使う場合：
+
+  - カスタムブロックがGitBookで正しくレンダリングされることを確認します。
+  - すべての内部リンクが機能することを確認します。
+  - frontmatterが有効なYAMLであることを確認します。
+  - 変数が正しいスコープを参照していることをテストします。
+</Expandable>
+
+<Expandable title="アシスタントがSKILL.mdを使っているかどうかはどう確認しますか？">
+  GitBookページをどのように整形するか説明させてください。
+
+  GitBookブロック、frontmatter、変数、または次のようなファイルに言及するなら `SUMMARY.md`、スキルは読み込まれています。
+
+  一般的なMarkdownだけで答える場合は、プロジェクトルールを確認してアシスタントを再読み込みしてください。
+</Expandable>
+
+<Expandable title="アシスタントがGitBook固有の構文を無視するのはなぜですか？">
+  これは通常、スキルファイルが読み込まれていないか、ルールが十分に具体的でないことを意味します。
+
+  アシスタントが次を読み込んでいることを確認してください `SKILL.md` をリポジトリのルートから、またはプロジェクト指示内のGitHub URLを使って読み込むようにしてください。
+
+  アシスタントが指示をキャッシュする場合は、ルールを追加または更新した後にセッションを再起動してください。
+</Expandable>
+
+<Expandable title="アシスタントが無効なGitBookコンテンツを生成したらどうしますか？">
+  まず一般的な失敗箇所を確認してください：
+
+  - 閉じられていないカスタムブロック
+  - frontmatter内の無効なYAML
+  - 壊れた変数参照
+  - ページ構造と一致しないリンク
+
+  コミットする前に、必ずGitBookで出力をレビューしてください。
+</Expandable>
+
+<Expandable title="それでもアクセストークンは必要ですか？">
+  エージェントがGitBookと直接やり取りする場合は、アクセストークンが必要です。あなたの [開発者設定](https://app.gitbook.com/account/developer).
+
+  を使ってローカルでファイルを編集しているだけなら `SKILL.md`、アシスタントをGitBookのワークフローやAPIに接続するまで不要な場合があります。
+</Expandable>
+
+<Expandable title="スキルが古く見える場合はどうしますか？">
+  ローカルの `SKILL.md`を更新するか、アシスタントをGitHubのソースに戻してください。
+
+  チームがファイルの一部をカスタムルールにコピーしている場合は、それらも更新してください。
+</Expandable>

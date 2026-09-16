@@ -1,0 +1,55 @@
+---
+title: 可展开
+description: 向页面添加可展开块，以缩短页面、隐藏较长内容，或创建 FAQ
+metaTitle: 可展开 | GitBook Documentation
+ogImage: https://test-dai.imgix.net/org-4afef969-21f9-40f3-b5b8-b06c8b6cf68f/doc-22a3b060-9539-4176-97e4-49120e02f5d1/0a5a1a9630785855-organizations-d8f63b60-89ae-11e7-8574-5927d48c4877-sites-site_p4Xo4-socialprevie.jpg?fm=auto&auto=compress%2Cformat
+---
+
+可展开块有助于将原本可能很长的段落压缩成更简洁的内容。它们也非常适合分步指南和常见问题解答。
+
+默认情况下，可展开块在你发布的文档站点中会处于折叠状态。如果你希望某个可展开块默认展开，请打开该块的 **选项菜单** <Image src="https://test-dai.imgix.net/org-4afef969-21f9-40f3-b5b8-b06c8b6cf68f/doc-22a3b060-9539-4176-97e4-49120e02f5d1/4c115a43418b42e3-spaces-NkEGS7hzeqa35sMXQZ4X-uploads-aS1QvPIBVYwhpFTGcPBN-options-menu.svg?rasterize-bypass=true" alt="" /> 并选择 **默认展开**.
+
+### 示例
+
+<Expandable title="第 1 步：开始使用可展开块" defaultOpen={true}>
+  要添加可展开块，请按 `/` 在一个空块上，或点击 `+` 编辑器左侧的 **可展开**.
+
+  你也可以将展开的块设置为 **默认展开** 在该块的 **选项菜单** <Image src="https://test-dai.imgix.net/org-4afef969-21f9-40f3-b5b8-b06c8b6cf68f/doc-22a3b060-9539-4176-97e4-49120e02f5d1/4c115a43418b42e3-spaces-NkEGS7hzeqa35sMXQZ4X-uploads-aS1QvPIBVYwhpFTGcPBN-options-menu.svg?rasterize-bypass=true" alt="" /> ——就像这个块一样。
+</Expandable>
+
+<Expandable title="第 2 步：向你的块中添加内容">
+  一旦插入了可展开块，你就可以向其中添加内容——包括列表和代码块。
+</Expandable>
+
+## Markdown 中的表示方式
+
+```markdown
+# 可展开块
+
+<details open>
+
+<summary>在此添加你的可展开标题</summary>
+
+在此添加你的可展开正文文本。这个可展开块默认处于展开状态。
+
+</details>
+
+<details>
+
+<summary>在此添加你的可展开标题</summary>
+
+在此添加你的可展开正文文本。这个可展开块默认处于折叠状态。
+
+</details>
+```
+
+### 限制
+
+对于你可以在可展开块中创建的块类型，有一些限制。你可以将以下类型的内容插入可展开块：
+
+- 段落
+- 标题（1、2 和 3）
+- 无序列表、有序列表和任务列表
+- 行内图片
+
+要随时查看完整列表，请在可展开块中另起一行并按 `/` 以调出插入面板。

@@ -1,0 +1,52 @@
+---
+title: タブ
+description: タブを追加して、長くてナビゲートしにくいページを作らずに、関連情報の大きなブロックを表示できるようにします
+metaTitle: タブ | GitBook Documentation
+ogImage: https://test-dai.imgix.net/org-4afef969-21f9-40f3-b5b8-b06c8b6cf68f/doc-22a3b060-9539-4176-97e4-49120e02f5d1/0a5a1a9630785855-organizations-d8f63b60-89ae-11e7-8574-5927d48c4877-sites-site_p4Xo4-socialprevie.jpg?fm=auto&auto=compress%2Cformat
+---
+
+タブブロックは、複数のタブを追加できる単一のブロックです。
+
+各タブには、任意の種類の他のブロックを複数含めることができます。そのため、同じタブブロック内の個々のタブに、コードブロック、画像、インテグレーションブロックなどを追加できます。
+
+### タブを追加または削除する
+
+タブブロックに新しいタブを追加するには、タブの端にカーソルを合わせて、表示される `+` ボタンをクリックします。タブを削除するには、タブの **オプションメニュー** <Image src="https://test-dai.imgix.net/org-4afef969-21f9-40f3-b5b8-b06c8b6cf68f/doc-22a3b060-9539-4176-97e4-49120e02f5d1/4c115a43418b42e3-spaces-NkEGS7hzeqa35sMXQZ4X-uploads-aS1QvPIBVYwhpFTGcPBN-options-menu.svg?rasterize-bypass=true" alt="The Options menu icon in GitBook" /> を開いてから **削除**.
+
+### アイコンの追加、変更、または削除
+
+アイコンを追加または変更するには、タブの **オプションメニュー** <Image src="https://test-dai.imgix.net/org-4afef969-21f9-40f3-b5b8-b06c8b6cf68f/doc-22a3b060-9539-4176-97e4-49120e02f5d1/4c115a43418b42e3-spaces-NkEGS7hzeqa35sMXQZ4X-uploads-aS1QvPIBVYwhpFTGcPBN-options-menu.svg?rasterize-bypass=true" alt="The Options menu icon in GitBook" />を開きます。次に **アイコンを設定** または **アイコンを変更**を選択し、アイコンを選択します。
+
+アイコンを削除するには、タブの **オプションメニュー** <Image src="https://test-dai.imgix.net/org-4afef969-21f9-40f3-b5b8-b06c8b6cf68f/doc-22a3b060-9539-4176-97e4-49120e02f5d1/4c115a43418b42e3-spaces-NkEGS7hzeqa35sMXQZ4X-uploads-aS1QvPIBVYwhpFTGcPBN-options-menu.svg?rasterize-bypass=true" alt="The Options menu icon in GitBook" />を開きます。次に **アイコンを削除**.
+
+### 例
+
+以下は、特定のプラットフォームに関連する手順を一覧にした例です：
+
+<Tabs>
+  <Tab title="Windows">
+    Windows の手順はこちらです
+  </Tab>
+
+  <Tab title="macOS">
+    macOS の手順はこちらです
+  </Tab>
+
+  <Tab title="Linux">
+    Linux の手順はこちらです
+  </Tab>
+</Tabs>
+
+### Markdownでの表記
+
+```markdown
+{% tabs %}
+
+{% tab title="Windows" icon="windows" %} Windows の手順はこちらです {% endtab %}
+
+{% tab title="macOS" icon="apple" %} macOS の手順はこちらです {% endtab %}
+
+{% tab title="Linux" icon="linux" %} Linux の手順はこちらです {% endtab %}
+
+{% endtabs %}
+```

@@ -1,0 +1,109 @@
+---
+title: Send review requests to users for a change request
+metaTitle: Send review requests to users for a change request | Developers | GitBook Documentation
+ogImage: https://test-dai.imgix.net/org-4afef969-21f9-40f3-b5b8-b06c8b6cf68f/doc-22a3b060-9539-4176-97e4-49120e02f5d1/0a5a1a9630785855-organizations-d8f63b60-89ae-11e7-8574-5927d48c4877-sites-site_p4Xo4-socialprevie.jpg?fm=auto&auto=compress%2Cformat
+---
+
+Sends review request notifications to one or more users, asking them to review the change request. Optionally updates the change request subject and description at the same time. Use this to move the change request into the review workflow after finishing edits. The users array must contain at least one valid user ID.
+
+**POST** `/spaces/{spaceId}/change-requests/{changeRequestId}/requested-reviewers`
+
+**Parameters**
+
+<ParamField header="Authorization" param-type="string" />
+
+<ParamField path="spaceId" param-type="string" required={true}>
+  The unique id of the space
+</ParamField>
+
+<ParamField path="changeRequestId" param-type="string" required={true}>
+  The unique ID of the change request or its number identifier in the space
+</ParamField>
+
+**Request body**
+
+<ParamField body="users" param-type="string[]" required={true}>
+  An array of user ids that will be requested.
+</ParamField>
+
+<ParamField body="subject" param-type="string">
+  Optionally, update the subject of the change request when requesting reviewers.
+</ParamField>
+
+<ParamField body="description" param-type="object">
+  <Expandable title="Object Properties">
+    <ParamField body="object" param-type="string" required={true} enum="document" />
+
+    <ParamField body="data" param-type="object" required={true}>
+      <Expandable title="Object Properties">
+        <ParamField body="schemaVersion" param-type="integer">
+          The schema version of the document. If undefined, the document is considered to be of the latest schema version.
+        </ParamField>
+      </Expandable>
+    </ParamField>
+
+    <ParamField body="nodes" param-type="string[]" required={true} />
+
+    <ParamField body="meta" param-type="object">
+      <Expandable title="Object Properties">
+        <ParamField body="token" param-type="string">
+          A content token that can be used to fetch the content referenced in this document from the API.
+        </ParamField>
+      </Expandable>
+    </ParamField>
+  </Expandable>
+</ParamField>
+
+**Responses**
+
+`200` The requests have successfully been sent.
+
+<ResponseField name="users" field-type="array">
+  The user requests that were sent.
+
+  <Expandable title="Array Items">
+    <ResponseField name="object" field-type="string" required={true} enum="change-request-requested-reviewer">
+      Type of Object, always equals to "change-request-requested-reviewer"
+    </ResponseField>
+
+    <ResponseField name="revision" field-type="string" required={true}>
+      The revision of the content when the request was made.
+    </ResponseField>
+
+    <ResponseField name="requestedBy" field-type="object" required={true}>
+      <Expandable title="Object Properties">
+        <ResponseField name="object" field-type="string" required={true} enum="user">
+          Type of Object, always equals to "user"
+        </ResponseField>
+
+        <ResponseField name="id" field-type="string" required={true}>
+          Unique identifier for the user
+        </ResponseField>
+
+        <ResponseField name="displayName" field-type="string" required={true}>
+          Full name for the user
+        </ResponseField>
+
+        <ResponseField name="email" field-type="string">
+          Email address of the user
+        </ResponseField>
+
+        <ResponseField name="photoURL" field-type="string">
+          URL of the user's profile picture
+        </ResponseField>
+
+        <ResponseField name="urls" field-type="object" required={true}>
+          URLs associated with the object
+
+          <Expandable title="Object Properties">
+            <ResponseField name="location" field-type="string" required={true}>
+              URL of the user in the API
+            </ResponseField>
+          </Expandable>
+        </ResponseField>
+      </Expandable>
+    </ResponseField>
+
+    <ResponseField name="createdAt" field-type="string" required={true} />
+  </Expandable>
+</ResponseField>

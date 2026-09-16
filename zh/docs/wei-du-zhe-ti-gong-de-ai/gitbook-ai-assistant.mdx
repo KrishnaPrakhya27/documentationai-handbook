@@ -1,0 +1,179 @@
+---
+title: AI 助手
+description: AI 助手会根据你的整个知识库——而不仅仅是文档——为用户提供准确、上下文相关的答案
+metaTitle: AI 助手 | GitBook Documentation
+ogImage: https://test-dai.imgix.net/org-4afef969-21f9-40f3-b5b8-b06c8b6cf68f/doc-22a3b060-9539-4176-97e4-49120e02f5d1/0a5a1a9630785855-organizations-d8f63b60-89ae-11e7-8574-5927d48c4877-sites-site_p4Xo4-socialprevie.jpg?fm=auto&auto=compress%2Cformat
+---
+
+<Image src="https://test-dai.imgix.net/org-4afef969-21f9-40f3-b5b8-b06c8b6cf68f/doc-22a3b060-9539-4176-97e4-49120e02f5d1/dfb18b4167641ecd-spaces-NkEGS7hzeqa35sMXQZ4X-uploads-lzOUuOwM4Vffctmf3VHC-25_03_31_gitbook_assist.png?fm=auto&auto=compress%2Cformat" alt="GitBook Assistant" caption="GitBook 助手" />
+
+AI 助手使用自然语言，为你的用户快速、准确地解答关于文档的问题。它会根据你的用户进行个性化设置，可嵌入到你的网站或产品中，并可显示在已发布文档的侧边栏或搜索框中。
+
+可以把它看作一位产品专家，在用户最需要的时间和地点随时可用。
+
+助手使用代理式检索，根据用户当前页面、之前阅读的页面以及之前的对话来理解查询上下文。
+
+试着在下面的框中向助手提问：
+
+## 配置 AI 助手
+
+要配置 AI 助手，请打开 **自定义**，在 **工具** 在网站侧边栏中，然后点击 **AI 助手**。在这里，你可以启用助手，并自定义其说明、欢迎消息和建议问题。
+
+### 添加自定义说明
+
+自定义说明可调整助手的语气，并添加产品特定的知识或术语，从而让它的回答始终与你更广泛的风格保持一致。
+
+<Callout kind="info">
+  自定义说明可优化助手的语气和知识，但不能覆盖其内置的安全限制。
+</Callout>
+
+### 自定义欢迎消息
+
+欢迎消息是访客在没有活动对话时打开助手后首先看到的内容。你可以用它来设定预期，或引导用户进入特定工作流程。
+
+### 添加建议问题
+
+建议问题是在助手打开且没有活动对话时显示的预设提示。它们能帮助用户理解可以问什么，也能帮助你把用户引导到有用的答案或工作流程。
+
+#### 建议问题的最佳实践：
+
+- 从真实的用户目标开始（设置、故障排除、集成）。
+- 使用用户常用的词语（避免内部代号）。
+- 保持具体。“我该如何……？”比“告诉我关于……”更好。
+- 覆盖不同意图：快速入门、操作指南、故障排除和参考。
+
+<Callout kind="info">
+  如果你将助手嵌入到产品中，也可以在嵌入配置中动态设置建议。参见 [自定义嵌入](/zh/docs/fa-bu/embedding/configuration/customizing-docs-embed#adding-suggestions).
+</Callout>
+
+<a id="choose-your-sites-search-experience"></a>
+
+### 选择助手的显示位置
+
+在 **外观**，设置 **位置** 以选择读者访问助手的方式：
+
+- **侧边栏** （默认）——完整聊天体验，适用于 Ultimate 网站套餐
+- **搜索框** ——与关键词搜索结果并列显示的内联答案，适用于 Premium 和 Ultimate 网站套餐
+
+<Callout kind="info">
+  助手问候语仅适用于侧边栏位置，因此在 **位置** 设置为 **搜索框**.
+</Callout>
+
+<Callout kind="alert">
+  关闭后再 **AI 助手** 会重置 **位置** 对应于 **侧边栏**。如果你的网站使用搜索框位置，请在重新启用助手后再次设置。
+</Callout>
+
+## 在已发布文档中使用 AI 助手
+
+读者访问助手的方式取决于它的显示位置。
+
+### 侧边栏位置
+
+用户可以通过三种方式访问 GitBook 助手：
+
+- 按 <kbd>⌘</kbd> \+ <kbd>I</kbd> 在 Mac 上或 <kbd>Ctrl</kbd> \+ <kbd>I</kbd> 在电脑上
+- 点击 **GitBook Assistant**  按钮，位于 <strong>提问或搜索…</strong> 栏旁边
+- 在 <strong>提问或搜索…</strong> 栏中输入问题，并在菜单顶部选择“提问…”选项
+
+### 搜索框位置
+
+在 **位置** 设置为 **搜索框**时，用户可以直接在页面顶部的 <strong>提问或搜索…</strong> 栏中提问，并且结果会与关键词结果一起显示。
+
+他们可以直接点击打开，或者按 <kbd>⌘</kbd> \+ <kbd>K</kbd> （在 Mac 上）或 <kbd>Ctrl</kbd> \+ <kbd>K</kbd> （在电脑上）。
+
+除了摘要答案外，下面还会显示一个可展开区域，其中包含助手生成答案所使用的来源，以及可点击的相关问题作为后续追问。
+
+助手会根据你的文档站点内容，以及你通过 [连接](/zh/docs/wei-du-zhe-ti-gong-de-ai/connections).
+
+<Callout kind="alert">
+  添加的任何来源来回答。 [文档站点](/zh/docs/fa-bu/publish-a-docs-site).
+
+  多章节搜索仅在查看已发布的 [部分](/zh/docs/guan-li-ni-de-zhan-dian/site-structure/site-sections) 且这些内容位于同一站点内时可用。
+</Callout>
+
+## 搜索已发布的文档
+
+无论是否启用了助手，每个站点都会自动启用关键词搜索。
+
+你的用户可以在文档站点内搜索关键词，并在整个站点中快速跳转到特定页面或页面部分。
+
+## 将 AI 助手嵌入到你的产品中
+
+你可以将 GitBook 助手直接嵌入到你的产品或网站中，让用户无需离开应用即可立即获得 AI 驱动的帮助。助手可以作为 [文档嵌入](/zh/docs/fa-bu/embedding)的一部分嵌入，其中包括用于 AI 驱动聊天的 Assistant 选项卡、用于限定范围发现的 Search 选项卡，以及用于浏览文档的 Docs 选项卡。
+
+选择适合你技术栈的嵌入方式：
+
+- [**独立 script 标签**](/zh/docs/fa-bu/embedding/implementation/script) ——使用一个 `<script>` 标签快速设置
+- [**Node.js/NPM**](/zh/docs/fa-bu/embedding/implementation/nodejs) ——服务端或构建时集成
+- [**React 组件**](/zh/docs/fa-bu/embedding/implementation/react) ——预构建的 React 组件
+
+### 其他助手嵌入指南：
+
+- [在已认证文档中使用嵌入式助手](/zh/docs/fa-bu/embedding/using-with-authenticated-docs) ——如果你的文档需要登录，这是必需的
+- [自定义助手嵌入](/zh/docs/fa-bu/embedding/configuration/customizing-docs-embed) ——欢迎消息、操作和建议
+- [创建自定义嵌入工具](/zh/docs/fa-bu/embedding/configuration/creating-custom-tools) ——将助手连接到你的 API
+- [API 参考](/zh/docs/fa-bu/embedding/configuration/reference) ——所有可用的方法和事件
+
+## 扩展 AI 助手的知识
+
+AI 助手可以通过 [连接](/zh/docs/wei-du-zhe-ti-gong-de-ai/connections) 以及 [MCP 服务器](/zh/docs/wei-du-zhe-ti-gong-de-ai/mcp-servers-for-published-docs).
+
+来使用外部知识。当你希望 GitBook 将记录同步到你的站点中时，可以使用连接；当你希望将 AI 助手连接到自定义工具时，可以使用 MCP 服务器。
+
+<Columns cols={2}>
+  <Card title="连接">
+    连接最适合内容密集型来源：
+
+    - GitHub 问题和讨论
+    - Slack 或 Discord 对话
+    - 支持文档内容
+    - 外部文档、帮助中心和网站
+  </Card>
+
+  <Card title="MCP 服务器">
+    MCP 服务器最适合实时工具和数据：
+
+    - 当前账户或产品状态
+    - 经常变更的内部系统
+    - 创建工单或提交错误报告等操作
+    - 不想同步到 GitBook 的来源
+  </Card>
+</Columns>
+
+<Tabs>
+  <Tab title="添加连接">
+    <Steps>
+      <Step title="打开站点设置">
+        打开你的站点仪表板。然后选择 **设置** → **连接**.
+      </Step>
+
+      <Step title="连接来源">
+        选择一种来源类型。然后进行授权，或输入要导入的 URL。
+      </Step>
+
+      <Step title="向 AI 助手公开记录">
+        开启 **在搜索 / 助手中公开** 连接的该项设置。
+
+        之后，GitBook 就可以在搜索和 AI 助手中使用这些记录。
+      </Step>
+    </Steps>
+  </Tab>
+
+  <Tab title="添加 MCP 服务器">
+    <Steps>
+      <Step title="打开站点设置">
+        打开你的站点仪表板。然后选择 **设置** → **AI 与 MCP**.
+      </Step>
+
+      <Step title="添加新服务器">
+        在 MCP 服务器表中，点击 **添加 MCP 服务器**.
+      </Step>
+
+      <Step title="输入服务器详情">
+        为服务器命名。添加其 URL。
+
+        然后配置 GitBook 必须在每次请求中发送的任何 HTTP 标头。
+      </Step>
+    </Steps>
+  </Tab>
+</Tabs>

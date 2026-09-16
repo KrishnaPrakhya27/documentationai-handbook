@@ -1,0 +1,232 @@
+---
+title: 页面
+description: 添加页面、页面组或外部链接——并了解每个页面可用的选项
+metaTitle: 页面 | GitBook Documentation
+ogImage: https://test-dai.imgix.net/org-4afef969-21f9-40f3-b5b8-b06c8b6cf68f/doc-22a3b060-9539-4176-97e4-49120e02f5d1/0a5a1a9630785855-organizations-d8f63b60-89ae-11e7-8574-5927d48c4877-sites-site_p4Xo4-socialprevie.jpg?fm=auto&auto=compress%2Cformat
+---
+
+页面是你可以添加、编辑和嵌入内容的地方。页面始终位于某个版块内，让你可以按所涵盖的主题或领域将相关内容分组。
+
+当你发布站点时，每个版块都会出现在站点导航中，其内的所有页面都会显示在该版块下。
+
+### 目录
+
+在一个版块中，你可以根据需要创建任意多的页面。它们都会显示在你屏幕左侧边栏中该版块的目录里。目录也会出现在你已发布站点的相同位置，除非 [你选择将其隐藏](#page-options).
+
+<Callout kind="info">
+  **版块落地页**
+
+  目录中的第一个页面始终是该版块的落地页，即使它在目录中被隐藏。
+</Callout>
+
+### 创建新页面
+
+1. 进入实时编辑模式或打开变更请求。
+2. 点击 <strong>添加新内容...</strong> 在目录底部。
+3. 点击 **页面**.
+
+或者将鼠标悬停在目录中的页面之间，然后点击 <strong>+</strong> 出现的图标。
+
+<Image src="https://test-dai.imgix.net/org-4afef969-21f9-40f3-b5b8-b06c8b6cf68f/doc-22a3b060-9539-4176-97e4-49120e02f5d1/147af17102939bea-spaces-NkEGS7hzeqa35sMXQZ4X-uploads-P0V046UJgzgtkrD1NiQG-creating-content-conten.png?fm=auto&auto=compress%2Cformat" alt="A GitBook screenshot showing an empty page listed in the table of contents" caption="GitBook 中的空白页面。你可以在左侧的目录中看到它。" />
+
+### 缺少“新建页面”选项
+
+<Callout kind="alert">
+  如果你的版块已禁用实时编辑，请创建或编辑一个变更请求。在变更请求中， **新建页面** 按钮——用于创建页面、页面组和链接——可在目录中使用。
+
+  你也可能没有编辑页面的权限。
+</Callout>
+
+### 整理你的内容
+
+在目录中组织内容有三种方式：
+
+#### 页面
+
+页面包含标题、可选描述，以及一个可以编写和添加任何类型内容的区域。
+
+通过在目录中将一个页面拖放到另一个页面下方，可以将页面嵌套。这样会创建一个 **子页面**.
+
+如果你向一个空的父页面添加子页面，GitBook 会在你文档的已发布版本中自动生成一个“contents”页面，其中包含指向所有子页面的链接。
+
+<Callout kind="info">
+  <strong>提示：</strong> 页面嵌套没有限制，但为了让导航保持简洁，建议不要超过三层。
+</Callout>
+
+当你更改页面标题时，页面的 slug（即 URL 最末尾的部分，例如 `/hello-world`）也会随之更改——除非你之前手动设置过页面的 slug。
+
+已发布页面的 URL 遵循导航树，而不是你的 Git Sync 文件布局。它包含顶层版块或组的 slug、每个祖先页面或组的 slug，以及页面自身的 slug。
+
+例如，以下 Git Sync 文件布局：
+
+```
+content/
+└── setup/
+    └── install.md
+```
+
+可以对应这样的导航树：
+
+```
+API
+└── 指南
+    └── 安装
+```
+
+如果这些 slug 分别是 `api`, `guides`，以及 `install`，那么已发布的 URL 是 `/api/guides/install`。文件路径并不决定 URL。
+
+要更改页面的标题、链接标题或 slug：
+
+1. 打开页面的 **操作菜单** <Image src="https://test-dai.imgix.net/org-4afef969-21f9-40f3-b5b8-b06c8b6cf68f/doc-22a3b060-9539-4176-97e4-49120e02f5d1/4fa265378c13a520-spaces-NkEGS7hzeqa35sMXQZ4X-uploads-89MTSo5XRpPMVr1T0rxS-actions.svg?rasterize-bypass=true" alt="The Actions menu icon in GitBook" />.
+2. 点击 **编辑标题和 slug**.
+
+#### 页面链接标题
+
+如果你想为页面提供更长、对 SEO 更友好的标题，同时在导航条目和链接中保留较短标题，可以定义一个链接标题。
+
+1. 打开页面的 **操作菜单** <Image src="https://test-dai.imgix.net/org-4afef969-21f9-40f3-b5b8-b06c8b6cf68f/doc-22a3b060-9539-4176-97e4-49120e02f5d1/4fa265378c13a520-spaces-NkEGS7hzeqa35sMXQZ4X-uploads-89MTSo5XRpPMVr1T0rxS-actions.svg?rasterize-bypass=true" alt="The Actions menu icon in GitBook" />.
+2. 点击 **编辑标题和 slug**.
+3. 在 **编辑页面** 对话框中，为该页面启用并定义链接标题。
+
+如果你使用 Git Sync，请在 `SUMMARY.md` 中的页面链接上设置页面链接标题：
+
+```markdown
+# 目录
+
+* [页面主标题](page.md "页面链接标题")
+```
+
+<Callout kind="info">
+  <strong>注意：</strong> 页面链接标题会显示在目录中、每个页面底部的分页按钮中，以及你添加到该页面的任何相对链接中。
+</Callout>
+
+页面链接标题是可选的——如果你不添加，页面将使用其标准标题。
+
+#### 页面组
+
+页面组可将相关页面聚合到某个版块的目录中。你可以为每个页面组添加一个图标。
+
+<Callout kind="info">
+  页面组用于在一个版块内组织页面。版块组用于在站点导航中组织版块。尽管二者都叫组，但它们是不同的对象。请参见 [组](/zh/docs/chuang-jian-nei-rong/content-structure/collection).
+</Callout>
+
+通过点击创建页面组： <strong>添加新内容...</strong> \> **分组** 在目录底部。
+
+页面组仅存在于目录的 **顶层** ——你不能将页面组相互嵌套。
+
+<Callout kind="alert">
+  页面组的 slug 会成为每个子页面 URL 的一部分。添加、重命名或移除页面组会更改子页面 URL，并会破坏现有链接，除非你添加重定向。请参见 [站点重定向](/zh/docs/fa-bu/site-redirects).
+</Callout>
+
+要更改页面组的标题、slug 或图标：
+
+1. 点击 **操作菜单** 图标 <Image src="https://test-dai.imgix.net/org-4afef969-21f9-40f3-b5b8-b06c8b6cf68f/doc-22a3b060-9539-4176-97e4-49120e02f5d1/4fa265378c13a520-spaces-NkEGS7hzeqa35sMXQZ4X-uploads-89MTSo5XRpPMVr1T0rxS-actions.svg?rasterize-bypass=true" alt="The Actions menu icon in GitBook" /> 目录中组标题旁边的
+2. 点击 **重命名**.
+3. 更新标题、slug 或图标。
+
+<Callout kind="alert">
+  `SUMMARY.md` 不会存储页面组图标。GitBook 会存储它们，而 Git Sync 不会在同步往返时保留它们。如果你的仓库重新创建了页面组，GitBook 不会自动恢复原始图标。请在 GitBook 中重新设置图标。
+</Callout>
+
+#### 外部链接
+
+在目录中添加链接，可让用户直接跳转到链接内容。
+
+通过点击创建外部链接 <strong>添加新内容...</strong> \> **外部链接** 在目录底部。
+
+### 页面图标和表情符号
+
+为了在读者浏览目录时更容易识别，可为单个页面添加可选图标或表情符号。该图标或表情符号会显示在目录中，以及页面顶部标题旁边。
+
+要添加图标或表情符号，请点击 **添加图标** 按钮（在鼠标悬停页面标题时出现），或标题左侧的表情符号按钮。
+
+### 页面选项
+
+在 **页面选项** 菜单，可自定义版块内所选页面的外观并控制其可见性。
+
+#### 布局
+
+将鼠标悬停在页面标题上以打开 **页面选项** <Image src="https://test-dai.imgix.net/org-4afef969-21f9-40f3-b5b8-b06c8b6cf68f/doc-22a3b060-9539-4176-97e4-49120e02f5d1/8654e1652f7b5b8c-spaces-NkEGS7hzeqa35sMXQZ4X-uploads-Asao5RY8jwAmcYhpVwPI-options.svg?rasterize-bypass=true" alt="The Page options menu icon in GitBook" /> 菜单，或更改页面封面。按钮会出现在页面标题上方。
+
+在 **页面选项** 侧边栏中，选择每个页面在你的 **已发布** 内容中向访客显示的方式。你可以选择三种布局预设之一，或者创建自定义布局。
+
+每个布局预设都会开启或关闭页面的以下部分：
+
+- 页面标题
+- 页面描述
+- 目录
+- 页面大纲
+- 下一页/上一页链接
+- 页面元数据
+- 标签
+
+使用来自 **库** → **标签**的一个或多个标签为页面添加标签。开启 **在页面上显示标签** 即可将其显示在页面页眉中。或者选择一个标签作为页面的主标签，GitBook 可以在目录中将其显示在页面旁边。更多信息请参见“标签”。
+
+你也可以在此菜单中设置页面的全局宽度。选择 **宽屏** 可让表格、卡片和代码块等区块在已发布页面上获得更大的空间。适合用于醒目的落地页。
+
+#### 可见性
+
+选择在已发布的文档中显示或隐藏哪些页面，以及每个页面是否出现在站点搜索和搜索引擎中。
+
+要将某个页面或页面组从站点目录中隐藏：
+
+1. 打开页面的 **操作菜单** <Image src="https://test-dai.imgix.net/org-4afef969-21f9-40f3-b5b8-b06c8b6cf68f/doc-22a3b060-9539-4176-97e4-49120e02f5d1/4fa265378c13a520-spaces-NkEGS7hzeqa35sMXQZ4X-uploads-89MTSo5XRpPMVr1T0rxS-actions.svg?rasterize-bypass=true" alt="The Actions menu icon in GitBook" />.
+2. 切换 **隐藏页面**.
+
+隐藏的页面只会从已发布目录中隐藏。它们仍可通过站点的 MCP 服务器以及 `llms-full.txt`.
+
+如果你使用 Git Sync，隐藏页面会在 Markdown 文件中包含以下 front matter：
+
+```markdown
+---
+hidden: true
+---
+```
+
+<Callout kind="alert">
+  隐藏 **页面标题** 或 **页面描述** 仅会隐藏已发布内容中的页面页眉。它不会删除页面正文中的标题。有关标题级别的更多信息，请参见“标题”。
+</Callout>
+
+#### 元数据（SEO）
+
+使用 **页面选项 → 元数据** 来控制搜索引擎如何理解类似页面之间的关系（例如：文档版本或内容变体）。
+
+- **规范 URL**：该页面首选的（权威）URL。搜索引擎会将其视为“真实来源”。当多个 URL 显示相同内容时使用它。
+- **替代 URL**：同一内容在另一种变体中的其他 URL。例如，另一个版本或另一种语言。它们有助于搜索引擎将各变体归为一组，而不是将其视为重复内容。
+
+这两个字段都支持选择另一个 GitBook 页面（推荐）或输入外部 URL。
+
+<Callout kind="info">
+  版本化文档的一种常见做法是，将较旧的页面设置为以最新的对应页面为规范页面（例如， `1.0` → `2.0`），然后在最新页面上将较旧版本列为替代项。
+</Callout>
+
+#### 在版块之间移动页面
+
+GitBook 目前不支持在应用内将单个页面在版块之间移动。要将页面内容移动到另一个版块：
+
+- **复制并粘贴** ——使用 `Esc` 键选择页面内容，然后将其复制并粘贴到目标位置。某些区块可能需要重新配置；评论和页面历史不会被复制，图像也需要在新的版块中重新上传。
+- **使用 Git Sync** ——如果这两个版块都与仓库同步，请在仓库之间复制文件，并将页面标题添加到目标的 `SUMMARY.md`中。请参见 [Git Sync](/zh/docs/wen-dang-ji-dai-ma/git-sync).
+
+### 页面封面
+
+为文档中的每个页面设置封面。当你点击 **页面封面** <Image src="https://test-dai.imgix.net/org-4afef969-21f9-40f3-b5b8-b06c8b6cf68f/doc-22a3b060-9539-4176-97e4-49120e02f5d1/4e5d9e0bc5b806be-spaces-NkEGS7hzeqa35sMXQZ4X-uploads-I1Q5rfhHgy0toM2pUEH5-image.svg?rasterize-bypass=true" alt="The Page cover icon in GitBook" /> 选项时，GitBook 会立即添加一个默认封面。理想的封面图片尺寸是 1990 × 480 像素——封面会锁定为此宽高比，因此在不同屏幕尺寸下比例都能保持一致。你可以在这里：
+
+- **更改封面图片**
+
+  1. 将鼠标悬停在页面封面上并点击 **更改封面**.
+  2. 选择或上传一张图片。理想尺寸为 1990x480 像素。
+- **重新定位封面图片**
+
+  1. 将鼠标悬停在页面封面上并打开 **操作菜单** <Image src="https://test-dai.imgix.net/org-4afef969-21f9-40f3-b5b8-b06c8b6cf68f/doc-22a3b060-9539-4176-97e4-49120e02f5d1/4fa265378c13a520-spaces-NkEGS7hzeqa35sMXQZ4X-uploads-89MTSo5XRpPMVr1T0rxS-actions.svg?rasterize-bypass=true" alt="The Actions menu icon in GitBook" />.
+  2. 点击 **重新定位**.
+  3. 将图片拖动到合适位置，然后点击 **保存**.
+- **移除封面图片**
+
+  1. 将鼠标悬停在页面封面上并打开 **操作菜单** <Image src="https://test-dai.imgix.net/org-4afef969-21f9-40f3-b5b8-b06c8b6cf68f/doc-22a3b060-9539-4176-97e4-49120e02f5d1/4fa265378c13a520-spaces-NkEGS7hzeqa35sMXQZ4X-uploads-89MTSo5XRpPMVr1T0rxS-actions.svg?rasterize-bypass=true" alt="The Actions menu icon in GitBook" />.
+  2. 点击 **移除**.
+- **全宽和主视觉宽度**
+
+  将页面封面的样式更改为横跨整个屏幕宽度，或仅与内容宽度一致。
+
+  1. 将鼠标悬停在页面封面上并打开 **操作菜单** <Image src="https://test-dai.imgix.net/org-4afef969-21f9-40f3-b5b8-b06c8b6cf68f/doc-22a3b060-9539-4176-97e4-49120e02f5d1/4fa265378c13a520-spaces-NkEGS7hzeqa35sMXQZ4X-uploads-89MTSo5XRpPMVr1T0rxS-actions.svg?rasterize-bypass=true" alt="The Actions menu icon in GitBook" />.
+  2. 点击你偏好的选项。

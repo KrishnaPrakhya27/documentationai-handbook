@@ -1,0 +1,67 @@
+---
+title: Get a page from a specific historical revision by its URL path
+metaTitle: Get a page from a specific historical revision by its URL path | Developers | GitBook Documentation
+ogImage: https://test-dai.imgix.net/org-4afef969-21f9-40f3-b5b8-b06c8b6cf68f/doc-22a3b060-9539-4176-97e4-49120e02f5d1/0a5a1a9630785855-organizations-d8f63b60-89ae-11e7-8574-5927d48c4877-sites-site_p4Xo4-socialprevie.jpg?fm=auto&auto=compress%2Cformat
+---
+
+Returns a page from a historical revision looked up by its URL path (e.g. "getting-started/installation") rather than its ID. Useful when you know the page path but not the ID. Use documentFormat to control whether content is returned as blocks or markdown. For the current live revision, use the content path endpoint.
+
+**GET** `/spaces/{spaceId}/revisions/{revisionId}/path/{pagePath}`
+
+**Parameters**
+
+<ParamField header="Authorization" param-type="string" />
+
+<ParamField path="spaceId" param-type="string" required={true}>
+  The unique id of the space
+</ParamField>
+
+<ParamField path="revisionId" param-type="string" required={true}>
+  The unique id of the revision
+</ParamField>
+
+<ParamField path="pagePath" param-type="string" required={true}>
+  The path of the page in the revision.
+</ParamField>
+
+<ParamField query="format" param-type="string" enum="document,markdown">
+  Output format for the content.
+</ParamField>
+
+<ParamField query="format.markdown.refs" param-type="string" enum="relative,stable">
+  Controls how content references are formatted in markdown output. Ignored unless `format=markdown`.
+
+  - `relative`: Format page references as relative links from the current page. Other references might not be handled.
+  - `stable`: Format content references as stable idempotent refs containing their identifiers.
+</ParamField>
+
+<ParamField query="evaluated" param-type="string">
+  Controls whether the document should be evaluated.
+
+  - When set to `true`, the entire document will be evaluated.
+  - When set to `deterministic-only`, only expressions that depend
+    exclusively on deterministic inputs will be evaluated.
+</ParamField>
+
+<ParamField query="dereferenced" param-type="string">
+  Controls whether the document should be deferenced (eference to other content will be resolved and expanded).
+
+  - When set to `true`, the entire document will be deferenced
+  - When set to `reusable-contents`, only reusable contents will be deferenced.
+</ParamField>
+
+<ParamField query="metadata" param-type="boolean">
+  If `false` is passed, "git" mutable metadata will not returned. Passing `false` can optimize performances of the lookup.
+</ParamField>
+
+<ParamField query="cachedMetadata" param-type="boolean">
+  If `true` is passed, mutable Git metadata may be served from a cache.
+</ParamField>
+
+<ParamField query="computed" param-type="boolean">
+  If `false` is passed, content will not be computed
+</ParamField>
+
+**Responses**
+
+`200` OK

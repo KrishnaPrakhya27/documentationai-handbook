@@ -1,0 +1,41 @@
+---
+title: Accès authentifié
+description: Configurez une authentification personnalisée pour votre contenu publié
+metaTitle: Accès authentifié | GitBook Documentation
+ogImage: https://test-dai.imgix.net/org-4afef969-21f9-40f3-b5b8-b06c8b6cf68f/doc-22a3b060-9539-4176-97e4-49120e02f5d1/0a5a1a9630785855-organizations-d8f63b60-89ae-11e7-8574-5927d48c4877-sites-site_p4Xo4-socialprevie.jpg?fm=auto&auto=compress%2Cformat
+---
+
+L’accès authentifié vous permet de publier votre contenu tout en exigeant une authentification de la part de tout visiteur souhaitant le consulter. Lorsqu’il est activé, GitBook laisse votre fournisseur d’authentification gérer qui a accès au contenu.
+
+<Image src="https://test-dai.imgix.net/org-4afef969-21f9-40f3-b5b8-b06c8b6cf68f/doc-22a3b060-9539-4176-97e4-49120e02f5d1/d03f9bc4372e817e-spaces-NkEGS7hzeqa35sMXQZ4X-uploads-htkyhDNCjMpzhHtUkBSe-26_01_06_authenticated_.png?fm=auto&auto=compress%2Cformat" alt="A screenshot showing a login screen for docs behind authenticated access" caption="Ajoutez une connexion à votre documentation publiée." />
+
+### Cas d’utilisation
+
+Les cas d’utilisation courants de l’accès authentifié incluent :
+
+- Publier une documentation produit sensible qui ne devrait être accessible qu’aux clients payants, aux prospects commerciaux ou aux partenaires.
+- Publier du contenu de base de connaissances interne qui ne devrait être accessible qu’aux employés de votre entreprise.
+
+### Fonctionnement
+
+Il existe deux méthodes parmi lesquelles vous pouvez choisir lors de la configuration de l’accès authentifié :
+
+1. Installer l’une de nos intégrations d’authentification — nous prenons actuellement en charge Okta, Azure et Auth0. Nous **recommandons vivement** cette option si vous utilisez un fournisseur d’authentification que nous prenons en charge.
+2. Créer et héberger votre propre serveur pour gérer l’authentification. De nombreuses technologies différentes peuvent être utilisées, mais c’est à vous de coder et de maintenir la solution que vous choisissez.
+
+### URL de connexion et de déconnexion intégrées
+
+GitBook vous fournit des URL intégrées pour la connexion et la déconnexion sur votre site publié :
+
+- `<publishedSiteURL>/~gitbook/auth/login`
+- `<publishedSiteURL>/~gitbook/auth/logout`
+
+Utilisez l’URL de connexion partout où vous souhaitez un lien de connexion, par exemple un lien d’en-tête sur votre site.
+
+Lorsqu’un visiteur ouvre l’URL de connexion, GitBook le redirige vers le backend d’authentification configuré pour ce site. Cela fonctionne avec les backends d’intégration et les backends personnalisés.
+
+GitBook ajoute également un `paramètre de requête` location qui correspond à la page à partir de laquelle le visiteur a commencé. Votre backend peut utiliser cette valeur pour le renvoyer vers la même page après la connexion.
+
+Utilisez l’URL de déconnexion pour déconnecter un visiteur de sa session GitBook.
+
+Rendez-vous sur [Activation de l’accès authentifié](/fr/docs/publier/site-audience/authenticated-access/enabling-authenticated-access) pour commencer à configurer l’accès protégé pour votre site.

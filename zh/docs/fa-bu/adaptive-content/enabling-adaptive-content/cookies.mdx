@@ -1,0 +1,124 @@
+---
+title: Cookie
+description: 通过公开或签名 Cookie 将访客数据传递到你的文档中
+metaTitle: Cookie | GitBook Documentation
+ogImage: https://test-dai.imgix.net/org-4afef969-21f9-40f3-b5b8-b06c8b6cf68f/doc-22a3b060-9539-4176-97e4-49120e02f5d1/0a5a1a9630785855-organizations-d8f63b60-89ae-11e7-8574-5927d48c4877-sites-site_p4Xo4-socialprevie.jpg?fm=auto&auto=compress%2Cformat
+---
+
+<Callout kind="info">
+  前往我们的指南，找到一个 [完整操作指南](/en/docs/guides/docs-personalization-and-authentication/setting-up-adaptive-content) 了解如何使用 cookie 设置自适应内容。
+</Callout>
+
+<Callout kind="alert">
+  在功能标志中使用自适应内容需要向你的应用程序添加代码。
+
+  此方法仅在你的网站托管于以下域名下时有效： [自定义域名](/zh/docs/fa-bu/custom-domain).
+</Callout>
+
+你可以通过访客浏览器中的 cookie 将访客数据传递给你的文档。以下是不同方法的概览。
+
+| 方法 | 用例 | 设置难易程度 | 安全性 | 格式 |
+| --- | --- | --- | --- | --- |
+| 已签名 cookie `gitbook-visitor-token` | API 测试凭据、客户识别 | 需要签名和自定义域名 | ✅ 属性只能由后端定义 | JWT |
+| 公共 cookie `gitbook-visitor-public` | 功能标志、角色 | 易于设置 | ❌ 访客可以覆盖这些属性 | JSON |
+
+### 公共 cookie
+
+要将数据从公共 cookie 传递给 GitBook，你需要通过设置一个公共 `gitbook-visitor-public` cookie。
+
+下面是一个简单的 JavaScript 示例：
+
+```javascript
+import Cookies from 'js-cookie';
+
+const cookieData = {
+  isLoggedIn: true,
+  isBetaUser: false,
+};
+
+Cookies.set('gitbook-visitor-public', JSON.stringify(cookieData), {
+  secure: true,
+  domain: '*.acme.org',
+})
+```
+
+<Callout kind="alert">
+  通过公共 cookie 传递的数据必须在你的访客架构中通过一个 [未签名的](/zh/docs/fa-bu/adaptive-content/enabling-adaptive-content#set-an-unsigned-claim) 对象。
+</Callout>
+
+### 已签名 cookie
+
+要更安全地将数据传递给 GitBook，你需要将数据作为 [JSON Web Token](https://jwt.io/introduction) 从你的应用程序中通过一个名为 `gitbook-visitor-token` 并绑定到你的域名的 cookie 中发送。
+
+要进行设置，你需要调整应用程序的登录流程，包含以下步骤：
+
+<Steps>
+  <Step title="当用户登录你的应用程序时生成一个 JWT">
+    每当用户登录你的产品时，生成一个包含已认证用户信息中选定属性的 JWT。
+  </Step>
+
+  <Step title="使用站点的访客签名密钥对 JWT 进行签名">
+    然后，确保使用站点的 **访客签名密钥**进行签名；启用自适应内容后，你可以在站点的受众设置中找到该密钥。
+  </Step>
+
+  <Step title="将 JWT 存储在通配符会话 cookie 中">
+    最后，你需要将包含用户信息的已签名 JWT 存储到一个通配符会话 cookie 中 **位于你的产品域名下**.
+
+    例如，如果你的应用程序托管在 `app.acme.org` 域名下，则需要在 `.acme.org` 通配符域名下创建该 cookie。
+  </Step>
+</Steps>
+
+下面是一个简单的 TypeScript 示例：
+
+```typescript
+import * as jose from 'jose';
+
+import { Request, Response } from 'express';
+
+import { getUserInfo } from '../services/user-info-service';
+import { getFeatureFlags } from '../services/feature-flags-service';
+
+const GITBOOK_VISITOR_SIGNING_KEY = process.env.GITBOOK_VISITOR_SIGNING_KEY;
+const GITBOOK_VISITOR_COOKIE_NAME = 'gitbook-visitor-token';
+
+
+export async function handleAppLoginRequest(req: Request, res: Response) {
+   // 你的业务逻辑，用于处理登录请求
+   // 例如，检查凭据并验证用户
+   //
+   // 例如：
+   // const loggedInUser = await authenticateUser(req.body.username, req.body.password);
+
+   // 在验证用户身份后，获取你希望
+   // 从数据库或用户服务传递给 GitBook 的用户信息。
+   const userInfo = await getUserInfo(loggedInUser.id);
+      
+   // 使用用户信息构建 JWT 有效载荷
+   const gitbookVisitorClaims = {
+       firstName: userInfo.firstName,
+       lastName: userInfo.lastName,
+       isBetaUser: userInfo.isBetaUser
+       products: userInfo.products.map((product) => product.name),
+       featureFlags: await getFeatureFlags({userId: loggedInUser.id})
+   }
+   
+   // 使用这些声明生成一个已签名的 JWT
+   const gitbookVisitorJWT = await new jose.SignJWT(gitbookVisitorClaims)
+     .setProtectedHeader({ alg: 'HS256' })
+     .setIssuedAt()
+     .setExpirationTime('2h') // 任意设置 2 小时过期
+     .sign(GITBOOK_VISITOR_SIGNING_KEY);
+     
+  // 在你的
+  // 登录处理器响应中包含一个带有编码后 JWT 的 `gitbook-visitor-token` cookie
+  res.cookie(GITBOOK_VISITOR_COOKIE_NAME, gitbookVisitorJWT, {
+     httpOnly: true,
+     secure: process.env.NODE_ENV === 'production',
+     maxAge: 2 * 60 * 60 * 1000, // 任意设置 2 小时过期
+     domain: '.acme.org' //
+  });
+  
+  // 登录处理器的其余逻辑，包括将用户重定向到你的应用程序
+  res.redirect('/'); // 示例重定向
+}
+```

@@ -1,0 +1,135 @@
+---
+title: Update an external link in a site's navigation
+metaTitle: Update an external link in a site's navigation | Developers | GitBook Documentation
+ogImage: https://test-dai.imgix.net/org-4afef969-21f9-40f3-b5b8-b06c8b6cf68f/doc-22a3b060-9539-4176-97e4-49120e02f5d1/0a5a1a9630785855-organizations-d8f63b60-89ae-11e7-8574-5927d48c4877-sites-site_p4Xo4-socialprevie.jpg?fm=auto&auto=compress%2Cformat
+---
+
+Updates an external navigation link. Set parent to a section group ID to move the link into that group, or null to move it to the site root; links cannot be placed inside a section. A changed destination must remain an absolute HTTP or HTTPS URL. Draft and adaptive-condition fields control visibility. Use the generic structure sort operation after changing the parent to adjust the link's sibling order.
+
+**PATCH** `/orgs/{organizationId}/sites/{siteId}/external-links/{siteExternalLinkId}`
+
+**Parameters**
+
+<ParamField header="Authorization" param-type="string" />
+
+<ParamField path="organizationId" param-type="string" required={true}>
+  The unique id of the organization
+</ParamField>
+
+<ParamField path="siteId" param-type="string" required={true}>
+  The unique id of the site
+</ParamField>
+
+<ParamField path="siteExternalLinkId" param-type="string" required={true}>
+  The unique ID of the site external link
+</ParamField>
+
+<ParamField header="prefer" param-type="string" enum="return=minimal,return=representation">
+  Control whether a successful response includes the updated resource representation.
+</ParamField>
+
+**Request body**
+
+<ParamField body="title" param-type="string">
+  Title of the site section
+</ParamField>
+
+<ParamField body="localizedTitle" param-type="string" />
+
+<ParamField body="description" param-type="string" />
+
+<ParamField body="localizedDescription" param-type="string" />
+
+<ParamField body="icon" param-type="string" />
+
+<ParamField body="url" param-type="string" />
+
+<ParamField body="parent" param-type="string">
+  ID of the section group to move the link into. Set to null to move it to the site root.
+</ParamField>
+
+<ParamField body="draft" param-type="boolean">
+  Whether the external link should be kept in draft mode
+</ParamField>
+
+<ParamField body="condition" param-type="string">
+  Adaptive condition controlling whether visitors see the link
+</ParamField>
+
+**Responses**
+
+`200` External link updated
+
+<ResponseField name="object" field-type="string" required={true} enum="site-external-link">
+  The object type, which is always "site-external-link"
+</ResponseField>
+
+<ResponseField name="id" field-type="string" required={true}>
+  Unique identifier of the external link
+</ResponseField>
+
+<ResponseField name="title" field-type="string" required={true}>
+  Title of the site section
+</ResponseField>
+
+<ResponseField name="localizedTitle" field-type="object">
+  Localized string value with a 128 character limit, keyed by locale. Contains overrides for non-default languages only.
+</ResponseField>
+
+<ResponseField name="description" field-type="string">
+  Description of the site section
+</ResponseField>
+
+<ResponseField name="localizedDescription" field-type="object">
+  Localized string value with a 256 character limit, keyed by locale. Contains overrides for non-default languages only.
+</ResponseField>
+
+<ResponseField name="icon" field-type="string">
+  Name of the icon
+</ResponseField>
+
+<ResponseField name="url" field-type="string" required={true} />
+
+<ResponseField name="sectionGroup" field-type="string">
+  ID of the section group the external link belongs to. Omitted for a root link.
+</ResponseField>
+
+<ResponseField name="draft" field-type="boolean" required={true}>
+  Whether the external link is draft and not live
+</ResponseField>
+
+<ResponseField name="condition" field-type="string">
+  Expression to evaluate
+</ResponseField>
+
+`204` External link updated without returning its representation
+
+`400` Bad Request
+
+<ResponseField name="error" field-type="object" required={true}>
+  <Expandable title="Object Properties">
+    <ResponseField name="code" field-type="integer" required={true} enum="400" />
+
+    <ResponseField name="message" field-type="string" required={true} />
+  </Expandable>
+</ResponseField>
+
+`404` Not Found
+
+<ResponseField name="error" field-type="object" required={true}>
+  <Expandable title="Object Properties">
+    <ResponseField name="code" field-type="integer" required={true} enum="404" />
+
+    <ResponseField name="message" field-type="string" required={true} />
+  </Expandable>
+</ResponseField>
+
+`default` Unexpected Error
+
+<ResponseField name="error" field-type="object" required={true}>
+  <Expandable title="Object Properties">
+    <ResponseField name="code" field-type="integer" required={true} />
+
+    <ResponseField name="message" field-type="string" required={true} />
+  </Expandable>
+</ResponseField>

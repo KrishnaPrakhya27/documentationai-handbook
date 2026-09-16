@@ -1,0 +1,160 @@
+---
+title: 自定义嵌入
+description: 通过设置欢迎消息、操作等，定制将 Docs Embed 嵌入到你的产品或应用中的体验
+metaTitle: 自定义嵌入 | GitBook Documentation
+ogImage: https://test-dai.imgix.net/org-4afef969-21f9-40f3-b5b8-b06c8b6cf68f/doc-22a3b060-9539-4176-97e4-49120e02f5d1/0a5a1a9630785855-organizations-d8f63b60-89ae-11e7-8574-5927d48c4877-sites-site_p4Xo4-socialprevie.jpg?fm=auto&auto=compress%2Cformat
+---
+
+之后 [将 Docs Embed 添加到您的网站或应用后](/zh/docs/fa-bu/embedding/implementation)，您可以通过向侧边栏添加可执行按钮、通过上下文问题、标签页等方式向用户提供建议，进一步自定义体验。
+
+### 自定义按钮（[独立](/zh/docs/fa-bu/embedding/implementation/script) 仅）
+
+当使用 [独立 script 标签实现](/zh/docs/fa-bu/embedding/implementation/script)时，您可以自定义启动嵌入组件的按钮标签和图标。
+
+<Callout kind="info">
+  此按钮自定义选项仅在使用 [独立 script 标签实现](/zh/docs/fa-bu/embedding/implementation/script)。对于 [React](/zh/docs/fa-bu/embedding/implementation/react) 或 [Node.js/NPM 包](/zh/docs/fa-bu/embedding/implementation/nodejs) 实现，您需要创建自己的按钮来启动嵌入。
+</Callout>
+
+```javascript
+window.GitBook("configure", {
+  button: {
+    标签："询问"，
+    图标："assistant"，// 'assistant' | 'sparkle' | 'help' | 'book'
+  },
+});
+```
+
+<strong>可用图标选项：</strong>
+
+- `助手` \-  助手图标（默认）
+- `闪光` \-  闪光图标
+- `帮助` \-  帮助/问号图标
+- `书本` \-  书本图标
+
+### 设置颜色方案
+
+默认情况下，嵌入内容会遵循 iframe 的 CSS `color-scheme`。这可以让它自动匹配您的应用主题或浏览器偏好。
+
+如果您想强制使用某种模式，请传入 `colorScheme` 在初始化嵌入、构建 frame URL 或渲染 React 组件时。这不属于 `configure`.
+
+<Tabs>
+  <Tab title="独立 script">
+    ```javascript
+    window.GitBook(
+      "init"，
+      { siteURL: "https://docs.company.com" }，
+      { colorScheme: "dark" }
+    );
+    ```
+  </Tab>
+
+  <Tab title="Node.js/NPM">
+    ```javascript
+    const iframeURL = gitbook.getFrameURL({
+      colorScheme: "dark"，
+    });
+    ```
+  </Tab>
+
+  <Tab title="React">
+    ```jsx
+    <GitBookFrame colorScheme="dark" />
+    ```
+  </Tab>
+</Tabs>
+
+### 添加操作
+
+向嵌入中添加操作，可让您在界面中为用户提供额外操作。每个操作包括一个标签、一个图标（来自 [Font Awesome](https://fontawesome.com/search?ip=brands%2Cclassic%2Cduotone)），以及一个 `onClick` 当用户点击该操作时执行的动作。您添加的任何操作都会与标签页一起显示在侧边栏中。操作可以控制 Docs Embed 本身，也可以执行您想要的任何代码。
+
+```javascript
+window.GitBook("configure", {
+  actions: [
+    {
+      标签："联系支持"，
+      图标："circle-question"，
+      onClick: () => {
+        window.open("https://support.example.com", "_blank");
+      },
+    },
+    {
+      标签："文档"，
+      图标："book"，
+      onClick: () => {
+        window.open("https://docs.example.com", "_blank");
+      },
+    },
+  ],
+});
+```
+
+### 添加建议
+
+您可以向 Assistant 标签页添加建议，这些建议会在 Assistant 加载时显示为可点击的提示，供用户使用。
+
+```javascript
+window.GitBook("configure", {
+  suggestions: [
+    "帮我开始使用我的新账户"，
+    "如何重置我的密码？"，
+    "你们有哪些定价方案？"，
+  ],
+});
+```
+
+### 添加问候语
+
+自定义显示在 Assistant 标签页中的欢迎消息：
+
+```javascript
+window.GitBook("configure", {
+  greeting: {
+    标题："欢迎！"，
+    副标题："今天我能如何帮助您？"，
+  },
+});
+```
+
+### 覆盖助手名称
+
+使用 `assistantName` 以覆盖界面中显示的助手名称。
+
+该值最多可包含 32 个字符。
+
+```javascript
+window.GitBook("configure", {
+  assistantName: "Support Copilot"，
+});
+```
+
+### 显示关闭按钮
+
+使用 `closeButton` 以在 Assistant 内显示关闭按钮。
+
+```javascript
+window.GitBook("configure", {
+  closeButton: true,
+});
+```
+
+### 显示或隐藏商标
+
+使用 `商标` 以在嵌入界面中显示或隐藏 GitBook 商标——包括 Docs Embed 页脚和 Assistant 品牌标识。
+
+```javascript
+window.GitBook("configure", {
+  trademark: false,
+});
+```
+
+### 配置标签页
+
+覆盖要显示的标签页。默认情况下，只要您的站点支持，所有标签页都会启用。例如，如果您的站点未启用 Assistant，它将不会显示。如果您设置 `tabs`，嵌入内容将只显示你列出的标签页。
+
+```javascript
+window.GitBook("configure", {
+  tabs: ["assistant", "search", "docs"], // 显示所有标签页
+  // tabs: ["search", "docs"], // 仅显示搜索和文档
+  // tabs: ['docs'], // 仅显示文档标签页
+});
+```

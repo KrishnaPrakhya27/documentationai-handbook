@@ -1,0 +1,51 @@
+---
+title: Create or update context records
+metaTitle: Create or update context records | Developers | GitBook Documentation
+ogImage: https://test-dai.imgix.net/org-4afef969-21f9-40f3-b5b8-b06c8b6cf68f/doc-22a3b060-9539-4176-97e4-49120e02f5d1/0a5a1a9630785855-organizations-d8f63b60-89ae-11e7-8574-5927d48c4877-sites-site_p4Xo4-socialprevie.jpg?fm=auto&auto=compress%2Cformat
+---
+
+**PUT** `/orgs/{organizationId}/sites/{siteId}/context-records`
+
+**Parameters**
+
+<ParamField header="Authorization" param-type="string" />
+
+<ParamField path="organizationId" param-type="string" required={true}>
+  The unique id of the organization
+</ParamField>
+
+<ParamField path="siteId" param-type="string" required={true}>
+  The unique id of the site
+</ParamField>
+
+**Request body**
+
+<ParamField body="id" param-type="string" required={true}>
+  Unique local identifier for the record
+</ParamField>
+
+<ParamField body="type" param-type="string" required={true} enum="ticket,document" />
+
+<ParamField body="title" param-type="string" required={true}>
+  Title for the context record
+</ParamField>
+
+<ParamField body="description" param-type="string">
+  Optional short description of the context record
+</ParamField>
+
+<ParamField body="body" param-type="string" required={true}>
+  Body content of the record as markdown
+</ParamField>
+
+<ParamField body="url" param-type="string">
+  URL of the record
+</ParamField>
+
+<ParamField body="createdAt" param-type="string" />
+
+<ParamField body="metadata" param-type="object" />
+
+**Responses**
+
+`204` The context records have been created or updated

@@ -1,0 +1,71 @@
+---
+title: How to sync your entire docs site with a Git repository
+description: Connect an entire published docs site to one Git repository with Git Sync.
+metaTitle: How to sync your entire docs site with a Git repository | Guides | GitBook Documentation
+ogImage: https://test-dai.imgix.net/org-4afef969-21f9-40f3-b5b8-b06c8b6cf68f/doc-22a3b060-9539-4176-97e4-49120e02f5d1/0a5a1a9630785855-organizations-d8f63b60-89ae-11e7-8574-5927d48c4877-sites-site_p4Xo4-socialprevie.jpg?fm=auto&auto=compress%2Cformat
+---
+
+Git Sync connects your repository to a published docs site. Your repo stays the source of truth, but you can now organize and manage all of your GitBook spaces under one unified Git Sync configuration — making it much easier to keep a multi-space site in sync with a single repository.
+
+<Callout kind="info">
+  Before you start, make sure you know:
+
+  - Which spaces are currently synced
+  - Which site each space should belong to
+  - The repo, branch, and project directory for each space
+  - Whether any space should stay hidden or in draft during the move
+</Callout>
+
+<Steps>
+  <Step title="Create or open your site" titleType="h3">
+    Open the site in GitBook that you plan on syncing with GitHub or GitLab. If you're consolidating multiple spaces into one site, it's a good idea to create the site structure first, so each space has a clear place in your navigation before you connect anything.
+
+    You can review and reorganize your structure at any time from your site's dashboard, in the **Structure** section of the **Settings** tab.
+  </Step>
+
+  <Step title="Initiate Git Sync" titleType="h3">
+    From your site's dashboard, open the **Git Sync** panel. Here you'll authorize your Git provider and choose the repository and branch you want to sync with your site.
+
+    <Tabs>
+      <Tab title="GitHub">
+        Install the [GitBook app](https://github.com/apps/gitbook-com/installations/select_target) on GitHub before connecting your repository. Grant the app access to selected repositories or all repositories.
+      </Tab>
+
+      <Tab title="GitLab">
+        Create a personal access token in GitLab. In GitLab, navigate to **Settings** \> **Access Tokens**. Enable the following token scopes:
+
+        - `api`
+        - `read_repository`
+        - `write_repository`
+
+        In GitBook, enter the token, then click **Authenticate**.
+      </Tab>
+    </Tabs>
+  </Step>
+
+  <Step title="Verify your space mapping" titleType="h3">
+    Once Git Sync is connected, review how each space in your site maps to a directory in your repository, and make sure everything points where you expect.
+
+    <Callout kind="alert">
+      Setting up site-level Git Sync will override any existing space-based configuration. If you'd like to keep syncing certain spaces individually, remove them from the site-level configuration here.
+    </Callout>
+  </Step>
+
+  <Step title="Start your sync" titleType="h3">
+    When you're happy with the mapping, click **Sync** to start syncing. GitBook will connect your repository to the site and begin keeping the two in sync.
+  </Step>
+
+  <Step title="Sync individual spaces (optional)" titleType="h3">
+    If some spaces should sync to a separate repository, you can still configure them individually. Open the **Git Sync** panel from the space header of each space you want to sync on its own, and connect it to its own repo, branch, and directory.
+  </Step>
+
+  <Step title="Verify and test" titleType="h3">
+    That's it! Explore your new setup to make sure everything is working as expected. Make a small change in your repository and check that the commit comes through to your site — and, if you're syncing in both directions, edit a page in GitBook and confirm the change lands back in your repo.
+  </Step>
+</Steps>
+
+[<strong>→ How to find & replace or batch change with Git Sync</strong>](/en/docs/guides/editing-and-publishing-documentation/find-and-replace-or-make-batch-changes-across-your-gitbook-docs-with-git-sync)
+
+[<strong>→ Discover more about Git Sync on our website</strong>](https://www.gitbook.com/solutions/git-sync)
+
+[<strong>→ Read the Git Sync documentation</strong>](/en/docs/docs-as-code/git-sync)

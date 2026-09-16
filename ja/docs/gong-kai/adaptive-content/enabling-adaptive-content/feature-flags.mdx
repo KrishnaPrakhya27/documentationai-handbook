@@ -1,0 +1,178 @@
+---
+title: 機能フラグ
+description: 機能フラグプロバイダーを通じて、訪問者データをドキュメントに渡します
+metaTitle: 機能フラグ | GitBook Documentation
+ogImage: https://test-dai.imgix.net/org-4afef969-21f9-40f3-b5b8-b06c8b6cf68f/doc-22a3b060-9539-4176-97e4-49120e02f5d1/0a5a1a9630785855-organizations-d8f63b60-89ae-11e7-8574-5927d48c4877-sites-site_p4Xo4-socialprevie.jpg?fm=auto&auto=compress%2Cformat
+---
+
+<Callout kind="alert">
+  アダプティブコンテンツを機能フラグと併用するには、アプリケーションにコードを追加する必要があります。
+
+  現在、GitBook ヘルパーは React ベースのセットアップのみをサポートしています。
+</Callout>
+
+GitBook は、次のような一般的なフィーチャーフラグサービスプロバイダー向けにヘルパー関数と統合機能を提供しています。 [**LaunchDarkly**](#launchdarkly) 、 [**Reflag**](#reflag).
+
+これにより、ドキュメントを読むユーザーが製品内でアクセスできるフィーチャーフラグを読み取れます。これは、特定のグループの人だけが利用できる機能のドキュメントを表示する必要がある場合に便利です。
+
+### LaunchDarkly
+
+LaunchDarkly では、フィーチャーフラグのアクセス権を次の経由でクレームとして送信できます。 [`launchdarkly-react-client-sdk`](https://launchdarkly.com/docs/sdk/client-side/react/react-web) および GitBook の `@gitbook/adaptive` パッケージです。
+
+すでに製品で LaunchDarkly のフィーチャーフラグを使用している場合、このパッケージはすでに設定済みである可能性が高いです。
+
+これらのフィーチャーフラグをクレームとして GitBook に渡すには、次の手順に従ってください：
+
+<Steps>
+  <Step title="LaunchDarkly の統合をインストール">
+    開始するには、まず [LaunchDarkly の統合をインストールする必要があります](https://app.gitbook.com/integrations/launchdarkly) を GitBook サイトに。
+  </Step>
+
+  <Step title="プロジェクトとアクセスキーを設定する">
+    次の場所からプロジェクトキーとサービスアクセストークンを追加してください： [LaunchDarkly の設定](https://app.launchdarkly.com/settings) を統合の設定に追加します。
+  </Step>
+
+  <Step title="GitBook ヘルパーをアプリケーションにインストールして追加する">
+    LaunchDarkly の統合を設定した後、GitBook のアプリケーションに GitBook の adaptive content ヘルパーをインストールする必要があります。
+
+    ```bash
+    npm install @gitbook/adaptive
+    ```
+  </Step>
+
+  <Step title="アプリケーションを設定する">
+    次を使用する必要があります： `withLaunchDarkly` LaunchDarkly React SDK とともにこのヘルパーを使って、コンテキストを GitBook に渡します。
+
+    ```javascript
+    import { render } from 'react-dom';
+    import { withLaunchDarkly } from '@gitbook/adaptive';
+    import { asyncWithLDProvider, useLDClient } from 'launchdarkly-react-client-sdk';
+    import MyApplication from './MyApplication';
+
+    function PassFeatureFlagsToGitBookSite() {
+        const ldClient = useLDClient();
+        React.useEffect(() => {
+            if (!ldClient) {
+                return;
+            }
+            return withLaunchDarkly(ldClient);
+        }, [ldClient]);
+        return null;
+    }
+    (async () => {
+        const LDProvider = await asyncWithLDProvider({
+            clientSideID: 'client-side-id-123abc',
+            context: {
+                kind: 'user',
+                key: 'user-key-123abc',
+                name: 'Sandy Smith',
+                email: 'sandy@example.com'
+            },
+            options: { /* ... */ }
+        });
+        render(
+            &#x3C;LDProvider>
+                &#x3C;PassFeatureFlagsToGitBookSite />
+                &#x3C;MyApplication />
+            &#x3C;/LDProvider>,
+            document.getElementById('reactDiv'),
+        );
+    })();
+    ```
+  </Step>
+
+  <Step title="visitor スキーマを確認する">
+    1つの [visitor スキーマ](/ja/docs/gong-kai/adaptive-content/enabling-adaptive-content#set-your-visitor-schema) 公開サイトでクレームを読み取れるようにするには必須です。LaunchDarkly の統合をインストールして設定すると、visitor スキーマは自動的に設定されるはずです。
+  </Step>
+
+  <Step title="コンテンツをパーソナライズする">
+    visitor スキーマを設定したら、ユーザーがアクセスできるフィーチャーフラグを使って、サイトを訪れるユーザー向けにドキュメント体験を調整できるようになります。
+
+    LaunchDarkly で利用可能なフィーチャーフラグの値はすべて、visitor スキーマの一部として次の下に公開されます： `visitor.claims.unsigned.launchdarkly` オブジェクト。署名なしクレームの詳細を見る [こちら](/ja/docs/gong-kai/adaptive-content/enabling-adaptive-content#set-an-unsigned-claim).
+
+    に移動します [コンテンツの適応](/ja/docs/gong-kai/adaptive-content/adapting-your-content) ユーザー向けにドキュメントをパーソナライズする方法の詳細を確認してください。
+  </Step>
+</Steps>
+
+### Reflag
+
+Reflag では、フィーチャーフラグのアクセス権を次の経由でクレームとして送信できます。 [`@reflag/react-sdk`](https://www.npmjs.com/package/@reflag/react-sdk) および GitBook の [`@gitbook/adaptive`](https://github.com/GitbookIO/integrations/tree/main/packages/adaptive) パッケージです。
+
+すでに製品で Reflag のフィーチャーフラグを使用している場合、このパッケージはすでに設定済みである可能性が高いです。
+
+これらのフィーチャーフラグをクレームとして GitBook に渡すには、次の手順に従ってください：
+
+<Steps>
+  <Step title="Reflag の統合をインストール">
+    開始するには、まず [Reflag の統合をインストールする](https://app.gitbook.com/integrations/bucket) を GitBook サイトに。
+  </Step>
+
+  <Step title="シークレットキーを設定する">
+    次の場所からシークレットキーを追加してください： [Reflag の設定](https://app.reflag.com/envs/current/settings/app-environments) を統合の設定に追加します。
+  </Step>
+
+  <Step title="GitBook ヘルパーをアプリケーションにインストールする">
+    Reflag の統合を設定した後、GitBook のアプリケーションに GitBook の adaptive content ヘルパーをインストールする必要があります。
+
+    ```bash
+    npm install @gitbook/adaptive
+    ```
+  </Step>
+
+  <Step title="アプリケーションを設定する">
+    次を使用する必要があります： `withReflag` Reflag React SDK とともにこのヘルパーを使って、コンテキストを GitBook に渡します。
+
+    ```javascript
+    import { withReflag } from '@gitbook/adaptive';
+    import { ReflagProvider, useClient } from '@reflag/react-sdk';
+    import MyApplication from './MyApplication';
+
+    function PassFeatureFlagsToGitBookSite() {
+        const client = useClient();
+        React.useEffect(() => {
+            if (!client) {
+                return;
+            }
+            return withReflag(client);
+        }, [client]);
+        return null;
+    }
+    export function Application() {
+        const currentUser = useLoggedInUser();
+        const appConfig = useAppConfig();
+        return (
+            &#x3C;ReflagProvider
+                publishableKey={appConfig.reflagCom.publishableKey}
+                user={{
+                    id: currentUser.uid,
+                    email: currentUser.email ?? undefined,
+                    name: currentUser.displayName ?? '',
+                }}
+                company={{
+                    id: currentUser.company.id,
+                }}
+            >
+                &#x3C;PassFeatureFlagsToGitBookSite />
+                &#x3C;MyApplication />
+            &#x3C;/ReflagProvider>
+        );
+    }
+    ```
+  </Step>
+
+  <Step title="visitor スキーマを確認する">
+    1つの [visitor スキーマ](/ja/docs/gong-kai/adaptive-content/enabling-adaptive-content#set-your-visitor-schema) 公開サイトでクレームを読み取れるようにするには必須です。Reflag の統合をインストールして設定すると、visitor スキーマは自動的に設定されるはずです。
+  </Step>
+
+  <Step title="コンテンツをパーソナライズする">
+    visitor スキーマを設定したら、ユーザーがアクセスできるフィーチャーフラグを使って、サイトを訪れるユーザー向けにドキュメント体験を調整できるようになります。
+
+    Reflag で利用可能なフィーチャーフラグの値はすべて、visitor スキーマの一部として次の下に公開されます： `visitor.claims.unsigned.reflag` オブジェクト。署名なしクレームの詳細を見る [こちら](/ja/docs/gong-kai/adaptive-content/enabling-adaptive-content#set-an-unsigned-claim).
+
+    に移動します [コンテンツの適応](/ja/docs/gong-kai/adaptive-content/adapting-your-content) ユーザー向けにドキュメントをパーソナライズする方法の詳細を確認してください。
+  </Step>
+</Steps>
+
+<Callout kind="info">
+  フィーチャーフラグの値はクライアント側で評価されるため、機密データやセキュリティ上重要なデータを渡すためにこの方法を使用するのは避けてください。
+</Callout>

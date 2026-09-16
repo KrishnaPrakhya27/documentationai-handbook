@@ -1,0 +1,172 @@
+---
+title: GitBook CLI
+description: 从命令行处理你的 GitBook 内容——登录、查询 API，并通过脚本或 AI 编码代理驱动文档工作流。
+metaTitle: GitBook CLI | GitBook Documentation
+ogImage: https://test-dai.imgix.net/org-4afef969-21f9-40f3-b5b8-b06c8b6cf68f/doc-22a3b060-9539-4176-97e4-49120e02f5d1/0a5a1a9630785855-organizations-d8f63b60-89ae-11e7-8574-5927d48c4877-sites-site_p4Xo4-socialprevie.jpg?fm=auto&auto=compress%2Cformat
+---
+
+GitBook CLI（`@gitbook/cli`）是一个命令行工具，可让你直接在终端中处理 GitBook 内容和组织。
+
+它将 GitBook API 封装成一组命令，因此你可以列出组织、查看空间和页面、对文档提问，以及构建和发布集成——这一切都无需离开 shell。
+
+## 人类与代理式工作流
+
+CLI 适用于两类用法：
+
+- **人工驱动** ——你在终端中输入命令来查询信息、编写一次性脚本，或手动管理集成。输出经过格式化，便于在交互式 shell 中阅读。
+- **代理式编程** —— AI 编程代理（Claude Code、Codex、Cursor 及类似工具）会代表你运行 CLI，作为更大任务的一部分。机器可读输出（`--json`）以及可预测的命令结构，使代理能够轻松调用命令、解析结果并将它们串联起来。
+
+<Callout kind="info">
+  如果你希望 AI 代理通过专为此设计的协议使用 GitBook 的 API 创建和编辑内容，请参见 [GitBook MCP](/zh/docs/wen-dang-ji-dai-ma/gitbook-mcp)。当你需要可脚本化命令、集成开发，或希望代理本身就能在终端中自如工作时，CLI 是不错的选择。
+</Callout>
+
+## 安装
+
+GitBook CLI 需要 Node v18 或更高版本。请通过 npm 全局安装：
+
+```bash
+npm install @gitbook/cli -g
+```
+
+这会安装 `gitbook` 命令。检查它是否可用：
+
+```bash
+gitbook --version
+```
+
+## Authenticate
+
+登录一次后，CLI 会在本地存储你的凭据，并在需要时自动刷新。
+
+<Tabs>
+  <Tab title="浏览器（OAuth）">
+    最快的登录方式是通过浏览器：
+
+    ```bash
+    gitbook login
+    ```
+
+    这会在浏览器中打开 GitBook，要求你授权 CLI，并将生成的令牌存储在本地。会话会自动刷新。
+
+    这是日常使用的推荐方式。
+  </Tab>
+
+  <Tab title="个人 API 令牌">
+    若要跳过浏览器流程——用于 CI、脚本或发布集成——请使用个人 API 令牌进行身份验证。请在以下地址创建一个： [app.gitbook.com/account/developer](https://app.gitbook.com/account/developer)，然后运行：
+
+    ```bash
+    gitbook auth --token <token>
+    ```
+
+    如果你省略 `--token`，CLI 会提示你输入。
+  </Tab>
+</Tabs>
+
+你可以随时确认当前登录身份：
+
+```bash
+gitbook whoami
+```
+
+要退出登录，请运行 `gitbook logout`.
+
+<Callout kind="alert">
+  发布集成（`gitbook integration publish` / `取消发布`）需要个人 API 令牌——浏览器（OAuth）会话无法执行这些操作。为发布工作流运行 `gitbook auth --token <token>` ，用于发布工作流。这两种凭据可以共存，因此你可以用浏览器登录处理日常命令，用令牌执行发布。
+</Callout>
+
+## 运行你的第一个命令
+
+大多数命令都由 GitBook API 生成，并按资源分组—— `组织`, `空间`, `集合`，等等。先列出你所属的组织：
+
+```bash
+gitbook organizations list
+```
+
+从输出中获取一个组织 ID，然后列出其空间：
+
+```bash
+gitbook spaces list --organization <organizationId>
+```
+
+获取单个空间的详细信息：
+
+```bash
+gitbook spaces get <spaceId>
+```
+
+列出空间中的页面：
+
+```bash
+gitbook spaces content pages list <spaceId>
+```
+
+<Callout kind="info">
+  像这样的路径参数 `<spaceId>` 可以作为位置参数或标志传入—— `gitbook spaces get <spaceId>` 以及 `gitbook spaces get --spaceId <spaceId>` 是等价的。
+</Callout>
+
+运行 `gitbook --help` 以浏览完整的命令树，或在任何命令后添加 `--help` ，例如 `gitbook spaces --help`）来查看其子命令和选项。
+
+## 输出格式
+
+每个 API 命令都支持相同的输出标志：
+
+| 标志 | 输出 |
+| --- | --- |
+| `--pretty` | 易读摘要（在交互式终端中为默认值） |
+| `--json` | JSON——最适合脚本和代理 |
+| `--yaml` | YAML |
+| `--full` | 显示所有字段，而不是简洁摘要 |
+
+如果你不传入标志，CLI 会选择一个合理的默认值：在交互式终端中使用易读输出，而在输出被管道传输或重定向时使用 YAML。请显式传入 `--json` 当你通过管道传给以下工具时 `jq`:
+
+```bash
+gitbook organizations list --json | jq '.items[].title'
+```
+
+## 向你的文档提问
+
+CLI 可以用自然语言查询你的内容，并在答案生成时流式返回：
+
+```bash
+gitbook organizations ask stream <organizationId> --query "How do I reset my password?"
+```
+
+答案会流式输出到你的终端，随后附上其来源和建议的后续问题。按 `Ctrl-C` 可提前停止，并保留已流式输出的内容。
+
+## 通过 AI 编程代理驱动 CLI
+
+由于 CLI 可脚本化并支持 JSON，AI 编程代理在工作时可以将其作为工具使用。让你的代理使用上面的命令，并让它完成身份验证、探索你的内容并根据结果采取行动。
+
+Explore an organization’s docs from the terminal.
+
+```text
+使用 `gitbook` CLI，帮我快速了解我的 GitBook 内容。
+
+1. 运行 `gitbook whoami` 以确认我已登录。如果没有，请告诉我运行 `gitbook login`。
+2. 使用 `gitbook organizations list --json` 列出我的组织，并显示名称和 ID。
+3. 问我想探索哪个组织，然后列出其空间。
+4. 总结你的发现——有多少个空间，以及根据标题看每个空间大致涉及什么。
+
+每个命令都使用 `--json`，以便可靠地解析输出，并向我展示你运行的确切命令。
+```
+
+Answer a question using my docs and cite sources.
+
+```text
+使用 `gitbook` CLI，回答我文档中的一个问题。
+
+1. 使用 `gitbook whoami` 确认我已登录。
+2. 列出我的组织，并确认要搜索哪一个。
+3. 运行 `gitbook organizations ask stream <organizationId> --query "<my question>"` 并转述答案。
+4. 包含 CLI 返回的来源，以便我可以根据原始页面验证答案。
+```
+
+## 构建集成
+
+除了查询内容之外，CLI 还是开发以下内容的主要工具： [GitBook 集成](/en/docs/developers/integrations/quickstart)。使用以下命令搭建新项目：
+
+```bash
+gitbook integration new
+```
+
+然后使用 `gitbook integration dev` 在本地运行它，并使用 `gitbook integration publish` 将其发布。请参阅 [集成文档](/en/docs/developers/integrations/quickstart) 以了解完整的开发工作流。

@@ -1,0 +1,172 @@
+---
+title: GitBook CLI
+description: Travaillez avec votre contenu GitBook depuis la ligne de commande — connectez-vous, interrogez l’API et pilotez les workflows de documentation à partir de scripts ou d’agents de codage IA.
+metaTitle: GitBook CLI | GitBook Documentation
+ogImage: https://test-dai.imgix.net/org-4afef969-21f9-40f3-b5b8-b06c8b6cf68f/doc-22a3b060-9539-4176-97e4-49120e02f5d1/0a5a1a9630785855-organizations-d8f63b60-89ae-11e7-8574-5927d48c4877-sites-site_p4Xo4-socialprevie.jpg?fm=auto&auto=compress%2Cformat
+---
+
+Le CLI GitBook (`@gitbook/cli`) est un outil en ligne de commande permettant de travailler avec votre contenu et vos organisations GitBook directement depuis votre terminal.
+
+Il encapsule l’API GitBook sous forme d’un ensemble de commandes, afin que vous puissiez lister les organisations, inspecter les espaces et les pages, poser des questions sur votre documentation, et créer et publier des intégrations — sans quitter le shell.
+
+## Flux de travail humains et agentiques
+
+Le CLI est conçu pour deux types d’utilisation :
+
+- **Piloté par l’humain** — vous saisissez des commandes dans votre terminal pour rechercher des informations, automatiser des tâches ponctuelles, ou gérer des intégrations à la main. La sortie est formatée pour être lisible dans un shell interactif.
+- **Codage agentique** — un agent de codage IA (Claude Code, Codex, Cursor et autres similaires) exécute le CLI en votre nom dans le cadre d’une tâche plus large. La sortie lisible par machine (`--json`) et la structure prévisible des commandes permettent à un agent d’appeler facilement des commandes, d’analyser les résultats et de les enchaîner.
+
+<Callout kind="info">
+  Si vous voulez qu’un agent IA crée et modifie du contenu via l’API GitBook en utilisant un protocole spécialement conçu, consultez [GitBook MCP](/fr/docs/la-documentation-comme-code/gitbook-mcp). Le CLI est un bon choix lorsque vous voulez des commandes scriptables, le développement d’intégrations, ou un agent qui travaille déjà confortablement dans un terminal.
+</Callout>
+
+## Installation
+
+Le CLI GitBook nécessite Node v18 ou une version ultérieure. Installez-le globalement depuis npm :
+
+```bash
+npm install @gitbook/cli -g
+```
+
+Cela installe la commande `gitbook` . Vérifiez que cela fonctionne :
+
+```bash
+gitbook --version
+```
+
+## Authentification
+
+Connectez-vous une fois et le CLI stocke vos identifiants localement, en les renouvelant si nécessaire.
+
+<Tabs>
+  <Tab title="Navigateur (OAuth)">
+    La façon la plus rapide de se connecter est via votre navigateur :
+
+    ```bash
+    gitbook login
+    ```
+
+    Cela ouvre GitBook dans votre navigateur, vous demande d’autoriser le CLI, et stocke le jeton obtenu localement. Les sessions sont renouvelées automatiquement.
+
+    C’est l’option recommandée pour un usage quotidien.
+  </Tab>
+
+  <Tab title="Jeton d’API personnel">
+    Pour éviter le flux du navigateur — pour la CI, les scripts ou la publication d’intégrations — authentifiez-vous avec un jeton d’API personnel. Créez-en un sur [app.gitbook.com/account/developer](https://app.gitbook.com/account/developer), puis exécutez :
+
+    ```bash
+    gitbook auth --token <token>
+    ```
+
+    Si vous omettez `--token`, le CLI vous le demandera.
+  </Tab>
+</Tabs>
+
+Vérifiez à tout moment avec quel compte vous êtes connecté :
+
+```bash
+gitbook whoami
+```
+
+Pour vous déconnecter, exécutez `gitbook logout`.
+
+<Callout kind="alert">
+  La publication des intégrations (`gitbook integration publish` / `dépublier`) nécessite un jeton d’API personnel — la session du navigateur (OAuth) ne peut pas effectuer ces opérations. Exécutez `gitbook auth --token <token>` pour les flux de travail de publication. Les deux identifiants peuvent coexister, vous pouvez donc utiliser la connexion par navigateur pour les commandes quotidiennes et un jeton pour la publication.
+</Callout>
+
+## Exécutez vos premières commandes
+
+La plupart des commandes sont générées à partir de l’API GitBook et regroupées par ressource — `organisations`, `espaces`, `collections`, et ainsi de suite. Commencez par lister les organisations auxquelles vous appartenez :
+
+```bash
+gitbook organizations list
+```
+
+Récupérez un identifiant d’organisation depuis cette sortie, puis listez ses espaces :
+
+```bash
+gitbook spaces list --organization <organizationId>
+```
+
+Récupérez les détails d’un espace unique :
+
+```bash
+gitbook spaces get <spaceId>
+```
+
+Listez les pages d’un espace :
+
+```bash
+gitbook spaces content pages list <spaceId>
+```
+
+<Callout kind="info">
+  Les paramètres de chemin comme `<spaceId>` peuvent être passés comme argument positionnel ou comme option — `gitbook spaces get <spaceId>` et `gitbook spaces get --spaceId <spaceId>` sont équivalents.
+</Callout>
+
+Exécutez `gitbook --help` pour parcourir l’arborescence complète des commandes, ou ajoutez `--help` à n’importe quelle commande (par exemple `gitbook spaces --help`) pour voir ses sous-commandes et ses options.
+
+## Formats de sortie
+
+Chaque commande de l’API prend en charge les mêmes options de sortie :
+
+| Option | Sortie |
+| --- | --- |
+| `--pretty` | Résumés lisibles par l’humain (par défaut dans un terminal interactif) |
+| `--json` | JSON — idéal pour les scripts et les agents |
+| `--yaml` | YAML |
+| `--full` | Afficher tous les champs au lieu du résumé compact |
+
+Si vous ne passez aucune option, le CLI choisit un défaut raisonnable : sortie soignée dans un terminal interactif, et YAML lorsque la sortie est envoyée par un pipe ou redirigée. Passez `--json` explicitement lorsque vous envoyez la sortie vers des outils comme `jq`:
+
+```bash
+gitbook organizations list --json | jq '.items[].title'
+```
+
+## Posez une question à votre documentation
+
+Le CLI peut interroger votre contenu en langage naturel et diffuser la réponse au fur et à mesure de sa génération :
+
+```bash
+gitbook organizations ask stream <organizationId> --query "Comment réinitialiser mon mot de passe ?"
+```
+
+La réponse s’affiche en continu dans votre terminal, suivie de ses sources et des questions de suivi suggérées. Appuyez sur `Ctrl-C` pour arrêter plus tôt et conserver ce qui a déjà été diffusé.
+
+## Pilotez le CLI depuis un agent de codage IA
+
+Parce que le CLI est scriptable et parle JSON, un agent de codage IA peut l’utiliser comme un outil pendant son travail. Donnez à votre agent les commandes ci-dessus et laissez-le s’authentifier, explorer votre contenu et agir sur les résultats.
+
+Explore an organization’s docs from the terminal.
+
+```text
+Avec le CLI `gitbook`, aide-moi à me familiariser avec mon contenu GitBook.
+
+1. Exécute `gitbook whoami` pour confirmer que je suis connecté. Sinon, dis-moi d’exécuter `gitbook login`.
+2. Liste mes organisations avec `gitbook organizations list --json` et montre-moi les noms et les identifiants.
+3. Demande-moi quelle organisation explorer, puis liste ses espaces.
+4. Résume ce que tu trouves — combien il y a d’espaces, et ce que chacun semble couvrir d’après son titre.
+
+Utilise `--json` pour chaque commande afin de pouvoir analyser la sortie de manière fiable, et montre-moi les commandes exactes que tu exécutes.
+```
+
+Answer a question using my docs and cite sources.
+
+```text
+Avec le CLI `gitbook`, réponds à une question à partir de ma documentation.
+
+1. Confirme que je suis connecté avec `gitbook whoami`.
+2. Liste mes organisations et confirme laquelle rechercher.
+3. Exécute `gitbook organizations ask stream <organizationId> --query "<ma question>"` et relaie la réponse.
+4. Inclue les sources renvoyées par le CLI afin que je puisse vérifier la réponse par rapport aux pages d’origine.
+```
+
+## Créer des intégrations
+
+Au-delà de l’interrogation du contenu, le CLI est l’outil principal pour développer [des intégrations GitBook](/en/docs/developers/integrations/quickstart). Créez un nouveau projet avec :
+
+```bash
+gitbook integration new
+```
+
+Puis utilisez `gitbook integration dev` pour l’exécuter localement et `gitbook integration publish` pour le déployer. Consultez la [documentation sur les intégrations](/en/docs/developers/integrations/quickstart) pour le workflow de développement complet.

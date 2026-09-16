@@ -1,0 +1,284 @@
+---
+title: React
+description: 使用预构建的 React 组件将 Docs Embed 添加到你的 React 应用中
+metaTitle: React | GitBook Documentation
+ogImage: https://test-dai.imgix.net/org-4afef969-21f9-40f3-b5b8-b06c8b6cf68f/doc-22a3b060-9539-4176-97e4-49120e02f5d1/0a5a1a9630785855-organizations-d8f63b60-89ae-11e7-8574-5927d48c4877-sites-site_p4Xo4-socialprevie.jpg?fm=auto&auto=compress%2Cformat
+---
+
+对于 React 项目，GitBook 提供了预构建组件，让你可以简单且符合惯例地嵌入文档。这些组件会自动处理状态管理、上下文和生命周期。
+
+## 步骤
+
+<Steps>
+  <Step title="安装该包">
+    添加 `@gitbook/embed` 到你的 React 项目中：
+
+    ```bash
+    npm install @gitbook/embed
+    ```
+
+    如需完整的 API 参考和源代码，请查看 GitHub 上的 [`@gitbook/embed` 包](https://github.com/GitbookIO/gitbook/tree/main/packages/embed).
+  </Step>
+
+  <Step title="导入 React 组件">
+    导入 `GitBookProvider` 以及 `GitBookFrame` components:
+
+    ```jsx
+    import {
+      GitBookProvider,
+      GitBookFrame,
+    } from "@gitbook/embed/react";
+    ```
+  </Step>
+
+  <Step title="使用 GitBookProvider 包裹你的应用">
+    将 provider 添加到组件树的根部，或添加到你需要嵌入的地方：
+
+    ```jsx
+    function App() {
+      return (
+        <GitBookProvider siteURL="https://docs.company.com">
+          <YourAppContent />
+        </GitBookProvider>
+      );
+    }
+    ```
+  </Step>
+
+  <Step title="添加 GitBookFrame 组件">
+    将 frame 组件放在你希望嵌入内容出现的位置：
+
+    ```jsx
+    function App() {
+      return (
+        <GitBookProvider siteURL="https://docs.company.com">
+          <div className="app">
+            <YourAppContent />
+            <GitBookFrame
+              visitor={{
+                token: 'your-jwt-token', // 可选：用于自适应内容或已认证访问
+                unsignedClaims: { userId: '123' } // 可选：用于动态表达式的自定义声明
+              }}
+            />
+          </div>
+        </GitBookProvider>
+      );
+    }
+    ```
+
+    <Callout kind="info">
+      如果你使用 Assistant 标签页，请在 `allow="clipboard-write"` 在渲染嵌入内容的 iframe 上。React 集成将 iframe 的设置交给你的应用。独立版 [Script 标签](/zh/docs/fa-bu/embedding/implementation/script) 实现会自动添加这一点。
+    </Callout>
+  </Step>
+
+  <Step title="自定义嵌入内容">
+    将配置属性传递给 frame 组件：
+
+    ```jsx
+    <GitBookProvider siteURL="https://docs.company.com">
+      <GitBookFrame
+        trademark={false}
+        tabs={['assistant', 'search', 'docs']}
+        colorScheme="dark"
+        greeting={{ title: '欢迎！', subtitle: '我能帮你什么？' }}
+        assistantName="支持副驾"
+        closeButton={true}
+        suggestions={['什么是 GitBook？', '我该如何开始？']}
+        actions={[
+          {
+            icon: 'circle-question',
+            label: '联系支持',
+            onClick: () => window.open('https://support.example.com', '_blank')
+          }
+        ]}
+        tools={[/* ... */]}
+        visitor={{
+          token: 'your-jwt-token',
+          unsignedClaims: { userId: '123' }
+        }}
+      />
+    </GitBookProvider>
+    ```
+
+    如果你省略 `colorScheme`，嵌入内容会遵循 iframe 的 CSS `color-scheme`。这样它就能自动匹配你的应用主题。
+  </Step>
+
+  <Step title="使用 useGitBook hook 控制嵌入内容">
+    使用 `useGitBook` 用于以编程方式与嵌入内容交互的 hook：
+
+    ```jsx
+    import { useGitBook } from "@gitbook/embed/react";
+
+    function HelpButton() {
+      const gitbook = useGitBook();
+      const frameURL = gitbook.getFrameURL({ visitor: { token: '...' } });
+      
+      const handleNavigate = () => {
+        const iframe = document.createElement('iframe');
+        iframe.src = frameURL;
+        iframe.allow = 'clipboard-write';
+        const frame = gitbook.createFrame(iframe);
+        frame.navigateToPage('/getting-started');
+        frame.navigateToAssistant();
+        frame.postUserMessage('我该如何开始？');
+      };
+
+      return <button onClick={handleNavigate}>获取帮助</button>;
+    }
+    ```
+  </Step>
+
+  <Step title="有条件地渲染嵌入内容">
+    仅在需要时显示嵌入内容：
+
+    ```jsx
+    function App() {
+      const [showEmbed, setShowEmbed] = useState(false);
+
+      return (
+        <GitBookProvider siteURL="https://docs.company.com">
+          <button onClick={() => setShowEmbed(true)}>获取帮助</button>
+          {showEmbed && <GitBookFrame />}
+        </GitBookProvider>
+      );
+    }
+    ```
+  </Step>
+
+  <Step title="与 Next.js 或服务端渲染一起使用">
+    动态导入这些组件以避免 SSR 问题：
+
+    ```jsx
+    import dynamic from "next/dynamic";
+
+    const GitBookProvider = dynamic(
+      () => import("@gitbook/embed/react").then((mod) => mod.GitBookProvider),
+      { ssr: false }
+    );
+
+    const GitBookFrame = dynamic(
+      () => import("@gitbook/embed/react").then((mod) => mod.GitBookFrame),
+      { ssr: false }
+    );
+    ```
+  </Step>
+</Steps>
+
+## 属性与配置
+
+<strong>GitBookProvider 属性：</strong>
+
+| 属性 | 类型 | 是否必需 | 默认 | 描述 |
+| --- | --- | --- | --- | --- |
+| `siteURL` | `字符串` | 是 | 不适用 | 你的 GitBook 文档站点 URL（例如， `https://docs.company.com`). |
+| `children` | `ReactNode` | 是 | 不适用 | 要在 provider 内渲染的子组件。 |
+
+<strong>GitBookFrame 属性：</strong>
+
+所有配置选项都可以作为 props 传递给 `<GitBookFrame>`。可用选项请参见下面的配置部分。
+
+| 属性 | 类型 | 是否必需 | 默认 | 描述 |
+| --- | --- | --- | --- | --- |
+| `className` | `字符串` | 否 | `null` | 要应用到 frame 容器的 CSS 类名。 |
+| `style` | `对象` | 否 | `{}` | 要应用到 frame 容器的内联样式。 |
+| `colorScheme` | `'light' \| 'dark'` | 否 | 继承自 CSS `color-scheme` | 覆盖嵌入的配色方案。 |
+| `assistantName` | `字符串` | 否 | `null` | 覆盖 UI 中显示的助手名称。 |
+| `closeButton` | `boolean` | 否 | `null` | 在 Assistant 内部显示关闭按钮。 |
+| `visitor` | `对象` | 否 | `{}` | 已认证访问选项（见下文）。 |
+
+<strong>useGitBook Hook：</strong>
+
+返回一个 `GitBookClient` 实例，包含以下方法：
+
+- `getFrameURL(options?: { visitor?: {...}, colorScheme?: 'light' | 'dark' })` → `字符串` \- 获取 iframe URL
+- `createFrame(iframe: HTMLIFrameElement)` → `GitBookFrameClient` \- 创建 frame 客户端
+
+frame 客户端提供：
+
+- `navigateToPage(path: string)` → `void`
+- `navigateToAssistant()` → `void`
+- `postUserMessage(message: string)` → `void`
+- `clearChat()` → `void`
+- `configure(settings: {...})` → `void`
+- `on(event: string, listener: Function)` → `() => void`
+
+## 配置选项
+
+配置选项可作为 props 在 `<GitBookFrame>`:
+
+### `tabs`
+
+覆盖显示的标签页。
+
+搜索默认启用。如果你设置 `tabs`，嵌入内容将只显示你列出的标签页。
+
+- **类型**: `('assistant' | 'search' | 'docs')[]`
+
+### `colorScheme`
+
+覆盖嵌入的配色方案。
+
+如果省略，嵌入将遵循 iframe 的 CSS `color-scheme`，从而继承父页面或浏览器偏好。
+
+- **类型**: `'light' | 'dark'`
+
+### `操作`
+
+在侧边栏中与标签页一起渲染的自定义操作按钮。每个操作按钮在点击时都会触发一个回调。
+
+**注意**：这之前称为 `buttons`。请使用 `操作` 代替。
+
+- **类型**: `Array<{ icon: string, label: string, onClick: () => void }>`
+
+### `问候语`
+
+显示在 Assistant 标签页中的欢迎消息。
+
+- **类型**: `{ title: string, subtitle: string }`
+
+### `assistantName`
+
+覆盖 UI 中显示的助手名称。
+
+- **类型**: `字符串`
+- **最大长度**: `32` 字符
+
+### `closeButton`
+
+在 Assistant 内部显示关闭按钮。
+
+- **类型**: `boolean`
+
+### `建议`
+
+显示在 Assistant 欢迎屏幕中的建议问题。
+
+- **类型**: `string[]`
+
+### `商标`
+
+在嵌入 UI 中显示或隐藏 GitBook 商标——包括 Docs Embed 页脚和 Assistant 品牌标识。
+
+- **类型**: `boolean`
+- **默认**: `true`
+
+### `工具`
+
+用于扩展 Assistant 的自定义 AI 工具。详情请参见 [创建自定义工具](/zh/docs/fa-bu/embedding/configuration/creating-custom-tools) 。
+
+- **类型**: `Array<{ name: string, description: string, inputSchema: object, execute: Function, confirmation?: {...} }>`
+
+### `visitor` （已认证访问）
+
+用于 [自适应内容](/zh/docs/fa-bu/adaptive-content) 以及 [已认证访问](/zh/docs/fa-bu/site-audience/authenticated-access).
+
+- **类型**: `{ token?: string, unsignedClaims?: Record<string, unknown> }`
+
+## 常见陷阱
+
+- **未使用 GitBookProvider 包裹** –  `GitBookFrame` 需要一个父级 `GitBookProvider` 才能工作。
+- **在没有动态导入的情况下与 SSR 一起使用** – 该组件使用浏览器 API，必须在 Next.js 或其他 SSR 框架中动态导入。
+- **siteURL 与已发布文档不匹配** – 请确保 `siteURL` prop 与你的在线文档站点 URL 完全一致。
+- **在 provider 外调用 useGitBook** –  `useGitBook` hook 必须在作为 `GitBookProvider`.
+- **树中存在多个 provider** – 避免嵌套多个 `GitBookProvider` 实例，因为这会导致上下文冲突。
+- **使用旧的组件名称** – 该组件现在是 `GitBookFrame`，而不是 `GitBookAssistantFrame`.

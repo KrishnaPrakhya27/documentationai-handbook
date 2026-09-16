@@ -1,0 +1,83 @@
+---
+title: Update an integration space installation
+metaTitle: Update an integration space installation | Developers | GitBook Documentation
+ogImage: https://test-dai.imgix.net/org-4afef969-21f9-40f3-b5b8-b06c8b6cf68f/doc-22a3b060-9539-4176-97e4-49120e02f5d1/0a5a1a9630785855-organizations-d8f63b60-89ae-11e7-8574-5927d48c4877-sites-site_p4Xo4-socialprevie.jpg?fm=auto&auto=compress%2Cformat
+---
+
+Updates the configuration of an integration for one space.
+
+**PATCH** `/integrations/{integrationName}/installations/{installationId}/spaces/{spaceId}`
+
+**Parameters**
+
+<ParamField header="Authorization" param-type="string" />
+
+<ParamField path="integrationName" param-type="string" required={true}>
+  Name of the integration.
+</ParamField>
+
+<ParamField path="installationId" param-type="string" required={true}>
+  Identifier of the installation
+</ParamField>
+
+<ParamField path="spaceId" param-type="string" required={true}>
+  The unique id of the space
+</ParamField>
+
+<ParamField query="extended" param-type="boolean">
+  If true, returns the space object in each items. If false, returns the space ID in each items.
+</ParamField>
+
+**Request body**
+
+<ParamField body="externalIds" param-type="string[]">
+  External IDs assigned by the integration.
+</ParamField>
+
+<ParamField body="configuration" param-type="object">
+  Configuration of the integration at the account level
+</ParamField>
+
+**Responses**
+
+`200` The space installation has been updated.
+
+<ResponseField name="integration" field-type="string" required={true}>
+  Unique name identifier of the integration
+</ResponseField>
+
+<ResponseField name="installation" field-type="string" required={true}>
+  ID of the integration installation
+</ResponseField>
+
+<ResponseField name="status" field-type="string" required={true} enum="active,pending,paused" />
+
+<ResponseField name="configuration" field-type="object" required={true}>
+  Configuration of the integration for this site
+</ResponseField>
+
+<ResponseField name="externalIds" field-type="string[]" required={true}>
+  External IDs assigned by the integration.
+</ResponseField>
+
+<ResponseField name="urls" field-type="object" required={true}>
+  URLs associated with the object
+
+  <Expandable title="Object Properties">
+    <ResponseField name="location" field-type="string" required={true}>
+      URL of the integration's installation in the API
+    </ResponseField>
+
+    <ResponseField name="publicEndpoint" field-type="string" required={true}>
+      Public HTTP endpoint for the integration's installation
+    </ResponseField>
+
+    <ResponseField name="publicContentEndpoint" field-type="string" required={true}>
+      Public endpoint serving the integration's rendered content (e.g. WebFrames), isolated from the cookie-bearing publicEndpoint origin. Equals publicEndpoint when no separate content origin is configured.
+    </ResponseField>
+  </Expandable>
+</ResponseField>
+
+<ResponseField name="space" field-type="string" required={true}>
+  The space the integration is installed on. Using the string value is deprecated in favor of space.id
+</ResponseField>

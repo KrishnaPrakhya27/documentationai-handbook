@@ -1,0 +1,88 @@
+---
+title: Autorisations du site
+description: Ce que chaque rôle peut faire lorsqu’il gère la structure, les paramètres et la publication d’un site
+metaTitle: Autorisations du site | GitBook Documentation
+ogImage: https://test-dai.imgix.net/org-4afef969-21f9-40f3-b5b8-b06c8b6cf68f/doc-22a3b060-9539-4176-97e4-49120e02f5d1/0a5a1a9630785855-organizations-d8f63b60-89ae-11e7-8574-5927d48c4877-sites-site_p4Xo4-socialprevie.jpg?fm=auto&auto=compress%2Cformat
+---
+
+Votre [rôle](/fr/docs/collaborer/member-management/roles) Votre rôle sur un site détermine ce que vous pouvez faire lorsque vous y travaillez — de la navigation dans son contenu à la modification de sa structure, de ses paramètres et de la publication. Cette page couvre ce que chaque rôle débloque pour la gestion d’un site. Pour savoir comment un membre obtient un rôle donné sur un site, voir [les permissions et l’héritage](/fr/docs/collaborer/member-management/permissions-and-inheritance).
+
+### Ce que chaque rôle débloque sur un site
+
+<Callout kind="info">
+  Chaque rôle inclut tout ce que les rôles situés en dessous peuvent faire.
+</Callout>
+
+| Rôle | Peut faire |
+| --- | --- |
+| **Admin** | Tout : paramètres du site, publication, membres, facturation, intégrations |
+| **Créateur** | Reconfigurer le site : ajouter, publier, renommer, réorganiser et supprimer des sections et des variantes |
+| **Réviseur** | Fusionner les demandes de modification — en publiant leur contenu sur le site en ligne |
+| **Éditeur** | Modifier le contenu des pages dans les demandes de modification, les soumettre à la révision, ajouter **brouillon** des sections et des variantes |
+| **Commentateur** | Lire le contenu et laisser des commentaires |
+| **Lecteur** | Accès en lecture seule |
+
+#### Admin — contrôle total
+
+Un accès Admin est requis pour tout ce qui affecte le site dans son ensemble plutôt qu’un seul élément de son contenu :
+
+- Paramètres du site — titre, visibilité, domaine personnalisé, section ou variante par défaut.
+- Publier et dépublier le site.
+- L’image de marque et la personnalisation de l’ensemble du site, par opposition à la surcharge d’une seule variante.
+- Gérer les membres et les équipes du site, y compris les surcharges de rôle.
+- Installer et configurer les intégrations, y compris les serveurs MCP.
+- Gérer les redirections, les liens de partage et l’authentification du site privé.
+- Configurer l’assistant IA, ses sources de connaissance et ses canaux de retour.
+- Facturation et forfait du site.
+
+Si une action modifie quelque chose qui affecte chaque lecteur ou chaque éditeur — et pas seulement une page ou une section — elle nécessite des autorisations Admin.
+
+<Callout kind="alert">
+  Les administrateurs d’organisation ont toujours le rôle Admin du site sur chaque site de l’organisation, quels que soient les paramètres de rôle propres à chaque site. Il n’existe aucun moyen d’attribuer à un administrateur d’organisation un rôle inférieur sur un site précis.
+</Callout>
+
+#### Créateur — façonner le site
+
+Le rôle Créateur donne le contrôle de la structure du site — les sections, groupes de sections et variantes qui composent sa table des matières :
+
+- Ajouter une section, une variante ou un groupe directement en tant que **publié** du contenu, et pas seulement des brouillons.
+- Publier un brouillon créé par un éditeur, ou remettre du contenu publié en brouillon.
+- Renommer, réorganiser et déplacer des sections, des groupes et des variantes.
+- Supprimer une section ou une variante.
+- Personnaliser les surcharges de l’image de marque d’une variante individuelle, comme son titre.
+
+En bref, un créateur peut entièrement reconstruire l’organisation d’un site sans avoir besoin d’un accès administrateur à l’échelle du site.
+
+#### Réviseur — fusion des modifications de contenu
+
+Le rôle Réviseur ajoute une capacité à l’Éditeur : **la fusion des demandes de modification**, ce qui publie leur contenu directement sur le site en ligne. Cela fait du rôle Réviseur le premier rôle qui peut réellement modifier du contenu publié, même s’il ne peut pas toucher à la structure ni aux paramètres du site.
+
+<Callout kind="info">
+  L’accès à la fusion est défini par espace, et non par site — c’est le même rôle Réviseur, appliqué aux espaces qui composent le site. Un membre a seulement besoin du rôle Réviseur pour fusionner ; il n’a pas besoin d’être celui qui a ouvert la demande de modification.
+</Callout>
+
+#### Éditeur — travail quotidien sur le contenu
+
+L’Éditeur est le point d’entrée pour effectuer des modifications. Un éditeur peut :
+
+- Modifier le contenu des pages en soumettant une demande de modification, comme dans n’importe quel espace. Cela n’est pas publié immédiatement — la modification reste à l’état de proposition jusqu’à ce qu’une personne disposant de l’accès Réviseur ou supérieur la fusionne.
+- Ajouter une nouvelle section ou variante à la structure du site — mais uniquement en tant que **brouillon**. Le contenu en brouillon n’est pas visible sur le site publié tant qu’une personne disposant de l’accès Créateur ou supérieur ne l’a pas publié.
+- Résoudre les problèmes détectés par les analyses de qualité du contenu par IA de GitBook.
+
+Un éditeur ne peut pas fusionner sa propre demande de modification ni celle de quelqu’un d’autre — cela nécessite l’accès Réviseur ou supérieur.
+
+<Callout kind="info">
+  Permettre aux éditeurs d’ajouter une structure en brouillon — sans leur permettre de la publier — signifie qu’un rédacteur peut préparer une nouvelle section ou variante pour révision sans modifier accidentellement ce que les lecteurs voient.
+</Callout>
+
+#### Commentateur — navigation et commentaires
+
+Le rôle Commentateur inclut l’accès Lecteur et ajoute la possibilité de laisser des commentaires. Aucun des deux rôles ne peut modifier le contenu ou les paramètres du site.
+
+#### Lecteur — navigation
+
+L’accès Lecteur vous permet d’ouvrir un site dans le tableau de bord, d’explorer sa structure et de lire le contenu publié.
+
+### Où gérer cela
+
+Les membres d’un site, leurs rôles et son niveau d’autorisation par défaut sont gérés depuis **Paramètres du site → Membres**, par toute personne disposant de l’accès Admin au site. Voir [les permissions et l’héritage](/fr/docs/collaborer/member-management/permissions-and-inheritance) pour savoir comment cette valeur par défaut, l’accès des équipes et les surcharges directes des membres se combinent pour déterminer le rôle d’un membre.

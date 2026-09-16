@@ -1,0 +1,72 @@
+---
+title: OpenAPI 布局
+description: 在 API 参考中选择“每个标签一页”或“每个操作一页”
+metaTitle: OpenAPI 布局 | GitBook Documentation
+ogImage: https://test-dai.imgix.net/org-4afef969-21f9-40f3-b5b8-b06c8b6cf68f/doc-22a3b060-9539-4176-97e4-49120e02f5d1/0a5a1a9630785855-organizations-d8f63b60-89ae-11e7-8574-5927d48c4877-sites-site_p4Xo4-socialprevie.jpg?fm=auto&auto=compress%2Cformat
+---
+
+当你插入一个 **OpenAPI 参考**时，GitBook 可以通过两种方式组织操作。
+
+选择与你希望用户浏览 API 方式相匹配的布局。
+
+### 访问此设置
+
+要选择一种布局：
+
+1. 在你的部分中，点击 <strong>添加新内容...</strong> → **OpenAPI 参考**。你也可以编辑现有的 OpenAPI 参考。
+2. 选择你的 OpenAPI 规范。
+3. 在 **页面结构**，选择 **每个标签一个页面** 或 **每个操作一个页面**.
+
+完整设置流程请参见 [在你的文档中插入 API 参考](/zh/docs/chuang-jian-nei-rong/openapi/insert-api-reference-in-your-docs).
+
+### 可用布局
+
+GitBook 支持两种布局：
+
+- **每个标签一个页面** 为每个标签创建一个页面。每个页面列出该标签下的所有操作。
+- **每个操作一个页面** 为每个操作创建一个页面。GitBook 会在目录中按标签对这些页面分组。
+
+### 示例输入
+
+两种布局都从相同的 OpenAPI 数据开始：
+
+```yaml title="openapi.yaml"
+paths:
+  /users:
+    get:
+      tags:
+        - users
+      summary: 列出用户
+    post:
+      tags:
+        - users
+      summary: 创建用户
+```
+
+### 每个标签一个页面
+
+当每个标签代表 API 中一个清晰的部分时，请使用此布局。
+
+当你希望有概览页、导航中的条目更少，以及相关端点位于同一页面上时，这种布局效果很好。
+
+使用此布局时，这两个操作会出现在为 `users` 标签生成的同一页面上。
+
+### 每个操作一个页面
+
+当你希望直接链接到各个端点时，请使用此布局。
+
+对于大型 API，或者当每个端点都需要在导航中拥有自己的页面时，这种布局效果很好。
+
+使用此布局时，GitBook 会为 `GET /users` 创建一个页面，并为 `POST /users`创建一个页面。这两个页面都会显示在 `users` 标签分组
+
+### 快速建议
+
+选择 **每个标签一个页面** 适用于较小的 API，或当每个标签都是一个清晰的部分时。
+
+选择 **每个操作一个页面** 适用于较大的 API，或当你希望每个端点都有专属页面时。
+
+### 控制生成的导航
+
+在这两种布局中，GitBook 都会使用你的 OpenAPI 标签来组织参考内容。
+
+要控制顺序、层级、页面标题、图标和描述，请参见 [构建你的 API 参考](/zh/docs/chuang-jian-nei-rong/openapi/guides/structuring-your-api-reference).

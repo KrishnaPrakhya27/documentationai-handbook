@@ -1,0 +1,263 @@
+---
+title: GitBook MCP
+description: Connectez des assistants de codage IA à GitBook afin qu’ils puissent créer des sites, ouvrir des demandes de modification et éditer du contenu via l’API de GitBook
+metaTitle: GitBook MCP | GitBook Documentation
+ogImage: https://test-dai.imgix.net/org-4afef969-21f9-40f3-b5b8-b06c8b6cf68f/doc-22a3b060-9539-4176-97e4-49120e02f5d1/0a5a1a9630785855-organizations-d8f63b60-89ae-11e7-8574-5927d48c4877-sites-site_p4Xo4-socialprevie.jpg?fm=auto&auto=compress%2Cformat
+---
+
+GitBook expose un serveur MCP qui permet aux outils d’IA d’agir sur le contenu de votre organisation.
+
+Des outils comme Claude Code, Codex, Cursor et d’autres clients MCP peuvent l’utiliser pour créer et configurer des sites, ouvrir des demandes de changement, rédiger du contenu, modifier des pages et restructurer la documentation.
+
+Installez nos plugins officiels :
+
+[Installer le plugin Claude](https://claude.ai/directory/connectors/gitbook-mcp) [Installer le plugin ChatGPT](https://chatgpt.com/apps/gitbook/asdk_app_6a576f075ec4819196c203b7049542be) [Installer le plugin Cursor](https://cursor.com/marketplace/gitbook)
+
+<Callout kind="info">
+  Besoin d’un serveur MCP en lecture seule pour un site de documentation publié ? GitBook en crée automatiquement un pour vous — voir [Serveurs MCP pour la documentation publiée](/fr/docs/lia-pour-vos-lecteurs/mcp-servers-for-published-docs) pour en savoir plus.
+</Callout>
+
+## Le point de terminaison MCP de GitBook
+
+Pointez votre client MCP vers :
+
+```http
+https://mcp.gitbook.com/mcp
+```
+
+<Callout kind="info">
+  L’ouverture de cette URL dans un navigateur renvoie une erreur. Utilisez-la dans un client MCP capable d’effectuer des requêtes HTTP.
+</Callout>
+
+## Connectez votre client
+
+Ajoutez GitBook MCP dans le client de votre choix :
+
+<Tabs>
+  <Tab title="Claude">
+    Installez le plugin officiel GitBook pour Claude :
+
+    [Installer le plugin Claude](https://claude.ai/directory/connectors/gitbook-mcp)
+
+    Ou ajoutez le serveur depuis votre terminal :
+
+    ```bash
+    claude mcp add --transport http gitbook https://mcp.gitbook.com/mcp
+    ```
+
+    Puis lancez Claude Code avec `claude` et exécutez `/mcp` pour terminer la connexion dans le navigateur.
+
+    Si vous préférez un jeton d’accès personnel, passez-le comme en-tête d’autorisation :
+
+    ```bash
+    claude mcp add --transport http gitbook https://mcp.gitbook.com/mcp \
+      --header "Authorization: Bearer <YOUR_TOKEN>"
+    ```
+  </Tab>
+
+  <Tab title="ChatGPT">
+    Installez le plugin officiel GitBook pour ChatGPT :
+
+    [Installer le plugin ChatGPT](https://chatgpt.com/apps/gitbook/asdk_app_6a576f075ec4819196c203b7049542be)
+
+    Ou ajoutez le serveur depuis votre terminal :
+
+    ```bash
+    codex mcp add gitbook --url https://mcp.gitbook.com/mcp
+    ```
+
+    Puis connectez-vous via le navigateur.
+
+    Pour utiliser un jeton d’accès personnel à la place, ajoutez ceci à `~/.codex/config.toml`:
+
+    ```toml
+    [mcp_servers.gitbook]
+    url = "https://mcp.gitbook.com/mcp"
+    bearer_token_env_var = "GITBOOK_MCP_TOKEN"
+    enabled = true
+    ```
+  </Tab>
+
+  <Tab title="Cursor">
+    Installez le plugin officiel GitBook pour Cursor :
+
+    [Installer le plugin Cursor](https://cursor.com/marketplace/gitbook)
+
+    Ou ajoutez le serveur à `~/.cursor/mcp.json`, ou à votre projet dans `.cursor/mcp.json`:
+
+    ```json
+    {
+      "mcpServers": {
+        "gitbook": {
+          "url": "https://mcp.gitbook.com/mcp"
+        }
+      }
+    }
+    ```
+
+    Puis connectez-vous lorsque Cursor vous y invite.
+  </Tab>
+
+  <Tab title="VS Code">
+    Ajoutez le serveur à `.vscode/mcp.json` dans votre espace de travail :
+
+    ```json
+    {
+      "servers": {
+        "gitbook": {
+          "type": "http",
+          "url": "https://mcp.gitbook.com/mcp"
+        }
+      }
+    }
+    ```
+
+    Puis démarrez-le depuis la vue MCP et connectez-vous.
+  </Tab>
+
+  <Tab title="Autre">
+    Tout client compatible MCP peut se connecter via HTTP fluxable.
+
+    Pointez-le vers :
+
+    ```
+    https://mcp.gitbook.com/mcp
+    ```
+
+    GitBook ne prend en charge que HTTP fluxable. `stdio` et `SSE` ne sont pas pris en charge.
+
+    Si vous utilisez OAuth, vous n’avez généralement pas besoin de champs d’authentification supplémentaires.
+
+    Si vous utilisez un jeton d’accès personnel à la place, envoyez-le comme jeton Bearer :
+
+    ```http
+    Authorization: Bearer <YOUR_PAT>
+    ```
+  </Tab>
+</Tabs>
+
+## Authentifier le MCP de GitBook
+
+GitBook MCP prend en charge deux méthodes d’authentification : OAuth et les jetons d’accès personnels.
+
+<Tabs>
+  <Tab title="OAuth">
+    Pointez votre client vers l’URL du serveur MCP. Le client découvre le serveur d’autorisation, s’enregistre et ouvre automatiquement le flux de connexion dans le navigateur.
+
+    Si vous utilisez OAuth, n’ajoutez pas manuellement de jeton Bearer. Le client en obtient un lors de la connexion.
+  </Tab>
+
+  <Tab title="Jeton d’accès personnel">
+    Pour ignorer le flux du navigateur, envoyez votre jeton comme jeton Bearer :
+
+    ```http
+    Authorization: Bearer <YOUR_PAT>
+    ```
+
+    Vous pouvez créer un jeton d’accès personnel dans vos [paramètres développeur](https://app.gitbook.com/account/developer).
+
+    Utilisez ceci pour des configurations automatisées, ou lorsque votre client gère déjà les secrets localement.
+  </Tab>
+</Tabs>
+
+## Utilisation du MCP de GitBook
+
+Create and configure a new docs site.
+
+```text
+En utilisant les outils MCP de GitBook, créez un nouveau site de documentation pour moi.
+
+1. Listez mes organisations et confirmez laquelle utiliser avant de créer quoi que ce soit.
+2. Demandez à quoi sert le site et quel contenu je possède (dossier, dépôt ou simplement une description). Si je vous indique une source, répétez ce que vous y trouvez afin que je puisse confirmer que c’est correct.
+3. Montrez-moi un court plan — nom du site, espaces, structure des pages — et attendez mon accord.
+4. Créez le site, ajoutez le contenu et publiez. Puis récupérez l’URL en ligne pour confirmer que cela fonctionne et partagez-la avec moi.
+```
+
+Open a change request and draft content.
+
+```text
+En utilisant les outils MCP de GitBook, rédigez du nouveau contenu pour ma documentation dans une demande de changement — n’éditez rien en direct.
+
+1. Listez mes organisations et mes sites, et confirmez dans quel espace travailler.
+2. Demandez-moi ce que le contenu doit couvrir, puis ouvrez une demande de changement et rédigez les pages à l’intérieur.
+3. Adaptez le ton et la structure de mes pages existantes — lisez-en quelques-unes d’abord.
+4. Une fois terminé, partagez le lien d’aperçu de la demande de changement afin que je puisse la relire et la fusionner dans GitBook.
+```
+
+Move, rename, or restructure pages across a site.
+
+```text
+En utilisant les outils MCP de GitBook, aidez-moi à restructurer mon site de documentation.
+
+1. Listez mes organisations et mes sites, confirmez lequel, puis récupérez sa structure actuelle et montrez-la-moi.
+2. Demandez-moi ce que je souhaite modifier, puis proposez la nouvelle structure sous la forme simple d’un arbre avant/après — ne déplacez rien avant mon approbation.
+3. Appliquez les changements en conservant autant que possible les URL et les liens internes ; signalez tout ce qui sera cassé.
+4. Montrez-moi la structure finale ainsi que la demande de changement ou le résultat en direct pour vérification.
+```
+
+## La différence entre le MCP GitBook et le MCP pour la documentation publiée
+
+GitBook propose deux types de MCP :
+
+- [**Serveurs MCP pour la documentation publiée**](/fr/docs/lia-pour-vos-lecteurs/mcp-servers-for-published-docs) donnent aux outils d’IA un accès en lecture seule au contenu publié.
+- **MCP GitBook** donne aux outils d’IA accès à votre contenu et à vos workflows via l’API GitBook.
+
+Utilisez le MCP pour la documentation publiée lorsque vous voulez que les lecteurs de la documentation et les utilisateurs finaux trouvent des informations dans votre documentation publiée.
+
+Utilisez GitBook MCP lorsque vous voulez que les agents de votre équipe modifient et gèrent votre documentation via des workflows automatisés.
+
+## FAQ
+
+<Expandable title="Quel transport GitBook MCP prend-il en charge lorsque je connecte un client MCP ?">
+  GitBook MCP prend en charge HTTP fluxable.
+
+  GitBook MCP ne prend pas en charge `stdio` ou `SSE`.
+
+  Si votre client demande des champs supplémentaires, vous pouvez généralement les laisser vides.
+</Expandable>
+
+<Expandable title="Dois-je ajouter un jeton Bearer lorsque je connecte un client à GitBook MCP ?">
+  Vous n’avez besoin d’ajouter un jeton Bearer que si vous vous authentifiez avec un [jeton d’accès personnel](https://app.gitbook.com/account/developer).
+
+  Si vous utilisez OAuth, n’ajoutez pas manuellement de jeton Bearer. Votre client l’obtient pendant le flux de connexion.
+</Expandable>
+
+<Expandable title="Pourquoi rien ne se passe après avoir ajouté le serveur GitBook MCP à mon client ?">
+  Oui. C’est attendu dans certains clients MCP.
+
+  L’ajout d’un serveur ne fait souvent qu’enregistrer la configuration. Certains clients ne lancent l’authentification que lors de la première connexion, lorsqu’ils listent les outils ou lorsqu’ils ouvrent le panneau MCP.
+</Expandable>
+
+<Expandable title="Pourquoi rien ne se passe après avoir cliqué sur Authentifier pour GitBook MCP ?">
+  Certains clients ouvrent le flux de connexion dans le navigateur après un court délai.
+
+  Ce délai peut être plus long sur un réseau lent ou instable.
+
+  Si aucun onglet de navigateur ne s’ouvre après environ une minute, vérifiez votre réseau, les paramètres des fenêtres contextuelles et le navigateur par défaut.
+</Expandable>
+
+<Expandable title="Que se passe-t-il pendant le flux d’authentification MCP de GitBook ?">
+  Lorsque l’authentification fonctionne, le flux ressemble généralement à ceci :
+
+  1. Le client se connecte au serveur MCP.
+  2. Votre navigateur ouvre le flux de connexion.
+  3. Vous vous connectez et autorisez l’accès.
+  4. Le client affiche le serveur comme connecté, ou les outils MCP deviennent disponibles.
+</Expandable>
+
+<Expandable title="Comment puis-je savoir si mon client s’est authentifié avec succès auprès de GitBook MCP ?">
+  Le signal exact dépend de votre client, mais le résultat est généralement clair.
+
+  La plupart des clients retirent l’invite d’authentification, affichent le serveur comme connecté ou permettent à l’assistant de lister et d’appeler les outils MCP.
+
+  Si le **Authentifier** bouton reste visible et qu’aucun outil n’apparaît, il est probable que le flux ne soit pas terminé.
+</Expandable>
+
+<Expandable title="Que dois-je vérifier si l’authentification MCP GitBook semble toujours bloquée ?">
+  Essayez ces vérifications :
+
+  - Confirmez que l’URL du serveur pointe vers le point de terminaison MCP.
+  - Confirmez que le client utilise le transport HTTP.
+  - Réessayez sur un réseau stable.
+  - Supprimez puis rajoutez le serveur si le client a mis en cache un état d’échec.
+</Expandable>

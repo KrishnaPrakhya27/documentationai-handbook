@@ -1,0 +1,54 @@
+---
+title: Ajouter une spécification OpenAPI
+description: Découvrez comment ajouter et mettre à jour une spécification OpenAPI dans l’application GitBook ou depuis la CLI
+metaTitle: Ajouter une spécification OpenAPI | GitBook Documentation
+ogImage: https://test-dai.imgix.net/org-4afef969-21f9-40f3-b5b8-b06c8b6cf68f/doc-22a3b060-9539-4176-97e4-49120e02f5d1/0a5a1a9630785855-organizations-d8f63b60-89ae-11e7-8574-5927d48c4877-sites-site_p4Xo4-socialprevie.jpg?fm=auto&auto=compress%2Cformat
+---
+
+Si vous avez une spécification OpenAPI, vous pouvez l’ajouter à votre organisation en téléversant directement le fichier, en liant une URL hébergée, ou en utilisant le [GitBook CLI](/en/docs/developers/integrations/reference).
+
+GitBook accepte [Swagger 2.0](https://github.com/OAI/OpenAPI-Specification/blob/main/versions/2.0.md), [OpenAPI 3.0](https://github.com/OAI/OpenAPI-Specification/blob/main/versions/3.0.3.md), et [OpenAPI 3.1](https://github.com/OAI/OpenAPI-Specification/blob/main/versions/3.1.1.md) les spécifications pour les téléversements de fichiers, les URL hébergées et la publication via CLI. Pour le résumé de compatibilité actuel, consultez [la compatibilité OpenAPI](/fr/docs/creer-du-contenu/openapi#openapi-compatibility).
+
+<Image src="https://test-dai.imgix.net/org-4afef969-21f9-40f3-b5b8-b06c8b6cf68f/doc-22a3b060-9539-4176-97e4-49120e02f5d1/2fc277eeb719b403-spaces-NkEGS7hzeqa35sMXQZ4X-uploads-6pg8vIZeVQESjhTw5yI2-generate-api-docs-2x.png?fm=auto&auto=compress%2Cformat" alt="A GitBook screenshot showing the modal for generating API docs automatically" />
+
+### Comment ajouter une spécification
+
+1. Ouvrez la **section OpenAPI** dans la barre latérale
+2. Cliquez sur **Ajouter une spécification**
+3. Donnez un nom à votre spécification. Cela permet de l’identifier, surtout si vous gérez plusieurs spécifications
+4. Choisissez l’une des options suivantes :
+
+   - Téléversez un fichier (par ex. *openapi.yaml*)
+   - Saisissez l’URL d’une spécification hébergée
+   - Utilisez la CLI pour publier la spécification
+
+<Image src="https://test-dai.imgix.net/org-4afef969-21f9-40f3-b5b8-b06c8b6cf68f/doc-22a3b060-9539-4176-97e4-49120e02f5d1/fc85ba50453906b9-spaces-NkEGS7hzeqa35sMXQZ4X-uploads-pTRwMrbHyYlKZy07CsAp-api_spec_modal-2x.png?fm=auto&auto=compress%2Cformat" alt="A GitBook screenshot showing the Add an OpenAPI specification modal" caption="Fenêtre modale d’ajout d’une spécification OpenAPI." />
+
+### Mettre à jour votre spécification
+
+Vous pouvez mettre à jour votre spécification OpenAPI à tout moment à l’aide de l’interface GitBook ou de la CLI, quel que soit le mode d’ajout initial.
+
+#### Dans l’application GitBook
+
+Dans le panneau OpenAPI :
+
+- Si votre spécification est liée à une URL :
+
+  - GitBook vérifie automatiquement les mises à jour **toutes les 6 heures**.
+  - Pour récupérer les mises à jour immédiatement, cliquez sur **Vérifier les mises à jour**.
+- Si votre spécification a été téléversée sous forme de fichier :
+
+  - Cliquez sur **Mettre à jour** pour téléverser une nouvelle version.
+- Vous pouvez passer d’une source Fichier à une source URL en cliquant sur **Modifier** dans le menu d’actions du fil d’Ariane.
+
+#### Avec la CLI
+
+Utilisez la même commande pour mettre à jour votre spécification :
+
+```bash
+gitbook openapi publish --spec api-spec-name --organization organization_id <path-or-url>
+```
+
+Vous pouvez aussi utiliser la CLI pour **Vérifier les mises à jour** en exécutant la commande de publication sur la même URL.
+
+Lisez notre [Intégration avec CI/CD](/fr/docs/creer-du-contenu/openapi/guides/support-for-ci-cd-with-api-blocks) guide pour apprendre à automatiser la mise à jour de votre spécification.

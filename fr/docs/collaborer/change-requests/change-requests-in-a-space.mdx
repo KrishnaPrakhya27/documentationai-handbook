@@ -1,0 +1,157 @@
+---
+title: Demandes de modification dans une section
+description: Découvrez comment collaborer sur une seule demande de modification dans une section — y compris comment l’examiner, résoudre les conflits et fusionner
+metaTitle: Demandes de modification dans une section | GitBook Documentation
+ogImage: https://test-dai.imgix.net/org-4afef969-21f9-40f3-b5b8-b06c8b6cf68f/doc-22a3b060-9539-4176-97e4-49120e02f5d1/0a5a1a9630785855-organizations-d8f63b60-89ae-11e7-8574-5927d48c4877-sites-site_p4Xo4-socialprevie.jpg?fm=auto&auto=compress%2Cformat
+---
+
+Lorsque vous êtes dans une [section](/fr/docs/reference/concepts#space), vous pouvez effectuer des modifications en ouvrant une nouvelle demande de modification, ou parcourir les demandes de modification existantes pour voir sur quoi travaillent les autres personnes.
+
+### Créer une demande de modification
+
+Cliquez sur le **Modifier** bouton dans l’ [en-tête de section](/fr/docs/reference/gitbook-ui#space-header) pour lancer une nouvelle demande de modification.
+
+Cela ouvrira une nouvelle demande de modification, où vous pourrez modifier ou supprimer du contenu selon vos besoins. Vos modifications sont enregistrées automatiquement, et d’autres personnes peuvent vous rejoindre dans une demande de modification pour collaborer en temps réel.
+
+Lors de la création d’une demande de modification, vous pouvez ajouter un titre et une description pour fournir plus de contexte sur les modifications que vous apportez.
+
+Vous pouvez également lier la demande de modification à une source, notamment :
+
+- Tickets Linear
+- pull requests ou problèmes GitHub
+- tickets Jira
+- URL générales
+
+Ces liens apparaissent sur la demande de modification, afin que les relecteurs puissent retracer le travail jusqu’à son origine.
+
+Une fois que vous êtes satisfait de vos modifications, vous pouvez utiliser le bouton dans la barre d’en-tête pour [**Demander une relecture**](#request-a-review-on-a-change-request) de votre demande de modification, ou [**fusionner**](#merging-a-change-request) directement dans la branche principale.
+
+#### Créer une demande de modification avec GitBook Agent
+
+[GitBook Agent](/fr/docs/agent-gitbook/overview) est un coéquipier IA qui peut [planifier et implémenter des demandes de modification](/fr/docs/agent-gitbook/write-and-edit-with-ai#implement-a-change-request-with-gitbook-agent) à partir de toutes les instructions que vous lui donnez.
+
+Pour ouvrir une nouvelle demande de modification avec GitBook Agent, cliquez sur l’icône GitBook Agent en haut à droite, à côté du bouton « Modifier », puis demandez à GitBook d’apporter les modifications souhaitées.
+
+Voici quelques exemples de ce que vous pouvez lui demander de faire :
+
+- Ajouter des exemples d’utilisation
+- Améliorer le SEO de la page
+- Améliorer la clarté
+- Vérifier la cohérence
+- Corriger les fautes de frappe et d’orthographe
+- Lier le contenu associé
+- \+ et plus encore
+
+Rendez-vous sur [Rédiger avec GitBook Agent](/fr/docs/agent-gitbook/write-and-edit-with-ai) pour en savoir plus.
+
+### Prévisualiser une demande de modification
+
+Vous pouvez prévisualiser les modifications que vous avez apportées dans une demande de modification en cliquant sur l’ **Aperçu** option dans l’ [en-tête de section](/fr/docs/reference/gitbook-ui#space-header). Cela basculera vers un aperçu de vos documents publiés avec les modifications proposées incluses, afin que vous puissiez voir vos modifications dans le contexte complet de votre documentation publiée.
+
+Sous le **Aperçu** bouton se trouve une URL pour l’aperçu de votre site. Cliquez dessus et l’aperçu de votre site s’ouvrira en plein dans un nouvel onglet.
+
+Lorsque vous ouvrez une URL d’aperçu dans un nouvel onglet, vous verrez également [la barre d’outils d’aperçu](/fr/docs/gerer-votre-site/customization/toolbar-on-published-sites-and-site-previews) en bas de la fenêtre du navigateur. Cette barre d’outils vous permet de revenir rapidement dans GitBook pour consulter, modifier ou commenter la demande de modification, ou ouvrir la version en ligne de votre site.
+
+<Callout kind="info">
+  Vous ne pouvez prévisualiser que les demandes de modification pour les sections ajoutées à un [site de documentation publié](/fr/docs/publier/publish-a-docs-site).
+</Callout>
+
+<Callout kind="alert">
+  Si votre contenu est publié via des liens de partage ou un accès authentifié, la fonction d’aperçu n’apparaîtra pas.
+</Callout>
+
+### Demander une relecture d’une demande de modification
+
+Demandez une relecture de votre demande de modification lorsque vous souhaitez demander aux membres de votre équipe de vérifier votre contenu avant de fusionner les modifications dans la branche principale.
+
+Cliquez sur le **Aperçu** onglet dans la barre d’en-tête de section pour ouvrir un aperçu de votre demande de modification — y compris toutes les modifications que vous avez apportées dans la vue différentielle.
+
+Utilisez l’ **Aperçu** onglet pour ajouter du contexte et des relecteurs. Pour inspecter les différences dans l’éditeur, passez à l’ **Modifications** onglet. Dans cette vue, les pages contenant des différences affichent un indicateur, et le contrôle flottant de navigation dans les différences vous aide à passer plus rapidement d’un bloc modifié à l’autre.
+
+Ici, vous pouvez ajouter une description à votre demande de modification pour donner du contexte à vos relecteurs, et mentionner des personnes spécifiques que vous souhaitez voir vérifier votre travail.
+
+Lorsque vous cliquez sur **Demander une relecture**, le statut de la demande de modification passera à **En relecture**, et toute personne que vous avez mentionnée dans votre demande de relecture recevra une notification.
+
+Si vos modifications ne nécessitent pas de relecture, que vous disposez des [autorisations](/fr/docs/collaborer/member-management/roles)appropriées et que vous n’avez aucune [règle de fusion](/fr/docs/collaborer/merge-rules)bloquante, vous pouvez à la place fusionner directement vos modifications dans la version principale.
+
+<Callout kind="info">
+  [Ajouter GitBook Agent comme relecteur](/fr/docs/agent-gitbook/review-change-requests-with-gitbook-agent) à votre demande de modification, et il pourra vérifier votre contenu pour détecter les fautes d’orthographe, de grammaire et les erreurs de guide de style, suggérer des améliorations, et plus encore.
+</Callout>
+
+<Callout kind="alert">
+  Si vous ne mentionnez personne dans votre demande de relecture, toute personne disposant des autorisations de relecteur dans la section recevra une notification. Si la section n’a aucun relecteur, le rôle supérieur suivant à celui de relecteur recevra la notification.
+</Callout>
+
+<a id="diff-mode"></a>
+
+#### Vue différentielle
+
+Si une page contient des différences, GitBook affiche également un indicateur flottant centré. Cliquez dessus pour faire défiler jusqu’au premier bloc ou élément modifié.
+
+Lorsque vous ouvrez l’ **Modifications** onglet dans l’en-tête de section, GitBook affiche chaque page et chaque bloc modifiés dans la demande de modification. GitBook affiche la version précédente à gauche et la version mise à jour à droite. Cela facilite la comparaison des modifications côte à côte.
+
+Les pages contenant des différences affichent également un indicateur dans la table des matières, ce qui facilite l’examen rapide des grandes demandes de modification.
+
+Lorsque vous examinez une page dans l’ **Modifications** onglet de l’éditeur, un contrôle flottant de navigation dans les différences vous aide à passer plus rapidement d’un bloc modifié à l’autre, sans faire défiler toute la page.
+
+Il existe deux options lorsque vous utilisez la vue différentielle :
+
+1. **Afficher toutes les pages** — Cela affiche les pages modifiées et non modifiées dans la table des matières, afin que vous puissiez examiner les modifications dans le contexte de toute la section.
+2. **Afficher uniquement les pages modifiées** — Cela affiche uniquement les pages modifiées, afin que vous puissiez vous concentrer sur le contenu modifié.
+
+Vous pouvez passer à l’ **Modifications** onglet pour vérifier la vue différentielle dans n’importe quelle demande de modification.
+
+<Image src="https://test-dai.imgix.net/org-4afef969-21f9-40f3-b5b8-b06c8b6cf68f/doc-22a3b060-9539-4176-97e4-49120e02f5d1/4207cf989176b52e-spaces-NkEGS7hzeqa35sMXQZ4X-uploads-WwRKvsyHgQsk3A4W6b5q-Screenshot-2026-07-02-a.png?fm=auto&auto=compress%2Cformat" alt="" width={188} caption="Il s’agit du widget de contrôle de navigation en bas de l’écran des modifications" />
+
+### Fusionner une demande de modification
+
+Fusionner une demande de modification ajoutera les modifications de cette demande dans la branche principale du contenu, créant ainsi une version mise à jour et une nouvelle entrée dans l’ [historique des versions](/fr/docs/creer-du-contenu/version-control#see-the-activity-of-a-specific-draft).
+
+Il se peut que vous ne puissiez pas fusionner une demande de modification si vous n’avez pas les [autorisations](/fr/docs/collaborer/member-management/permissions-and-inheritance)bonnes autorisations, ou si votre demande de modification n’a pas passé les [règle de fusion](/fr/docs/collaborer/merge-rules).
+
+### Mise à jour d’une demande de modification
+
+Pendant que vous travaillez dans une demande de modification, d’autres contributeurs peuvent modifier la branche principale de la section. Lorsque cela se produit, votre demande de modification est considérée comme « obsolète » — il existe du contenu dans la branche principale que vous ne voyez pas dans votre demande de modification.
+
+Vous pouvez vouloir intégrer ce nouveau contenu dans votre demande de modification. Cela peut être utile si :
+
+- Vous voulez voir à quoi ressemblent vos modifications et le contenu sur la branche principale une fois que tout est réuni.
+- Vous devez modifier le contenu intégré dans le cadre de votre demande de modification.
+
+Vous pouvez le faire en appuyant sur **Mettre à jour** dans l’en-tête de l’écran de la demande de modification.
+
+Une fois que vous appuyez sur **Mettre à jour**, tout le contenu de la branche principale est intégré dans votre demande de modification. Vous pouvez rencontrer des conflits lors de la mise à jour — vous pourrez les résoudre dans la demande de modification. Une fois les conflits résolus, la demande de modification est considérée à jour et le bouton Mettre à jour disparaît.
+
+Si la branche principale change à nouveau, votre demande de modification sera de nouveau obsolète et le bouton Mettre à jour réapparaîtra.
+
+Demander aux éditeurs de maintenir leurs demandes de modification à jour avant la fusion est un bon contrôle qualité — cela aide les auteurs à vérifier le contenu exact qui ira dans la branche principale une fois leur demande de modification fusionnée. Vous pouvez imposer cela avec une [règle de fusion](/fr/docs/collaborer/merge-rules).
+
+### Résoudre les conflits de fusion
+
+Parfois, lorsque vous souhaitez fusionner une demande de modification, vous pouvez découvrir des conflits entre le contenu principal et le contenu que vous essayez de fusionner. Dans sa forme la plus simple, un conflit est un élément de contenu qui n’a pas pu être fusionné automatiquement.
+
+Si cela se produit, un avertissement de conflit s’affichera, ainsi qu’une liste des conflits que vous devrez résoudre avant de poursuivre la fusion.
+
+Vous avez deux options lorsqu’il s’agit de résoudre un conflit de fusion — **sélectionner une version à fusionner** ou **manuellement** **modifier le contenu**.
+
+#### Sélectionner une version à fusionner
+
+Vous pouvez résoudre un conflit de fusion en sélectionnant une version que vous souhaitez fusionner — soit votre contenu entrant, soit le contenu qui se trouvait auparavant à cet endroit. Cela vous permet de choisir entre une modification et une autre — soit votre travail récent, soit le contenu d’origine.
+
+Si vous traitez un conflit de fusion qui peut être résolu de cette manière, vous pouvez sélectionner la version que vous souhaitez conserver, et l’autre version sera supprimée.
+
+#### Modification manuelle
+
+Si vous ne souhaitez pas choisir entre les versions, vous pouvez résoudre un conflit de fusion en modifiant manuellement le conflit. Vous pourrez supprimer les blocs dont vous n’avez pas besoin, voire les réécrire entièrement. Une fois que vous êtes satisfait des modifications, vous pouvez passer au conflit suivant jusqu’à ce qu’ils soient tous résolus.
+
+### Archiver une demande de modification
+
+Vous ne pouvez pas supprimer une demande de modification dans GitBook, mais vous pouvez l’archiver à la place.
+
+Pour archiver une demande de modification :
+
+1. Ouvrez l’ **Demandes de modification** onglet.
+2. Cliquez sur la demande de modification que vous souhaitez archiver.
+3. Cliquez sur le **Actions** menu <Image src="https://test-dai.imgix.net/org-4afef969-21f9-40f3-b5b8-b06c8b6cf68f/doc-22a3b060-9539-4176-97e4-49120e02f5d1/0a460c049ef3df1f-spaces-NkEGS7hzeqa35sMXQZ4X-uploads-PnnI41SqLSaKBNwT98fW-actions-horizontal.svg?rasterize-bypass=true" alt="The Actions menu icon in GitBook" /> à côté du titre de la demande de modification, puis choisissez **Archiver**.
+
+Pour trouver et rouvrir une demande de modification archivée, ouvrez le **Demandes de modification** menu et cliquez sur l’ **Archivé** onglet.

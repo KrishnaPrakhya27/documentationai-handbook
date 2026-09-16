@@ -1,0 +1,156 @@
+---
+title: Agent 技能
+description: 使用 GitBook 官方的 SKILL.md 文件，让 Claude Code、Cursor 或 Codex 等 AI 编码助手了解 GitBook 的功能和块
+metaTitle: Agent 技能 | GitBook Documentation
+ogImage: https://test-dai.imgix.net/org-4afef969-21f9-40f3-b5b8-b06c8b6cf68f/doc-22a3b060-9539-4176-97e4-49120e02f5d1/0a5a1a9630785855-organizations-d8f63b60-89ae-11e7-8574-5927d48c4877-sites-site_p4Xo4-socialprevie.jpg?fm=auto&auto=compress%2Cformat
+---
+
+GitBook 提供 [技能文件](https://github.com/GitbookIO/gitbook-skills/tree/main) 教 AI 编码助手如何正确编辑 GitBook 文档。如果你使用 Claude Code、Cursor、Codex 或其他外部编码助手，请添加 GitBook 技能，以便你的代理能够处理 GitBook 语法、区块和配置文件。
+
+这与……非常契合 [Git Sync](/zh/docs/wen-dang-ji-dai-ma/git-sync) 工作流——在你的仓库中进行更改，提交后，你的文档站点会自动更新。
+
+<Callout kind="info">
+  更喜欢在 GitBook 编辑器中编写？使用 [GitBook Agent](/zh/docs/gitbook-agent/overview) 来起草、改写、审阅和翻译内容，而无需离开 GitBook。
+</Callout>
+
+## 将 GitBook 技能添加到你的 AI 代理
+
+当你的 AI 编码助手支持基于包的技能时，请使用此选项。
+
+<Steps>
+  <Step title="创建访问令牌" titleType="h3">
+    要让你的代理与 GitBook 交互，你需要 [创建一个访问令牌](https://app.gitbook.com/account/developer) 在你的 GitBook 开发者设置中。GitBook 使用此令牌在你的代理使用 GitBook 技能时进行身份验证。
+  </Step>
+
+  <Step title="安装 GitBook 技能" titleType="h3">
+    该技能属于 [`gitbook-skills`](https://github.com/GitbookIO/gitbook-skills) 仓库。运行以下命令直接将 GitBook 技能安装到你的项目中：
+
+    ```bash
+    npx skills add GitBookIO/gitbook-skills
+    ```
+  </Step>
+</Steps>
+
+## 在本地添加 GitBook 技能
+
+如果你的助手不支持基于包的技能，请下载 GitBook 的技能。
+
+<Steps>
+  <Step title="创建访问令牌" titleType="h3">
+    要让你的代理与 GitBook 交互，你需要 [创建一个访问令牌](https://app.gitbook.com/account/developer) 在你的 GitBook 开发者设置中。GitBook 使用此令牌在你的代理使用 GitBook 技能时进行身份验证。
+  </Step>
+
+  <Step title="下载 GitBook 技能" titleType="h3">
+    使用 `npx skills add GitBookIO/gitbook-skills` 安装 GitBook 技能，当你的助手支持时。
+
+    若要手动将文件复制到你的项目中，请从 [`gitbook-skills`](https://github.com/GitbookIO/gitbook-skills) 仓库获取 GitBook 技能。
+
+    | 技能 | 描述 | 下载 |
+    | --- | --- | --- |
+    | `configure-site` | 创建并维护完整的 GitBook 文档站点。 | [GitHub](https://github.com/GitbookIO/gitbook-skills/tree/main/skills/configure-site)<br /> |
+    | `write-docs` | 编写、撰写、编辑和格式化 GitBook 文档页面。 | [GitHub](https://github.com/GitbookIO/gitbook-skills/tree/main/skills/write-docs)<br /> |
+    | `write-openapi` | 撰写、配置、组织并排查 OpenAPI/Swagger API 参考文档的问题。 | [GitHub](https://github.com/GitbookIO/gitbook-skills/tree/main/skills/write-openapi) |
+    | `build-integration` | 为 GitBook 构建自定义集成。 | [GitHub](https://github.com/GitbookIO/gitbook-skills/tree/main/skills/build-integration) |
+    | `cr-create` | 创建 GitBook 变更请求、推送内容、请求审阅并处理评论。 | [GitHub](https://github.com/GitbookIO/gitbook-skills/tree/main/skills/cr-create) |
+    | `cr-review` | 审阅 GitBook 变更请求，汇总更改、发表评论、批准或请求修改。 | [GitHub](https://github.com/GitbookIO/gitbook-skills/tree/main/skills/cr-review) |
+
+    <Callout kind="alert">
+      记得将你的本地仓库更新为最新的 `SKILL.md` 文件，因为 GitBook 会不断添加新功能。
+    </Callout>
+  </Step>
+</Steps>
+
+## 使用 GitBook 技能
+
+Scaffold a Git-synced docs site from a folder of markdown
+
+```text
+使用 GitBook 技能，将这个 markdown 文件夹转换为一个由 Git Sync 支持的 GitBook 文档站点。
+
+1. 读取我的文档文件夹，并提出站点结构建议——包括空间、页面树和 SUMMARY.md 导航。在写任何内容之前先展示给我。
+2. 按 GitBook 的 monorepo 布局搭建仓库（每个空间包含 README.md + SUMMARY.md），然后提交。
+3. 创建站点和空间，然后给我一份精确、可直接复制粘贴的说明，告诉我在 GitBook 界面中要做的唯一一步：使用 Git Sync 将每个空间连接到其目录。
+4. 一旦我确认同步已设置好，请验证站点结构是否与计划一致。
+```
+
+Upgrade a plain markdown page into a polished GitBook page
+
+```text
+使用 GitBook 技能，用 GitBook 的富文本区块重写此页面——它目前只是普通 markdown。
+
+1. 阅读页面并告诉我你会升级哪些内容：多语言代码示例 → 选项卡，顺序式步骤讲解 → 步进器，提示框 → 提示，“选择你的路径”内容 → 卡片。
+2. 使用正确的 GitBook 语法应用这些更改，包括 frontmatter（标题、描述、图标）。
+3. 保留我的措辞——只改进结构，不改语气。
+4. 列出在 GitBook 中渲染后我应该再次检查的任何内容。
+```
+
+Generate an API reference from an OpenAPI spec
+
+```text
+使用 GitBook 技能，根据我的 OpenAPI 规范在文档中设置一个 API 参考部分。
+
+1. 找到我的规范（如果不存在，则帮我从代码库生成一个）并验证它。
+2. 在 SUMMARY.md 中使用 GitBook 的 OpenAPI 区块设置自动生成的端点页面——不要手写端点页面；规范始终是唯一事实来源。
+3. 为每个资源组添加一个简短的概览页。
+4. 标出规范中的缺口（缺少描述、示例、响应 schema），这些问题会让渲染出的参考文档不够完善。
+```
+
+## 常见问题
+
+<Expandable title="SKILL.md 包含什么？">
+  `SKILL.md` 为你的 AI 编码助手提供正确创建、编辑和格式化 GitBook 内容所需的上下文。
+
+  它包括：
+
+  - 自定义区块的完整语法参考。
+  - 配置文件格式，包括 `.gitbook.yaml`, `SUMMARY.md`，以及 `.gitbook/vars.yaml`.
+  - frontmatter 选项、布局控制、变量、表达式、决策表，以及常见陷阱。
+</Expandable>
+
+<Expandable title="我如何测试 AI 生成的内容？">
+  始终审阅并测试由 AI 助手生成的内容。当使用基于技能文件训练的助手时：
+
+  - 验证自定义区块在 GitBook 中是否正确渲染。
+  - 检查所有内部链接是否可用。
+  - 确认 frontmatter 是有效的 YAML。
+  - 测试变量是否引用了正确的作用域。
+</Expandable>
+
+<Expandable title="我如何知道我的助手正在使用 SKILL.md？">
+  让它解释它会如何格式化一个 GitBook 页面。
+
+  如果它提到 GitBook 区块、frontmatter、变量，或像 `SUMMARY.md`这样的文件
+
+  ，则说明技能已加载。
+</Expandable>
+
+<Expandable title="为什么助手忽略了 GitBook 特定语法？">
+  这通常意味着技能文件未加载，或者规则不够具体。
+
+  确保你的助手读取 `SKILL.md` 仓库根目录中的文件，或在其项目说明中使用 GitHub URL。
+
+  如果助手会缓存指令，在你添加或更新规则后，请重启会话。
+</Expandable>
+
+<Expandable title="如果助手生成了无效的 GitBook 内容怎么办？">
+  先检查常见的失败点：
+
+  - 未闭合的自定义区块
+  - frontmatter 中无效的 YAML
+  - 损坏的变量引用
+  - 与页面结构不匹配的链接
+
+  在提交之前，始终先在 GitBook 中审阅输出。
+</Expandable>
+
+<Expandable title="我还需要访问令牌吗？">
+  当你的代理直接与 GitBook 交互时，你需要访问令牌。你可以在你的 [开发者设置](https://app.gitbook.com/account/developer).
+
+  如果你只是使用 `SKILL.md`在本地编辑文件，在将助手连接到 GitBook 工作流或 API 之前，可能不需要令牌。
+</Expandable>
+
+<Expandable title="如果技能看起来过时了怎么办？">
+  更新你的本地 `SKILL.md`，或者让你的助手重新指向 GitHub 源。
+
+  如果你的团队将文件的部分内容复制到了自定义规则中，也请一并更新那些内容。
+</Expandable>

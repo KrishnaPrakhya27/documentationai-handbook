@@ -1,0 +1,386 @@
+---
+title: Balise script
+description: Découvrez comment ajouter le widget Docs Embed à n’importe quel site web ou application web à l’aide d’une seule balise script
+metaTitle: Balise script | GitBook Documentation
+ogImage: https://test-dai.imgix.net/org-4afef969-21f9-40f3-b5b8-b06c8b6cf68f/doc-22a3b060-9539-4176-97e4-49120e02f5d1/0a5a1a9630785855-organizations-d8f63b60-89ae-11e7-8574-5927d48c4877-sites-site_p4Xo4-socialprevie.jpg?fm=auto&auto=compress%2Cformat
+---
+
+La façon la plus simple d’ajouter Docs Embed à votre site web ou à votre application est d’utiliser un script autonome que vous incluez dans votre HTML. Chaque site de documentation GitBook fournit un script d’intégration prêt à l’emploi qui charge automatiquement le widget et le connecte à votre documentation. Cette page vous explique comment faire.
+
+Aucun SDK, étape de build ou intégration à un framework n’est requis. Il suffit d’inclure le script et le widget apparaît sur votre page.
+
+## Commencer
+
+<Steps>
+  <Step title="Copiez l’URL de votre script d’intégration" titleType="h3">
+    Rendez-vous sur votre site de documentation dans l’application GitBook, allez dans l’onglet **Paramètres** puis dans **IA & MCP** et copiez l’URL du script d’intégration.
+
+    Vous pouvez aussi le créer manuellement :
+
+    ```
+    https://VOTRE_DOMAINE_DOCS/~gitbook/embed/script.js
+    ```
+
+    Remplacez votre `VOTRE_DOMAINE_DOCS` par le domaine réel de votre site de documentation.
+  </Step>
+
+  <Step title="Ajoutez le script à votre HTML" titleType="h3">
+    Ajoutez la balise suivante dans le HTML de votre page. Placez-la dans `<head>` ou juste avant `</body>`.
+
+    ```html
+    <script src="https://VOTRE_DOMAINE_DOCS/~gitbook/embed/script.js"></script>
+    <script>window.GitBook('show');</script>
+    ```
+  </Step>
+
+  <Step title="Si vos documents nécessitent une authentification" titleType="h3">
+    Si vos documents [sont protégés par authentification](/fr/docs/publier/site-audience/authenticated-access), le script doit inclure un jeton JWT signé.
+
+    Ajoutez-le en tant que paramètre de requête :
+
+    ```html
+    <script src="https://VOTRE_DOMAINE_DOCS/~gitbook/embed/script.js?jwt_token=VOTRE_JETON"></script>
+    ```
+  </Step>
+
+  <Step title="Vérifier" titleType="h3">
+    Rechargez votre page.
+
+    Le widget devrait apparaître en bas à droite.
+  </Step>
+</Steps>
+
+### Configurer éventuellement l’intégration
+
+Vous pouvez personnaliser le widget avant de l’afficher. Appelez `configure` après le chargement du script et avant d’appeler `window.GitBook('show')`.
+
+```html
+<script src="https://VOTRE_DOMAINE_DOCS/~gitbook/embed/script.js"></script>
+<script>
+  window.GitBook('configure', {
+    button: {
+      label: 'Demander',
+      icon: 'assistant' // assistant | sparkle | help | book
+    },
+    trademark: false,
+    tabs: ['assistant', 'search', 'docs'],
+    actions: [
+      {
+        icon: 'circle-question',
+        label: 'Contacter le support',
+        onClick: () => window.open('https://support.example.com', '_blank')
+      }
+    ],
+    greeting: {
+      title: 'Bienvenue',
+      subtitle: 'Comment puis-je vous aider ?'
+    },
+    assistantName: 'Copilote de support',
+    closeButton: true,
+    suggestions: [
+      'Qu’est-ce que GitBook ?',
+      'Comment démarrer ?'
+    ]
+  });
+
+  window.GitBook('show');
+</script>
+```
+
+Avec cette méthode, vous pouvez personnaliser :
+
+- Le libellé et l’icône du bouton
+- Les onglets visibles dans le widget
+- Les boutons d’action personnalisés
+- Le titre et le sous-titre de bienvenue
+- Le nom de l’assistant affiché dans l’interface
+- Le bouton de fermeture dans l’Assistant
+- Les suggestions affichées aux utilisateurs.
+
+La recherche est activée par défaut. Si vous définissez `tabs`, répertoriez chaque onglet que vous souhaitez conserver.
+
+### Définir le jeu de couleurs
+
+Par défaut, l’intégration suit la `color-scheme`CSS de l’iframe. Cela lui permet d’hériter automatiquement du thème de votre application ou de la préférence du navigateur.
+
+Si vous souhaitez forcer un mode, initialisez l’intégration et transmettez `colorScheme` dans `frameOptions`:
+
+```html
+<script src="https://VOTRE_DOMAINE_DOCS/~gitbook/embed/script.js"></script>
+<script>
+  window.GitBook(
+    'init',
+    { siteURL: 'https://VOTRE_DOMAINE_DOCS' },
+    { colorScheme: 'dark' }
+  );
+
+  window.GitBook('show');
+</script>
+```
+
+Utilisez ce modèle lorsque vous avez besoin d’options au niveau du cadre, comme `colorScheme` ou `visitor`.
+
+### Contrôler la visibilité du widget
+
+Vous pouvez contrôler la visibilité et l’état au moment de l’exécution via l’API.
+
+```html
+<script>
+  // Rendre le widget visible
+  window.GitBook('show');
+
+  // Retirer le widget de la page
+  window.GitBook('hide');
+
+  // Ouvrir le panneau du widget
+  window.GitBook('open');
+
+  // Fermer le panneau du widget
+  window.GitBook('close');
+
+  // Basculer entre ouvert et fermé
+  window.GitBook('toggle');
+</script>
+```
+
+C’est utile lorsque vous souhaitez connecter le widget à vos propres déclencheurs d’interface.
+
+### Naviguer et interagir par programme
+
+Vous pouvez piloter le widget depuis votre code pour naviguer, changer d’onglet ou envoyer des messages.
+
+```html
+<script>
+  // Ouvrir une page de documentation spécifique dans le widget
+  window.GitBook('navigateToPage', '/getting-started');
+
+  // Passer à l’onglet Assistant
+  window.GitBook('navigateToAssistant');
+
+  // Envoyer un message d’utilisateur à l’assistant
+  window.GitBook('postUserMessage', 'Comment démarrer ?');
+
+  // Effacer l’historique de conversation actuel
+  window.GitBook('clearChat');
+</script>
+```
+
+Les utilisations typiques de cette fonctionnalité incluent :
+
+- Ajouter un lien profond vers une page de documentation depuis votre application
+- Préremplir une question
+- Réinitialiser la conversation entre les flux
+
+### Charger le script d’intégration dynamiquement
+
+Si vous souhaitez charger le widget uniquement de manière conditionnelle, ou si vous devez ajouter un jeton d’authentification au moment de l’exécution, injectez le script par programme.
+
+```html
+<script>
+  function loadGitBookEmbed() {
+    var token = "" // Remplissez-le avec votre jeton JWT si votre site nécessite une authentification
+    var script = document.createElement('script');
+    script.src = 'https://VOTRE_DOMAINE_DOCS/~gitbook/embed/script.js'
+      + token ? '?jwt_token=' + encodeURIComponent(token) : ';
+    script.async = true;
+    script.onload = function () {
+      window.GitBook('show');
+    };
+    document.head.appendChild(script);
+  }
+
+  loadGitBookEmbed();
+</script>
+```
+
+Utilisez ce modèle lorsque le widget ne doit se charger qu’après une action de l’utilisateur ou via des indicateurs de fonctionnalité
+
+## Référence de l’API
+
+### Initialisation
+
+- `GitBook('init', options: { siteURL: string }, frameOptions?: { visitor?: {...}, colorScheme?: 'light' | 'dark' })` \- Initialise le widget avec l’URL du site et des options de cadre facultatives
+
+### Contrôle du widget
+
+- `GitBook('show')` \- Afficher le bouton du widget
+- `GitBook('hide')` \- Masquer le bouton du widget
+- `GitBook('open')` \- Ouvrir la fenêtre du widget
+- `GitBook('close')` \- Fermer la fenêtre du widget
+- `GitBook('toggle')` \- Basculer la fenêtre du widget
+
+### Navigation
+
+- `GitBook('navigateToPage', path: string)` \- Naviguer vers une page spécifique dans l’onglet docs
+- `GitBook('navigateToAssistant')` \- Aller à l’onglet Assistant
+
+### Conversation
+
+- `GitBook('postUserMessage', message: string)` \- Publier un message dans le chat
+- `GitBook('clearChat')` \- Effacer l’historique du chat
+
+### Configuration
+
+- `GitBook('configure', settings: {...})` \- Configurer les paramètres du widget (voir la section Configuration ci-dessous)
+- `GitBook('unload')` \- Retirer complètement le widget de la page
+
+## Options de configuration
+
+### `GitBook('configure')`
+
+La plupart des options de configuration sont disponibles via `GitBook('configure', {...})`:
+
+#### `tabs`
+
+Remplace les onglets affichés.
+
+La recherche est activée par défaut. Si vous définissez `tabs`, l’intégration n’affiche que les onglets que vous listez.
+
+- **Type**: `('assistant' | 'search' | 'docs')[]`
+- **Options**:
+
+  - `['assistant', 'search', 'docs']` \- Afficher tous les onglets
+  - `['search', 'docs']` \- Afficher uniquement la recherche et les docs
+  - `['docs']` \- Afficher uniquement l’onglet docs
+
+#### `actions`
+
+Boutons d’action personnalisés rendus dans la barre latérale à côté des onglets. Chaque bouton d’action déclenche un rappel lorsqu’il est cliqué.
+
+**Remarque**: Ceci était auparavant nommé `buttons`. Utilisez `actions` à la place.
+
+- **Type**: `Array<{ icon: string, label: string, onClick: () => void }>`
+- **Propriétés**:
+
+  - `icon`: `string` \- Nom de l’icône. Toute icône [FontAwesome](https://fontawesome.com/search) est prise en charge
+  - `label`: `string` \- Texte du libellé du bouton
+  - `onClick`: `() => void | Promise<void>` \- Fonction de rappel au clic
+
+#### `greeting`
+
+Message de bienvenue affiché dans l’onglet Assistant.
+
+- **Type**: `{ title: string, subtitle: string }`
+
+#### `assistantName`
+
+Remplace le nom de l’assistant affiché dans l’interface.
+
+- **Type**: `string`
+- **Longueur max**: `32` caractères
+- **Exemple**:
+
+```javascript
+window.GitBook('configure', {
+  assistantName: 'Copilote de support'
+});
+```
+
+#### `closeButton`
+
+Afficher un bouton de fermeture dans l’Assistant.
+
+- **Type**: `booléen`
+- **Exemple**:
+
+```javascript
+window.GitBook('configure', {
+  closeButton: true
+});
+```
+
+#### `suggestions`
+
+Questions suggérées affichées dans l’écran de bienvenue de l’Assistant.
+
+- **Type**: `string[]`
+
+#### `trademark`
+
+Afficher ou masquer la marque GitBook dans l’interface d’intégration — y compris le pied de page de Docs Embed et l’image de marque de l’Assistant.
+
+- **Type**: `booléen`
+- **Par défaut**: `true`
+- **Exemple**:
+
+```javascript
+window.GitBook('configure', {
+  trademark: false
+});
+```
+
+#### `tools`
+
+Outils d’IA personnalisés pour étendre l’Assistant. Voir [Créer des outils personnalisés](/fr/docs/publier/embedding/configuration/creating-custom-tools) pour plus de détails.
+
+- **Type**: `Array<{ name: string, description: string, inputSchema: object, execute: Function, confirmation?: {...} }>`
+
+#### `button`
+
+Configure le bouton du widget qui lance l’intégration (script autonome uniquement). Cela vous permet de personnaliser le libellé et l’icône du bouton qui apparaît dans le coin inférieur droit de votre page.
+
+- **Type**: `{ label: string, icon: 'assistant' | 'sparkle' | 'help' | 'book' }`
+- **Propriétés**:
+
+  - `label`: `string` \- Le texte affiché sur le bouton
+  - `icon`: `'assistant' | 'sparkle' | 'help' | 'book'` \- L’icône affichée sur le bouton
+
+    - `assistant` \-  Icône Assistant
+    - `sparkle` \-  Icône étincelle
+    - `help` \-  Icône d’aide/d’interrogation
+    - `book` \-  Icône Livre
+
+<strong>Exemple :</strong>
+
+```javascript
+window.GitBook('configure', {
+  button: {
+    label: 'Demander',
+    icon: 'assistant'
+  }
+});
+```
+
+<Callout kind="info">
+  <strong>Remarque :</strong> Cette option n’est disponible que lorsque vous utilisez l’implémentation par balise de script autonome. Pour les implémentations React ou Node.js, vous devrez créer votre propre bouton pour déclencher l’intégration.
+</Callout>
+
+### `frameOptions`
+
+Certaines options sont définies au niveau du cadre plutôt qu’en configuration. Transmettez-les dans `frameOptions` lors de l’appel de `GitBook('init', options, frameOptions)`.
+
+#### `colorScheme`
+
+Remplace le jeu de couleurs de l’intégration.
+
+Lorsqu’elle est omise, l’intégration suit la `color-scheme`CSS de l’iframe, ce qui lui permet d’hériter de la page parente ou de la préférence du navigateur.
+
+- **Type**: `'light' | 'dark'`
+- **Exemple**:
+
+```javascript
+window.GitBook(
+  'init',
+  { siteURL: 'https://docs.company.com' },
+  { colorScheme: 'dark' }
+);
+```
+
+#### `visitor` (Accès authentifié)
+
+À transmettre lors de l’initialisation avec `GitBook('init', options, frameOptions)`. Utilisé pour [Contenu adaptatif](/fr/docs/publier/adaptive-content) et [Accès authentifié](/fr/docs/publier/site-audience/authenticated-access).
+
+- **Type**: `{ token?: string, unsignedClaims?: Record<string, unknown> }`
+- **Propriétés**:
+
+  - `token`: `string` (facultatif) - Jeton JWT signé
+  - `unsignedClaims`: `Record<string, unknown>` (facultatif) - Revendications non signées pour les expressions dynamiques
+
+## Pièges courants
+
+- **L’URL du script est incorrecte** – Assurez-vous d’utiliser l’URL réelle de vos docs, et non l’exemple `docs.company.com`.
+- **Appeler GitBook avant le chargement du script** – Enveloppez les appels API dans `script.onload` ou placez-les après la balise du script.
+- **Documents authentifiés inaccessibles** – Si vos documents nécessitent une connexion, vous devez fournir `visitor.token` lors de l’initialisation. Voir [Utilisation avec des documents authentifiés](/fr/docs/publier/embedding/using-with-authenticated-docs).
+- **Erreurs CORS ou CSP** – Assurez-vous que la politique de sécurité du contenu de votre site autorise le chargement de scripts et d’iframes depuis votre domaine GitBook.
+- **Le widget n’est pas visible** – Vérifiez les conflits de z-index avec d’autres éléments de votre page. Le widget utilise un z-index élevé par défaut.
+- **Oublier d’initialiser** – Assurez-vous d’appeler `GitBook('init', { siteURL: '...' })` avant d’utiliser les autres méthodes.

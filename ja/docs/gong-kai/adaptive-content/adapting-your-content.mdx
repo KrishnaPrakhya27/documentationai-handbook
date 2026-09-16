@@ -1,0 +1,107 @@
+---
+title: コンテンツを適応させる
+description: 異なるユーザー向けにコンテンツを調整します
+metaTitle: コンテンツを適応させる | GitBook Documentation
+ogImage: https://test-dai.imgix.net/org-4afef969-21f9-40f3-b5b8-b06c8b6cf68f/doc-22a3b060-9539-4176-97e4-49120e02f5d1/0a5a1a9630785855-organizations-d8f63b60-89ae-11e7-8574-5927d48c4877-sites-site_p4Xo4-socialprevie.jpg?fm=auto&auto=compress%2Cformat
+---
+
+認証方法を設定すると、そのデータを使ってサイト内のコンテンツをさまざまなユーザー向けに調整できるようになります。
+
+ドキュメントの多くの部分を調整したりパーソナライズしたりできます。たとえば次のようなものです:
+
+- 非表示にする、または表示する [ページ](/ja/docs/kontentsuwo/content-structure/page)
+- サイトを非表示にする、または表示する [バリアント](/ja/docs/saitowosuru/site-structure/variants)
+- サイトを非表示にする、または表示する [セクション](/ja/docs/saitowosuru/site-structure/site-sections)
+- 非表示にする、または表示する [ヘッダーリンク](/ja/docs/saitowosuru/customization/layout-and-structure#header)
+- 〜にパーソナライズされたコンテンツを追加する [インライン式](/ja/docs/kontentsuwo/variables-and-expressions)
+
+### 条件エディタの使い方
+
+条件エディタでは、ページ、バリアント、またはセクションを表示するか非表示にするかの条件を設定します。条件エディタを開くと、条件を [式](/ja/docs/kontentsuwo/variables-and-expressions) として記述でき、それがサイトの訪問者から送られてくるデータに対して実行されます。
+
+<Image src="https://test-dai.imgix.net/org-4afef969-21f9-40f3-b5b8-b06c8b6cf68f/doc-22a3b060-9539-4176-97e4-49120e02f5d1/a06ffc3eef0907ac-spaces-NkEGS7hzeqa35sMXQZ4X-uploads-NQ8RM1GDU6HUyBKBp2wF-22_01_06_condition_edit.png?fm=auto&auto=compress%2Cformat" alt="" />
+
+#### 例
+
+ユーザーを通じて GitBook に渡したデータは、 `visitor.claims`.
+
+というオブジェクトに添付されます。次のような条件文を書きたい場合の例を見てみましょう。 **ベータプログラムの一員であるユーザーにのみページを表示する** と定義できます。
+
+```javascript
+visitor.claims.isBetaUser == true
+```
+
+上の式は、このクレームに一致するユーザー、つまり `isBetaUser` が `true` というユーザーのクレームを持つユーザーは、ページを表示してアクセスできます。このクレームに一致しないユーザー（クレームが設定されていない訪問者を含む）は、ページを表示したりアクセスしたりできません。
+
+条件エディタにはオートコンプリートも組み込まれており、サイトの過去の訪問者で見つかったクレームや属性を提案して、ページ、バリアント、またはセクションの条件文の作成を支援します。
+
+オートコンプリートを使うと、 [変数](/ja/docs/kontentsuwo/variables-and-expressions#use-variables-in-your-content) も使用できることに気づくでしょう。定義した変数と、ユーザーデータから取得したクレームを組み合わせて、条件式を書くことができます。たとえば、次のようにできます。
+
+1. 製品の最新バージョン用の変数を設定する
+2. 次に、訪問者がドキュメントのどのバージョンを使用しているかを示すクレームを設定する
+3. 最後に、ユーザーがドキュメントの最新バージョンを使っているときだけ特定のページを表示する式を書く
+
+有効な JavaScript として書かれている限り、さまざまな種類の式を書くことができます。たとえば、複数のクレームを条件エディタに組み合わせて、 `&&` または `||` 演算子を使うことで、特定のユーザーに一致させることができます。演算子について詳しくは [こちら](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators#binary_logical_operators).
+
+### 人間の訪問者と AI エージェントを対象にする
+
+組み込みの `visitor.type` プロパティを使って、人間と AI エージェントに異なるコンテンツを表示します。このプロパティには次の 2 つの値のいずれかが入ります。
+
+- `human` 人間の訪問者の場合
+- `agent` AI エージェントの場合
+
+たとえば、この条件を使うと AI エージェントにのみコンテンツを表示できます。
+
+```javascript
+visitor.type === "agent"
+```
+
+次の条件を使うと、人間の訪問者にのみコンテンツを表示できます。
+
+```javascript
+visitor.type === "human"
+```
+
+### セグメントを使ったテスト
+
+セグメントは、条件をテストするために設定できるモックユーザーデータを表します。
+
+たとえば、エンタープライズプランの開発者や、無料プランのサインイン済みユーザーを表すセグメントを設定し、その人に表示されるページを確認できます。
+
+[セグメントの設定と使用について詳しくは、こちらをご覧ください。](/ja/docs/gong-kai/adaptive-content/testing-with-segments)
+
+### 条件付きページ
+
+ページの条件エディタを起動するには、そのページの横にあるアクションメニューへ移動し、 <Image src="https://test-dai.imgix.net/org-4afef969-21f9-40f3-b5b8-b06c8b6cf68f/doc-22a3b060-9539-4176-97e4-49120e02f5d1/4fa265378c13a520-spaces-NkEGS7hzeqa35sMXQZ4X-uploads-89MTSo5XRpPMVr1T0rxS-actions.svg?rasterize-bypass=true" alt="The Actions menu icon in GitBook" /> をクリックします <strong>条件を追加。</strong> 条件エディタは、 [ページのオプション](/ja/docs/rifarensu/gitbook-ui#page-options).
+
+ページ条件アイコンがページに付いていれば、セクション内のどのページに条件が設定されているかを確認できます。 <Image src="https://test-dai.imgix.net/org-4afef969-21f9-40f3-b5b8-b06c8b6cf68f/doc-22a3b060-9539-4176-97e4-49120e02f5d1/ecbe087f090f9eff-spaces-NkEGS7hzeqa35sMXQZ4X-uploads-51vQZhUqnkdsYpyUo1Pj-page-condition.svg?rasterize-bypass=true" alt="The Page condition icon in GitBook" /> その横に。
+
+### 条件付きバリアント
+
+バリアントの条件エディタを起動するには、そのバリアントの横にあるアクションメニューへ移動し、 <Image src="https://test-dai.imgix.net/org-4afef969-21f9-40f3-b5b8-b06c8b6cf68f/doc-22a3b060-9539-4176-97e4-49120e02f5d1/4fa265378c13a520-spaces-NkEGS7hzeqa35sMXQZ4X-uploads-89MTSo5XRpPMVr1T0rxS-actions.svg?rasterize-bypass=true" alt="The Actions menu icon in GitBook" /> をクリックします **条件を追加**.
+
+バリアントにページ条件アイコンが付いていれば、ドキュメント内のどのバリアントに条件が設定されているかを確認できます <Image src="https://test-dai.imgix.net/org-4afef969-21f9-40f3-b5b8-b06c8b6cf68f/doc-22a3b060-9539-4176-97e4-49120e02f5d1/ecbe087f090f9eff-spaces-NkEGS7hzeqa35sMXQZ4X-uploads-51vQZhUqnkdsYpyUo1Pj-page-condition.svg?rasterize-bypass=true" alt="The Page condition icon in GitBook" /> その横に。
+
+### 条件付きセクション
+
+セクションの条件エディタを起動するには、そのセクションの横にあるアクションメニューへ移動し、 <Image src="https://test-dai.imgix.net/org-4afef969-21f9-40f3-b5b8-b06c8b6cf68f/doc-22a3b060-9539-4176-97e4-49120e02f5d1/4fa265378c13a520-spaces-NkEGS7hzeqa35sMXQZ4X-uploads-89MTSo5XRpPMVr1T0rxS-actions.svg?rasterize-bypass=true" alt="The Actions menu icon in GitBook" /> をクリックします **条件を追加**.
+
+セクションにページ条件アイコンが付いていれば、ドキュメント内のどのセクションに条件が設定されているかを確認できます <Image src="https://test-dai.imgix.net/org-4afef969-21f9-40f3-b5b8-b06c8b6cf68f/doc-22a3b060-9539-4176-97e4-49120e02f5d1/ecbe087f090f9eff-spaces-NkEGS7hzeqa35sMXQZ4X-uploads-51vQZhUqnkdsYpyUo1Pj-page-condition.svg?rasterize-bypass=true" alt="The Page condition icon in GitBook" /> その横に。
+
+### 条件付きページヘッダーリンク
+
+ページヘッダーリンクの条件エディタを起動するには、そのリンクの横にあるアクションメニューへ移動し、 <Image src="https://test-dai.imgix.net/org-4afef969-21f9-40f3-b5b8-b06c8b6cf68f/doc-22a3b060-9539-4176-97e4-49120e02f5d1/4fa265378c13a520-spaces-NkEGS7hzeqa35sMXQZ4X-uploads-89MTSo5XRpPMVr1T0rxS-actions.svg?rasterize-bypass=true" alt="The Actions menu icon in GitBook" /> をクリックします **条件を追加**.
+
+リンクにページ条件アイコンが付いていれば、ドキュメント内のどのリンクに条件が設定されているかを確認できます <Image src="https://test-dai.imgix.net/org-4afef969-21f9-40f3-b5b8-b06c8b6cf68f/doc-22a3b060-9539-4176-97e4-49120e02f5d1/ecbe087f090f9eff-spaces-NkEGS7hzeqa35sMXQZ4X-uploads-51vQZhUqnkdsYpyUo1Pj-page-condition.svg?rasterize-bypass=true" alt="The Page condition icon in GitBook" /> その横に。
+
+### インライン式
+
+コンテンツの表示/非表示を制御するだけでなく、 [式](/ja/docs/kontentsuwo/variables-and-expressions)を使って、ページやスペースの変数と同じように、インラインでクレームを使用することもできます。
+
+式を使ってインラインでクレームを参照するには、エディタで <kbd>/</kbd> と入力してから、 <Image src="https://test-dai.imgix.net/org-4afef969-21f9-40f3-b5b8-b06c8b6cf68f/doc-22a3b060-9539-4176-97e4-49120e02f5d1/14813af6b5913b02-spaces-NkEGS7hzeqa35sMXQZ4X-uploads-yV0YSeHof9IkW4nnHQ4C-Expression.svg?rasterize-bypass=true" alt="" /> **式**を選択します。クレームは、 `visitor` .
+
+### Git Sync の使い方
+
+GitBook で設定した条件は Git Sync を通じて同期され、同期された Markdown ページに表示されます。つまり、表示条件が設定されたブロックやページは、同期されたリポジトリでも引き続き表示されます。
+
+クレームを通じて渡されるデータは Markdown には決して表示されず、安全に GitBook に渡されます。

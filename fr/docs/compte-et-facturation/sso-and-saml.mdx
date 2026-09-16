@@ -1,0 +1,99 @@
+---
+title: SSO et SAML
+description: Apprenez à partager votre contenu GitBook via SSO et SAML
+metaTitle: SSO et SAML | GitBook Documentation
+ogImage: https://test-dai.imgix.net/org-4afef969-21f9-40f3-b5b8-b06c8b6cf68f/doc-22a3b060-9539-4176-97e4-49120e02f5d1/0a5a1a9630785855-organizations-d8f63b60-89ae-11e7-8574-5927d48c4877-sites-site_p4Xo4-socialprevie.jpg?fm=auto&auto=compress%2Cformat
+---
+
+Bien que la gestion manuelle des membres de votre organisation soit très bien pour les petites équipes ou les personnes qui veulent énormément de contrôle, il arrive parfois que vous ayez simplement besoin d’ouvrir davantage les choses de manière automatisée. GitBook vous permet de configurer cela de plusieurs façons, via une SSO de base par domaine e-mail et une intégration SAML plus complexe.
+
+## Authentification unique via domaine e-mail
+
+Lorsque vous créez ou gérez votre organisation, vous pouvez ajouter une liste de domaines e-mail que vous souhaitez autoriser à accéder à votre organisation GitBook. Cela signifie que toute personne disposant d’une adresse e-mail vérifiée correspondant à vos domaines SSO configurés sera autorisée à rejoindre votre organisation.
+
+Vous pouvez activer la SSO par domaine e-mail dans la **SSO** section des paramètres de votre organisation **Paramètres**; saisissez une liste de domaines e-mail séparés par des virgules que vous souhaitez autoriser pour l’accès via SSO et le tour est joué.
+
+<Image src="https://test-dai.imgix.net/org-4afef969-21f9-40f3-b5b8-b06c8b6cf68f/doc-22a3b060-9539-4176-97e4-49120e02f5d1/006805aa95a3852e-spaces-NkEGS7hzeqa35sMXQZ4X-uploads-F860Y1oqJmnsPKOjZ1n2-account-settings-sso.svg?rasterize-bypass=true" alt="A GitBook screenshot showing how to configure SSO" caption="Configurez la SSO pour votre organisation." />
+
+<Callout kind="info">
+  Toute personne qui rejoint via un domaine e-mail SSO aura par défaut un accès invité ; vous pouvez modifier son rôle à tout moment dans la section Membres des paramètres de votre organisation.
+</Callout>
+
+**Authentification unique basée sur SAML** (SSO) donne aux membres accès à GitBook via un fournisseur d’identité (IdP) de votre choix.‌
+
+GitBook s’intègre facilement à votre fournisseur d’identité (IdP) existant afin que vous puissiez offrir à vos employés une authentification unique à GitBook en utilisant les mêmes identifiants et la même expérience de connexion que vos autres fournisseurs de services.‌
+
+En utilisant la SSO, vos employés pourront se connecter à GitBook à l’aide de l’interface familière du fournisseur d’identité, au lieu de la page de connexion GitBook. Le navigateur de l’employé les redirigera ensuite vers GitBook. L’IdP accorde l’accès à GitBook lorsque la SSO est activée et que le mécanisme de connexion propre à GitBook est désactivé. De cette manière, la sécurité de l’authentification est transférée à votre IdP et coordonnée avec vos autres fournisseurs de services.‌​
+
+## Prérequis pour la SSO avec GitBook
+
+- Le fournisseur d’identité (IdP) de votre entreprise doit prendre en charge le **SAML 2.0** standard.
+- Vous devez disposer d’autorisations d’administration sur l’IdP.
+- Vous devez être administrateur de l’organisation GitBook sur laquelle vous souhaitez configurer SAML.
+
+### Configuration dans GitBook
+
+Vous devez être un [administrateur d’organisation](/fr/docs/collaborer/member-management/roles#admin) pour activer la SSO pour votre organisation GitBook.‌
+
+Après avoir configuré la SSO sur votre IdP, vous pourrez saisir des métadonnées. Une fois la configuration réussie, les administrateurs verront une boîte de dialogue de confirmation et l’URL de connexion SSO pour les utilisateurs finaux sera affichée. **GitBook n’envoie pas d’e-mails d’annonce une fois la configuration terminée**. Il incombe à l’administrateur de prévenir les employés de l’entreprise (et de leur communiquer l’URL de connexion) afin qu’ils puissent accéder à GitBook via SSO.‌
+
+<Callout kind="info">
+  Les administrateurs de l’organisation peuvent toujours se connecter avec des méthodes non SSO ; vous pouvez donc encore voir des boutons Google, GitHub ou e-mail. C’est normal, même avec **SSO obligatoire** activé.
+
+  Cela évite de vous retrouver bloqué hors de votre organisation après une mauvaise configuration de la SSO. Les administrateurs peuvent toujours se connecter et supprimer ou corriger les paramètres SSO.
+</Callout>
+
+Vous aurez besoin des éléments suivants issus des métadonnées de votre IdP pour enregistrer un fournisseur SAML :
+
+- Un **libellé** – cela peut être n’importe quoi, cela sera affiché sur la page de connexion
+- Un **ID d’entité**
+- Un **URL de connexion unique**
+- Un **certificat X.509** – assurez-vous de copier et coller l’intégralité du certificat !
+
+### Configuration dans l’IdP
+
+La plupart des fournisseurs d’identité compatibles SAML 2.0 exigent les mêmes informations sur le fournisseur de services (GitBook, dans ce cas) pour la configuration. Ces valeurs sont spécifiques à votre organisation GitBook et sont disponibles dans le **Paramètres -> SSO** onglet de l’organisation GitBook pour laquelle vous souhaitez activer la SSO.‌
+
+La plupart de ces valeurs peuvent être copiées directement dans votre IdP pour finaliser la configuration de SAML.
+
+GitBook exige que le **NameID** contienne l’adresse e-mail de l’utilisateur. Techniquement, nous recherchons : `urn:oasis:names:tc:SAML:1.1:nameid-format:emailAddress` comme format Name-ID – de nombreux fournisseurs (comme Google) vous permettront de définir un format tel que **EMAIL**.
+
+### Attributs personnalisés
+
+GitBook récupérera les attributs personnalisés suivants à partir de la réponse d’assertion SAML et les utilisera lors de la création de l’utilisateur.
+
+| Champ | Description |
+| --- | --- |
+| `first_name` | `first_name` et `last_name` les champs seront combinés pour produire le nom d’affichage de l’utilisateur dans GitBook |
+| `last_name` | `first_name` et `last_name` les champs seront combinés pour produire le nom d’affichage de l’utilisateur dans GitBook |
+
+## Création de comptes pour les utilisateurs finaux
+
+Pour ajouter des membres, créez des comptes pour eux dans votre IdP. Lors de la première connexion d’un nouveau membre à GitBook via l’IdP, un compte GitBook sera créé pour lui via le provisionnement automatique de l’IdP. L’utilisateur aura accès aux ressources de l’organisation en tant que membre de l’organisation.
+
+<Callout kind="danger">
+  La configuration nécessite des adresses e-mail en minuscules. N’utilisez pas d’adresses e-mail en casse mixte.‌
+</Callout>
+
+## Suppression de comptes
+
+La suppression d’un membre de l’IdP empêchera l’utilisateur de se connecter au compte GitBook correspondant, **mais ne supprimera pas le compte de GitBook**. Nous vous conseillons également de supprimer le compte de l’organisation GitBook.
+
+## Contrôle de l’accès
+
+Une fois la SAML SSO configurée, il incombe à l’IdP de contrôler qui peut accéder à votre compte GitBook.
+
+## Avis de sécurité
+
+Si vous avez déjà un compte GitBook sous la même adresse e-mail que celle que nous recevons du fournisseur d’identité et que vous n’êtes pas membre de l’organisation à laquelle vous essayez de vous connecter, nous ne pourrons pas vous ajouter automatiquement à l’organisation avec la configuration SAML pour des raisons de sécurité. Vous avez deux options :
+
+1. Supprimez votre compte GitBook existant puis connectez-vous à l’organisation souhaitée avec SAML. GitBook créera alors un nouveau compte pour vous et vous serez ajouté à l’organisation
+2. Ou demandez à votre administrateur de vous inviter dans l’organisation :
+
+Si votre organisation n’a pas activé « SSO obligatoire », un administrateur de votre organisation peut inviter des utilisateurs via la page Membres dans les paramètres de votre organisation.
+
+Si votre organisation a activé « SSO obligatoire », un administrateur devra utiliser le `point de terminaison des invitations` API pour inviter des utilisateurs à l’organisation. Un appel à cette API ressemblerait à ceci ;
+
+```
+curl --request POST --header "Authorization: Bearer <your_access_token>" --url "https://api.gitbook.com/v1/orgs/<org_id>/invites" --header 'Content-Type: application/json' --data-raw '{ "sso": true, "role": "<role>", "emails":["<email>"] }'
+```

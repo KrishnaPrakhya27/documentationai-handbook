@@ -1,0 +1,55 @@
+---
+title: Dépliable
+description: Ajoutez un bloc dépliable à une page pour la raccourcir, masquer un contenu plus long ou créer des FAQ
+metaTitle: Dépliable | GitBook Documentation
+ogImage: https://test-dai.imgix.net/org-4afef969-21f9-40f3-b5b8-b06c8b6cf68f/doc-22a3b060-9539-4176-97e4-49120e02f5d1/0a5a1a9630785855-organizations-d8f63b60-89ae-11e7-8574-5927d48c4877-sites-site_p4Xo4-socialprevie.jpg?fm=auto&auto=compress%2Cformat
+---
+
+Les blocs extensibles sont utiles pour condenser ce qui pourrait autrement être un long paragraphe. Ils sont également très utiles dans les guides étape par étape et les FAQ.
+
+Par défaut, les blocs extensibles seront réduits sur votre site de documentation publié. Si vous souhaitez qu’un bloc extensible soit développé par défaut, ouvrez le menu d’options du bloc **menu Options** <Image src="https://test-dai.imgix.net/org-4afef969-21f9-40f3-b5b8-b06c8b6cf68f/doc-22a3b060-9539-4176-97e4-49120e02f5d1/4c115a43418b42e3-spaces-NkEGS7hzeqa35sMXQZ4X-uploads-aS1QvPIBVYwhpFTGcPBN-options-menu.svg?rasterize-bypass=true" alt="" /> et choisissez **Développé par défaut**.
+
+### Exemple
+
+<Expandable title="Étape 1 : Commencez à utiliser les blocs extensibles" defaultOpen={true}>
+  Pour ajouter un bloc extensible, appuyez sur `/` sur un bloc vide, ou cliquez sur le `+` à gauche de l’éditeur, puis sélectionnez **Extensible**.
+
+  En option, vous pouvez définir les blocs développés pour qu’ils soient **Développé par défaut** dans le **menu Options** <Image src="https://test-dai.imgix.net/org-4afef969-21f9-40f3-b5b8-b06c8b6cf68f/doc-22a3b060-9539-4176-97e4-49120e02f5d1/4c115a43418b42e3-spaces-NkEGS7hzeqa35sMXQZ4X-uploads-aS1QvPIBVYwhpFTGcPBN-options-menu.svg?rasterize-bypass=true" alt="" /> — tout comme ce bloc.
+</Expandable>
+
+<Expandable title="Étape 2 : Ajoutez du contenu à votre bloc">
+  Une fois que vous avez inséré un bloc extensible, vous pouvez y ajouter du contenu — y compris des listes et des blocs de code.
+</Expandable>
+
+## Représentation en Markdown
+
+```markdown
+# Blocs extensibles
+
+<details open>
+
+<summary>Ajoutez ici votre titre extensible</summary>
+
+Ajoutez ici le texte du corps du bloc extensible. Ce bloc est développé par défaut.
+
+</details>
+
+<details>
+
+<summary>Ajoutez ici votre titre extensible</summary>
+
+Ajoutez ici le texte du corps du bloc extensible. Ce bloc est réduit par défaut.
+
+</details>
+```
+
+### Limitations
+
+Il existe certaines limites quant aux blocs que vous pouvez créer à l’intérieur d’un bloc extensible. Vous pouvez insérer les types de contenu suivants dans les blocs extensibles :
+
+- Paragraphes
+- Titres (1, 2 et 3)
+- Listes à puces, numérotées et de tâches
+- Images en ligne
+
+Pour consulter la liste complète à tout moment, commencez une nouvelle ligne dans un bloc extensible et appuyez sur `/` pour afficher la palette d’insertion.

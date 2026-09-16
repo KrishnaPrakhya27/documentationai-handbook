@@ -1,0 +1,130 @@
+---
+title: Configuration d’Azure AD
+description: Configurez un écran de connexion Azure AD pour les visiteurs de votre documentation
+metaTitle: Configuration d’Azure AD | GitBook Documentation
+ogImage: https://test-dai.imgix.net/org-4afef969-21f9-40f3-b5b8-b06c8b6cf68f/doc-22a3b060-9539-4176-97e4-49120e02f5d1/0a5a1a9630785855-organizations-d8f63b60-89ae-11e7-8574-5927d48c4877-sites-site_p4Xo4-socialprevie.jpg?fm=auto&auto=compress%2Cformat
+---
+
+<Callout kind="alert">
+  Ce guide vous accompagne dans la configuration d'un écran de connexion protégé pour vos docs. Avant de suivre ce guide, assurez-vous d'abord d'avoir suivi le processus de [l'activation de l'accès authentifié](/fr/docs/publier/site-audience/authenticated-access/enabling-authenticated-access).
+</Callout>
+
+<Callout kind="info">
+  Il existe une limitation connue avec l'intégration Azure, selon laquelle les fragments d'URL des titres seront supprimés lors de l'authentification. L'utilisateur arrivera toujours sur la bonne page, mais sera amené en haut de la page au lieu d'être dirigé vers le titre dans l'URL. Une fois qu'un utilisateur est authentifié, ce comportement ne se produira plus au cours d'une session et l'utilisateur sera dirigé vers le bon titre.
+
+  Cela est dû à une mesure de sécurité mise en place par Microsoft.
+</Callout>
+
+### Aperçu
+
+Pour configurer votre site GitBook avec un accès authentifié à l'aide d'Azure AD, le processus est le suivant :
+
+<Steps>
+  <Step title="Step">
+    [**Créer une inscription d'application dans Azure AD**](#id-1.-create-an-app-registration-in-azure-a-d)
+
+    Créez une inscription d'application Azure AD dans votre tableau de bord d'administration Microsoft Entra ID.
+  </Step>
+
+  <Step title="Step">
+    [**Installer et configurer l'intégration Azure AD sur votre site**](#id-2.-install-and-configure-the-azure-a-d-integration)
+
+    Installez l'intégration Azure AD et ajoutez la configuration requise à votre site GitBook.
+  </Step>
+
+  <Step title="Step">
+    [<strong>Configurer Azure AD pour le contenu adaptatif (facultatif)</strong>](#id-3.-configure-azure-a-d-for-adaptive-content-optional)
+
+    Configurez votre Azure AD pour fonctionner avec le contenu adaptatif dans GitBook.
+  </Step>
+</Steps>
+
+### 1\. Créer une inscription d'application dans Azure AD
+
+Commencez par créer une inscription d'application dans votre tableau de bord Microsoft Entra ID. Cette inscription d'application permettra à l'intégration Azure AD de GitBook de demander des jetons afin de valider l'identité de l'utilisateur avant de lui accorder l'accès à votre site.
+
+1. Connectez-vous à votre interface d'administration Microsoft Entra ID [tableau de bord](https://entra.microsoft.com/).
+2. Allez dans **Identité** \> **Applications** \> **Inscriptions d'applications** dans la barre latérale de gauche.
+3. Cliquez sur <strong>\+ Nouvelle inscription,</strong> et donnez un nom à votre inscription.
+4. Sous <strong>Types de comptes pris en charge,</strong> sélectionnez « <strong>Comptes dans cet annuaire organisationnel uniquement (annuaire par défaut uniquement - locataire unique) »</strong>.
+5. Laissez le champ URI de redirection vide pour le moment — vous devrez le renseigner plus tard.
+6. Cliquez **Enregistrer** pour terminer l'inscription de l'application.<br />
+
+   <Image src="https://test-dai.imgix.net/org-4afef969-21f9-40f3-b5b8-b06c8b6cf68f/doc-22a3b060-9539-4176-97e4-49120e02f5d1/2da0684d25472e7f-spaces-NkEGS7hzeqa35sMXQZ4X-uploads-uB6p6HxRmveHp1cfsiKa-azure_ad_integration_re.png?fm=auto&auto=compress%2Cformat" alt="An Azure screenshot showing how to register an Azure AD app" caption="Enregistrez une application pour l'intégration GitBook VA." />
+7. Vous devriez alors voir l'écran de votre nouvelle inscription d'application **Aperçu** Copiez et notez l' <strong>ID d'application (client)</strong> et <strong>ID de répertoire (locataire)</strong>.<br />
+
+   <Image src="https://test-dai.imgix.net/org-4afef969-21f9-40f3-b5b8-b06c8b6cf68f/doc-22a3b060-9539-4176-97e4-49120e02f5d1/89ea39a6b472459e-spaces-NkEGS7hzeqa35sMXQZ4X-uploads-ETQziXVuqGnho8GGOVBZ-azure_ad_integration_ap.png?fm=auto&auto=compress%2Cformat" alt="An Azure screenshot showing the app registration overview" caption="Présentation de l'inscription d'application nouvellement créée." />
+8. Cliquez sur **Ajouter un certificat ou un secret**. Vous devriez voir l'écran suivant **Certificats et secrets** écran :<br />
+
+   <Image src="https://test-dai.imgix.net/org-4afef969-21f9-40f3-b5b8-b06c8b6cf68f/doc-22a3b060-9539-4176-97e4-49120e02f5d1/894a8961101ee978-spaces-NkEGS7hzeqa35sMXQZ4X-uploads-nXJbnpnGhOI6Udjrx8bS-azure_ad_integration_cl.png?fm=auto&auto=compress%2Cformat" alt="An Azure screenshot showing where to add a certificate or secret" caption="Ajouter un certificat ou un secret." />
+9. Cliquez sur <strong>\+ Nouveau secret client</strong>.
+10. Saisissez une description appropriée pour le secret et cliquez sur **Ajouter**.
+11. Copiez et notez le champ **Valeur**  (<em>**pas** l'ID du secret</em>) du secret que vous venez de créer.
+
+### 2\. Installer et configurer l'intégration Azure AD
+
+Une fois que vous avez créé l'inscription d'application Azure AD, l'étape suivante consiste à installer l'intégration Azure AD dans GitBook et à la lier à votre application Azure à l'aide des identifiants générés précédemment :
+
+1. Accédez au site sur lequel vous avez [activé l'accès authentifié](/fr/docs/publier/site-audience/authenticated-access/enabling-authenticated-access#enable-authenticated-access) et souhaitez utiliser Azure AD comme fournisseur d'identité.
+2. Cliquez sur le bouton **Intégrations** en haut à droite dans les paramètres de votre site.<br />
+
+   <Image src="https://test-dai.imgix.net/org-4afef969-21f9-40f3-b5b8-b06c8b6cf68f/doc-22a3b060-9539-4176-97e4-49120e02f5d1/2084b09d489dfd9b-spaces-NkEGS7hzeqa35sMXQZ4X-uploads-gBMsbydNsuqx7eqcz0JN-va_site_integration_ove.png?fm=auto&auto=compress%2Cformat" alt="A GitBook screenshot showing the site settings overview" />
+3. Cliquez sur **Accès authentifié** dans les catégories de la barre latérale.
+4. Sélectionnez l' **intégration Azure** .
+5. Cliquez **Installer sur ce site**.<br />
+
+   <Image src="https://test-dai.imgix.net/org-4afef969-21f9-40f3-b5b8-b06c8b6cf68f/doc-22a3b060-9539-4176-97e4-49120e02f5d1/f619cf329a3b03e0-spaces-NkEGS7hzeqa35sMXQZ4X-uploads-CiveWUn0FWMEdS3YRU62-Screenshot-2025-03-24-a.png?fm=auto&auto=compress%2Cformat" alt="A GitBook screenshot showing installation of the Azure AD integration" />
+6. Après avoir installé l'intégration sur votre site, vous devriez voir l'écran de configuration de l'intégration :<br />
+
+   <Image src="https://test-dai.imgix.net/org-4afef969-21f9-40f3-b5b8-b06c8b6cf68f/doc-22a3b060-9539-4176-97e4-49120e02f5d1/d7ba337d1afb2e24-spaces-NkEGS7hzeqa35sMXQZ4X-uploads-vO9pXBCZkcprDDIVFkcf-Screenshot-2025-03-24-a.png?fm=auto&auto=compress%2Cformat" alt="A GitBook screenshot showing the Azure AD configuration dialog" />
+7. Saisissez les valeurs **ID client**, **ID du locataire**, et **Secret client** que vous avez copiées après [la création de l'inscription d'application Azure AD](#id-1.-create-an-app-registration-in-azure-a-d) précédemment, puis cliquez sur « Enregistrer ».
+8. Copiez l' **URL** affichée **en bas de la boîte de dialogue**.
+9. Retournez à l'inscription d'application Azure AD que vous avez créée précédemment dans le tableau de bord Microsoft Entra ID.
+10. Accédez à **Gérer** \> **Authentification** dans la barre latérale.
+11. Cliquez <strong>\+ Ajouter une plateforme</strong> et sélectionnez **Web** carte dans le panneau qui s'ouvre.<br />
+
+    <Image src="https://test-dai.imgix.net/org-4afef969-21f9-40f3-b5b8-b06c8b6cf68f/doc-22a3b060-9539-4176-97e4-49120e02f5d1/a7d6b9fb635d067e-spaces-NkEGS7hzeqa35sMXQZ4X-uploads-Ussw9BNY66urLYH376sE-Screenshot-2025-03-24-a.png?fm=auto&auto=compress%2Cformat" alt="An Azure screenshot showing authentication platform settings" />
+12. Collez l'intégration GitBook **URL** que vous avez copiée précédemment dans le **URI de redirection** champ, puis cliquez sur « Configurer »<br />
+
+    <Image src="https://test-dai.imgix.net/org-4afef969-21f9-40f3-b5b8-b06c8b6cf68f/doc-22a3b060-9539-4176-97e4-49120e02f5d1/a56c045c2cc284d2-spaces-NkEGS7hzeqa35sMXQZ4X-uploads-i9fVjsa351I6kVzJw64X-image.png?fm=auto&auto=compress%2Cformat" alt="An Azure screenshot showing where to enter the redirect URI" />
+13. Retournez à **l'installation de l'intégration Azure** écran **dans GitBook**.
+14. Fermez les boîtes de dialogue d'intégration et cliquez sur l' **onglet Paramètres** dans l'écran du site.
+15. Accédez à **Audience** et sélectionnez **Accès authentifié** (si ce n'est pas déjà sélectionné).
+16. Sélectionnez **intégration Azure** dans la liste déroulante de la section **Backend d'authentification** .
+17. Cliquez **Mettre à jour l'audience**.<br />
+
+    <Image src="https://test-dai.imgix.net/org-4afef969-21f9-40f3-b5b8-b06c8b6cf68f/doc-22a3b060-9539-4176-97e4-49120e02f5d1/5c02f35066860cdf-spaces-NkEGS7hzeqa35sMXQZ4X-uploads-inc5DrItbyXUIXP4K4ic-Screenshot-2025-03-24-a.png?fm=auto&auto=compress%2Cformat" alt="A GitBook screenshot showing authenticated access settings" />
+18. Accédez à l'écran d'aperçu du site et cliquez sur **Publier** si le site n'est pas déjà publié.
+
+Votre site est désormais publié derrière un accès authentifié à l'aide de votre Azure AD comme fournisseur d'identité.
+
+Pour le tester, cliquez sur Visiter. Il vous sera demandé de vous connecter avec Azure, ce qui confirme que votre site est publié derrière un accès authentifié via Azure.
+
+<Callout kind="info">
+  Lorsque vous accédez à l'URL du contenu publié et après vous être connecté avec vos identifiants Azure, il se peut que vous voyiez un écran vous indiquant que vous devez « Demander l'approbation » à votre administrateur. Votre administrateur peut accorder cette demande en accédant à l'URL du contenu publié, en se connectant et en accordant l'approbation au nom de l'organisation.
+</Callout>
+
+### 3\. Configurer Azure AD pour le contenu adaptatif (facultatif)
+
+Pour tirer parti de la fonctionnalité de contenu adaptatif sur votre site à accès authentifié, configurez l'inscription d'application Azure AD pour inclure des informations utilisateur supplémentaires dans le jeton d'authentification sous forme de revendications.
+
+Ces revendications, représentées sous forme de paires clé-valeur, sont transmises à GitBook et peuvent être utilisées pour [adapter le contenu](/fr/docs/publier/adaptive-content/adapting-your-content) dynamiquement pour les visiteurs de votre site.
+
+Azure AD prend en charge différents types et niveaux de revendications, chacun ayant sa propre méthode de configuration :
+
+- **Revendications standard**: Des revendications courantes qui peuvent être incluses dans les jetons mais qui ne sont pas toujours présentes par défaut.
+
+<Callout kind="info">
+  Azure AD optimise la taille des jetons pour les performances. Par conséquent, de nombreuses revendications sont **pas** incluses par défaut dans le jeton et doivent être demandées explicitement par l'application. Pour garantir que des revendications comme `email` , `groups` ou `roles` soient incluses, elles doivent être demandées explicitement comme **des revendications facultatives**.
+</Callout>
+
+- **Revendications facultatives**: Des revendications prédéfinies supplémentaires qui peuvent être activées pour une application.
+- **Revendications personnalisées**: Des revendications provenant d'attributs utilisateur personnalisés dans Azure AD ou de systèmes externes via un fournisseur de revendications personnalisé.
+
+Pour plus de détails sur la manière d'inclure ces différents types de revendications dans les jetons générés par votre application Azure AD, consultez les guides de documentation Microsoft Entra suivants :
+
+- [Attributs utilisateur](https://learn.microsoft.com/en-us/entra/external-id/customers/how-to-add-attributes-to-token)
+- [Revendications facultatives](https://learn.microsoft.com/en-us/entra/identity-platform/optional-claims?toc=%2Fentra%2Fexternal-id%2Ftoc.json&bc=%2Fentra%2Fexternal-id%2Fbreadcrumb%2Ftoc.json&tabs=appui)
+- [Revendications personnalisées](https://learn.microsoft.com/en-us/entra/identity-platform/custom-claims-provider-overview)
+
+Après avoir configuré les bonnes revendications à envoyer à GitBook, rendez-vous dans « [Adapter votre contenu](/fr/docs/publier/adaptive-content/adapting-your-content) » pour continuer à configurer votre site.

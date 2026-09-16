@@ -1,0 +1,198 @@
+---
+title: 编写与编辑文档
+description: 在与 Git 同步的仓库、IDE 或任何文本编辑器中编写、创建、编辑和格式化 GitBook 文档页面。适用于任何涉及创建或编辑 GitBook markdown 页面、编写或更新
+metaTitle: 编写与编辑文档 | GitBook Documentation
+ogImage: https://test-dai.imgix.net/org-4afef969-21f9-40f3-b5b8-b06c8b6cf68f/doc-22a3b060-9539-4176-97e4-49120e02f5d1/0a5a1a9630785855-organizations-d8f63b60-89ae-11e7-8574-5927d48c4877-sites-site_p4Xo4-socialprevie.jpg?fm=auto&auto=compress%2Cformat
+---
+
+#### 何时使用此技能
+
+在通过以下方式处理 GitBook 文档时使用此技能：
+
+- 与 Git 同步的仓库（GitHub、GitLab）
+- 本地 Markdown 编辑器
+- IDE 集成
+- 任何你以文件而非 GitBook 界面编辑 GitBook 内容的环境
+
+#### 快速参考
+
+**GitBook 内容结构**
+
+GitBook 通过页面、空间和集合来组织内容：
+
+- **页面** 是组成文档的单独 Markdown 文件
+- **空间** 是组织成一个文档站点的页面集合
+- **集合** 是空间组
+
+<strong>文件结构：</strong>
+
+```
+/
+  .gitbook/
+    assets/              # GitBook 管理的图片和文件
+    includes/            # 可复用内容块
+    vars.yaml            # 空间级变量
+  .gitbook.yaml          # 配置
+  README.md              # 主页
+  SUMMARY.md             # 目录
+  getting-started/
+    installation.md
+    quickstart.md
+  api-reference/
+    authentication.md
+    endpoints.md
+```
+
+<strong>Frontmatter 字段（快速形式）：</strong>
+
+```markdown
+---
+description: "用于 SEO 的页面描述"
+icon: book-open
+hidden: true
+vars:
+  page_variable: value
+layout:
+  width: default  # 或 'wide'
+  tableOfContents:
+    visible: true
+  pagination:
+    visible: true
+---
+```
+
+<strong>变量与表达式：</strong>
+
+- 空间变量： `/.gitbook/vars.yaml`
+- 页面变量：Frontmatter `vars:`
+- 表达式语法： `<code class="expression">space.vars.variableName</code>`
+
+<strong>最常见的自定义块：</strong>
+
+- `{% tabs %}...{% endtabs %}` —— 用于提供替代选项
+- `{% hint style="..." %}...{% endhint %}` —— 提示框（信息/警告/危险/成功）
+- `{% stepper %}...{% endstepper %}` —— 顺序步骤
+- `<details>...<summary>...</details>` —— 可展开内容
+
+<strong>链接：</strong>
+
+- 外部： `[text](https://example.com)`
+- 相对链接（同一空间）： `[text](page.md)`, `[text](../folder/page.md)`
+- 跨空间（不同空间）： `[text](https://app.gitbook.com/s/<spaceId>/<path>)` —— 相对路径绝不会跨越空间边界，而这才是唯一正确的 URL 形式（不是 `/spaces/<id>/pages/<id>`）。获取 `<spaceId>` 来自 `GET /orgs/{orgId}/spaces` 以及 `<path>` 来自页面的 `path` 字段，位于 `GET /spaces/{spaceId}/content/pages`。在目标空间尚不存在时搭建新站点？使用 `XSPACE_<KEY>` 哨兵值； `configure-site` 创建后会解析它们。完整示例： `references/markdown.md`.
+- 移动/重命名的页面仍可正常工作——GitBook 会自动从旧路径创建重定向。
+
+<strong>关键提醒：</strong>
+
+- 处理现有内容时先阅读 SUMMARY.md
+- 本地编辑后在 GitBook 中测试
+- 保持 SUMMARY.md 与你的文件结构同步
+- OpenAPI 规范必须通过 UI、API、MCP 或 CLI 上传，不能嵌入在 Markdown 中
+
+#### 何时使用哪种块
+
+| 需求 | 使用 | 原因 |
+| --- | --- | --- |
+| 顺序排列的指令 | `{% stepper %}` | 清晰的步骤推进 |
+| 替代选项（语言、平台） | `{% tabs %}` | 用户可在不让页面杂乱的情况下进行选择 |
+| 可选或详细信息 | `<details>` | 让页面易于快速浏览 |
+| 重要警告或提示 | `{% hint %}` | 有颜色的提示框（信息/警告/危险/成功） |
+| 并排比较 | `{% columns %}` | 并列布局（最多 2 列） |
+| 时间线或更新日志 | `{% updates %}` | 带标签筛选的日期条目 |
+| 可视化导航卡片 | `<table data-view="cards">` | 可点击的卡片网格 |
+| 可下载文件 | `{% file %}` | 带说明的文件 |
+| 行动号召链接 | `<a class="button">` | 主按钮或次按钮 |
+| 跨页面可复用内容 | `{% include %}` | 单一事实来源 |
+| 动态内容 | `<code class="expression">` | 渲染变量值 |
+
+<strong>变量作用域：</strong>
+
+| 如果变量是…… | 定义于…… | 使用……访问 |
+| --- | --- | --- |
+| 在多个页面中使用 | `/.gitbook/vars.yaml` | `space.vars.variableName` |
+| 仅限单个页面 | Frontmatter `vars:` | `page.vars.variableName` |
+
+#### 处理现有内容
+
+1. **先阅读 SUMMARY.md** —— 完整目录和文件层级
+2. **如果没有 SUMMARY.md** —— 直接浏览目录结构
+3. **检查 .gitbook.yaml** —— 根路径、自定义 README/SUMMARY 位置、重定向
+4. <strong>检查 .gitbook/assets/</strong> —— 已上传的图片和文件
+5. **检查 .gitbook/vars.yaml** —— 空间级变量
+
+#### 常见陷阱
+
+<strong>跨空间链接：</strong>
+
+- 不要使用相对路径链接到不同空间中的页面——它们不会解析。
+- 不要使用 `/spaces/<spaceId>/pages/<pageId>` —— 那不是有效的 GitBook 链接形式。
+- 使用 `https://app.gitbook.com/s/<spaceId>/<path>` 而应使用，其中 `<path>` 是目标页面的 `path` 字段（来自 `GET /spaces/{spaceId}/content/pages`），而不是其页面 ID。
+- 使用 `XSPACE_<KEY>` 当空间 ID 尚未知晓时使用哨兵值（新空间，尚未创建）。
+
+<strong>文件组织：</strong>
+
+- 不要在 SUMMARY.md 中两次引用同一个 Markdown 文件
+- 保持 SUMMARY.md 中的文件路径与实际文件位置一致
+
+<strong>配置：</strong>
+
+- 使用 Git Sync 时，只通过你的仓库管理 README.md
+- 移动或重命名文件后测试重定向
+
+<strong>自定义块：</strong>
+
+- 始终正确关闭块（`{% endtab %}`, `{% endhint %}`，等等）
+- 开始标签和结束标签必须完全匹配
+
+<strong>Frontmatter：</strong>
+
+- 始终加引号 `description:` 包含……的值 `:`, `#`、或其他对 YAML 有特殊意义的字符——未加引号的特殊字符会导致 Git Sync 静默失败，且不会报错
+- Frontmatter 必须位于文件最顶部
+
+#### 使用 Git Sync
+
+当 GitBook 与 Git 同步时，变更会双向流动——Git 中的更改会更新 GitBook，而 GitBook 界面中的更改会提交回 Git。合并冲突在 Git 中解决。
+
+<strong>最佳实践：</strong> 通过 Git 中的 SUMMARY.md 进行结构性更改；对重大更新使用基于分支的工作流；审查 GitBook 自动生成的提交。
+
+**预览已推送的分支**
+
+下方的双链接规则适用于通过变更请求推送的内容。当你通过 **Git** 则对应的是提交状态：打开拉取/合并请求——或推送到已有该请求的分支——会让 GitBook 导入该分支并发布一条状态，链接到渲染后站点的预览。 <strong>每当你推送文档更改时，都要主动把那个链接给用户，不要等对方询问。</strong> 应从提交状态中读取，而不是自行构造 URL：revision id 在导入时生成，不能从分支或 PR 推导出来，而且每次推送都会生成新的 id，所以先前的链接会失效。参见 `references/git-sync-previews.md` 了解 GitHub 和 GitLab 的命令，以及导入仍在运行时该怎么做。
+
+**选择 Git Sync 还是变更请求内容推送**
+
+当空间已配置 Git Sync 且你拥有（或可以获取）同步仓库的本地检出副本时， **优先直接编辑文件并提交/推送** —— Git Sync 会将更改传播到 GitBook。即使在 MCP 会话中有可用且已连接的变更请求内容推送工具（例如 `updateChangeRequestContent`）可用且已连接：该工具只差一次调用并不是绕过 Git 这个事实来源的理由。发现该工具的代理 *可以* 可直接推送到 CR，但在这样做之前仍应检查 Git Sync 是否已设置且可访问。
+
+则应改用变更请求内容推送路径（MCP 的 `updateChangeRequestContent` 或类似工具，或 REST `POST .../change-requests/<cr>/content` 端点——参见 `cr-create` 技能）当：
+
+- 空间尚未配置 Git Sync（例如一个仍在设置中的全新空间），
+- 当前环境中没有可用的本地 Git 检出副本（无法访问同步仓库的文件系统），或者
+- 变更很小且有针对性（一个拼写错误、一段文字、一个字段）——此时打开 CR 是合适的，而完整的克隆/提交/推送流程不值得。
+
+对于更大的变更——新页面树、多页面重写、迁移——优先使用 Git Sync，即使这意味着先暂停确认仓库已在本地克隆。不要因为变更请求工具是第一个可用的就默认使用它。
+
+**只要涉及变更请求，就必须提供两个链接**
+
+如果此次编辑的任何部分经过了变更请求（`create_change_request` / `updateChangeRequestContent`，或其 REST 等价接口）， <strong>在以下两项都被反馈回来之前，编辑都不算完成，每次都必须如此——这是硬性规则，不是可略读的提醒：</strong>
+
+1. **CR 差异/编辑器链接** — `urls.app` 位于变更请求对象上，由……返回 `create_change_request`, `updateChangeRequestContent`，或 `getChangeRequestById`.
+2. **站点预览链接** —— 来自……的站点 URL **Site** 对象（`urls.published` 当站点是公开的时，或 `urls.preview`）并附加 <strong>`/~/changes/<number>/` 附加</strong>。这绝不会包含在变更请求响应中——它需要单独查找——也正因如此它最容易被忘记。每次都要解析它，不要只在想起来时才做。 **没有 `~/changes/` 片段时，该链接就不是变更请求的预览** —— 它渲染的是站点当前内容，所以看起来合理，实际上却是错的。
+
+无论是哪个技能推送了内容（本技能或 `configure-site`）以及无论使用何种传输方式（MCP 或 REST），都适用。参见 `cr-create` 该技能中的“显示预览链接”以查看完整说明和 REST 解析步骤。 **MCP 等效方式** （GitBook MCP 没有单一现成的“给我预览链接”调用）：
+
+1. 解析该空间所属的组织—— `invoke_operation("getSpaceById", {path:{spaceId}})` → `.organization` （如果你已经有组织 ID，则跳过）。
+2. 找出该空间属于哪个站点—— `list_sites` / `get_site_structure`，或者检查每个站点的 site-spaces 中是否有匹配 `.space.id`.
+3. `invoke_operation("getSiteById", {path:{organizationId, siteId}})` → `.urls.published` （站点上线后），否则 `.urls.preview`。附加 `/~/changes/<number>/`，并去掉 API 返回的末尾斜杠。
+
+如果该空间未附加到任何已发布站点，请明确说明，并只提供差异链接——不要不加解释地悄悄省略预览链接这一行。
+
+这在实践中已经发生过静默失败：某次编辑被推送并合并时只报告了差异链接，而预览链接直到有人直接询问才出现。请将上面的双链接清单按字面执行。
+
+#### 参考文件
+
+当任务需要更深入的细节时按需加载这些内容：
+
+- `references/blocks.md` —— 所有 GitBook 块类型的完整语法和示例：tabs、steppers、hints、expandable、columns、updates、cards、embeds、files、buttons、icons、可复用内容以及 OpenAPI 块。 <strong>在编写非平凡页面或上述快速参考不够用时加载。</strong>
+- `references/frontmatter.md` —— 所有 frontmatter 字段及其说明、YAML 引号规则、封面图、适应性内容（`if:`），以及变量/表达式的深入说明。 <strong>在配置页面布局、封面、条件可见性或变量时加载。</strong>
+- `references/markdown.md` —— 标准 Markdown、带标题的代码块、数学/TeX、Mermaid 图表类型与示例，以及 SVG 处理细节。 <strong>在处理图表、数学或 SVG 资源时加载。</strong>
+- `references/configuration.md` — `.gitbook.yaml` 选项，以及 `.gitbook/` 目录结构（assets、includes、vars、tags）以及 SUMMARY.md 语法规则的完整内容。 <strong>在设置空间、添加重定向或编写/编辑 SUMMARY.md 时加载。</strong>
+- `references/git-sync-previews.md` —— 获取通过 Git Sync 推送的分支的预览链接：读取 GitHub 和 GitLab 上的 GitBook 提交状态、区分站点预览与编辑器差异，以及处理仍在运行的导入。 <strong>每当你将文档更改推送到一个已打开拉取/合并请求的分支时加载。</strong>

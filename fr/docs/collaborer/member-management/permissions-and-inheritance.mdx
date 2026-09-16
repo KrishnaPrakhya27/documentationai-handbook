@@ -1,0 +1,95 @@
+---
+title: Autorisations et héritage
+description: Comprenez comment fonctionnent les autorisations dans GitBook et comment contrôler qui peut accéder à votre contenu et le modifier
+metaTitle: Autorisations et héritage | GitBook Documentation
+ogImage: https://test-dai.imgix.net/org-4afef969-21f9-40f3-b5b8-b06c8b6cf68f/doc-22a3b060-9539-4176-97e4-49120e02f5d1/0a5a1a9630785855-organizations-d8f63b60-89ae-11e7-8574-5927d48c4877-sites-site_p4Xo4-socialprevie.jpg?fm=auto&auto=compress%2Cformat
+---
+
+GitBook dispose d'un modèle d'autorisations flexible qui vous permet d'avoir autant, ou aussi peu, de contrôle sur les autorisations que nécessaire. Le modèle d'autorisations dans GitBook est un [**basé sur les rôles**](/fr/docs/collaborer/member-management/roles#roles-in-gitbook)<strong>, à cascade</strong> modèle. Cela signifie que vous définissez des valeurs par défaut puis, à n'importe quel niveau de contenu, décidez d'hériter ou non de ces valeurs par défaut.
+
+Vous pouvez définir des autorisations à quatre niveaux : **organisation**, **site**, **collection**, et **espace**.
+
+### Rôles par défaut de l'organisation
+
+Lorsque vous ajoutez un membre à votre organisation, vous définissez [son rôle par défaut](/fr/docs/collaborer/member-management/roles). Ce rôle s'applique à tout contenu qui hérite de ses autorisations depuis les paramètres par défaut de l'organisation.
+
+### Comment les autorisations se propagent
+
+Dans GitBook, les autorisations sont résolues selon la **priorité**, et non selon le rôle le plus élevé à chaque niveau.
+
+Pour les espaces en mode hérité, GitBook résout l'accès dans l'ordre suivant :
+
+- **Espace** — remplacements directs des membres et des équipes sur l'espace
+- **Site** — autorisations provenant du site parent
+- **Collection** — autorisations provenant de la collection parente, s'il y en a une
+- **Organisation** — le rôle par défaut défini pour chaque membre
+
+Cela signifie que les autorisations du site remplacent les valeurs par défaut de l'organisation et les valeurs par défaut de la collection parente pour les espaces liés en mode hérité. Les remplacements directs au niveau de l'espace restent prioritaires sur tout le reste.
+
+Voici deux exemples de la façon dont cela fonctionne en pratique :
+
+<Expandable title="Exemple 1">
+  Un membre a un rôle de Créateur au niveau de l'organisation. Un espace lié est en mode hérité, et le site parent définit ce membre comme Commentateur. Le membre obtient un accès Commentateur dans cet espace, car le site a priorité sur la valeur par défaut de l'organisation.
+</Expandable>
+
+<Expandable title="Exemple 2">
+  Une collection définit un espace comme Lecteur, et le site parent le définit comme Commentateur. L'espace utilise Commentateur, car les autorisations du site ont priorité sur la collection parente en mode hérité. Si vous donnez ensuite à un membre un accès direct de Créateur sur l'espace, ce remplacement direct l'emporte pour ce membre.
+</Expandable>
+
+<Callout kind="info">
+  <strong>Remarque :</strong> Les autorisations du site s'appliquent uniquement aux espaces en mode hérité. Si un espace dispose de ses propres autorisations configurées — c'est-à-dire qu'il n'est pas en mode hérité — celles-ci ont priorité et les autorisations au niveau du site n'ont aucun effet.
+</Callout>
+
+### Gérer l'héritage
+
+Chaque fois que vous créez une collection ou un espace, vous pourrez définir le type d'héritage souhaité. Vous avez trois grandes options lorsque vous définissez l'héritage d'un contenu :
+
+### Hériter
+
+Définir l'héritage sur **hériter** fera hériter l'espace ou la collection des rôles attribués dans le **contenu du niveau parent**. Pour les espaces ou collections de premier niveau, ce parent est l'organisation, ils hériteraient donc des rôles par défaut de l'organisation. Pour les espaces ou sous-collections au sein d'une collection, le parent sera la collection dans laquelle se trouve le contenu.
+
+Lorsqu'un espace est lié à un site et reste en mode hérité, GitBook résout l'accès dans l'ordre suivant : remplacements directs de l'espace, puis le site parent, puis la collection parente, et enfin l'organisation. Les autorisations du site ont priorité sur les valeurs par défaut de l'organisation et de la collection pour les espaces liés en mode hérité, mais elles ne modifient pas les remplacements directs au niveau de l'espace.
+
+### Accès à un rôle spécifique
+
+Le choix d'un rôle spécifique lors de la définition de l'héritage des autorisations d'une collection ou d'un espace va **réinitialiser** les rôles par défaut de l'organisation et attribuer à chaque **non-administrateur** à ce rôle au sein de la collection ou de l'espace. Par exemple, si vous définissez l'héritage sur **lecteur**, tout le monde dans l'organisation aurait un accès en lecture seule à l'espace ou à la collection, quel que soit son rôle par défaut.
+
+L'accès direct d'un membre ou d'une équipe à cette collection ou cet espace peut encore remplacer ce paramètre hérité. Si vous définissez un rôle spécifique sur l'espace lui-même, l'espace n'utilise plus le mode hérité, donc les autorisations du site n'ont aucun effet.
+
+### Aucun accès
+
+Vous pouvez également révoquer complètement l'accès pour les membres non administrateurs de l'organisation au niveau d'un espace ou d'une collection. Cela masquera le contenu à tout le monde, sauf aux administrateurs et à la personne qui a créé l'espace ou la collection.
+
+<Callout kind="info">
+  L'option d'héritage par défaut pour tout espace ou toute collection nouvellement créée est **hériter**. Cela signifie que chaque fois qu'un contenu est créé, il héritera par défaut des autorisations de son parent.
+</Callout>
+
+### Définir des autorisations spécifiques au contenu
+
+Une fois que vous avez décidé de l'héritage des autorisations pour votre espace ou collection, vous pouvez encore personnaliser l'accès en donnant aux équipes ou aux membres **un accès direct**.
+
+### Donner un accès direct à une équipe
+
+Vous pouvez ajouter directement une équipe à une collection ou à un espace avec un rôle spécifique. Cela donnera à toute personne de cette équipe l'accès indiqué au contenu.
+
+<Callout kind="info">
+  L'accès par équipe est un excellent moyen de s'assurer que les bonnes personnes ont accès au bon contenu ; chaque fois qu'une personne est ajoutée à une équipe ou en est retirée, elle obtiendra ou perdra, respectivement, les autorisations définies sur le contenu.
+</Callout>
+
+### Donner un accès direct à un membre
+
+De la même manière que pour les équipes, vous pouvez également donner un accès direct aux membres. C'est la manière la plus granulaire de gérer les autorisations. Lorsque vous donnez à des membres individuels un accès direct à une collection ou à un espace, vous remplacez toutes les autorisations héritées qu'ils pourraient avoir. L'accès direct des membres est idéal si vous avez besoin d'un contrôle très précis sur les collaborateurs.
+
+Les membres ayant un accès direct au niveau de l'espace sont entièrement exclus du modèle d'héritage. Leur rôle est défini explicitement et n'est pas affecté par les autorisations au niveau de l'organisation, du site ou de la collection.
+
+### Garder le contrôle des autorisations
+
+Même si cela peut sembler assez complexe au premier abord, le modèle d'autorisations de GitBook vous donne du contrôle si vous en avez besoin, et se fait oublier si ce n'est pas le cas. Pour de nombreuses équipes, une **configuration puis oubli** approche de gestion des autorisations est tout ce dont elles ont besoin. Pour d'autres équipes, en particulier les grandes organisations, ce niveau de contrôle sur l'accès et les workflows est essentiel.
+
+#### Configurer puis oublier
+
+Si vous souhaitez simplement intégrer vos coéquipiers et commencer à modifier du contenu avec eux, vous n'aurez peut-être même jamais besoin de consulter les autorisations. Invitez les personnes, définissez leur rôle par défaut, et tout contenu que vous créez héritera par défaut de ces rôles. Pas besoin d'entrer dans les détails !
+
+#### Contrôle de l'accès et des workflows
+
+Pour les grandes organisations, les équipes qui divisent leur organisation en collections distinctes, ou les équipes qui ont besoin d'un contrôle très granulaire du workflow ; alors entrer dans les détails est exactement ce qu'il faut. En utilisant une combinaison d'héritage, de remplacement, d'accès direct des équipes et d'accès direct des utilisateurs, vous pouvez créer des workflows et des modèles d'accès qui vous permettent de garder le contrôle.

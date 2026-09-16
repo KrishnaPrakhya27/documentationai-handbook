@@ -1,0 +1,50 @@
+---
+title: Compétence
+description: "Travaillez avec GitBook de bout en bout : rédigez et mettez en forme des pages et des blocs Markdown au format GitBook (astuces, onglets, pas-à-pas) ; concevez, structurez et configurez des sites de documentation via l’API REST GitBook et Git"
+metaTitle: Compétence | GitBook Documentation
+ogImage: https://test-dai.imgix.net/org-4afef969-21f9-40f3-b5b8-b06c8b6cf68f/doc-22a3b060-9539-4176-97e4-49120e02f5d1/0a5a1a9630785855-organizations-d8f63b60-89ae-11e7-8574-5927d48c4877-sites-site_p4Xo4-socialprevie.jpg?fm=auto&auto=compress%2Cformat
+---
+
+<Callout kind="info">
+  Cette page est générée automatiquement à partir de [GitbookIO/gitbook-skills](https://github.com/GitbookIO/gitbook-skills). Ne la modifiez pas directement — modifiez plutôt les compétences sources là-bas.
+</Callout>
+
+## GitBook
+
+La compétence de GitBook pour les agents de codage IA, couvrant six domaines du travail sur GitBook. Chaque section ci-dessous correspond à l’une des six compétences de [gitbook-skills](https://github.com/GitbookIO/gitbook-skills) — lisez sa description pour voir si elle correspond à votre tâche, puis récupérez sa page liée pour obtenir toutes les instructions avant d’agir. Les instructions de chaque compétence renvoient vers du matériel de référence supplémentaire (syntaxe complète des blocs, charges utiles de l’API, dépannage) dans [gitbook-skills](https://github.com/GitbookIO/gitbook-skills) dans `skills/<name>/references/` lorsque vous avez besoin de plus de détails que ceux des instructions de haut niveau.
+
+#### Rédiger et modifier la documentation
+
+Rédigez, créez, modifiez et mettez en forme des pages de documentation GitBook dans des dépôts synchronisés avec Git, des IDE ou tout éditeur de texte. À utiliser chaque fois qu’une tâche implique la création ou la modification d’une page Markdown GitBook, la rédaction ou la mise à jour d’un README.md ou d’un SUMMARY.md, l’insertion d’un hint, d’un tab, d’un stepper, d’une card ou d’un autre bloc GitBook, la configuration du front matter d’une page ou des options de mise en page, la mise en place de variables ou d’expressions, ou la mise en forme de contenu pour GitBook en dehors de l’interface GitBook.
+
+Instructions complètes : [https://gitbook.com/docs/skill/write-docs.md](/en/docs/skill/write-docs)
+
+#### Configurer un site
+
+Créez et maintenez des sites de documentation GitBook complets de bout en bout — concevez la structure du site à partir du contenu source, initialisez un dépôt Git dans une structure monorepo, configurez le dépôt distant GitHub/GitLab, utilisez l’API GitBook (via son API REST ou son serveur MCP) pour créer les sites/sections/espaces, appliquez une personnalisation de marque, et fournissez à l’utilisateur des instructions claires pour l’unique étape d’interface (la configuration de Git Sync) que GitBook n’expose pas de manière programmatique. Configurez toujours Git Sync au niveau du site en premier — en reliant chaque espace à un répertoire dans un seul dépôt/branche via gitbook-docs.yaml — et ne revenez à Git Sync par espace que lorsqu’un espace a réellement besoin d’un dépôt ou d’une branche indépendants. Déclenchez cette compétence chaque fois que l’utilisateur veut créer un nouveau site de documentation GitBook, restructurer ou étendre un site existant, relier un site ou des espaces à un dépôt Git pour la synchronisation, modifier l’image de marque d’un site (logo, couleurs, polices, en-tête/pied de page), ou gérer par programmation des espaces, des sections ou des espaces de site. Cette compétence est la couche d’orchestration ; pour la rédaction du contenu Markdown de chaque page individuelle, elle renvoie à la compétence associée `write-docs` compétence.
+
+Instructions complètes : [https://gitbook.com/docs/skill/configure-site.md](/en/docs/skill/configure-site)
+
+#### Rédiger la documentation de référence OpenAPI
+
+Rédigez, configurez, structurez et dépannez la documentation de référence d’API OpenAPI/Swagger dans GitBook. Utilisez-la chaque fois qu’une tâche implique un bloc OpenAPI de GitBook ou `{% openapi %}` bloc, l’ajout ou la mise à jour d’une spécification OpenAPI/Swagger dans GitBook (par fichier ou URL, via l’API, MCP, CLI ou l’interface de l’application), la génération de صفحات de référence d’API à partir d’une spécification, la configuration du moteur interactif « Test it » (authentification, serveurs, CORS, proxy), la personnalisation des pages avec les `x-*` extensions GitBook (icônes, titres, hiérarchie de navigation, exemples de code, descriptions d’énumérations), le marquage d’opérations comme expérimentales/dépréciées/cachées, ou l’automatisation des mises à jour de spécifications dans CI/CD. Déclenchez-la même lorsque l’utilisateur mentionne seulement GitBook et OpenAPI, ajoute un `x-` extension à une spécification destinée à GitBook, ou demande « pourquoi ma spec ne se charge-t-elle pas » ou « pourquoi Test it ne fonctionne-t-il pas », sans nommer cette compétence.
+
+Instructions complètes : [https://gitbook.com/docs/skill/write-openapi.md](/en/docs/skill/write-openapi)
+
+#### Créer et gérer les demandes de changement
+
+Pilotez un flux complet de revue de documentation GitBook depuis Claude Code en appelant directement l’API REST de GitBook avec curl (pas de CLI) — créez une demande de changement, poussez du contenu (mettez à jour une page existante ET créez une nouvelle page), sollicitez des relecteurs, notifiez Slack, puis récupérez les commentaires de revue, corrigez-les, republiez et résolvez. C’est la compétence complémentaire côté rédaction de cr-review (le côté relecteur sur la même API). Utilisez-la chaque fois que quelqu’un veut lancer une boucle de « revue de docs dans GitBook » depuis le terminal/l’agent contre l’API brute (curl/HTTP), mentionne la création d’une demande de changement via l’API, l’envoi de contenu dans une CR, « récupérer les derniers commentaires et les corriger », demander une revue sur des docs, ou montrer aux ingénieurs comment collaborer sur la documentation GitBook depuis Claude + Slack sans CLI.
+
+Instructions complètes : [https://gitbook.com/docs/skill/cr-create.md](/en/docs/skill/cr-create)
+
+#### Examiner les demandes de changement
+
+Examinez les demandes de changement GitBook depuis Claude Code en appelant directement l’API REST de GitBook avec curl (pas de CLI) — la compétence complémentaire côté relecture de cr-create (le côté rédaction sur la même API). Repérez les demandes de changement à examiner (filtrez par personne qui les a ouvertes, par espace ou sur toute l’organisation), obtenez le lien de l’application GitBook pour examiner le diff, résumez ce qui a réellement changé dans une CR, puis laissez des commentaires et, éventuellement, soumettez un verdict de revue (approuver / demander des modifications). Utilisez-la chaque fois que quelqu’un veut examiner des demandes de changement de docs via l’API brute (curl/HTTP), demande « quelles CR sont ouvertes / en attente de moi / ouvertes par », « montrez-moi les demandes de changement dans / », « résumez ce qui a changé dans cette CR », « examinez cette demande de changement », « laissez un commentaire sur une CR », ou « approuvez / demandez des modifications sur une CR ». Pour le côté rédaction (créer une CR, pousser du contenu, demander des relecteurs, corriger les commentaires) via l’API, utilisez plutôt cr-create.
+
+Instructions complètes : [https://gitbook.com/docs/skill/cr-review.md](/en/docs/skill/cr-review)
+
+#### Créer une intégration
+
+Créez, développez et publiez des intégrations GitBook — des applications qui s’exécutent dans GitBook pour ajouter des blocs personnalisés, réagir à des événements, connecter des services externes via OAuth et étendre l’éditeur. Utilisez cette compétence chaque fois qu’une tâche implique la plateforme d’intégrations GitBook : initialiser une intégration avec le CLI GitBook (`gitbook new`), écrire ou modifier le code d’une intégration (`createIntegration`, `createComponent`, ContentKit TSX), configurer `gitbook-manifest.yaml` (scopes, blocs, configurations, secrets), créer des blocs d’éditeur personnalisés ou des unfurlers de liens, gérer des événements GitBook comme `space_content_updated`, mettre en place le flux OAuth d’une intégration, exécuter `gitbook dev`, ou publier une intégration (privée/non répertoriée/publique, soumission au marketplace). Déclenchez-la même si l’utilisateur dit simplement vouloir « créer une application pour GitBook », « ajouter un bloc personnalisé » ou « se connecter à GitBook » sans dire le mot « intégration ».
+
+Instructions complètes : [https://gitbook.com/docs/skill/build-integration.md](/en/docs/skill/build-integration)

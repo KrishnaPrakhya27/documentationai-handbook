@@ -1,0 +1,147 @@
+---
+title: APIリファレンスの構成
+description: アイコンや説明を使って、複数ページにまたがるAPIリファレンスを構成する方法を学びましょう
+metaTitle: APIリファレンスの構成 | GitBook Documentation
+ogImage: https://test-dai.imgix.net/org-4afef969-21f9-40f3-b5b8-b06c8b6cf68f/doc-22a3b060-9539-4176-97e4-49120e02f5d1/0a5a1a9630785855-organizations-d8f63b60-89ae-11e7-8574-5927d48c4877-sites-site_p4Xo4-socialprevie.jpg?fm=auto&auto=compress%2Cformat
+---
+
+GitBook は OpenAPI スペックを表示するだけではありません。API リファレンスをカスタマイズして、よりわかりやすく、よりナビゲートしやすく、ブランドに合わせやすくできます。
+
+どちらを選ぶかについては **タグごとに 1 ページ** 、 **オペレーションごとに 1 ページ**、参照してください [OpenAPI レイアウト](/ja/docs/kontentsuwo/openapi/guides/openapi-layouts).
+
+このページでは、タグを使って生成されたナビゲーションを制御する方法を説明します。
+
+### タグを使って生成ページを整理する
+
+GitBook は、どちらのレイアウトでもタグを使って生成された API リファレンスページを整理します。
+
+が **タグごとに 1 ページ**、GitBook は各タグごとに 1 ページを作成します。 **オペレーションごとに 1 ページ**、GitBook は各オペレーションごとに 1 ページを作成し、タグを使ってそれらのページを目次でグループ化します。
+
+関連するオペレーションをグループ化するには、各オペレーションに同じタグを付けます：
+
+```yaml
+paths:
+  /pet:
+    put:
+      tags:
+        - ペット
+      summary: 既存のペットを更新します。
+      description: ID で既存のペットを更新します。
+      operationId: updatePet
+```
+
+### 目次のページ順を並べ替える
+
+生成されたタグページまたはタググループの順序は、OpenAPI 内のタグの順序と一致します `タグ` array:
+
+```yaml
+tags:
+  - name: ペット
+  - name: ストア
+  - name: user
+```
+
+### ページをグループにネストする
+
+複数階層のナビゲーションを構築するには、 `x-parent` （または `parent`）タグ内で階層を定義します。これはどちらのページ構造でも機能します：
+
+```yaml
+tags:
+  - name: すべて
+  - name: ペット
+    x-parent: すべて
+  - name: ストア
+    x-parent: すべて
+```
+
+上記の例では、次のような目次が作成されます：
+
+```
+すべて
+├── ペット
+└── ストア
+```
+
+GitBook が親ページを生成し、そのページに説明がない場合、サブページにはカードベースのレイアウトが表示されます。
+
+### ページのタイトル、アイコン、説明をカスタマイズする
+
+生成されたタグページとナビゲーションラベルは、カスタム拡張機能で強化できます `タグ` セクションのすべての [Font Awesome アイコン](https://fontawesome.com/search) は次を通じてサポートされています： `x-page-icon`.
+
+```yaml title="openapi.yaml"
+tags:
+  - name: ペット
+    # 目次とページに表示されるページタイトル
+    x-page-title: ペット
+    # 目次とページタイトルの横に表示されるアイコン
+    x-page-icon: dog
+    # タイトルのすぐ上に表示される説明
+    x-page-description: ペットは素晴らしい！
+    # ページの内容
+    description: ペットに関するすべて
+```
+
+### GitBook Blocks で豊かな説明を作成する
+
+タグの description フィールドは、GitBook マークダウンに対応しており、 [高度なブロック](/ja/docs/kontentsuwo/blocks) たとえばタブ：
+
+```yaml title="openapi.yaml"
+---
+tags:
+  - name: ペット
+    description: |
+      ペットの詳細は次のとおりです。
+
+      {% tabs %}
+      {% tab title="犬" %}
+      こちらが犬です
+      {% endtab %}
+
+      {% tab title="猫" %}
+      こちらが猫です
+      {% endtab %}
+
+      {% tab title="ウサギ" %}
+      こちらがウサギです
+      {% endtab %}
+      {% endtabs %}
+```
+
+### スキーマを強調表示する
+
+GitBook の説明内では、GitBook マークダウンを使ってスキーマを強調表示できます。以下は、「petstore」仕様の「Pet」スキーマを強調表示する例です：
+
+```yaml title="openapi.yaml"
+---
+tags:
+  - name: ペット
+      description: |
+          {% openapi-schemas spec="petstore" schemas="Pet" grouped="false" %}
+              Pet オブジェクト
+          {% endopenapi-schemas %}
+```
+
+### Webhook エンドポイントを文書化する
+
+GitBook は webhook エンドポイントを含む OpenAPI 3.1 をサポートしています。
+
+サーバー側の `webhooks` フィールドは OpenAPI 3.1 の一部なので、仕様では OpenAPI 3.1 のバージョンを宣言する必要があります。OpenAPI ファイルに webhook を直接定義でき、GitBook はそれらを他の API オペレーションと並べてレンダリングします。OpenAPI ドキュメントのバージョンサポートについては、 [OpenAPI 互換性](/ja/docs/kontentsuwo/openapi#openapi-compatibility).
+
+```yaml title="openapi.yaml"
+---
+openapi: 3.1.0 # Webhook は OpenAPI 3.1 から利用できます
+
+webhooks:
+  newPet:
+    post:
+      summary: 新しいペットのイベント
+      description: システム内の新しいペットに関する情報
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Pet"
+      responses:
+        "200":
+          description: データが正常に受信されたことを示すために 200 ステータスを返します
+```

@@ -1,0 +1,57 @@
+---
+title: Create a private share link for a site
+metaTitle: Create a private share link for a site | Developers | GitBook Documentation
+ogImage: https://test-dai.imgix.net/org-4afef969-21f9-40f3-b5b8-b06c8b6cf68f/doc-22a3b060-9539-4176-97e4-49120e02f5d1/0a5a1a9630785855-organizations-d8f63b60-89ae-11e7-8574-5927d48c4877-sites-site_p4Xo4-socialprevie.jpg?fm=auto&auto=compress%2Cformat
+---
+
+Creates a new named share link that grants access to the private site without requiring full user authentication. Share links are useful for sharing pre-publication content with reviewers or stakeholders. Each link has a unique key and can be activated or deactivated independently.
+
+**POST** `/orgs/{organizationId}/sites/{siteId}/share-links`
+
+**Parameters**
+
+<ParamField header="Authorization" param-type="string" />
+
+<ParamField path="organizationId" param-type="string" required={true}>
+  The unique id of the organization
+</ParamField>
+
+<ParamField path="siteId" param-type="string" required={true}>
+  The unique id of the site
+</ParamField>
+
+**Request body**
+
+<ParamField body="name" param-type="string" required={true}>
+  Name of the share link
+</ParamField>
+
+**Responses**
+
+`201` The share link has been created
+
+<ResponseField name="object" field-type="string" required={true} enum="share-link">
+  Type of Object, always equals to "share-link"
+</ResponseField>
+
+<ResponseField name="id" field-type="string" required={true}>
+  Unique identifier for the share-link
+</ResponseField>
+
+<ResponseField name="createdAt" field-type="string" required={true} />
+
+<ResponseField name="name" field-type="string">
+  Name of the share link
+</ResponseField>
+
+<ResponseField name="active" field-type="boolean" />
+
+<ResponseField name="urls" field-type="object" required={true}>
+  URLs associated with the object
+
+  <Expandable title="Object Properties">
+    <ResponseField name="published" field-type="string">
+      URL of the published version of the share-link.
+    </ResponseField>
+  </Expandable>
+</ResponseField>

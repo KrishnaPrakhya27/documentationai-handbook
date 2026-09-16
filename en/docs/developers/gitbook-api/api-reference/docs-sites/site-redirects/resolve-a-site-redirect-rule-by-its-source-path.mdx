@@ -1,0 +1,83 @@
+---
+title: Resolve a site redirect rule by its source path
+metaTitle: Resolve a site redirect rule by its source path | Developers | GitBook Documentation
+ogImage: https://test-dai.imgix.net/org-4afef969-21f9-40f3-b5b8-b06c8b6cf68f/doc-22a3b060-9539-4176-97e4-49120e02f5d1/0a5a1a9630785855-organizations-d8f63b60-89ae-11e7-8574-5927d48c4877-sites-site_p4Xo4-socialprevie.jpg?fm=auto&auto=compress%2Cformat
+---
+
+Looks up a redirect rule by its source URL path and returns both the redirect configuration and the resolved destination URL. Use this to check whether a specific path has a redirect configured, or to resolve where a path currently points before updating or removing the redirect.
+
+**GET** `/orgs/{organizationId}/sites/{siteId}/redirect`
+
+**Parameters**
+
+<ParamField header="Authorization" param-type="string" />
+
+<ParamField path="organizationId" param-type="string" required={true}>
+  The unique id of the organization
+</ParamField>
+
+<ParamField path="siteId" param-type="string" required={true}>
+  The unique id of the site
+</ParamField>
+
+<ParamField query="shareKey" param-type="string">
+  For sites published via share-links, the share key is useful to resolve published URLs.
+</ParamField>
+
+<ParamField query="source" param-type="string" required={true}>
+  The source path of the redirect.
+</ParamField>
+
+**Responses**
+
+`200` The redirect was resolved successfully.
+
+<ResponseField name="redirect" field-type="object" required={true}>
+  <Expandable title="Object Properties">
+    <ResponseField name="object" field-type="string" required={true} enum="site-redirect" />
+
+    <ResponseField name="id" field-type="string" required={true}>
+      The unique identifier for the redirect.
+    </ResponseField>
+
+    <ResponseField name="source" field-type="string" required={true}>
+      The source path to redirect from.
+    </ResponseField>
+
+    <ResponseField name="draft" field-type="boolean" required={true}>
+      Whether the redirect is draft and not live.
+    </ResponseField>
+
+    <ResponseField name="captureWildcard" field-type="boolean" required={true}>
+      Capture and append the wildcard-matched suffix to the destination URL.
+    </ResponseField>
+
+    <ResponseField name="permanent" field-type="boolean" required={true}>
+      Whether the redirect is configured as permanent. Permanent redirects are served as HTTP 308 for public live traffic and HTTP 307 in non-public contexts.
+    </ResponseField>
+
+    <ResponseField name="destination" field-type="string" required={true} />
+
+    <ResponseField name="createdAt" field-type="string" required={true}>
+      When the redirect was created.
+    </ResponseField>
+
+    <ResponseField name="updatedAt" field-type="string">
+      When the redirect was last updated. Absent if never updated since creation.
+    </ResponseField>
+  </Expandable>
+</ResponseField>
+
+<ResponseField name="target" field-type="string" required={true}>
+  URL of the destination of the redirect.
+</ResponseField>
+
+`404` Not Found
+
+<ResponseField name="error" field-type="object" required={true}>
+  <Expandable title="Object Properties">
+    <ResponseField name="code" field-type="integer" required={true} enum="404" />
+
+    <ResponseField name="message" field-type="string" required={true} />
+  </Expandable>
+</ResponseField>

@@ -1,0 +1,52 @@
+---
+title: Onglets
+description: Ajoutez des onglets pour afficher de grands blocs d’informations connexes sans créer une page longue et difficile à parcourir
+metaTitle: Onglets | GitBook Documentation
+ogImage: https://test-dai.imgix.net/org-4afef969-21f9-40f3-b5b8-b06c8b6cf68f/doc-22a3b060-9539-4176-97e4-49120e02f5d1/0a5a1a9630785855-organizations-d8f63b60-89ae-11e7-8574-5927d48c4877-sites-site_p4Xo4-socialprevie.jpg?fm=auto&auto=compress%2Cformat
+---
+
+Un bloc d’onglets est un bloc unique avec la possibilité d’ajouter plusieurs onglets.
+
+Chaque onglet peut contenir plusieurs autres blocs, de tout type. Vous pouvez donc ajouter des blocs de code, des images, des blocs d’intégration et bien plus encore à des onglets individuels dans le même bloc d’onglets.
+
+### Ajouter ou supprimer des onglets
+
+Pour ajouter un nouvel onglet à un bloc d’onglets, survolez le bord d’un onglet et cliquez sur le `+` bouton qui apparaît. Pour supprimer un onglet, ouvrez le **menu Options** <Image src="https://test-dai.imgix.net/org-4afef969-21f9-40f3-b5b8-b06c8b6cf68f/doc-22a3b060-9539-4176-97e4-49120e02f5d1/4c115a43418b42e3-spaces-NkEGS7hzeqa35sMXQZ4X-uploads-aS1QvPIBVYwhpFTGcPBN-options-menu.svg?rasterize-bypass=true" alt="The Options menu icon in GitBook" /> puis sélectionnez **Supprimer**.
+
+### Ajouter, modifier ou supprimer des icônes
+
+Pour ajouter ou modifier une icône, ouvrez le **menu Options** <Image src="https://test-dai.imgix.net/org-4afef969-21f9-40f3-b5b8-b06c8b6cf68f/doc-22a3b060-9539-4176-97e4-49120e02f5d1/4c115a43418b42e3-spaces-NkEGS7hzeqa35sMXQZ4X-uploads-aS1QvPIBVYwhpFTGcPBN-options-menu.svg?rasterize-bypass=true" alt="The Options menu icon in GitBook" />. Puis sélectionnez **Définir l’icône** ou **Modifier l’icône**, puis sélectionnez une icône.
+
+Pour supprimer une icône, ouvrez le **menu Options** <Image src="https://test-dai.imgix.net/org-4afef969-21f9-40f3-b5b8-b06c8b6cf68f/doc-22a3b060-9539-4176-97e4-49120e02f5d1/4c115a43418b42e3-spaces-NkEGS7hzeqa35sMXQZ4X-uploads-aS1QvPIBVYwhpFTGcPBN-options-menu.svg?rasterize-bypass=true" alt="The Options menu icon in GitBook" />. Puis sélectionnez **Supprimer l’icône**.
+
+### Exemple
+
+Voici un exemple qui répertorie des instructions pertinentes pour des plateformes spécifiques :
+
+<Tabs>
+  <Tab title="Windows">
+    Voici les instructions pour Windows
+  </Tab>
+
+  <Tab title="macOS">
+    Voici les instructions pour macOS
+  </Tab>
+
+  <Tab title="Linux">
+    Voici les instructions pour Linux
+  </Tab>
+</Tabs>
+
+### Représentation en Markdown
+
+```markdown
+{% tabs %}
+
+{% tab title="Windows" icon="windows" %} Voici les instructions pour Windows {% endtab %}
+
+{% tab title="macOS" icon="apple" %} Voici les instructions pour macOS {% endtab %}
+
+{% tab title="Linux" icon="linux" %} Voici les instructions pour Linux {% endtab %}
+
+{% endtabs %}
+```

@@ -1,0 +1,123 @@
+---
+title: Traductions
+description: Traduisez automatiquement votre contenu en plusieurs langues à l’aide de l’agent IA de GitBook et maintenez la synchronisation
+metaTitle: Traductions | GitBook Documentation
+ogImage: https://test-dai.imgix.net/org-4afef969-21f9-40f3-b5b8-b06c8b6cf68f/doc-22a3b060-9539-4176-97e4-49120e02f5d1/0a5a1a9630785855-organizations-d8f63b60-89ae-11e7-8574-5927d48c4877-sites-site_p4Xo4-socialprevie.jpg?fm=auto&auto=compress%2Cformat
+---
+
+<Callout kind="info">
+  Seulement [les administrateurs de l’organisation](/fr/docs/collaborer/member-management/roles#admin) peuvent créer et accéder aux traductions, car c’est [une fonctionnalité facturable](#pricing).
+</Callout>
+
+Les traductions automatiques facilitent la mise à jour de votre documentation dans plusieurs langues, avec un minimum d’effort manuel. Vous pouvez créer une section comme traduction d’une autre, et laisser GitBook Agent s’occuper du reste.
+
+<Image src="https://test-dai.imgix.net/org-4afef969-21f9-40f3-b5b8-b06c8b6cf68f/doc-22a3b060-9539-4176-97e4-49120e02f5d1/3ea791e3207c475a-spaces-NkEGS7hzeqa35sMXQZ4X-uploads-hOOp6fNMYks6U4M6UXTO-Create-translation-2x.png?fm=auto&auto=compress%2Cformat" alt="" />
+
+## Comment fonctionnent les traductions
+
+- <strong>Créer une section de traduction :</strong> Configurez une nouvelle section comme traduction d’une section existante. Choisissez votre section source et la langue cible.
+- <strong>Mises à jour continues :</strong> Chaque fois que vous apportez des modifications au contenu source, le flux de travail de traduction ne s’exécute que pour les **pages qui ont été modifiées**.
+- <strong>Synchronisation automatique :</strong> Une fois les modifications fusionnées, le flux de travail de traduction **s’exécute automatiquement** et se synchronise avec sa source, afin que votre section traduite reflète toujours les dernières mises à jour.
+
+<Callout kind="info">
+  Les identifiants d’URL des pages dans les sections traduites automatiquement peuvent changer, sauf si la page a un slug fixe. Pour conserver des URL stables dans toutes les langues, définissez un slug fixe avant de traduire. Pour mettre à jour un slug, consultez [Comment puis-je modifier le slug dans l’URL ?](https://app.gitbook.com/s/Ua3kTfM3iWAoECzM0u90/published-documentation/custom-domains/how-can-i-change-the-slug-in-the-url)
+</Callout>
+
+## Configurer une traduction automatique
+
+Pour traduire une section dans une nouvelle langue, revenez à votre organisation **Accueil** et cliquez sur **Traductions** dans la barre latérale, puis cliquez sur **Créer une traduction**.
+
+Dans la **Créer une traduction** fenêtre modale, choisissez :
+
+- **Source** — la section que vous souhaitez traduire
+- **De** langue
+- **Vers** langue
+
+Cliquez sur **Créer** pour lancer le flux de travail de traduction. Ces options seront utilisées pour traduire votre section en une section dupliquée et traduite dans votre organisation.
+
+L’ **Traductions** écran répertorie également vos flux de travail de traduction configurés, y compris leur statut, leur source, leurs exécutions, ainsi que les pages et les mots traduits. Les flux de travail se relancent à chaque mise à jour du contenu source.
+
+### Configuration avancée
+
+Cliquez sur **Afficher les instructions avancées** dans la **Créer une traduction** fenêtre modale pour configurer ces options.
+
+<strong>Instructions IA personnalisées :</strong> Ajoutez des instructions avancées pour guider l’IA sur le ton, le style ou d’autres préférences. Cela permet de garantir que vos traductions correspondent à votre marque ou à votre audience.
+
+<Callout kind="info">
+  L’ajout d’instructions personnalisées à votre flux de travail de traduction peut être utile, mais il est limité dans certains cas.
+
+  Les instructions personnalisées ne peuvent pas être utilisées pour créer de nouveaux éléments dans une section traduite, ajouter du texte supplémentaire ou modifier la structure du contenu source.
+</Callout>
+
+<strong>Prise en charge du glossaire :</strong> Définissez un glossaire pour contrôler la manière dont des termes spécifiques sont traduits. Cela garantit une terminologie cohérente dans toutes les langues prises en charge.
+
+Les termes de votre glossaire doivent correspondre au libellé dans la langue source que vous souhaitez contrôler. GitBook les applique pendant les exécutions de traduction afin de maintenir une terminologie cohérente.
+
+Par exemple, si votre langue source est l’anglais et que votre glossaire inclut `SSO` → `SSO` et `Git Sync` → `Git Sync`, une phrase comme « Configurer SSO avec Git Sync » conserve ces termes inchangés dans le résultat traduit.
+
+<Callout kind="alert">
+  **La modification de votre glossaire déclenchera une retraduction complète de votre contenu**. Il n’existe actuellement aucune solution de contournement : nous ne pouvons pas détecter de manière fiable quelles pages pourraient contenir un mot-clé du glossaire, donc l’approche la plus sûre consiste à retraduire toutes les pages. La mise à jour du glossaire peut donc prendre du temps et coûter cher.
+</Callout>
+
+## Ajouter une traduction à une variante
+
+Après avoir créé une traduction, vous pourrez l’ajouter au site de documentation publié sous forme de [variante](/fr/docs/gerer-votre-site/site-structure/variants). Cela permettra aux utilisateurs de basculer entre les langues dans le coin supérieur droit lorsqu’ils consultent votre site de documentation principal.
+
+<Callout kind="info">
+  Pour offrir la meilleure expérience à vos utilisateurs, vous pouvez définir la langue par défaut d’une variante lors de sa configuration dans vos paramètres.
+
+  Il est recommandé d’ajouter la langue de votre section traduite lors de la configuration de votre variante.
+</Callout>
+
+Pour configurer une nouvelle variante pour une traduction, ouvrez l’éditeur de structure depuis **Structure du site**, sous **Général** dans la barre latérale du site.
+
+## Tarification
+
+Les traductions sont une option payante. Nous facturons les traductions selon le même cycle mensuel ou annuel que votre abonnement principal.
+
+- Tarif mensuel : 25 $ par mois pour jusqu’à 50 000 mots traduits chaque mois
+- Tarif annuel : 250 $ par an pour jusqu’à 50 000 mots traduits chaque mois
+- 0,20 $ par 1 000 mots supplémentaires
+
+Le quota mensuel se réinitialise au début de chaque mois. Le tarif de 0,20 $ s’applique à chaque tranche supplémentaire de 1 000 mots, y compris pour les abonnements annuels.
+
+« Mensuel » décrit le tarif et le quota de mots. Cela ne décrit pas le cycle de facturation.
+
+Lors de votre première traduction, chaque mot sera pris en compte dans votre facture. Ensuite, seuls **les pages** contenant de nouveaux mots ou des mots mis à jour sont facturées. Par exemple, si vous modifiez ensuite votre documentation, seules les pages contenant de nouveaux mots seront prises en compte dans votre limite de mots — vous ne serez pas facturé à nouveau pour l’ensemble du document.
+
+<Callout kind="alert">
+  Faites preuve de prudence lorsque vous travaillez sur plusieurs traductions avec de grandes pages, car le nombre de mots traduits inclut tous les mots d’une page qui contient une modification — ce qui signifie que si seuls quelques mots changent dans une grande page, la page entière sera retraduite.
+</Callout>
+
+## FAQ
+
+<Expandable title="Pourquoi utiliser les traductions automatiques ?">
+  - <strong>Documentation multilingue sans effort :</strong> Touchez un public mondial sans travail de traduction manuel.
+  - <strong>Mises à jour intelligentes :</strong> Seules les pages modifiées sont retraduites, ce qui permet d’économiser du temps et des ressources.
+  - <strong>Contrôle total :</strong> Personnalisez les traductions avec des instructions avancées et la gestion du glossaire.
+</Expandable>
+
+<Expandable title="Puis-je modifier la traduction ?">
+  Vous ne pouvez actuellement pas modifier les traductions.
+
+  Comme les traductions sont réalisées comme une transformation pure du contenu source, nous ne pouvons pas concilier d’éventuelles modifications apportées au résultat traduit avec une nouvelle traduction.
+
+  Pour contourner ce problème, nous recommandons le flux de travail suivant :
+
+  - Utilisez le glossaire pour définir les traductions spécifiques que vous souhaitez voir l’IA utiliser
+  - Utilisez les instructions personnalisées pour itérer sur le résultat
+</Expandable>
+
+<Expandable title="Combien de traductions dois-je créer ?">
+  Vous ne devez créer que **un seul flux de travail de traduction par langue** pour un contenu source donné. La création de plusieurs flux de travail entraînera des coûts supplémentaires et redondants dans votre organisation.
+</Expandable>
+
+<Expandable title="Quelles sont les limitations actuelles ?">
+  - Les traductions ne localisent pas automatiquement les éléments d’interface utilisateur dans votre variante. Ouvrez **Personnaliser**, sous **Outils** dans la barre latérale du site, pour [localiser l’interface](/fr/docs/gerer-votre-site/customization/extra-configuration#localize-user-interface) pour une [variante spécifique](/fr/docs/gerer-votre-site/customization#customizing-sites-with-multiple-sections-or-variants).
+
+    - Cela inclut les personnalisations saisies par l’utilisateur, comme les bannières d’annonce.
+  - Les traductions ne peuvent pas ajouter de contenu supplémentaire à la page — comme un indice ou une bannière indiquant qu’une page a été traduite par l’IA. Pensez à ajouter une page supplémentaire dans la section traduite pour le signaler, ou la [bannière d’annonce](/fr/docs/gerer-votre-site/customization/layout-and-structure#announcement-premium-and-ultimate) dans votre variante de site.
+  - La modification du glossaire déclenche une retraduction complète de toutes les pages, ce qui peut augmenter le temps de traitement et le coût. Il n’existe actuellement aucune retraduction partielle basée sur l’utilisation du glossaire.
+</Expandable>
+
+Si vous avez besoin d’aide pour démarrer ou souhaitez en savoir plus sur la configuration des traductions automatiques, contactez notre équipe d’assistance.

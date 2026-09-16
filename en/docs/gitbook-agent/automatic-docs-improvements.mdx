@@ -1,0 +1,57 @@
+---
+title: Automatic docs improvements
+description: Identify incorrect and outdated pages in your documentation, review the findings, and fix them automatically with GitBook Agent
+metaTitle: Automatic docs improvements | GitBook Documentation
+ogImage: https://test-dai.imgix.net/org-4afef969-21f9-40f3-b5b8-b06c8b6cf68f/doc-22a3b060-9539-4176-97e4-49120e02f5d1/0a5a1a9630785855-organizations-d8f63b60-89ae-11e7-8574-5927d48c4877-sites-site_p4Xo4-socialprevie.jpg?fm=auto&auto=compress%2Cformat
+---
+
+<Callout kind="alert">
+  <strong>This feature is currently in early access.</strong>
+
+  We’re slowly rolling out access. Stay tuned for more progress on the features below.
+</Callout>
+
+GitBook Agent can identify issues in your documentation — such as content gaps, outdated pages, and incorrect information — and suggest and implement improvements.
+
+## What can GitBook Agent detect?
+
+- **Content gaps** occur when GitBook sees users asking questions about your product that the docs struggle to answer, such as:
+
+  - a customer asking a question to your support team that they couldn’t find on the docs.
+  - an API endpoint missing complete documentation.
+- **Outdated content** is detected when the content on your page has been superseded by content found in an external source, such as:
+
+  - an SDK update that changed the signature of a function.
+  - a paid feature that moved to the free tier, where the docs haven’t been updated.
+- **Incorrect content** is flagged when the content on the docs site is explicitly wrong, such as:
+
+  - a guide pointing to APIs that do not exist anymore, or where the feature has been sunsetted.
+  - external sources such as your marketing website disagreeing with the documentation.
+
+## How identification works
+
+<Steps>
+  <Step title="Connect sources" titleType="h3">
+    GitBook Agent works best when it’s connected to external sources like your support ticketing system, public forums, or marketing website. Some sources require an additional API key or authentication before setup is complete. [Learn more about our connections.](/en/docs/ai-for-your-readers/connections)
+  </Step>
+
+  <Step title="GitBook Agent generates findings" titleType="h3">
+    GitBook regularly reviews your sources and generates findings based on the results. GitBook collects these findings for your team to review. [Learn more about how we ingest data.](/en/docs/ai-for-your-readers/connections)
+  </Step>
+
+  <Step title="Review your findings" titleType="h3">
+    Review your findings to start fixing issues. Each finding includes a summary of the issue, the topic it belongs to, supporting evidence, and links to the pages GitBook used as context.
+  </Step>
+
+  <Step title="Fix or archive" titleType="h3">
+    Some findings can be fixed automatically by GitBook Agent. When that option is available, you can create [change requests](/en/docs/collaborate/change-requests) directly from the finding. You can also archive findings you don’t want to keep in your active list.
+  </Step>
+</Steps>
+
+To request access to GitBook Agent’s automatic documentation improvement features, open your site’s **Settings**.
+
+<Image src="https://test-dai.imgix.net/org-4afef969-21f9-40f3-b5b8-b06c8b6cf68f/doc-22a3b060-9539-4176-97e4-49120e02f5d1/380d938a3f86e215-spaces-NkEGS7hzeqa35sMXQZ4X-uploads-TO7pu11GsUcHQGwM4fRw-2026-07-13_connections-.png?fm=auto&auto=compress%2Cformat" alt="" />
+
+## Automatic fixes
+
+When a finding supports automatic fixes, GitBook shows a **Create change request** action so the GitBook Agent can generate a proposed fix for your team to review. To skip the suggestion, archive the finding instead. GitBook won’t re-open findings that you’ve archived.

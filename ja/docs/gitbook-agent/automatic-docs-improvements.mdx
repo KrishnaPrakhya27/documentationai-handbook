@@ -1,0 +1,57 @@
+---
+title: ドキュメントの自動改善
+description: ドキュメント内の誤っているページや古いページを特定し、結果を確認して、GitBook Agentで自動修正します
+metaTitle: ドキュメントの自動改善 | GitBook Documentation
+ogImage: https://test-dai.imgix.net/org-4afef969-21f9-40f3-b5b8-b06c8b6cf68f/doc-22a3b060-9539-4176-97e4-49120e02f5d1/0a5a1a9630785855-organizations-d8f63b60-89ae-11e7-8574-5927d48c4877-sites-site_p4Xo4-socialprevie.jpg?fm=auto&auto=compress%2Cformat
+---
+
+<Callout kind="alert">
+  <strong>この機能は現在、早期アクセスです。</strong>
+
+  アクセスを段階的に展開しています。以下の機能に関する今後の進捗をお待ちください。
+</Callout>
+
+GitBook Agent は、コンテンツの不足、古いページ、誤った情報など、ドキュメント内の問題を特定し、改善案の提案と実施を行えます。
+
+## GitBook Agent は何を検出できますか？
+
+- **コンテンツの不足** GitBook が、ドキュメントでは答えにくい製品に関する質問をユーザーがしていると認識したときに発生します。たとえば：
+
+  - ドキュメントで見つからなかった質問をサポートチームに問い合わせる顧客。
+  - 完全なドキュメントが不足している API エンドポイント。
+- **古いコンテンツ** は、ページ上のコンテンツが外部ソースで見つかったコンテンツに置き換えられている場合に検出されます。たとえば：
+
+  - 関数のシグネチャが変更された SDK の更新。
+  - 有料機能が無料プランに移行したのに、ドキュメントが更新されていない場合。
+- **誤ったコンテンツ** は、ドキュメントサイト上のコンテンツが明確に誤っている場合にフラグが付けられます。たとえば：
+
+  - 存在しなくなった API、または機能が終了した先を指しているガイド。
+  - マーケティングサイトなどの外部ソースがドキュメントと食い違っている場合。
+
+## 検出の仕組み
+
+<Steps>
+  <Step title="ソースを接続" titleType="h3">
+    GitBook Agent は、サポートチケットシステム、公開フォーラム、マーケティングサイトなどの外部ソースに接続されていると最も効果的に機能します。セットアップ完了前に、追加の API キーや認証が必要なソースもあります。 [接続について詳しく見る。](/ja/docs/notamenoai/connections)
+  </Step>
+
+  <Step title="GitBook Agent が検出結果を生成" titleType="h3">
+    GitBook は定期的にソースを確認し、結果に基づいて検出結果を生成します。GitBook はこれらの検出結果をチームが確認できるように収集します。 [データの取り込み方法について詳しく見る。](/ja/docs/notamenoai/connections)
+  </Step>
+
+  <Step title="検出結果を確認" titleType="h3">
+    問題の修正を開始するために、検出結果を確認してください。各検出結果には、問題の要約、該当するトピック、裏付けとなる証拠、そして GitBook がコンテキストとして使用したページへのリンクが含まれます。
+  </Step>
+
+  <Step title="修正またはアーカイブ" titleType="h3">
+    一部の検出結果は、GitBook Agent によって自動的に修正できます。そのオプションが利用できる場合は、 [変更リクエスト](/ja/docs/gong-tong-zuo-ye/change-requests) 検出結果から直接作成できます。また、アクティブ一覧に残したくない検出結果はアーカイブすることもできます。
+  </Step>
+</Steps>
+
+GitBook Agent の自動ドキュメント改善機能へのアクセスをリクエストするには、サイトの **設定**.
+
+<Image src="https://test-dai.imgix.net/org-4afef969-21f9-40f3-b5b8-b06c8b6cf68f/doc-22a3b060-9539-4176-97e4-49120e02f5d1/380d938a3f86e215-spaces-NkEGS7hzeqa35sMXQZ4X-uploads-TO7pu11GsUcHQGwM4fRw-2026-07-13_connections-.png?fm=auto&auto=compress%2Cformat" alt="" />
+
+## 自動修正
+
+検出結果が自動修正をサポートしている場合、GitBook は **変更リクエストを作成** アクションを表示し、GitBook Agent がチームで確認するための修正案を生成できるようにします。提案をスキップするには、代わりに検出結果をアーカイブしてください。GitBook は、アーカイブした検出結果を再度開くことはありません。

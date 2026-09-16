@@ -1,0 +1,66 @@
+---
+title: Variantes de contenu
+description: Publiez de la documentation pour plusieurs versions de produit ou langues dans un seul site
+metaTitle: Variantes de contenu | GitBook Documentation
+ogImage: https://test-dai.imgix.net/org-4afef969-21f9-40f3-b5b8-b06c8b6cf68f/doc-22a3b060-9539-4176-97e4-49120e02f5d1/0a5a1a9630785855-organizations-d8f63b60-89ae-11e7-8574-5927d48c4877-sites-site_p4Xo4-socialprevie.jpg?fm=auto&auto=compress%2Cformat
+---
+
+Vous pouvez publier plusieurs versions de la même documentation dans le cadre d'un seul site de documentation. Ces variantes seront disponibles pour les utilisateurs finaux via le sélecteur de variante en haut de la table des matières sur le site publié.
+
+<Image src="https://test-dai.imgix.net/org-4afef969-21f9-40f3-b5b8-b06c8b6cf68f/doc-22a3b060-9539-4176-97e4-49120e02f5d1/64f4d3a9af8e928f-spaces-NkEGS7hzeqa35sMXQZ4X-uploads-2cQxJ5sTMVUkXOcuDEU8-Adding-a-section-2x.png?fm=auto&auto=compress%2Cformat" alt="A GitBook screenshot showing a docs site's structure" />
+
+### Ajouter plusieurs langues ou versions
+
+Un site avec plusieurs variantes est utile si vous devez conserver ensemble différentes versions de votre contenu — par exemple si vous documentez plusieurs versions d'une API (v1, v2, v3, etc.) ou si vous documentez votre contenu dans différentes langues.
+
+<Callout kind="info">
+  Les variantes peuvent contenir n'importe quel contenu, mais il est recommandé de les utiliser comme *des variations du même contenu*. Si votre contenu est sémantiquement différent, envisagez de l'ajouter comme [des sections](/fr/docs/gerer-votre-site/site-structure/site-sections) à la place.
+</Callout>
+
+Lorsque vous ajoutez une traduction ou plusieurs langues comme variante, il est préférable de définir la langue de votre variante afin d'offrir à vos utilisateurs la meilleure expérience lors de la navigation dans votre documentation.
+
+L'ajout de plusieurs variantes avec des langues définies déplacera le sélecteur de langue en haut à droite, offrant une expérience plus claire et plus directe que le sélecteur de variante par défaut.
+
+### Ajout d'une variante à votre site de documentation
+
+Ouvrez l'éditeur de structure depuis **Structure du site**, sous **Général** dans la barre latérale du site. Vous pouvez ici voir tout le contenu de votre site.
+
+Pour ajouter une variante, cliquez sur le bouton **Ajouter une variante** dans la section à laquelle vous souhaitez l'ajouter, puis choisissez le contenu à ajouter. La nouvelle variante est alors ajoutée à la liste des variantes dans la section choisie et sera disponible pour les visiteurs dans le menu déroulant des variantes sur votre site.
+
+### Modification d'une variante
+
+Vous pouvez modifier le nom et le slug de chacune de vos variantes en cliquant sur le bouton <Image src="https://test-dai.imgix.net/org-4afef969-21f9-40f3-b5b8-b06c8b6cf68f/doc-22a3b060-9539-4176-97e4-49120e02f5d1/ab76723fb229a5ad-spaces-NkEGS7hzeqa35sMXQZ4X-uploads-A3OfGjPkE5GnOQvN36jN-edit.svg?rasterize-bypass=true" alt="The Edit icon in GitBook" /> **Modifier** dans la ligne du tableau de la variante que vous souhaitez modifier. Cela ouvrira une fenêtre modale. Modifiez le ou les champs que vous souhaitez changer, puis cliquez sur le bouton **Enregistrer** pour enregistrer. Vous pouvez également supprimer la variante en cliquant sur le bouton **Supprimer la variante** en bas à gauche.
+
+Si votre site prend en charge plusieurs langues, vous pouvez également traduire les titres des variantes afin que le sélecteur affiche des libellés localisés. Voir [Sections multilingues](/fr/docs/gerer-votre-site/site-structure/multilingual-sections).
+
+<Callout kind="info">
+  Modifier le slug d'une variante modifiera son URL canonique. GitBook créera une redirection automatique de l'ancienne URL vers la nouvelle. Vous pouvez également [créer des redirections manuellement](/fr/docs/publier/site-redirects).
+</Callout>
+
+Pour remplacer le contenu d'une variante, supprimez-la d'abord en cliquant sur son bouton **Modifier** <Image src="https://test-dai.imgix.net/org-4afef969-21f9-40f3-b5b8-b06c8b6cf68f/doc-22a3b060-9539-4176-97e4-49120e02f5d1/ab76723fb229a5ad-spaces-NkEGS7hzeqa35sMXQZ4X-uploads-A3OfGjPkE5GnOQvN36jN-edit.svg?rasterize-bypass=true" alt="The Edit icon in GitBook" /> puis cliquez sur le bouton **Supprimer** en bas à gauche de la fenêtre modale. Une fois la variante supprimée, cliquez sur le bouton **Ajouter une variante** pour ajouter le nouveau contenu.
+
+### Réorganisation des variantes
+
+Votre site affiche les variantes dans l'ordre dans lequel elles apparaissent dans votre **Structure du site** tableau. Les variantes peuvent être réorganisées en saisissant la **poignée de déplacement** <Image src="https://test-dai.imgix.net/org-4afef969-21f9-40f3-b5b8-b06c8b6cf68f/doc-22a3b060-9539-4176-97e4-49120e02f5d1/4c115a43418b42e3-spaces-NkEGS7hzeqa35sMXQZ4X-uploads-aS1QvPIBVYwhpFTGcPBN-options-menu.svg?rasterize-bypass=true" alt="The Options menu icon in GitBook" /> et en la déplaçant vers le haut ou le bas. L'ordre modifié sera reflété immédiatement sur votre site.
+
+Vous pouvez également utiliser le clavier pour sélectionner et déplacer du contenu : sélectionnez une section ou une variante avec la barre d'espace, puis utilisez les touches fléchées pour la déplacer vers le haut ou le bas. Appuyez à nouveau sur la barre d'espace pour confirmer la nouvelle position.
+
+### Définition d'une variante par défaut
+
+Si vous avez plusieurs variantes dans une section, une variante sera marquée comme étant celle par défaut. Cette variante est affichée lorsque les visiteurs arrivent sur votre site (ou lorsqu'ils visitent une section). Les autres variantes ont chacune un slug qui est ajouté à l'URL du site.
+
+Pour définir une variante comme variante par défaut, cliquez sur le **menu Actions** <Image src="https://test-dai.imgix.net/org-4afef969-21f9-40f3-b5b8-b06c8b6cf68f/doc-22a3b060-9539-4176-97e4-49120e02f5d1/4fa265378c13a520-spaces-NkEGS7hzeqa35sMXQZ4X-uploads-89MTSo5XRpPMVr1T0rxS-actions.svg?rasterize-bypass=true" alt="The Actions menu icon in GitBook" /> dans la ligne du tableau de la variante, puis cliquez sur **Définir comme défaut**.
+
+<Callout kind="info">
+  Définir une variante comme par défaut supprime le champ slug, car elle sera servie depuis la racine de la section à la place. GitBook redirigera le slug de la variante vers le chemin approprié, afin de garantir que les visiteurs continuent de voir votre contenu.
+</Callout>
+
+### Supprimer une variante d'un site
+
+Pour supprimer une variante d'un site, ouvrez l'éditeur de structure depuis **Structure du site**, sous **Général** dans la barre latérale du site, puis trouvez le contenu que vous souhaitez supprimer.
+
+Ouvrez le **menu Actions** <Image src="https://test-dai.imgix.net/org-4afef969-21f9-40f3-b5b8-b06c8b6cf68f/doc-22a3b060-9539-4176-97e4-49120e02f5d1/4fa265378c13a520-spaces-NkEGS7hzeqa35sMXQZ4X-uploads-89MTSo5XRpPMVr1T0rxS-actions.svg?rasterize-bypass=true" alt="The Actions menu icon in GitBook" /> de la variante que vous souhaitez supprimer et choisissez **Supprimer**.
+
+<Callout kind="success">
+  Supprimer une variante de votre site la retirera du site publié, mais **ne supprimera pas le contenu lui-même** — vous pouvez toujours le trouver dans [Tout le contenu](/fr/docs/creer-du-contenu/content-structure/all-content).
+</Callout>

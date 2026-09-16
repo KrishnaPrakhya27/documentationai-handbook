@@ -1,0 +1,130 @@
+---
+title: 代码块
+description: 向页面添加代码块，以包含示例代码、配置、代码片段等
+metaTitle: 代码块 | GitBook Documentation
+ogImage: https://test-dai.imgix.net/org-4afef969-21f9-40f3-b5b8-b06c8b6cf68f/doc-22a3b060-9539-4176-97e4-49120e02f5d1/0a5a1a9630785855-organizations-d8f63b60-89ae-11e7-8574-5927d48c4877-sites-site_p4Xo4-socialprevie.jpg?fm=auto&auto=compress%2Cformat
+---
+
+你可以使用代码块在 GitBook 页面中添加代码。
+
+当你添加代码块时，你可以选择 [设置语法](#set-syntax...), [显示行号](#with-line-numbers), [显示标题](#with-caption)，以及 [自动换行](#wrap-code)。这也很容易 [将代码块中的内容复制到剪贴板](#copying-the-code)，这样你就可以在别处使用它
+
+代码块可能适用于：
+
+- 共享配置
+- 添加代码片段
+- 共享代码文件
+- 展示命令行工具的使用示例
+- 展示如何调用 API 端点
+- 还有更多！
+
+### 添加代码块
+
+1. 要添加代码块，请将光标放在空白行上并输入 `/`.
+2. 在快速插入菜单中，选择 **代码块**.
+3. GitBook 会插入该块并将光标放在其中，供你粘贴或输入代码。
+
+### 代码块示例
+
+```javascript title="index.js"
+import * as React from 'react';
+import ReactDOM from 'react-dom';
+import App from './App';
+
+ReactDOM.render(<App />, window.document.getElementById('root'));
+```
+
+你还可以将代码块与 [选项卡块](/zh/docs/chuang-jian-nei-rong/blocks/tabs) 结合起来，以多种不同语言提供同一个代码示例：
+
+<Tabs>
+  <Tab title="JavaScript">
+    ```javascript
+    let greeting = function (name) {
+      console.log(`Hello, ${name}!`);
+    };
+    greeting("Anna");
+    ```
+  </Tab>
+
+  <Tab title="Ruby">
+    ```ruby
+    greeting = lambda {|name| puts "Hello, #{name}!"}
+    greeting.("Anna")
+    ```
+  </Tab>
+
+  <Tab title="Elixir">
+    ```elixir
+    greeting = fn name -> IO.puts("Hello, #{name}!") end
+    greeting.("Anna")
+    ```
+  </Tab>
+</Tabs>
+
+### 代码块选项
+
+当你点击 **选项菜单** <Image src="https://test-dai.imgix.net/org-4afef969-21f9-40f3-b5b8-b06c8b6cf68f/doc-22a3b060-9539-4176-97e4-49120e02f5d1/4c115a43418b42e3-spaces-NkEGS7hzeqa35sMXQZ4X-uploads-aS1QvPIBVYwhpFTGcPBN-options-menu.svg?rasterize-bypass=true" alt="The Options menu icon in GitBook" /> 代码块旁边的，或者 **操作菜单** <Image src="https://test-dai.imgix.net/org-4afef969-21f9-40f3-b5b8-b06c8b6cf68f/doc-22a3b060-9539-4176-97e4-49120e02f5d1/4fa265378c13a520-spaces-NkEGS7hzeqa35sMXQZ4X-uploads-89MTSo5XRpPMVr1T0rxS-actions.svg?rasterize-bypass=true" alt="The Actions menu icon in GitBook" /> 代码块本身中的时，你会看到许多可设置的选项。
+
+#### 设置语法…
+
+你可以将代码块的语法设置为任何受支持的语言。这也会启用该语言的语法高亮。
+
+<Callout kind="info">
+  我们使用 [Prism](https://github.com/PrismJS/prism) 用于语法高亮。你可以使用 [Test Drive Prism](https://prismjs.com/test.html#language=markup) 来查看 Prism 支持哪些语言。如果你注意到 GitBook 和 Prism 之间有不一致，可能是我们的版本落后了一两个版本。我们很快就会赶上！
+</Callout>
+
+```text title="filename.txt"
+// Some code
+```
+
+<a id="with-line-numbers"></a>
+
+#### 带行号
+
+这将切换代码的行号显示。
+
+当代码代表整个文件的内容时，或者当你有包含很多行的长代码块时，显示行号很有用。隐藏行号则适用于代码片段、命令行或终端表达式的使用说明以及类似场景。
+
+#### 带标题
+
+这将切换位于代码行上方、块顶部的标题显示。
+
+标题通常是文件名，如 [上面的示例](#example-of-a-code-block)所示，但你也可以把它用作标题、描述，或任何你喜欢的内容。
+
+#### 代码换行
+
+这将切换代码换行的开关，因此较长的代码行会自动换行，以便一次在页面上全部可见。
+
+当你的代码很长、并且不想让查看者来回滚动才能阅读时，自动换行很有用。如果你切换 **代码换行** 为开启，你可能还想显示行号——这会让代码更容易阅读，也更容易看出新行从哪里开始。
+
+#### 可展开
+
+这将切换代码的完整显示（当开关关闭时）或代码的折叠窗口（当开关开启时），用户可以展开查看。
+
+折叠视图默认显示 10 行代码，并带有一个按钮，可展开以显示完整的代码块。如果代码少于 10 行，则会显示全部内容。
+
+### 代码块操作
+
+除了上面的选项外，你还可以更改代码块显示的语言，并立即复制你的代码。
+
+<a id="copying-the-code"></a>
+
+#### 复制代码
+
+将鼠标悬停在代码块上，会出现多个图标。点击中间的图标即可将代码块内容复制到剪贴板。
+
+### Markdown 中的表示方式
+
+````markdown
+{% code title="index.js" overflow="wrap" lineNumbers="true" %}
+
+```javascript
+import * as React from 'react';
+import ReactDOM from 'react-dom';
+import App from './App';
+
+ReactDOM.render(<App />, window.document.getElementById('root'));
+```
+
+{% endcode %}
+````

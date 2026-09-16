@@ -1,0 +1,173 @@
+---
+title: Configuration du contenu
+description: Configurez Git Sync par le code
+metaTitle: Configuration du contenu | GitBook Documentation
+ogImage: https://test-dai.imgix.net/org-4afef969-21f9-40f3-b5b8-b06c8b6cf68f/doc-22a3b060-9539-4176-97e4-49120e02f5d1/0a5a1a9630785855-organizations-d8f63b60-89ae-11e7-8574-5927d48c4877-sites-site_p4Xo4-socialprevie.jpg?fm=auto&auto=compress%2Cformat
+---
+
+Git Sync utilise trois fichiers. Choisissez le fichier qui contrôle la partie de Git Sync dont vous avez besoin :
+
+- `gitbook-docs.yaml` configure le site et associe les espaces aux répertoires du dépôt.
+- `.gitbook.yaml` configure la manière dont GitBook lit le contenu d’un espace.
+- `SUMMARY.md` définit la navigation d’un espace.
+
+### Configurez le site avec gitbook-docs.yaml
+
+`gitbook-docs.yaml` configure l’ensemble du site. Il se trouve dans le répertoire du projet Git Sync. GitBook utilise la racine du dépôt lorsque vous ne définissez pas de **répertoire du projet**.
+
+Utilisez `gitbook-docs.yaml` pour définir la structure de votre site et associer chaque espace à un répertoire. Chaque élément dans `site.structure` a une `clé`. Le `content.directory` définit son répertoire de dépôt. Si un espace d’un site ne se synchronise pas avec le dépôt du site, son `content.directory` est `null`.
+
+#### Les clés identifient vos espaces
+
+Git Sync reconnaît chaque espace et section grâce à sa `clé`, et non par son titre, son chemin ou son répertoire. La clé est la manière dont GitBook associe une entrée dans `gitbook-docs.yaml` au contenu existant d’une synchronisation à la suivante.
+
+<Callout kind="danger">
+  <strong>Modifier la clé d’un espace `clé` remplace cet espace.</strong> GitBook considère l’ancienne clé comme supprimée et la nouvelle clé comme un nouvel espace. Il crée un nouvel espace, y importe votre contenu depuis le répertoire associé, et laisse l’espace d’origine dans votre organisation, détaché du site.
+
+  Vos pages réapparaissent, mais dans un nouvel espace avec un nouvel ID d’espace. Les liens, cartes et appels d’API qui font référence à l’ancien ID ne se résolvent plus, et tout ce qui existe uniquement dans GitBook plutôt que dans votre dépôt reste dans l’espace d’origine.
+
+  Restaurer la clé d’origine n’annule pas cela. Cela crée un autre nouvel espace et y importe le contenu.
+</Callout>
+
+Vous pouvez choisir librement les clés lors de la création initiale d’une entrée, et GitBook les génère pour vous lors de l’enregistrement du mappage du contenu du site. Une fois qu’un espace est en ligne, considérez sa clé comme permanente :
+
+- Pour renommer un espace, modifiez son `titre`. La clé reste la même.
+- Pour changer l’URL d’un espace, modifiez son `chemin`. La clé reste la même.
+
+Cet exemple associe les espaces anglais et français à des répertoires distincts :
+
+```yaml title="gitbook-docs.yaml"
+$schema: https://api.gitbook.com/gitbook-docs.yaml
+site:
+  title: Documentation
+  structure:
+    - type: section
+      key: documentation
+      title: Documentation
+      path: documentation
+      children:
+        - type: space
+          key: docs-en
+          title: Anglais
+          path: docs
+          default: true
+          content:
+            directory: ./docs/en
+            language: en
+        - type: space
+          key: docs-fr
+          title: Français
+          path: fr
+          content:
+            directory: ./docs/fr
+            language: fr
+```
+
+<Expandable title="Configurez des propriétés supplémentaires du site">
+  Utilisez ces propriétés facultatives pour affiner la structure de votre site :
+
+  | Propriété | À utiliser pour |
+  | --- | --- |
+  | `type: section-group` | Regrouper des sections liées sous un même titre de navigation. |
+  | `description` | Ajouter une description à une section. |
+  | `icon` | Ajouter une icône à une section ou à un groupe de sections. |
+  | `localizedTitle` | Traduire le titre d’une section, d’un groupe de sections ou d’un espace. |
+  | `localizedDescription` | Traduire la description d’une section. |
+  | `hidden` | Masquer un espace de la navigation du site. |
+
+  GitBook crée ou met à jour `gitbook-docs.yaml` lorsqu’il enregistre le mappage du contenu du site.
+</Expandable>
+
+### Configurez un espace avec .gitbook.yaml
+
+`.gitbook.yaml` configure un seul espace. Il se trouve dans le répertoire associé de cet espace. Utilisez-le pour définir la racine du contenu, la première page, le fichier de navigation et les redirections.
+
+Les principaux réglages sont :
+
+- `root` définit le répertoire que GitBook lit. La valeur par défaut est `./`.
+- `structure.readme` définit la première page. La valeur par défaut est `README.md`.
+- `structure.summary` définit le fichier de navigation. La valeur par défaut est `SUMMARY.md`.
+- `redirects` associe les anciens chemins aux nouveaux chemins au sein de l’espace.
+
+Voici une configuration typique :
+
+```yaml title=".gitbook.yaml"
+root: ./
+
+structure:
+  readme: README.md
+  summary: SUMMARY.md
+
+redirects:
+  previous/page: new-folder/page.md
+```
+
+#### Définissez la racine du contenu
+
+Définissez `root` lorsque le contenu d’un espace se trouve dans un sous-répertoire :
+
+```yaml title=".gitbook.yaml"
+root: ./docs/
+```
+
+<Callout kind="alert">
+  Les chemins dans `.gitbook.yaml` sont relatifs à `root`. Avec `root: ./docs/`, `structure.summary: ./product/SUMMARY.md` se résout en `./docs/product/SUMMARY.md`.
+</Callout>
+
+Dans un monorepo, `root` ne s’applique qu’à l’intérieur du répertoire d’espace associé. Cela ne rend pas les répertoires frères accessibles. Pour les configurations de dépôt multi-espaces, voir [Monorepos](/fr/docs/la-documentation-comme-code/git-sync/monorepos).
+
+#### Définissez la première page et le fichier de navigation
+
+Utilisez `structure.readme` et `structure.summary` pour définir des chemins de fichiers personnalisés :
+
+```yaml title=".gitbook.yaml"
+structure:
+  readme: ./product/README.md
+  summary: ./product/SUMMARY.md
+```
+
+<Callout kind="alert">
+  Lorsque Git Sync est activé, gérez `README.md` les fichiers dans votre dépôt. Les modifier dans GitBook peut créer des conflits ou des pages en double.
+</Callout>
+
+#### Configurez les redirections
+
+Configurez les redirections au niveau de l’espace dans `.gitbook.yaml`. Les chemins de redirection ne s’appliquent qu’au sein de cet espace.
+
+Vous pouvez également gérer les redirections au niveau du site dans l’application GitBook. Voir [Redirections du site](/fr/docs/publier/site-redirects).
+
+### Configurez la navigation avec SUMMARY.md
+
+`SUMMARY.md` définit la table des matières d’un espace. GitBook le recherche dans le `root` répertoire configuré.
+
+Si GitBook ne trouve pas `SUMMARY.md`, il déduit la navigation à partir de vos dossiers et fichiers Markdown. GitBook crée ou met à jour `SUMMARY.md` lorsque vous modifiez la navigation dans GitBook.
+
+Utilisez des titres pour les groupes de pages et des liens imbriqués pour les pages enfants :
+
+```markdown title="SUMMARY.md"
+# Résumé
+
+## Produit
+
+* [Aperçu](README.md)
+  * [Prise en main](getting-started.md)
+  * [Configuration](configuration.md)
+
+## Référence
+
+* [Référence de l’API](api.md)
+```
+
+Chaque fichier Markdown ne peut apparaître qu’une seule fois dans `SUMMARY.md`. Une page ne peut avoir qu’une seule URL dans un espace.
+
+#### Définissez les libellés de navigation
+
+Ajoutez un titre de lien de page lorsque le libellé de navigation diffère du titre de la page :
+
+```markdown title="SUMMARY.md"
+# Résumé
+
+* [Titre principal de la page](page.md "Libellé de navigation")
+```
+
+GitBook utilise le titre du lien de page dans la barre latérale, la pagination et les liens relatifs. Sans celui-ci, GitBook utilise le titre de la page.

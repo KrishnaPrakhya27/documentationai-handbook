@@ -1,0 +1,168 @@
+---
+title: Configurer le bouton « Tester »
+metaTitle: Configurer le bouton « Tester » | GitBook Documentation
+ogImage: https://test-dai.imgix.net/org-4afef969-21f9-40f3-b5b8-b06c8b6cf68f/doc-22a3b060-9539-4176-97e4-49120e02f5d1/0a5a1a9630785855-organizations-d8f63b60-89ae-11e7-8574-5927d48c4877-sites-site_p4Xo4-socialprevie.jpg?fm=auto&auto=compress%2Cformat
+---
+
+Vous pouvez configurer le bouton « Test it » et la fenêtre associée dans GitBook à l’aide de plusieurs extensions OpenAPI. Ces extensions peuvent aider à améliorer et à configurer la suite de tests pour les utilisateurs.
+
+### Masquer le bouton « Test it »
+
+Vous pouvez masquer le bouton « Test it » de vos points de terminaison en ajoutant le `x-hideTryItPanel` à un point de terminaison, ou à la racine de votre spécification OpenAPI.
+
+```yaml title="openapi.yaml"
+openapi: '3.0'
+info: ...
+tags: [...]
+paths:
+  /example:
+    get:
+      summary: Résumé d’exemple
+      description: Description d’exemple
+      operationId: examplePath
+      responses: [...]
+      parameters: [...]
+      x-hideTryItPanel: true
+```
+
+### Proxy des requêtes « Test it »
+
+Certaines API bloquent les requêtes du navigateur, souvent à cause de CORS.
+
+Route **Test it** le trafic via GitBook en ajoutant `x-enable-proxy` à votre spécification.
+
+Voir [Utilisation du proxy OpenAPI](/fr/docs/creer-du-contenu/openapi/guides/using-openapi-proxy) pour des exemples.
+
+### Activer l’authentification dans la fenêtre de test
+
+L’exécuteur de requêtes ne peut présenter et appliquer l’authentification que si votre spécification la déclare. Définissez les schémas sous `components.securitySchemes`, puis attachez-les soit globalement via `security` (s’applique à toutes les opérations) ou par opération (remplace le global).
+
+#### Déclarez votre schéma d’authentification
+
+Vous trouverez ci-dessous des modèles courants. Utilisez des guillemets droits dans le YAML.
+
+<Tabs>
+  <Tab title="HTTP Bearer (par ex., JWT)">
+    ```yaml
+    openapi: '3.0.3'
+    components:
+      securitySchemes:
+        bearerAuth:
+          type: http
+          scheme: bearer
+          bearerFormat: JWT
+    ```
+  </Tab>
+
+  <Tab title="Clé API dans l’en-tête">
+    ```yaml
+    openapi: '3.0.3'
+    components:
+      securitySchemes:
+        apiKeyAuth:
+          type: apiKey
+          in: header
+          name: X-API-Key
+    ```
+  </Tab>
+
+  <Tab title="OAuth2 (authorizationCode)">
+    ```yaml
+    openapi: '3.0.3'
+    components:
+      securitySchemes:
+        oauth2:
+          type: oauth2
+          flows:
+            authorizationCode:
+              authorizationUrl: 'https://auth.example.com/oauth/authorize'
+              tokenUrl: 'https://auth.example.com/oauth/token'
+              scopes:
+                read:items: 'Lire les éléments'
+                write:items: 'Écrire les éléments'
+    ```
+  </Tab>
+</Tabs>
+
+#### Appliquer les schémas globalement ou par opération
+
+<Tabs>
+  <Tab title="Global">
+    ```yaml
+    openapi: '3.0.3'
+    security:
+      - bearerAuth: []
+    paths: ...
+    ```
+  </Tab>
+
+  <Tab title="Par opération">
+    ```yaml
+    paths:
+      /reports:
+        get:
+          summary: Obtenir les rapports
+          security:
+            - apiKeyAuth: []
+          responses:
+            '200':
+              description: OK
+    ```
+  </Tab>
+</Tabs>
+
+### Contrôlez l’URL du point de terminaison avec `servers`
+
+L’exécuteur de requêtes cible l’URL ou les URL que vous définissez dans le `servers` tableau. Déclarez un ou plusieurs serveurs ; vous pouvez également les paramétrer avec des variables.
+
+<Tabs>
+  <Tab title="Serveur unique">
+    ```yaml
+    openapi: '3.0.3'
+    servers:
+      - url: https://instance.api.region.example.cloud
+    ```
+  </Tab>
+
+  <Tab title="Serveurs multiples">
+    ```yaml
+    servers:
+      - url: https://api.example.com
+        description: Production
+      - url: https://staging-api.example.com
+        description: Préproduction
+    ```
+  </Tab>
+
+  <Tab title="Variables du serveur">
+    ```yaml
+    servers:
+      - url: https://{instance}.api.{region}.example.cloud
+        variables:
+          instance:
+            default: acme
+            description: Le slug de votre locataire ou instance
+          region:
+            default: eu
+            enum:
+              - eu
+              - us
+              - ap
+            description: Déploiement régional
+    ```
+  </Tab>
+
+  <Tab title="Serveurs par opération">
+    ```yaml
+    paths:
+      /reports:
+        get:
+          summary: Obtenir les rapports
+          servers:
+            - url: https://reports.api.example.com
+          responses:
+            '200':
+              description: OK
+    ```
+  </Tab>
+</Tabs>

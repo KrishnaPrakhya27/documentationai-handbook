@@ -1,0 +1,77 @@
+---
+title: GitLab Syncを有効にする
+description: GitLabリポジトリをGitBookと同期する
+metaTitle: GitLab Syncを有効にする | GitBook Documentation
+ogImage: https://test-dai.imgix.net/org-4afef969-21f9-40f3-b5b8-b06c8b6cf68f/doc-22a3b060-9539-4176-97e4-49120e02f5d1/0a5a1a9630785855-organizations-d8f63b60-89ae-11e7-8574-5927d48c4877-sites-site_p4Xo4-socialprevie.jpg?fm=auto&auto=compress%2Cformat
+---
+
+このガイドでは、GitLab 上のリポジトリを使って GitBook サイトをセットアップする手順を説明します。
+
+<Image src="https://test-dai.imgix.net/org-4afef969-21f9-40f3-b5b8-b06c8b6cf68f/doc-22a3b060-9539-4176-97e4-49120e02f5d1/f8ae407a73a9b913-spaces-NkEGS7hzeqa35sMXQZ4X-uploads-jSaHb62zdd8xp9NpBCif-Git-Sync---GitLab.png?fm=auto&auto=compress%2Cformat" alt="A GitBook screenshot showing GitLab Sync configuration options" caption="GitLab Sync の設定オプション。" />
+
+<Steps>
+  <Step title="サイトで Git Sync を開く" titleType="h3">
+    サイトから、サイドバーで Git Sync を開きます。
+  </Step>
+
+  <Step title="GitLab を接続" titleType="h3">
+    GitLab のユーザー設定で Personal Access Token を作成します。を有効にします `api`, `read_repository`を読み取り、 `write_repository`その後、トークンを GitBook に入力します。
+
+    <Callout kind="info">
+      トークンにロールがある場合は、選択してください `メンテナー` または `管理`.
+    </Callout>
+  </Step>
+
+  <Step title="リポジトリとブランチを選択" titleType="h3">
+    次の項目の下で **ソースリポジトリ**、ドキュメントが含まれているリポジトリを選択します。GitBook が同期するブランチを選択してください。そのブランチが存在しない場合、GitBook は初回同期時に作成します。
+
+    <Callout kind="info">
+      <strong>リポジトリが見つかりませんか？</strong> Personal Access Token に必要なスコープとリポジトリアクセスがあることを確認してください。
+    </Callout>
+
+    <Callout kind="alert">
+      もしあなたの `main` ブランチが保護されている場合は、Git Sync 用に別のブランチを選択してください。そのブランチを次へマージできます `main` 保護を維持したまま。
+    </Callout>
+  </Step>
+
+  <Step title="初回同期の方向を選択" titleType="h3">
+    初回同期のソース・オブ・トゥルースを選択します。 **方向を入れ替え** リポジトリの内容で GitBook の内容を置き換える場合。
+
+    <Callout kind="alert">
+      <strong>GitLab → GitBook では、サイトのコンテンツが置き換えられる場合があります。</strong> 同期を開始する前に、リポジトリ、ブランチ、方向を確認してください。置き換えても安全な送信先コンテンツであることを確認してください。
+    </Callout>
+  </Step>
+
+  <Step title="プロジェクトディレクトリを設定" titleType="h3">
+    ドキュメントがサブディレクトリにある場合は、 **プロジェクトディレクトリ**の下に入力してください。GitBook はサイトの `docs.yaml` ファイルをこのディレクトリに保存します。ドキュメントが [monorepo](/ja/docs/docs-as-code/git-sync/monorepos).
+  </Step>
+
+  <Step title="スペースをマッピング" titleType="h3">
+    次の項目の下で **コンテンツのマッピング**で、各スペースをリポジトリ内のディレクトリに割り当てます。 `./` プロジェクトディレクトリからの相対パスには `/` リポジトリのルートからのパスには
+  </Step>
+
+  <Step title="を使用します。新しくリンクされたスペースは自動的に同期されます。" titleType="h3">
+    必要に応じて、エージェント指示ファイル、コミットメッセージテンプレート、またはフォークのプレビューを設定します。
+  </Step>
+
+  <Step title="サイトを同期" titleType="h3">
+    クリックして **同期** して初回同期を開始します。
+  </Step>
+
+  <Step title="書き込みとコミット" titleType="h3">
+    GitBook で変更リクエストをマージして、その変更を GitLab にコミットします。GitLab へのコミットは GitBook に同期されて戻ります。
+  </Step>
+</Steps>
+
+#### サイト全体の Git Sync からスペースを除外する
+
+サイトの Git Sync のコンテンツマッピングで、除外したいスペースの横にある削除アイコンをクリックします。その後、そのスペースから Git Sync を設定できます。
+
+サイトにすでに Git Sync がある場合、GitBook はスコープを選択するよう求めます:
+
+- サイト全体の Git Sync にスペースを追加するには、サイトのリポジトリとブランチを選択します。
+- Space Git Sync を設定するには、独立したリポジトリとブランチを選択します。
+
+サイトで Git Sync を使用していない場合、GitBook はそのスペースに対して個別に Git Sync を設定します。
+
+単一のスペースに Git Sync を設定するには、同期したいスペースで **セットアップ** の横にある **Git Sync** の [スペースヘッダー](/ja/docs/rifarensu/gitbook-ui#space-header)をクリックします。プロバイダー一覧から **GitLab Sync**、そして **設定**.

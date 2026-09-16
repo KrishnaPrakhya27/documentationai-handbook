@@ -1,0 +1,59 @@
+---
+title: Insérer une référence d’API dans votre documentation
+description: Insérez une référence d’API complète à partir de votre spécification OpenAPI ou sélectionnez des opérations ou des schémas individuels
+metaTitle: Insérer une référence d’API dans votre documentation | GitBook Documentation
+ogImage: https://test-dai.imgix.net/org-4afef969-21f9-40f3-b5b8-b06c8b6cf68f/doc-22a3b060-9539-4176-97e4-49120e02f5d1/0a5a1a9630785855-organizations-d8f63b60-89ae-11e7-8574-5927d48c4877-sites-site_p4Xo4-socialprevie.jpg?fm=auto&auto=compress%2Cformat
+---
+
+GitBook vous permet de générer automatiquement des pages liées aux endpoints que vous avez dans votre spécification OpenAPI. Ces pages contiendront des blocs d’opérations OpenAPI, vous permettant, ainsi qu’à vos visiteurs, de tester vos endpoints et de les explorer plus en détail à partir des informations trouvées dans la spécification.
+
+<Callout kind="success">
+  Les endpoints ajoutés à partir de votre spécification continueront d’être mis à jour chaque fois que votre spécification sera mise à jour. Consultez la [Mettre à jour votre spécification](/fr/docs/creer-du-contenu/openapi/add-an-openapi-specification#update-your-specification) section pour plus d’informations.
+</Callout>
+
+### Créer automatiquement des pages OpenAPI à partir de votre spécification
+
+Après avoir [ajouté votre spécification OpenAPI](/fr/docs/creer-du-contenu/openapi/add-an-openapi-specification), vous pouvez générer des pages d’endpoints en insérant une **référence OpenAPI** dans la table des matières d’une section.
+
+<Image src="https://test-dai.imgix.net/org-4afef969-21f9-40f3-b5b8-b06c8b6cf68f/doc-22a3b060-9539-4176-97e4-49120e02f5d1/43f6c1fd5d5005df-spaces-NkEGS7hzeqa35sMXQZ4X-uploads-Yy8gCqxfaO4xjv2eqiL5-create_api_pages-2x.png?fm=auto&auto=compress%2Cformat" alt="A GitBook screenshot showing how to insert API references into the table of contents of a section" caption="Insérez des références API dans la table des matières d’une section." />
+
+<Steps>
+  <Step title="Générer des pages à partir d’OpenAPI">
+    Dans la section pour laquelle vous souhaitez générer des pages d’endpoints, cliquez sur le <strong>Ajouter un nouveau...</strong> bouton en bas de la [table des matières de votre section](/fr/docs/reference/gitbook-ui#table-of-contents).
+
+    Depuis là, cliquez sur **référence OpenAPI**.
+  </Step>
+
+  <Step title="Choisissez votre spécification OpenAPI">
+    Choisissez votre spécification OpenAPI précédemment téléversée. Puis choisissez une **Structure des pages**:
+
+    - **Une page par tag**
+    - **Une page par opération**
+
+    Vous pouvez également choisir d’ajouter une page des modèles et un lien de téléchargement. Cliquez sur **Insérer** pour générer la référence.
+  </Step>
+
+  <Step title="Gérez vos opérations d’API">
+    GitBook générera automatiquement des pages à partir de votre spécification OpenAPI et des tags définis dans sa définition. Si vous choisissez **Une page par opération**, GitBook regroupe les pages d’opérations générées par tag.
+
+    Rendez-vous dans [les mises en page OpenAPI](/fr/docs/creer-du-contenu/openapi/guides/openapi-layouts) pour comparer les mises en page, ou [Structurer votre référence d’API](/fr/docs/creer-du-contenu/openapi/guides/structuring-your-api-reference) pour organiser les pages avec des tags.
+  </Step>
+</Steps>
+
+### Ajouter un bloc OpenAPI individuel
+
+Vous pouvez également ajouter individuellement des opérations ou des schémas OpenAPI issus de votre spécification à des pages dans l’ensemble de votre documentation.
+
+<Steps>
+  <Step title="Ajouter un nouveau bloc OpenAPI">
+    Ouvrez le sélecteur de blocs en appuyant sur <strong>/</strong>, puis recherchez OpenAPI.
+  </Step>
+
+  <Step title="Choisissez votre spécification OpenAPI">
+    Choisissez votre spécification OpenAPI précédemment téléversée, puis cliquez sur **Continuer** pour choisir les endpoints que vous souhaitez utiliser.
+  </Step>
+
+  <Step title="Choisissez les opérations ou les schémas que vous souhaitez insérer">
+    Sélectionnez les opérations et les schémas que vous souhaitez insérer dans votre documentation, puis cliquez sur **Insérer**.
+  </Step>
+</Steps>

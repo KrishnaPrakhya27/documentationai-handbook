@@ -1,0 +1,37 @@
+---
+title: 编写 API 文档
+description: 向页面添加 OpenAPI 规范，让用户能够通过交互式块直接在页面上测试端点。
+metaTitle: 编写 API 文档 | GitBook Documentation
+ogImage: https://test-dai.imgix.net/org-4afef969-21f9-40f3-b5b8-b06c8b6cf68f/doc-22a3b060-9539-4176-97e4-49120e02f5d1/0a5a1a9630785855-organizations-d8f63b60-89ae-11e7-8574-5927d48c4877-sites-site_p4Xo4-socialprevie.jpg?fm=auto&auto=compress%2Cformat
+openapi: api-reference/715e581e0d464caa7f0f889903f2c6f13901d28e9abf812e5e8af857b54e01c5.json POST /pet
+---
+
+手动编写 REST API 文档可能是一个耗时的过程。幸运的是，GitBook 通过允许你导入 OpenAPI 文档来简化这项任务，这些文档详细描述了你的 API 结构和功能。
+
+OpenAPI 规范（OAS）是开发者用于记录 REST API 的一种框架。它以 JSON 或 YAML 编写，概述了你的所有端点、参数、架构和认证方案。
+
+导入 GitBook 后，这些文档会被转换为可交互、可测试的 API 块，以可视化方式呈现你的 API 方法——无论该规范是以文件形式提供，还是从 URL 加载。
+
+### OpenAPI 兼容性
+
+GitBook 支持导入并渲染以下规范版本：
+
+- [Swagger 2.0](https://github.com/OAI/OpenAPI-Specification/blob/main/versions/2.0.md) — 支持。
+- [OpenAPI 3.0](https://github.com/OAI/OpenAPI-Specification/blob/main/versions/3.0.3.md) — 支持。
+- [OpenAPI 3.1](https://github.com/OAI/OpenAPI-Specification/blob/main/versions/3.1.1.md) — 支持，包括仅限 OpenAPI 3.1 的功能，例如 `webhooks`.
+
+### 试用它（由 Scalar 提供支持）
+
+GitBook 的 OpenAPI 块也支持“试用它”功能，它允许你的用户使用从编辑器中填写的数据和参数来测试你的 API 方法。
+
+由……驱动 [Scalar](https://scalar.com/)，你无需离开文档即可查看你的 API 方法运行情况。请参见上面的示例。
+
+#### 常见问题
+
+<Expandable title="为什么我的规范没有加载？">
+  <Callout kind="info">
+    <strong>注意：</strong> 此信息仅适用于 **通过 URL 添加的规范**.
+  </Callout>
+
+  如果你是通过 URL 添加的规范，你的 API 必须 [允许跨域](https://developer.mozilla.org/en-US/docs/Web/HTTP/Reference/Headers/Access-Control-Allow-Origin) 来自你的文档站点的 GET 请求。在你的 API 的 CORS 设置中，允许文档托管所在的确切来源（例如， `https://your-site.gitbook.io` 或 `https://docs.example.com`）。<br /><br />如果你的端点是公开的且不使用凭据，你也可以返回： `Access-Control-Allow-Origin: *`\\ <br />
+</Expandable>

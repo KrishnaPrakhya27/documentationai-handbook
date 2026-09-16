@@ -1,0 +1,126 @@
+---
+title: List all OpenAPI spec
+metaTitle: List all OpenAPI spec | Developers | GitBook Documentation
+ogImage: https://test-dai.imgix.net/org-4afef969-21f9-40f3-b5b8-b06c8b6cf68f/doc-22a3b060-9539-4176-97e4-49120e02f5d1/0a5a1a9630785855-organizations-d8f63b60-89ae-11e7-8574-5927d48c4877-sites-site_p4Xo4-socialprevie.jpg?fm=auto&auto=compress%2Cformat
+---
+
+**GET** `/orgs/{organizationId}/openapi`
+
+**Parameters**
+
+<ParamField header="Authorization" param-type="string" />
+
+<ParamField path="organizationId" param-type="string" required={true}>
+  The unique id of the organization
+</ParamField>
+
+<ParamField query="page" param-type="string">
+  Identifier of the page results to fetch.
+</ParamField>
+
+<ParamField query="limit" param-type="number">
+  The number of results per page
+</ParamField>
+
+**Responses**
+
+`200` OK
+
+<ResponseField name="next" field-type="object">
+  <Expandable title="Object Properties">
+    <ResponseField name="page" field-type="string" required={true}>
+      Unique identifier to query the next results page
+    </ResponseField>
+  </Expandable>
+</ResponseField>
+
+<ResponseField name="count" field-type="number">
+  Total count of objects in the list
+</ResponseField>
+
+<ResponseField name="items" field-type="array" required={true}>
+  <Expandable title="Array Items">
+    <ResponseField name="object" field-type="string" required={true} enum="openapi-spec">
+      The object type, which is always "openapi-spec"
+    </ResponseField>
+
+    <ResponseField name="id" field-type="string" required={true}>
+      Unique identifier
+    </ResponseField>
+
+    <ResponseField name="createdAt" field-type="string" required={true} />
+
+    <ResponseField name="updatedAt" field-type="string" required={true} />
+
+    <ResponseField name="slug" field-type="string" required={true}>
+      Slug used as reference
+    </ResponseField>
+
+    <ResponseField name="sourceURL" field-type="string" />
+
+    <ResponseField name="processingState" field-type="string" required={true} enum="pending,progress,complete">
+      Processing state
+    </ResponseField>
+
+    <ResponseField name="visibility" field-type="string" enum="private,public">
+      The visibility setting of the OpenAPI spec.
+
+      - `private`: The spec is not publicly available.
+      - `public`: The spec is available to anyone with a public link.
+    </ResponseField>
+
+    <ResponseField name="lastVersion" field-type="string">
+      ID of the latest version of the OpenAPI specification
+    </ResponseField>
+
+    <ResponseField name="lastProcessedAt" field-type="string" />
+
+    <ResponseField name="lastProcessErrorCode" field-type="string" enum="FETCH_TIMEOUT,FETCH_ERROR,PARSE_ERROR">
+      OpenAPI processing error code
+    </ResponseField>
+
+    <ResponseField name="lastProcessedErrors" field-type="array">
+      <Expandable title="Array Items">
+        <ResponseField name="message" field-type="string" required={true}>
+          Description of the error.
+        </ResponseField>
+
+        <ResponseField name="code" field-type="string">
+          Unique code of the error.
+        </ResponseField>
+      </Expandable>
+    </ResponseField>
+
+    <ResponseField name="lastProcessedErrorCount" field-type="integer" required={true}>
+      Total number of processing errors before truncation of lastProcessedErrors.
+    </ResponseField>
+
+    <ResponseField name="permissions" field-type="object" required={true}>
+      The set of permissions for the OpenAPI specification.
+
+      <Expandable title="Object Properties">
+        <ResponseField name="view" field-type="boolean" required={true}>
+          Can the user view the specification.
+        </ResponseField>
+
+        <ResponseField name="edit" field-type="boolean" required={true}>
+          Can the user edit the specification.
+        </ResponseField>
+      </Expandable>
+    </ResponseField>
+
+    <ResponseField name="urls" field-type="object" required={true}>
+      URLs associated with the object
+
+      <Expandable title="Object Properties">
+        <ResponseField name="location" field-type="string" required={true} />
+
+        <ResponseField name="app" field-type="string" required={true} />
+
+        <ResponseField name="published" field-type="string">
+          URL of the published spec. Only defined when visibility is "published."
+        </ResponseField>
+      </Expandable>
+    </ResponseField>
+  </Expandable>
+</ResponseField>

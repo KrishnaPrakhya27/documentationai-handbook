@@ -1,0 +1,205 @@
+---
+title: Se connecter à des outils personnalisés
+description: Connectez GitBook Assistant à n’importe quel outil que vous pouvez appeler depuis votre application — en particulier les workflows de support
+metaTitle: Se connecter à des outils personnalisés | GitBook Documentation
+ogImage: https://test-dai.imgix.net/org-4afef969-21f9-40f3-b5b8-b06c8b6cf68f/doc-22a3b060-9539-4176-97e4-49120e02f5d1/0a5a1a9630785855-organizations-d8f63b60-89ae-11e7-8574-5927d48c4877-sites-site_p4Xo4-socialprevie.jpg?fm=auto&auto=compress%2Cformat
+---
+
+Les outils personnalisés permettent à l’assistant GitBook dans le [Intégration Docs](/fr/docs/publier/embedding) d’exécuter de vraies actions.
+
+Vous pouvez le connecter à *n’importe quel* outil auquel votre application peut accéder. Cela inclut vos API backend, des SDK tiers et des systèmes internes.
+
+Si votre application peut l’appeler, l’assistant peut l’appeler.
+
+Exemples courants :
+
+- Créer ou mettre à jour des tickets de support au nom de l’utilisateur
+- Transmettre au support en ouvrant un chat d’assistance avec un message prérempli
+
+  <Callout kind="success">
+    **Transmission au support** est un excellent moyen de commencer avec des outils personnalisés. C’est le moyen le plus rapide de débloquer les utilisateurs.
+  </Callout>
+- Déclencher des actions produit (réinitialiser le MFA, renvoyer une invitation, activer un indicateur de fonctionnalité)
+- Consulter l’état du compte dans votre backend
+- Lancer des workflows dans des outils comme Jira, Linear, Slack ou Zendesk
+
+<Callout kind="info">
+  En plus des outils que vous définissez dans la configuration de l’embed, l’assistant peut aussi utiliser n’importe quel [serveur MCP que vous avez configuré](/fr/docs/lia-pour-vos-lecteurs/mcp-servers-for-published-docs) dans **Paramètres → IA & MCP**.
+</Callout>
+
+### Où s’exécutent les outils
+
+La `fonction d’exécution` de l’outil s’exécute dans le même environnement que votre intégration d’embed.
+
+Cela signifie généralement qu’elle s’exécute dans le navigateur de l’utilisateur, au sein de votre application.
+
+Vous pouvez donc :
+
+- Appeler vos propres points de terminaison backend
+- Appeler n’importe quel SDK tiers déjà chargé dans votre application (par exemple, Intercom)
+- Ouvrir des modales, des liens profonds ou une interface intégrée au produit
+
+<Callout kind="alert">
+  Évitez de mettre des secrets dans le code côté client — appelez plutôt votre backend.
+</Callout>
+
+### Ajouter un outil
+
+Définir des outils :
+
+- Via `window.GitBook("configure", …)` pour la [balise script](/fr/docs/publier/embedding/implementation/script) implémentation
+- Via la `propriété` tools pour le [package Node.js/NPM](/fr/docs/publier/embedding/implementation/nodejs) et les [composants React](/fr/docs/publier/embedding/implementation/react) Les outils ne sont pas la même chose que les
+
+<Callout kind="info">
+  actions d’embed **actions**.
+
+  - Utilisez **actions** pour les boutons sur lesquels l’utilisateur clique.
+  - Utilisez des outils lorsque vous voulez que l’assistant choisisse et exécute du code.
+</Callout>
+
+#### Modèle d’outil (renvoyer un e-mail d’invitation)
+
+Prenons un exemple :
+
+```javascript
+window.GitBook("configure", {
+  tools: [
+    {
+      // Enregistrer l’outil avec un nom et une description.
+      name: "resend_invite",
+      description:
+        "Renvoyer un e-mail d’invitation lorsque l’utilisateur ne le trouve pas ou dit qu’il a expiré.",
+
+      // Le schéma d’entrée est une donnée accessible dans la fonction d’exécution.
+      inputSchema: {
+        type: "object",
+        properties: {
+          email: {
+            type: "string",
+            description:
+              "L’adresse e-mail à laquelle renvoyer l’invitation. Si elle est inconnue, demandez d’abord à l’utilisateur.",
+          },
+        },
+        required: ["email"],
+      },
+
+      // Un bouton de confirmation facultatif qui s’affiche avant l’exécution de la fonction execute.
+      confirmation: { icon: "paper-plane", label: "Renvoyer l’invitation ?" },
+
+      // La fonction execute est la fonction qui sera appelée lorsque l’outil est utilisé.
+      execute: async (input) => {
+        const { email } = input;
+
+        const result = await fetch("/api/invites/resend", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ email }),
+        }).then((r) => r.json());
+
+        return {
+          // La sortie est renvoyée à l’IA.
+          output: {
+            recipient: email,
+            status: result.status ?? "success",
+          },
+          // Le résumé est affiché à l’utilisateur.
+          summary: {
+            icon: "check",
+            text: "E-mail d’invitation renvoyé.",
+          },
+        };
+      },
+    },
+  ],
+});
+```
+
+### Comment les outils sont utilisés
+
+Une fois que vous enregistrez des outils, l’assistant peut les choisir automatiquement — en fonction de la question de l’utilisateur et de votre outil `description`.
+
+Si des champs obligatoires manquent, l’assistant doit poser des questions de suivi.
+
+Si vous ajoutez `confirmation`, l’utilisateur doit approuver avant l’exécution de l’outil.
+
+### Champs de l’outil
+
+- `name`: Identifiant unique.
+- `description`: L’indication « quand utiliser ceci » pour l’assistant.
+- `inputSchema`: Schéma JSON des entrées de l’outil.
+- `confirmation` (facultatif) : Un bouton de confirmation affiché avant l’exécution de l’outil.
+- `execute(input)`: Fonction asynchrone qui exécute l’action.
+
+  - Retourner `{ output, summary }`.
+  - `output` est renvoyé à l’assistant.
+  - `summary` s’affiche pour l’utilisateur.
+
+#### Confirmation
+
+Utilisez `confirmation` lorsque vous voulez que l’utilisateur approuve une action. Cela aide à éviter des effets secondaires inattendus.
+
+`confirmation` accepte :
+
+- `label` (obligatoire) : Texte du bouton.
+- `icon` (facultatif) : Une [Font Awesome](https://fontawesome.com/search) nom d’icône.
+
+### Flux de travail de support
+
+Le support est le cas d’usage le plus intéressant pour les outils.
+
+Vous pouvez laisser l’assistant :
+
+- Collecter les informations manquantes
+- Créer un ticket dans votre système
+- Ouvrir un canal de support humain avec le contexte prérempli
+
+#### Modèle : ouvrir un chat de support avec un message prérempli
+
+Utilisez ceci lorsque vous voulez une transmission fluide à un humain.
+
+```javascript
+window.GitBook("configure", {
+  tools: [
+    {
+      name: "open_support_chat",
+      description:
+        "Ouvrir le chat de support avec un message prérempli afin que l’utilisateur puisse contacter le support rapidement.",
+      inputSchema: {
+        type: "object",
+        properties: {
+          message: {
+            type: "string",
+            description:
+              "Le message à envoyer au support. S’il est manquant, demandez d’abord à l’utilisateur.",
+          },
+        },
+      },
+      confirmation: { icon: "circle-question", label: "Ouvrir le chat de support" },
+      execute: (input) => {
+        // Fermer l’assistant GitBook
+        window.GitBook('close');
+     
+        // Exemples :
+        // - Intercom : Intercom('showNewMessage', input.message);
+        // - Zendesk : zE('messenger', 'open');
+        
+        return {
+          output: {
+            status: "success",
+          },
+          summary: { icon: 'check', text: "Transmis au support." },
+        };
+      },
+    },
+  ],
+});
+```
+
+<Callout kind="info">
+  Associez cela à une **Contacter le support** action toujours visible dans la barre latérale de l’embed. Vous pouvez configurer les actions en suivant [Personnalisation de l’embed](/fr/docs/publier/embedding/configuration/customizing-docs-embed).
+</Callout>
+
+### Étapes suivantes
+
+- Besoin de l’ensemble complet de l’API d’embed ? Consultez [la référence de l’API](/fr/docs/publier/embedding/configuration/reference).
+- Vous voulez plus de contrôles d’interface (message d’accueil, suggestions, actions) ? Consultez [Personnalisation de l’embed](/fr/docs/publier/embedding/configuration/customizing-docs-embed).

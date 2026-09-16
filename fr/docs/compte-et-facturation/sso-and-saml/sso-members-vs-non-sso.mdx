@@ -1,0 +1,38 @@
+---
+title: Membres SSO vs non-SSO
+metaTitle: Membres SSO vs non-SSO | GitBook Documentation
+ogImage: https://test-dai.imgix.net/org-4afef969-21f9-40f3-b5b8-b06c8b6cf68f/doc-22a3b060-9539-4176-97e4-49120e02f5d1/0a5a1a9630785855-organizations-d8f63b60-89ae-11e7-8574-5927d48c4877-sites-site_p4Xo4-socialprevie.jpg?fm=auto&auto=compress%2Cformat
+---
+
+Les utilisateurs qui ont créé un compte GitBook avec une adresse e-mail utilisée dans votre fournisseur d’identité SAML, ou qui ont rejoint votre organisation avant la configuration de SAML, pourraient voir leur connexion avec le SSO bloquée avec un message leur demandant de «*Se connecter avec vos identifiants existants*":
+
+### Origine du message et considérations de sécurité
+
+Le premier principe de notre implémentation du SSO SAML est la sécurité.
+
+Si un compte utilisateur a été créé à l’aide d’une adresse e-mail `bob@company.com`, puis que Bob tente plus tard de se connecter avec le SAML de l’entreprise, **GitBook ne peut pas vérifier l’intégrité de l’adresse e-mail renvoyée par le fournisseur d’identité** et ne peut donc pas l’authentifier comme étant le compte actuel `bob@company.com`.
+
+Pour empêcher la création de deux comptes associés à la `bob@company.com` adresse e-mail, **GitBook indique à l’utilisateur qu’il doit se connecter avec son compte d’origine. L’administrateur de l’organisation décide ensuite comment gérer ce cas**:
+
+En activant le SSO sur un compte utilisateur, un administrateur de l’organisation indique à GitBook que la relation entre l’adresse e-mail du compte et le profil dans votre fournisseur d’identité SAML peut être considérée comme fiable.
+
+### Mesures correctives
+
+Lorsqu’un utilisateur voit que sa connexion SSO échoue avec le message « Se connecter avec vos identifiants existants », l’administrateur de l’organisation peut prendre des mesures pour l’autoriser.
+
+#### Si le compte utilisateur est déjà membre de l’organisation :
+
+- Un administrateur de l’organisation peut activer le SSO sur l’appartenance à votre organisation depuis le tableau de bord d’administration. La prochaine fois, le compte utilisateur sera autorisé à se connecter à l’organisation via le flux SSO.
+
+ou
+
+- L’utilisateur peut se connecter à son compte à l’aide des identifiants initialement utilisés pour créer le compte. Par exemple, en cliquant sur « Continuer avec e-mail » pour recevoir un lien de connexion par e-mail.
+- La connexion SSO ne sera pas activée automatiquement pour cet utilisateur, et un administrateur de l’organisation doit l’activer explicitement depuis le tableau de bord d’administration.
+
+#### Si le compte utilisateur n’est pas encore membre de l’organisation :
+
+- Un administrateur de l’organisation doit ajouter le compte utilisateur à l’organisation en invitant son adresse e-mail depuis le tableau de bord d’administration. Le compte utilisateur peut alors être directement activé pour la connexion SSO.
+
+### Activation de la connexion SSO pour les membres
+
+Les administrateurs de l’organisation peuvent activer la connexion SSO pour les membres en reliant leurs comptes au SSO. Cela indique à GitBook que le compte utilisateur peut être considéré comme fiable, car connecté à l’identité dans votre fournisseur.

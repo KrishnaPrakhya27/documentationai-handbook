@@ -1,0 +1,44 @@
+---
+title: URL intégrées
+description: Intégrez des vidéos, de la musique et plus encore directement dans votre page à l’aide d’une URL
+metaTitle: URL intégrées | GitBook Documentation
+ogImage: https://test-dai.imgix.net/org-4afef969-21f9-40f3-b5b8-b06c8b6cf68f/doc-22a3b060-9539-4176-97e4-49120e02f5d1/0a5a1a9630785855-organizations-d8f63b60-89ae-11e7-8574-5927d48c4877-sites-site_p4Xo4-socialprevie.jpg?fm=auto&auto=compress%2Cformat
+---
+
+Pour ajouter une URL intégrée, collez le lien du contenu que vous souhaitez intégrer et appuyez sur `Entrée`.
+
+### Vidéos
+
+<Iframe src="https://www.youtube.com/embed/D_uLM5i0Z4c" title="Embedded content" />
+
+<Callout kind="info">
+  <strong>Remarque :</strong> Vous pouvez choisir de lancer automatiquement et de mettre en boucle les intégrations YouTube et Vimeo en ajoutant `?autoplay=1&loop=1` à la fin de l’URL de votre vidéo.
+</Callout>
+
+#### Fichiers vidéo
+
+Les fichiers vidéo téléversés — comme les MP4 — ne se lisent pas en ligne ; ils apparaissent sous forme de liens sur lesquels les visiteurs peuvent cliquer pour les ouvrir ou les télécharger. Pour afficher une vidéo lisible sur votre page, téléversez la vidéo sur une plateforme accessible publiquement comme YouTube ou Google Drive, puis collez le lien dans un bloc d’intégration. Les URL privées ne s’afficheront pas sur votre page.
+
+### Codepen
+
+[https://codepen.io/davidkpiano/pen/wMqXea](https://codepen.io/davidkpiano/pen/wMqXea)
+
+### Spotify
+
+[https://open.spotify.com/track/4FmiciU3ZmfgABlbCSXcWw?si=65zMAhStT2ivTit-kZISWg](https://open.spotify.com/track/4FmiciU3ZmfgABlbCSXcWw?si=65zMAhStT2ivTit-kZISWg)
+
+### Présentation en Markdown
+
+```markdown
+{% embed url="URL_HERE" %}
+```
+
+### FAQ
+
+<Expandable title="Pourquoi mon URL ne fonctionne pas ?">
+  Votre contenu doit être accessible publiquement. Pour Google Docs, sélectionnez le *Toute personne disposant du lien* paramètre de partage.
+
+  GitBook intègre les URL via [Iframely](https://iframely.com/domains). Vérifiez qu’Iframely prend en charge votre fournisseur, puis [testez votre URL avec Iframely](https://iframely.com/try).
+
+  GitBook ne peut pas intégrer de HTML externe `<iframe>` balises en raison de sa politique de sécurité du contenu. Utilisez plutôt un bloc d’intégration.
+</Expandable>

@@ -1,0 +1,183 @@
+---
+title: Concepts fondamentaux
+description: Apprenez les bases de GitBook afin de créer et publier une documentation exceptionnelle pour vos utilisateurs
+metaTitle: Concepts fondamentaux | GitBook Documentation
+ogImage: https://test-dai.imgix.net/org-4afef969-21f9-40f3-b5b8-b06c8b6cf68f/doc-22a3b060-9539-4176-97e4-49120e02f5d1/0a5a1a9630785855-organizations-d8f63b60-89ae-11e7-8574-5927d48c4877-sites-site_p4Xo4-socialprevie.jpg?fm=auto&auto=compress%2Cformat
+---
+
+<Image src="https://test-dai.imgix.net/org-4afef969-21f9-40f3-b5b8-b06c8b6cf68f/doc-22a3b060-9539-4176-97e4-49120e02f5d1/c0c92ddef8a00d26-spaces-NkEGS7hzeqa35sMXQZ4X-uploads-ncL7zGSB2PvZ84M6O3EG-Editor-and-block-palett.png?fm=auto&auto=compress%2Cformat" alt="An illustration showing the block palette open in the GitBook editor. The window is floating on a pastel yellow and pink background" />
+
+## Organiser le contenu
+
+<a id="space"></a>
+
+### Section
+
+Une section est un projet qui vous permet de travailler sur un ensemble de pages liées. Au sein d’une section, vous pouvez rédiger du contenu, organiser vos pages à l’aide de groupes de pages et de sous-pages, installer des intégrations, et plus encore.
+
+Les sections appartiennent à un site de documentation, et vous pouvez ajouter autant de sections que vous le souhaitez à un site de documentation. Ainsi, lorsque vous construisez votre contenu, vous pouvez créer des sections distinctes pour la documentation de votre produit, la référence de l’API, le journal des modifications, le centre d’aide, et tout autre élément que vous souhaitez inclure dans votre documentation — puis les publier toutes sur un seul site de documentation.
+
+Vous pouvez également vouloir créer des versions traduites de votre documentation principale, ou des docs séparées pour différentes versions de votre produit. Chacune d’elles aura également sa propre section et pourra être ajoutée à votre site de documentation unique pour être consultée par les utilisateurs.
+
+<a id="collection"></a>
+
+#### Groupe
+
+Les groupes fonctionnent comme des dossiers dans l’application GitBook, vous permettant de conserver ensemble les sections liées afin de faciliter l’organisation et le stockage de votre contenu.
+
+En plus de vous aider à organiser le contenu, les groupes facilitent également la gestion des permissions au niveau du contenu à grande échelle. Vous pouvez remplacer les permissions au niveau de l’organisation sur plusieurs sections en les ajoutant à un groupe et en définissant des permissions pour l’ensemble du groupe.
+
+### Site de documentation
+
+Vous pouvez publier votre contenu sous forme de site de documentation. Vos docs seront publiées et accessibles à l’audience que vous avez choisie, sous la forme d’un site web que vous pouvez personnaliser avec votre propre image de marque, vos analyses et votre domaine personnalisé.
+
+Vous pouvez créer autant de sites de documentation que vous le souhaitez. Ils sont tous répertoriés dans la barre latérale et dans la section Sites de documentation de l’application, où vous pouvez modifier les paramètres et les options de personnalisation. Vous pouvez gérer tous les paramètres et options de votre site de documentation dans l’application GitBook.
+
+Le contenu de votre site se trouve dans ses sections. Lorsque vous créez un nouveau site de documentation, vous pouvez créer une nouvelle section ou ajouter du contenu existant. Un site de documentation peut contenir une section, ou plusieurs sections contenant différents contenus — y compris des traductions et d’anciennes versions du produit.
+
+## Modification du contenu
+
+L’éditeur visuel de GitBook vous permet d’utiliser une interface de type WYSIWYG (ce que vous voyez est ce que vous obtenez) pour ajouter du contenu à une section.
+
+La modification est disponible sur les appareils de bureau et les ordinateurs portables. Vous pouvez consulter votre organisation et votre contenu depuis un smartphone, mais la modification nécessite un ordinateur de bureau ou portable.
+
+### Pages
+
+Une page est l’endroit où vous ajoutez, modifiez et intégrez du contenu. Les pages se trouvent toujours à l’intérieur d’une section, et vous pouvez ajouter autant de pages que vous le souhaitez à une section.
+
+Les pages de votre section apparaissent dans la table des matières sur le côté gauche de l’éditeur. Ici, vous pouvez ajouter de nouvelles pages, créer des groupes de pages et imbriquer des pages dans d’autres pages pour créer des sous-pages.
+
+<Callout kind="info">
+  #### Vous ne voyez pas comment modifier ou ajouter une page ?
+
+  Si votre site est publié, vous devrez créer une demande de modification avant de pouvoir apporter des changements au contenu d’une section. [Lisez ci-dessous à propos des demandes de modification](#change-requests).
+</Callout>
+
+### Blocs
+
+GitBook est un éditeur basé sur des blocs. Cela signifie que vous pouvez ajouter différents types de blocs à votre page — du texte et des images standard aux blocs interactifs plus avancés. Vos pages peuvent inclure n’importe quelle combinaison de blocs que vous souhaitez, et il n’y a aucune limite au nombre de blocs que vous pouvez avoir sur une page.
+
+L’édition basée sur des blocs facilite la réorganisation de votre contenu par glisser-déposer, ou l’ajout de nouveaux blocs au milieu d’un contenu existant. Vous pouvez créer de nouveaux blocs à l’aide de l’interface de l’éditeur, ou créer et mettre en forme des blocs à l’aide de Markdown.
+
+Découvrez tous les blocs que vous pouvez utiliser dans GitBook [dans la section Blocs](/fr/docs/creer-du-contenu/blocks).
+
+#### Modification en Markdown
+
+L’éditeur de GitBook vous permet de créer et de mettre en forme des blocs de contenu à l’aide de Markdown.
+
+Markdown est une syntaxe de balisage populaire, largement connue pour sa simplicité. GitBook le prend en charge comme une manière pratique au clavier d’écrire un texte riche et structuré — tous les blocs de GitBook peuvent être rédigés à l’aide de la syntaxe Markdown.
+
+<Callout kind="info">
+  Vous pouvez en apprendre davantage sur Markdown lui-même en visitant [CommonMark](https://commonmark.org/help/).
+</Callout>
+
+### Git Sync
+
+Git Sync permet aux équipes de synchroniser des dépôts GitHub ou GitLab avec GitBook et de transformer des fichiers Markdown en une documentation belle et facile à utiliser. Une fois configuré, il maintient tout votre contenu synchronisé entre l’application GitBook et votre base de code.
+
+Git Sync est bidirectionnel, donc les changements que vous apportez dans l’éditeur visuel de GitBook sont synchronisés automatiquement — tout comme les commits effectués sur GitHub ou GitLab. Cela permet aux développeurs de committer directement depuis GitHub ou GitLab, tandis que les autres membres de l’équipe modifient et laissent des retours sur les changements directement dans GitBook.
+
+Git Sync débloque également de nombreux autres flux de travail utiles dans vos docs GitBook, tels que les modifications par lot, le linting, et plus encore. En savoir plus dans [notre section Git Sync](/fr/docs/la-documentation-comme-code/git-sync).
+
+## Le flux de modification
+
+### Demandes de modification
+
+Une demande de modification est une [**branche**](https://git-scm.com/book/en/v2/Git-Branching-Branches-in-a-Nutshell) de votre contenu principal que vous pouvez utiliser pour effectuer des modifications simultanées, tout en conservant l’historique des versions. Cela sera familier à toute personne qui utilise des pull requests dans GitHub ou des merge requests dans GitLab.
+
+Si vous souhaitez modifier le contenu de votre site de documentation publié, vous devrez d’abord ouvrir une demande de modification dans votre section.
+
+Dans une demande de modification, vous pouvez ajouter, modifier et supprimer du contenu dans une section, puis demander une révision à votre équipe et fusionner vos modifications dans votre contenu principal pour mettre à jour votre site de documentation publié.
+
+<Callout kind="info">
+  #### Le branchement en bref
+
+  Ouvrir une demande de modification crée une copie de votre contenu à ce moment précis, parfois appelée une « branche ». Toutes les modifications que vous apporterez n’apparaîtront pas dans votre contenu principal tant que vous n’aurez pas choisi de fusionner votre demande de modification.
+
+  L’avantage du branchement est que vos coéquipiers peuvent créer, modifier et fusionner leurs propres demandes de modification en même temps que vous, sans se gêner mutuellement. Et si quelqu’un modifie le même contenu que vous, GitBook vous guidera pour résoudre tout conflit avant la fusion.
+</Callout>
+
+#### Révisions
+
+Les révisions encouragent la supervision et aident à améliorer la qualité et la précision de votre documentation.
+
+Vous pouvez demander une révision pour votre demande de modification avant de fusionner et de rendre les changements visibles sur votre site de documentation. Ajouter un titre et une description à votre demande de modification donne à vos relecteurs un peu de contexte.
+
+Les relecteurs peuvent voir le diff de votre demande de modification, qui met en évidence tout ce qui est nouveau, modifié ou supprimé dans votre demande de modification. Ils peuvent également laisser des commentaires directement sur la page grâce à la fonctionnalité de commentaires intégrée — puis approuver votre demande de modification, ou demander que d’autres changements soient apportés.
+
+#### Fusion
+
+La fusion d’une demande de modification ajoutera tout le contenu de votre demande de modification à la branche principale du contenu — et ces changements seront également publiés sur votre site de documentation.
+
+Lorsque vous fusionnez votre demande de modification, une nouvelle version est également créée dans l’historique des versions de la section.
+
+## Publication de la documentation
+
+Lorsque vous publiez votre contenu sous forme de [site de documentation](#docs-site), vous pouvez ajouter davantage de contenu à votre site, changer l’audience et personnaliser son apparence, son ambiance et d’autres paramètres.
+
+### Structurer votre site de documentation
+
+Si vous souhaitez ajouter du contenu supplémentaire à votre site, deux options s’offrent à vous, chacune conçue pour des cas d’usage différents : les sections et les variantes.
+
+#### Les sections dans la structure de votre site
+
+Les sections vous permettent d’ajouter **plusieurs types différents de documentation à un seul site de documentation**. Par exemple, vous pourriez utiliser un seul site de documentation pour héberger la documentation de votre produit, la référence de l’API, le centre d’aide et le journal des modifications — comme nous le faisons sur ce site de documentation.
+
+Lorsque vous ajoutez de nouvelles sections, vous construisez la barre de navigation en haut de votre site, chaque section obtenant sa propre entrée dans la barre. Vous pouvez également regrouper des sections dans un [groupe](#collection) pour créer un menu déroulant dans votre barre de navigation — idéal pour ajouter une hiérarchie à votre site.
+
+#### Variante
+
+Les variantes sont conçues pour vous permettre d’ajouter **plusieurs versions de la même documentation à un seul site de documentation**. Par exemple, vous pourriez vouloir localiser toute votre documentation en plusieurs langues, ou documenter les versions précédentes de votre produit pour les utilisateurs qui n’ont pas encore effectué la mise à jour.
+
+Vos utilisateurs finaux peuvent passer d’une variante à l’autre sur votre site de documentation à l’aide du sélecteur de langue ou du sélecteur de variante en haut de la table des matières, sur le côté gauche de votre site.
+
+<Image src="https://test-dai.imgix.net/org-4afef969-21f9-40f3-b5b8-b06c8b6cf68f/doc-22a3b060-9539-4176-97e4-49120e02f5d1/5c9107ce5273d70d-spaces-NkEGS7hzeqa35sMXQZ4X-uploads-D4oCABc0YRJAFzaaVBpn-structure-2x.png?fm=auto&auto=compress%2Cformat" alt="A screenshot of the Roboflow Documentation site, with a navigation bar along the top and an open drop-down menu at the top of the table of contents showing different language variants for the site." caption="Les sections créent une barre de navigation le long du haut de votre site, tandis que les utilisateurs peuvent passer d’une variante à l’autre à l’aide d’un menu dans la table des matières." />
+
+### Audience du site
+
+Vous pouvez choisir qui verra votre documentation lorsque vous la publierez. Par défaut, les nouveaux sites sont publiés publiquement et indexés par les moteurs de recherche.
+
+Cependant, si vous souhaitez davantage de contrôle sur les personnes pouvant accéder à votre site, vous pouvez choisir de limiter l’audience à l’aide de **liens de partage** ou **d’un accès authentifié**.
+
+Avec les liens de partage, vous pouvez partager votre contenu en privé avec des clients ou des partenaires sans avoir à les inviter dans votre organisation, en créant un lien privé et en le partageant directement avec eux. Toute personne disposant du lien peut accéder à votre site.
+
+Si vous souhaitez encore plus de contrôle, l’accès authentifié vous permet de publier votre contenu tout en exigeant une authentification de la part de tous les visiteurs qui souhaitent le consulter. Lorsqu’il est activé, GitBook laisse votre fournisseur d’authentification gérer qui a accès au contenu. C’est idéal pour du contenu privé ou pour publier une base de connaissances interne qui ne devrait être accessible qu’aux membres de votre équipe.
+
+Vous pouvez également contrôler qui voit des pages ou des blocs individuels à l’aide d’une fonctionnalité appelée contenu adaptatif. Une fois configurée, elle affiche ou masque le contenu en fonction des attributs utilisateur que vous avez définis. En savoir plus dans [les pages de contenu adaptatif](/fr/docs/publier/adaptive-content).
+
+### Personnalisation du site
+
+GitBook inclut des options de personnalisation intégrées pour les sites de documentation, vous aidant à adapter l’apparence de votre documentation à votre produit ou à votre marque.
+
+Même si vous n’appliquez aucune personnalisation, vos docs seront déjà très belles. Mais vous avez la possibilité de personnaliser les logos, les icônes et les couleurs, d’ajouter des polices personnalisées ou de choisir parmi certains thèmes intégrés qui aident vos docs à être aussi belles que votre produit.
+
+<Image src="https://test-dai.imgix.net/org-4afef969-21f9-40f3-b5b8-b06c8b6cf68f/doc-22a3b060-9539-4176-97e4-49120e02f5d1/d1548d45158f073f-spaces-NkEGS7hzeqa35sMXQZ4X-uploads-PHDUX2Kbmd9wwUBpJqst-customization-demo.png?fm=auto&auto=compress%2Cformat" alt="An illustration showing five docs sites hosted in GitBook, each with distinct visual customizations" caption="Vous pouvez personnaliser votre documentation pour l’aligner sur votre marque avec vos propres logos, couleurs, polices, images et bien plus encore." />
+
+### Optimisations SEO et IA
+
+La documentation publiée dans GitBook est automatiquement optimisée pour la recherche (SEO) et pour les systèmes d’IA comme ChatGPT, Claude et Google AI Overview (GEO). Tout cela est géré en arrière-plan, donc tout ce que vous avez à faire est de rédiger du contenu incluant les mots-clés et les termes que vous souhaitez cibler.
+
+Les pages récupèrent les métadonnées du titre et de la description de chaque page, et votre contenu est mis en forme pour être responsive. GitBook crée automatiquement un sitemap basé sur votre table des matières, et les pages sont mises en cache et diffusées via notre CDN mondial pour améliorer les performances. Tout cela aide votre documentation à obtenir un bon classement dans les moteurs de recherche.
+
+De même, GitBook optimise également les outils d’IA en suivant toutes les normes du secteur à mesure qu’elles évoluent rapidement.
+
+GitBook crée automatiquement des versions .md de chaque page, ce qui facilite l’analyse par les grands modèles de langage (LLM). Nous exposons également automatiquement un serveur Model Context Protocol (MCP) pour chaque site publié, offrant aux outils d’IA un moyen structuré de découvrir et de récupérer votre documentation en tant que ressources — aucune extraction de données n’est requise. De plus, votre site génère aussi `llms.txt` et `llms-full.txt` conçus pour l’ingestion par l’IA.
+
+## Gestion d’équipe
+
+### Organisation
+
+Une organisation GitBook contient tout le contenu et tous les sites de documentation d’une entreprise. Avec votre compte unique, vous pouvez être membre d’une ou de plusieurs organisations et passer de l’une à l’autre à l’aide du menu d’organisation en haut de la barre latérale.
+
+### Membres
+
+Les membres sont des utilisateurs individuels au sein de votre organisation. Vous pouvez avoir autant de membres que vous le souhaitez dans une organisation, chacun disposant de permissions adaptées à ses besoins d’accès spécifiques.
+
+#### Permissions
+
+Les permissions vous permettent de décider du niveau d’accès des membres de votre organisation. Lorsqu’un membre rejoint votre organisation, vous lui attribuez un rôle — tel qu’Éditeur ou Lecteur. Ces rôles définissent leurs permissions pour l’ensemble du contenu de votre organisation. Mais vous pouvez également remplacer ces permissions au niveau du contenu. Par exemple :
+
+- Vous pouvez donner à une personne ayant le rôle de Lecteur un accès en modification à une pièce de contenu particulière
+- Vous pouvez limiter l’accès à un contenu confidentiel ou privé spécifique et n’accorder l’accès qu’à certains membres de votre organisation.
+
+En savoir plus sur [la page Permissions et héritage](/fr/docs/collaborer/member-management/permissions-and-inheritance).

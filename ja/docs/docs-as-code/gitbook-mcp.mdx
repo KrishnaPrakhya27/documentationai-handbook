@@ -1,0 +1,263 @@
+---
+title: GitBook MCP
+description: AIコーディングアシスタントをGitBookに接続し、GitBookのAPIを通じてサイトの作成、変更リクエストのオープン、コンテンツ編集ができるようにします
+metaTitle: GitBook MCP | GitBook Documentation
+ogImage: https://test-dai.imgix.net/org-4afef969-21f9-40f3-b5b8-b06c8b6cf68f/doc-22a3b060-9539-4176-97e4-49120e02f5d1/0a5a1a9630785855-organizations-d8f63b60-89ae-11e7-8574-5927d48c4877-sites-site_p4Xo4-socialprevie.jpg?fm=auto&auto=compress%2Cformat
+---
+
+GitBook は、AI ツールが組織内のコンテンツを操作できる MCP サーバーを公開しています。
+
+Claude Code、Codex、Cursor などの MCP クライアントは、これを使ってサイトの作成と設定、変更リクエストの作成、コンテンツの下書き、ページの編集、ドキュメントの再構成を行えます。
+
+公式プラグインをインストールしてください:
+
+[Claude プラグインをインストール](https://claude.ai/directory/connectors/gitbook-mcp) [ChatGPT プラグインをインストール](https://chatgpt.com/apps/gitbook/asdk_app_6a576f075ec4819196c203b7049542be) [Cursor プラグインをインストール](https://cursor.com/marketplace/gitbook)
+
+<Callout kind="info">
+  公開済みのドキュメントサイト用の読み取り専用 MCP サーバーが必要ですか？ GitBook が自動で作成します — こちらを参照: [公開ドキュメント向けMCPサーバー](/ja/docs/notamenoai/mcp-servers-for-published-docs) で詳細を確認してください。
+</Callout>
+
+## GitBook の MCP エンドポイント
+
+MCP クライアントの接続先:
+
+```http
+https://mcp.gitbook.com/mcp
+```
+
+<Callout kind="info">
+  この URL をブラウザで開くとエラーになります。HTTP リクエストを送信できる MCP クライアントで使用してください。
+</Callout>
+
+## クライアントを接続する
+
+お好みのクライアントに GitBook MCP を追加してください:
+
+<Tabs>
+  <Tab title="Claude">
+    Claude 用の公式 GitBook プラグインをインストール:
+
+    [Claude プラグインをインストール](https://claude.ai/directory/connectors/gitbook-mcp)
+
+    または、端末からサーバーを追加:
+
+    ```bash
+    claude mcp add --transport http gitbook https://mcp.gitbook.com/mcp
+    ```
+
+    その後、Claude Code を次のコマンドで起動: `claude` そして次を実行: `/mcp` ブラウザでのサインインを完了します。
+
+    個人アクセストークンを使いたい場合は、認証ヘッダーとして次を渡してください:
+
+    ```bash
+    claude mcp add --transport http gitbook https://mcp.gitbook.com/mcp \
+      --header "Authorization: Bearer <YOUR_TOKEN>"
+    ```
+  </Tab>
+
+  <Tab title="ChatGPT">
+    ChatGPT 用の公式 GitBook プラグインをインストール:
+
+    [ChatGPT プラグインをインストール](https://chatgpt.com/apps/gitbook/asdk_app_6a576f075ec4819196c203b7049542be)
+
+    または、端末からサーバーを追加:
+
+    ```bash
+    codex mcp add gitbook --url https://mcp.gitbook.com/mcp
+    ```
+
+    その後、ブラウザでサインインします。
+
+    代わりに個人アクセストークンを使う場合は、これを `~/.codex/config.toml`:
+
+    ```toml
+    [mcp_servers.gitbook]
+    url = "https://mcp.gitbook.com/mcp"
+    bearer_token_env_var = "GITBOOK_MCP_TOKEN"
+    enabled = true
+    ```
+  </Tab>
+
+  <Tab title="Cursor">
+    Cursor 用の公式 GitBook プラグインをインストール:
+
+    [Cursor プラグインをインストール](https://cursor.com/marketplace/gitbook)
+
+    または、サーバーを `~/.cursor/mcp.json`に追加するか、プロジェクトの `.cursor/mcp.json`:
+
+    ```json
+    {
+      "mcpServers": {
+        "gitbook": {
+          "url": "https://mcp.gitbook.com/mcp"
+        }
+      }
+    }
+    ```
+
+    その後、Cursor の案内に従ってサインインしてください。
+  </Tab>
+
+  <Tab title="VS Code">
+    サーバーを `.vscode/mcp.json` ワークスペースに追加してください:
+
+    ```json
+    {
+      "servers": {
+        "gitbook": {
+          "type": "http",
+          "url": "https://mcp.gitbook.com/mcp"
+        }
+      }
+    }
+    ```
+
+    その後、MCP ビューから起動してサインインしてください。
+  </Tab>
+
+  <Tab title="その他">
+    MCP 対応クライアントであれば、streamable HTTP 経由で接続できます。
+
+    接続先:
+
+    ```
+    https://mcp.gitbook.com/mcp
+    ```
+
+    GitBook は streamable HTTP のみをサポートしています。 `stdio` 、 `SSE` はサポートされていません。
+
+    OAuth を使う場合、通常は追加の認証フィールドは必要ありません。
+
+    代わりに個人アクセストークンを使う場合は、次のように bearer token として送信してください:
+
+    ```http
+    Authorization: Bearer <YOUR_PAT>
+    ```
+  </Tab>
+</Tabs>
+
+## GitBook の MCP を認証する
+
+GitBook MCP は、OAuth と個人アクセストークンの 2 つの認証方法をサポートしています。
+
+<Tabs>
+  <Tab title="OAuth">
+    クライアントを MCP サーバーの URL に向けてください。クライアントは認証サーバーを検出し、自身を登録し、ブラウザのサインインフローを自動で開きます。
+
+    OAuth を使う場合は、bearer token を手動で追加しないでください。クライアントがサインイン中に取得します。
+  </Tab>
+
+  <Tab title="個人アクセストークン">
+    ブラウザのフローを省略するには、トークンを bearer token として送信します:
+
+    ```http
+    Authorization: Bearer <YOUR_PAT>
+    ```
+
+    個人アクセストークンは、あなたの [開発者設定](https://app.gitbook.com/account/developer).
+
+    スクリプト化したセットアップや、クライアントがすでに秘密情報をローカルで管理している場合に使用してください。
+  </Tab>
+</Tabs>
+
+## GitBook の MCP の使い方
+
+Create and configure a new docs site.
+
+```text
+GitBook MCP ツールを使って、新しいドキュメントサイトを作成してください。
+
+1. 何かを作成する前に、私の組織を一覧表示して、どれを使うか確認してください。
+2. サイトの用途と、持っているコンテンツ（フォルダ、リポジトリ、または単なる説明）を尋ねてください。ソースを指定した場合は、そこにある内容を要約して返し、正しいか確認できるようにしてください。
+3. サイト名、スペース、ページ構成の簡単な計画を示し、私の承認を待ってください。
+4. サイトを作成し、コンテンツを追加して公開してください。その後、ライブ URL を取得して動作を確認し、私に共有してください。
+```
+
+Open a change request and draft content.
+
+```text
+GitBook MCP ツールを使って、変更リクエストでドキュメントの新しいコンテンツの下書きを作成してください — ライブの内容は編集しないでください。
+
+1. 私の組織とサイトを一覧表示し、どのスペースで作業するか確認してください。
+2. コンテンツで何を扱うべきかを私に尋ね、その後変更リクエストを開いて、その中にページの下書きを作成してください。
+3. 既存のページのトーンと構成に合わせてください — 先にいくつか読んでください。
+4. 完了したら、GitBook で確認してマージできるよう、変更リクエストのプレビューリンクを共有してください。
+```
+
+Move, rename, or restructure pages across a site.
+
+```text
+GitBook MCP ツールを使って、ドキュメントサイトの再構成を手伝ってください。
+
+1. 私の組織とサイトを一覧表示し、どれを対象にするか確認してから、現在の構成を取得して表示してください。
+2. 何を変更したいかを尋ね、その後、新しい構成を変更前/変更後のシンプルなツリーとして提案してください — 承認されるまで何も移動しないでください。
+3. URL と内部リンクは可能な限り維持し、変更を適用してください。壊れるものはあれば示してください。
+4. 最終構成と、確認用の変更リクエストまたはライブ結果を表示してください。
+```
+
+## GitBook MCP と公開済みドキュメント MCP の違い
+
+GitBook には 2 つの MCP パターンがあります:
+
+- [**公開ドキュメント向けMCPサーバー**](/ja/docs/notamenoai/mcp-servers-for-published-docs) AI ツールに公開済みコンテンツへの読み取り専用アクセスを提供します。
+- **GitBook MCP** GitBook API を通じて、AI ツールにあなたのコンテンツとワークフローへのアクセスを提供します。
+
+公開済みドキュメント MCP は、ドキュメントの読者やエンドユーザーが公開済みドキュメントから情報を見つけられるようにしたいときに使います。
+
+GitBook MCP は、チームのエージェントが自動化されたワークフローを通じてドキュメントを編集・管理したいときに使います。
+
+## よくある質問
+
+<Expandable title="MCP クライアントを接続するとき、GitBook MCP はどのトランスポートをサポートしていますか？">
+  GitBook MCP は streamable HTTP をサポートしています。
+
+  GitBook MCP は `stdio` または `SSE`.
+
+  クライアントが追加のフィールドを要求しても、通常は空のままで構いません。
+</Expandable>
+
+<Expandable title="クライアントを GitBook MCP に接続するとき、bearer token を追加する必要がありますか？">
+  bearer token を追加する必要があるのは、 [個人アクセストークン](https://app.gitbook.com/account/developer).
+
+  OAuth を使う場合は、bearer token を手動で追加しないでください。クライアントがサインインフロー中に取得します。
+</Expandable>
+
+<Expandable title="GitBook MCP サーバーをクライアントに追加しても何も起こらないのはなぜですか？">
+  はい。それは一部の MCP クライアントでは想定内です。
+
+  サーバーを追加しても、構成が保存されるだけの場合がよくあります。クライアントによっては、最初の接続時、ツール一覧の取得時、または MCP パネルを開いたときにだけ認証を開始します。
+</Expandable>
+
+<Expandable title="GitBook MCP の Authenticate をクリックしても何も起こらないのはなぜですか？">
+  一部のクライアントは、少し遅れてブラウザのサインインフローを開きます。
+
+  ネットワークが遅い、または不安定な場合、その遅延はさらに長くなることがあります。
+
+  約 1 分たってもブラウザタブが開かない場合は、ネットワーク、ポップアップ設定、既定のブラウザを確認してください。
+</Expandable>
+
+<Expandable title="GitBook MCP の認証フローでは何が起こりますか？">
+  認証が成功すると、通常は次のような流れになります:
+
+  1. クライアントが MCP サーバーに接続します。
+  2. ブラウザでサインインフローが開きます。
+  3. サインインしてアクセスを承認します。
+  4. クライアントにサーバーが接続済みと表示されるか、MCP ツールが利用可能になります。
+</Expandable>
+
+<Expandable title="クライアントが GitBook MCP への認証に成功したかどうかは、どう見分ければよいですか？">
+  正確な表示はクライアントによって異なりますが、結果は通常わかりやすいです。
+
+  多くのクライアントでは、認証プロンプトが消え、サーバーが接続済みと表示されるか、アシスタントが MCP ツールを一覧表示して呼び出せるようになります。
+
+  もし **Authenticate** ボタンが表示されたままで、ツールが出てこない場合、フローは完了していない可能性があります。
+</Expandable>
+
+<Expandable title="GitBook MCP の認証がまだ止まっているように見える場合、何を確認すべきですか？">
+  次の点を確認してください:
+
+  - サーバー URL が MCP エンドポイントを指していることを確認してください。
+  - クライアントが HTTP トランスポートを使用していることを確認してください。
+  - 安定したネットワークで再試行してください。
+  - クライアントが失敗状態をキャッシュしている場合は、サーバーを削除して再追加してください。
+</Expandable>

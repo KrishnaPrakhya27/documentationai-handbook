@@ -1,0 +1,46 @@
+---
+title: GitHub 和 GitLab 同步
+description: 使用 GitBook 的双向集成，将你的 GitBook 文档与 GitHub 或 GitLab 同步
+metaTitle: GitHub 和 GitLab 同步 | GitBook Documentation
+ogImage: https://test-dai.imgix.net/org-4afef969-21f9-40f3-b5b8-b06c8b6cf68f/doc-22a3b060-9539-4176-97e4-49120e02f5d1/0a5a1a9630785855-organizations-d8f63b60-89ae-11e7-8574-5927d48c4877-sites-site_p4Xo4-socialprevie.jpg?fm=auto&auto=compress%2Cformat
+---
+
+<Image src="https://test-dai.imgix.net/org-4afef969-21f9-40f3-b5b8-b06c8b6cf68f/doc-22a3b060-9539-4176-97e4-49120e02f5d1/7d07647a983c5d64-spaces-NkEGS7hzeqa35sMXQZ4X-uploads-dfcOvA0AfLVpJN5AGk3M-Site-wide-Git-Sync.png?fm=auto&auto=compress%2Cformat" alt="A GitBook screenshot showing the Git Sync setup" caption="为你的 GitBook 文档设置 Git Sync。" />
+
+### 概述
+
+Git Sync 让技术团队能够将 GitHub 或 GitLab 仓库与 GitBook 同步，并将一个 Markdown 文件仓库转换为美观、易用的文档。你可以直接在 GitBook 强大的编辑器中进行编辑，同时让内容与 GitHub 或 GitLab 上的代码库保持同步。
+
+Git Sync 是双向同步的，因此你在 GitBook 编辑器中直接所做的更改会自动同步，GitHub 或 GitLab 上提交的任何变更也会自动同步。这让开发者可以直接从 GitHub 或 GitLab 提交，而技术写作者、教学设计师和产品经理可以直接在 GitBook 中编辑、讨论并反馈更改。
+
+### 设置 Git Sync
+
+<Columns cols={2}>
+  <Card title="设置 GitHub Sync" href="/zh/docs/wen-dang-ji-dai-ma/git-sync/enabling-github-sync" icon="github">
+    为 GitBook 设置并授权 GitHub 集成。
+  </Card>
+
+  <Card title="设置 GitLab Sync" href="/zh/docs/wen-dang-ji-dai-ma/git-sync/enabling-gitlab-sync" icon="gitlab">
+    为 GitBook 设置并授权 GitLab 集成。
+  </Card>
+</Columns>
+
+<Callout kind="info">
+  Git Sync 支持企业客户的 IP 白名单。如果你的 GitHub、GitLab 或内部网络只接受来自已批准 IP 的流量，请在启用集成前将以下 Git Sync 出站 IP 加入白名单：
+
+  - `34.136.22.210`
+  - `34.29.189.57`
+  - `35.223.181.150`
+  - `34.72.115.112`
+  - `136.116.236.109`
+</Callout>
+
+<Callout kind="info">
+  仅 [管理员和创建者](/zh/docs/xie-zuo/member-management/roles) 可以启用和配置 Git Sync。
+</Callout>
+
+### 与 AI 代理协作
+
+在使用 Git Sync 本地处理文档时，你可以使用 GitBook 的 [skill.md 文件](/zh/docs/wen-dang-ji-dai-ma/ai-coding-assistants-and-skillmd) 为 AI 编码助手提供有关 GitBook 区块、功能和最佳实践的上下文。
+
+前往 [Agent skills](/zh/docs/wen-dang-ji-dai-ma/ai-coding-assistants-and-skillmd) 了解更多。

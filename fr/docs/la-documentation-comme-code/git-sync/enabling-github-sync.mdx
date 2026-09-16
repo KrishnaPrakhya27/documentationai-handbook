@@ -1,0 +1,85 @@
+---
+title: Activer la synchronisation GitHub
+description: Synchronisez votre dépôt GitHub avec GitBook
+metaTitle: Activer la synchronisation GitHub | GitBook Documentation
+ogImage: https://test-dai.imgix.net/org-4afef969-21f9-40f3-b5b8-b06c8b6cf68f/doc-22a3b060-9539-4176-97e4-49120e02f5d1/0a5a1a9630785855-organizations-d8f63b60-89ae-11e7-8574-5927d48c4877-sites-site_p4Xo4-socialprevie.jpg?fm=auto&auto=compress%2Cformat
+---
+
+Ce guide vous accompagnera dans la configuration de votre site GitBook avec un dépôt sur GitHub.
+
+<Image src="https://test-dai.imgix.net/org-4afef969-21f9-40f3-b5b8-b06c8b6cf68f/doc-22a3b060-9539-4176-97e4-49120e02f5d1/c09aac3d13489d6e-spaces-NkEGS7hzeqa35sMXQZ4X-uploads-r60MP09ALOfZOwCXOgKz-Git-Sync---GitHub.png?fm=auto&auto=compress%2Cformat" alt="A GitBook screenshot showing GitHub Sync configuration options" caption="Options de configuration de GitHub Sync." />
+
+<Steps>
+  <Step title="Ouvrir Git Sync pour votre site" titleType="h3">
+    Depuis votre site, ouvrez Git Sync dans la barre latérale.
+  </Step>
+
+  <Step title="Connecter GitHub" titleType="h3">
+    Connectez le compte GitHub qui a accès au dépôt que vous souhaitez synchroniser.
+
+    <Callout kind="alert">
+      Si vous voyez un <strong>"Comptes potentiellement dupliqués"</strong> message d'erreur à cette étape, cela signifie que votre compte GitHub est déjà lié à un autre compte utilisateur GitBook.
+
+      Pour vous aider à identifier quels comptes sont liés, vous devrez vous déconnecter de cette session et vous connecter en utilisant la méthode de connexion avec GitHub.
+
+      Si vous connaissez déjà votre compte GitBook associé à GitHub, vous pouvez vous connecter à ce compte utilisateur et dissocier votre compte GitHub (dans les paramètres), puis vous reconnecter et lier votre compte actuel.
+
+      En savoir plus sur notre [page de dépannage](/fr/docs/la-documentation-comme-code/git-sync/troubleshooting#potential-duplicated-accounts-when-signing-in).
+    </Callout>
+  </Step>
+
+  <Step title="Sélectionnez un dépôt et une branche" titleType="h3">
+    Sous **Dépôt source**, sélectionnez le dépôt qui contient votre documentation. Sélectionnez la branche avec laquelle GitBook se synchronise. Si la branche n’existe pas, GitBook la crée lors de la synchronisation initiale.
+
+    <Callout kind="info">
+      <strong>Vous ne trouvez pas votre dépôt ?</strong> Si vous ne trouvez pas votre dépôt dans la liste, assurez-vous d’avoir installé l’ [application GitBook GitHub](https://github.com/apps/gitbook-com) avec le bon périmètre (c’est-à-dire votre compte personnel ou l’organisation GitHub où se trouve le dépôt). Vous devez également vérifier que vous avez configuré le bon accès au dépôt dans l’application GitBook GitHub.
+    </Callout>
+  </Step>
+
+  <Step title="Choisissez une direction de synchronisation initiale" titleType="h3">
+    Choisissez la source de vérité pour la synchronisation initiale. Sélectionnez **Inverser la direction** si le contenu du dépôt doit remplacer le contenu GitBook.
+
+    <Callout kind="alert">
+      <strong>GitHub → GitBook peut remplacer le contenu de votre section.</strong> Si vous sélectionnez un dépôt vide, GitBook peut remplacer votre section par le contenu vide du dépôt.
+
+      Avant de commencer la synchronisation initiale, confirmez le dépôt, la branche et la direction. Assurez-vous que le contenu de destination peut être remplacé en toute sécurité.
+    </Callout>
+  </Step>
+
+  <Step title="Définir le répertoire du projet" titleType="h3">
+    Si votre documentation se trouve dans un sous-répertoire, saisissez-le sous **Répertoire du projet**. GitBook stocke le fichier `docs.yaml` de votre site dans ce répertoire. Utilisez cette configuration si vos docs se trouvent dans un [monorepo](/fr/docs/la-documentation-comme-code/git-sync/monorepos).
+  </Step>
+
+  <Step title="Mapper vos espaces" titleType="h3">
+    Sous **Mappage du contenu**, attribuez à chaque espace un répertoire dans le dépôt. Utilisez `./` pour les chemins relatifs au répertoire du projet. Utilisez `/` pour les chemins depuis la racine du dépôt. Les espaces nouvellement liés se synchronisent automatiquement.
+  </Step>
+
+  <Step title="Consulter les options avancées" titleType="h3">
+    Si nécessaire, configurez les fichiers d’instructions de l’agent, un modèle de message de commit ou les aperçus de fork.
+  </Step>
+
+  <Step title="Synchronisez votre site" titleType="h3">
+    Cliquez sur **Synchroniser** pour lancer la synchronisation initiale.
+  </Step>
+
+  <Step title="Écrire et valider" titleType="h3">
+    Fusionnez une demande de modification dans GitBook pour valider ses changements sur GitHub. Les commits vers GitHub se synchronisent ensuite avec GitBook.
+  </Step>
+</Steps>
+
+#### Exclure un espace de Git Sync à l’échelle du site
+
+Dans le mappage de contenu Git Sync du site, cliquez sur l’icône de suppression à côté de l’espace que vous souhaitez exclure. Vous pourrez ensuite configurer Git Sync depuis cet espace.
+
+Si le site utilise déjà Git Sync, GitBook vous demande de choisir un périmètre :
+
+- Sélectionnez le dépôt et la branche du site pour ajouter l’espace à Git Sync à l’échelle du site.
+- Sélectionnez un dépôt et une branche indépendants pour configurer Git Sync pour l’espace.
+
+Si le site n’utilise pas Git Sync, GitBook configure Git Sync indépendamment pour l’espace.
+
+Pour configurer Git Sync pour un seul espace, dans l’espace que vous souhaitez synchroniser, cliquez sur **Configurer** à côté de **Git Sync** dans l’ [en-tête de l’espace](/fr/docs/reference/gitbook-ui#space-header). Dans la liste des fournisseurs, cliquez sur **GitHub Sync**.
+
+<Callout kind="alert">
+  L’application GitHub qui alimente notre intégration GitHub n’est actuellement pas disponible pour les clients utilisant des instances GitHub Enterprise Server.
+</Callout>

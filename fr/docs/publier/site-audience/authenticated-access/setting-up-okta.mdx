@@ -1,0 +1,88 @@
+---
+title: Configuration d’Okta
+description: Configurez un écran de connexion Okta pour les visiteurs de votre documentation
+metaTitle: Configuration d’Okta | GitBook Documentation
+ogImage: https://test-dai.imgix.net/org-4afef969-21f9-40f3-b5b8-b06c8b6cf68f/doc-22a3b060-9539-4176-97e4-49120e02f5d1/0a5a1a9630785855-organizations-d8f63b60-89ae-11e7-8574-5927d48c4877-sites-site_p4Xo4-socialprevie.jpg?fm=auto&auto=compress%2Cformat
+---
+
+<Callout kind="alert">
+  Ce guide vous accompagne dans la mise en place d’un écran de connexion protégé pour votre documentation. Avant de suivre ce guide, assurez-vous d’avoir d’abord suivi le processus de [l’activation de l’accès authentifié](/fr/docs/publier/site-audience/authenticated-access/enabling-authenticated-access).
+</Callout>
+
+Pour configurer votre site GitBook avec un accès authentifié à l’aide d’Okta, le processus se présente comme suit :
+
+<Steps>
+  <Step title="Créer une nouvelle application Okta">
+    Créez une application Okta depuis votre tableau de bord Okta.
+  </Step>
+
+  <Step title="Installer et configurer l’intégration Okta">
+    Installez l’intégration Okta et ajoutez la configuration requise.
+  </Step>
+
+  <Step title="Configurer Okta pour le contenu adaptatif (facultatif)">
+    Configurez Okta pour qu’il fonctionne avec le contenu adaptatif dans GitBook.
+  </Step>
+</Steps>
+
+### Créer une nouvelle application Okta
+
+Tout d’abord, connectez-vous à la plateforme Okta (la version administrateur) et créez une nouvelle intégration d’application (ou utilisez-en une existante) en cliquant sur le bouton Applications dans la barre latérale gauche.
+
+<Image src="https://test-dai.imgix.net/org-4afef969-21f9-40f3-b5b8-b06c8b6cf68f/doc-22a3b060-9539-4176-97e4-49120e02f5d1/1b54e7cdb4ad87ba-spaces-NkEGS7hzeqa35sMXQZ4X-uploads-8roQ3QDR5zsyFh2FoQS4-Screen-Shot-2023-10-30-.png?fm=auto&auto=compress%2Cformat" alt="An Okta screenshot showing the create app integration screen" />
+
+Cliquez sur Create App Integration et sélectionnez OIDC - OpenID Connect comme méthode de connexion. Sélectionnez ensuite Web Application comme type d’application.
+
+<Image src="https://test-dai.imgix.net/org-4afef969-21f9-40f3-b5b8-b06c8b6cf68f/doc-22a3b060-9539-4176-97e4-49120e02f5d1/4dd960d2464f0b02-spaces-NkEGS7hzeqa35sMXQZ4X-uploads-qgFHYo6HOUGF8dUTFEJM-Screen-Shot-2023-10-30-.png?fm=auto&auto=compress%2Cformat" alt="An Okta screenshot showing the integration setup" />
+
+Nommez-la de manière appropriée et ne modifiez aucun autre paramètre sur cette page. Pour les affectations, cochez la case appropriée. Cliquez sur Enregistrer.
+
+Sur l’écran suivant, copiez le Client ID et le Client Secret. Copiez le domaine Okta juste sous votre adresse e-mail en cliquant sur le menu déroulant en haut à droite.
+
+<Image src="https://test-dai.imgix.net/org-4afef969-21f9-40f3-b5b8-b06c8b6cf68f/doc-22a3b060-9539-4176-97e4-49120e02f5d1/a3ae098ddc270e3c-spaces-NkEGS7hzeqa35sMXQZ4X-uploads-JQWvrITuUlno737DbQKM-Screen-Shot-2023-10-30-.png?fm=auto&auto=compress%2Cformat" alt="An Okta screenshot showing where to copy client credentials" />
+
+Nous aurons besoin de ces valeurs pour configurer l’intégration Okta.
+
+### Installer et configurer l’intégration Okta
+
+Accédez à l’onglet Integrations du site que vous souhaitez publier et repérez l’intégration Okta.
+
+<Image src="https://test-dai.imgix.net/org-4afef969-21f9-40f3-b5b8-b06c8b6cf68f/doc-22a3b060-9539-4176-97e4-49120e02f5d1/c74994ebdf91855a-spaces-NkEGS7hzeqa35sMXQZ4X-uploads-eFArORtsvAcvgwbDZNce-Screen-Shot-2024-12-13-.png?fm=auto&auto=compress%2Cformat" alt="A GitBook screenshot showing the site settings page" />
+
+Installez l’intégration sur votre site.
+
+Après l’installation sur le site, un écran s’affichera vous demandant de saisir le Client ID, le domaine Okta et le Client Secret.
+
+<Image src="https://test-dai.imgix.net/org-4afef969-21f9-40f3-b5b8-b06c8b6cf68f/doc-22a3b060-9539-4176-97e4-49120e02f5d1/01bbd6ae1c4c3cb7-spaces-NkEGS7hzeqa35sMXQZ4X-uploads-HrwQ0ASv1tD6kTZPVLMY-Screen-Shot-2024-12-13-.png?fm=auto&auto=compress%2Cformat" alt="A GitBook screenshot showing the Okta credentials modal" />
+
+Pour le Client ID, le domaine Okta (supprimez `https://`le préfixe, le cas échéant) et le Client Secret, collez la valeur que vous avez copiée depuis le tableau de bord Okta.
+
+Cliquez sur Enregistrer.
+
+Copiez l’URL affichée dans la fenêtre modale et saisissez-la comme URI de redirection de connexion dans Okta (comme indiqué dans la capture d’écran ci-dessous). Cliquez sur Enregistrer.
+
+<Image src="https://test-dai.imgix.net/org-4afef969-21f9-40f3-b5b8-b06c8b6cf68f/doc-22a3b060-9539-4176-97e4-49120e02f5d1/a0bc1d3c93bde414-spaces-NkEGS7hzeqa35sMXQZ4X-uploads-pPZlqJlE6koyHrWhSp8i-Screen-Shot-2024-01-14-.png?fm=auto&auto=compress%2Cformat" alt="An Okta screenshot showing the sign-in redirect URI configuration" />
+
+Maintenant, dans GitBook, fermez la fenêtre modale des intégrations et cliquez sur le bouton Gérer le site. Accédez à **Audience**, sélectionnez **Accès authentifié**, et choisissez Okta comme backend. Ensuite, cliquez sur **Mettre à jour l’audience**. Rendez-vous sur l’écran du site et cliquez sur **Publier**.<br /><br />Le site est maintenant publié derrière un accès authentifié contrôlé par votre application Auth0. Pour l’essayer, cliquez sur Visiter. Il vous sera demandé de vous connecter avec Okta, ce qui confirme que votre site est publié derrière un accès authentifié à l’aide d’Auth0.
+
+### Configurer Okta pour le contenu adaptatif (facultatif)
+
+Pour activer le contenu adaptatif dans votre site GitBook avec un accès authentifié, vous devrez configurer votre application Okta afin d’inclure les données utilisateur pertinentes sous forme de claims dans le jeton d’authentification.
+
+Les claims sont des paires clé-valeur intégrées dans le jeton envoyé à GitBook. Ces claims peuvent être utilisés pour adapter dynamiquement la documentation en fonction du rôle de l’utilisateur, de son abonnement, de sa localisation ou de tout autre attribut d’identification.
+
+Okta prend en charge plusieurs types de claims :
+
+- **Claims standard**<br />Il s’agit de claims courants (comme `email`, `name`, ou `groups`) qui peuvent être inclus par défaut, mais qui doivent souvent être ajoutés explicitement à la configuration de votre jeton pour garantir leur disponibilité.
+- **Claims personnalisés**<br />Vous pouvez définir des claims personnalisés dans Okta à l’aide de [attributs utilisateur personnalisés](https://help.okta.com/en-us/content/topics/users-groups-profiles/usgp-add-custom-user-attributes.htm) ou d’une logique basée sur des expressions. Cela vous permet de transmettre des valeurs très spécifiques — comme le niveau d’abonnement, l’ID du compte ou des indicateurs d’équipe interne.
+- **Groupes comme claims**<br />Vous pouvez également transmettre des groupes Okta en tant que claims, ce qui est particulièrement utile lors de la définition de segments d’audience comme « utilisateurs entreprise » ou « bêta-testeurs ». Ceux-ci peuvent être filtrés et mappés dans la configuration des claims de votre serveur d’autorisation.
+
+Pour ajouter ou personnaliser des claims dans Okta :
+
+1. Ouvrez votre console d’administration Okta.
+2. Accédez à **Sécurité > API > Serveurs d’autorisation**.
+3. Modifiez le serveur d’autorisation utilisé pour votre site GitBook.
+4. Sous l’onglet **Claims** ajoutez des règles pour inclure les claims souhaités dans le jeton.
+5. Assurez-vous que votre site GitBook lit et mappe correctement ces claims.
+
+Une fois que les claims sont transmis à GitBook, suivez les étapes de [Adapter votre contenu](/fr/docs/publier/adaptive-content/adapting-your-content) pour définir quel contenu doit être affiché à qui.

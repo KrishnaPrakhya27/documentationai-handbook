@@ -1,0 +1,293 @@
+---
+title: 扩展参考
+description: GitBook 支持的 OpenAPI 扩展完整参考
+metaTitle: 扩展参考 | GitBook Documentation
+ogImage: https://test-dai.imgix.net/org-4afef969-21f9-40f3-b5b8-b06c8b6cf68f/doc-22a3b060-9539-4176-97e4-49120e02f5d1/0a5a1a9630785855-organizations-d8f63b60-89ae-11e7-8574-5927d48c4877-sites-site_p4Xo4-socialprevie.jpg?fm=auto&auto=compress%2Cformat
+---
+
+你可以使用扩展来增强你的 OpenAPI 规范——这些自定义字段以 `x-` 前缀开头。这些扩展可让你添加额外信息，并根据不同需求定制你的 API 文档。
+
+GitBook 允许你通过可添加到 OpenAPI 规范中的多种不同扩展，调整你的 API 在已发布站点上的外观和行为。
+
+前往我们的 [指南部分](/zh/docs/chuang-jian-nei-rong/openapi/guides) ，了解更多如何使用 OpenAPI 扩展来配置你的文档。
+
+<Expandable title="x-page-title | x-displayName">
+  更改用于导航和页面标题中的标签显示名称。
+
+  ```yaml title="openapi.yaml"
+  openapi: '3.0'
+  info: ...
+  tags:
+    - name: users
+      x-page-title: 用户
+  ```
+</Expandable>
+
+<Expandable title="x-page-description">
+  为页面添加描述。
+
+  ```yaml title="openapi.yaml"
+  openapi: '3.0'
+  info: ...
+  tags:
+    - name: "users"
+      x-page-title: "用户"
+      x-page-description: "管理用户账户和个人资料。"
+  ```
+</Expandable>
+
+<Expandable title="x-page-icon">
+  向页面添加一个 Font Awesome 图标。查看可用图标 [这里](https://fontawesome.com/search).
+
+  ```yaml title="openapi.yaml"
+  openapi: '3.0'
+  info: ...
+  tags:
+    - name: "users"
+      x-page-title: "用户"
+      x-page-description: "管理用户账户和个人资料。"
+      x-page-icon: "user"
+  ```
+</Expandable>
+
+<Expandable title="parent | x-parent">
+  为标签添加层级，以便在 GitBook 中组织你的页面。
+
+  <Callout kind="alert">
+    `parent` 是 OpenAPI 3.2+ 中的正式属性名。如果使用 3.2 之前的 OpenAPI 版本（3.0.x、3.1.x），请使用 `x-parent` 代替。
+  </Callout>
+
+  ```yaml title="openapi.yaml"
+  openapi: '3.2'
+  info: ...
+  tags:
+    - name: organization
+    - name: admin
+      parent: organization
+    - name: user
+      parent: organization    
+  ```
+</Expandable>
+
+<Expandable title="x-hideTryItPanel">
+  为 OpenAPI 区块显示或隐藏“测试”按钮。
+
+  ```yaml title="openapi.yaml"
+  openapi: '3.0'
+  info: ...
+  tags: [...]
+  paths:
+    /example:
+      get:
+        summary: 示例摘要
+        description: 示例描述
+        operationId: examplePath
+        responses: [...]
+        parameters: [...]
+        x-hideTryItPanel: true
+  ```
+</Expandable>
+
+<Expandable title="x-expandAllResponses">
+  默认展开所有响应部分，而不是一次只显示一个。
+
+  将其添加到根级以应用于每个操作。将其添加到某个操作上以仅应用于该端点。
+
+  ```yaml
+  openapi: '3.0'
+  info: ...
+
+  # 为每个操作展开所有响应
+  x-expandAllResponses: true
+
+  paths:
+    /pets:
+      get:
+        summary: 列出宠物
+        responses: [...]
+        # 对单个操作禁用
+        x-expandAllResponses: false
+  ```
+</Expandable>
+
+<Expandable title="x-expandAllModelSections">
+  默认展开所有模型/架构部分，无需用户交互即可显示嵌套对象属性。
+
+  将其添加到根级以应用于每个操作。将其添加到某个操作上以仅应用于该端点。
+
+  ```yaml
+  openapi: '3.0'
+  info: ...
+
+  # 为每个操作展开所有模型部分
+  x-expandAllModelSections: true
+
+  paths:
+    /pets:
+      post:
+        summary: 创建宠物
+        requestBody: [...]
+        responses: [...]
+        # 对单个操作禁用
+        x-expandAllModelSections: false
+  ```
+</Expandable>
+
+<Expandable title="x-enable-proxy">
+  通过 GitBook 的 OpenAPI 代理转发“测试”请求。
+
+  将其添加到根级以应用于每个操作。将其添加到某个操作上以仅应用于该端点。操作会覆盖根级值。
+
+  ```yaml title="openapi.yaml"
+  openapi: '3.0.3'
+  info: ...
+
+  # 为所有操作启用代理
+  x-enable-proxy: true
+
+  paths:
+    /health:
+      get:
+        summary: 健康检查
+        # 对单个操作禁用
+        x-enable-proxy: false
+        responses:
+          '200':
+            description: 成功
+  ```
+
+  更多内容请参见 [使用 OpenAPI 代理](/zh/docs/chuang-jian-nei-rong/openapi/guides/using-openapi-proxy).
+</Expandable>
+
+<Expandable title="x-codeSamples">
+  显示、隐藏或包含 OpenAPI 区块的自定义代码示例。
+
+  **字段**
+
+  | 字段名 | 类型 | 描述 |
+  | --- | :---: | --- |
+  | `lang` | 字符串 | 代码示例语言。值应为以下之一 [list](https://github.com/github/linguist/blob/master/lib/linguist/popular.yml) |
+  | `label` | 字符串 | 代码示例标签，例如 `Node` 或 `Python2.7`, *optional*, `lang` 默认使用 |
+  | `source` | 字符串 | 代码示例源代码 |
+
+  ```yaml title="openapi.yaml"
+  openapi: '3.0'
+  info: ...
+  tags: [...]
+  paths:
+    /example:
+      get:
+        summary: 示例摘要
+        description: 示例描述
+        operationId: examplePath
+        responses: [...]
+        parameters: [...]
+        x-codeSamples:
+          - lang: 'cURL'
+            label: 'CLI'
+            source: |
+              curl -L \\
+              -H 'Authorization: Bearer <token>' \\
+              'https://api.gitbook.com/v1/user'
+  ```
+</Expandable>
+
+<Expandable title="x-enumDescriptions">
+  为每个 `enum` 架构中的值分别添加单独说明。
+
+  ```yaml title="openapi.yaml"
+  openapi: '3.0'
+  info: ...
+  components:
+    schemas:
+      project_status:
+        type: string
+        enum:
+          - LIVE
+          - PENDING
+          - REJECTED
+        x-enumDescriptions:
+          LIVE：项目已上线。
+          PENDING：项目待批准。
+          REJECTED：项目已被拒绝。
+  ```
+</Expandable>
+
+<Expandable title="x-internal | x-gitbook-ignore">
+  从你的 API 参考文档中隐藏一个端点。
+
+  ```yaml title="openapi.yaml"
+  openapi: '3.0'
+  info: ...
+  tags: [...]
+  paths:
+    /example:
+      get:
+        summary: 示例摘要
+        description: 示例描述
+        operationId: examplePath
+        responses: [...]
+        parameters: [...]
+        x-internal: true
+  ```
+</Expandable>
+
+<Expandable title="x-stability">
+  标记不稳定或正在进行中的端点。
+
+  支持的值： `experimental`, `alpha`, `beta`.
+
+  ```yaml title="openapi.yaml"
+  openapi: '3.0'
+  info: ...
+  tags: [...]
+  paths:
+    /example:
+      get:
+        summary: 示例摘要
+        description: 示例描述
+        operationId: examplePath
+        x-stability: experimental
+  ```
+</Expandable>
+
+<Expandable title="deprecated">
+  标记端点是否已弃用。已弃用的端点会在你已发布的站点中显示弃用警告。
+
+  ```yaml title="openapi.yaml"
+  openapi: '3.0'
+  info: ...
+  tags: [...]
+  paths:
+    /example:
+      get:
+        summary: 示例摘要
+        description: 示例描述
+        operationId: examplePath
+        responses: [...]
+        parameters: [...]
+        deprecated: true
+  ```
+</Expandable>
+
+<Expandable title="x-deprecated-sunset">
+  为已弃用的操作添加一个日落日期。
+
+  支持的值： **ISO 8601** 格式 (YYYY-MM-DD)
+
+  ```yaml title="openapi.yaml"
+  openapi: '3.0'
+  info: ...
+  tags: [...]
+  paths:
+    /example:
+      get:
+        summary: 示例摘要
+        description: 示例描述
+        operationId: examplePath
+        responses: [...]
+        parameters: [...]
+        deprecated: true
+        x-deprecated-sunset: 2030-12-05
+  ```
+</Expandable>

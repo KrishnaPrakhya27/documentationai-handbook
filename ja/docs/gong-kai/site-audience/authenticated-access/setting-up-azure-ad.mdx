@@ -1,0 +1,130 @@
+---
+title: Azure ADの設定
+description: ドキュメント訪問者向けのAzure ADログイン画面を設定します
+metaTitle: Azure ADの設定 | GitBook Documentation
+ogImage: https://test-dai.imgix.net/org-4afef969-21f9-40f3-b5b8-b06c8b6cf68f/doc-22a3b060-9539-4176-97e4-49120e02f5d1/0a5a1a9630785855-organizations-d8f63b60-89ae-11e7-8574-5927d48c4877-sites-site_p4Xo4-socialprevie.jpg?fm=auto&auto=compress%2Cformat
+---
+
+<Callout kind="alert">
+  このガイドでは、ドキュメント用の保護されたサインイン画面を設定する手順を説明します。このガイドを進める前に、まず次のプロセスを完了していることを確認してください。 [認証済みアクセスを有効にする](/ja/docs/gong-kai/site-audience/authenticated-access/enabling-authenticated-access).
+</Callout>
+
+<Callout kind="info">
+  Azure統合には既知の制限があり、見出しのURLフラグメントは認証時に削除されます。ユーザーは正しいページには移動しますが、URL内の見出しではなくページの先頭に移動します。ユーザーが一度認証されると、この動作はセッション中は発生せず、ユーザーは正しい見出しに誘導されます。
+
+  これは Microsoft によって導入されたセキュリティ対策によるものです。
+</Callout>
+
+### 概要
+
+Azure AD を使用した認証アクセスで GitBook サイトをセットアップする手順は次のとおりです:
+
+<Steps>
+  <Step title="Step">
+    [**Azure AD でアプリ登録を作成する**](#id-1.-create-an-app-registration-in-azure-a-d)
+
+    Microsoft Entra ID の管理ダッシュボードで Azure AD アプリ登録を作成します。
+  </Step>
+
+  <Step title="Step">
+    [**サイトに Azure AD 統合をインストールして構成する**](#id-2.-install-and-configure-the-azure-a-d-integration)
+
+    Azure AD 統合をインストールし、必要な構成を GitBook サイトに追加します。
+  </Step>
+
+  <Step title="Step">
+    [<strong>アダプティブコンテンツ用に Azure AD を構成する（オプション）</strong>](#id-3.-configure-azure-a-d-for-adaptive-content-optional)
+
+    GitBook のアダプティブコンテンツで動作するように Azure AD を構成します。
+  </Step>
+</Steps>
+
+### 1\. Azure AD でアプリ登録を作成する
+
+まず Microsoft Entra ID ダッシュボードでアプリ登録を作成します。このアプリ登録により、GitBook の Azure AD 統合は、サイトへのアクセスを許可する前にユーザーのIDを検証するためのトークンを要求できるようになります。
+
+1. Microsoft Entra ID 管理者にサインインする [ダッシュボード](https://entra.microsoft.com/).
+2. に移動します **ID** \> **アプリケーション** \> **アプリ登録** 左側のサイドバーから。
+3. をクリックします <strong>\+ 新規登録、</strong> そして登録に名前を付けます。
+4. 次の項目の下で <strong>対応するアカウントの種類、</strong> 「<strong>この組織ディレクトリ内のアカウントのみ（既定のディレクトリのみ - シングルテナント）</strong>.
+5. Redirect URI フィールドは今は空のままにしておいてください。後で入力する必要があります。
+6. クリックして **登録** してアプリ登録を完了します。<br />
+
+   <Image src="https://test-dai.imgix.net/org-4afef969-21f9-40f3-b5b8-b06c8b6cf68f/doc-22a3b060-9539-4176-97e4-49120e02f5d1/2da0684d25472e7f-spaces-NkEGS7hzeqa35sMXQZ4X-uploads-uB6p6HxRmveHp1cfsiKa-azure_ad_integration_re.png?fm=auto&auto=compress%2Cformat" alt="An Azure screenshot showing how to register an Azure AD app" caption="GitBook VA 統合用のアプリを登録します。" />
+7. その後、新しいアプリ登録の **概要** 画面が表示されます。以下をコピーして控えてください。 **アプリケーション（クライアント）ID** 、 **ディレクトリ（テナント）ID**.<br />
+
+   <Image src="https://test-dai.imgix.net/org-4afef969-21f9-40f3-b5b8-b06c8b6cf68f/doc-22a3b060-9539-4176-97e4-49120e02f5d1/89ea39a6b472459e-spaces-NkEGS7hzeqa35sMXQZ4X-uploads-ETQziXVuqGnho8GGOVBZ-azure_ad_integration_ap.png?fm=auto&auto=compress%2Cformat" alt="An Azure screenshot showing the app registration overview" caption="新しく作成したアプリ登録の概要。" />
+8. をクリックします **証明書またはシークレットを追加する**。次の **証明書とシークレット** 画面が表示されます:<br />
+
+   <Image src="https://test-dai.imgix.net/org-4afef969-21f9-40f3-b5b8-b06c8b6cf68f/doc-22a3b060-9539-4176-97e4-49120e02f5d1/894a8961101ee978-spaces-NkEGS7hzeqa35sMXQZ4X-uploads-nXJbnpnGhOI6Udjrx8bS-azure_ad_integration_cl.png?fm=auto&auto=compress%2Cformat" alt="An Azure screenshot showing where to add a certificate or secret" caption="証明書またはシークレットを追加します。" />
+9. をクリックします <strong>\+ 新しいクライアント シークレット</strong>.
+10. シークレットに適切な説明を入力し、次をクリックします **追加する**.
+11. コピーして以下を控えてください **値** フィールド（<em>**しません** シークレット ID</em>）今作成したシークレットのもの。
+
+### 2\. Azure AD 統合をインストールして構成する
+
+Azure AD アプリ登録を作成したら、次の手順は GitBook に Azure AD 統合をインストールし、先ほど生成した資格情報を使用して Azure アプリケーションにリンクすることです:
+
+1. 以下のサイトに移動します [認証アクセスを有効にしている](/ja/docs/gong-kai/site-audience/authenticated-access/enabling-authenticated-access#enable-authenticated-access) そして Azure AD を ID プロバイダーとして使用したいサイト。
+2. 次をクリックします **統合** サイト設定の右上にあるボタン。<br />
+
+   <Image src="https://test-dai.imgix.net/org-4afef969-21f9-40f3-b5b8-b06c8b6cf68f/doc-22a3b060-9539-4176-97e4-49120e02f5d1/2084b09d489dfd9b-spaces-NkEGS7hzeqa35sMXQZ4X-uploads-gBMsbydNsuqx7eqcz0JN-va_site_integration_ove.png?fm=auto&auto=compress%2Cformat" alt="A GitBook screenshot showing the site settings overview" />
+3. をクリックします **認証済みアクセス** サイドバーのカテゴリから。
+4. 次を選択します **Azure** 連携。
+5. クリックして **このサイトにインストール**.<br />
+
+   <Image src="https://test-dai.imgix.net/org-4afef969-21f9-40f3-b5b8-b06c8b6cf68f/doc-22a3b060-9539-4176-97e4-49120e02f5d1/f619cf329a3b03e0-spaces-NkEGS7hzeqa35sMXQZ4X-uploads-CiveWUn0FWMEdS3YRU62-Screenshot-2025-03-24-a.png?fm=auto&auto=compress%2Cformat" alt="A GitBook screenshot showing installation of the Azure AD integration" />
+6. サイトに統合をインストールした後、統合の構成画面が表示されるはずです:<br />
+
+   <Image src="https://test-dai.imgix.net/org-4afef969-21f9-40f3-b5b8-b06c8b6cf68f/doc-22a3b060-9539-4176-97e4-49120e02f5d1/d7ba337d1afb2e24-spaces-NkEGS7hzeqa35sMXQZ4X-uploads-vO9pXBCZkcprDDIVFkcf-Screenshot-2025-03-24-a.png?fm=auto&auto=compress%2Cformat" alt="A GitBook screenshot showing the Azure AD configuration dialog" />
+7. 次を入力します **クライアント ID**, **テナント ID**を読み取り、 **クライアント シークレット** 先ほどコピーした値を [Azure AD アプリ登録を作成した](#id-1.-create-an-app-registration-in-azure-a-d) ときのものを入力し、「保存」をクリックします。
+8. 次をコピーします **URL** 表示されている **ダイアログの下部にある**.
+9. Microsoft Entra ID ダッシュボードで先ほど作成した Azure AD アプリ登録に戻ります。
+10. 次へ移動します **管理** \> **認証** をサイドバーで。
+11. クリックして <strong>\+ プラットフォームを追加</strong> をクリックして、次を選択します **Web** 開いたパネルのカード。<br />
+
+    <Image src="https://test-dai.imgix.net/org-4afef969-21f9-40f3-b5b8-b06c8b6cf68f/doc-22a3b060-9539-4176-97e4-49120e02f5d1/a7d6b9fb635d067e-spaces-NkEGS7hzeqa35sMXQZ4X-uploads-Ussw9BNY66urLYH376sE-Screenshot-2025-03-24-a.png?fm=auto&auto=compress%2Cformat" alt="An Azure screenshot showing authentication platform settings" />
+12. 先ほどコピーした GitBook 統合の **URL** を、以下の **Redirect URI** フィールドに貼り付け、「構成」を<br />
+
+    <Image src="https://test-dai.imgix.net/org-4afef969-21f9-40f3-b5b8-b06c8b6cf68f/doc-22a3b060-9539-4176-97e4-49120e02f5d1/a56c045c2cc284d2-spaces-NkEGS7hzeqa35sMXQZ4X-uploads-i9fVjsa351I6kVzJw64X-image.png?fm=auto&auto=compress%2Cformat" alt="An Azure screenshot showing where to enter the redirect URI" />
+13. 次に戻ります **Azure 統合** インストール画面 **GitBook の**.
+14. 統合ダイアログを閉じ、次をクリックします **設定** サイドバーのタブ。
+15. 次へ移動します **対象** をクリックして、次を選択します **認証アクセス** （まだ選択されていない場合）。
+16. を選択します **Azure** のドロップダウンから **認証バックエンド** セクションを選択します。
+17. クリックして **対象を更新**.<br />
+
+    <Image src="https://test-dai.imgix.net/org-4afef969-21f9-40f3-b5b8-b06c8b6cf68f/doc-22a3b060-9539-4176-97e4-49120e02f5d1/5c02f35066860cdf-spaces-NkEGS7hzeqa35sMXQZ4X-uploads-inc5DrItbyXUIXP4K4ic-Screenshot-2025-03-24-a.png?fm=auto&auto=compress%2Cformat" alt="A GitBook screenshot showing authenticated access settings" />
+18. サイトの概要画面に移動し、次をクリックします **公開** まだ公開されていない場合。
+
+これで、Azure AD を ID プロバイダーとして使用した認証アクセスの背後にサイトが公開されました。
+
+動作を確認するには、「訪問」をクリックします。Azure でサインインするよう求められます。これにより、サイトが Azure を使用した認証アクセスの背後で公開されていることが確認できます。
+
+<Callout kind="info">
+  公開されたコンテンツの URL にアクセスし、Azure の認証情報でログインすると、管理者に「承認を依頼する」必要があることを示す画面が表示される場合があります。管理者は公開されたコンテンツの URL にアクセスしてログインし、組織を代表して承認を与えることでこの要求を承認できます。
+</Callout>
+
+### 3\. アダプティブコンテンツ用に Azure AD を構成する（オプション）
+
+認証アクセスサイトでアダプティブコンテンツ機能を活用するには、認証トークンに追加のユーザー情報をクレームとして含めるよう Azure AD アプリ登録を構成します。
+
+これらのクレームはキーとバリューのペアとして表され、GitBook に渡されて、次の用途に使用できます [コンテンツを適応させる](/ja/docs/gong-kai/adaptive-content/adapting-your-content) ために使われます。
+
+Azure AD はさまざまな種類とレベルのクレームをサポートしており、それぞれ設定方法が異なります:
+
+- **標準クレーム**：トークンに含められることがある一般的なクレームですが、既定では常に存在するとは限りません。
+
+<Callout kind="info">
+  Azure AD はパフォーマンスのためにトークンサイズを最適化しています。その結果、多くのクレームは **しません** 既定ではトークンに含まれておらず、アプリケーションから明示的に要求する必要があります。次のようなクレームを確実に含めるには `email` , `groups` または `roles` 含めるには、これらを明示的に **オプショナル クレーム**.
+</Callout>
+
+- **オプショナル クレーム**：アプリケーションで有効にできる追加の事前定義クレーム。
+- **カスタム クレーム**：Azure AD のカスタム ユーザー属性またはカスタム クレーム プロバイダーを介した外部システムから取得されるクレーム。
+
+Azure AD アプリによって生成されるトークンにこれらのさまざまな種類のクレームを含める方法の詳細については、次の Microsoft Entra のドキュメント ガイドを参照してください:
+
+- [ユーザー属性](https://learn.microsoft.com/en-us/entra/external-id/customers/how-to-add-attributes-to-token)
+- [オプショナル クレーム](https://learn.microsoft.com/en-us/entra/identity-platform/optional-claims?toc=%2Fentra%2Fexternal-id%2Ftoc.json&bc=%2Fentra%2Fexternal-id%2Fbreadcrumb%2Ftoc.json&tabs=appui)
+- [カスタム クレーム](https://learn.microsoft.com/en-us/entra/identity-platform/custom-claims-provider-overview)
+
+GitBook に送る適切なクレームを設定・構成したら、「[コンテンツの適応](/ja/docs/gong-kai/adaptive-content/adapting-your-content)」に移動して、サイトの設定を続けてください。

@@ -1,0 +1,33 @@
+---
+title: Get navigation meta-links (prev/next/parent) for a change request page
+metaTitle: Get navigation meta-links (prev/next/parent) for a change request page | Developers | GitBook Documentation
+ogImage: https://test-dai.imgix.net/org-4afef969-21f9-40f3-b5b8-b06c8b6cf68f/doc-22a3b060-9539-4176-97e4-49120e02f5d1/0a5a1a9630785855-organizations-d8f63b60-89ae-11e7-8574-5927d48c4877-sites-site_p4Xo4-socialprevie.jpg?fm=auto&auto=compress%2Cformat
+---
+
+Returns the structural navigation links for a specific page within a change request, such as its parent page, previous sibling, and next sibling in the page tree. Use this to understand a page's position within the content hierarchy of the draft.
+
+**GET** `/spaces/{spaceId}/change-requests/{changeRequestId}/content/page/{pageId}/meta-links`
+
+**Parameters**
+
+<ParamField header="Authorization" param-type="string" />
+
+<ParamField path="spaceId" param-type="string" required={true}>
+  The unique id of the space
+</ParamField>
+
+<ParamField path="changeRequestId" param-type="string" required={true}>
+  The unique ID of the change request or its number identifier in the space
+</ParamField>
+
+<ParamField path="pageId" param-type="string" required={true}>
+  The unique id of the page
+</ParamField>
+
+**Responses**
+
+`200` OK
+
+<ResponseField name="canonical" field-type="string" />
+
+<ResponseField name="alternates" field-type="string[]" />

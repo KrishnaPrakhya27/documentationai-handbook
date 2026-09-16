@@ -1,0 +1,25 @@
+---
+title: 描述枚举
+description: 了解如何为枚举添加描述
+metaTitle: 描述枚举 | GitBook Documentation
+ogImage: https://test-dai.imgix.net/org-4afef969-21f9-40f3-b5b8-b06c8b6cf68f/doc-22a3b060-9539-4176-97e4-49120e02f5d1/0a5a1a9630785855-organizations-d8f63b60-89ae-11e7-8574-5927d48c4877-sites-site_p4Xo4-socialprevie.jpg?fm=auto&auto=compress%2Cformat
+---
+
+当 API 操作包含枚举时，您可以添加 `x-enumDescriptions` 以便为每个选项提供更多上下文。GitBook 会在该操作旁边的表格中显示枚举值及其描述。
+
+```yaml title="openapi.yaml"
+openapi: '3.0'
+info: ...
+components:
+  schemas:
+    project_status:
+      type: string
+      enum:
+        - LIVE
+        - PENDING
+        - REJECTED
+      x-enumDescriptions:
+        LIVE：项目已上线。
+        PENDING：项目待批准。
+        REJECTED：项目已被拒绝。
+```

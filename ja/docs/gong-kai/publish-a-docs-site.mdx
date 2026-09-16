@@ -1,0 +1,81 @@
+---
+title: ドキュメントサイトを公開する
+description: ドキュメントをインターネット上のドキュメントサイトとして公開します
+metaTitle: ドキュメントサイトを公開する | GitBook Documentation
+ogImage: https://test-dai.imgix.net/org-4afef969-21f9-40f3-b5b8-b06c8b6cf68f/doc-22a3b060-9539-4176-97e4-49120e02f5d1/0a5a1a9630785855-organizations-d8f63b60-89ae-11e7-8574-5927d48c4877-sites-site_p4Xo4-socialprevie.jpg?fm=auto&auto=compress%2Cformat
+---
+
+コンテンツの作成、編集、またはインポートが終わったら、選択した対象ユーザーに公開します。
+
+ドキュメントサイトのコンテンツは、その中に保存されています [セクション](/ja/docs/saitowosuru/site-structure)。編集する構造が、そのまま訪問者が見る構造になります。新しいセクションは下書きとして開始されるため、公開済みサイトに表示する内容を制御できます。
+
+<Image src="https://test-dai.imgix.net/org-4afef969-21f9-40f3-b5b8-b06c8b6cf68f/doc-22a3b060-9539-4176-97e4-49120e02f5d1/6bfce242bfb3164c-spaces-NkEGS7hzeqa35sMXQZ4X-uploads-aTAoahHyizxbZzQ10kq9-publishing-documentatio.png?fm=auto&auto=compress%2Cformat" alt="A GitBook screenshot showing the organization Home" caption="組織のホーム。" />
+
+### ドキュメントサイトを作成
+
+ドキュメントサイトを作成するには:
+
+1. 組織から **ホーム**、 <strong>+</strong> の横にあるアイコン **サイト**.
+2. 訪問者が認識できる名前を入力します。
+3. クリックして **作成**.
+4. 開始点を選択します: ドキュメント テンプレート、インポート、OpenAPI 仕様、空のセクション、または Git Sync。
+
+完全なセットアップ手順については、 [クイックスタート](/ja/docs/getting-started/quickstart).
+
+<Callout kind="info">
+  サイトの権限は **設定** → **メンバー**。これにより、組織設定とは独立して、各サイトを閲覧または編集できるユーザーを制御できます。参照 [ロール](/ja/docs/gong-tong-zuo-ye/member-management/roles) をご覧ください。
+</Callout>
+
+### ドキュメントサイトを公開
+
+サイトを公開するには:
+
+1. 組織から **ホーム**、サイトを開きます。
+2. クリックして **公開** サイトのヘッダーで。
+
+サイトは既定で公開されています。サイトの表示設定を **設定** → **対象**。参照 [サイト設定](/ja/docs/saitowosuru/site-settings).
+
+次のいずれかの対象ユーザー オプションを選択します:
+
+<Columns cols={2}>
+  <Card title="公開" href="/ja/docs/gong-kai/publish-a-docs-site/public-publishing" image="https://test-dai.imgix.net/org-4afef969-21f9-40f3-b5b8-b06c8b6cf68f/doc-22a3b060-9539-4176-97e4-49120e02f5d1/91e8d5b5185d7056-spaces-NkEGS7hzeqa35sMXQZ4X-uploads-oilRMA6SHJfDUlmxzFSc-Public.png?fm=auto&auto=compress%2Cformat">
+    ドキュメントをウェブ上で公開します。
+  </Card>
+
+  <Card title="共有リンク付きで非公開" href="/ja/docs/gong-kai/site-audience/share-links" image="https://test-dai.imgix.net/org-4afef969-21f9-40f3-b5b8-b06c8b6cf68f/doc-22a3b060-9539-4176-97e4-49120e02f5d1/6bcc6c7bd8685cb1-spaces-NkEGS7hzeqa35sMXQZ4X-uploads-fc0Pst5E74fYtiKz3Evt-Share-links.png?fm=auto&auto=compress%2Cformat">
+    非公開の共有リンクを使ってドキュメントを公開します。
+  </Card>
+
+  <Card title="認証済みアクセス" href="/ja/docs/gong-kai/site-audience/authenticated-access" image="https://test-dai.imgix.net/org-4afef969-21f9-40f3-b5b8-b06c8b6cf68f/doc-22a3b060-9539-4176-97e4-49120e02f5d1/d4b5e742d763a7b4-spaces-NkEGS7hzeqa35sMXQZ4X-uploads-vnW7XiU7dys1vIf7Hi6l-Auth-access.png?fm=auto&auto=compress%2Cformat">
+    OAuth サインインの背後で公開済みドキュメントを保護します。
+  </Card>
+</Columns>
+
+### サイトをプレビュー
+
+クリックして **プレビュー** サイトのヘッダーで、公開前、または変更作業中に、訪問者に表示されるとおりにコンテンツを確認できます。コンテンツとカスタマイズを確認し、すべてが正しく見えたら公開します。
+
+### ドキュメントサイトを削除または公開停止する
+
+サイトの公開を停止するには、 **設定** → **全般** をクリックして、次を選択します **サイトの公開を停止**。確認すると、サイトは訪問者がアクセスできなくなります。
+
+公開停止しても請求は変わりません。料金を支払うサイト数を調整するには、組織の請求設定でプランを更新してください。
+
+#### 公開停止または削除後も、まだサイトにアクセスできます
+
+まだ URL を開ける場合、古いバージョンが通常はブラウザー、CDN、または検索エンジンの結果にキャッシュされています。サイトがもう公開されていないことを確認するには、プライベートウィンドウで URL を開くか、そのサイトのブラウザーキャッシュを消去して再読み込みしてください。
+
+#### サイトがまだ検索エンジンに表示される
+
+検索エンジンがインデックスを更新するには時間がかかるため、公開停止したサイトがしばらく結果に表示されることがあります。期間は、クロール頻度やそのページにリンクしている他のサイトの数などの要因によって異なります。
+
+Google Search Console で再クロールをリクエストすることで、これを早められます。 **URL 検査** タブを開き、URL を入力して、 **インデックス登録をリクエスト**。Google がリクエストを確認し、公開されていなければページをインデックスから削除します。
+
+Google で `site:` の後にサイトの URL を付けて検索すると、そのサイトがまだインデックスされているか確認できます。
+
+ドキュメントサイトを削除するには:
+
+1. 開く **設定** → **全般**.
+2. を選択します [**サイトを削除**](/ja/docs/saitowosuru/site-settings#delete-site).
+
+サイトを削除すると、その設定とカスタマイズは完全に削除されます。コンテンツは組織内に残ります — で見つけてください [すべてのコンテンツ](/ja/docs/kontentsuwo/content-structure/all-content).

@@ -1,0 +1,59 @@
+---
+title: 在你的文档中插入 API 参考
+description: 从你的 OpenAPI 规范中插入完整的 API 参考，或者选择单个操作或 schema
+metaTitle: 在你的文档中插入 API 参考 | GitBook Documentation
+ogImage: https://test-dai.imgix.net/org-4afef969-21f9-40f3-b5b8-b06c8b6cf68f/doc-22a3b060-9539-4176-97e4-49120e02f5d1/0a5a1a9630785855-organizations-d8f63b60-89ae-11e7-8574-5927d48c4877-sites-site_p4Xo4-socialprevie.jpg?fm=auto&auto=compress%2Cformat
+---
+
+GitBook 允许你自动生成与 OpenAPI 规范中已有端点相关的页面。这些页面将包含 OpenAPI 操作块，让你和访问者可以测试端点，并根据规范中的信息进一步探索它们。
+
+<Callout kind="success">
+  从你的规范中添加的端点会在规范更新时持续更新。请参阅 [更新你的规范](/zh/docs/chuang-jian-nei-rong/openapi/add-an-openapi-specification#update-your-specification) 部分了解更多信息。
+</Callout>
+
+### 根据你的规范自动创建 OpenAPI 页面
+
+在你 [添加了 OpenAPI 规范之后](/zh/docs/chuang-jian-nei-rong/openapi/add-an-openapi-specification)，你可以通过插入一个 **OpenAPI 参考** 到某个部分的目录中来生成端点页面。
+
+<Image src="https://test-dai.imgix.net/org-4afef969-21f9-40f3-b5b8-b06c8b6cf68f/doc-22a3b060-9539-4176-97e4-49120e02f5d1/43f6c1fd5d5005df-spaces-NkEGS7hzeqa35sMXQZ4X-uploads-Yy8gCqxfaO4xjv2eqiL5-create_api_pages-2x.png?fm=auto&auto=compress%2Cformat" alt="A GitBook screenshot showing how to insert API references into the table of contents of a section" caption="将 API 参考插入到某个部分的目录中。" />
+
+<Steps>
+  <Step title="从 OpenAPI 生成页面">
+    在你想要生成端点页面的部分中，点击 <strong>添加新内容...</strong> 按钮，位于该部分底部的 [目录](/zh/docs/can-kao/gitbook-ui#table-of-contents).
+
+    在这里，点击 **OpenAPI 参考**.
+  </Step>
+
+  <Step title="选择你的 OpenAPI 规范">
+    选择你之前上传的 OpenAPI 规范。然后选择一个 **页面结构**:
+
+    - **每个标签一个页面**
+    - **每个操作一个页面**
+
+    你也可以选择添加模型页面和下载链接。点击 **插入** 以生成参考文档。
+  </Step>
+
+  <Step title="管理你的 API 操作">
+    GitBook 会根据你的 OpenAPI 规范以及其定义中设置的标签自动生成页面。如果你选择 **每个操作一个页面**，GitBook 会按标签对生成的操作页面分组。
+
+    前往 [OpenAPI 布局](/zh/docs/chuang-jian-nei-rong/openapi/guides/openapi-layouts) 来比较布局，或 [构建你的 API 参考](/zh/docs/chuang-jian-nei-rong/openapi/guides/structuring-your-api-reference) 用标签来组织页面。
+  </Step>
+</Steps>
+
+### 添加单个 OpenAPI 块
+
+或者，你可以将规范中的 OpenAPI 操作或 schema 单独添加到文档中的各个页面。
+
+<Steps>
+  <Step title="添加新的 OpenAPI 块">
+    按下以下键打开块选择器 <strong>/</strong>，并搜索 OpenAPI。
+  </Step>
+
+  <Step title="选择你的 OpenAPI 规范">
+    选择你之前上传的 OpenAPI 规范，然后 **继续** 以选择你想使用的端点。
+  </Step>
+
+  <Step title="选择你想插入的操作或 schema">
+    选择你想插入到文档中的操作和 schema，然后点击 **插入**.
+  </Step>
+</Steps>

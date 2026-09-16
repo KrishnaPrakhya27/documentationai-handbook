@@ -1,0 +1,40 @@
+---
+title: URL
+description: Transmettez les données des visiteurs à votre documentation via des paramètres de requête d’URL
+metaTitle: URL | GitBook Documentation
+ogImage: https://test-dai.imgix.net/org-4afef969-21f9-40f3-b5b8-b06c8b6cf68f/doc-22a3b060-9539-4176-97e4-49120e02f5d1/0a5a1a9630785855-organizations-d8f63b60-89ae-11e7-8574-5927d48c4877-sites-site_p4Xo4-socialprevie.jpg?fm=auto&auto=compress%2Cformat
+---
+
+<Callout kind="info">
+  Rendez-vous dans nos guides pour trouver un [guide complet](/en/docs/guides/docs-personalization-and-authentication/how-to-personalize-your-gitbook-site-using-url-parameters-and-adaptive-content) sur la configuration de contenu adaptatif avec des cookies.
+</Callout>
+
+Vous pouvez transmettre des données de visiteur à votre documentation via des paramètres de requête d'URL. Voici un aperçu de la méthode :
+
+| Méthode | Cas d'utilisation | Facilité de configuration | Sécurité | Format |
+| --- | --- | --- | --- | --- |
+| Paramètres de requête `visitor.<prop>=` | Indicateurs de fonctionnalité, rôles | Facile à utiliser | ❌ Le visiteur peut remplacer les propriétés | JSON |
+
+### Paramètres de requête
+
+Pour transmettre des données à GitBook via des paramètres d'URL, vous devrez passer les données dans l'URL au format `visitor.<prop>`.
+
+Par exemple :
+
+```url
+https://docs.acme.org/?visitor.language=fr
+```
+
+Cela vous permettra d'utiliser ces revendications dans le [éditeur de conditions](/fr/docs/publier/adaptive-content/adapting-your-content#working-with-the-condition-editor) sous l'objet unsigned :
+
+```javascript
+visitor.claims.unsigned.language === "fr"
+```
+
+<Callout kind="alert">
+  Les données transmises via les paramètres de requête doivent être définies dans votre schéma de visiteur via un [unsigned](/fr/docs/publier/adaptive-content/enabling-adaptive-content#set-an-unsigned-claim) objet. De plus, les paramètres de requête peuvent être facilement modifiés par le visiteur et conviennent mieux aux informations non sensibles.
+</Callout>
+
+### Tutoriel vidéo
+
+<Iframe src="https://www.youtube.com/embed/hCd2_AAHU_I" title="Embedded content" />

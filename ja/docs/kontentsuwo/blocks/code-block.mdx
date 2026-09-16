@@ -1,0 +1,130 @@
+---
+title: コードブロック
+description: サンプルコード、設定、コードスニペットなどを含めるために、ページにコードブロックを追加します
+metaTitle: コードブロック | GitBook Documentation
+ogImage: https://test-dai.imgix.net/org-4afef969-21f9-40f3-b5b8-b06c8b6cf68f/doc-22a3b060-9539-4176-97e4-49120e02f5d1/0a5a1a9630785855-organizations-d8f63b60-89ae-11e7-8574-5927d48c4877-sites-site_p4Xo4-socialprevie.jpg?fm=auto&auto=compress%2Cformat
+---
+
+コードブロックを使って、GitBook のページにコードを追加できます。
+
+コードブロックを追加すると、次のことを選べます [構文を設定する](#set-syntax...), [行番号を表示する](#with-line-numbers), [キャプションを表示する](#with-caption)を読み取り、 [行を折り返す](#wrap-code)。また、簡単に [コードブロックの内容をクリップボードにコピーできます](#copying-the-code)。そうすれば、ほかの場所で使えます
+
+コードブロックは次の用途に役立ちます：
+
+- 設定の共有
+- コードスニペットの追加
+- コードファイルの共有
+- コマンドラインユーティリティの使用例を示す
+- API エンドポイントの呼び出し方を示す
+- そのほかにもたくさんあります！
+
+### コードブロックを追加する
+
+1. コードブロックを追加するには、空行にカーソルを置いて次のように入力します `/`.
+2. クイック挿入メニューで次を選択します **コードブロック**.
+3. GitBook がブロックを挿入し、カーソルをその中に置くので、コードを貼り付けたり入力したりできます。
+
+### コードブロックの例
+
+```javascript title="index.js"
+‌import * as React from 'react';
+import ReactDOM from 'react-dom';
+import App from './App';
+
+ReactDOM.render(<App />, window.document.getElementById('root'));
+```
+
+コードブロックを次のものと組み合わせることもできます [タブブロック](/ja/docs/kontentsuwo/blocks/tabs) 同じコード例を複数の言語で提供するために使えます：
+
+<Tabs>
+  <Tab title="JavaScript">
+    ```javascript
+    let greeting = function (name) {
+      console.log(`Hello, ${name}!`);
+    };
+    greeting("Anna");
+    ```
+  </Tab>
+
+  <Tab title="Ruby">
+    ```ruby
+    greeting = lambda {|name| puts "Hello, #{name}!"}
+    greeting.("Anna")
+    ```
+  </Tab>
+
+  <Tab title="Elixir">
+    ```elixir
+    greeting = fn name -> IO.puts("Hello, #{name}!") end
+    greeting.("Anna")
+    ```
+  </Tab>
+</Tabs>
+
+### コードブロックのオプション
+
+次のものをクリックすると **オプションメニュー** <Image src="https://test-dai.imgix.net/org-4afef969-21f9-40f3-b5b8-b06c8b6cf68f/doc-22a3b060-9539-4176-97e4-49120e02f5d1/4c115a43418b42e3-spaces-NkEGS7hzeqa35sMXQZ4X-uploads-aS1QvPIBVYwhpFTGcPBN-options-menu.svg?rasterize-bypass=true" alt="The Options menu icon in GitBook" /> コードブロックの横にある、または **操作メニュー** <Image src="https://test-dai.imgix.net/org-4afef969-21f9-40f3-b5b8-b06c8b6cf68f/doc-22a3b060-9539-4176-97e4-49120e02f5d1/4fa265378c13a520-spaces-NkEGS7hzeqa35sMXQZ4X-uploads-89MTSo5XRpPMVr1T0rxS-actions.svg?rasterize-bypass=true" alt="The Actions menu icon in GitBook" /> ブロック内にあるものをクリックすると、設定できるさまざまなオプションが表示されます。
+
+#### 構文を設定…
+
+コードブロックの構文は、サポートされている任意の言語に設定できます。これにより、その言語でのシンタックスハイライトも有効になります。
+
+<Callout kind="info">
+  使用しています [Prism](https://github.com/PrismJS/prism) シンタックスハイライトのために。次を使えます [Test Drive Prism](https://prismjs.com/test.html#language=markup) Prism がサポートする言語を確認できます。GitBook と Prism の間に差異がある場合、こちらのバージョンが 1〜2 つ古い可能性があります。すぐに追いつきます！
+</Callout>
+
+```text title="filename.txt"
+// コードの一部
+```
+
+<a id="with-line-numbers"></a>
+
+#### 行番号付き
+
+これにより、コードの行番号の表示/非表示を切り替えます。
+
+行番号の表示は、コードがファイル全体の内容を表している場合や、行数の多い長いコードブロックがある場合に便利です。行番号を非表示にするのは、スニペット、コマンドラインやターミナルの式の使用手順、その他同様の場面で役立ちます。
+
+#### キャプション付き
+
+これにより、ブロック上部、コード行の上に表示されるキャプションの表示/非表示を切り替えます。
+
+キャプションは多くの場合、次に示すようなファイル名です [上の例](#example-of-a-code-block)。ただし、タイトル、説明、その他好きなものとしても使えます。
+
+#### コードを折り返す
+
+これによりコードの折り返しのオン/オフを切り替え、長いコード行を折り返してページ上で一度にすべて見えるようにします。
+
+行を折り返すのは、コードが長くて、閲覧者が読むために横にスクロールするのを避けたい場合に便利です。 **コードを折り返す** をオンにしたら、行番号も表示するとよいでしょう。コードを読みやすくなり、新しい行がどこから始まるかも分かりやすくなります。
+
+#### 展開可能
+
+これにより、コードを全文表示（トグルがオフの場合）するか、ユーザーが展開できる折りたたみ表示（トグルがオンの場合）に切り替えます。
+
+折りたたみ表示では、デフォルトで 10 行のコードと、全文を表示するための展開ボタンが表示されます。コードが 10 行未満の場合は、すべての内容が表示されます。
+
+### コードブロックの操作
+
+上記のオプションに加えて、コードブロックに表示する言語を変更したり、コードをすぐにコピーしたりできます。
+
+<a id="copying-the-code"></a>
+
+#### コードをコピーする
+
+コードブロックにカーソルを合わせると、いくつかのアイコンが表示されます。中央のアイコンをクリックすると、コードブロックの内容をクリップボードにコピーできます。
+
+### Markdownでの表記
+
+````markdown
+{% code title="index.js" overflow="wrap" lineNumbers="true" %}
+
+```javascript
+‌import * as React from 'react';
+import ReactDOM from 'react-dom';
+import App from './App';
+
+ReactDOM.render(<App />, window.document.getElementById('root'));
+```
+
+{% endcode %}
+````

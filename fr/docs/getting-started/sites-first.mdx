@@ -1,0 +1,68 @@
+---
+title: Espace de travail du site
+description: Découvrez comment l’espace de travail du site modifie la navigation, la structure du contenu et les autorisations dans GitBook
+metaTitle: Espace de travail du site | GitBook Documentation
+ogImage: https://test-dai.imgix.net/org-4afef969-21f9-40f3-b5b8-b06c8b6cf68f/doc-22a3b060-9539-4176-97e4-49120e02f5d1/0a5a1a9630785855-organizations-d8f63b60-89ae-11e7-8574-5927d48c4877-sites-site_p4Xo4-socialprevie.jpg?fm=auto&auto=compress%2Cformat
+---
+
+## L'espace de travail axé sur les sites dans GitBook
+
+GitBook est désormais organisé autour de vos sites de documentation. Tout dans l'application est structuré autour des sites que vous publiez, de sorte que ce que vous voyez pendant l'édition correspond à ce que vos visiteurs voient en lecture.
+
+Cette page explique l'espace de travail et ce que cela implique pour votre contenu existant.
+
+<Image src="https://test-dai.imgix.net/org-4afef969-21f9-40f3-b5b8-b06c8b6cf68f/doc-22a3b060-9539-4176-97e4-49120e02f5d1/ca2520c9402bf9aa-spaces-NkEGS7hzeqa35sMXQZ4X-uploads-B5REa0OVf0NOyqISJNYj-Site-workspace.png?fm=auto&auto=compress%2Cformat" alt="" />
+
+### Pourquoi l'espace de travail axé sur les sites
+
+Auparavant, GitBook organisait votre travail autour des espaces et des collections, et les sites étaient construits par-dessus en reliant des espaces entre eux. Cela signifiait que la structure dans laquelle vous naviguiez dans l'application ne correspondait jamais tout à fait à la structure de votre site publié.
+
+L'espace de travail axé sur les sites comble cet écart. Votre organisation contient des sites, et chaque élément de contenu vit à l'intérieur d'un site en tant que **section**. La hiérarchie que vous modifiez est celle que vos lecteurs obtiennent.
+
+### Nouveautés
+
+#### La page d'accueil affiche tous vos sites
+
+Lorsque vous ouvrez GitBook, vous arrivez sur la page d'accueil de votre organisation **Accueil**: vos sites de documentation, vos modifications récentes et les outils à l'échelle de l'organisation, réunis au même endroit. Pour y revenir depuis n'importe où, utilisez le sélecteur en haut de la barre latérale.
+
+#### La barre latérale affiche votre site, pas votre organisation
+
+L'ouverture d'un site remplace la barre latérale par l'arborescence de contenu de ce site, la même structure que celle que voient les visiteurs sur votre site publié. Accédez directement à n'importe quelle section et commencez à modifier sans changer de contexte.
+
+L'arborescence de contenu dans la barre latérale est en lecture seule. Pour réorganiser votre site, ouvrez le **éditeur de structure**, un écran dédié qui remplace l'ancien onglet Structure dans les paramètres du site. Les modifications que vous y apportez se reflètent immédiatement dans la barre latérale.
+
+#### Les sections remplacent les espaces
+
+Le contenu d'un site vit désormais dans des **sections**. Si vous avez déjà utilisé GitBook, une section correspond à ce que vous connaissiez comme un espace lié à un site. Les sections fonctionnent de la même manière dans l'éditeur. Ce qui change, c'est l'endroit où elles vivent et la façon dont elles héritent des paramètres de leur site.
+
+<Callout kind="alert">
+  Dans l'API GitBook, les sections sont toujours représentées par des `objets espace` . Rien ne change pour les intégrations API ou Git Sync.
+</Callout>
+
+#### Les outils du site, à portée de clic
+
+Insights, Analytics, Personnalisation et Paramètres du site sont désormais des éléments de la barre latérale du site et s'ouvrent dans la vue principale. Vous n'avez plus besoin de parcourir des paramètres imbriqués pour les trouver. Les écrans eux-mêmes fonctionnent exactement comme avant.
+
+#### Brouillons de sections
+
+Les nouvelles sections commencent comme des **brouillons**: liés à votre site, modifiables par votre équipe, mais invisibles pour les visiteurs. Quand vous êtes prêt, publiez un brouillon individuellement, ou publiez-en plusieurs à la fois depuis l'éditeur de structure.
+
+Pour voir à quoi ressembleront les brouillons sur votre site, basculez l'aperçu du site entre **Publié** et **Publié + Brouillons**.
+
+#### Paramètres de l'organisation, dans leur contexte
+
+Les paramètres de l'organisation ne prennent plus le contrôle de tout l'écran. Ils s'ouvrent dans leur contexte au niveau de l'organisation, à côté de l'accueil de votre organisation, afin que vous puissiez ajuster les options à l'échelle de l'organisation sans perdre votre place.
+
+#### Autorisations héritées du site
+
+Les sections peuvent hériter des autorisations de leur site plutôt que des collections. Lorsqu'un membre a accès par plusieurs voies, l'autorisation la plus permissive s'applique. Dans les offres Enterprise, les sections partagées entre plusieurs sites héritent de l'accès le plus large.
+
+Cette option est activée par espace. Le contenu que vous n'activez pas conserve les autorisations existantes basées sur les collections.
+
+### Ce qui arrive aux espaces et collections existants
+
+Rien n'est supprimé ni dépublié.
+
+- Les espaces déjà liés à un site deviennent des sections de ce site.
+- Les espaces non liés à un site apparaissent dans une nouvelle **Tout le contenu** section, à côté de vos sites, dans l'arborescence familière. Les collections y sont conservées sous forme de dossiers.
+- Si chaque espace de votre organisation appartient à un site, la section Tout le contenu n'apparaît pas du tout.

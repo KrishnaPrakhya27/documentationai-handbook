@@ -1,0 +1,105 @@
+---
+title: 组织设置
+metaTitle: 组织设置 | GitBook Documentation
+ogImage: https://test-dai.imgix.net/org-4afef969-21f9-40f3-b5b8-b06c8b6cf68f/doc-22a3b060-9539-4176-97e4-49120e02f5d1/0a5a1a9630785855-organizations-d8f63b60-89ae-11e7-8574-5927d48c4877-sites-site_p4Xo4-socialprevie.jpg?fm=auto&auto=compress%2Cformat
+---
+
+<Callout kind="info">
+  只有组织中的管理员才能访问组织设置。
+</Callout>
+
+查看并管理你的 GitBook 组织设置。这些包括成员、登录方式、合并规则、计费和方案。
+
+<Image src="https://test-dai.imgix.net/org-4afef969-21f9-40f3-b5b8-b06c8b6cf68f/doc-22a3b060-9539-4176-97e4-49120e02f5d1/b607d58b2669e741-spaces-NkEGS7hzeqa35sMXQZ4X-uploads-uslrejntFsDDPniNzkHX-22_01_06_organization_s.png?fm=auto&auto=compress%2Cformat" alt="A GitBook screenshot showing the organization settings page" caption="你的组织设置页面。" />
+
+### 访问组织的设置
+
+1. 在侧边栏顶部，打开组织菜单。
+2. 点击 **设置**.
+
+设置会在专用屏幕中打开。你的个人 **账户** 设置包括 **常规**, **通知**, **组织**，以及 **开发者工具**。你的 **组织** 设置会显示在侧边栏中。点击 **返回应用** 返回你的工作。
+
+该 **组织** 组包含以下页面：
+
+<Expandable title="常规">
+  **组织资料**
+
+  更新你的组织徽标和名称。
+
+  **GitBook AI 功能**
+
+  [GitBook AI](/zh/docs/chuang-jian-nei-rong/searching-your-content/gitbook-ai)驱动的搜索让成员可以用自然语言就你的内容提问。你还可以在站点的 [自定义设置](/zh/docs/guan-li-ni-de-zhan-dian/customization).
+
+  **操作**
+
+  在此部分删除你的组织。
+
+  <Callout kind="danger">
+    <strong>删除组织是永久性的。</strong> GitBook 会删除所有关联数据。要保留组织拥有的内容， [将其移动到另一个组织](/zh/docs/chuang-jian-nei-rong/content-structure/space#move-a-space) 。
+  </Callout>
+</Expandable>
+
+<Expandable title="成员">
+  添加和移除 [成员](/zh/docs/xie-zuo/member-management). 你还可以更新每个成员的 [role](/zh/docs/xie-zuo/member-management/roles).
+</Expandable>
+
+<Expandable title="合并规则">
+  控制整个组织中更改请求的审查和合并方式。默认情况下，组织规则适用于每个版块。每个版块可以继承、替换或禁用这些规则。了解更多关于 [合并规则](/zh/docs/xie-zuo/merge-rules).
+</Expandable>
+
+<Expandable title="GitBook Agent">
+  管理以下内容的组织级设置 [GitBook Agent](/zh/docs/gitbook-agent/overview).
+</Expandable>
+
+<Expandable title="集成">
+  查看你的组织安装了哪些集成。你还可以 [安装新集成](/zh/docs/guan-li-ni-de-zhan-dian/install-an-integration).
+</Expandable>
+
+<Expandable title="OpenAPI">
+  管理你组织的网站用于 API 参考的 OpenAPI 规范。
+</Expandable>
+
+<Expandable title="翻译">
+  管理组织范围的自动翻译设置。
+</Expandable>
+
+<Expandable title="邀请链接">
+  创建并管理链接，让人们可以加入你的组织。
+</Expandable>
+
+<Expandable title="团队">
+  [团队](/zh/docs/xie-zuo/member-management/teams) 组组织成员。你可以授予团队成员访问权限。
+</Expandable>
+
+<Expandable title="单点登录">
+  **电子邮件域名**
+
+  对于你添加的每个域名，拥有该域名电子邮件地址的人在创建 GitBook 账户后即可访问该组织。选择他们的默认 [role](/zh/docs/xie-zuo/member-management/roles).
+
+  **SAML**
+
+  如果你使用的是 Enterprise 方案，请使用你首选的身份提供商配置 SAML 单点登录。 [联系销售](mailto:sales@gitbook.com) 以升级到 Enterprise。
+</Expandable>
+
+<Expandable title="计费">
+  查看你当前的方案并切换方案。使用切换按钮查看按年价格（含 2 个月免费）或按月价格。然后使用每个方案下方的升级或降级按钮。
+
+  查看我们的 [计费政策](/zh/docs/zhang-hu-he-zhang-dan/plans/billing-policy) 了解当你在周期中更改方案时我们如何计算费用。
+
+  点击 **管理账单** 打开 Stripe。在那里，你可以管理你的付款方式和账单信息。你也可以 [取消你的方案](/zh/docs/zhang-hu-he-zhang-dan/plans/cancelling-a-plan)。如果你在计费周期结束前续订，你的方案将会无缝继续。
+</Expandable>
+
+### 转移组织所有权
+
+管理员在 GitBook 中享有相同权限——他们可以管理计费、成员和发布——因此转移所有权意味着让新的所有者成为管理员：
+
+1. 请确保新的所有者是该组织中的 [管理员](/zh/docs/xie-zuo/member-management/roles) 。
+2. 要完全移交，请让另一位管理员将你从组织中移除。你将失去对组织内容的访问权限。
+
+若要保留该组织，但使用不同的电子邮件地址登录，请在 **账户 → 常规** 设置屏幕中更新你的邮箱。
+
+### 已删除内容会怎样
+
+删除组织会永久移除与其关联的所有内容——删除一个作为组织唯一成员的账户时也是如此。如果被删除的账户属于一个有多个成员的组织，则该组织的内容——包括该成员的贡献——仍会完整保留。
+
+如果内容被删除不足七天，你可以从 **废纸篓**中恢复。GitBook 不会在这七天期限之外保留备份，因此删除超过七天的内容无法恢复。

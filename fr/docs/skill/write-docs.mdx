@@ -1,0 +1,198 @@
+---
+title: Rédiger et modifier la documentation
+description: Rédigez, créez, modifiez et mettez en forme des pages de documentation GitBook dans des dépôts synchronisés avec Git, des IDE ou n’importe quel éditeur de texte. À utiliser dès qu’une tâche implique la création ou la modification d’une page Markdown GitBook, la rédaction ou la mise à jour
+metaTitle: Rédiger et modifier la documentation | GitBook Documentation
+ogImage: https://test-dai.imgix.net/org-4afef969-21f9-40f3-b5b8-b06c8b6cf68f/doc-22a3b060-9539-4176-97e4-49120e02f5d1/0a5a1a9630785855-organizations-d8f63b60-89ae-11e7-8574-5927d48c4877-sites-site_p4Xo4-socialprevie.jpg?fm=auto&auto=compress%2Cformat
+---
+
+#### Quand utiliser cette compétence
+
+Utilisez cette compétence lorsque vous travaillez avec la documentation GitBook via :
+
+- Dépôts synchronisés avec Git (GitHub, GitLab)
+- Éditeurs Markdown locaux
+- Intégrations IDE
+- Tout environnement où vous modifiez le contenu GitBook sous forme de fichiers plutôt que via l'interface GitBook
+
+#### Référence rapide
+
+**Structure du contenu GitBook**
+
+GitBook organise le contenu en pages, espaces et collections :
+
+- **Les pages** sont des fichiers Markdown individuels qui composent votre documentation
+- **Les espaces** sont des collections de pages organisées en un site de documentation
+- **Les collections** sont des groupes d'espaces
+
+<strong>Structure des fichiers :</strong>
+
+```
+/
+  .gitbook/
+    assets/              # Images et fichiers gérés par GitBook
+    includes/            # Blocs de contenu réutilisables
+    vars.yaml            # Variables au niveau de l'espace
+  .gitbook.yaml          # Configuration
+  README.md              # Page d'accueil
+  SUMMARY.md             # Table des matières
+  getting-started/
+    installation.md
+    quickstart.md
+  api-reference/
+    authentication.md
+    endpoints.md
+```
+
+<strong>Champs du front matter (formulaire rapide) :</strong>
+
+```markdown
+---
+description: "Description de la page pour le SEO"
+icon: book-open
+hidden: true
+vars:
+  page_variable: value
+layout:
+  width: default  # ou 'wide'
+  tableOfContents:
+    visible: true
+  pagination:
+    visible: true
+---
+```
+
+<strong>Variables et expressions :</strong>
+
+- Variables de l'espace : `/.gitbook/vars.yaml`
+- Variables de page : front matter `vars:`
+- Syntaxe des expressions : `<code class="expression">space.vars.variableName</code>`
+
+<strong>Blocs personnalisés les plus courants :</strong>
+
+- `{% tabs %}...{% endtabs %}` — pour les alternatives
+- `{% hint style="..." %}...{% endhint %}` — encadrés (info/avertissement/danger/succès)
+- `{% stepper %}...{% endstepper %}` — étapes séquentielles
+- `<details>...<summary>...</details>` — contenu dépliable
+
+<strong>Liens :</strong>
+
+- Externes : `[texte](https://example.com)`
+- Relatifs (dans le même espace) : `[texte](page.md)`, `[texte](../folder/page.md)`
+- Interespaces (espaces différents) : `[texte](https://app.gitbook.com/s/<spaceId>/<path>)` — les chemins relatifs ne franchissent jamais les limites d'espace, et c'est la seule forme d'URL correcte (pas `/spaces/<id>/pages/<id>`). Obtenez `<spaceId>` à partir de `GET /orgs/{orgId}/spaces` et `<path>` à partir du champ `path` d'une page dans `GET /spaces/{spaceId}/content/pages`. Vous créez un nouveau site où l'espace cible n'existe pas encore ? Utilisez `XSPACE_<KEY>` des sentinelles ; `configure-site` les résout après la création. Exemples complets : `references/markdown.md`.
+- Les pages déplacées/renommées continuent de fonctionner — GitBook crée automatiquement une redirection à partir de l'ancien chemin.
+
+<strong>Rappels importants :</strong>
+
+- Lisez d'abord SUMMARY.md lorsque vous travaillez sur du contenu existant
+- Testez dans GitBook après modification locale
+- Gardez SUMMARY.md synchronisé avec la structure de vos fichiers
+- Les spécifications OpenAPI doivent être téléversées via l'interface, l'API, MCP ou la CLI, et non intégrées dans le Markdown
+
+#### Quand utiliser quel bloc
+
+| Besoin | Utiliser | Pourquoi |
+| --- | --- | --- |
+| Instructions séquentielles et ordonnées | `{% stepper %}` | Progression claire des étapes |
+| Options alternatives (langues, plateformes) | `{% tabs %}` | L'utilisateur choisit sans encombrer la page |
+| Informations facultatives ou détaillées | `<details>` | Garde la page facile à parcourir |
+| Avertissements ou conseils importants | `{% hint %}` | Encadré coloré (info/avertissement/danger/succès) |
+| Comparaisons côte à côte | `{% columns %}` | Disposition parallèle (2 colonnes max) |
+| Chronologie ou journal des modifications | `{% updates %}` | Entrées datées avec filtrage par étiquette |
+| Cartes de navigation visuelles | `<table data-view="cards">` | Grille de cartes cliquables |
+| Fichiers téléchargeables | `{% file %}` | Fichier avec légende |
+| Liens d'appel à l'action | `<a class="button">` | Bouton principal ou secondaire |
+| Contenu réutilisable sur plusieurs pages | `{% include %}` | Source unique de vérité |
+| Contenu dynamique | `<code class="expression">` | Affiche les valeurs des variables |
+
+<strong>Portée des variables :</strong>
+
+| Si la variable est... | Définir dans... | Accéder avec... |
+| --- | --- | --- |
+| Utilisée sur plusieurs pages | `/.gitbook/vars.yaml` | `space.vars.variableName` |
+| Spécifique à une seule page | Front matter `vars:` | `page.vars.variableName` |
+
+#### Travailler avec du contenu existant
+
+1. **Lisez d'abord SUMMARY.md** — table des matières complète et hiérarchie des fichiers
+2. **S'il n'y a pas de SUMMARY.md** — parcourez directement la structure des répertoires
+3. **Vérifiez .gitbook.yaml** — chemin racine, emplacements personnalisés de README/SUMMARY, redirections
+4. <strong>Vérifiez .gitbook/assets/</strong> — images et fichiers téléversés
+5. **Vérifiez .gitbook/vars.yaml** — variables au niveau de l'espace
+
+#### Pièges courants
+
+<strong>Liens interespaces :</strong>
+
+- N'utilisez pas de chemins relatifs pour créer un lien vers une page dans un espace différent — ils ne se résoudront pas.
+- N'utilisez pas `/spaces/<spaceId>/pages/<pageId>` — ce n'est pas un format de lien GitBook valide.
+- Utiliser `https://app.gitbook.com/s/<spaceId>/<path>` à la place, où `<path>` est le `path` champ de la page cible (depuis `GET /spaces/{spaceId}/content/pages`), et non son ID de page.
+- Utiliser `XSPACE_<KEY>` des sentinelles lorsque les ID d'espace ne sont pas encore connus (nouvel espace, pas encore créé).
+
+<strong>Organisation des fichiers :</strong>
+
+- Ne référencez pas deux fois le même fichier Markdown dans SUMMARY.md
+- Conservez des chemins de fichiers cohérents entre SUMMARY.md et les emplacements réels des fichiers
+
+<strong>Configuration :</strong>
+
+- Lorsque vous utilisez Git Sync, gérez README.md uniquement via votre dépôt
+- Testez les redirections après avoir déplacé ou renommé des fichiers
+
+<strong>Blocs personnalisés :</strong>
+
+- Fermez toujours correctement les blocs (`{% endtab %}`, `{% endhint %}`, etc.)
+- Faites correspondre exactement les balises d'ouverture et de fermeture
+
+<strong>Front matter :</strong>
+
+- Mettez toujours entre guillemets `description:` les valeurs contenant `:`, `#`, ou d'autres caractères significatifs en YAML — les caractères spéciaux non placés entre guillemets provoquent des échecs silencieux de Git Sync sans message d'erreur
+- Le front matter doit être tout en haut du fichier
+
+#### Travailler avec Git Sync
+
+Lorsque GitBook est synchronisé avec Git, les modifications circulent dans les deux sens — les changements Git mettent à jour GitBook, et les modifications de l'interface GitBook sont renvoyées vers Git sous forme de commit. Les conflits de fusion sont résolus dans Git.
+
+<strong>Bonnes pratiques :</strong> faites les changements structurels via SUMMARY.md dans Git ; utilisez des workflows basés sur des branches pour les mises à jour importantes ; examinez les commits générés automatiquement par GitBook.
+
+**Aperçu d'une branche poussée**
+
+La règle des deux liens ci-dessous couvre le contenu poussé via une demande de modification. Lorsque vous poussez via **Git** à la place, l'équivalent est le statut du commit : ouvrir une pull request/merge request — ou pousser vers une branche qui en possède déjà une — amène GitBook à importer cette branche et à publier un statut contenant un lien vers un aperçu du site généré. <strong>Donnez ce lien à l'utilisateur chaque fois que vous poussez des modifications de documentation, sans qu'il ait besoin de le demander.</strong> Récupérez-le à partir du statut du commit plutôt que de construire une URL : l'ID de révision est généré au moment de l'importation et ne peut pas être déduit de la branche ou de la PR, et chaque push en génère un nouveau, donc un lien ancien devient obsolète. Voir `references/git-sync-previews.md` pour les commandes GitHub et GitLab et pour savoir quoi faire pendant que l'importation est encore en cours.
+
+**Choisir entre Git Sync et un push de contenu via demande de modification**
+
+Lorsqu'un espace est configuré avec Git Sync et que vous avez (ou pouvez obtenir) un clone local du dépôt synchronisé, **privilégiez la modification directe des fichiers puis le commit/push** — Git Sync propage la modification vers GitBook. Cela reste vrai même dans une session MCP où un outil de push de contenu via demande de modification (par ex. `updateChangeRequestContent`) est disponible et connecté : le fait que l'outil soit à une seule requête de distance n'est pas une raison pour contourner Git comme source de vérité. Un agent qui le découvre *peut* pousser directement dans une CR doit quand même vérifier si Git Sync est configuré et accessible avant de le faire.
+
+Utilisez plutôt le chemin de push de contenu via demande de modification ( `updateChangeRequestContent` ou similaire, ou le REST `POST .../change-requests/<cr>/content` endpoint — voir la `cr-create` compétence) lorsque :
+
+- l'espace n'a pas encore Git Sync configuré (par ex. un espace tout neuf encore en cours de configuration),
+- aucun clone Git local n'est disponible dans l'environnement actuel (pas d'accès au système de fichiers du dépôt synchronisé), ou
+- la modification est petite et ciblée (une faute de frappe, un paragraphe, un champ) — ouvrir une CR est proportionné, et un cycle complet clone/commit/push n'en vaut pas la peine.
+
+Pour tout ce qui est plus important — un nouvel arbre de pages, une réécriture multi-pages, une migration — privilégiez Git Sync, même si cela signifie faire une pause pour confirmer d'abord que le dépôt est cloné localement. Ne choisissez pas par défaut l'outil de demande de modification simplement parce que c'est celui qui a fonctionné en premier.
+
+**Deux liens sont obligatoires dès qu'une demande de modification est impliquée**
+
+Si une partie de cette modification est passée par une demande de modification (`create_change_request` / `updateChangeRequestContent`, ou les équivalents REST), <strong>la modification n'est pas terminée tant que les deux éléments suivants n'ont pas été renvoyés, à chaque fois — c'est une règle stricte, pas un rappel à survoler :</strong>
+
+1. **Le lien du diff/de l'éditeur de la CR** — `urls.app` sur l'objet de demande de modification, renvoyé par `create_change_request`, `updateChangeRequestContent`, ou `getChangeRequestById`.
+2. **Le lien d'aperçu du site** — l'URL du site depuis l' **objet** Site (`urls.published` lorsque le site est public, sinon `urls.preview`) avec <strong>`/~/changes/<number>/` ajouté</strong>. Cela ne fait jamais partie de la réponse de la demande de modification — cela nécessite une recherche séparée — et c'est précisément pour cela qu'il est souvent oublié. Résolvez-le à chaque fois, pas seulement quand cela vous revient à l'esprit. **Sans le `~/changes/` segment, le lien n'est pas un aperçu de la demande de modification** — il affiche le contenu actuel du site, donc il semblera plausible tout en étant erroné.
+
+Cela s'applique quelle que soit la compétence qui a poussé le contenu (cette compétence ou `configure-site`) et quel que soit le transport (MCP ou REST). Voir le `cr-create` guide « Afficher le lien d'aperçu » de la compétence pour l'explication complète et les étapes de résolution REST. **Équivalent MCP** (GitBook MCP n'a pas d'appel unique prêt à l'emploi du type "donne-moi le lien d'aperçu") :
+
+1. Déterminez l'organisation de l'espace — `invoke_operation("getSpaceById", {path:{spaceId}})` → `.organization` (ignorez cette étape si vous avez déjà l'ID de l'organisation).
+2. Déterminez à quel site appartient l'espace — `list_sites` / `get_site_structure`, ou vérifiez les site-spaces de chaque site pour trouver une correspondance sur `.space.id`.
+3. `invoke_operation("getSiteById", {path:{organizationId, siteId}})` → `.urls.published` (une fois le site en ligne), sinon `.urls.preview`. Ajoutez `/~/changes/<number>/`, en supprimant la barre oblique finale renvoyée par l'API.
+
+Si l'espace n'est rattaché à aucun site publié, dites-le clairement et ne fournissez que le lien du diff — ne supprimez pas discrètement la ligne d'aperçu sans explication.
+
+Cela a déjà échoué silencieusement en pratique : une modification a été poussée et fusionnée avec seulement le lien du diff signalé, et le lien d'aperçu n'est apparu que lorsqu'une personne l'a demandé directement. Considérez la checklist des deux liens ci-dessus de manière littérale.
+
+#### Fichiers de référence
+
+Chargez-les à la demande lorsque la tâche nécessite plus de détails :
+
+- `references/blocks.md` — syntaxe complète et exemples détaillés pour chaque type de bloc GitBook : tabs, steppers, hints, expandable, columns, updates, cards, embeds, files, buttons, icons, contenu réutilisable et blocs OpenAPI. <strong>Chargez-le lors de la rédaction de pages non triviales ou lorsque la référence rapide ci-dessus ne suffit pas.</strong>
+- `references/frontmatter.md` — tous les champs de front matter avec descriptions, règles de guillemets YAML, images de couverture, contenu adaptatif (`if:`), et l'approfondissement sur les variables/expressions. <strong>Chargez-le lors de la configuration de la mise en page de la page, des couvertures, de la visibilité conditionnelle ou des variables.</strong>
+- `references/markdown.md` — Markdown standard, blocs de code avec titres, math/TeX, types de diagrammes Mermaid et exemples, ainsi que les particularités de gestion des SVG. <strong>Chargez-le lorsque vous travaillez avec des diagrammes, des mathématiques ou des ressources SVG.</strong>
+- `references/configuration.md` — `.gitbook.yaml` options, la `.gitbook/` structure des répertoires (assets, includes, vars, tags), et les règles de grammaire de SUMMARY.md dans leur intégralité. <strong>Chargez-le lors de la configuration d'un espace, de l'ajout de redirections, ou de la rédaction/modification de SUMMARY.md.</strong>
+- `references/git-sync-previews.md` — obtenir un lien d'aperçu pour une branche poussée via Git Sync : lire le statut de commit GitBook sur GitHub et GitLab, distinguer l'aperçu du site du diff de l'éditeur, et gérer une importation encore en cours. <strong>Chargez-le chaque fois que vous poussez des modifications de documentation vers une branche avec une pull request/merge request ouverte.</strong>

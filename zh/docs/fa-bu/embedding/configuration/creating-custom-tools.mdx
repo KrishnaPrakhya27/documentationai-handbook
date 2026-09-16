@@ -1,0 +1,205 @@
+---
+title: 连接到自定义工具
+description: 将 GitBook Assistant 连接到你应用中可调用的任何工具——尤其是支持工作流
+metaTitle: 连接到自定义工具 | GitBook Documentation
+ogImage: https://test-dai.imgix.net/org-4afef969-21f9-40f3-b5b8-b06c8b6cf68f/doc-22a3b060-9539-4176-97e4-49120e02f5d1/0a5a1a9630785855-organizations-d8f63b60-89ae-11e7-8574-5927d48c4877-sites-site_p4Xo4-socialprevie.jpg?fm=auto&auto=compress%2Cformat
+---
+
+自定义工具可让 GitBook 助手在 [文档嵌入](/zh/docs/fa-bu/embedding) 执行真实操作。
+
+你可以将它连接到 *任何* 你的应用可访问的任何工具。其中包括你的后端 API、第三方 SDK 和内部系统。
+
+如果你的应用可以调用它，助手也可以调用它。
+
+常见示例：
+
+- 代表用户创建或更新支持工单
+- 通过打开带有预填消息的支持聊天，将用户转接给支持团队
+
+  <Callout kind="success">
+    **支持转接** 是开始使用自定义工具的绝佳方式。这是最快帮助用户解决阻碍的方法。
+  </Callout>
+- 触发产品操作（重置 MFA、重新发送邀请、启用功能标记）
+- 在你的后端中查询账户状态
+- 在 Jira、Linear、Slack 或 Zendesk 等工具中启动工作流
+
+<Callout kind="info">
+  除了你在 Embed 配置中定义的工具外，助手还可以使用任何 [你设置的 MCP 服务器](/zh/docs/wei-du-zhe-ti-gong-de-ai/mcp-servers-for-published-docs) 于 **设置 → AI 和 MCP**.
+</Callout>
+
+### 工具运行的位置
+
+工具的 `execute` 函数会在与你的嵌入集成相同的环境中运行。
+
+这通常意味着它会在用户的浏览器中、你的应用内运行。
+
+因此你可以：
+
+- 调用你自己的后端端点
+- 调用你应用中已加载的任何第三方 SDK（例如 Intercom）
+- 打开模态框、深度链接或产品内 UI
+
+<Callout kind="alert">
+  不要在客户端代码中放入密钥——而是调用你的后端。
+</Callout>
+
+### 添加工具
+
+定义工具：
+
+- 通过 `window.GitBook("configure", …)` 用于 [script 标签](/zh/docs/fa-bu/embedding/implementation/script) 实现
+- 通过 `工具` 用于……的 prop [Node.js/NPM](/zh/docs/fa-bu/embedding/implementation/nodejs) 包和 [React](/zh/docs/fa-bu/embedding/implementation/react) 组件
+
+<Callout kind="info">
+  工具与 embed 不同 **操作**.
+
+  - 使用 **操作** 它们用于用户点击的按钮。
+  - 当你希望助手选择并运行代码时，请使用工具。
+</Callout>
+
+#### 工具模板（重新发送邀请邮件）
+
+来看一个示例：
+
+```javascript
+window.GitBook("configure", {
+  tools: [
+    {
+      // 使用名称和描述注册该工具。
+      name: "resend_invite",
+      description:
+        "当用户找不到邀请邮件或说它已过期时，重新发送邀请邮件。",
+
+      // input schema 是可在 execute 函数中访问的数据。
+      inputSchema: {
+        type: "object",
+        properties: {
+          email: {
+            type: "string",
+            description:
+              "要重新发送邀请的电子邮件地址。如果不知道，请先询问用户。",
+          },
+        },
+        required: ["email"],
+      },
+
+      // 一个可选的确认按钮，会在 execute 函数运行前显示。
+      confirmation: { icon: "paper-plane", label: "重新发送邀请？" },
+
+      // execute 函数是在工具被使用时调用的函数。
+      execute: async (input) => {
+        const { email } = input;
+
+        const result = await fetch("/api/invites/resend", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ email }),
+        }).then((r) => r.json());
+
+        return {
+          // 输出会返回给 AI。
+          output: {
+            recipient: email,
+            status: result.status ?? "success",
+          },
+          // 摘要会显示给用户。
+          summary: {
+            icon: "check",
+            text: "邀请邮件已重新发送。",
+          },
+        };
+      },
+    },
+  ],
+});
+```
+
+### 工具如何被使用
+
+一旦你注册了工具，助手就可以根据用户的问题和你的工具 `描述`.
+
+如果缺少必填字段，助手应提出后续问题。
+
+如果你添加 `confirmation`，则用户必须在工具运行前批准。
+
+### 工具字段
+
+- `name`：唯一标识符。
+- `描述`：给助手的“何时使用此工具”提示。
+- `inputSchema`：工具输入的 JSON Schema。
+- `confirmation` （可选）：工具运行前显示的确认按钮。
+- `execute(input)`：执行操作的异步函数。
+
+  - 返回 `{ output, summary }`.
+  - `output` 返回给助手。
+  - `summary` 显示给用户。
+
+#### 确认
+
+使用 `confirmation` 当你希望用户批准某个操作时使用。它有助于防止意外的副作用。
+
+`confirmation` 接受：
+
+- `label` （必填）：按钮文本。
+- `图标` （可选）：一个 [Font Awesome](https://fontawesome.com/search) 图标名称。
+
+### 支持工作流
+
+支持是工具最具杠杆效应的用例。
+
+你可以让助手：
+
+- 收集缺失的细节
+- 在你的系统中创建工单
+- 打开一个预填上下文的人工支持渠道
+
+#### 模板：打开带有预填消息的支持聊天
+
+当你想顺利移交给人工时使用。
+
+```javascript
+window.GitBook("configure", {
+  tools: [
+    {
+      name: "open_support_chat",
+      description:
+        "打开支持聊天，并预填消息，以便用户可以快速联系支持团队。",
+      inputSchema: {
+        type: "object",
+        properties: {
+          message: {
+            type: "string",
+            description:
+              "要发送给支持团队的消息。如果缺失，请先询问用户。",
+          },
+        },
+      },
+      confirmation: { icon: "circle-question", label: "打开支持聊天" },
+      execute: (input) => {
+        // 关闭 GitBook 助手
+        window.GitBook('close');
+     
+        // 示例：
+        // - Intercom: Intercom('showNewMessage', input.message);
+        // - Zendesk: zE('messenger', 'open');
+        
+        return {
+          output: {
+            status: "success",
+          },
+          summary: { icon: 'check', text: "已转接给支持团队。" },
+        };
+      },
+    },
+  ],
+});
+```
+
+<Callout kind="info">
+  将此与一个始终可见的 **联系支持** 在嵌入侧边栏中的操作搭配使用。你可以按照以下方式配置 [自定义嵌入](/zh/docs/fa-bu/embedding/configuration/customizing-docs-embed).
+</Callout>
+
+### 下一步
+
+- 需要完整的 embed API 范围？请参见 [API 参考](/zh/docs/fa-bu/embedding/configuration/reference).
+- 想要更多 UI 控件（问候语、建议、操作）？请参见 [自定义嵌入](/zh/docs/fa-bu/embedding/configuration/customizing-docs-embed).

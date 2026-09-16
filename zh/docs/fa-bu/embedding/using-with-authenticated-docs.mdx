@@ -1,0 +1,299 @@
+---
+title: 身份验证
+description: 通过传递访客令牌或使用已认证访问，将 Docs Embed 用于需要身份验证的站点
+metaTitle: 身份验证 | GitBook Documentation
+ogImage: https://test-dai.imgix.net/org-4afef969-21f9-40f3-b5b8-b06c8b6cf68f/doc-22a3b060-9539-4176-97e4-49120e02f5d1/0a5a1a9630785855-organizations-d8f63b60-89ae-11e7-8574-5927d48c4877-sites-site_p4Xo4-socialprevie.jpg?fm=auto&auto=compress%2Cformat
+---
+
+如果您的 GitBook 文档需要身份验证，Docs Embed 需要 GitBook 访客令牌才能访问内容。
+
+有两种方法：
+
+1. **直接传递令牌** （推荐）- 使用 GitBook 访客令牌初始化嵌入。
+2. **使用基于 cookie 的检测** \- 在加载前检查 GitBook 访客令牌。
+
+## 方法 1：直接传递令牌（推荐）
+
+初始化嵌入时，将 GitBook 访客令牌传递为 `visitor.token`.
+
+`visitor.token` 并不是您身份提供方的原始访问令牌或 ID 令牌。它是 GitBook 为已认证的文档访问颁发的访客令牌。该 `your-jwt-token` 这些示例中的值代表 GitBook 颁发的令牌。
+
+<Tabs>
+  <Tab title="独立脚本">
+    ```html
+    <script src="https://docs.company.com/~gitbook/embed/script.js?jwt_token=your-jwt-token"></script>
+    <script>
+      window.GitBook(
+        "init"，
+        { siteURL: "https://docs.company.com" }，
+        { visitor: { token: "your-jwt-token" } }
+      );
+      window.GitBook("show");
+    </script>
+    ```
+  </Tab>
+
+  <Tab title="NPM 包">
+    ```javascript
+    import { createGitBook } from "@gitbook/embed";
+
+    const gitbook = createGitBook({
+      siteURL: "https://docs.company.com",
+    });
+
+    const iframe = document.createElement("iframe");
+    iframe.src = gitbook.getFrameURL({
+      visitor: {
+        token: "your-jwt-token",
+        unsignedClaims: { userId: "123", plan: "premium" },
+      },
+    });
+    ```
+  </Tab>
+
+  <Tab title="React 组件">
+    ```jsx
+    <GitBookProvider siteURL="https://docs.company.com">
+      <GitBookFrame
+        visitor={{
+          token: "your-jwt-token",
+          unsignedClaims: { userId: "123" },
+        }}
+      />
+    </GitBookProvider>
+    ```
+  </Tab>
+</Tabs>
+
+<Callout kind="info">
+  Embed 配置 API 没有变化。将 GitBook 颁发的访客令牌传递为 `visitor.token`.
+
+  对于已认证的网站，GitBook 会将此令牌转发到网站，并显示为 `jwt_token` 在 iframe/脚本 URL 中。如果您从已认证的网站加载独立脚本，必须包含 `jwt_token` 中启用 `<script src>` URL。
+</Callout>
+
+## 基于 OIDC 的网站
+
+Docs Embed 接受使用 HS256 的 GitBook 访客令牌流程。您无法更改或配置此算法以接受 RS256 身份提供方令牌。
+
+不要将 OIDC 提供方的访问令牌或 ID 令牌作为 `visitor.token`。使用 RS256 的 Auth0 和 Descope 令牌不兼容，Docs Embed 会因其签名算法而拒绝它们。不要透传、重新签名，或从身份提供方令牌铸造 GitBook 访客令牌。
+
+对于基于 OIDC 的文档站点，请使用以下流程：
+
+1. 将用户发送到受保护的文档站点 URL，例如 `https://docs.example.com`.
+2. 在文档站点上完成正常的交互式 OIDC 登录。
+3. 在 GitBook 建立文档站点会话并存储 `gitbook-visitor-token`后，检索该令牌。
+4. 在此页面上，使用基于 cookie 或直接令牌的方法传递该令牌。
+
+此流程需要先成功登录文档站点，还需要所需的 cookie 和域可用性。
+
+<Callout kind="alert">
+  Docs Embed 无法启动、重定向通过或静默完成文档站点的 OIDC 授权握手。如果首次认证访问者需要完全在嵌入中访问，则没有受支持的集成路径。请在加载已认证嵌入之前，先让他们明确完成文档站点登录步骤。
+</Callout>
+
+## 方法 2：基于 cookie 的检测
+
+如果您的文档站点将访客令牌存储在 cookie 中（如 `gitbook-visitor-token`），您可以在加载嵌入前检查它。
+
+用户登录您的已认证文档站点后，GitBook 会将访客令牌存储在其浏览器 cookie 中，键名为 `gitbook-visitor-token`。嵌入需要此令牌才能从您的文档中获取内容。
+
+<strong>流程如下：</strong>
+
+1. 用户登录您的文档站点。
+2. GitBook 将访客令牌存储在浏览器 cookie 中。
+3. 您的应用检查该令牌。
+4. 如果令牌存在，则加载嵌入并传递该令牌。
+5. 如果令牌不存在，则将用户发送到您的文档站点登录。
+
+<Tabs>
+  <Tab title="独立脚本">
+    **可直接复制粘贴的代码片段**
+
+    仅在用户完成文档站点登录后使用此代码片段：
+
+    ```html
+    <script>
+      (function () {
+        // 检查 cookie 中的访客令牌
+        function getCookie(name) {
+          var value = "; " + document.cookie;
+          var parts = value.split("; " + name + "=");
+          if (parts.length === 2) return parts.pop().split(";").shift();
+        }
+
+        var token = getCookie("gitbook-visitor-token");
+
+        if (!token) {
+          console.warn("[Docs Embed] 请在加载嵌入前登录 https://docs.example.com。");
+          return;
+        }
+
+        // 令牌存在，加载嵌入
+        var script = document.createElement("script");
+        script.src =
+          "https://docs.example.com/~gitbook/embed/script.js?jwt_token=" +
+          encodeURIComponent(token);
+        script.async = true;
+        script.onload = function () {
+          window.GitBook(
+            "init"，
+            { siteURL: "https://docs.example.com" },
+            { visitor: { token: token } }
+          );
+          window.GitBook("show");
+        };
+        document.head.appendChild(script);
+      })();
+    </script>
+    ```
+
+    <Callout kind="alert">
+      替换 `docs.example.com` 替换为您实际的文档站点 URL。
+    </Callout>
+
+    **备选方案：提示用户登录**
+
+    如果令牌缺失，则将用户发送到受保护的文档站点 URL。这将启动受支持的交互式 OIDC 登录流程：
+
+    ```html
+    <script>
+      (function () {
+        function getCookie(name) {
+          var value = "; " + document.cookie;
+          var parts = value.split("; " + name + "=");
+          if (parts.length === 2) return parts.pop().split(";").shift();
+        }
+
+        var token = getCookie("gitbook-visitor-token");
+
+        if (!token) {
+          // 重定向到文档或显示消息
+          alert("请登录您的文档以访问帮助。");
+          window.location.href = "https://docs.example.com";
+          return;
+        }
+
+        // 使用令牌加载嵌入
+        var script = document.createElement("script");
+        script.src =
+          "https://docs.example.com/~gitbook/embed/script.js?jwt_token=" +
+          encodeURIComponent(token);
+        script.async = true;
+        script.onload = function () {
+          window.GitBook(
+            "init"，
+            { siteURL: "https://docs.example.com" },
+            { visitor: { token: token } }
+          );
+          window.GitBook("show");
+        };
+        document.head.appendChild(script);
+      })();
+    </script>
+    ```
+  </Tab>
+
+  <Tab title="NPM 包">
+    使用 NPM 包时，在初始化前检查令牌：
+
+    ```javascript
+    import { createGitBook } from "@gitbook/embed";
+
+    function initializeEmbed() {
+      // 检查 cookie 中的令牌
+      const getCookie = (name) => {
+        const value = `; ${document.cookie}`;
+        const parts = value.split(`; ${name}=`);
+        if (parts.length === 2) return parts.pop().split(";").shift();
+      };
+
+      const token = getCookie("gitbook-visitor-token");
+
+      if (!token) {
+        console.warn("[Docs Embed] 请在加载嵌入前登录文档站点。");
+        return null;
+      }
+
+      const gitbook = createGitBook({
+        siteURL: "https://docs.example.com",
+      });
+
+      const iframe = document.createElement("iframe");
+      iframe.src = gitbook.getFrameURL({
+        visitor: { token: token },
+      });
+      const frame = gitbook.createFrame(iframe);
+
+      document.getElementById("embed-container").appendChild(iframe);
+      return frame;
+    }
+
+    initializeEmbed();
+    ```
+  </Tab>
+
+  <Tab title="React 组件">
+    对于 React 应用，在文档站点登录创建访客令牌后有条件地渲染嵌入：
+
+    ```jsx
+    import { useEffect, useState } from "react";
+    import { GitBookProvider, GitBookFrame } from "@gitbook/embed/react";
+
+    function App() {
+      const [token, setToken] = useState(null);
+
+      useEffect(() => {
+        // 检查 cookie 中的令牌
+        const getCookie = (name) => {
+          const value = `; ${document.cookie}`;
+          const parts = value.split(`; ${name}=`);
+          if (parts.length === 2) return parts.pop().split(";").shift();
+        };
+
+        const visitorToken = getCookie("gitbook-visitor-token");
+        setToken(visitorToken);
+      }, []);
+
+      if (!token) {
+        return (
+          <div>
+            <p>请登录以访问帮助。</p>
+            <a href="https://docs.example.com">登录</a>
+          </div>
+        );
+      }
+
+      return (
+        <GitBookProvider siteURL="https://docs.example.com">
+          <YourAppContent />
+          <GitBookFrame visitor={{ token: token }} />
+        </GitBookProvider>
+      );
+    }
+    ```
+  </Tab>
+</Tabs>
+
+## 常见陷阱
+
+- **使用身份提供方令牌** — 不要将 OIDC 访问令牌或 ID 令牌用作 `visitor.token`。在文档站点身份验证后，使用 GitBook 颁发的 HS256 访客令牌。
+- **在登录前加载嵌入** — 在加载脚本或组件之前，将首次访问者发送到文档站点完成登录。
+- **令牌未在跨域间持久保存** — 由于浏览器安全策略，cookie 不会在不同域之间持久保存。您的应用和文档必须位于同一域或子域，或者直接传递令牌。
+- **令牌已过期** — 令牌可能会过期。如果嵌入返回身份验证错误，请提示用户重新登录。
+- **使用了错误的 cookie 名称** — 令牌存储为 `gitbook-visitor-token`，而不是 `gitbook-token` 或其他变体。
+- **未将令牌传递给 init/getFrameURL** — 使用基于 cookie 的方法时，请确保将令牌传递给 `GitBook('init', ..., { visitor: { token } })` 或 `getFrameURL({ visitor: { token } })`.
+
+## 调试
+
+要验证令牌是否存在，请打开浏览器控制台并运行：
+
+```javascript
+document.cookie.split(";").find((c) => c.includes("gitbook-visitor-token"));
+```
+
+如果这返回 `undefined`，则用户尚未登录您的文档。
+
+## 下一步
+
+- [自定义嵌入](/zh/docs/fa-bu/embedding/configuration/customizing-docs-embed) — 添加欢迎消息和操作
+- [创建自定义工具](/zh/docs/fa-bu/embedding/configuration/creating-custom-tools) — 与您的产品 API 集成
+- [Docs Embed 文档](/zh/docs/fa-bu/embedding) — 完整嵌入指南

@@ -1,0 +1,31 @@
+---
+title: ライブ編集
+description: 他の共同編集者とリアルタイムでページを編集します
+metaTitle: ライブ編集 | GitBook Documentation
+ogImage: https://test-dai.imgix.net/org-4afef969-21f9-40f3-b5b8-b06c8b6cf68f/doc-22a3b060-9539-4176-97e4-49120e02f5d1/0a5a1a9630785855-organizations-d8f63b60-89ae-11e7-8574-5927d48c4877-sites-site_p4Xo4-socialprevie.jpg?fm=auto&auto=compress%2Cformat
+---
+
+ライブ編集が有効な場合、組織のメンバーはセクションを、変更リクエストを作成せずに [変更リクエスト](/ja/docs/gong-tong-zuo-ye/change-requests)。コンテンツを編集しているときは、現在そのセクションを閲覧している人のアバターが右上隅に表示されます。
+
+GitBookはライブ共同編集をサポートしており、複数のメンバーが同じドキュメントを同時に作業できます。
+
+<Callout kind="info">
+  **ライブ編集はロックされています** 新しく作成されたセクションでは、デフォルトで。コンテンツを編集するには、次のいずれかが必要です。 [変更リクエストを作成する](/ja/docs/gong-tong-zuo-ye/change-requests)、またはライブ編集をオンにします。
+</Callout>
+
+### ライブ編集モードの切り替え
+
+セクションでライブ編集モードは、次をクリックして切り替えられます **ライブ編集をロック** または **ライブ編集のロックを解除** の [セクションヘッダーの](/ja/docs/rifarensu/gitbook-ui#space-header) **操作メニュー** <Image src="https://test-dai.imgix.net/org-4afef969-21f9-40f3-b5b8-b06c8b6cf68f/doc-22a3b060-9539-4176-97e4-49120e02f5d1/0a460c049ef3df1f-spaces-NkEGS7hzeqa35sMXQZ4X-uploads-PnnI41SqLSaKBNwT98fW-actions-horizontal.svg?rasterize-bypass=true" alt="The Actions menu icon in GitBook" />.
+
+セクションが **ライブ編集** モードのとき、セクションヘッダーに **エディター** タブが表示されます。セクションが **ライブ編集がロックされた状態** モードのとき、セクションヘッダーに **読み取り専用** タブが表示されます。セクションヘッダーに読み取り専用タブが表示された場合、ページのコンテンツを編集するには変更リクエストを開くか、ライブ編集のロックを解除する必要があります。
+
+### ライブ編集はいつ *しません* 利用できますか？
+
+次の場合はライブ編集のロックを解除できません：
+
+1. セクションが次の設定で公開されている **公開** または **非公開** 公開設定。
+2. セクションに [GitHub または GitLab Sync](/ja/docs/docs-as-code/git-sync) が有効でも想定どおりです。
+
+<Callout kind="info">
+  のみ [管理者と作成者](/ja/docs/gong-tong-zuo-ye/member-management/roles) はライブ編集をロックまたはロック解除できます。
+</Callout>

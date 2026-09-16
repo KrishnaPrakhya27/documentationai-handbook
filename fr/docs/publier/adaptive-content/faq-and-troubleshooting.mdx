@@ -1,0 +1,62 @@
+---
+title: FAQ et dépannage
+description: Questions fréquentes et étapes de dépannage pour le contenu adaptatif
+metaTitle: FAQ et dépannage | GitBook Documentation
+ogImage: https://test-dai.imgix.net/org-4afef969-21f9-40f3-b5b8-b06c8b6cf68f/doc-22a3b060-9539-4176-97e4-49120e02f5d1/0a5a1a9630785855-organizations-d8f63b60-89ae-11e7-8574-5927d48c4877-sites-site_p4Xo4-socialprevie.jpg?fm=auto&auto=compress%2Cformat
+---
+
+### Quelle méthode d’authentification dois-je utiliser pour le contenu adaptatif ?
+
+Cela dépend de la manière dont vous souhaitez contrôler l’accès :
+
+- Contenu public et privé sur un seul site — utilisez [des cookies signés](/fr/docs/publier/adaptive-content/enabling-adaptive-content/cookies)
+- Personnalisation simple sans authentification — utilisez [des paramètres d’URL](/fr/docs/publier/adaptive-content/enabling-adaptive-content/url)
+- Un site entièrement privé — utilisez une [intégration d’accès authentifié](/fr/docs/publier/adaptive-content/enabling-adaptive-content/authenticated-access)
+- Vous utilisez déjà des indicateurs de fonctionnalité — utilisez un [fournisseur d’indicateurs de fonctionnalité](/fr/docs/publier/adaptive-content/enabling-adaptive-content/feature-flags)
+
+### Puis-je publier un site partiellement public avec du contenu authentifié ?
+
+Oui. Vous pouvez conserver un site public avec certaines sections authentifiées, sans exiger de connexion pour l’ensemble du site :
+
+1. Conservez l’audience de votre site comme Publique, Non répertoriée ou Lien de partage.
+2. Activez le contenu adaptatif dans les paramètres de votre site.
+3. Utilisez [des cookies signés](/fr/docs/publier/adaptive-content/enabling-adaptive-content/cookies#signed-cookie) pour transmettre les revendications du visiteur après sa connexion à votre application principale.
+4. Définissez des conditions sur les pages ou sections spécifiques qui ne doivent s’afficher que pour les visiteurs authentifiés.
+
+### Comment configurer le contenu adaptatif avec un fournisseur OIDC personnalisé ?
+
+Le contenu adaptatif fonctionne avec n’importe quel fournisseur d’identité :
+
+1. Configurez l’intégration OIDC générique dans GitBook.
+2. Configurez votre fournisseur OIDC pour inclure des revendications personnalisées dans les jetons.
+3. Mappez ces revendications dans votre schéma de visiteur GitBook.
+
+Problèmes courants : assurez-vous que votre fournisseur inclut bien les revendications personnalisées dans le jeton (et pas seulement les revendications OIDC standard), vérifiez si les revendications sont imbriquées sous des propriétés propres au fournisseur, et contrôlez le format du jeton. Les différents fournisseurs structurent les revendications personnalisées différemment — consultez la documentation de votre fournisseur.
+
+### Pourquoi mes segments ne fonctionnent-ils pas ou ne s’affichent-ils pas en aperçu ?
+
+- Confirmez que votre schéma de visiteur est correctement défini.
+- Vérifiez que votre JSON de segment correspond à la structure du schéma.
+- Assurez-vous que la condition s’applique à la section, à la page ou au bloc que vous testez.
+- Utilisez la fonction d’aperçu depuis la bonne page, et actualisez l’aperçu après les modifications du schéma.
+
+Voir [Tester avec des segments](/fr/docs/publier/adaptive-content/testing-with-segments) pour le flux de test complet.
+
+### Le contenu restreint apparaît-il dans les résultats de recherche ?
+
+Non. Les résultats de recherche reflètent uniquement le contenu auquel un visiteur a accès. Toute section, page ou bloc protégé par le contenu adaptatif n’est indexé et visible dans la recherche que pour les visiteurs qui remplissent les conditions pour le consulter.
+
+### Les schémas de revendications JWT prennent-ils en charge les chaînes libres ?
+
+Pas encore. Les schémas de revendications ne prennent actuellement en charge que des énumérations pour les valeurs de chaîne ; définissez donc toutes les valeurs de chaîne requises dans une énumération.
+
+### Le contenu adaptatif peut-il fonctionner avec des tableaux dans les revendications JWT ?
+
+Non. Une revendication fournit une seule valeur — une chaîne (énumération) ou un booléen. Si vous avez besoin de plusieurs valeurs, transformez-les du côté du fournisseur de revendications (par exemple, dans Azure ou Okta).
+
+### Comment déboguer les conditions du contenu adaptatif ?
+
+- Les noms de propriété sont sensibles à la casse (`role` ≠ `Role`).
+- Vérifiez les types de données — booléen `true` n’est pas la chaîne `"true"`.
+- Vérifiez le chemin de propriété dans les conditions imbriquées.
+- Inspectez les revendications associées à un jeton sur [jwt.io](https://www.jwt.io/) pour confirmer que les revendications attendues sont bien transmises.

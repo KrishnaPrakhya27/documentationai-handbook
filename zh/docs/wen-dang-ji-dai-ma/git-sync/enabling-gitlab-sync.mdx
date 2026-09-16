@@ -1,0 +1,77 @@
+---
+title: 启用 GitLab 同步
+description: 将你的 GitLab 仓库与 GitBook 同步
+metaTitle: 启用 GitLab 同步 | GitBook Documentation
+ogImage: https://test-dai.imgix.net/org-4afef969-21f9-40f3-b5b8-b06c8b6cf68f/doc-22a3b060-9539-4176-97e4-49120e02f5d1/0a5a1a9630785855-organizations-d8f63b60-89ae-11e7-8574-5927d48c4877-sites-site_p4Xo4-socialprevie.jpg?fm=auto&auto=compress%2Cformat
+---
+
+本指南将带你完成使用 GitLab 上的仓库设置 GitBook 站点的过程。
+
+<Image src="https://test-dai.imgix.net/org-4afef969-21f9-40f3-b5b8-b06c8b6cf68f/doc-22a3b060-9539-4176-97e4-49120e02f5d1/f8ae407a73a9b913-spaces-NkEGS7hzeqa35sMXQZ4X-uploads-jSaHb62zdd8xp9NpBCif-Git-Sync---GitLab.png?fm=auto&auto=compress%2Cformat" alt="A GitBook screenshot showing GitLab Sync configuration options" caption="GitLab 同步配置选项。" />
+
+<Steps>
+  <Step title="为你的站点打开 Git 同步" titleType="h3">
+    在你的站点中，从侧边栏打开 Git 同步。
+  </Step>
+
+  <Step title="连接 GitLab" titleType="h3">
+    在你的 GitLab 用户设置中创建一个个人访问令牌。启用 `api`, `read_repository`，以及 `write_repository`，然后在 GitBook 中输入该令牌。
+
+    <Callout kind="info">
+      如果你的令牌具有角色，请选择 `维护者` 或 `管理`.
+    </Callout>
+  </Step>
+
+  <Step title="选择仓库和分支" titleType="h3">
+    在 **源仓库**，选择包含你文档的仓库。选择 GitBook 要同步的分支。如果该分支不存在，GitBook 会在初始同步期间创建它。
+
+    <Callout kind="info">
+      <strong>找不到你的仓库？</strong> 确保你的个人访问令牌具有所需的权限范围和仓库访问权限。
+    </Callout>
+
+    <Callout kind="alert">
+      如果你的 `main` 分支受保护，请为 Git Sync 选择一个单独的分支。你可以将该分支合并到 `main` 同时保留其保护设置。
+    </Callout>
+  </Step>
+
+  <Step title="选择初始同步方向" titleType="h3">
+    为初始同步选择事实来源。选择 **切换方向** ，如果仓库内容应替换 GitBook 内容。
+
+    <Callout kind="alert">
+      <strong>GitLab → GitBook 可以替换你网站的内容。</strong> 在开始同步之前，请确认仓库、分支和方向。确保目标内容可以安全替换。
+    </Callout>
+  </Step>
+
+  <Step title="设置项目目录" titleType="h3">
+    如果你的文档位于子目录中，请在 **项目目录**下输入它。GitBook 会将你站点的 `docs.yaml` 文件存储在此目录中。如果你的文档位于一个 [monorepo](/zh/docs/wen-dang-ji-dai-ma/git-sync/monorepos).
+  </Step>
+
+  <Step title="映射你的空间" titleType="h3">
+    在 **内容映射**，将每个空间分配到仓库中的一个目录。对于相对于项目目录的路径，请使用 `./` 。对于来自仓库根目录的路径，请使用 `/` 。新关联的空间会自动同步。
+  </Step>
+
+  <Step title="查看高级选项" titleType="h3">
+    如有需要，可配置代理指令文件、提交消息模板或 fork 预览。
+  </Step>
+
+  <Step title="同步你的站点" titleType="h3">
+    点击 **同步** 以开始初始同步。
+  </Step>
+
+  <Step title="写入并提交" titleType="h3">
+    在 GitBook 中合并变更请求，将其更改提交到 GitLab。对 GitLab 的提交会同步回 GitBook。
+  </Step>
+</Steps>
+
+#### 从站点级 Git 同步中排除一个空间
+
+在该站点的 Git 同步内容映射中，点击你要排除的空间旁边的移除图标。然后你就可以从该空间配置 Git 同步。
+
+如果该站点已经使用 Git 同步，GitBook 会让你选择一个范围：
+
+- 选择该站点的仓库和分支，将该空间添加到站点级 Git 同步中。
+- 选择一个独立的仓库和分支来配置空间 Git 同步。
+
+如果该站点不使用 Git 同步，GitBook 会为该空间独立配置 Git 同步。
+
+要为单个空间配置 Git 同步，在你要同步的空间中，点击 **设置** 旁边的 **Git Sync** 中启用 [空间标题](/zh/docs/can-kao/gitbook-ui#space-header)。在提供方列表中，点击 **GitLab Sync**，并点击 **配置**.

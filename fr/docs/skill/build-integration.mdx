@@ -1,0 +1,126 @@
+---
+title: Créer une intégration
+description: Créez, développez et publiez des intégrations GitBook — des applications qui s’exécutent dans GitBook pour ajouter des blocs personnalisés, réagir aux événements, se connecter à des services externes via OAuth et étendre l’éditeur. Utilisez cette compétence lors de
+metaTitle: Créer une intégration | GitBook Documentation
+ogImage: https://test-dai.imgix.net/org-4afef969-21f9-40f3-b5b8-b06c8b6cf68f/doc-22a3b060-9539-4176-97e4-49120e02f5d1/0a5a1a9630785855-organizations-d8f63b60-89ae-11e7-8574-5927d48c4877-sites-site_p4Xo4-socialprevie.jpg?fm=auto&auto=compress%2Cformat
+---
+
+Une compétence pour créer des intégrations sur la plateforme développeur de GitBook : des applications qui s’exécutent à l’intérieur même de GitBook. Une intégration peut afficher des blocs personnalisés dans l’éditeur, montrer une interface de configuration, écouter des événements (contenu mis à jour, synchronisation Git terminée, espace consulté), s’authentifier auprès de services externes avec OAuth, et communiquer avec n’importe quoi via HTTP.
+
+Cette compétence couvre le cycle de vie de l’intégration — créer le squelette, coder, développer, publier. Pour créer ou restructurer la documentation *site* une intégration peut être installée dans, se référer à `configure-site`; pour rédiger le contenu des pages, se référer à `write-docs`.
+
+## Ce qu’est une intégration (modèle mental)
+
+Une intégration est une petite application TypeScript exécutée par l’environnement d’exécution de GitBook — pas un script injecté dans les pages, et pas du code exécuté sur le serveur de l’utilisateur. Trois conséquences structurent tout le reste :
+
+1. <strong>Le rendu s’effectue sur le backend de GitBook.</strong> Le `render` fonction s’exécute côté serveur à chaque interaction et renvoie du markup ContentKit (une description d’interface de type JSX). Il n’y a pas d’arbre React côté client que vous contrôlez, pas d’accès au DOM, et les mises à jour de l’UI passent par la boucle action → nouvel état → re-rendu.
+2. <strong>Vous ne pouvez pas injecter de JavaScript dans un site.</strong> Les `site:script:inject` et `site:script:cookies` portées que vous verrez dans les intégrations appartenant à GitBook sont réservées à un usage interne. Si le plan de l’utilisateur revient à « ajouter une balise script à sa documentation », arrêtez-vous et dites-le tôt — les voies prises en charge sont les blocs personnalisés, les webframes et les événements.
+3. <strong>Le développement local est un proxy, pas un serveur que vous visitez.</strong> `gitbook dev` redirige *installée* Le trafic de l’intégration va vers votre machine. Vous n’ouvrez jamais le port du serveur de développement dans un navigateur ; vous interagissez avec l’intégration dans app.gitbook.com.
+
+## Le projet
+
+`gitbook new` génère cette structure :
+
+```
+my-integration/
+├── gitbook-manifest.yaml   # identité, portées, blocs, schéma de configuration
+├── .gitbook-dev.yaml       # config locale de développement (générée par `gitbook dev`)
+├── package.json
+└── src/
+    └── index.tsx           # fichier d’entrée — exportation par défaut createIntegration()
+```
+
+Le fichier d’entrée (quel que soit `script:` dans le manifeste pointe vers) exporte par défaut `createIntegration({ fetch, components, events })`:
+
+```tsx
+import { createIntegration, createComponent } from '@gitbook/runtime';
+
+const helloBlock = createComponent({
+    componentId: 'hello-world',            // doit correspondre à l’id d’un bloc dans le manifeste
+    initialState: { message: 'Say hello!' },
+    action: async (element, action, context) => {
+        switch (action.action) {
+            case 'say':
+                return { state: { message: 'Bonjour le monde' } };
+            default:
+                return {};
+        }
+    },
+    render: async (element, context) => (
+        <block>
+            <button label={element.state.message} onPress={{ action: 'say' }} />
+        </block>
+    ),
+});
+
+export default createIntegration({
+    components: [helloBlock],
+    events: {
+        space_content_updated: async (event, context) => {
+            // réagir aux changements de contenu
+        },
+    },
+});
+```
+
+Un bloc personnalisé n’apparaît dans la palette d’insertion de l’éditeur (⌘ + /) que s’il est déclaré dans **les deux** endroits : `createComponent` dans le code *et* une `blocks:` entrée du manifeste dont l’ `id` correspond au `componentId`. Oublier l’une des deux moitiés est la cause la plus fréquente de « mon bloc n’apparaît pas ».
+
+## Le manifeste, en bref
+
+`gitbook-manifest.yaml` est l’identité et le jeu de permissions de l’intégration. Obligatoires : `name` (unique à l’échelle de GitBook — choisissez quelque chose de nommé dans un espace de noms comme `acme-changelog`, pas `test`), `title`, `description`, `organization` (id d’organisation ou sous-domaine), `visibility`, `scopes`, et `script`. Ne demandez que les portées réellement utilisées par le code — les installateurs les voient.
+
+Le manifeste déclare aussi `blocks`, les `configurations` (schémas de propriétés au niveau du compte et du site rendus sous forme de formulaire de paramètres), et `secrets` (par ex. `CLIENT_ID: ${{ env.CLIENT_ID }}`, chargés au moment de la publication — utilisez `dotenv-cli` pour que `gitbook publish` voie votre `.env`).
+
+Schéma complet champ par champ, liste des portées et types de propriétés de configuration : `references/manifest.md`. Lisez-le chaque fois que vous modifiez le manifeste au-delà des bases.
+
+## La boucle de développement
+
+La boucle a un ordre peu évident — **la publication vient avant le développement local**:
+
+1. <strong>Prérequis.</strong> Node 18+, un jeton d’accès personnel depuis [https://app.gitbook.com/account/developer](https://app.gitbook.com/account/developer), et la CLI : `npm install @gitbook/cli -g`, puis `gitbook auth` (ou `gitbook auth --token=<token>`). Si un jeton doit être collé dans la conversation, exportez-le vers l’environnement et ne le renvoyez jamais ni ne le committez.
+2. <strong>Créer le squelette.</strong> `gitbook new <dir>` — demande le nom, le titre, l’organisation et les portées.
+3. <strong>Publiez une fois.</strong> `gitbook publish` dans la racine du projet. Cela enregistre l’intégration (privée par défaut) et affiche un lien d’installation.
+4. **Installez-la** dans au moins un espace ou site via ce lien. Le développement local ne fonctionne pas tant qu’elle n’est pas installée quelque part.
+5. <strong>Développez.</strong> `gitbook dev` démarre le proxy : tout le trafic de l’intégration installée est servi depuis votre code local au lieu de la version publiée. Interagissez avec elle dans l’éditeur GitBook, pas via l’URL du serveur. Les changements d’interface nécessitent un rafraîchissement du navigateur ; désactivez le cache du navigateur pour une boucle plus fluide. Les logs apparaissent dans le *navigateur* console ou votre terminal selon l’endroit où le code s’exécute — vérifiez les deux avant de conclure que la journalisation est cassée.
+6. **Republiez** avec `gitbook publish` chaque fois que vous voulez mettre à jour la version hébergée. `gitbook unpublish <name>` le supprime.
+
+Référence des commandes CLI (y compris `gitbook whoami` et `gitbook openapi publish`): `references/manifest.md`.
+
+## Exécution : fetch, événements, environnement, OAuth
+
+Les détails et les tableaux complets se trouvent dans `references/runtime.md` — lisez-le lorsque vous écrivez des gestionnaires d’événements, des flux OAuth ou tout ce qui touche à `context.environment`. L’essentiel :
+
+- <strong>`fetch`</strong> gère les requêtes HTTP entrantes vers le point de terminaison public de l’intégration à l’aide de l’API Fetch standard `Request`/`Response` objets. Le HTTP sortant est aussi en `fetch` pur.
+- <strong>`events`</strong> mappe les noms d’événements (`installation_setup`, `space_installation_setup`, `space_view`, `ui_render`, `space_content_updated`, `space_visibility_updated`, `space_gitsync_started`, `space_gitsync_completed`) aux gestionnaires. Certains événements nécessitent des portées correspondantes.
+- <strong>`context.environment`</strong> expose `apiEndpoint`, `apiTokens`, les informations d’installation (espace, statut, `configuration` valeurs saisies par l’installateur), `secrets`, et les URL publiques (`environment.integration.urls.publicEndpoint`).
+- **OAuth** avec un fournisseur externe suit un modèle fixe : une `bouton`-type configuration property whose `callback_url` redirige vers une `createOAuthHandler({...})` dans votre gestionnaire fetch, avec l’id client/le secret provenant de `secrets`. N’écrivez pas vous-même la redirection ni l’échange de jeton.
+- **Appeler l’API GitBook depuis l’intérieur de l’intégration**: utilisez `context.api` (un client authentifié `@gitbook/api` ) plutôt que de construire votre propre client à partir de jetons bruts.
+
+## ContentKit : construire l’UI
+
+ContentKit est le vocabulaire de composants `render` que vous pouvez renvoyer : mise en page (`bloc`, `vstack`, `hstack`, `divider`), affichage (`box`, `card`, `text`, `image`, `markdown`), et éléments interactifs (`bouton`, `textinput`, `select`, `switch`, `checkbox`, `radio`, `codeblock`, `webframe`, `modal`). Modèle d’interactivité en une ligne : les champs lient leur valeur à une clé d’ `state` ; les boutons déclenchent des actions ; votre `action` réducteur renvoie un nouvel état ; GitBook effectue le re-rendu.
+
+Lisez `references/contentkit.md` avant d’écrire le moindre composant au-delà d’un bouton trivial — il contient toutes les tables de propriétés ainsi que les patterns difficiles à deviner : liaison dynamique de l’état pour les aperçus en direct, communication webframe `postMessage` communication, modales avec `returnValue`, persistance des props avec `@editor.node.updateProps`, dépliage de liens via `@link.unfurl` \+ `urlUnfurl` patterns du manifeste, et sérialisation des blocs en code markdown.
+
+## Publication et partage
+
+La visibilité dans le manifeste contrôle la portée :
+
+- `private` (par défaut) — installable uniquement par les membres de l’organisation propriétaire. Adapté aux outils internes ; restez sur ce mode pendant le développement.
+- `unlisted` — installable par n’importe quelle organisation, mais uniquement via le lien d’installation partagé. Adapté au partage avec des clients spécifiques ou des bêta-testeurs.
+- `public` — installable par tout le monde ; requis avant la soumission au marché des intégrations (qui suit un processus d’examen distinct — voir la documentation GitBook « submit your app for review »).
+
+Relancez `gitbook publish` après avoir modifié la visibilité. Avant de suggérer `public`, vérifiez que le manifeste est présentable : `icon`, `summary` (Markdown, ≤2048 caractères), `previewImages` (1600×800), `categories`, `externalLinks`.
+
+## Style de travail
+
+- **Utilisez la CLI pour générer le squelette plutôt que de le faire à la main** quand vous démarrez à partir de zéro — `gitbook new` configure correctement le manifeste, la config TypeScript, et `@gitbook/runtime` les versions.
+- **Retracez la chaîne d’id d’un bloc** (manifeste `blocks[].id` ↔ `componentId`) chaque fois qu’un composant se comporte mal.
+- **Gardez les secrets hors du fichier manifeste lui-même** — toujours via l’indirection `${{ env.X }}` , jamais des valeurs littérales.
+- **Quand l’objectif de l’utilisateur est l’automatisation de contenu ou de site depuis <em><strong>**l’extérieur**</strong></em> GitBook** (scripts qui appellent l’API REST, pipelines CI), une intégration peut ne pas être le bon outil — l’API simple avec un jeton personnel est plus simple. Les intégrations prennent tout leur sens quand le code doit s’exécuter *à l’intérieur* GitBook : blocs, UI de configuration, réactions aux événements, OAuth au nom des installateurs.
+
+## Références
+
+- `references/manifest.md` — chaque `gitbook-manifest.yaml` champ, toutes les portées, les types de propriétés de configuration, les secrets, la référence des commandes CLI, le flux d’installation/de configuration.
+- `references/runtime.md` — `createIntegration` / `createComponent` / `createOAuthHandler` signatures, catalogue des événements, `context.environment` forme, HTTP entrant et sortant.
+- `references/contentkit.md` — référence complète des composants avec les props, les actions intégrées et les recettes d’interactivité (liaison dynamique, webframes, modales, dépliage, sérialisation markdown).

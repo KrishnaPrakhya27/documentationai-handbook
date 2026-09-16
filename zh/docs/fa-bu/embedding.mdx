@@ -1,0 +1,72 @@
+---
+title: 嵌入到你的产品中
+description: 使用 Docs Embed 将你的文档嵌入到产品或网站中。
+metaTitle: 嵌入到你的产品中 | GitBook Documentation
+ogImage: https://test-dai.imgix.net/org-4afef969-21f9-40f3-b5b8-b06c8b6cf68f/doc-22a3b060-9539-4176-97e4-49120e02f5d1/0a5a1a9630785855-organizations-d8f63b60-89ae-11e7-8574-5927d48c4877-sites-site_p4Xo4-socialprevie.jpg?fm=auto&auto=compress%2Cformat
+---
+
+Docs Embed 是一个强大的窗口，可让你深入了解产品知识，并可添加到任何产品或网站中。用户可以向 [GitBook Assistant](/zh/docs/wei-du-zhe-ti-gong-de-ai/gitbook-ai-assistant)提问，搜索你的文档，或直接浏览页面，而无需离开你的产品。你可以通过按钮打开该嵌入，将它放入你想要的任何组件中，或者完全通过程序进行控制。
+
+<Image src="https://test-dai.imgix.net/org-4afef969-21f9-40f3-b5b8-b06c8b6cf68f/doc-22a3b060-9539-4176-97e4-49120e02f5d1/61019d2f4b9d0980-spaces-NkEGS7hzeqa35sMXQZ4X-uploads-5krgZgNq1Mj79a3aVB7h-emebeddable_assistant.png?fm=auto&auto=compress%2Cformat" alt="Embed GitBook Assistant into your product or website" caption="将你的文档嵌入到产品或网站中" />
+
+## 概览
+
+Docs Embed 可以包含三个标签页：
+
+- **Assistant**： [GitBook Assistant](/zh/docs/wei-du-zhe-ti-gong-de-ai/gitbook-ai-assistant) — 一个由 AI 驱动的聊天界面，帮助用户找到答案
+- **搜索**：一个以搜索为重点的界面，可快速查找页面并提出限定范围的问题
+- **文档**：用于浏览你的文档站点的浏览器
+
+默认情况下会启用所有标签页。如果你设置了 `tabs`，嵌入内容将只显示你列出的标签页。
+
+你可以使用自定义操作、工具、建议问题、 [已认证访问](/zh/docs/fa-bu/site-audience/authenticated-access)等内容来自定义并覆盖默认配置。
+
+## 开始使用
+
+<Steps>
+  <Step title="前提条件">
+    在嵌入你的文档之前，请确保：
+
+    1. **你的文档已发布** 并且可通过某个 URL 访问（例如， `https://docs.company.com`).
+    2. **你已从** 你的网站设置中检索到嵌入脚本 URL（设置 → AI & MCP → Embed）。
+
+    <Callout kind="info">
+      如果你想使用 Assistant 标签页， [GitBook Assistant 必须已启用](/zh/docs/wei-du-zhe-ti-gong-de-ai/gitbook-ai-assistant) 用于你的文档站点（设置 → AI & MCP）。
+    </Callout>
+  </Step>
+
+  <Step title="实现">
+    使用我们的技能，利用你现有的技术栈快速将 GitBook Assistant 实现到你的产品中。
+
+    <Card href="/files/660b98bf335fdae37957dad219a2cfe40afb63cb" />
+
+    或者，继续阅读文档中适合你设置方式的实现方案：
+
+    <Columns cols={2}>
+      <Card title="独立 script 标签" href="/zh/docs/fa-bu/embedding/implementation/script" icon="code">
+        直接插入一个 &lt;script> 标签即可获得最快的设置方式，然后再自定义其外观
+      </Card>
+
+      <Card title="Node.js/NPM" href="/zh/docs/fa-bu/embedding/implementation/nodejs" icon="box">
+        通过 NPM 安装，用于服务端渲染或构建时控制
+      </Card>
+
+      <Card title="React 组件" href="/zh/docs/fa-bu/embedding/implementation/react" icon="react">
+        使用预构建的 React 组件实现无缝集成
+      </Card>
+    </Columns>
+
+    <Callout kind="info">
+      如果你的文档使用 [已认证访问](/zh/docs/fa-bu/site-audience/authenticated-access)，请按照 [如何使用已认证文档设置嵌入](/zh/docs/fa-bu/embedding/using-with-authenticated-docs).
+    </Callout>
+  </Step>
+
+  <Step title="配置">
+    - [自定义嵌入](/zh/docs/fa-bu/embedding/configuration/customizing-docs-embed) — 添加欢迎消息、自定义操作和建议
+    - [创建自定义工具](/zh/docs/fa-bu/embedding/configuration/creating-custom-tools) — 将 Assistant 连接到你的产品 API
+  </Step>
+</Steps>
+
+## 延伸阅读
+
+如需完整的 API 参考和源代码，请查看 GitHub 上的 [`@gitbook/embed` 包](https://github.com/GitbookIO/gitbook/tree/main/packages/embed).

@@ -1,0 +1,59 @@
+---
+title: ドキュメントにAPIリファレンスを挿入する
+description: OpenAPI仕様から完全なAPIリファレンスを挿入するか、個別の操作やスキーマを選択します
+metaTitle: ドキュメントにAPIリファレンスを挿入する | GitBook Documentation
+ogImage: https://test-dai.imgix.net/org-4afef969-21f9-40f3-b5b8-b06c8b6cf68f/doc-22a3b060-9539-4176-97e4-49120e02f5d1/0a5a1a9630785855-organizations-d8f63b60-89ae-11e7-8574-5927d48c4877-sites-site_p4Xo4-socialprevie.jpg?fm=auto&auto=compress%2Cformat
+---
+
+GitBookでは、OpenAPI仕様にあるエンドポイントに関連するページを自動的に生成できます。これらのページにはOpenAPIの操作ブロックが含まれ、あなたや訪問者がエンドポイントをテストし、仕様に記載された情報をもとにさらに詳しく確認できます。
+
+<Callout kind="success">
+  仕様から追加されたエンドポイントは、仕様が更新されるたびに引き続き更新されます。 [仕様を更新する](/ja/docs/kontentsuwo/openapi/add-an-openapi-specification#update-your-specification) セクションで詳細をご確認ください。
+</Callout>
+
+### 仕様からOpenAPIページを自動作成する
+
+～した後で [OpenAPI仕様を追加した](/ja/docs/kontentsuwo/openapi/add-an-openapi-specification)、エンドポイントページを生成するには、1つの **OpenAPI リファレンス** セクションの目次に。
+
+<Image src="https://test-dai.imgix.net/org-4afef969-21f9-40f3-b5b8-b06c8b6cf68f/doc-22a3b060-9539-4176-97e4-49120e02f5d1/43f6c1fd5d5005df-spaces-NkEGS7hzeqa35sMXQZ4X-uploads-Yy8gCqxfaO4xjv2eqiL5-create_api_pages-2x.png?fm=auto&auto=compress%2Cformat" alt="A GitBook screenshot showing how to insert API references into the table of contents of a section" caption="セクションの目次にAPIリファレンスを挿入します。" />
+
+<Steps>
+  <Step title="OpenAPIからページを生成する">
+    エンドポイントページを生成したいセクションで、 <strong>新規追加...</strong> セクション下部の [目次](/ja/docs/rifarensu/gitbook-ui#table-of-contents).
+
+    ここから、 **OpenAPI リファレンス**.
+  </Step>
+
+  <Step title="OpenAPI仕様を選択">
+    以前アップロードしたOpenAPI仕様を選択します。次に、 **ページ構成**:
+
+    - **タグごとに 1 ページ**
+    - **オペレーションごとに 1 ページ**
+
+    モデルページとダウンロードリンクを追加することもできます。 **挿入** をクリックしてリファレンスを生成します。
+  </Step>
+
+  <Step title="API操作を管理する">
+    GitBookは、OpenAPI仕様と、その定義内で設定されたタグに基づいてページを自動生成します。 **オペレーションごとに 1 ページ**を選ぶと、GitBookは生成された操作ページをタグごとにグループ化します。
+
+    に移動します [OpenAPI レイアウト](/ja/docs/kontentsuwo/openapi/guides/openapi-layouts) レイアウトを比較するには、または [API リファレンスの構成](/ja/docs/kontentsuwo/openapi/guides/structuring-your-api-reference) タグでページを整理するには。
+  </Step>
+</Steps>
+
+### 個別のOpenAPIブロックを追加する
+
+代わりに、仕様内のOpenAPIの操作やスキーマを、ドキュメント全体の各ページに個別に追加できます。
+
+<Steps>
+  <Step title="新しいOpenAPIブロックを追加する">
+    を押してブロックセレクターを開き、 <strong>/</strong>OpenAPIを検索します。
+  </Step>
+
+  <Step title="OpenAPI仕様を選択">
+    以前アップロードしたOpenAPI仕様を選択し、 **続行** をクリックして、使用したいエンドポイントを選択します。
+  </Step>
+
+  <Step title="挿入したい操作またはスキーマを選択する">
+    ドキュメントに挿入したい操作とスキーマを選択し、 **挿入**.
+  </Step>
+</Steps>

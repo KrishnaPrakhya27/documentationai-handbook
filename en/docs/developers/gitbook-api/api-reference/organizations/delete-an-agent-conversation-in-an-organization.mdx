@@ -1,0 +1,25 @@
+---
+title: Delete an agent conversation in an organization
+metaTitle: Delete an agent conversation in an organization | Developers | GitBook Documentation
+ogImage: https://test-dai.imgix.net/org-4afef969-21f9-40f3-b5b8-b06c8b6cf68f/doc-22a3b060-9539-4176-97e4-49120e02f5d1/0a5a1a9630785855-organizations-d8f63b60-89ae-11e7-8574-5927d48c4877-sites-site_p4Xo4-socialprevie.jpg?fm=auto&auto=compress%2Cformat
+---
+
+Deletes one of the calling user's conversations with the organization agent, destroying the messages it holds. This cannot be undone.
+
+**DELETE** `/orgs/{organizationId}/agent/conversations/{conversationId}`
+
+**Parameters**
+
+<ParamField header="Authorization" param-type="string" required={true} />
+
+<ParamField path="organizationId" param-type="string" required={true}>
+  The unique id of the organization
+</ParamField>
+
+<ParamField path="conversationId" param-type="string" required={true}>
+  The unique ID of the agent conversation (its client-generated local id, or "default" for the default conversation)
+</ParamField>
+
+**Responses**
+
+`205` The conversation has been deleted.

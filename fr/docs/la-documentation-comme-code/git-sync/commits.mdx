@@ -1,0 +1,36 @@
+---
+title: Messages de commit et autolien
+metaTitle: Messages de commit et autolien | GitBook Documentation
+ogImage: https://test-dai.imgix.net/org-4afef969-21f9-40f3-b5b8-b06c8b6cf68f/doc-22a3b060-9539-4176-97e4-49120e02f5d1/0a5a1a9630785855-organizations-d8f63b60-89ae-11e7-8574-5927d48c4877-sites-site_p4Xo4-socialprevie.jpg?fm=auto&auto=compress%2Cformat
+---
+
+Par défaut, lors de l’export du contenu de GitBook vers le dépôt Git, GitBook générera un message de commit basé sur la demande de modification fusionnée :
+
+```
+GITBOOK-14 : Améliorer la documentation sur la gestion des utilisateurs
+```
+
+## Lien automatique `GITBOOK-<num>` dans GitHub et GitLab
+
+Si vous souhaitez résoudre automatiquement les identifiants de vos demandes de modification GitBook (par ex. *GITBOOK-123*) dans les commits en liens, vous pouvez activer cette option à l’aide de la fonctionnalité *références Autolink* de GitHub. Consultez les instructions sur [GitHub](https://help.github.com/en/github/administering-a-repository/configuring-autolinks-to-reference-external-resources).
+
+Utilisez le format d’URL suivant, où `spaceId` correspond à l’URL de votre section :
+
+`<https://app.gitbook.com/s/{spaceId}/~/changes/<num>/`
+
+<Image src="https://test-dai.imgix.net/org-4afef969-21f9-40f3-b5b8-b06c8b6cf68f/doc-22a3b060-9539-4176-97e4-49120e02f5d1/13555172df35b148-spaces-NkEGS7hzeqa35sMXQZ4X-uploads-XMOX8gtwZIZGwdSWhSdX-gitsync-autolink-2x.png?fm=auto&auto=compress%2Cformat" alt="A GitBook screenshot showing autolink setup" caption="Configuration d’Autolink." />
+
+## Personnaliser le modèle de message de commit
+
+Lors de l’utilisation de GitBook avec un [monorepo](/fr/docs/la-documentation-comme-code/git-sync/monorepos), ou lorsque vous avez des consignes spécifiques pour les messages de commit ; vous pouvez vouloir personnaliser le message utilisé par GitBook lors de l’envoi d’un commit à Git.
+
+Le modèle peut contenir les espaces réservés suivants :
+
+- `{change_request_number}` identifiant numérique unique de la demande de modification
+- `{change_request_subject}` le sujet de la demande de modification une fois fusionnée, ou `Aucun sujet` si aucun n’a été fourni.
+
+Le modèle par défaut est :
+
+```
+GITBOOK-{change_request_number} : {change_request_subject}
+```

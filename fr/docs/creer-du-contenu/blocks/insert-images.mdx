@@ -1,0 +1,183 @@
+---
+title: Images
+description: Ajoutez une image ou une galerie d’images à une page, ajoutez des variantes d’image pour le mode sombre, et redimensionnez et alignez les images selon vos besoins
+metaTitle: Images | GitBook Documentation
+ogImage: https://test-dai.imgix.net/org-4afef969-21f9-40f3-b5b8-b06c8b6cf68f/doc-22a3b060-9539-4176-97e4-49120e02f5d1/0a5a1a9630785855-organizations-d8f63b60-89ae-11e7-8574-5927d48c4877-sites-site_p4Xo4-socialprevie.jpg?fm=auto&auto=compress%2Cformat
+---
+
+Vous pouvez insérer des images dans votre page, puis choisir leur taille et décider de les aligner à gauche, au centre ou à droite. Vous pouvez également, en option, ajouter un texte alternatif et/ou une légende à votre bloc d’image.
+
+<Callout kind="info">
+  <strong>Astuce :</strong> Pour des raisons d’accessibilité, nous vous recommandons de définir un texte alternatif pour vos images.
+</Callout>
+
+### Exemple d’un bloc d’image
+
+<Image src="https://test-dai.imgix.net/org-4afef969-21f9-40f3-b5b8-b06c8b6cf68f/doc-22a3b060-9539-4176-97e4-49120e02f5d1/faac263e727bdc04-photo-1446776709462-d6b525c57bd3.jpg?fm=auto&auto=compress%2Cformat" alt="A photograph taken from space looking back towards Earth. A satellite is in the foreground, and in the background is an ocean-covered part of our planet with patchy clouds." caption="Exemple d’un bloc d’image avec une légende" />
+
+### Téléversement d’une image
+
+Il existe deux façons d’ajouter des images à votre contenu :
+
+1. Faites glisser l’image depuis votre système de gestion de fichiers directement dans un bloc vide de votre page.
+2. [Ajoutez un bloc d’image](/fr/docs/creer-du-contenu/blocks#inserting-a-new-content-block) à votre page et utilisez le **Sélectionner des images** panneau latéral qui apparaît à droite de la fenêtre.
+
+Si vous suivez le deuxième processus, vous pouvez choisir de téléverser un fichier, de sélectionner un fichier déjà téléversé, de coller l’URL d’une image ou d’ajouter une image depuis [Unsplash](https://unsplash.com/) à l’aide de la recherche intégrée.
+
+<Callout kind="alert">
+  GitBook vous permet de téléverser des images jusqu’à 100 Mo par fichier.
+</Callout>
+
+Il n’y a pas de limite fixe au nombre total de ressources dans une section, bien que GitBook se réserve le droit de bloquer les comptes en cas d’abus. Pour les fichiers plus volumineux que la limite de téléversement, stockez-les dans un service comme Google Drive ou Dropbox et créez un lien vers eux depuis votre page.
+
+Les GIF animés sont limités à 200 images par fichier. Les fichiers volumineux — GIF inclus — ralentissent le chargement de votre page ; évitez donc, dans la mesure du possible, de téléverser directement les gros fichiers.
+
+#### Créer une galerie d’images
+
+Ajouter plus d’une image à un bloc d’image créera une galerie. Pour ce faire, ouvrez le **menu Options** <Image src="https://test-dai.imgix.net/org-4afef969-21f9-40f3-b5b8-b06c8b6cf68f/doc-22a3b060-9539-4176-97e4-49120e02f5d1/4c115a43418b42e3-spaces-NkEGS7hzeqa35sMXQZ4X-uploads-aS1QvPIBVYwhpFTGcPBN-options-menu.svg?rasterize-bypass=true" alt="The Options menu icon in GitBook" /> et choisissez <strong>Ajouter des images…</strong> pour rouvrir le **Sélectionner des images** panneau latéral.
+
+Pour supprimer une image d’une galerie, ouvrez le **menu Édition** <Image src="https://test-dai.imgix.net/org-4afef969-21f9-40f3-b5b8-b06c8b6cf68f/doc-22a3b060-9539-4176-97e4-49120e02f5d1/ab76723fb229a5ad-spaces-NkEGS7hzeqa35sMXQZ4X-uploads-A3OfGjPkE5GnOQvN36jN-edit.svg?rasterize-bypass=true" alt="" /> de l’image que vous souhaitez supprimer et appuyez sur la touche <strong>Suppr. ⌫</strong> key.
+
+<a id="light-and-dark-mode"></a>
+
+### Ajout d’images pour les modes clair et sombre
+
+Vous pouvez définir différentes images pour les versions en mode clair et sombre de votre site publié. GitBook affichera automatiquement l’image appropriée selon le mode utilisé par votre visiteur.
+
+Pour ajouter une image pour le mode sombre, survolez votre image, ouvrez le **menu Édition** <Image src="https://test-dai.imgix.net/org-4afef969-21f9-40f3-b5b8-b06c8b6cf68f/doc-22a3b060-9539-4176-97e4-49120e02f5d1/ab76723fb229a5ad-spaces-NkEGS7hzeqa35sMXQZ4X-uploads-A3OfGjPkE5GnOQvN36jN-edit.svg?rasterize-bypass=true" alt="" /> et cliquez sur **Remplacer l’image** <Image src="https://test-dai.imgix.net/org-4afef969-21f9-40f3-b5b8-b06c8b6cf68f/doc-22a3b060-9539-4176-97e4-49120e02f5d1/5f8a3500be3b253d-spaces-NkEGS7hzeqa35sMXQZ4X-uploads-0mPo1tPDFeEbPOr1gc4V-replace-image.svg?rasterize-bypass=true" alt="The Replace image icon in GitBook" />.
+
+Dans le menu déroulant, choisissez **Ajouter une image pour le mode sombre**. Une fois cela défini, vous pouvez remplacer l’une ou l’autre image depuis ce même menu.
+
+<Callout kind="alert">
+  <strong>Remarque :</strong> GitBook ne prend actuellement pas en charge les images pour les modes clair et sombre dans certains cas, y compris les couvertures de page ou les couvertures d’image sur [les cartes](/fr/docs/creer-du-contenu/blocks/cards).
+</Callout>
+
+### Images en mode clair et sombre via GitHub/GitLab Sync
+
+Vous pouvez également ajouter des images en mode clair et sombre dans Markdown via la syntaxe HTML (`<picture>` et `<source>`).
+
+Pour les images de bloc, utilisez l’élément HTML `<figure>` avec un `<picture>` et `<source>` à l’intérieur :
+
+```html
+Texte avant
+
+<figure>
+  <picture>
+    <source
+      srcset="
+        https://user-images.githubusercontent.com/3369400/139447912-e0f43f33-6d9f-45f8-be46-2df5bbc91289.png
+      "
+      media="(prefers-color-scheme: dark)"
+    />
+    <img
+      src="https://user-images.githubusercontent.com/3369400/139448065-39a229ba-4b06-434b-bc67-616e2ed80c8f.png"
+      alt="Logo GitHub"
+    />
+  </picture>
+  <figcaption>Texte de légende</figcaption>
+</figure>
+
+Texte après
+```
+
+Pour les images en ligne (images intégrées dans le texte), utilisez `<picture>` avec un `<source>` à l’intérieur :
+
+```html
+Texte avant l’image
+<picture
+  ><source
+    srcset="
+      https://user-images.githubusercontent.com/3369400/139447912-e0f43f33-6d9f-45f8-be46-2df5bbc91289.png
+    "
+    media="(prefers-color-scheme: dark)" />
+  <img
+    src="https://user-images.githubusercontent.com/3369400/139448065-39a229ba-4b06-434b-bc67-616e2ed80c8f.png"
+    alt="Le logo GitHub"
+/></picture>
+et le texte après l’image
+```
+
+<Callout kind="alert">
+  <strong>Remarque :</strong> Nous ne prenons pas encore en charge [la syntaxe réservée à GitHub](https://github.blog/changelog/2021-11-24-specify-theme-context-for-images-in-markdown/) via `#gh-dark-mode-only` ou `#gh-light-mode-only`.
+</Callout>
+
+### Redimensionnement
+
+Pour redimensionner votre image, survolez-la et ouvrez le **menu Édition** <Image src="https://test-dai.imgix.net/org-4afef969-21f9-40f3-b5b8-b06c8b6cf68f/doc-22a3b060-9539-4176-97e4-49120e02f5d1/ab76723fb229a5ad-spaces-NkEGS7hzeqa35sMXQZ4X-uploads-A3OfGjPkE5GnOQvN36jN-edit.svg?rasterize-bypass=true" alt="" />. Cliquez sur le **bouton Taille** pour modifier la taille de votre image parmi les options disponibles.
+
+<Image src="https://test-dai.imgix.net/org-4afef969-21f9-40f3-b5b8-b06c8b6cf68f/doc-22a3b060-9539-4176-97e4-49120e02f5d1/02d0e80cd9923dc0-spaces-NkEGS7hzeqa35sMXQZ4X-uploads-1cWY3c3CgGXIK4Bgnhb6-image_resizing-2x.png?fm=auto&auto=compress%2Cformat" alt="A GitBook screenshot showing how to resize an image" caption="Redimensionner une image" />
+
+- **Petit** – 25 % de la taille de l’image
+- **Moyen** – 50 % de la taille de l’image
+- **Grand** – 75 % de la taille de l’image
+- **Ajuster** – Supprime toutes les spécifications de taille et affiche l’image soit en taille réelle, soit limitée à une largeur maximale de **735** **pixels** pour les images plus grandes.
+
+Si votre image est plus large que l’éditeur, GitBook limitera plutôt la largeur de l’image à celle de l’éditeur, et le redimensionnement se basera sur cette limite.
+
+<Callout kind="info">
+  <strong>Remarque :</strong> Lors du redimensionnement des images dans une galerie d’images, le résultat peut différer du redimensionnement d’une image individuelle.
+</Callout>
+
+### Redimensionnement des images via Git Sync
+
+Si vous souhaitez davantage de contrôle sur la taille de votre image, vous pouvez préciser la taille exacte à l’aide de Markdown dans GitHub ou GitLab.
+
+Lors de l’export d’une image, nous utilisons la balise HTML `<img/>`. Conformément aux spécifications, nous pouvons définir les dimensions de l’image à l’aide des attributs `width` et `height` , qui n’acceptent que des valeurs en pixels ou une combinaison d’un nombre et d’un signe `%` .<br /><br />Les variantes valides pour spécifier les dimensions de l’image sont :<br /><br />`<img width="100" />` Définit l’image à 100 pixels de large<br />`<img width="100%" />` Définit l’image en taille réelle (bien que cela soit limité par l’éditeur)
+
+### Alignement des images
+
+Par défaut, les blocs d’image affichent votre image en taille réelle, alignée au centre.
+
+Pour modifier l’alignement d’une image, ouvrez le **menu Options** <Image src="https://test-dai.imgix.net/org-4afef969-21f9-40f3-b5b8-b06c8b6cf68f/doc-22a3b060-9539-4176-97e4-49120e02f5d1/4c115a43418b42e3-spaces-NkEGS7hzeqa35sMXQZ4X-uploads-aS1QvPIBVYwhpFTGcPBN-options-menu.svg?rasterize-bypass=true" alt="The Options menu icon in GitBook" /> et choisissez l’alignement souhaité. Cela n’affectera que les images plus étroites que l’éditeur, ou les images que vous avez [redimensionnées](#resizing).
+
+### Encadrement des images
+
+Vous pouvez ajouter un cadre aux blocs d’image pour donner à vos images un aspect cohérent et les séparer visuellement du contenu qui les entoure.
+
+<Image src="https://test-dai.imgix.net/org-4afef969-21f9-40f3-b5b8-b06c8b6cf68f/doc-22a3b060-9539-4176-97e4-49120e02f5d1/a866b872b4d0f798-spaces-NkEGS7hzeqa35sMXQZ4X-uploads-fL0VWcltHyuCKeqJsW0Q-image-frame-demo-2x.jpg?fm=auto&auto=compress%2Cformat" alt="A black and white photograph of a lone figure walking across a stark white landscape" caption="Les images encadrées peuvent avoir des légendes et affichent une grille discrète derrière la légende." />
+
+Pour ajouter un cadre à une image, survolez-la, ouvrez le **menu Options** <Image src="https://test-dai.imgix.net/org-4afef969-21f9-40f3-b5b8-b06c8b6cf68f/doc-22a3b060-9539-4176-97e4-49120e02f5d1/4c115a43418b42e3-spaces-NkEGS7hzeqa35sMXQZ4X-uploads-aS1QvPIBVYwhpFTGcPBN-options-menu.svg?rasterize-bypass=true" alt="" /> et activez le bouton **Avec cadre** .
+
+<Callout kind="info">
+  <strong>Bon à savoir :</strong> Vous ne pouvez encadrer que les images uniques dans un bloc. Les blocs d’image contenant plusieurs images et les images en ligne ne peuvent pas avoir de cadre.
+</Callout>
+
+### Représentation en Markdown
+
+```markdown
+//Bloc simple
+![](https://gitbook.com/images/gitbook.png)
+
+//Bloc avec légende
+![Le logo GitBook](https://gitbook.com/images/gitbook.png)
+
+//Bloc avec texte alternatif
+
+<figure><img src="https://gitbook.com/images/gitbook.png" alt="Le logo GitBook"></figure>
+
+//Bloc avec légende et texte alternatif
+
+<figure><img src="https://gitbook.com/images/gitbook.png" alt="Le logo GitBook"><figcaption><p>Logo GitBook</p></figcaption></figure>
+
+// Bloc avec image encadrée
+
+<div data-with-frame="true"><img src="https://gitbook.com/images/gitbook.png" alt="Le logo GitBook"></div>
+
+//Bloc avec image différente pour les modes sombre et clair, avec légende
+
+<figure>
+  <picture>
+    <source srcset="https://user-images.githubusercontent.com/3369400/139447912-e0f43f33-6d9f-45f8-be46-2df5bbc91289.png" media="(prefers-color-scheme: dark)">
+    <img src="https://user-images.githubusercontent.com/3369400/139448065-39a229ba-4b06-434b-bc67-616e2ed80c8f.png" alt="Logo GitHub">
+  </picture>
+  <figcaption>Texte de légende</figcaption>
+</figure>
+```
+
+### Pourquoi mon image ne se charge-t-elle pas ?
+
+Une erreur « impossible de charger l’image » signifie que l’image a été modifiée ou supprimée à sa source. Si vous avez intégré une image par URL plutôt que de la téléverser, GitBook dépend de cette URL : si l’image est déplacée ou disparaît de la source, elle cesse d’apparaître sur votre page.
+
+Pour résoudre le problème, téléversez l’image directement dans GitBook, ou mettez à jour l’URL si l’emplacement de l’image a changé. L’erreur peut aussi apparaître lorsque vous copiez une image d’une section à une autre, car chaque section possède son propre répertoire de fichiers — téléversez à nouveau l’image dans la nouvelle section.
+
+Vous pouvez consulter tous les fichiers téléversés dans une section dans l’onglet **Bibliothèque** à côté de **Pages** en haut de la table des matières.

@@ -1,0 +1,69 @@
+---
+title: Manage your team with the API
+description: Create a team from existing organization members.
+metaTitle: Manage your team with the API | Developers | GitBook Documentation
+ogImage: https://test-dai.imgix.net/org-4afef969-21f9-40f3-b5b8-b06c8b6cf68f/doc-22a3b060-9539-4176-97e4-49120e02f5d1/0a5a1a9630785855-organizations-d8f63b60-89ae-11e7-8574-5927d48c4877-sites-site_p4Xo4-socialprevie.jpg?fm=auto&auto=compress%2Cformat
+---
+
+Create a team with existing members through the GitBook API.
+
+### Before you begin
+
+You need:
+
+- An API token that can read and manage organization members.
+- Your organization ID.
+- A terminal with `curl`.
+
+For OAuth, request `organization:members:read` and `organization:members:write`.
+
+### List organization members
+
+Request your organization’s members to find the IDs you want to add:
+
+```bash
+curl --request GET \
+  --url "https://api.gitbook.com/v1/orgs/$ORGANIZATION_ID/members" \
+  --header "Authorization: Bearer $GITBOOK_TOKEN"
+```
+
+Copy the `id` for each member you want in the team.
+
+### Create a team
+
+Create an `API documentation` team and assign the member IDs:
+
+```bash
+curl --request PUT \
+  --url "https://api.gitbook.com/v1/orgs/$ORGANIZATION_ID/teams" \
+  --header "Authorization: Bearer $GITBOOK_TOKEN" \
+  --header "Content-Type: application/json" \
+  --data '{
+    "title": "API documentation",
+    "members": [
+      "<memberId>"
+    ]
+  }'
+```
+
+The response includes the new team’s `id`.
+
+### Verify the team
+
+List teams to confirm the new team:
+
+```bash
+curl --request GET \
+  --url "https://api.gitbook.com/v1/orgs/$ORGANIZATION_ID/teams" \
+  --header "Authorization: Bearer $GITBOOK_TOKEN"
+```
+
+Use the returned team ID to list its members:
+
+```bash
+curl --request GET \
+  --url "https://api.gitbook.com/v1/orgs/$ORGANIZATION_ID/teams/$TEAM_ID/members" \
+  --header "Authorization: Bearer $GITBOOK_TOKEN"
+```
+
+See the [Organization members reference](/en/docs/developers/gitbook-api/api-reference/organizations/organization-members) to manage members and roles.
