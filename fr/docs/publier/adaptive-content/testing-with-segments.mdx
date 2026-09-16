@@ -1,0 +1,44 @@
+---
+title: Test avec des segments
+description: Testez vos conditions avec des données simulées
+metaTitle: Test avec des segments | GitBook Documentation
+ogImage: https://test-dai.imgix.net/org-4afef969-21f9-40f3-b5b8-b06c8b6cf68f/doc-22a3b060-9539-4176-97e4-49120e02f5d1/0a5a1a9630785855-organizations-d8f63b60-89ae-11e7-8574-5927d48c4877-sites-site_p4Xo4-socialprevie.jpg?fm=auto&auto=compress%2Cformat
+---
+
+Les segments vous permettent de tester les conditions que vous avez définies en attribuant des revendications à un utilisateur fictif.
+
+Par exemple, vous voudrez peut-être n’afficher une page ou une section qu’aux utilisateurs bêta. En créant un segment et en définissant les propriétés associées à ce groupe d’utilisateurs fictifs, vous pouvez simuler un segment spécifique aux utilisateurs que vous ciblez.
+
+<Image src="https://test-dai.imgix.net/org-4afef969-21f9-40f3-b5b8-b06c8b6cf68f/doc-22a3b060-9539-4176-97e4-49120e02f5d1/09f2f02ae70b973f-spaces-NkEGS7hzeqa35sMXQZ4X-uploads-YrErMp571tYPUN2RzJJ0-26_01_06_segment_editor.png?fm=auto&auto=compress%2Cformat" alt="A GitBook screenshot showing the segment editor" caption="L’éditeur de segments dans GitBook." />
+
+### Créer un segment
+
+Pour créer un nouveau segment, rendez-vous dans l’éditeur de conditions et cliquez sur l’icône des paramètres <Image src="https://test-dai.imgix.net/org-4afef969-21f9-40f3-b5b8-b06c8b6cf68f/doc-22a3b060-9539-4176-97e4-49120e02f5d1/ba76c24cf90e5026-spaces-NkEGS7hzeqa35sMXQZ4X-uploads-wkBqgOPry9HAcW4cxJk0-settings.svg?rasterize-bypass=true" alt="The Settings icon in GitBook" /> à côté d’un segment existant dans le menu déroulant des segments.
+
+Ici, vous pourrez définir les données qui apparaîtront sur un utilisateur fictif. Comme il s’agit des données représentées, le `visitor.claims` la clé est omise.
+
+#### Exemple
+
+Pour créer un segment pour les utilisateurs bêta en suivant les exemples de notre documentation, vous créeriez un nouveau segment et ajouteriez les données suivantes.
+
+```json
+{
+  "isBetaUser": true
+}
+```
+
+En revenant dans l’éditeur de conditions, la sélection du segment bêta que nous avons créé devrait montrer que la page que nous consultons **serait** accessible à notre utilisateur de test.
+
+<Image src="https://test-dai.imgix.net/org-4afef969-21f9-40f3-b5b8-b06c8b6cf68f/doc-22a3b060-9539-4176-97e4-49120e02f5d1/292d6a43e2c4df16-spaces-NkEGS7hzeqa35sMXQZ4X-uploads-pTHHKitlueFU97EuEi14-26_01_06_testing_segmen.png?fm=auto&auto=compress%2Cformat" alt="A GitBook screenshot showing how to test a segment" caption="Test d’un segment dans GitBook." />
+
+### Segments détectés
+
+Les segments détectés vous permettent de vous faire une idée du type de revendications que vous recevez des visiteurs de votre site.
+
+Ces segments ne sont pas modifiables, mais vous permettent de copier/coller des revendications depuis l’éditeur de segments afin de créer vos propres segments d’utilisateurs.
+
+### Tester des segments dans l’aperçu
+
+En plus de tester des segments dans l’éditeur de segments, vous pourrez utiliser vos segments en temps réel dans l’aperçu lorsque vous consultez les modifications de votre site.
+
+Utilisez le menu déroulant dans le coin supérieur gauche en mode aperçu de votre site pour choisir un segment et voir à quoi ressemblera votre site pour le segment choisi.

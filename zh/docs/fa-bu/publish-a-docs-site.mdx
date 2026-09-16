@@ -1,0 +1,81 @@
+---
+title: 发布一个文档站点
+description: 将你的文档作为文档站点发布到互联网上
+metaTitle: 发布一个文档站点 | GitBook Documentation
+ogImage: https://test-dai.imgix.net/org-4afef969-21f9-40f3-b5b8-b06c8b6cf68f/doc-22a3b060-9539-4176-97e4-49120e02f5d1/0a5a1a9630785855-organizations-d8f63b60-89ae-11e7-8574-5927d48c4877-sites-site_p4Xo4-socialprevie.jpg?fm=auto&auto=compress%2Cformat
+---
+
+当你完成撰写、编辑或导入内容后，将其发布给你选择的受众。
+
+文档站点的内容位于其 [部分](/zh/docs/guan-li-ni-de-zhan-dian/site-structure)。你编辑的结构就是访问者看到的结构。新部分默认以草稿形式开始，因此你可以控制已发布站点上显示的内容。
+
+<Image src="https://test-dai.imgix.net/org-4afef969-21f9-40f3-b5b8-b06c8b6cf68f/doc-22a3b060-9539-4176-97e4-49120e02f5d1/6bfce242bfb3164c-spaces-NkEGS7hzeqa35sMXQZ4X-uploads-aTAoahHyizxbZzQ10kq9-publishing-documentatio.png?fm=auto&auto=compress%2Cformat" alt="A GitBook screenshot showing the organization Home" caption="你的组织主页。" />
+
+### 创建文档站点
+
+要创建文档站点：
+
+1. 在你的组织中 **主页**，点击 <strong>+</strong> 图标旁边的 **站点**.
+2. 输入一个访问者会认得的名称。
+3. 点击 **创建**.
+4. 选择一个起点：文档模板、导入、OpenAPI 规范、空白部分或 Git Sync。
+
+如需完整的设置指南，请参阅 [快速入门](/zh/docs/getting-started/quickstart).
+
+<Callout kind="info">
+  你可以在……中管理站点权限 **设置** → **成员**。这使你可以独立于组织设置控制谁可以查看或编辑每个站点。参见 [角色](/zh/docs/xie-zuo/member-management/roles) 。
+</Callout>
+
+### 发布文档站点
+
+要发布你的站点：
+
+1. 在你的组织中 **主页**，打开你的站点。
+2. 点击 **发布** 在站点页眉中。
+
+站点默认是公开的。你可以在……中更改站点的可见性 **设置** → **受众**。参见 [站点设置](/zh/docs/guan-li-ni-de-zhan-dian/site-settings).
+
+选择以下受众选项之一：
+
+<Columns cols={3}>
+  <Card title="公开" href="/zh/docs/fa-bu/publish-a-docs-site/public-publishing" image="https://test-dai.imgix.net/org-4afef969-21f9-40f3-b5b8-b06c8b6cf68f/doc-22a3b060-9539-4176-97e4-49120e02f5d1/91e8d5b5185d7056-spaces-NkEGS7hzeqa35sMXQZ4X-uploads-oilRMA6SHJfDUlmxzFSc-Public.png?fm=auto&auto=compress%2Cformat">
+    将你的文档公开发布到网络上。
+  </Card>
+
+  <Card title="通过分享链接私密发布" href="/zh/docs/fa-bu/site-audience/share-links" image="https://test-dai.imgix.net/org-4afef969-21f9-40f3-b5b8-b06c8b6cf68f/doc-22a3b060-9539-4176-97e4-49120e02f5d1/6bcc6c7bd8685cb1-spaces-NkEGS7hzeqa35sMXQZ4X-uploads-fc0Pst5E74fYtiKz3Evt-Share-links.png?fm=auto&auto=compress%2Cformat">
+    通过私密分享链接发布你的文档。
+  </Card>
+
+  <Card title="已认证访问" href="/zh/docs/fa-bu/site-audience/authenticated-access" image="https://test-dai.imgix.net/org-4afef969-21f9-40f3-b5b8-b06c8b6cf68f/doc-22a3b060-9539-4176-97e4-49120e02f5d1/d4b5e742d763a7b4-spaces-NkEGS7hzeqa35sMXQZ4X-uploads-vnW7XiU7dys1vIf7Hi6l-Auth-access.png?fm=auto&auto=compress%2Cformat">
+    通过 OAuth 登录保护你已发布的文档。
+  </Card>
+</Columns>
+
+### 预览你的站点
+
+点击 **预览** 在站点页眉中查看你的内容，效果与访问者看到的一样——可在发布站点之前，或在你处理更改时预览。检查你的内容和自定义设置，确认一切无误后再发布。
+
+### 删除或取消发布文档站点
+
+要取消发布你的站点，请打开 **设置** → **常规** 并选择 **取消发布站点**。确认后，访问者将无法再访问该站点。
+
+取消发布不会改变你的计费。若要调整你付费的站点数量，请在组织的计费设置中更新你的方案。
+
+#### 取消发布或删除后，我的站点仍然可以访问
+
+如果你仍然可以打开该 URL，通常是旧版本仍被缓存——可能在你的浏览器、CDN 或搜索引擎结果中。要确认站点已不再在线，请在无痕窗口中打开该 URL，或清除该站点的浏览器缓存后重新加载。
+
+#### 我的站点仍出现在搜索引擎中
+
+搜索引擎更新索引需要时间，因此已取消发布的站点可能会在结果中显示一段时间。持续多久取决于诸如抓取频率以及还有多少其他站点链接到该页面等因素。
+
+要加快这一过程，请在 Google Search Console 中请求重新抓取：打开 **URL 检查** 选项卡，输入 URL，然后点击 **请求编入索引**。Google 会审核该请求，如果页面不再发布，则会将其从索引中移除。
+
+你可以通过在 Google 中搜索以下内容来检查你的站点是否仍被收录： `site:` 后跟你站点的 URL。
+
+要删除文档站点：
+
+1. 打开 **设置** → **常规**.
+2. 选择 [**删除站点**](/zh/docs/guan-li-ni-de-zhan-dian/site-settings#delete-site).
+
+删除站点会永久移除其设置和自定义内容。你的内容仍保留在你的组织中——可在……中找到它 [所有内容](/zh/docs/chuang-jian-nei-rong/content-structure/all-content).

@@ -1,0 +1,100 @@
+---
+title: Localize your docs with variants in GitBook
+description: Learn how to use variants in GitBook to translate and manage different versions of your docs site for multiple languages
+metaTitle: Localize your docs with variants in GitBook | Guides | GitBook Documentation
+ogImage: https://test-dai.imgix.net/org-4afef969-21f9-40f3-b5b8-b06c8b6cf68f/doc-22a3b060-9539-4176-97e4-49120e02f5d1/0a5a1a9630785855-organizations-d8f63b60-89ae-11e7-8574-5927d48c4877-sites-site_p4Xo4-socialprevie.jpg?fm=auto&auto=compress%2Cformat
+---
+
+<Callout kind="alert">
+  #### GitBook now supports built-in translations through the UI
+
+  Head to [Translations](/en/docs/gitbook-agent/translations) to learn more about setting up AI translated content for your docs site.
+</Callout>
+
+This guide will walk you through the process of setting up variants, organizing your content, and ensuring your readers can access the right version of your documentation, in the language they want.
+
+First, you need to create your content and localize it to the various languages you need — and there are a few ways to do it. You can translate part of your content using [GitBook AI](/en/docs/create-content/searching-your-content/gitbook-ai), or other AI services such as [DeepL](https://www.deepl.com/en/translator), ChatGPT or Claude.
+
+<Callout kind="info">
+  N<strong>ote:</strong> You will need to create a [space](/en/docs/create-content/content-structure/space) for each translated version of your docs in GitBook. You can then link all your translated spaces to a single docs site.
+</Callout>
+
+### Organizing your localizations
+
+Each localized version of your documentation will need to be in its own dedicated space. There’s no single right way to create your localized content, and how you do it will depend on the localization process you choose. 
+
+However, here’s a quick idea of how the process could look in GitBook:
+
+<Steps>
+  <Step title="Duplicate your space" titleType="h3">
+    Find the space in GitBook that contains the documentation you want to localize. Hover over it in the sidebar and open the **Actions menu** <Image src="https://test-dai.imgix.net/org-4afef969-21f9-40f3-b5b8-b06c8b6cf68f/doc-22a3b060-9539-4176-97e4-49120e02f5d1/4fa265378c13a520-spaces-NkEGS7hzeqa35sMXQZ4X-uploads-89MTSo5XRpPMVr1T0rxS-actions.svg?rasterize-bypass=true" alt="" />, then choose **Duplicate**. This will create a copy of your space with all of its content, formatting and files included.
+  </Step>
+
+  <Step title="Name your space well" titleType="h3">
+    Make sure you give your space a clear name that’s easy to find and understand — ideally refrencing the name of your primary content and the language you’ve localized for. It’ll make it easier to manage your published spaces later.
+
+    <Callout kind="success">
+      <strong>Tip:</strong> You might consider adding a flag as the space emoji to make it easy to identify and reorganized your spaces at a glance.
+    </Callout>
+  </Step>
+
+  <Step title="Translate the content" titleType="h3">
+    Use whichever process you like to translate the content of your space. Be careful about translating code, menu commands and other parts of your docs that may need to remain in your primary language in order to remain useable and correct.
+
+    Any formatting (such as cards and tables) will remain as they are in your primary content, so all you should need to worry about is the text itself.
+  </Step>
+
+  <Step title="Follow the process again" titleType="h3">
+    If you have multiple site sections on a single site and want to translate them all, you’ll need to follow the process again for each space that’s published as a site section.
+
+    You can also follow the steps again to create more localizaions in other languages.
+  </Step>
+</Steps>
+
+### Set up your localized docs site
+
+Once you have created all the spaces you need and localized your content, it’s time to set up your docs site in GitBook. 
+
+If you have an existing site and are just adding new translations, you can head to your site’s dashboard, click **Settings** \> **Structure**, and start reading at Step 4.
+
+<Steps>
+  <Step title="Create a site" titleType="h3">
+    Click on the **Docs sites** option in your sidebar and choose **New Site**, then follow the set-up process.
+  </Step>
+
+  <Step title="Go to your site’s settings" titleType="h3">
+    Once you’ve completed the site creation process, click on **Settings** in the top right-hand corner of your site’s dashboard, then choose the **Structure** tab on the left-hand side.
+  </Step>
+
+  <Step title="Add your documentation space" titleType="h3">
+    Your newly-created site will be empty, with no linked content. To add your documentation, click **Link and existing space** and choose the primary space you want to publish.
+
+    This will be the default space when people visit your docs, so make sure to select the space in your primary language.
+  </Step>
+
+  <Step title="Add your variants" titleType="h3">
+    Click the arrow next to your chosen space to expand it, then click the **Add variant** button. You can scroll or search through all your spaces — select the space that contains a translated version of your docs to add it as a variant.
+
+    Repeat this process for each of the languages you wish to publish. You can reorder your spaces at any time by clicking and dragging the **drag handle** <Image src="https://test-dai.imgix.net/org-4afef969-21f9-40f3-b5b8-b06c8b6cf68f/doc-22a3b060-9539-4176-97e4-49120e02f5d1/4c115a43418b42e3-spaces-NkEGS7hzeqa35sMXQZ4X-uploads-aS1QvPIBVYwhpFTGcPBN-options-menu.svg?rasterize-bypass=true" alt="" /> on the left-hand side of a variant, and set a default by clicking the **Actions menu** <Image src="https://test-dai.imgix.net/org-4afef969-21f9-40f3-b5b8-b06c8b6cf68f/doc-22a3b060-9539-4176-97e4-49120e02f5d1/4fa265378c13a520-spaces-NkEGS7hzeqa35sMXQZ4X-uploads-89MTSo5XRpPMVr1T0rxS-actions.svg?rasterize-bypass=true" alt="" /> on the right-hand side of the variant.
+  </Step>
+
+  <Step title="Rename your variants" titleType="h3">
+    Now click the **Edit variant** <Image src="https://test-dai.imgix.net/org-4afef969-21f9-40f3-b5b8-b06c8b6cf68f/doc-22a3b060-9539-4176-97e4-49120e02f5d1/ab76723fb229a5ad-spaces-NkEGS7hzeqa35sMXQZ4X-uploads-A3OfGjPkE5GnOQvN36jN-edit.svg?rasterize-bypass=true" alt="" /> button. In the Edit menu you can rename your variant — and this name is what will appear in the drop-down menu on your site when users select a language. 
+
+    <Callout kind="success">
+      <strong>Tip:</strong> We recommend naming each variant with the language its in, so users can see a list of all the available at a glance. You might also want to rename your default content in the same way.
+    </Callout>
+
+    The structure will look something like this:
+
+    <Image src="https://test-dai.imgix.net/org-4afef969-21f9-40f3-b5b8-b06c8b6cf68f/doc-22a3b060-9539-4176-97e4-49120e02f5d1/922e1319f0d4516a-spaces-LBGJKQic7BQYBXmVSjy0-uploads-4ssBW4wuJkmi361gwL1b-variants-localized-stru.jpg?fm=auto&auto=compress%2Cformat" alt="" caption="Site settings structure with multiple variants." />
+  </Step>
+
+  <Step title="Publish your site" titleType="h3">
+    Now it’s time to get your docs online! Go back to your site main page and hit **Publish** to push it live.
+
+    You can then visit your published site to take a look at your work. You should see a dropdown menu on your site that lets users select the language they want to read your docs in, like this:
+
+    <Image src="https://test-dai.imgix.net/org-4afef969-21f9-40f3-b5b8-b06c8b6cf68f/doc-22a3b060-9539-4176-97e4-49120e02f5d1/3becdaf8f88741ce-spaces-LBGJKQic7BQYBXmVSjy0-uploads-p7LAaAyHRff8uQ2DgK1O-published-variants-loca.jpg?fm=auto&auto=compress%2Cformat" alt="" caption="Different localized variants on a published site." />
+  </Step>
+</Steps>

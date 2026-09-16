@@ -1,0 +1,117 @@
+---
+title: Add an external link to a site's navigation
+metaTitle: Add an external link to a site's navigation | Developers | GitBook Documentation
+ogImage: https://test-dai.imgix.net/org-4afef969-21f9-40f3-b5b8-b06c8b6cf68f/doc-22a3b060-9539-4176-97e4-49120e02f5d1/0a5a1a9630785855-organizations-d8f63b60-89ae-11e7-8574-5927d48c4877-sites-site_p4Xo4-socialprevie.jpg?fm=auto&auto=compress%2Cformat
+---
+
+Creates an external navigation link at the site root or in a section group. External links require a section-based site structure and cannot be placed inside a section. The destination must be an absolute HTTP or HTTPS URL. Draft links and links whose adaptive condition does not match are omitted from published structure responses. Use the generic structure sort operation after creation to change sibling order.
+
+**POST** `/orgs/{organizationId}/sites/{siteId}/external-links`
+
+**Parameters**
+
+<ParamField header="Authorization" param-type="string" />
+
+<ParamField path="organizationId" param-type="string" required={true}>
+  The unique id of the organization
+</ParamField>
+
+<ParamField path="siteId" param-type="string" required={true}>
+  The unique id of the site
+</ParamField>
+
+**Request body**
+
+<ParamField body="title" param-type="string" required={true}>
+  Title of the site section
+</ParamField>
+
+<ParamField body="localizedTitle" param-type="object">
+  Localized string value with a 128 character limit, keyed by locale. Contains overrides for non-default languages only.
+</ParamField>
+
+<ParamField body="description" param-type="string" />
+
+<ParamField body="localizedDescription" param-type="string" />
+
+<ParamField body="icon" param-type="string" />
+
+<ParamField body="url" param-type="string" required={true} />
+
+<ParamField body="parent" param-type="string">
+  ID of the section group to create the link in. Omit to place it at the site root.
+</ParamField>
+
+<ParamField body="draft" param-type="boolean">
+  Whether the external link should be created in draft mode
+</ParamField>
+
+<ParamField body="condition" param-type="string">
+  Adaptive condition controlling whether visitors see the link
+</ParamField>
+
+**Responses**
+
+`201` External link added to the site
+
+<ResponseField name="object" field-type="string" required={true} enum="site-external-link">
+  The object type, which is always "site-external-link"
+</ResponseField>
+
+<ResponseField name="id" field-type="string" required={true}>
+  Unique identifier of the external link
+</ResponseField>
+
+<ResponseField name="title" field-type="string" required={true}>
+  Title of the site section
+</ResponseField>
+
+<ResponseField name="localizedTitle" field-type="object">
+  Localized string value with a 128 character limit, keyed by locale. Contains overrides for non-default languages only.
+</ResponseField>
+
+<ResponseField name="description" field-type="string">
+  Description of the site section
+</ResponseField>
+
+<ResponseField name="localizedDescription" field-type="object">
+  Localized string value with a 256 character limit, keyed by locale. Contains overrides for non-default languages only.
+</ResponseField>
+
+<ResponseField name="icon" field-type="string">
+  Name of the icon
+</ResponseField>
+
+<ResponseField name="url" field-type="string" required={true} />
+
+<ResponseField name="sectionGroup" field-type="string">
+  ID of the section group the external link belongs to. Omitted for a root link.
+</ResponseField>
+
+<ResponseField name="draft" field-type="boolean" required={true}>
+  Whether the external link is draft and not live
+</ResponseField>
+
+<ResponseField name="condition" field-type="string">
+  Expression to evaluate
+</ResponseField>
+
+`400` Bad Request
+
+<ResponseField name="error" field-type="object" required={true}>
+  <Expandable title="Object Properties">
+    <ResponseField name="code" field-type="integer" required={true} enum="400" />
+
+    <ResponseField name="message" field-type="string" required={true} />
+  </Expandable>
+</ResponseField>
+
+`default` Unexpected Error
+
+<ResponseField name="error" field-type="object" required={true}>
+  <Expandable title="Object Properties">
+    <ResponseField name="code" field-type="integer" required={true} />
+
+    <ResponseField name="message" field-type="string" required={true} />
+  </Expandable>
+</ResponseField>

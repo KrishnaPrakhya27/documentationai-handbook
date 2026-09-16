@@ -1,0 +1,57 @@
+---
+title: Update a GitBook Agent channel for a site
+metaTitle: Update a GitBook Agent channel for a site | Developers | GitBook Documentation
+ogImage: https://test-dai.imgix.net/org-4afef969-21f9-40f3-b5b8-b06c8b6cf68f/doc-22a3b060-9539-4176-97e4-49120e02f5d1/0a5a1a9630785855-organizations-d8f63b60-89ae-11e7-8574-5927d48c4877-sites-site_p4Xo4-socialprevie.jpg?fm=auto&auto=compress%2Cformat
+---
+
+Modifies the configuration of a specific GitBook Agent channel integration, including its role. Use this to change whether the Agent answers documentation questions or actively collaborates on content changes through the connected platform.
+
+**PATCH** `/orgs/{organizationId}/sites/{siteId}/channels/{siteChannelId}`
+
+**Parameters**
+
+<ParamField header="Authorization" param-type="string" />
+
+<ParamField path="organizationId" param-type="string" required={true}>
+  The unique id of the organization
+</ParamField>
+
+<ParamField path="siteId" param-type="string" required={true}>
+  The unique id of the site
+</ParamField>
+
+<ParamField path="siteChannelId" param-type="string" required={true}>
+  The unique id of the site channel
+</ParamField>
+
+**Request body**
+
+<ParamField body="body" param-type="string" required={true} />
+
+**Responses**
+
+`200` OK
+
+<ResponseField name="object" field-type="string" required={true} enum="site-channel" />
+
+<ResponseField name="id" field-type="string" required={true}>
+  Unique identifier for the site channel.
+</ResponseField>
+
+<ResponseField name="status" field-type="string" required={true} enum="active,pending" />
+
+<ResponseField name="role" field-type="string" required={true} enum="collaborator,support" />
+
+<ResponseField name="answers" field-type="integer" required={true}>
+  Number of answers linked to this channel.
+</ResponseField>
+
+<ResponseField name="createdAt" field-type="string" required={true} />
+
+<ResponseField name="urls" field-type="object" required={true}>
+  <Expandable title="Object Properties">
+    <ResponseField name="location" field-type="string" required={true}>
+      URL of the site channel in the API.
+    </ResponseField>
+  </Expandable>
+</ResponseField>

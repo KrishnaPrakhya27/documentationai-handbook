@@ -1,0 +1,35 @@
+---
+title: List recommended questions to ask in a site
+metaTitle: List recommended questions to ask in a site | Developers | GitBook Documentation
+ogImage: https://test-dai.imgix.net/org-4afef969-21f9-40f3-b5b8-b06c8b6cf68f/doc-22a3b060-9539-4176-97e4-49120e02f5d1/0a5a1a9630785855-organizations-d8f63b60-89ae-11e7-8574-5927d48c4877-sites-site_p4Xo4-socialprevie.jpg?fm=auto&auto=compress%2Cformat
+---
+
+The response is streamed.
+
+**GET** `/orgs/{organizationId}/sites/{siteId}/ask/questions`
+
+**Parameters**
+
+<ParamField header="Authorization" param-type="string" />
+
+<ParamField path="organizationId" param-type="string" required={true}>
+  The unique id of the organization
+</ParamField>
+
+<ParamField path="siteId" param-type="string" required={true}>
+  The unique id of the site
+</ParamField>
+
+<ParamField query="siteSpaceId" param-type="string">
+  The ID of the site space to filter the recommended questions for.
+</ParamField>
+
+<ParamField query="spaceId" param-type="string" deprecated={true}>
+  The ID of the space to filter the recommended questions for.
+</ParamField>
+
+**Responses**
+
+`200` OK
+
+<ResponseField name="question" field-type="string" required={true} />

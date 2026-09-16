@@ -1,0 +1,37 @@
+---
+title: APIを文書化する
+description: OpenAPI仕様をページに追加し、インタラクティブなブロックでユーザーがページ上でエンドポイントをテストできるようにします。
+metaTitle: APIを文書化する | GitBook Documentation
+ogImage: https://test-dai.imgix.net/org-4afef969-21f9-40f3-b5b8-b06c8b6cf68f/doc-22a3b060-9539-4176-97e4-49120e02f5d1/0a5a1a9630785855-organizations-d8f63b60-89ae-11e7-8574-5927d48c4877-sites-site_p4Xo4-socialprevie.jpg?fm=auto&auto=compress%2Cformat
+openapi: api-reference/715e581e0d464caa7f0f889903f2c6f13901d28e9abf812e5e8af857b54e01c5.json POST /pet
+---
+
+REST API ドキュメントを手作業で作成するのは、時間のかかる作業になりがちです。幸い、GitBook では OpenAPI ドキュメントをインポートできるため、この作業を効率化できます。OpenAPI ドキュメントには、API の構造と機能の詳細が記載されています。
+
+OpenAPI Specification（OAS）は、開発者が REST API を文書化するために使用するフレームワークです。JSON または YAML で記述され、すべてのエンドポイント、パラメータ、スキーマ、認証方式を定義します。
+
+GitBook にインポートすると、これらのドキュメントはインタラクティブでテスト可能な API ブロックに変換され、ファイルとして提供された仕様でも URL から読み込まれた仕様でも、API メソッドを視覚的に表現します。
+
+### OpenAPI 互換性
+
+GitBook は、以下の仕様バージョンのインポートとレンダリングに対応しています：
+
+- [Swagger 2.0](https://github.com/OAI/OpenAPI-Specification/blob/main/versions/2.0.md) — 対応しています。
+- [OpenAPI 3.0](https://github.com/OAI/OpenAPI-Specification/blob/main/versions/3.0.3.md) — 対応しています。
+- [OpenAPI 3.1](https://github.com/OAI/OpenAPI-Specification/blob/main/versions/3.1.1.md) — 対応しています。OpenAPI 3.1 専用の機能として、 `webhooks`.
+
+### テストする（Scalar 搭載）
+
+GitBook の OpenAPI ブロックには「テストする」機能もあり、エディタで入力したデータとパラメータを使って、ユーザーが API メソッドをテストできます。
+
+AI 搭載 [Scalar](https://scalar.com/)、ドキュメントを離れることなく API メソッドの動作を確認できます。上の例をご覧ください。
+
+#### よくある質問
+
+<Expandable title="なぜ仕様が読み込まれないのですか？">
+  <Callout kind="info">
+    <strong>注：</strong> この情報は次にのみ適用されます： **URL で追加された仕様**.
+  </Callout>
+
+  仕様を URL 経由で追加した場合、API では次を満たす必要があります： [クロスオリジンを許可する](https://developer.mozilla.org/en-US/docs/Web/HTTP/Reference/Headers/Access-Control-Allow-Origin) ドキュメントサイトからの GET リクエスト。API の CORS 設定で、ドキュメントがホストされている正確なオリジンを許可してください（例： `https://your-site.gitbook.io` または `https://docs.example.com`）。<br /><br />エンドポイントが公開されていて認証情報を使用しない場合は、次も返せます： `Access-Control-Allow-Origin: *`\\ <br />
+</Expandable>

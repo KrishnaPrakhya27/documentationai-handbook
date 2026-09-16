@@ -1,0 +1,99 @@
+---
+title: Move a site structure item to a new position
+metaTitle: Move a site structure item to a new position | Developers | GitBook Documentation
+ogImage: https://test-dai.imgix.net/org-4afef969-21f9-40f3-b5b8-b06c8b6cf68f/doc-22a3b060-9539-4176-97e4-49120e02f5d1/0a5a1a9630785855-organizations-d8f63b60-89ae-11e7-8574-5927d48c4877-sites-site_p4Xo4-socialprevie.jpg?fm=auto&auto=compress%2Cformat
+---
+
+Reorders a site space, section, section group, or external link relative to any sibling at the same structure level. Sorting changes sibling order only; move an item between the root and a group through that item's update operation first.
+
+**PATCH** `/orgs/{organizationId}/sites/{siteId}/structure/sort`
+
+**Parameters**
+
+<ParamField header="Authorization" param-type="string" />
+
+<ParamField path="organizationId" param-type="string" required={true}>
+  The unique id of the organization
+</ParamField>
+
+<ParamField path="siteId" param-type="string" required={true}>
+  The unique id of the site
+</ParamField>
+
+<ParamField header="prefer" param-type="string" enum="return=minimal,return=representation">
+  Control whether a successful response includes the updated resource representation.
+</ParamField>
+
+**Request body**
+
+<ParamField body="item" param-type="object" required={true}>
+  <Expandable title="Object Properties">
+    <ParamField body="type" param-type="string" required={true} enum="site-space,site-section,site-section-group,site-external-link" />
+
+    <ParamField body="id" param-type="string" required={true}>
+      Unique identifier for the site structure item (site space, site section, site section group, or external link).
+    </ParamField>
+  </Expandable>
+</ParamField>
+
+<ParamField body="position" param-type="object" required={true}>
+  Position at which to move the site structure item relative to any sibling of the same structure level.
+
+  <Expandable title="Object Properties">
+    <ParamField body="before" param-type="object">
+      <Expandable title="Object Properties">
+        <ParamField body="type" param-type="string" required={true} enum="site-space,site-section,site-section-group,site-external-link" />
+
+        <ParamField body="id" param-type="string" required={true}>
+          Unique identifier for the site structure item (site space, site section, site section group, or external link).
+        </ParamField>
+      </Expandable>
+    </ParamField>
+
+    <ParamField body="after" param-type="object">
+      <Expandable title="Object Properties">
+        <ParamField body="type" param-type="string" required={true} enum="site-space,site-section,site-section-group,site-external-link" />
+
+        <ParamField body="id" param-type="string" required={true}>
+          Unique identifier for the site structure item (site space, site section, site section group, or external link).
+        </ParamField>
+      </Expandable>
+    </ParamField>
+  </Expandable>
+</ParamField>
+
+**Responses**
+
+`200` Item successfully moved
+
+`204` Item moved without returning its representation
+
+`400` Bad Request
+
+<ResponseField name="error" field-type="object" required={true}>
+  <Expandable title="Object Properties">
+    <ResponseField name="code" field-type="integer" required={true} enum="400" />
+
+    <ResponseField name="message" field-type="string" required={true} />
+  </Expandable>
+</ResponseField>
+
+`404` Not Found
+
+<ResponseField name="error" field-type="object" required={true}>
+  <Expandable title="Object Properties">
+    <ResponseField name="code" field-type="integer" required={true} enum="404" />
+
+    <ResponseField name="message" field-type="string" required={true} />
+  </Expandable>
+</ResponseField>
+
+`default` Unexpected Error
+
+<ResponseField name="error" field-type="object" required={true}>
+  <Expandable title="Object Properties">
+    <ResponseField name="code" field-type="integer" required={true} />
+
+    <ResponseField name="message" field-type="string" required={true} />
+  </Expandable>
+</ResponseField>

@@ -1,0 +1,386 @@
+---
+title: 脚本标签
+description: 了解如何使用单个 script 标签将 Docs Embed 小部件添加到任意网站或 Web 应用中
+metaTitle: 脚本标签 | GitBook Documentation
+ogImage: https://test-dai.imgix.net/org-4afef969-21f9-40f3-b5b8-b06c8b6cf68f/doc-22a3b060-9539-4176-97e4-49120e02f5d1/0a5a1a9630785855-organizations-d8f63b60-89ae-11e7-8574-5927d48c4877-sites-site_p4Xo4-socialprevie.jpg?fm=auto&auto=compress%2Cformat
+---
+
+向您的网站或应用添加 Docs Embed 的最简单方法，是在 HTML 中引入一个独立脚本。每个 GitBook 文档站点都会提供一个可直接使用的嵌入脚本，它会自动加载小组件并将其连接到您的文档。本页将告诉您如何完成这一操作。
+
+无需 SDK、构建步骤或框架集成。只需引入脚本，小组件就会出现在您的页面上。
+
+## 开始使用
+
+<Steps>
+  <Step title="复制您的嵌入脚本 URL" titleType="h3">
+    在 GitBook 应用中进入您的文档站点，导航到 **设置** 选项卡，然后到 **AI 与 MCP** 并复制嵌入脚本 URL。
+
+    您也可以手动构建它：
+
+    ```
+    https://YOUR_DOCS_DOMAIN/~gitbook/embed/script.js
+    ```
+
+    将您的 `YOUR_DOCS_DOMAIN` 替换为您真实文档站点的域名。
+  </Step>
+
+  <Step title="将脚本添加到您的 HTML 中" titleType="h3">
+    将以下标签添加到页面 HTML 中。将其放在 `<head>` 中，或者放在 `</body>`.
+
+    ```html
+    <script src="https://YOUR_DOCS_DOMAIN/~gitbook/embed/script.js"></script>
+    <script>window.GitBook('show');</script>
+    ```
+  </Step>
+
+  <Step title="如果您的文档需要身份验证" titleType="h3">
+    如果您的文档 [受身份验证保护](/zh/docs/fa-bu/site-audience/authenticated-access)，脚本必须包含一个签名的 JWT 令牌。
+
+    将其作为查询参数追加：
+
+    ```html
+    <script src="https://YOUR_DOCS_DOMAIN/~gitbook/embed/script.js?jwt_token=YOUR_TOKEN"></script>
+    ```
+  </Step>
+
+  <Step title="验证" titleType="h3">
+    重新加载您的页面。
+
+    小组件应显示在右下角。
+  </Step>
+</Steps>
+
+### 可选择配置嵌入
+
+您可以在显示之前自定义小组件。调用 `configure` 在加载脚本之后、调用之前 `window.GitBook('show')`.
+
+```html
+<script src="https://YOUR_DOCS_DOMAIN/~gitbook/embed/script.js"></script>
+<script>
+  window.GitBook('configure', {
+    button: {
+      label: '提问',
+      icon: 'assistant' // assistant | sparkle | help | book
+    },
+    trademark: false,
+    tabs: ['assistant', 'search', 'docs'],
+    actions: [
+      {
+        icon: 'circle-question',
+        label: '联系支持',
+        onClick: () => window.open('https://support.example.com', '_blank')
+      }
+    ],
+    greeting: {
+      title: '欢迎',
+      subtitle: '我能如何帮助您？'
+    },
+    assistantName: '支持副驾',
+    closeButton: true,
+    suggestions: [
+      'GitBook 是什么？',
+      '我该如何开始？'
+    ]
+  });
+
+  window.GitBook('show');
+</script>
+```
+
+使用此方法，您可以自定义：
+
+- 按钮标签和图标
+- 小组件内可见的选项卡
+- 自定义操作按钮
+- 问候语标题和副标题
+- UI 中显示的助手名称
+- 助手内的关闭按钮
+- 显示给用户的建议提示。
+
+搜索默认启用。如果你设置 `tabs`，列出您想保留的每个选项卡。
+
+### 设置配色方案
+
+默认情况下，嵌入内容会遵循 iframe 的 CSS `color-scheme`。这样它就能自动继承您的应用主题或浏览器偏好。
+
+如果您想强制使用某种模式，请初始化嵌入并传入 `colorScheme` 于 `frameOptions`:
+
+```html
+<script src="https://YOUR_DOCS_DOMAIN/~gitbook/embed/script.js"></script>
+<script>
+  window.GitBook(
+    'init',
+    { siteURL: 'https://YOUR_DOCS_DOMAIN' },
+    { colorScheme: 'dark' }
+  );
+
+  window.GitBook('show');
+</script>
+```
+
+当您需要诸如 `colorScheme` 或 `visitor`.
+
+### 控制小组件可见性
+
+您可以通过 API 在运行时控制可见性和状态。
+
+```html
+<script>
+  // 显示小组件
+  window.GitBook('show');
+
+  // 将小组件从页面中移除
+  window.GitBook('hide');
+
+  // 打开小组件面板
+  window.GitBook('open');
+
+  // 关闭小组件面板
+  window.GitBook('close');
+
+  // 切换打开或关闭
+  window.GitBook('toggle');
+</script>
+```
+
+当您想将小组件连接到自己的 UI 触发器时，这很有用。
+
+### 以编程方式导航和交互
+
+您可以通过代码驱动小组件进行导航、切换选项卡或发送消息。
+
+```html
+<script>
+  // 在小组件内打开特定文档页面
+  window.GitBook('navigateToPage', '/getting-started');
+
+  // 切换到助手标签页
+  window.GitBook('navigateToAssistant');
+
+  // 向助手发送用户消息
+  window.GitBook('postUserMessage', '我该如何开始？');
+
+  // 清除当前聊天记录
+  window.GitBook('clearChat');
+</script>
+```
+
+此功能的典型用途包括：
+
+- 从您的应用添加指向文档页面的深度链接
+- 预填问题
+- 在流程之间重置对话
+
+### 动态加载嵌入脚本
+
+如果您只想有条件地加载小组件，或者需要在运行时附加身份验证令牌，请以编程方式注入脚本。
+
+```html
+<script>
+  function loadGitBookEmbed() {
+    var token = "" // 如果您的站点需要身份验证，请用您的 JWT 令牌填充它
+    var script = document.createElement('script');
+    script.src = 'https://YOUR_DOCS_DOMAIN/~gitbook/embed/script.js'
+      + token ? '?jwt_token=' + encodeURIComponent(token) : ';
+    script.async = true;
+    script.onload = function () {
+      window.GitBook('show');
+    };
+    document.head.appendChild(script);
+  }
+
+  loadGitBookEmbed();
+</script>
+```
+
+当小组件应仅在用户操作或功能标志之后加载时，请使用此模式
+
+## API 参考
+
+### 初始化
+
+- `GitBook('init', options: { siteURL: string }, frameOptions?: { visitor?: {...}, colorScheme?: 'light' | 'dark' })` \- 使用站点 URL 和可选的 frame 选项初始化小组件
+
+### 小部件控制
+
+- `GitBook('show')` \- 显示小组件按钮
+- `GitBook('hide')` \- 隐藏小组件按钮
+- `GitBook('open')` \- 打开小组件窗口
+- `GitBook('close')` \- 关闭小组件窗口
+- `GitBook('toggle')` \- 切换小组件窗口
+
+### 导航
+
+- `GitBook('navigateToPage', path: string)` \- 导航到文档标签页中的特定页面
+- `GitBook('navigateToAssistant')` \- 导航到助手选项卡
+
+### 聊天
+
+- `GitBook('postUserMessage', message: string)` \- 向聊天发送一条消息
+- `GitBook('clearChat')` \- 清除聊天记录
+
+### 配置
+
+- `GitBook('configure', settings: {...})` \- 配置小组件设置（请参见下方配置部分）
+- `GitBook('unload')` \- 将小组件从页面中完全移除
+
+## 配置选项
+
+### `GitBook('configure')`
+
+大多数配置选项都可通过 `GitBook('configure', {...})`:
+
+#### `tabs`
+
+覆盖显示的标签页。
+
+搜索默认启用。如果你设置 `tabs`，嵌入内容将只显示你列出的标签页。
+
+- **类型**: `('assistant' | 'search' | 'docs')[]`
+- **选项**:
+
+  - `['assistant', 'search', 'docs']` \- 显示所有选项卡
+  - `['search', 'docs']` \- 仅显示搜索和文档
+  - `['docs']` \- 仅显示文档选项卡
+
+#### `操作`
+
+在侧边栏中与标签页一起渲染的自定义操作按钮。每个操作按钮在点击时都会触发一个回调。
+
+**注意**：这之前称为 `buttons`。请使用 `操作` 代替。
+
+- **类型**: `Array<{ icon: string, label: string, onClick: () => void }>`
+- **属性**:
+
+  - `图标`: `字符串` \- 图标名称。任何 [FontAwesome 图标](https://fontawesome.com/search) 都受支持
+  - `label`: `字符串` \- 按钮标签文本
+  - `onClick`: `() => void | Promise<void>` \- 点击时的回调函数
+
+#### `问候语`
+
+显示在 Assistant 标签页中的欢迎消息。
+
+- **类型**: `{ title: string, subtitle: string }`
+
+#### `assistantName`
+
+覆盖 UI 中显示的助手名称。
+
+- **类型**: `字符串`
+- **最大长度**: `32` 字符
+- **示例**:
+
+```javascript
+window.GitBook('configure', {
+  assistantName: '支持副驾驶'
+});
+```
+
+#### `closeButton`
+
+在 Assistant 内部显示关闭按钮。
+
+- **类型**: `boolean`
+- **示例**:
+
+```javascript
+window.GitBook('configure', {
+  closeButton: true
+});
+```
+
+#### `建议`
+
+显示在 Assistant 欢迎屏幕中的建议问题。
+
+- **类型**: `string[]`
+
+#### `商标`
+
+在嵌入 UI 中显示或隐藏 GitBook 商标——包括 Docs Embed 页脚和 Assistant 品牌标识。
+
+- **类型**: `boolean`
+- **默认**: `true`
+- **示例**:
+
+```javascript
+window.GitBook('configure', {
+  trademark: false
+});
+```
+
+#### `工具`
+
+用于扩展 Assistant 的自定义 AI 工具。详情请参见 [创建自定义工具](/zh/docs/fa-bu/embedding/configuration/creating-custom-tools) 。
+
+- **类型**: `Array<{ name: string, description: string, inputSchema: object, execute: Function, confirmation?: {...} }>`
+
+#### `按钮`
+
+配置启动嵌入的小组件按钮（仅限独立脚本）。这允许您自定义出现在页面右下角按钮的标签和图标。
+
+- **类型**: `{ label: string, icon: 'assistant' | 'sparkle' | 'help' | 'book' }`
+- **属性**:
+
+  - `label`: `字符串` \- 按钮上显示的文本
+  - `图标`: `'assistant' | 'sparkle' | 'help' | 'book'` \- 按钮上显示的图标
+
+    - `助手` \-  助手图标
+    - `闪光` \-  闪光图标
+    - `帮助` \-  帮助/问号图标
+    - `书本` \-  书本图标
+
+<strong>示例：</strong>
+
+```javascript
+window.GitBook('configure', {
+  button: {
+    label: '提问',
+    icon: 'assistant'
+  }
+});
+```
+
+<Callout kind="info">
+  <strong>注意：</strong> 此选项仅在使用独立脚本标签实现时可用。对于 React 或 Node.js 实现，您需要创建自己的按钮来触发嵌入。
+</Callout>
+
+### `frameOptions`
+
+某些选项是在 frame 上设置的，而不是作为配置设置。请在 `frameOptions` 调用时传入它们 `GitBook('init', options, frameOptions)`.
+
+#### `colorScheme`
+
+覆盖嵌入的配色方案。
+
+如果省略，嵌入将遵循 iframe 的 CSS `color-scheme`，从而继承父页面或浏览器偏好。
+
+- **类型**: `'light' | 'dark'`
+- **示例**:
+
+```javascript
+window.GitBook(
+  'init',
+  { siteURL: 'https://docs.company.com' },
+  { colorScheme: 'dark' }
+);
+```
+
+#### `visitor` （已认证访问）
+
+在使用以下方式初始化时传入 `GitBook('init', options, frameOptions)`。用于 [自适应内容](/zh/docs/fa-bu/adaptive-content) 以及 [已认证访问](/zh/docs/fa-bu/site-audience/authenticated-access).
+
+- **类型**: `{ token?: string, unsignedClaims?: Record<string, unknown> }`
+- **属性**:
+
+  - `token`: `字符串` （可选）- 签名的 JWT 令牌
+  - `unsignedClaims`: `Record<string, unknown>` （可选）- 用于动态表达式的未签名声明
+
+## 常见陷阱
+
+- **脚本 URL 不正确** – 请确保您使用的是实际的文档 URL，而不是示例 `docs.company.com`.
+- **在脚本加载前调用 GitBook** – 将 API 调用包装在 `script.onload` 中，或者将它们放在脚本标签之后。
+- **无法访问已认证文档** – 如果您的文档需要登录，您必须提供 `visitor.token` 在初始化时。请参见 [与已认证文档一起使用](/zh/docs/fa-bu/embedding/using-with-authenticated-docs).
+- **CORS 或 CSP 错误** – 确保您网站的内容安全策略允许从您的 GitBook 域加载脚本和 iframe。
+- **小组件不可见** – 检查您页面上其他元素是否存在 z-index 冲突。小组件默认使用较高的 z-index。
+- **忘记初始化** – 请确保调用 `GitBook('init', { siteURL: '...' })` 在使用其他方法之前。

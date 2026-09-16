@@ -1,0 +1,103 @@
+---
+title: 表格
+description: 使用表格保持信息有序，让数据文档化更轻松
+metaTitle: 表格 | GitBook Documentation
+ogImage: https://test-dai.imgix.net/org-4afef969-21f9-40f3-b5b8-b06c8b6cf68f/doc-22a3b060-9539-4176-97e4-49120e02f5d1/0a5a1a9630785855-organizations-d8f63b60-89ae-11e7-8574-5927d48c4877-sites-site_p4Xo4-socialprevie.jpg?fm=auto&auto=compress%2Cformat
+---
+
+您可以在 GitBook 页面中添加表格，以更好地组织信息。您可以在下面的示例表格中查看可实现效果的示例：
+
+| 公司 | 状态&lt;select>&lt;option value="36bef47f343d4588bc43db3e5c701796" label="进行中" color="blue">&lt;/option>&lt;/select> | 联系方式 | MRR | 联系方式 | MRR | 状态&lt;select>&lt;option value="3e7a52c673ec4a01992566d18271f7a5" label="进行中" color="blue">&lt;/option>&lt;option value="2362fd3eafc7476fb8646ac754f34b72" label="完成" color="blue">&lt;/option>&lt;/select> |
+| --- | --- | --- | --- | --- | --- | --- |
+| **Ace AI** – 设计 | 进行中 | [rena@ace.ai](mailto:noreply@gitbook.com) | $450 | [rena@ace.ai](mailto:noreply@gitbook.com) | $420 | 进行中 |
+| **Discrete Data** – API | 进行中 | [dave@dd.inc](mailto:noreply@gitbook.com) | $100 | [dave@dd.inc](mailto:noreply@gitbook.com) | $69 |  |
+| **Example Co** |  | [pete@example.com](mailto:pete@example.com) | $50 |  |  |  |
+
+### 表格块选项
+
+当您打开表格块左侧的“选项”菜单时，您将看到一系列可用于更改外观和管理表格内数据的选项：
+
+- <strong>表格/卡片：</strong> 选择将数据显示为表格块或卡片块。GitBook 使用相同的数据填充这两种块，因此您可以根据想要的外观和设计在它们之间切换。
+- <strong>添加列：</strong> 在表格右侧添加一个新列。您可以使用菜单选择列类型，或者直接点击 **添加列** 来添加文本列。
+- <strong>插入行：</strong> 在表格底部添加一新行。
+- <strong>显示表头：</strong> 隐藏或显示表格顶部的标题行。
+- <strong>冻结表头：</strong> 在您滚动下方各行时，保持表格顶部行在页面中可见。这对于较大的表格很有用，因为您希望列标题始终保持可见。
+- <strong>冻结第一列：</strong> 在您水平滚动右侧列时，保持表格最左侧的列可见。这对于超出页面宽度的更宽表格很有用，您希望行标签或标识符始终保持可见。
+- <strong>重置列宽：</strong> 如果您更改了列宽，这将把它们全部重置为相同宽度。
+- <strong>可见列：</strong> 选择哪些列可见、哪些列隐藏。如果您的表格中有隐藏列，可以在此菜单中将它们重新显示。
+- <strong>删除：</strong> 删除表格块及其所有内容。
+
+### 合并单元格
+
+通过拖动选择多个单元格，或者按住 Shift 并按箭头键来选择多个单元格。使用选择单元格后出现的把手来合并它们。
+
+合并适用于 **文本** 和 **数字** 单元格。GitBook 会对不受支持的字段、混合字段类型、锚定单元格外的注释以及卡片视图阻止合并。GitBook 还会阻止对已合并单元格或包含已合并单元格的行进行重新排序。
+
+合并在使用 Git Sync 时采用原生 `colspan` 和 `rowspan` 。合并是基于位置的：锚定单元格和跨列/跨行范围遵循表格当前的行顺序和可见列顺序。
+
+第一版不支持矩形合并，例如 `2x2` 的选择。合并单元格时，请选择要保留的值。GitBook 会清除其他值。取消合并不会恢复已清除的值。
+
+### 更改列类型
+
+根据您要显示的数据，您可以为表格列设置不同的数据类型。这些类型会为该列中的每个单元格添加格式、装饰或限制：
+
+- <strong>文本：</strong> 标准文本列，支持标准格式。
+- <strong>数字：</strong> 数值列，可带或不带小数位。
+- <strong>复选框：</strong> 每行一个可勾选或取消勾选的复选框。
+- <strong>选择：</strong> 您可以通过打开 **列选项** 菜单并选择 **管理选项**来从您定义的选项列表中选择数据。这可以是单选或多选。
+- <strong>用户：</strong> 您可以添加组织中某位成员的姓名和头像。这可以是单选或多选。
+- <strong>文件：</strong> 引用该部分中的某个文件。在填充该列的单元格时，您可以上传新文件。
+- <strong>评分：</strong> 星级评分。您可以通过打开 **列选项** 菜单并选择 **最大值**.
+
+使用 **列选项** 菜单来更改列类型。当您更改列类型时，系统会提示您确认更改，因为此操作可能会删除或破坏列数据。
+
+### 调整列宽
+
+将鼠标悬停在列边缘并拖动以调整大小。光标上方会显示像素数，帮助您设置一致的列宽。
+
+GitBook 会将列宽存储为整体宽度的百分比，这样即可根据表格总宽度进行相对缩放。
+
+### 可滚动表格
+
+宽度超过编辑器容器的表格将可水平滚动。
+
+### 列选项
+
+要重新排序列，请点击并拖动 <Image src="https://test-dai.imgix.net/org-4afef969-21f9-40f3-b5b8-b06c8b6cf68f/doc-22a3b060-9539-4176-97e4-49120e02f5d1/0a460c049ef3df1f-spaces-NkEGS7hzeqa35sMXQZ4X-uploads-PnnI41SqLSaKBNwT98fW-actions-horizontal.svg?rasterize-bypass=true" alt="The table drag handle icon in GitBook" /> 位于您想移动的列顶部的拖动手柄。
+
+您可以通过点击 **添加列** 当您将鼠标悬停在表格右边缘时出现的按钮来添加新列。
+
+在 **列选项** 菜单中，您还可以打开或关闭自动调整大小、在右侧添加新列、隐藏该列或删除该列。
+
+### 行选项
+
+将鼠标悬停在该行上并点击 **行选项** <Image src="https://test-dai.imgix.net/org-4afef969-21f9-40f3-b5b8-b06c8b6cf68f/doc-22a3b060-9539-4176-97e4-49120e02f5d1/4fa265378c13a520-spaces-NkEGS7hzeqa35sMXQZ4X-uploads-89MTSo5XRpPMVr1T0rxS-actions.svg?rasterize-bypass=true" alt="The Row options menu icon in GitBook" /> 左侧出现的按钮以打开 **行选项** 菜单。您将看到一系列选项：
+
+- <strong>打开行：</strong> 在一个模态窗口中打开该行，显示其全部数据。在这里您可以快速更改行类型、编辑数据，并查看隐藏列中的数据。
+- <strong>在上方/下方插入：</strong> 在当前选中行的上方或下方添加新行。
+- <strong>添加列：</strong> 在表格右侧添加新列。
+- <strong>删除行：</strong> 从您的表格中永久移除该行中的所有数据。
+
+### 表格中的图片
+
+当您点击表格单元格时，可以按 / 键插入图片。图片不能添加到表格的表头行。
+
+### Markdown 中的表示
+
+```markdown
+# 表格
+
+|   |   |   |
+| - | - | - |
+|   |   |   |
+|   |   |   |
+|   |   |   |
+```
+
+<Expandable title="我可以在 GitBook 中创建嵌套表格吗？">
+  在 GitBook 中无法嵌套表格。为确保文档易于编写、渲染可靠，并且所有用户都能访问，GitBook 保持表格为扁平结构。
+
+  一旦表格位于另一个表格单元格中，编辑、调整大小、导航或在不同设备间保持一致格式都会变得困难。
+
+  嵌套表格还会给底层文档结构带来显著复杂性，常常破坏简洁语义，并导致诸如 Git Sync 之类功能的不确定性。
+</Expandable>

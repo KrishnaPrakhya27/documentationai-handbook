@@ -1,0 +1,69 @@
+---
+title: Get a specific file in a change request by its ID
+metaTitle: Get a specific file in a change request by its ID | Developers | GitBook Documentation
+ogImage: https://test-dai.imgix.net/org-4afef969-21f9-40f3-b5b8-b06c8b6cf68f/doc-22a3b060-9539-4176-97e4-49120e02f5d1/0a5a1a9630785855-organizations-d8f63b60-89ae-11e7-8574-5927d48c4877-sites-site_p4Xo4-socialprevie.jpg?fm=auto&auto=compress%2Cformat
+---
+
+Retrieves metadata for a single file (image or attachment) stored in the change request's current revision. Use this to get the download URL or details of a specific asset referenced by a page in the change request.
+
+**GET** `/spaces/{spaceId}/change-requests/{changeRequestId}/content/files/{fileId}`
+
+**Parameters**
+
+<ParamField header="Authorization" param-type="string" />
+
+<ParamField path="spaceId" param-type="string" required={true}>
+  The unique id of the space
+</ParamField>
+
+<ParamField path="changeRequestId" param-type="string" required={true}>
+  The unique ID of the change request or its number identifier in the space
+</ParamField>
+
+<ParamField path="fileId" param-type="string" required={true}>
+  The unique id of the file
+</ParamField>
+
+<ParamField query="metadata" param-type="boolean">
+  If `false` is passed, "git" mutable metadata will not returned. Passing `false` can optimize performances of the lookup.
+</ParamField>
+
+<ParamField query="computed" param-type="boolean">
+  If `false` is passed, content will not be computed
+</ParamField>
+
+**Responses**
+
+`200` OK
+
+<ResponseField name="id" field-type="string" required={true} />
+
+<ResponseField name="name" field-type="string" required={true} />
+
+<ResponseField name="contentType" field-type="string" required={true} />
+
+<ResponseField name="downloadURL" field-type="string" required={true} />
+
+<ResponseField name="size" field-type="number" required={true} />
+
+<ResponseField name="dimensions" field-type="object">
+  For images, it contains the dimensions of it.
+
+  <Expandable title="Object Properties">
+    <ResponseField name="width" field-type="number" required={true} />
+
+    <ResponseField name="height" field-type="number" required={true} />
+  </Expandable>
+</ResponseField>
+
+<ResponseField name="git" field-type="object">
+  <Expandable title="Object Properties">
+    <ResponseField name="oid" field-type="string" required={true}>
+      SHA for the blob
+    </ResponseField>
+
+    <ResponseField name="path" field-type="string" required={true}>
+      Path of the blob in the Git tree
+    </ResponseField>
+  </Expandable>
+</ResponseField>

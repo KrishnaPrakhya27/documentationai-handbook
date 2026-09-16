@@ -1,0 +1,123 @@
+---
+title: 翻译
+description: 使用 GitBook 的 AI Agent 自动将你的内容翻译成多种语言并保持同步
+metaTitle: 翻译 | GitBook Documentation
+ogImage: https://test-dai.imgix.net/org-4afef969-21f9-40f3-b5b8-b06c8b6cf68f/doc-22a3b060-9539-4176-97e4-49120e02f5d1/0a5a1a9630785855-organizations-d8f63b60-89ae-11e7-8574-5927d48c4877-sites-site_p4Xo4-socialprevie.jpg?fm=auto&auto=compress%2Cformat
+---
+
+<Callout kind="info">
+  仅 [组织管理员](/zh/docs/xie-zuo/member-management/roles#admin) 可以创建和访问翻译，因为它是 [一项计费功能](#pricing).
+</Callout>
+
+自动翻译让你能够以极少的手动工作，轻松将文档保持为多种语言的最新版本。你可以创建一个部分作为另一个部分的翻译，然后让 GitBook Agent 处理其余部分。
+
+<Image src="https://test-dai.imgix.net/org-4afef969-21f9-40f3-b5b8-b06c8b6cf68f/doc-22a3b060-9539-4176-97e4-49120e02f5d1/3ea791e3207c475a-spaces-NkEGS7hzeqa35sMXQZ4X-uploads-hOOp6fNMYks6U4M6UXTO-Create-translation-2x.png?fm=auto&auto=compress%2Cformat" alt="" />
+
+## 翻译如何工作
+
+- <strong>创建翻译部分：</strong> 将一个新部分设置为现有部分的翻译。选择你的源部分和目标语言。
+- <strong>持续更新：</strong> 每次你对源内容进行更改时，翻译工作流只会针对 **已更改的页面**.
+- <strong>自动同步：</strong> 在更改合并后，翻译工作流 **会自动运行** 并与其源内容同步，因此你的翻译部分始终反映最新更新。
+
+<Callout kind="info">
+  自动翻译部分中的页面 slug 可能会发生变化，除非该页面具有固定 slug。为了让不同语言的 URL 保持稳定，请在翻译前设置固定 slug。要更新 slug，请参见 [如何更改 URL 中的 slug？](https://app.gitbook.com/s/Ua3kTfM3iWAoECzM0u90/published-documentation/custom-domains/how-can-i-change-the-slug-in-the-url)
+</Callout>
+
+## 设置自动翻译
+
+要将某个部分翻译为新语言，请返回你的组织 **主页** 并点击 **翻译** 在侧边栏中，然后点击 **创建翻译**.
+
+在 **创建翻译** 模态窗口，选择：
+
+- **源** ——你想要翻译的部分
+- **从** 语言
+- **收件人** 语言
+
+点击 **创建** 以启动翻译工作流。这些选项将用于将你的部分翻译为组织中一个重复的、已翻译的部分。
+
+该 **翻译** 页面还列出了你已配置的翻译工作流，包括其状态、源、运行情况，以及已翻译的页面和字数。每次源内容更新时，工作流都会重新运行。
+
+### 高级配置
+
+点击 **显示高级说明** 中启用 **创建翻译** 模态窗口来配置这些选项。
+
+<strong>自定义 AI 指令：</strong> 添加高级指令以指导 AI 的语气、风格或其他偏好。这有助于确保你的翻译符合你的品牌或受众。
+
+<Callout kind="info">
+  在翻译工作流中添加自定义指令可能会很有帮助，但在某些情况下会受到限制。
+
+  自定义指令不能用于在翻译后的部分中创建新元素、添加额外文本或更改源内容的结构。
+</Callout>
+
+<strong>术语表支持：</strong> 定义术语表以控制特定术语的翻译方式。这有助于在所有受支持的语言中保持术语一致。
+
+你的术语表词条必须与您想要控制的源语言措辞匹配。GitBook 会在翻译运行期间应用它们，以保持术语一致。
+
+例如，如果你的源语言是英语，并且你的术语表包含 `单点登录` → `单点登录` 以及 `Git Sync` → `Git Sync`，那么像“使用 Git Sync 设置 SSO”这样的句子在翻译结果中会保持这些术语不变。
+
+<Callout kind="alert">
+  **更改你的术语表将触发对你的内容进行完整重新翻译**。目前没有变通方法：我们无法可靠地检测哪些页面可能包含术语表关键词，因此最安全的做法是重新翻译所有页面。因此，更新术语表可能会非常耗时且成本高昂。
+</Callout>
+
+## 将翻译添加到变体中
+
+创建翻译后，你可以将其添加到已发布的文档站点中，作为一个 [变体](/zh/docs/guan-li-ni-de-zhan-dian/site-structure/variants)。这样，用户在查看你的主文档站点时，可以在右上角切换语言。
+
+<Callout kind="info">
+  为了为你的用户提供最佳体验，你可以在设置变体时为其设置默认语言。
+
+  在设置变体时，最好添加翻译部分的语言。
+</Callout>
+
+要为翻译设置新的变体，请从以下位置打开结构编辑器 **网站结构**，在 **常规** 站点侧边栏中。
+
+## 定价
+
+翻译是付费附加功能。我们按与你的主订阅相同的月度或年度周期为翻译计费。
+
+- 月费：每月 25 美元，每月最多 50,000 个翻译词
+- 年费：每年 250 美元，每月最多 50,000 个翻译词
+- 每额外 1,000 个词 0.20 美元
+
+每月额度在每个月初重置。0.20 美元的费率适用于每额外 1,000 个词，包括年度订阅。
+
+“每月”描述的是费率和字数额度，并不描述计费周期。
+
+在你的第一次翻译中，每个词都会计入你的账单。之后，只有 **页面** 包含新词或更新词的内容才会收费。例如，如果你之后编辑了文档，只有包含新词的页面会计入你的字数上限——你不会因整个文档而再次被收费。
+
+<Callout kind="alert">
+  在处理多个带有大页面的翻译时请谨慎，因为已翻译字数包括包含更改的页面中的所有词——这意味着如果大型页面中只更改了几个词，整个页面都会被重新翻译。
+</Callout>
+
+## 常见问题
+
+<Expandable title="为什么使用自动翻译？">
+  - <strong>轻松实现多语言文档：</strong> 无需手动翻译工作即可触达全球受众。
+  - <strong>智能更新：</strong> 仅重新翻译已更改的页面，节省时间和资源。
+  - <strong>完全控制：</strong> 通过高级指令和术语表管理来自定义翻译。
+</Expandable>
+
+<Expandable title="我可以编辑翻译吗？">
+  你目前无法编辑翻译。
+
+  由于翻译是对源内容的纯转换，因此我们无法将对翻译结果所做的潜在编辑与新的翻译进行协调。
+
+  作为变通方法，我们建议以下流程：
+
+  - 使用术语表定义你希望 AI 使用的特定翻译
+  - 使用自定义指令来迭代输出
+</Expandable>
+
+<Expandable title="我需要创建多少个翻译？">
+  你应该只创建 **每种语言一个翻译工作流** 针对任何给定的源内容。创建多个工作流会在你的组织中产生额外且重复的成本。
+</Expandable>
+
+<Expandable title="当前有哪些限制？">
+  - 翻译不会自动本地化你变体中的 UI 元素。打开 **自定义**，在 **工具** 在站点侧边栏中，以 [本地化界面](/zh/docs/guan-li-ni-de-zhan-dian/customization/extra-configuration#localize-user-interface) 用于 [特定变体](/zh/docs/guan-li-ni-de-zhan-dian/customization#customizing-sites-with-multiple-sections-or-variants).
+
+    - 这包括用户输入的自定义内容，例如公告横幅。
+  - 翻译不能向页面添加额外内容——例如提示或横幅，说明该页面是由 AI 翻译的。可以考虑在翻译后的部分中添加一个额外页面来说明这一点，或者使用 [公告横幅](/zh/docs/guan-li-ni-de-zhan-dian/customization/layout-and-structure#announcement-premium-and-ultimate) 在你的站点变体中。
+  - 更改术语表会触发对所有页面的完整重新翻译，这可能会增加处理时间和成本。目前不支持基于术语表使用情况进行部分重新翻译。
+</Expandable>
+
+如果你需要帮助开始使用，或想了解更多关于配置自动翻译的信息， 请联系我们的支持团队.

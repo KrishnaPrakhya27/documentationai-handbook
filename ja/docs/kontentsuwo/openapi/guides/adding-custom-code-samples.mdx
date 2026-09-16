@@ -1,0 +1,60 @@
+---
+title: カスタムコードサンプルの追加
+description: APIエンドポイントの横に表示するカスタムコードサンプルを設定する方法を学びましょう
+metaTitle: カスタムコードサンプルの追加 | GitBook Documentation
+ogImage: https://test-dai.imgix.net/org-4afef969-21f9-40f3-b5b8-b06c8b6cf68f/doc-22a3b060-9539-4176-97e4-49120e02f5d1/0a5a1a9630785855-organizations-d8f63b60-89ae-11e7-8574-5927d48c4877-sites-site_p4Xo4-socialprevie.jpg?fm=auto&auto=compress%2Cformat
+---
+
+GitBook は各 API 操作に対して、一般的なコード例を自動生成できます。カスタムまたはより詳細なスニペットを掲載したい場合は、 `x-codeSamples` OpenAPI 定義に追加してください。こうすることで、エンドポイントの示し方を自由に制御でき、言語や SDK 固有の例を提供できます。
+
+```yaml title="openapi.yaml"
+paths:
+  /users:
+    get:
+      summary: ユーザーを取得
+      x-codeSamples:
+        - lang: JavaScript
+          label: Node SDK
+          source: |
+            import { createAPIClient } from 'my-api-sdk';
+
+            const client = createAPIClient({ apiKey: 'my-api-key' });
+            client.users.list().then(users => {
+              console.log(users);
+            });
+        - lang: Java
+          label: Java SDK
+          source: |
+            MyApiClient client = new MyApiClient("my-api-key");
+            List<User> users = client.getUsers();
+            System.out.println(users);
+```
+
+**要点**
+
+- `x-codeSamples` はコードサンプルオブジェクトの配列です。
+- 各オブジェクトは次の内容を定義します:
+
+  - `lang`: コードの言語（例: JavaScript、Java）。
+  - `label`: コードブロックの短いラベル。
+  - `source`: 実際のコードスニペット。
+
+### クイックガイド
+
+<Expandable title="Fern からカスタムコードサンプルを追加するにはどうすればよいですか？">
+  Fern で生成された SDK の例を、OpenAPI 定義内のカスタムコードサンプルとして使用します。
+
+  このガイドでは、生成された例の見つけ方、フォーマット `x-codeSamples`方法、および API 操作への追加方法を説明します。
+</Expandable>
+
+<Expandable title="Stainless からカスタムコードサンプルを追加するにはどうすればよいですか？">
+  Stainless で生成された SDK の例を、OpenAPI 定義内のカスタムコードサンプルとして使用します。
+
+  このガイドでは、生成された例の見つけ方、フォーマット `x-codeSamples`方法、および API 操作への追加方法を説明します。
+</Expandable>
+
+<Expandable title="HeyAPI からカスタムコードサンプルを追加するにはどうすればよいですか？">
+  HeyAPI で生成された SDK の例を、OpenAPI 定義内のカスタムコードサンプルとして使用します。
+
+  このガイドでは、生成された例の見つけ方、フォーマット `x-codeSamples`方法、および API 操作への追加方法を説明します。
+</Expandable>

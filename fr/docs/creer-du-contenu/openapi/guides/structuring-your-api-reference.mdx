@@ -1,0 +1,147 @@
+---
+title: Structurer votre référence d’API
+description: Découvrez comment structurer votre référence d’API sur plusieurs pages avec des icônes et des descriptions
+metaTitle: Structurer votre référence d’API | GitBook Documentation
+ogImage: https://test-dai.imgix.net/org-4afef969-21f9-40f3-b5b8-b06c8b6cf68f/doc-22a3b060-9539-4176-97e4-49120e02f5d1/0a5a1a9630785855-organizations-d8f63b60-89ae-11e7-8574-5927d48c4877-sites-site_p4Xo4-socialprevie.jpg?fm=auto&auto=compress%2Cformat
+---
+
+GitBook ne se contente pas de rendre votre spécification OpenAPI. Il vous permet de personnaliser votre référence d’API pour une meilleure clarté, une meilleure navigation et une identité visuelle renforcée.
+
+Pour choisir entre **Une page par tag** et **Une page par opération**, voir [mises en page OpenAPI](/fr/docs/creer-du-contenu/openapi/guides/openapi-layouts).
+
+Cette page explique comment contrôler la navigation générée avec des tags.
+
+### Utiliser des tags pour organiser les pages générées
+
+GitBook utilise les tags pour organiser les pages de référence d’API générées dans les deux mises en page.
+
+Avec **Une page par tag**, GitBook crée une page pour chaque tag. Avec **Une page par opération**, GitBook crée une page pour chaque opération et utilise des tags pour regrouper ces pages dans la table des matières.
+
+Pour regrouper des opérations liées, attribuez le même tag à chaque opération :
+
+```yaml
+paths:
+  /pet:
+    put:
+      tags:
+        - pet
+      summary: Mettre à jour un animal existant.
+      description: Mettre à jour un animal existant par identifiant.
+      operationId: updatePet
+```
+
+### Réorganiser les pages dans votre table des matières
+
+L’ordre des pages de tag générées ou des groupes de tags correspond à l’ordre des tags dans votre OpenAPI `tags` array:
+
+```yaml
+tags:
+  - name: pet
+  - name: store
+  - name: user
+```
+
+### Imbriquer les pages dans des groupes
+
+Pour créer une navigation à plusieurs niveaux, utilisez `x-parent` (ou `parent`) dans les tags pour définir la hiérarchie. Cela fonctionne avec les deux structures de page :
+
+```yaml
+tags:
+  - name: everything
+  - name: pet
+    x-parent: everything
+  - name: store
+    x-parent: everything
+```
+
+L’exemple ci-dessus crée une table des matières comme ceci :
+
+```
+Tout
+├── Animal de compagnie
+└── Boutique
+```
+
+Si GitBook génère une page parente et que cette page n’a pas de description, il affiche une disposition sous forme de cartes pour ses sous-pages.
+
+### Personnaliser les titres, icônes et descriptions des pages
+
+Vous pouvez enrichir les pages de tag générées et les libellés de navigation avec des extensions personnalisées dans la `tags` section. Tous [icônes Font Awesome](https://fontawesome.com/search) sont pris en charge via `x-page-icon`.
+
+```yaml title="openapi.yaml"
+tags:
+  - name: pet
+    # Titre de la page affiché dans la table des matières et sur la page
+    x-page-title: Animal de compagnie
+    # Icône affichée dans la table des matières et à côté du titre de la page
+    x-page-icon: dog
+    # Description affichée juste au-dessus du titre
+    x-page-description: Les animaux de compagnie sont incroyables !
+    # Contenu de la page
+    description: Tout sur vos animaux de compagnie
+```
+
+### Créer des descriptions riches avec GitBook Blocks
+
+Les champs de description des tags prennent en charge le markdown GitBook, y compris [des blocs avancés](/fr/docs/creer-du-contenu/blocks) comme les onglets :
+
+```yaml title="openapi.yaml"
+---
+tags:
+  - name: pet
+    description: |
+      Voici le détail des animaux de compagnie.
+
+      {% tabs %}
+      {% tab title="Chien" %}
+      Voici les chiens
+      {% endtab %}
+
+      {% tab title="Chat" %}
+      Voici les chats
+      {% endtab %}
+
+      {% tab title="Lapin" %}
+      Voici les lapins
+      {% endtab %}
+      {% endtabs %}
+```
+
+### Mettre en évidence les schémas
+
+Vous pouvez mettre en évidence un schéma dans une description GitBook en utilisant le markdown GitBook. Voici un exemple qui met en évidence le schéma « Pet » de la spécification « petstore » :
+
+```yaml title="openapi.yaml"
+---
+tags:
+  - name: pet
+      description: |
+          {% openapi-schemas spec="petstore" schemas="Pet" grouped="false" %}
+              L’objet Pet
+          {% endopenapi-schemas %}
+```
+
+### Documenter un point de terminaison de webhook
+
+GitBook prend en charge OpenAPI 3.1, y compris les points de terminaison de webhook.
+
+Le `webhooks` champ fait partie d’OpenAPI 3.1, donc votre spécification doit déclarer une version OpenAPI 3.1. Vous pouvez définir des webhooks directement dans votre fichier OpenAPI, et GitBook les affiche avec vos autres opérations d’API. Pour la prise en charge des versions dans les documents OpenAPI, voir [Compatibilité OpenAPI](/fr/docs/creer-du-contenu/openapi#openapi-compatibility).
+
+```yaml title="openapi.yaml"
+---
+openapi: 3.1.0 # Les webhooks sont disponibles à partir d’OpenAPI 3.1
+
+webhooks:
+  newPet:
+    post:
+      summary: Nouvel événement d’animal de compagnie
+      description: Informations sur un nouvel animal de compagnie dans le système
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Pet"
+      responses:
+        "200":
+          description: Renvoyer un statut 200 pour indiquer que les données ont été reçues avec succès
+```

@@ -1,0 +1,57 @@
+---
+title: Apply a batch of content changes to a change request
+metaTitle: Apply a batch of content changes to a change request | Developers | GitBook Documentation
+ogImage: https://test-dai.imgix.net/org-4afef969-21f9-40f3-b5b8-b06c8b6cf68f/doc-22a3b060-9539-4176-97e4-49120e02f5d1/0a5a1a9630785855-organizations-d8f63b60-89ae-11e7-8574-5927d48c4877-sites-site_p4Xo4-socialprevie.jpg?fm=auto&auto=compress%2Cformat
+---
+
+Applies an ordered array of content changes (up to 50) to the change request atomically, creating a single new revision. Changes are applied sequentially; if any single change is invalid the entire batch is rejected and no revision is created. Use this to create, update, rename, move, or delete pages within a change request before merging to live. This is the primary way to programmatically author content in a change request. **Renaming a page** — `update_page` can change a page's `title` and/or its `slug` (the path segment used to build its URL within its current parent). Both fields are independent: to rename only the title without changing the URL, set `title` and omit `slug`; to change the URL without changing the title, set `slug` and omit `title`. **Moving a page** — `update_page` can also change a page's parent and/or its position among siblings with `into`/`at`. Set `into` to the new parent's page ID, or `null` to move the page to the root of the tree; omit `into` to leave the parent unchanged. Set `at` to place the page at a specific zero-based index among its new siblings; omit it to leave the position unchanged (when the parent isn't changing) or append at the end (when it is). A page cannot be moved under itself or one of its own descendants. `insert_page`'s `into`/`at` remain the way to place a **new** page at creation time. To put an image or attachment in a page, upload it with an `insert_files` change. Give the file a `ref` and a page inserted in the same batch can reference it as `![Alt](./<ref>)` or `[File](./<ref>)`, which resolves to the file's ID at apply time regardless of operation order. Uploaded files are also listed as `insertedFiles` when `compat=false`, and a file already in the change request can be referenced directly as `/files/<fileId>`. Inline `data:` URIs in markdown are not ingested and large image blocks are dropped, so upload the bytes with `insert_files` instead. When page content is provided as markdown, links to other pages are resolved against the change request's current page tree. You can link a page by:
+
+- Page ID — `/pages/<pageId>` (also `/pages/<pageId>#anchor`).
+- Page slug path — `/pages/<slug>` for a top-level page, or `/pages/<parent-slug>/<slug>` for a nested page (e.g. `/pages/guides/getting-started`).
+- Markdown file path — the path the page would have in Git: `/pages/<slug>.md` for a page, or `/pages/<slug>/README.md` for a page that has child pages. The space's root page is `/pages/README.md`.
+- Relative markdown link — resolved against the page being edited, e.g. `./sibling.md`, `../other.md`, or `../README.md` (the parent page). Folder-style links without an extension (e.g. `./section`) resolve to that folder's page.
+
+External URLs (`https://…`) are kept as-is. A link that does not match any page in the change request is left as plain text rather than causing the request to fail. GitBook normalizes submitted content, so the stored page may differ from what was sent. To help callers reconcile local state with the stored result, the response can list each created and modified page with its resolved ID and a `urls.location` to fetch the page's persisted content.
+
+<strong>Response shape (`compat`)</strong> — this endpoint is changing what it returns:
+
+- `compat=true` (current default) returns the updated change request, matching the endpoint's original behavior.
+- `compat=false` returns the updated change request **and** the list of affected pages (see the response schema).
+
+The default is `true` for now to preserve backwards compatibility, but **will switch to `false` in a future release**, at which point the affected-page list is always included. You should pass `compat=false` if you want the new behavior today and avoid unexpected errors when the default flips in the future.
+
+**POST** `/spaces/{spaceId}/change-requests/{changeRequestId}/content`
+
+**Parameters**
+
+<ParamField header="Authorization" param-type="string" />
+
+<ParamField path="spaceId" param-type="string" required={true}>
+  The unique id of the space
+</ParamField>
+
+<ParamField path="changeRequestId" param-type="string" required={true}>
+  The unique ID of the change request or its number identifier in the space
+</ParamField>
+
+<ParamField query="compat" param-type="boolean">
+  When `true`, the updated change request is returned. When `false`, the updated change request and the list of affected pages are returned.
+</ParamField>
+
+**Request body**
+
+<ParamField body="changes" param-type="string[]" required={true} />
+
+**Responses**
+
+`200` The change request has been updated
+
+`404` Not Found
+
+<ResponseField name="error" field-type="object" required={true}>
+  <Expandable title="Object Properties">
+    <ResponseField name="code" field-type="integer" required={true} enum="404" />
+
+    <ResponseField name="message" field-type="string" required={true} />
+  </Expandable>
+</ResponseField>

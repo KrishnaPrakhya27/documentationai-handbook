@@ -1,0 +1,239 @@
+---
+title: Node.js/NPM
+description: NPMパッケージを使ってDocs Embedを統合し、アプリケーションレベルで完全に制御します
+metaTitle: Node.js/NPM | GitBook Documentation
+ogImage: https://test-dai.imgix.net/org-4afef969-21f9-40f3-b5b8-b06c8b6cf68f/doc-22a3b060-9539-4176-97e4-49120e02f5d1/0a5a1a9630785855-organizations-d8f63b60-89ae-11e7-8574-5927d48c4877-sites-site_p4Xo4-socialprevie.jpg?fm=auto&auto=compress%2Cformat
+---
+
+より細かい制御が必要で、アプリケーションレベルで作業したい場合は、npm から GitBook の embed パッケージをインストールできます。この方法は、サーバーサイドレンダリング、ビルド時の統合、またはカスタム iframe 管理に最適です。
+
+## 手順
+
+<Steps>
+  <Step title="パッケージをインストール">
+    追加する `@gitbook/embed` をプロジェクトに:
+
+    ```bash
+    npm install @gitbook/embed
+    ```
+
+    完全な API リファレンスとソースコードについては、 [`@gitbook/embed` GitHub 上のパッケージを参照してください](https://github.com/GitbookIO/gitbook/tree/main/packages/embed).
+  </Step>
+
+  <Step title="パッケージをインポート">
+    アプリケーションコードで、 `createGitBook` 関数をインポートします:
+
+    ```javascript
+    import { createGitBook } from "@gitbook/embed";
+    ```
+
+    または CommonJS を使用する場合:
+
+    ```javascript
+    const { createGitBook } = require("@gitbook/embed");
+    ```
+  </Step>
+
+  <Step title="GitBook を初期化">
+    ドキュメントサイトの URL で GitBook インスタンスを作成します:
+
+    ```javascript
+    const gitbook = createGitBook({
+      siteURL: "https://docs.company.com",
+    });
+    ```
+  </Step>
+
+  <Step title="iframe を作成">
+    iframe 要素を生成し、そのソースを埋め込み URL に設定します:
+
+    ```javascript
+    const iframe = document.createElement("iframe");
+    iframe.src = gitbook.getFrameURL({
+      visitor: {
+        token: 'your-jwt-token', // 任意: Adaptive Content または認証済みアクセス用
+        unsignedClaims: { // 任意: 動的式用のカスタムクレーム
+          userId: '123',
+          plan: 'premium'
+        }
+      }
+    });
+    iframe.id = "gitbook-embed-container";
+    iframe.style.border = "none";
+    iframe.style.width = "100%";
+    iframe.style.height = "600px";
+    iframe.allow = "clipboard-write";
+    ```
+
+    <Callout kind="info">
+      Assistant タブを使用する場合は、iframe に `allow="clipboard-write"` を設定してください。NPM パッケージでは iframe の設定はあなたが行います。スタンドアロンの [Script タグ](/ja/docs/gong-kai/embedding/implementation/script) 実装ではこれが自動的に追加されます。
+    </Callout>
+  </Step>
+
+  <Step title="フレームを追加">
+    GitBook フレームインスタンスを作成し、ページにマウントします:
+
+    ```javascript
+    const frame = gitbook.createFrame(iframe);
+    document.getElementById("gitbook-embed-container").appendChild(iframe);
+    ```
+  </Step>
+
+  <Step title="埋め込みをプログラムで制御する">
+    フレームインスタンスを使って埋め込みとやり取りします:
+
+    ```javascript
+    // docs タブの特定ページに移動
+    frame.navigateToPage("/getting-started");
+
+    // アシスタントタブに切り替える
+    frame.navigateToAssistant();
+
+    // チャットにメッセージを送信
+    frame.postUserMessage("How do I get started?");
+
+    // チャット履歴をクリア
+    frame.clearChat();
+    ```
+  </Step>
+
+  <Step title="埋め込みを設定">
+    カスタマイズオプションで埋め込みを設定します:
+
+    ```javascript
+    frame.configure({
+      trademark: false,
+      tabs: ['assistant', 'search', 'docs'],
+      actions: [
+        {
+          icon: 'circle-question',
+          label: 'サポートに問い合わせる',
+          onClick: () => window.open('https://support.example.com', '_blank')
+        }
+      ],
+      greeting: { title: 'ようこそ！', subtitle: 'どのようなご用件でしょうか？' },
+      assistantName: 'サポート Copilot',
+      closeButton: true,
+      suggestions: ['GitBook とは何ですか？', 'どうやって始めればよいですか？'],
+      tools: [/* ... */]
+    });
+    ```
+  </Step>
+
+  <Step title="イベントを監視する">
+    イベントリスナーを登録して、埋め込みイベントに応答します:
+
+    ```javascript
+    frame.on('close', () => {
+      console.log('フレームが閉じました');
+    });
+
+    // 完了したら購読解除
+    const unsubscribe = frame.on('navigate', (data) => {
+      console.log('移動先:', data.path);
+    });
+    ```
+  </Step>
+</Steps>
+
+## API リファレンス
+
+### クライアントファクトリー
+
+- `createGitBook(options: { siteURL: string })` → `GitBookClient`
+- `client.getFrameURL(options?: { visitor?: {...}, colorScheme?: 'light' | 'dark' })` → `string` \- オプションのフレーム設定付きで iframe の URL を取得
+- `client.createFrame(iframe: HTMLIFrameElement)` → `GitBookFrameClient` \- iframe と通信するためのフレームクライアントを作成
+
+### フレームクライアントのメソッド
+
+- `frame.navigateToPage(path: string)` → `void` \- docs タブの特定ページへ移動
+- `frame.navigateToAssistant()` → `void` \- Assistant タブに切り替え
+- `frame.postUserMessage(message: string)` → `void` \- チャットにメッセージを送信
+- `frame.clearChat()` → `void` \- チャット履歴をクリア
+- `frame.configure(settings: Partial<GitBookEmbeddableConfiguration>)` → `void` \- 埋め込みを設定
+- `frame.on(event: string, listener: Function)` → `() => void` \- イベントリスナーを登録（購読解除関数を返します）
+
+## 設定オプション
+
+ほとんどのカスタマイズオプションは `frame.configure({...})`.
+
+#### `タブ`
+
+で利用できます。
+
+検索はデフォルトで有効です。もし `タブ`、埋め込みには指定したタブのみが表示されます。
+
+- **種類**: `('assistant' | 'search' | 'docs')[]`
+
+#### `actions`
+
+タブと並んでサイドバーに表示されるカスタムアクションボタンです。各アクションボタンはクリック時にコールバックを実行します。
+
+**注**: これは以前は `buttons`と呼ばれていました。 `actions` 代わりにこちらを使用してください。
+
+- **種類**: `Array<{ icon: string, label: string, onClick: () => void }>`
+
+#### `greeting`
+
+Assistant タブに表示されるウェルカムメッセージ。
+
+- **種類**: `{ title: string, subtitle: string }`
+
+#### `assistantName`
+
+UI に表示される Assistant 名を上書きします。
+
+- **種類**: `string`
+- **最大長**: `32` 文字
+
+#### `closeButton`
+
+Assistant 内に閉じるボタンを表示します。
+
+- **種類**: `真偽値`
+
+#### `suggestions`
+
+Assistant のウェルカム画面に表示される推奨質問。
+
+- **種類**: `string[]`
+
+#### `trademark`
+
+Docs Embed フッターや Assistant のブランド表記を含む、埋め込み UI 内の GitBook 商標を表示または非表示にします。
+
+- **種類**: `真偽値`
+- **既定**: `true`
+
+#### `tools`
+
+Assistant を拡張するためのカスタム AI ツール。詳細は [カスタムツールの作成](/ja/docs/gong-kai/embedding/configuration/creating-custom-tools) をご覧ください。
+
+- **種類**: `Array<{ name: string, description: string, inputSchema: object, execute: Function, confirmation?: {...} }>`
+
+### フレーム URL のオプション
+
+一部のオプションは `getFrameURL({...})`.
+
+#### `colorScheme`
+
+に渡されます。
+
+埋め込みの配色を上書きします。 `color-scheme`指定しない場合、埋め込みは iframe の CSS に従い、
+
+- **種類**: `これにより親ページまたはブラウザの設定を継承できます。`
+
+### `visitor` (認証済みアクセス)
+
+次に渡します `getFrameURL({ visitor: {...} })`。用途は [Adaptive Content](/ja/docs/gong-kai/adaptive-content) 、 [認証済みアクセス](/ja/docs/gong-kai/site-audience/authenticated-access).
+
+- **種類**: `{ token?: string, unsignedClaims?: Record<string, unknown> }`
+
+## よくある落とし穴
+
+- **パッケージのインストールを忘れること** – 実行してください `npm install @gitbook/embed` をインポートする前に。
+- **siteURL がない** – `siteURL` オプションは必須で、公開済みのドキュメントサイトと一致している必要があります。
+- **iFrame が表示されない** – 親コンテナに iframe を表示するのに十分な幅/高さがあることを確認してください。
+- **初期化前に呼び出されたフレームメソッド** – `createFrame()` が完了してからフレームメソッドを呼び出してください。
+- **イベントの購読解除をしていない** – `frame.on()` から返される購読解除関数を呼び出すことを忘れないでください。
+- **古い API メソッドの使用** – のようなメソッドは `open()`, `close()`, `toggle()`を読み取り、 `destroy()` は NPM パッケージでは利用できません。代わりにフレームクライアントのメソッドを使用してください。

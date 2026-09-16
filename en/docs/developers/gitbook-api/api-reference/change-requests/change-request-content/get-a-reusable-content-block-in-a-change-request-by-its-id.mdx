@@ -1,0 +1,53 @@
+---
+title: Get a reusable content block in a change request by its ID
+metaTitle: Get a reusable content block in a change request by its ID | Developers | GitBook Documentation
+ogImage: https://test-dai.imgix.net/org-4afef969-21f9-40f3-b5b8-b06c8b6cf68f/doc-22a3b060-9539-4176-97e4-49120e02f5d1/0a5a1a9630785855-organizations-d8f63b60-89ae-11e7-8574-5927d48c4877-sites-site_p4Xo4-socialprevie.jpg?fm=auto&auto=compress%2Cformat
+---
+
+Retrieves a specific reusable content block (a shared snippet that can be embedded across multiple pages) from the change request's draft revision. Use this to inspect the current draft state of a shared content block before merging.
+
+**GET** `/spaces/{spaceId}/change-requests/{changeRequestId}/content/reusable-contents/{reusableContentId}`
+
+**Parameters**
+
+<ParamField header="Authorization" param-type="string" />
+
+<ParamField path="spaceId" param-type="string" required={true}>
+  The unique id of the space
+</ParamField>
+
+<ParamField path="changeRequestId" param-type="string" required={true}>
+  The unique ID of the change request or its number identifier in the space
+</ParamField>
+
+<ParamField path="reusableContentId" param-type="string" required={true}>
+  The unique id of the reusable content
+</ParamField>
+
+<ParamField query="metadata" param-type="boolean">
+  If `false` is passed, "git" mutable metadata will not returned. Passing `false` can optimize performances of the lookup.
+</ParamField>
+
+<ParamField query="computed" param-type="boolean">
+  If `false` is passed, content will not be computed
+</ParamField>
+
+**Responses**
+
+`200` OK
+
+<ResponseField name="id" field-type="string" required={true} />
+
+<ResponseField name="title" field-type="string" required={true} />
+
+<ResponseField name="git" field-type="object">
+  <Expandable title="Object Properties">
+    <ResponseField name="oid" field-type="string" required={true}>
+      SHA for the blob
+    </ResponseField>
+
+    <ResponseField name="path" field-type="string" required={true}>
+      Path of the blob in the Git tree
+    </ResponseField>
+  </Expandable>
+</ResponseField>

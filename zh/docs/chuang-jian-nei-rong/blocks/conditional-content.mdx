@@ -1,0 +1,43 @@
+---
+title: 条件内容
+metaTitle: 条件内容 | GitBook Documentation
+ogImage: https://test-dai.imgix.net/org-4afef969-21f9-40f3-b5b8-b06c8b6cf68f/doc-22a3b060-9539-4176-97e4-49120e02f5d1/0a5a1a9630785855-organizations-d8f63b60-89ae-11e7-8574-5927d48c4877-sites-site_p4Xo4-socialprevie.jpg?fm=auto&auto=compress%2Cformat
+---
+
+条件内容块可让你根据用户数据和变量，控制页面上哪些人可以看到某个内容块。这些变量可以通过 cookie、功能标志、已认证访问或 URL 参数传入。
+
+### 创建条件内容
+
+要添加条件块，请在编辑器中新起一行，输入 <kbd>/</kbd>，然后选择 <Image src="https://test-dai.imgix.net/org-4afef969-21f9-40f3-b5b8-b06c8b6cf68f/doc-22a3b060-9539-4176-97e4-49120e02f5d1/ecbe087f090f9eff-spaces-NkEGS7hzeqa35sMXQZ4X-uploads-51vQZhUqnkdsYpyUo1Pj-page-condition.svg?rasterize-bypass=true" alt="The Page condition icon in GitBook" /> **条件内容**.
+
+插入该块后，点击该块右上角的红色条件徽标。
+
+点击此处将允许你通过 [条件编辑器](/zh/docs/fa-bu/adaptive-content/adapting-your-content#working-with-the-condition-editor)添加条件。你可以将条件写成一个 [表达式](/zh/docs/chuang-jian-nei-rong/variables-and-expressions) ，该表达式会针对你站点中定义的数据运行。你可以引用来自 [变量](/zh/docs/chuang-jian-nei-rong/variables-and-expressions)的数据，或引用来自访问者的 [声明](/zh/docs/fa-bu/adaptive-content/enabling-adaptive-content#set-your-visitor-schema).
+
+你也可以定位人类访问者或 AI 智能体。参见 [定位人类访问者和 AI 智能体](/zh/docs/fa-bu/adaptive-content/adapting-your-content#target-human-visitors-and-ai-agents).
+
+参见 [自适应内容](/zh/docs/fa-bu/adaptive-content) 以了解更多详情。
+
+### 示例
+
+下面的示例使用从按钮链接的 URL 参数来控制哪个条件内容块可见。
+
+此块仅对具有 **不带有** 属性 A 的用户可见。
+
+[查看带有属性 A 的内容](/en/docs/create-content/blocks/conditional-content?visitor.example_attribute_A=true)
+
+## Markdown 表示
+
+```markdown
+## 示例
+
+{% if visitor.claims.unsigned.example_attribute_A %}
+此块仅对**带有**属性 A 的用户可见。
+<a href="https://gitbook.com/docs/create-content/blocks/conditional-content?visitor.example_attribute_A=false" class="button primary">查看不带属性 A 的内容</a>
+{% endif %}
+
+{% if !visitor.claims.unsigned.example_attribute_A %}
+此块仅对**不带有**属性 A 的用户可见。
+<a href="https://gitbook.com/docs/create-content/blocks/conditional-content?visitor.example_attribute_A=true" class="button primary">查看带有属性 A 的内容</a>
+{% endif %}
+```

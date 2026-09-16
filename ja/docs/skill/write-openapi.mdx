@@ -1,0 +1,315 @@
+---
+title: OpenAPIリファレンスドキュメントを作成する
+description: "GitBookでOpenAPI/Swagger APIリファレンスドキュメントを作成、設定、構成、トラブルシュートします。GitBookのOpenAPIブロックまたは`\u007B% openapi %\u007D`ブロック、追加や更新が含まれるタスクで使います"
+metaTitle: OpenAPIリファレンスドキュメントを作成する | GitBook Documentation
+ogImage: https://test-dai.imgix.net/org-4afef969-21f9-40f3-b5b8-b06c8b6cf68f/doc-22a3b060-9539-4176-97e4-49120e02f5d1/0a5a1a9630785855-organizations-d8f63b60-89ae-11e7-8574-5927d48c4877-sites-site_p4Xo4-socialprevie.jpg?fm=auto&auto=compress%2Cformat
+---
+
+GitBookでOpenAPI/Swagger APIリファレンスドキュメントを作成、設定、構成、トラブルシュートします。GitBookのOpenAPIブロックまたは\`&#123;% openapi %&#125;\`ブロック、追加や更新が含まれるタスクで使います
+
+GitBookはOpenAPIドキュメントを、対話可能でテスト可能なAPIリファレンスブロックに変換します。spec（JSONまたはYAML）を渡すと、エンドポイント、パラメータ、スキーマ、認証、そしてページ内リクエスト実行ツールをレンダリングします。カスタマイズのほとんどは、spec自体の中で次を通じて行います `x-*` 拡張であり、GitBookのUIではありません。そのため、ここでの作業の大半はOpenAPI YAMLを正しく編集することです。
+
+このスキルは全体をカバーします。specをGitBookに取り込むこと、リファレンスページを生成すること、ナビゲーションを構成すること、「Test it」ランナーを動かすこと、操作やスキーマの表示方法を制御すること、CI/CDから更新を自動化することまで含みます。
+
+## GitBookとのやり取り方法
+
+このスキルの大半――OpenAPI YAML/JSON自体の編集――は、転送手段に依存しません。しかし、specを *へ* GitBookに取り込むこと、またはリファレンスページを生成・挿入することはGitBookに触れるため、それを行う方法は1つではありません。GitBookのMCPサーバーとREST APIです。現在のセッションで実際に利用可能なものを確認し、 **まずMCP**：もしGitBook MCPツールがすでに接続されているなら、specの公開/更新やリファレンスページの生成など、それが扱えることは直接API呼び出しではなくそれらを使ってください。これについて検出スクリプトを実行しないでください。利用可能なツール/MCP接続はすでに把握しているはずなので、その認識をそのまま使ってください。
+
+以下の手順は、1つの転送手段に結びつけるのではなく、成果（「specを追加する」「リファレンスページを生成する」）として説明しています。そのため、どの方法でも適用できます。GitBook MCPツールが接続されている場合は、それらを直接呼び出してください。各ツール自体のスキーマに引数が記載されています。代わりにREST API経由なら、正確なエンドポイントとリクエスト本文は下の「specificationの追加または更新」にあります。
+
+- **GitBook MCP** ――同じ機能に対する完全な読み書きの面を備え、より限定された視点ではありません。まだ接続されておらず、作業が十分に大きくて導入の価値がある場合（新しいspecの公開、完全なリファレンス生成など――一度きりの微調整ではない場合）は、設定するよう提案してください： `claude mcp add --transport http gitbook-mcp https://mcp.gitbook.com/mcp` （その後 `/mcp` してOAuthサインインを完了する――または `--header "Authorization: Bearer $GITBOOK_TOKEN"` を付けてブラウザフローを省略します）。Codex相当： `codex mcp add gitbook-mcp --url https://mcp.gitbook.com/mcp`。注: これはGitBookの別の読み取り専用「published docs」MCPサーバーとは別で、そこでは既に公開済みのコンテンツしか扱えません。
+- **REST API** (`https://api.gitbook.com/v1`）— MCPが接続されていない場合、またはMCPで扱えないことを行う際の代替手段です。必要です `GITBOOK_TOKEN` を各リクエストのBearerヘッダーとして付ける必要があります。
+
+同じ個人アクセストークン（[https://app.gitbook.com/account/developer](https://app.gitbook.com/account/developer) から取得）が、両方でBearerトークンとして使えます。MCPはさらに、トークン貼り付けよりも使いやすい代替としてOAuthもサポートしています。
+
+**もしトークンが必要になったら** （REST API経路、またはOAuthなしのMCP）の場合、セッション開始時に次で確認してください：
+
+```bash
+[ -n "$GITBOOK_TOKEN" ] && echo "Token found" || echo "GITBOOK_TOKEN is not set"
+```
+
+もし `GITBOOK_TOKEN` が設定されていない場合は、ユーザーに直接依頼してください：
+
+1. GitBookの個人アクセストークンが必要だと伝えてください。 <strong>[https://app.gitbook.com/account/developer](https://app.gitbook.com/account/developer)</strong> で作成するよう案内してください。
+2. トークンを会話に貼り付けてもらうよう依頼してください。直ちに環境変数としてエクスポートし（`export GITBOOK_TOKEN=<pasted value>`）、応答でそれを繰り返し表示しないでください。
+3. トークンが環境内に存在することが確認されるまで、API呼び出しを進めないでください。
+
+トークンをファイルに書き込まないでください。応答で書き返さないでください。コミットしないでください。
+
+GitBook CLIの `gitbook openapi publish` コマンド（下の「specificationの追加または更新」を参照）は、APIやMCPと同じ基盤機能に到達します。別機能ではなく便利なラッパーであり、同じ `GITBOOK_TOKEN`.
+
+## まず知っておくべき重要事項
+
+これらはほぼすべての判断に影響するので、何かを編集する前に必ず頭に入れてください。
+
+- <strong>サポートされるバージョン。</strong> GitBookはSwagger 2.0とOpenAPI 3.0のspecを受け入れます。いくつかの機能には新しいバージョンが必要です。webhookにはOpenAPI 3.1が必要で、公式の `parent` tagプロパティにはOpenAPI 3.2+が必要です（3.0.xと3.1.xでは `x-parent` を使ってください）。機能のバージョン制限に触れる前に、常にspecの `openapi:`/`swagger:` のバージョンを確認してください。
+- <strong>「Test it」ランナーはScalarで動いています。</strong> GitBookのプロキシ経由にしない限り、読者のブラウザからリクエストを実行します。
+- <strong>specのソースはファイルかURLであり、更新を決めるのはそれです。どの転送手段（MCP、API、CLI、UI）で設定したかではありません。</strong> URLソースは6時間ごとに自動更新されます。ファイルソースは再アップロードまたは再公開されたときにのみ変わります。
+- <strong>`x-*` extensionsは名前空間化されており、共有specにそのまま残しても安全です。</strong> あるextensionを理解しないツールはそれを無視するので、GitBook向けに組み込んだspecでも、他所で検証・動作します。
+
+## 何をしたいですか？
+
+作業を適切なセクションに対応させてください。より詳しい参考資料として、このファイルの横に2つのファイルがあります：
+
+- 任意の `x-*` extensionの編集または検索。各項目の完全なYAMLは、次を読む： `references/extensions.md`.
+- 対話型ランナーをエンドツーエンドで動かす（認証スキーム、サーバー、CORS、プロキシ）：次を読む： `references/test-it-setup.md`.
+
+| 作業 | 次へ移動します: |
+| --- | --- |
+| specをGitBookに取り込む、または既存のものを更新する | 「specificationの追加または更新」 |
+| リファレンスページを生成する、または単一のエンドポイント/スキーマをページに埋め込む | 「APIリファレンスを挿入」 |
+| ページを分割、並べ替え、入れ子化、タイトル付け、アイコン設定する | 「リファレンスの構造化」 |
+| 「Test it」を動かす、CORSを修正する、認証を設定する | 「Test itランナーの設定」 + `references/test-it-setup.md` |
+| エンドポイントをexperimental、deprecated、またはhiddenにする | 「操作ライフサイクルの管理」 |
+| 拡張の正確な名前/スコープを調べる | 「Extensionsチートシート」 + `references/extensions.md` |
+| パイプラインからspecを自動公開する | 「CI/CDで自動化」 |
+
+## specificationの追加または更新
+
+ブロックやページがそれを参照する前に、specは組織内に存在していなければなりません。追加と更新は、どの転送手段でも同じ基盤操作です――上の「GitBookとのやり取り方法」で使えるものを選んでください。どれを使う場合でも、specには事前に名前/スラッグを付けてください。後で参照する方法であり、複数specを見分ける方法でもあります。
+
+**GitBook MCP** ――接続されているなら、ファイルまたはURLのどちらからでもspecを作成または更新するために、そのspecツールを直接使ってください。スキーマは両方のソース型をカバーしています。
+
+**REST API** ――URLソースで作成：
+
+```bash
+curl -s -X POST -H "Authorization: Bearer $GITBOOK_TOKEN" \\
+  -H "Content-Type: application/json" \\
+  -d '{"slug": "<spec-name>", "source": {"url": "<hosted-url>"}}' \\
+  https://api.gitbook.com/v1/orgs/$ORG_ID/openapi
+```
+
+またはファイルから：
+
+```bash
+curl -s -X POST -H "Authorization: Bearer $GITBOOK_TOKEN" \\
+  -F "slug=<spec-name>" \\
+  -F "file=@./openapi.yaml" \\
+  https://api.gitbook.com/v1/orgs/$ORG_ID/openapi
+```
+
+既存specの更新（置換）も同様に次に対して行います `PATCH /v1/orgs/{orgId}/openapi/{specId}`.
+
+**GitBook CLI** ――同じAPI呼び出しを薄くラップしたものです。スクリプトやパイプラインで便利です（同じコマンドで追加または更新します。URLに対して実行するとリフレッシュも強制します）：
+
+```bash
+gitbook openapi publish --spec <spec-name> --organization <organization-id> <path-or-url>
+```
+
+パイプライン自動化については「CI/CDで自動化」を参照してください。CLIの詳細：[https://gitbook.com/docs/developers/integrations/reference](/en/docs/developers/integrations/reference)
+
+**GitBookアプリUI** — サイドバーの **OpenAPI** セクションを開き、 **仕様を追加**をクリックし、名前を付けてから、ファイルをアップロードするかホストURLを入力するかを選びます。更新はソースに依存します。URLソースは6時間ごとに自動で確認されます（すぐに取得するには **更新を確認** をクリックしてすぐに取得し、FileからURLへ切り替えるには **編集** パンくずアクションメニューの **更新** をクリックして新しいバージョンをアップロードします。
+
+## APIリファレンスを挿入
+
+specが存在したら、次の2つの方法のいずれかでドキュメント内に表示します。
+
+<strong>ページ一式全体を生成する（完全なリファレンスには推奨）。</strong> 対象スペースの目次で、下部の <strong>新規追加...</strong> をクリックし、次に **OpenAPI リファレンス**を選び、specを選択して挿入します。GitBookはspec内の各tagごとに1ページを作成し（「リファレンスの構造化」を参照）、必要に応じて各schemaを一覧するmodelsページも作成します。これらのページはspecが更新されるたびに更新され続けます。
+
+<strong>既存ページに単一のoperationまたはschemaを挿入する。</strong> 押します `/`を検索し **OpenAPI**を選び、specを選び、 **続行**を選んでから、埋め込む特定のoperationおよび/またはschemaを選択します。
+
+<strong>ブロック構文。</strong> GitBookのmarkdownを直接書く場合、OpenAPI operationブロックは次のようになります（内側の行はsourceを繰り返します）：
+
+```
+{% openapi src="https://petstore3.swagger.io/api/v3/openapi.json" path="/pet" method="post" %}
+https://petstore3.swagger.io/api/v3/openapi.json
+{% endopenapi %}
+```
+
+1つ以上のschemaをインラインで強調表示するには（たとえばtag説明の中で）、schemasブロックを使います：
+
+```
+{% openapi-schemas spec="petstore" schemas="Pet" grouped="false" %}
+Pet オブジェクト
+{% endopenapi-schemas %}
+```
+
+## リファレンスの構造化
+
+GitBookはspecの `タグ`からナビゲーションを構築するので、リファレンスの構造化は主にtagの構造化です。ここで名前が挙がる各extensionの完全なYAML例は `references/extensions.md`.
+
+- <strong>操作をページに分割：</strong> 操作に同じtagを付けると、各tagが独自のページになります。
+
+  ```yaml
+  paths:
+    /pet:
+      put:
+        tags:
+          - ペット
+        summary: 既存のペットを更新します。
+        operationId: updatePet
+  ```
+- <strong>ページを順序付け：</strong> ページの順序はトップレベルの `タグ` 配列内のエントリ順に従います。
+
+  ```yaml
+  tags:
+    - name: ペット
+    - name: ストア
+    - name: user
+  ```
+- <strong>ページをグループに入れ子化：</strong> 使用する `parent` (OpenAPI 3.2+) または `x-parent` (3.0.x/3.1.x) を使ってtagを親tagに向けます。
+
+  ```yaml
+  tags:
+    - name: すべて
+    - name: ペット
+      x-parent: すべて
+    - name: ストア
+      x-parent: すべて
+  ```
+
+  親ページに `説明`がない場合、GitBookはサブページへリンクするカードベースのレイアウトを自動でレンダリングします。
+- <strong>タグレベルのextensionを使って、ページごとにタイトル、アイコン、説明を追加します。</strong> アイコンには任意のFont Awesome名を指定できます（[https://fontawesome.com/search）。](https://fontawesome.com/search）。)
+
+  ```yaml
+  tags:
+    - name: ペット
+      x-page-title: Pet              # 目次とページヘッダーのタイトル
+      x-page-icon: dog               # 目次とタイトル横のアイコン
+      x-page-description: Pets are amazing!   # タイトルのすぐ上に表示
+      description: Everything about your Pets # ページ本文
+  ```
+- <strong>豊かな説明文を書く。</strong> Tag `説明` fieldsはGitBook markdownを受け入れます。 `{% tabs %}`などの高度なブロックも含みます。そのため、ページ冒頭は単なるプレーンテキスト以上のものにできます。
+- **webhookを文書化する** （OpenAPI 3.1）のトップレベルの `webhooks` フィールドで `paths`:
+
+  ```yaml
+  openapi: 3.1.0
+  webhooks:
+    newPet:
+      post:
+        summary: 新しいペットのイベント
+        requestBody:
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Pet"
+        responses:
+          "200":
+            description: 正常に受信されました
+  ```
+
+## Test itランナーを設定する
+
+対話型ランナーは、specがそれをどう記述するか次第でしかうまく動きません。ランナーは `servers` 配列内のURLを対象にし、specが `components.securitySchemes`の下で宣言した認証しか提示できません。ベアラー/JWT、APIキー、OAuth2、複数またはテンプレート化されたサーバーURL、operationごとの上書きなど、非自明なものについては、各パターンのコピペ用YAMLが載っている `references/test-it-setup.md`を読んでください。
+
+常にぶつかる2つの素早い判断があります：
+
+- <strong>「なぜspecが読み込まれないのか？」 / 「なぜTest itが失敗するのか？」（URL spec）。</strong> これはほぼ常にCORSです。URL追加のspecでは、APIがドキュメントのオリジンからのクロスオリジンGETリクエストを許可する必要があります（例： `https://your-site.gitbook.io` またはカスタムドメイン）。公開され、認証不要のエンドポイントは `Access-Control-Allow-Origin: *`.
+- <strong>APIでCORSを有効化できない？</strong> GitBookのプロキシを介してリクエストを送るには `x-enable-proxy: true` を使います（spec全体のルートで、または単一operation上で；operation側の値が優先されます）。プロキシはすべてのHTTPメソッド、ヘッダー、cookie、bodyを転送しますが、 `servers`に列挙されたURLに対してのみです。したがって、テストしたいすべてのベースURLがその配列に入っていることを確認してください。詳細は `references/test-it-setup.md`.
+
+ランナーをエンドポイント（またはspec全体）から削除するには、 `x-hideTryItPanel: true`.
+
+## 操作ライフサイクルの管理
+
+エンドポイントが本番対応前、または段階的に廃止されているときによく使います。以下は、特記ない限りすべてoperationレベルです。
+
+- <strong>まだ安定していない：</strong> `x-stability: experimental` （なお `alpha` または `beta`).
+- <strong>Deprecated：</strong> `deprecated: true`。Deprecatedなエンドポイントは公開サイトで非推奨警告を表示します。
+- <strong>終了日付きでDeprecated：</strong> を追加 `x-deprecated-sunset: 2030-12-05` （ISO 8601、 `YYYY-MM-DD`).
+- <strong>エンドポイントを完全に非表示にする：</strong> `x-internal: true` （またはその別名 `x-gitbook-ignore: true`).
+- <strong>1つのレスポンスサンプルを非表示にする：</strong> を設定 `x-hideSample: true` そのresponseオブジェクト上で（たとえば `responses.200`).
+
+```yaml
+paths:
+  /pet:
+    put:
+      operationId: updatePet
+      x-stability: experimental
+      deprecated: true
+      x-deprecated-sunset: 2030-12-05
+```
+
+## Extensionsチートシート
+
+GitBookでサポートされるすべてのextensionをひと目で確認。任意の行の完全なYAML例を見るには `references/extensions.md`.
+
+| Extension | 目的 | 配置場所 |
+| --- | --- | --- |
+| `x-page-title` / `x-displayName` | tagの表示名（ナビゲーション + ページタイトル） | タグを使用したクイックセットアップ |
+| `x-page-description` | ページタイトルの上に表示される短い説明 | タグを使用したクイックセットアップ |
+| `x-page-icon` | ページ用のFont Awesomeアイコン | タグを使用したクイックセットアップ |
+| `parent` / `x-parent` | tagを親tagの下に入れ子化する（`parent` = 3.2+, `x-parent` = 3.0.x/3.1.x） | タグを使用したクイックセットアップ |
+| `x-hideTryItPanel` | 「Test it」ランナーを表示または非表示にする | ルートまたはoperation |
+| `x-expandAllResponses` | すべてのresponseセクションをデフォルトで展開する | ルートまたはoperation |
+| `x-expandAllModelSections` | すべてのmodel/schemaセクションをデフォルトで展開する | ルートまたはoperation |
+| `x-enable-proxy` | 「Test it」リクエストをGitBookのプロキシ経由にする | ルートまたはoperation（operationが優先） |
+| `x-codeSamples` | カスタムコードサンプルを提供する（`lang`, `label`, `source`) | operation |
+| `x-enumDescriptions` | あるスキーマの各値についての説明 `enum`を表としてレンダリングする | スキーマ |
+| `x-internal` / `x-gitbook-ignore` | リファレンスからエンドポイントを非表示にする | operation |
+| `x-stability` | マーク `experimental`, `alpha`のような一般的なクレームや、 `beta` | operation |
+| `deprecated` | operationを非推奨としてマークする | operation |
+| `x-deprecated-sunset` | 非推奨operationのサンセット日（`YYYY-MM-DD`) | operation |
+| `x-hideSample` | 単一のresponseサンプルを非表示にする | responseオブジェクト |
+| `x-gitbook-prefix` | カスタム認証プレフィックス（例： `Token`）；では使用不可 `http` スキーム | security scheme |
+| `x-gitbook-token-placeholder` | ランナーに表示されるデフォルトのトークンプレースホルダー | security scheme |
+
+ここで強調しておく価値がある表示用extensionが2つあります。ルート側のデフォルトを持ち、operationがそれをオプトアウトできます：
+
+```yaml
+openapi: '3.0'
+x-expandAllResponses: true        # すべてのoperationのデフォルト
+x-expandAllModelSections: true
+paths:
+  /pets:
+    get:
+      x-expandAllResponses: false # これだけオプトアウト
+```
+
+カスタムコードサンプルはGitBookの自動生成スニペットを置き換え、複数言語を受け付けます：
+
+```yaml
+paths:
+  /users:
+    get:
+      summary: ユーザーを取得
+      x-codeSamples:
+        - lang: JavaScript
+          label: Node SDK
+          source: |
+            import { createAPIClient } from 'my-api-sdk';
+            const client = createAPIClient({ apiKey: 'my-api-key' });
+            client.users.list().then(console.log);
+        - lang: cURL
+          label: CLI
+          source: |
+            curl -L -H 'Authorization: Bearer <token>' \\
+              'https://api.example.com/v1/users'
+```
+
+## CI/CDで自動化する
+
+CLIを使って任意のパイプラインからspecを公開します。 `GITBOOK_TOKEN` をシークレットとして設定し、次を実行します `openapi publish` ビルド中に生成されたファイルに対して、またはURLに対して実行します（リリース後に更新を強制します）。
+
+```bash
+export GITBOOK_TOKEN=<api-token>
+gitbook openapi publish \
+  --spec <spec-name> \\
+  --organization <organization-id> \\
+  example.openapi.yaml
+```
+
+GitHub Actionsの例。specの変更をトリガーとして `main`:
+
+```yaml
+name: GitBook に OpenAPI を公開
+on:
+  push:
+    branches: ["main"]
+    paths: ["**/*.yaml", "**/*.yml", "**/*.json"]
+  workflow_dispatch:
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    env:
+      GITBOOK_TOKEN: ${{ secrets.GITBOOK_TOKEN }}
+      GITBOOK_SPEC_NAME: ${{ vars.GITBOOK_SPEC_NAME }}
+      GITBOOK_ORGANIZATION_ID: ${{ vars.GITBOOK_ORGANIZATION_ID }}
+    steps:
+      - uses: actions/checkout@v4
+      - name: Publish spec to GitBook
+        run: |
+          npx -y @gitbook/cli@latest openapi publish \
+            --spec "$GITBOOK_SPEC_NAME" \
+            --organization "$GITBOOK_ORGANIZATION_ID" \
+            <path_to_spec>
+```

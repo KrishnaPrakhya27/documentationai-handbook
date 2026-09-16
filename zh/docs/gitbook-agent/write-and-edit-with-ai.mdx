@@ -1,0 +1,121 @@
+---
+title: 使用 GitBook Agent 写作
+description: 使用 GitBook Agent 为你的页面生成并构建内容
+metaTitle: 使用 GitBook Agent 写作 | GitBook Documentation
+ogImage: https://test-dai.imgix.net/org-4afef969-21f9-40f3-b5b8-b06c8b6cf68f/doc-22a3b060-9539-4176-97e4-49120e02f5d1/0a5a1a9630785855-organizations-d8f63b60-89ae-11e7-8574-5927d48c4877-sites-site_p4Xo4-socialprevie.jpg?fm=auto&auto=compress%2Cformat
+---
+
+GitBook Agent 是一款强大的工具，可为你在 GitBook 中的文档生成内容。
+
+Agent 能做的事情很多：从在页面上撰写简短文本，到编辑现有块、创建新页面等等，都可以在一次更改请求中完成。
+
+<Callout kind="info">
+  #### GitBook Agent 会遵循你的风格指南
+
+  在一个中定义你团队的写作规则 [风格指南](/zh/docs/chuang-jian-nei-rong/styleguide)，并且当你请求它提供帮助时，Agent 会将其视为唯一可信来源。它会将你的风格指南的 **第一页** 加载到每个任务的上下文中，因此请把主要规则放在那里。
+
+  你也可以 [添加简短的自定义说明](/zh/docs/gitbook-agent/overview#add-a-style-guide-and-custom-instructions) 在站点级别。
+</Callout>
+
+### GitBook Agent 能做什么？
+
+GitBook Agent 与 GitBook 应用深度集成，因此它能理解你在编辑器中可以创建的块，以及你所在章节更广泛的内容。
+
+这意味着你可以用 Agent 来：
+
+- 根据你的提示词撰写新内容
+- 搜索现有页面并更新特定内容
+- 重新格式化内容，以充分利用 GitBook 的不同块类型
+- 更新代码示例
+- 在页面之间移动内容
+- 在指定位置添加新页面
+
+### 如何与 GitBook Agent 交互
+
+与 GitBook Agent 协作有几种方式：
+
+- 在现有更改请求中打开 Agent，并告诉它你需要什么
+- 使用 GitBook Agent 规划并实施新的更改请求
+- 在块的评论中标记 Agent
+- 在页面上的空白行创建新内容
+
+让我们逐一了解这些方式，看看它们是如何工作的。
+
+#### 在任何更改请求中打开 GitBook Agent 聊天窗口
+
+你可以随时通过点击 **GitBook Agent** 按钮在章节标题栏中打开更改请求里的 Agent 聊天窗口。这会在应用右侧打开 Agent 的聊天窗口。
+
+<Image src="https://test-dai.imgix.net/org-4afef969-21f9-40f3-b5b8-b06c8b6cf68f/doc-22a3b060-9539-4176-97e4-49120e02f5d1/5eebdf1e2478b3f2-spaces-NkEGS7hzeqa35sMXQZ4X-uploads-PQtoLdPQWjOsz0vdowMn-CleanShot-2025-12-08-at.png?fm=auto&auto=compress%2Cformat" alt="" caption="在更改请求中打开 GitBook Agent" />
+
+你可以在这里为 Agent 编写提示词，告诉它要做什么——它会在执行你的指令时解释自己正在做的事情，而更改会在它工作时显示在你的章节中。
+
+你可以随时给出后续指令、澄清步骤，或直接编辑你章节中的内容，从而与 GitBook Agent 并肩协作。
+
+#### 使用 GitBook Agent 实施更改请求
+
+点击 **GitBook Agent** 作为 **编辑** 按钮的一部分，点击章节右上角的按钮以打开一个弹窗。
+
+你可以在这里写一段提示词，告诉 Agent 你希望更改请求包含哪些内容，然后添加一些可能对理解这些更改有用的参考页面。
+
+一旦你点击 **开始更改请求** Agent 就会为你打开一个更改请求并开始执行你的指令。在每个阶段，Agent 都会在应用右侧的聊天窗口中告诉你它正在做什么。
+
+完成后，你可以直接在页面上自行编辑内容，或者给 Agent 更多指令，继续优化你的更改。
+
+#### 在评论中标记 GitBook Agent
+
+如果你想让 Agent 审阅页面上的某个特定块，可以在评论中标记它，并告诉它你的需求。只需点击 **对块发表评论** 并通过标记 @gitbook 来标记 Agent，然后告诉它你想让它做什么。
+
+GitBook Agent 会根据你的提示更新内容，然后回复你的评论，告诉你它做了什么。
+
+#### 使用 GitBook Agent 改进页面内容
+
+<Image src="https://test-dai.imgix.net/org-4afef969-21f9-40f3-b5b8-b06c8b6cf68f/doc-22a3b060-9539-4176-97e4-49120e02f5d1/c1cd1a32d1f1f9e2-spaces-NkEGS7hzeqa35sMXQZ4X-uploads-FTJDHOlJcYyh2M3tK6Xe-page-actions.png?fm=auto&auto=compress%2Cformat" alt="" />
+
+该 <strong>“Improve”</strong> 菜单为你提供了一组预设选项，让 GitBook Agent 执行常见操作来改进你的页面内容。
+
+你可以访问 <strong>“Improve”</strong> 菜单：在编辑器中将鼠标悬停在页面标题上，或通过打开页面的 **操作菜单** <Image src="https://test-dai.imgix.net/org-4afef969-21f9-40f3-b5b8-b06c8b6cf68f/doc-22a3b060-9539-4176-97e4-49120e02f5d1/4fa265378c13a520-spaces-NkEGS7hzeqa35sMXQZ4X-uploads-89MTSo5XRpPMVr1T0rxS-actions.svg?rasterize-bypass=true" alt="" />.
+
+在“Improve”菜单中，你可以让 Agent：
+
+- 为页面添加图标
+- 根据页面内容生成页面描述
+- 修正拼写和语法
+- 重写以与其他页面保持一致
+- 针对 SEO 进行优化
+- 添加摘要和后续步骤部分
+- 链接到相关主题和页面
+- 将单个页面拆分为多个页面
+
+前两个选项是有条件的——它们会根据你的页面内容而变化。所以如果你的页面已经有图标和描述，你就不会在菜单中看到这些选项。
+
+点击任一选项，Agent 就会立即开始处理你的任务。
+
+#### 在空白块中创建新内容
+
+你可以使用 GitBook Agent 在页面上的任何空白行创建内容。它可以创建各种内容——以 Markdown 格式编排——包括代码示例、模板、页面摘要等更多内容。
+
+按 `空格键` 在任何空白行上，或输入 `/` 并选择 **使用 AI 撰写** 来启动 GitBook Agent。
+
+你可以立即开始输入任何你想要的提示词。GitBook Agent 会分析提示并据此生成内容。例如：
+
+> 给我写一个两段式概述，说明为什么文档对产品团队很重要。
+
+另外，你也可以从建议的提示词或提示词开头中选择一个：
+
+- **继续写作** ——GitBook Agent 会分析你当前页面上的内容，然后据此生成更多内容。
+- <strong>解释……</strong> ——选择这个，然后告诉 GitBook Agent 你想让它解释什么。这个不受页面内容限制，所以你可以让它解释任何东西。
+- **总结** ——总结你页面上的所有内容。这非常适合在详细文档底部写一个 TL;DR，或在顶部添加一个供快速查看的简要总结。
+- **解释这个** ——这会用更简单的语言解释你页面上的复杂信息，包括解释缩略语和其他行话。如果你阅读的页面包含大量复杂信息，或者你想为不太熟悉技术的人添加说明，这非常合适。
+- **翻译** ——将你当前页面翻译成预设数量的语言之一。如果你想翻译成列表中没有的语言，只需将其输入提示框。
+
+### 为 GitBook Agent 编写高效提示词
+
+GitBook Agent 就像一个很擅长听从指令的队友。你需要给它清晰的说明和上下文，才能获得最佳结果。
+
+以下是编写优质提示词的几个快速技巧：
+
+- **拆分任务** ——Agent 最擅长完成聚焦明确的任务。将复杂项目拆分为更小的步骤，并让 Agent 一次完成一个。
+- **要具体** ——像 `@gitbook 改进这个页面` 这样的通用提示词会应用通用最佳实践，但如果没有更具体的指导，Agent 可能无法达到你期望的目标。
+- **聚焦结果** ——如果你听说客户遇到了某个特定问题，就把这些问题——或你想达成的结果——告诉 Agent。它会基于这些结果提出改进建议。
+- **给出直接指令** ——如果你希望 Agent 在分步指南中使用步骤块，或者添加一个包含多个可展开块的 FAQ 部分，请准确告诉它要做什么，以便一次就得到正确结果。
+- **使用宽泛提示词来进行更大范围的改进** ——对于修复拼写错误、在各页面更新功能名称，或从文档中移除特定块类型之类的维护任务，你可以使用如下命令： `@gitbook 将所有 v2.3.9 替换为 v2.4.0`.

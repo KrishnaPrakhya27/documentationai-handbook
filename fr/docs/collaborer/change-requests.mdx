@@ -1,0 +1,74 @@
+---
+title: Demandes de modification
+description: Collaborez sur les modifications de contenu via des demandes de modification
+metaTitle: Demandes de modification | GitBook Documentation
+ogImage: https://test-dai.imgix.net/org-4afef969-21f9-40f3-b5b8-b06c8b6cf68f/doc-22a3b060-9539-4176-97e4-49120e02f5d1/0a5a1a9630785855-organizations-d8f63b60-89ae-11e7-8574-5927d48c4877-sites-site_p4Xo4-socialprevie.jpg?fm=auto&auto=compress%2Cformat
+---
+
+Une demande de changement est une copie de votre contenu principal. Elle repose sur le concept de branchement et sera familière à toute personne qui utilise des pull requests sur GitHub ou des merge requests sur GitLab.
+
+Dans une demande de changement, vous pouvez modifier, mettre à jour et supprimer du contenu, demander des revues de vos changements, puis les fusionner à nouveau dans votre version principale.
+
+Pour parcourir et gérer les demandes de changement ouvertes sur l’ensemble de votre site, consultez la [écran des demandes de changement](/fr/docs/collaborer/change-requests/change-requests-screen).
+
+<Image src="https://test-dai.imgix.net/org-4afef969-21f9-40f3-b5b8-b06c8b6cf68f/doc-22a3b060-9539-4176-97e4-49120e02f5d1/f91d675b30e06009-spaces-NkEGS7hzeqa35sMXQZ4X-uploads-wn8xlD4x46N7JblHVSnP-collaboration-change-re.png?fm=auto&auto=compress%2Cformat" alt="A GitBook screenshot showing the change requests panel" caption="Modifiez votre contenu via des demandes de changement." />
+
+<a id="diff-mode"></a>
+
+### Examiner les changements dans la vue des différences
+
+Ouvrez l’ **Modifications** onglet pour examiner les modifications d'une demande de changement. Vous pouvez consulter toutes les pages dans leur contexte, ou vous concentrer uniquement sur les pages modifiées.
+
+En bas de l’éditeur, le navigateur de différences flottant vous permet de passer d’un bloc modifié à l’autre, de continuer vers la page suivante comportant des différences, et de terminer la revue à partir de la dernière modification grâce aux actions de revue disponibles.
+
+<Callout kind="info">
+  Par défaut, les changements s’affichent en « vue scindée ». À gauche se trouve la version « avant » de la page, et à droite l’état « après ». Si vous préférez voir les changements en ligne dans une mise en page à une seule colonne, cliquez sur le bouton du mode de différences en haut à droite du panneau Table des matières.
+</Callout>
+
+### Créer et fusionner une demande de changement
+
+<Steps>
+  <Step title="Ouvrir une demande de changement" titleType="h3">
+    Pour modifier du contenu, ouvrez une demande de changement. Vous pouvez en ouvrir une de plusieurs façons :
+
+    - Cliquez sur **Modifier** dans le coin supérieur droit d’une section.
+    - Demandez à l’Agent GitBook d’en créer une pour vous.
+    - L’Agent GitBook peut en créer une automatiquement lorsqu’il détecte une lacune dans la documentation.
+
+    Si vous en ouvrez une manuellement, GitBook crée la demande de changement et l’ouvre dans l’éditeur.
+  </Step>
+
+  <Step title="Apportez vos modifications" titleType="h3">
+    Modifiez directement le contenu dans l’éditeur, ou travaillez avec l’Agent GitBook.
+
+    Relisez vos modifications avant de passer à l’étape suivante. Vous pouvez continuer à modifier jusqu’à ce que vous soyez prêt à demander une revue.
+  </Step>
+
+  <Step title="Demander une revue" titleType="h3">
+    Ouvrez l’ **Aperçu** onglet, puis mentionnez un ou plusieurs relecteurs.
+
+    Les relecteurs peuvent approuver vos modifications, laisser des commentaires ou demander d’autres modifications. Si vous ne mentionnez personne, toutes les personnes disposant d’autorisations de relecture dans la section sont averties. Si la section n’a pas de relecteurs, ce sont les éditeurs et les administrateurs qui sont avertis à la place.
+
+    Si quelqu’un demande des modifications, mettez à jour la demande de changement avant de la fusionner. Vous pouvez également demander à l’Agent GitBook de l’examiner.
+  </Step>
+
+  <Step title="Fusionner" titleType="h3">
+    Une fois la demande de changement approuvée, ouvrez l’ **Aperçu** onglet et cliquez sur **Fusionner**.
+
+    GitBook applique immédiatement les modifications à votre documentation en ligne. Si votre section utilise des règles de fusion, GitBook les vérifie avant de fusionner.
+
+    La fusion est irréversible. Pour annuler ou ajuster le contenu, ouvrez une nouvelle demande de changement.
+  </Step>
+</Steps>
+
+### Travailler avec les demandes de changement
+
+<Columns cols={2}>
+  <Card title="Écran des demandes de changement" href="/fr/docs/collaborer/change-requests/change-requests-screen">
+    Consultez et gérez les demandes de changement dans l’ensemble de votre organisation
+  </Card>
+
+  <Card title="Demandes de changement dans un espace" href="/fr/docs/collaborer/change-requests/change-requests-in-a-space">
+    Créez et examinez des demandes de changement dans un seul espace
+  </Card>
+</Columns>

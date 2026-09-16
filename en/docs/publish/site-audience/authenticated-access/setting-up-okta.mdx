@@ -1,0 +1,88 @@
+---
+title: Setting up Okta
+description: Set up an Okta login screen for visitors to your docs
+metaTitle: Setting up Okta | GitBook Documentation
+ogImage: https://test-dai.imgix.net/org-4afef969-21f9-40f3-b5b8-b06c8b6cf68f/doc-22a3b060-9539-4176-97e4-49120e02f5d1/0a5a1a9630785855-organizations-d8f63b60-89ae-11e7-8574-5927d48c4877-sites-site_p4Xo4-socialprevie.jpg?fm=auto&auto=compress%2Cformat
+---
+
+<Callout kind="alert">
+  This guide takes you through setting up a protected sign-in screen for your docs. Before going through this guide, make sure you’ve first gone through the process of [enabling authenticated access](/en/docs/publish/site-audience/authenticated-access/enabling-authenticated-access).
+</Callout>
+
+To setup your GitBook site with authenticated access using Okta, the process looks as follows:
+
+<Steps>
+  <Step title="Create a new Okta application">
+    Create an Okta application from your Okta dashboard.
+  </Step>
+
+  <Step title="Install and configure the Okta integration">
+    Install the Okta integration and add the required configuration.
+  </Step>
+
+  <Step title="Configure Okta for adaptive content (optional)">
+    Configure Okta to work with adaptive content in GitBook.
+  </Step>
+</Steps>
+
+### Create a new Okta application
+
+First, sign in to Okta platform (the admin version) and create a new app integration (or use an existing one) by clicking the Applications button in the left sidebar.
+
+<Image src="https://test-dai.imgix.net/org-4afef969-21f9-40f3-b5b8-b06c8b6cf68f/doc-22a3b060-9539-4176-97e4-49120e02f5d1/1b54e7cdb4ad87ba-spaces-NkEGS7hzeqa35sMXQZ4X-uploads-8roQ3QDR5zsyFh2FoQS4-Screen-Shot-2023-10-30-.png?fm=auto&auto=compress%2Cformat" alt="An Okta screenshot showing the create app integration screen" />
+
+Click Create App Integration and select OIDC - OpenID Connect as the Sign-In method. And then select Web Application as the application type.
+
+<Image src="https://test-dai.imgix.net/org-4afef969-21f9-40f3-b5b8-b06c8b6cf68f/doc-22a3b060-9539-4176-97e4-49120e02f5d1/4dd960d2464f0b02-spaces-NkEGS7hzeqa35sMXQZ4X-uploads-qgFHYo6HOUGF8dUTFEJM-Screen-Shot-2023-10-30-.png?fm=auto&auto=compress%2Cformat" alt="An Okta screenshot showing the integration setup" />
+
+Name it appropriately and don't edit any other setting on that page. For assignments, choose the appropriate checkbox. Click Save.
+
+On the next screen, copy Client ID and Client Secret. Copy the Okta Domain right below your email address by clicking the dropdown in the top right.
+
+<Image src="https://test-dai.imgix.net/org-4afef969-21f9-40f3-b5b8-b06c8b6cf68f/doc-22a3b060-9539-4176-97e4-49120e02f5d1/a3ae098ddc270e3c-spaces-NkEGS7hzeqa35sMXQZ4X-uploads-JQWvrITuUlno737DbQKM-Screen-Shot-2023-10-30-.png?fm=auto&auto=compress%2Cformat" alt="An Okta screenshot showing where to copy client credentials" />
+
+We will need these values to configure the Okta Integration.
+
+### Install and configure the Okta integration
+
+Navigate to the Integrations tab in the site you want to publish and locate the Okta integration.
+
+<Image src="https://test-dai.imgix.net/org-4afef969-21f9-40f3-b5b8-b06c8b6cf68f/doc-22a3b060-9539-4176-97e4-49120e02f5d1/c74994ebdf91855a-spaces-NkEGS7hzeqa35sMXQZ4X-uploads-eFArORtsvAcvgwbDZNce-Screen-Shot-2024-12-13-.png?fm=auto&auto=compress%2Cformat" alt="A GitBook screenshot showing the site settings page" />
+
+Install the integration on your site.
+
+Upon installation on site, you will see a screen asking you enter the Client ID, Okta Domain, and Client Secret.
+
+<Image src="https://test-dai.imgix.net/org-4afef969-21f9-40f3-b5b8-b06c8b6cf68f/doc-22a3b060-9539-4176-97e4-49120e02f5d1/01bbd6ae1c4c3cb7-spaces-NkEGS7hzeqa35sMXQZ4X-uploads-HrwQ0ASv1tD6kTZPVLMY-Screen-Shot-2024-12-13-.png?fm=auto&auto=compress%2Cformat" alt="A GitBook screenshot showing the Okta credentials modal" />
+
+For Client ID, Okta Domain (remove `https://`prefix, if any) and Client Secret, paste in the value you copied from Okta Dashboard.
+
+Click Save.
+
+Copy the URL displayed in the modal and enter it as a Sign-In redirect URI in Okta (as shown in the below screenshot). Hit Save.
+
+<Image src="https://test-dai.imgix.net/org-4afef969-21f9-40f3-b5b8-b06c8b6cf68f/doc-22a3b060-9539-4176-97e4-49120e02f5d1/a0bc1d3c93bde414-spaces-NkEGS7hzeqa35sMXQZ4X-uploads-pPZlqJlE6koyHrWhSp8i-Screen-Shot-2024-01-14-.png?fm=auto&auto=compress%2Cformat" alt="An Okta screenshot showing the sign-in redirect URI configuration" />
+
+Now, in GitBook, close the integrations modal and click on the Manage site button. Navigate to **Audience**, select **Authenticated access**, and choose Okta as the backend. Then, click **Update audience**. Go to the site’s screen and click **Publish**.<br /><br />The site is now published behind authenticated access controlled by your Auth0 application. To try it out, click on Visit. You will be asked to sign in with Okta, which confirms that your site is published behind authenticated access using Auth0.
+
+### Configure Okta for adaptive content (optional)
+
+To enable Adaptive Content in your GitBook site with authenticated access, you’ll need to configure your Okta application to include relevant user data as claims in the authentication token.
+
+Claims are key-value pairs embedded in the token sent to GitBook. These claims can be used to dynamically tailor documentation based on the user’s role, plan, location, or any other identifying attribute.
+
+Okta supports multiple types of claims:
+
+- **Standard Claims**<br />These are common claims (like `email`, `name`, or `groups`) that may be included by default but often need to be explicitly added to your token configuration for consistent availability.
+- **Custom Claims**<br />You can define custom claims in Okta using [custom user attributes](https://help.okta.com/en-us/content/topics/users-groups-profiles/usgp-add-custom-user-attributes.htm) or expression-based logic. These allow you to pass highly specific values—like plan tier, account ID, or internal team flags.
+- **Groups as Claims**<br />You can also pass Okta groups as claims, which is especially useful when defining audience segments like “enterprise users” or “beta testers.” These can be filtered and mapped in your authorization server’s claim configuration.
+
+To add or customize claims in Okta:
+
+1. Open your Okta Admin Console.
+2. Navigate to **Security > API > Authorization Servers**.
+3. Edit the authorization server used for your GitBook site.
+4. Under the **Claims** tab, add rules to include the desired claims in the token.
+5. Make sure your GitBook site is reading and mapping those claims correctly.
+
+Once claims are being passed into GitBook, follow the steps in [Adapting your content](/en/docs/publish/adaptive-content/adapting-your-content) to define what content should be shown to whom.

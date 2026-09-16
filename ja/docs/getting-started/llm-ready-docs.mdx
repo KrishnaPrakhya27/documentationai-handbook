@@ -1,0 +1,70 @@
+---
+title: LLM対応ドキュメント
+description: 公開したドキュメントを、AIツールが見つけやすく、読みやすく、使いやすいものにしましょう
+metaTitle: LLM対応ドキュメント | GitBook Documentation
+ogImage: https://test-dai.imgix.net/org-4afef969-21f9-40f3-b5b8-b06c8b6cf68f/doc-22a3b060-9539-4176-97e4-49120e02f5d1/0a5a1a9630785855-organizations-d8f63b60-89ae-11e7-8574-5927d48c4877-sites-site_p4Xo4-socialprevie.jpg?fm=auto&auto=compress%2Cformat
+---
+
+GitBookはあなたのdocsサイト向けにAI対応フォーマットを自動で公開します。
+
+これらは大規模言語モデル（LLM）、コーディングエージェント、AI検索システムに役立ちます。これらのツールはHTMLを解析せずに、正確なドキュメントを見つけて取得できます。
+
+## Markdownページ
+
+追加 `.md` を公開済みページURLの末尾に追加すると、そのMarkdownを表示できます。Markdownは、周囲のHTMLなしでAIツールに構造化されたコンテンツを提供します。
+
+[このページの .md ファイルを確認する](https://gitbook.com/docs/publishing-documentation/llm-ready-docs.md)
+
+## llms.txt
+
+[llms.txt](https://llmstxt.org/) は、LLMに適したWebコンテンツのための提案標準です。末尾に追加してください `/llms.txt` をdocsサイトのルートURLの末尾に追加してください。
+
+公開されたすべてのページとMarkdown版を一覧表示します。AIツールはこのインデックスを使ってドキュメントを見つけられます。
+
+[GitBookドキュメントの /llms.txt を確認する](https://gitbook.com/docs/llms.txt)
+
+## llms-full.txt
+
+追加 `/llms-full.txt` をdocsサイトのルートURLの末尾に追加してください。このファイルには、ドキュメント全体の内容が1か所にまとめられています。
+
+非表示ページは `llms-full.txt`に含まれます。ページを非表示にすると、公開された目次から削除されるだけです。
+
+[GitBookドキュメントの /llms-full.txt ファイルを確認する](https://gitbook.com/docs/llms-full.txt)
+
+## 公開ドキュメント向けMCPサーバー
+
+GitBookは、公開された各docsサイトにModel Context Protocol（MCP）サーバーを提供しています。対応ツールは、構造化されたリソースとしてあなたのドキュメントを見つけて取得できます。
+
+非表示ページは、サイトのMCPサーバー経由でも利用できます。ページを非表示にすると、公開された目次から削除されるだけです。
+
+追加 `/~gitbook/mcp` をdocsサイトのルートURLの末尾に追加してください。たとえば、GitBookのMCPサーバーは `https://gitbook.com/docs/~gitbook/mcp`.
+
+<Callout kind="info">
+  このURLをブラウザで開くとエラーが返されます。HTTPリクエストを送信できるツールを使用してください。
+</Callout>
+
+詳細は次を参照してください [公開ドキュメント向けMCPサーバー](/ja/docs/notamenoai/mcp-servers-for-published-docs).
+
+## AI向けにドキュメントを最適化する
+
+GitBookは配信レイヤーを担当します。あなたの文章がAIの回答品質を左右します。
+
+AIツールが確実に解釈できるコンテンツを書きましょう：
+
+- 各ページに明確な目的を持たせる。
+- 説明的な見出しと短いセクションを使う。
+- 制約、デフォルト、要件を直接記載する。
+- 具体的な例と正確な値を含める。
+- 製品が変わったらコンテンツを更新する。
+
+これらの実践は検索精度を高め、曖昧さを減らし、人々が答えを見つけやすくします。
+
+### 翻訳を整合させる
+
+複数言語で公開する場合は、各翻訳を元のソースと整合させてください。
+
+[翻訳](/ja/docs/gitbook-agent/translations) は、GitBook Agentを使ってコンテンツをローカライズできます。ソースコンテンツが変更されると、GitBookは翻訳版の整合性を保てます。
+
+### AIトラフィックを測定する
+
+使用 [サイトアナリティクス](/ja/docs/anaritikusu/insights) して、LLMやMCPクライアントからのトラフィックを追跡します。

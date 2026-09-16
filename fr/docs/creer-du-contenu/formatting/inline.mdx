@@ -1,0 +1,247 @@
+---
+title: Contenu en ligne
+description: Utilisez la palette en ligne pour ajouter des images, des liens, des éléments mathématiques et TeX, et plus encore
+metaTitle: Contenu en ligne | GitBook Documentation
+ogImage: https://test-dai.imgix.net/org-4afef969-21f9-40f3-b5b8-b06c8b6cf68f/doc-22a3b060-9539-4176-97e4-49120e02f5d1/0a5a1a9630785855-organizations-d8f63b60-89ae-11e7-8574-5927d48c4877-sites-site_p4Xo4-socialprevie.jpg?fm=auto&auto=compress%2Cformat
+---
+
+<Image src="https://test-dai.imgix.net/org-4afef969-21f9-40f3-b5b8-b06c8b6cf68f/doc-22a3b060-9539-4176-97e4-49120e02f5d1/69b1d06ab8cca249-spaces-NkEGS7hzeqa35sMXQZ4X-uploads-QcBDNerKxNvi1X3Jnk2R-26_01_22_inline-palette.png?fm=auto&auto=compress%2Cformat" alt="A GitBook screenshot showing inline content options" caption="Ajoutez des éléments en ligne à votre contenu." />
+
+La palette inline vous permet d’ajouter rapidement du contenu supplémentaire à votre bloc de texte sans quitter le clavier. Appuyez simplement sur `/` sur n’importe quel bloc de texte pour ouvrir la palette inline. Le slash sera remplacé par le contenu que vous choisissez d’insérer.
+
+## Annotations
+
+Avec les annotations, vous pouvez ajouter du contexte supplémentaire à vos mots sans rompre le fil de lecture. Vous pouvez les utiliser pour expliquer le sens d’un mot, insérer des informations supplémentaires, et plus encore. Les lecteurs peuvent survoler le texte annoté pour afficher l’annotation au-dessus du texte.
+
+### Créer une annotation
+
+Pour créer une annotation, sélectionnez le texte que vous souhaitez annoter et cliquez sur le **Annoter** option du menu contextuel. Une fois votre annotation rédigée, cliquez en dehors pour continuer à écrire dans le bloc de texte.
+
+### Représentation Markdown
+
+Vous pouvez écrire du contenu sous forme de [notes de bas de page Markdown](https://www.markdownguide.org/extended-syntax/#footnotes) pour les ajouter comme annotations dans GitBook. Les indicateurs de note de bas de page doivent apparaître immédiatement après le mot que vous souhaitez annoter ; ils ne doivent pas apparaître après des signes de ponctuation ou d’autres symboles.
+
+```markdown
+Voici une simple note de bas de page[^1], et voici une plus longue[^bignote].
+
+[^1]: Voici la première note de bas de page.
+
+[^bignote]: Voici une note avec plusieurs paragraphes et du code.
+
+    Indentez les paragraphes pour les inclure dans la note de bas de page.
+
+    `{ my code }`
+
+    Ajoutez autant de paragraphes que vous le souhaitez.
+```
+
+### Exemple rendu
+
+La source Markdown crée une annotation sur le texte référencé :
+
+```markdown
+Les annotations ajoutent du contexte supplémentaire[^annotation-example].
+
+[^annotation-example]: Survolez « contexte supplémentaire » pour lire cette annotation.
+```
+
+Le rendu est le suivant. Survolez le texte annoté pour prévisualiser l’annotation :
+
+[Les annotations ajoutent du contexte supplémentaire.](#user-content-fn-1)[^1]
+
+## Images
+
+Les images en ligne apparaîtront à côté de votre texte sur la page.
+
+Par défaut, les images sont définies à leur taille d’origine avec une largeur maximale de 300 px. Vous pouvez modifier la taille en cliquant sur l’image pour ouvrir la palette de mise en forme, puis en choisissant l’une des trois options :
+
+1. <strong>Taille en ligne :</strong> L’image est dimensionnée proportionnellement à la police — idéal pour les icônes et les badges.
+2. <strong>Taille originale :</strong> L’image restera en ligne à sa taille d’origine, avec une largeur maximale de 300 pixels.
+3. <strong>Convertir en bloc :</strong> Cela transforme une image en ligne en bloc d’image, dont la largeur correspond à celle de votre contenu.
+
+<Callout kind="info">
+  Les blocs d’image offrent davantage d’options, notamment plus de tailles et la possibilité d’ajouter une légende — mais ils n’apparaîtront pas en ligne avec votre texte.
+</Callout>
+
+### Représentation en Markdown
+
+```markdown
+Voici une image en ligne : <img src=".gitbook/assets/GitBook - Dark.jpg" alt="Dark version of GitBook logo" data-size="line">
+```
+
+Le rendu est le suivant : Voici une image en ligne : <Image src="https://test-dai.imgix.net/org-4afef969-21f9-40f3-b5b8-b06c8b6cf68f/doc-22a3b060-9539-4176-97e4-49120e02f5d1/69b1d06ab8cca249-spaces-NkEGS7hzeqa35sMXQZ4X-uploads-QcBDNerKxNvi1X3Jnk2R-26_01_22_inline-palette.png?fm=auto&auto=compress%2Cformat" alt="GitBook logo" />
+
+## Émojis
+
+Vous pouvez ajouter des émojis en appuyant sur `/` pour ouvrir la palette inline. Vous pouvez aussi taper `:` et une liste d’émojis apparaîtra directement dans le texte — vous pouvez commencer à taper le nom d’un émoji pour affiner la sélection.
+
+### Représentation en Markdown
+
+```markdown
+:house:
+:smile:
+:dog:
+```
+
+Ils s’affichent comme suit : 🏠 😄 🐶  
+
+## Liens
+
+Vous pouvez insérer trois types de liens différents :
+
+- [Liens relatifs](#relative-links)
+- [Liens absolus](#absolute-links)
+- [Adresse e-mail `mailto` liens](#email-address-mailto-links)
+
+### Liens relatifs
+
+Les liens relatifs sont des liens créés en renvoyant vers des pages qui existent déjà dans votre section. L’avantage des liens relatifs est que si l’URL, le nom ou l’emplacement de la page change, sa référence restera à jour — vous vous retrouverez donc avec moins de liens cassés.
+
+Voici comment insérer un lien relatif :
+
+1. Cliquez à l’endroit de votre paragraphe où vous souhaitez insérer le lien, ou sélectionnez du texte.
+2. Appuyez sur / pour ouvrir la palette inline et choisissez Lien, cliquez sur le **Lien** bouton du menu contextuel, ou appuyez sur <strong>⌘ + K</strong>.
+3. Commencez à taper le titre de la page vers laquelle vous souhaitez créer le lien.
+4. Sélectionnez la page dans les résultats de recherche déroulants.
+5. Appuyez sur `Entrée`.
+
+### Liens absolus
+
+Les liens absolus sont des liens externes que vous pouvez copier et coller dans votre contenu. Ils sont parfaits lorsque vous souhaitez créer un lien vers quelque chose en dehors de votre documentation.
+
+Pour insérer un lien absolu :
+
+1. Cliquez à l’endroit de votre paragraphe où vous souhaitez insérer le lien, ou sélectionnez du texte.
+2. Appuyez sur / pour ouvrir la palette inline et choisissez Lien, cliquez sur le **Lien** bouton du menu contextuel, ou appuyez sur <strong>⌘ + K</strong>.
+3. Collez l’URL vers laquelle vous souhaitez créer un lien.
+4. Appuyez sur `Entrée`.
+
+<Callout kind="info">
+  <strong>Pourquoi les liens externes ne s’ouvrent-ils pas dans un nouvel onglet ?</strong>
+
+  Lorsque vous ajoutez un lien vers un site externe dans vos docs, il s’ouvrira dans le même onglet.
+
+  GitBook suit ce [comportement recommandé par le W3C](https://www.w3.org/TR/WCAG20-TECHS/G200.html) pour prendre en charge [l’accessibilité](https://it.wisc.edu/learn/make-it-accessible/websites-and-web-applications/when-to-open-links-in-a-new-tab/) et garantir une expérience cohérente et inclusive à vos lecteurs.
+</Callout>
+
+### Liens mailto d’adresse e-mail
+
+Adresse e-mail `mailto` sont utiles lorsque vous souhaitez que vos visiteurs cliquent sur un lien qui ouvrira leur client de messagerie par défaut et remplira le `À` champ avec l’adresse e-mail de votre lien, afin qu’ils puissent rédiger un e-mail à envoyer.
+
+Voici comment insérer un `mailto` lien d’adresse e-mail :
+
+1. Cliquez à l’endroit de votre paragraphe où vous souhaitez insérer le lien, ou sélectionnez du texte.
+2. Appuyez sur / pour ouvrir la palette inline et choisissez Lien, cliquez sur le **Lien** bouton du menu contextuel, ou appuyez sur <strong>⌘ + K</strong>.
+3. Collez ou saisissez `mailto:something@address.com`, en remplaçant `something@address.com` par l’adresse e-mail que vous souhaitez utiliser.
+4. Appuyez sur `Entrée`.
+
+### Représentation en Markdown
+
+```markdown
+[Voici un lien relatif vers une autre page dans cette section](../content-structure/page.md)
+[Voici un lien absolu](https://www.gitbook.com/blog)
+[Voici un lien](mailto:support@gitbook.com) vers notre adresse e-mail d’assistance
+```
+
+Ils s’affichent comme suit :
+
+[Voici un lien relatif vers une autre page dans cette section](/fr/docs/creer-du-contenu/content-structure)<br />[Voici un lien absolu](https://www.gitbook.com/blog)<br />[Voici un lien](mailto:support@gitbook.com) vers notre adresse e-mail d’assistance
+
+## Mathématiques et TeX
+
+Grâce à cette option, vous pouvez créer des formules mathématiques en ligne dans votre contenu. Nous utilisons la [KaTeX](https://katex.org/docs/supported.html) bibliothèque pour rendre les formules.
+
+<Callout kind="info">
+  Vous pouvez également insérer une formule mathématique au niveau du bloc en ouvrant la palette de commandes dans un bloc vide et en choisissant la deuxième option Mathématiques et TeX.
+</Callout>
+
+### Représentation en Markdown
+
+```markdown
+Voici une formule en ligne : $$f(x) = x * e^{2 pi i \\xi x}$$
+```
+
+Le rendu est le suivant : Voici une formule en ligne : $$f(x) = x * e^&#123;2 pi i \\xi x&#125;$$
+
+## Boutons
+
+Les boutons sont un excellent moyen de mettre en évidence les appels à l’action ou d’ajouter une barre de recherche ou Demander à l’IA à vos docs. Vous pouvez les utiliser pour envoyer les lecteurs quelque part ou les aider à trouver des réponses.
+
+### Actions des boutons
+
+Les boutons peuvent faire plus que renvoyer vers une URL. Vous pouvez également transformer un bouton en barre de recherche ou en barre Demander à l’IA / Assistant GitBook — directement depuis la page. Ces actions fonctionnent aussi sur les pages publiées — comme vous pouvez le voir dans les exemples ci-dessous.
+
+Vous pouvez configurer les actions suivantes :
+
+#### **Ajouter un bouton de lien**
+
+Envoyer les lecteurs vers une autre page ou une URL externe :[En savoir plus sur l’Assistant](/fr/docs/lia-pour-vos-lecteurs/gitbook-ai-assistant)
+
+#### **Ajouter une barre de recherche**
+
+Ouvrez la recherche avec une requête prédéfinie facultative : 
+
+#### **Ajouter une barre Demander à l’IA / Assistant GitBook**
+
+Ouvrez GitBook Assistant avec une invite prédéfinie facultative : 
+
+#### **Ajouter un bouton désactivé**
+
+Afficher un bouton délibérément inactif :[Bouton inactif](/fr/docs/creer-du-contenu/formatting/inline)
+
+### Créer et configurer un bouton
+
+1. Tapez `/` et choisissez **Bouton**.
+2. Cliquez sur le bouton pour ouvrir le **Libellé** menu.
+3. Choisissez une action, puis définissez le libellé et le style.
+4. Facultatif : ajoutez une requête de recherche prédéfinie ou une invite de l’Assistant.
+
+### Styles
+
+Les boutons de lien et les boutons inactifs ont des styles principal et secondaire. Voici deux exemples :
+
+[Inscrivez-vous à GitBook](https://app.gitbook.com/join) [Retour en haut](#annotations)
+
+### Représentation en Markdown
+
+```markdown
+<a href="https://app.gitbook.com" class="button primary">GitBook</a>
+```
+
+Le rendu est le suivant : [GitBook](https://app.gitbook.com)
+
+## Icônes
+
+Les icônes ajoutent un contexte visuel aux paragraphes, aux cartes et à d’autres contenus. Elles utilisent le style visuel défini dans vos paramètres de personnalisation.
+
+Utilisez un `<i>` élément avec les deux formes du nom de l’icône. La classe Font Awesome et le jeton doivent correspondre :
+
+```markdown
+<i class="fa-rocket">:rocket:</i>
+```
+
+Choisissez un nom d’icône dans le [sélecteur d’icônes Font Awesome](https://fontawesome.com/search). Les noms non pris en charge peuvent ne pas s’afficher ou être conservés par Git Sync.
+
+   
+
+### Représentation en Markdown
+
+```markdown
+<i class="fa-github">:github:</i>
+```
+
+Le rendu est le suivant : 
+
+## Expressions
+
+Les expressions vous permettent d’afficher dynamiquement du contenu défini dans une variable. Les expressions peuvent être insérées depuis le `/` menu. Une fois insérée, un clic sur l’expression ouvrira l’éditeur d’expression, vous permettant de référencer et de [formater conditionnellement](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Conditional_operator) votre variable.
+
+### Représentation en Markdown
+
+```markdown
+Bienvenue sur <code class="expression">page.vars.inlineExampleProduct</code>.
+```
+
+Le rendu est le suivant : Bienvenue sur `page.vars.inlineExampleProduct`.
+
+[^1]: Ceci est une annotation.

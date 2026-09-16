@@ -1,0 +1,79 @@
+---
+title: Markdown
+description: エディタで直接Markdownを書き、一般的な構文を使って簡単にコンテンツを作成できます
+metaTitle: Markdown | GitBook Documentation
+ogImage: https://test-dai.imgix.net/org-4afef969-21f9-40f3-b5b8-b06c8b6cf68f/doc-22a3b060-9539-4176-97e4-49120e02f5d1/0a5a1a9630785855-organizations-d8f63b60-89ae-11e7-8574-5927d48c4877-sites-site_p4Xo4-socialprevie.jpg?fm=auto&auto=compress%2Cformat
+---
+
+<Image src="https://test-dai.imgix.net/org-4afef969-21f9-40f3-b5b8-b06c8b6cf68f/doc-22a3b060-9539-4176-97e4-49120e02f5d1/2d1b93c62f8d0718-spaces-NkEGS7hzeqa35sMXQZ4X-uploads-Mbo91kXRJGPsIzXxsgpU-markdown-2x.png?fm=auto&auto=compress%2Cformat" alt="An image containing the markdown logo" caption="GitBookでMarkdownを書く。" />
+
+GitBookのエディタでは、Markdownを使って書式付きコンテンツを作成できます。
+
+Markdownは、そのシンプルさで広く知られている人気のマークアップ構文です。GitBookでは、リッチで構造化されたテキストをキーボードで書きやすい方法としてサポートしています。
+
+<Callout kind="info">
+  Markdown 自体については、以下を訪れることで詳しく学べます [CommonMark](https://commonmark.org/help/).
+</Callout>
+
+### テキストの書式設定
+
+GitBookは、従来のインラインMarkdown書式をすべてサポートしています:
+
+| 書式 | Markdown記法 | 結果 |
+| --- | --- | --- |
+| 太字 | `**太字**` | **太字** |
+| 斜体 | `_斜体_` | *斜体* |
+| 取り消し線 | `~取り消し線~` | ~~取り消し線~~ |
+| インラインコード | `` `コード` `` | `コード` |
+
+### 改行
+
+押します `Enter` 新しい段落を始めるには。
+
+押します `Shift` \+ `Enter` 同じ段落内でソフト改行を挿入するには。
+
+### Markdownの貼り付け
+
+Markdownコンテンツを直接エディタに貼り付ける場合は、〜を使うことが重要です。 **貼り付けてスタイルを合わせる** オプション（通常は <kbd>Shift</kbd> \+ <kbd>Cmd</kbd> \+ <kbd>V</kbd> Macではまたは <kbd>Shift</kbd> \+ <kbd>Ctrl</kbd> \+ <kbd>V</kbd> Windowsでは）。
+
+別のエディタやWebからコピーしたコンテンツに標準の「貼り付け」オプションを使うと、書式付きテキストではなくコードブロックとして挿入される場合があります。
+
+### 見出し
+
+- 見出し 1: `# 第1レベルのタイトル`
+- 見出し 2: `## 第2レベルのタイトル`
+- 見出し 3: `### 第3レベルのタイトル`
+
+### コードブロック
+
+<code>&#96;&#96;&#96;⏎</code> 新しいコードブロックを作成します。
+
+<code>&#96;&#96;&#96;py⏎</code> Pythonの構文ハイライト付きの新しいコードブロックを作成します。
+
+使用しています [Prism](https://github.com/PrismJS/prism) 構文ハイライトに。〜を使用してください [Test Drive Prism](https://prismjs.com/test.html#language=markup) サポートされている言語を確認するには。
+
+GitBookとPrismに差がある場合、私たちのほうが1〜2バージョン古い可能性があります。
+
+### リスト
+
+GitBookは、入力に応じて順序付きリストと順序なしリストを自動的に検出して作成します。
+
+- 行の先頭に `-` または `*` を付けると順序なしの箇条書きリストを開始できます。
+- 行の先頭に `1.` を付けると番号付きリストを開始できます。
+- 行の先頭に `- [ ]` を付けるとタスクリストを開始できます。
+
+リストを書くときは、 `Tab` を押してインデントし、 `Shift+Tab` 逆インデントします。
+
+### 引用
+
+行の先頭に `>` を付けるとブロック引用を作成できます。段落全体を最初から最後まで選択している場合、 `>` と入力するとコンテンツがブロック引用で囲まれます。
+
+> これはブロック引用です。
+
+### 区切り線
+
+入力して `---` 次に `Enter` を押すとページに区切り線を作成できます。
+
+---
+
+これは区切り線の例です。

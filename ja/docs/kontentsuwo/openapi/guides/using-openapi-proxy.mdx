@@ -1,0 +1,68 @@
+---
+title: OpenAPIプロキシの使用
+metaTitle: OpenAPIプロキシの使用 | GitBook Documentation
+ogImage: https://test-dai.imgix.net/org-4afef969-21f9-40f3-b5b8-b06c8b6cf68f/doc-22a3b060-9539-4176-97e4-49120e02f5d1/0a5a1a9630785855-organizations-d8f63b60-89ae-11e7-8574-5927d48c4877-sites-site_p4Xo4-socialprevie.jpg?fm=auto&auto=compress%2Cformat
+---
+
+GitBook はプロキシできます **テストする** リクエストを、API サーバーが CORS をサポートしていない場合でも動作するようにします。
+
+### これが存在する理由
+
+ブラウザーは、API サーバーが CORS ヘッダーで許可しない限り、クロスオリジンのリクエストをブロックします。CORS を設定しないと、 **テストする** リクエストはブラウザーで失敗します。プロキシはそれらのリクエストを GitBook 経由でサーバー側にルーティングし、この制限を回避します。
+
+### スキーマ全体でプロキシを有効にする
+
+追加する `x-enable-proxy: true` OpenAPI スキーマのルートに。
+
+```yaml
+openapi: '3.0.3'
+x-enable-proxy: true
+info:
+  title: Example API
+  version: '1.0.0'
+servers:
+  - url: https://api.example.com
+```
+
+### 特定のオペレーションで有効/無効にする
+
+追加する `x-enable-proxy` オペレーションで。
+
+```yaml
+openapi: '3.0.3'
+info:
+  title: Example API
+  version: '1.0.0'
+servers:
+  - url: https://api.example.com
+paths:
+  /reports:
+    get:
+      summary: レポート一覧
+      x-enable-proxy: true
+      responses:
+        '200':
+          description: OK
+    post:
+      summary: レポートを作成
+      x-enable-proxy: false
+      responses:
+        '201':
+          description: 作成済み
+```
+
+<Callout kind="info">
+  オペレーションレベル `x-enable-proxy` はルートレベルの値より優先されます。
+</Callout>
+
+### プロキシがサポートするもの
+
+GitBook はすべての `HTTP` メソッド（`GET`, `POST`, `PUT`, `DELETE`, `PATCH`）、ヘッダー、Cookie、リクエスト本文を転送します。
+
+### セキュリティ
+
+プロキシは、スキーマの `servers` 配列に記載された URL にのみリクエストを転送します。任意の URL にアクセスするためには使用できません。
+
+<Callout kind="info">
+  必ず `servers` 配列に、テスト対象にしたいすべてのベース URL を含めてください。URL が一覧にない場合、 **テストする** そのホストへのリクエストはプロキシをバイパスします。
+</Callout>

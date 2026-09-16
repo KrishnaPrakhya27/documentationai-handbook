@@ -1,0 +1,63 @@
+---
+title: Get a page in a change request by its ID
+metaTitle: Get a page in a change request by its ID | Developers | GitBook Documentation
+ogImage: https://test-dai.imgix.net/org-4afef969-21f9-40f3-b5b8-b06c8b6cf68f/doc-22a3b060-9539-4176-97e4-49120e02f5d1/0a5a1a9630785855-organizations-d8f63b60-89ae-11e7-8574-5927d48c4877-sites-site_p4Xo4-socialprevie.jpg?fm=auto&auto=compress%2Cformat
+---
+
+Retrieves a specific page from a change request's draft content, including its title, metadata, and body document. Use the documentFormat parameter to control the format of the returned document (e.g., markdown). This reflects the draft state of the page, not the live published version — use the space content page endpoint for live content.
+
+**GET** `/spaces/{spaceId}/change-requests/{changeRequestId}/content/page/{pageId}`
+
+**Parameters**
+
+<ParamField header="Authorization" param-type="string" />
+
+<ParamField path="spaceId" param-type="string" required={true}>
+  The unique id of the space
+</ParamField>
+
+<ParamField path="changeRequestId" param-type="string" required={true}>
+  The unique ID of the change request or its number identifier in the space
+</ParamField>
+
+<ParamField path="pageId" param-type="string" required={true}>
+  The unique id of the page
+</ParamField>
+
+<ParamField query="format" param-type="string" enum="document,markdown">
+  Output format for the content.
+</ParamField>
+
+<ParamField query="format.markdown.refs" param-type="string" enum="relative,stable">
+  Controls how content references are formatted in markdown output. Ignored unless `format=markdown`.
+
+  - `relative`: Format page references as relative links from the current page. Other references might not be handled.
+  - `stable`: Format content references as stable idempotent refs containing their identifiers.
+</ParamField>
+
+<ParamField query="evaluated" param-type="string">
+  Controls whether the document should be evaluated.
+
+  - When set to `true`, the entire document will be evaluated.
+  - When set to `deterministic-only`, only expressions that depend
+    exclusively on deterministic inputs will be evaluated.
+</ParamField>
+
+<ParamField query="dereferenced" param-type="string">
+  Controls whether the document should be deferenced (eference to other content will be resolved and expanded).
+
+  - When set to `true`, the entire document will be deferenced
+  - When set to `reusable-contents`, only reusable contents will be deferenced.
+</ParamField>
+
+<ParamField query="metadata" param-type="boolean">
+  If `false` is passed, "git" mutable metadata will not returned. Passing `false` can optimize performances of the lookup.
+</ParamField>
+
+<ParamField query="computed" param-type="boolean">
+  If `false` is passed, content will not be computed
+</ParamField>
+
+**Responses**
+
+`200` OK

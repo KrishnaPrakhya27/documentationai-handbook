@@ -1,0 +1,79 @@
+---
+title: Get the visitor attributes JSON schema for an adaptive content site
+metaTitle: Get the visitor attributes JSON schema for an adaptive content site | Developers | GitBook Documentation
+ogImage: https://test-dai.imgix.net/org-4afef969-21f9-40f3-b5b8-b06c8b6cf68f/doc-22a3b060-9539-4176-97e4-49120e02f5d1/0a5a1a9630785855-organizations-d8f63b60-89ae-11e7-8574-5927d48c4877-sites-site_p4Xo4-socialprevie.jpg?fm=auto&auto=compress%2Cformat
+---
+
+Returns the JSON schema that defines the visitor attributes expected by an adaptive content site. Adaptive content uses these attributes (e.g., user role, plan tier) to conditionally show or hide content sections. Use this to understand what visitor data must be provided when rendering adaptive content.
+
+**GET** `/orgs/{organizationId}/sites/{siteId}/adaptive-schema`
+
+**Parameters**
+
+<ParamField header="Authorization" param-type="string" />
+
+<ParamField path="organizationId" param-type="string" required={true}>
+  The unique id of the organization
+</ParamField>
+
+<ParamField path="siteId" param-type="string" required={true}>
+  The unique id of the site
+</ParamField>
+
+**Responses**
+
+`200` The JSON schema that defines the attributes expected from a visitor of the Adaptive content site.
+
+<ResponseField name="object" field-type="string" required={true} enum="site-adaptive-schema" />
+
+<ResponseField name="jsonSchema" field-type="object" required={true}>
+  JSON schema describing the expected attributes of an Adaptive site schema.
+
+  <Expandable title="Object Properties">
+    <ResponseField name="$schema" field-type="string" enum="http://json-schema.org/draft-07/schema#" />
+
+    <ResponseField name="type" field-type="string" required={true} enum="object" />
+
+    <ResponseField name="properties" field-type="object" required={true}>
+      <Expandable title="Object Properties">
+        <ResponseField name="unsigned" field-type="object">
+          Unsigned claims of the site visitor.
+
+          <Expandable title="Object Properties">
+            <ResponseField name="type" field-type="string" required={true} enum="object" />
+
+            <ResponseField name="description" field-type="string" required={true} enum="Unsigned claims of the site visitor." />
+
+            <ResponseField name="properties" field-type="object" required={true} />
+
+            <ResponseField name="additionalProperties" field-type="boolean" required={true} enum="false" />
+          </Expandable>
+        </ResponseField>
+      </Expandable>
+    </ResponseField>
+
+    <ResponseField name="additionalProperties" field-type="boolean" required={true} enum="false" />
+  </Expandable>
+</ResponseField>
+
+<ResponseField name="updatedAt" field-type="string" required={true} />
+
+`404` Not Found
+
+<ResponseField name="error" field-type="object" required={true}>
+  <Expandable title="Object Properties">
+    <ResponseField name="code" field-type="integer" required={true} enum="404" />
+
+    <ResponseField name="message" field-type="string" required={true} />
+  </Expandable>
+</ResponseField>
+
+`default` Unexpected Error
+
+<ResponseField name="error" field-type="object" required={true}>
+  <Expandable title="Object Properties">
+    <ResponseField name="code" field-type="integer" required={true} />
+
+    <ResponseField name="message" field-type="string" required={true} />
+  </Expandable>
+</ResponseField>

@@ -1,0 +1,31 @@
+---
+title: 实时编辑
+description: 与其他协作者实时编辑页面
+metaTitle: 实时编辑 | GitBook Documentation
+ogImage: https://test-dai.imgix.net/org-4afef969-21f9-40f3-b5b8-b06c8b6cf68f/doc-22a3b060-9539-4176-97e4-49120e02f5d1/0a5a1a9630785855-organizations-d8f63b60-89ae-11e7-8574-5927d48c4877-sites-site_p4Xo4-socialprevie.jpg?fm=auto&auto=compress%2Cformat
+---
+
+启用实时编辑后，你组织中的成员可以在不创建 [更改请求的情况下编辑某个部分](/zh/docs/xie-zuo/change-requests)。在编辑内容时，你可以在右上角看到当前正在查看该部分的任何人的头像。
+
+GitBook 支持实时协作，这意味着你可以与多个成员同时处理同一份文档。
+
+<Callout kind="info">
+  **实时编辑默认处于锁定状态** ，适用于任何新创建的部分。要编辑内容，你需要 [创建更改请求](/zh/docs/xie-zuo/change-requests)，或者开启实时编辑。
+</Callout>
+
+### 切换实时编辑模式
+
+你可以通过点击以下选项，在某个部分中切换实时编辑模式： **锁定实时编辑** 或 **解锁实时编辑** 中启用 [部分标题的](/zh/docs/can-kao/gitbook-ui#space-header) **操作菜单** <Image src="https://test-dai.imgix.net/org-4afef969-21f9-40f3-b5b8-b06c8b6cf68f/doc-22a3b060-9539-4176-97e4-49120e02f5d1/0a460c049ef3df1f-spaces-NkEGS7hzeqa35sMXQZ4X-uploads-PnnI41SqLSaKBNwT98fW-actions-horizontal.svg?rasterize-bypass=true" alt="The Actions menu icon in GitBook" />.
+
+当某个部分处于 **实时编辑** 模式时，部分标题将显示 **编辑器** 标签页。当它处于 **锁定的实时编辑** 模式时，部分标题将显示一个 **只读** 标签页。当部分标题中显示“只读”标签页时，你需要打开一个更改请求才能编辑页面内容，或者解锁实时编辑。
+
+### 何时可用实时编辑 *不* ？
+
+在以下情况下，你无法解锁实时编辑：
+
+1. 某个部分以 **公开** 或 **未列出** 可见性选项发布。
+2. 某个部分具有 [GitHub 或 GitLab 同步](/zh/docs/wen-dang-ji-dai-ma/git-sync) 已启用，这也是正常的。
+
+<Callout kind="info">
+  仅 [管理员和创建者](/zh/docs/xie-zuo/member-management/roles) 可以锁定或解锁实时编辑。
+</Callout>

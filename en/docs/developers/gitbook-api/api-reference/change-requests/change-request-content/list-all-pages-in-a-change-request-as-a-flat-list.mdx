@@ -1,0 +1,35 @@
+---
+title: List all pages in a change request as a flat list
+metaTitle: List all pages in a change request as a flat list | Developers | GitBook Documentation
+ogImage: https://test-dai.imgix.net/org-4afef969-21f9-40f3-b5b8-b06c8b6cf68f/doc-22a3b060-9539-4176-97e4-49120e02f5d1/0a5a1a9630785855-organizations-d8f63b60-89ae-11e7-8574-5927d48c4877-sites-site_p4Xo4-socialprevie.jpg?fm=auto&auto=compress%2Cformat
+---
+
+Returns the full flat list of all pages in the change request's current draft revision, including page groups. Does not include page body content — use the individual page endpoint to fetch content. Use this to get an overview of the draft's page structure before reading or modifying specific pages.
+
+**GET** `/spaces/{spaceId}/change-requests/{changeRequestId}/content/pages`
+
+**Parameters**
+
+<ParamField header="Authorization" param-type="string" />
+
+<ParamField path="spaceId" param-type="string" required={true}>
+  The unique id of the space
+</ParamField>
+
+<ParamField path="changeRequestId" param-type="string" required={true}>
+  The unique ID of the change request or its number identifier in the space
+</ParamField>
+
+<ParamField query="metadata" param-type="boolean">
+  If `false` is passed, "git" mutable metadata will not returned. Passing `false` can optimize performances of the lookup.
+</ParamField>
+
+<ParamField query="computed" param-type="boolean">
+  If `false` is passed, content will not be computed
+</ParamField>
+
+**Responses**
+
+`200` OK
+
+<ResponseField name="pages" field-type="string[]" required={true} />

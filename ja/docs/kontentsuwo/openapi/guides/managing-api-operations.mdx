@@ -1,0 +1,99 @@
+---
+title: API操作の管理
+description: OpenAPIのAPI操作を実験的、非推奨としてマークする方法、またはドキュメントから非表示にする方法を学びましょう
+metaTitle: API操作の管理 | GitBook Documentation
+ogImage: https://test-dai.imgix.net/org-4afef969-21f9-40f3-b5b8-b06c8b6cf68f/doc-22a3b060-9539-4176-97e4-49120e02f5d1/0a5a1a9630785855-organizations-d8f63b60-89ae-11e7-8574-5927d48c4877-sites-site_p4Xo4-socialprevie.jpg?fm=auto&auto=compress%2Cformat
+---
+
+まだ完全に安定していない、または段階的に廃止する必要があるオペレーションはよくあります。GitBook は、これらのシナリオを管理するのに役立ついくつかの OpenAPI 拡張をサポートしています。
+
+### オペレーションを experimental、alpha、または beta としてマークする
+
+使用 `x-stability` エンドポイントが不安定である、または作業中であることを示すために使用します。これにより、ユーザーは本番利用に未対応のエンドポイントを避けやすくなります。サポートされる値: `experimental`, `alpha`, `beta`.
+
+```yaml
+paths:
+  /pet:
+    put:
+      operationId: updatePet
+      x-stability: experimental
+```
+
+### オペレーションを非推奨にする
+
+オペレーションを非推奨としてマークするには、次を追加します: `deprecated: true` 属性。
+
+```yaml
+paths:
+  /pet:
+    put:
+      operationId: updatePet
+      deprecated: true
+```
+
+必要に応じて、サポート終了時期を含めて指定できます。 `x-deprecated-sunset`
+
+```yaml
+paths:
+  /pet:
+    put:
+      operationId: updatePet
+      deprecated: true
+      x-deprecated-sunset: 2030-12-05
+```
+
+### API リファレンスからオペレーションを非表示にする
+
+API リファレンスからオペレーションを非表示にするには、次を追加します: `x-internal: true` または `x-gitbook-ignore: true` 属性。
+
+```yaml
+paths:
+  /pet:
+    put:
+      operationId: updatePet
+      x-internal: true
+```
+
+### レスポンスサンプルを非表示にする
+
+次を追加します: `x-hideSample: true` レスポンスオブジェクトにこの属性を追加して、レスポンスサンプルセクションから除外します。
+
+```yaml
+paths:
+  /pet:
+    put:
+      operationId: updatePet
+      responses:
+        200:
+          x-hideSample: true
+```
+
+### 認証プレフィックスとトークンプレースホルダーのカスタマイズ
+
+認証プレフィックス（たとえば、 `Bearer`, `Token`、またはカスタム文字列）と、GitBook でセキュリティスキームを使用する際に表示されるトークンプレースホルダーをカスタマイズできます。
+
+OpenAPI 仕様の `components.securitySchemes`の下に、次のようにスキームを定義します:
+
+```yaml
+components:
+  securitySchemes:
+    apiKey:
+      type: apiKey
+      in: header
+      name: Authorization
+      x-gitbook-prefix: Token
+      x-gitbook-token-placeholder: YOUR_CUSTOM_TOKEN
+```
+
+これらの拡張:
+
+- `x-gitbook-prefix` トークンの前に追加されるプレフィックスを定義します。
+
+  - 例: `Authorization: <x-gitbook-prefix> YOUR_API_TOKEN`
+- `x-gitbook-token-placeholder` デフォルトのトークン値を設定します。
+
+  - 例: `Authorization: Bearer <x-gitbook-token-placeholder>`
+
+<Callout kind="alert">
+  `x-gitbook-prefix` は次のセキュリティスキームではサポートされていません: `http` これらのスキームは標準の IANA 認証定義に従う必要があるためです。 [詳細を見る](https://www.iana.org/assignments/http-authschemes/http-authschemes.xhtml)
+</Callout>

@@ -1,0 +1,94 @@
+---
+title: 可复用内容
+description: 创建可在各分区中重复使用的内容块，并且当你更改某个实例时，所有内容会一次性更新
+metaTitle: 可复用内容 | GitBook Documentation
+ogImage: https://test-dai.imgix.net/org-4afef969-21f9-40f3-b5b8-b06c8b6cf68f/doc-22a3b060-9539-4176-97e4-49120e02f5d1/0a5a1a9630785855-organizations-d8f63b60-89ae-11e7-8574-5927d48c4877-sites-site_p4Xo4-socialprevie.jpg?fm=auto&auto=compress%2Cformat
+---
+
+可重用内容可让你在多个页面和章节之间同步内容，因此你可以同时编辑该区块的所有实例。
+
+<Image src="https://test-dai.imgix.net/org-4afef969-21f9-40f3-b5b8-b06c8b6cf68f/doc-22a3b060-9539-4176-97e4-49120e02f5d1/d5792c7704a40a02-spaces-NkEGS7hzeqa35sMXQZ4X-uploads-21nR8UJaA970B2iHPCWL-creating-content-reusab.png?fm=auto&auto=compress%2Cformat" alt="A GitBook screenshot showing reusable content" caption="在某个章节内创建可重用内容。" />
+
+## 基础
+
+可重用内容的工作方式与其他内容完全相同——你可以通过变更请求对其进行修改，将其纳入审阅工作流，并且它会在任何已发布的网站上正确渲染。
+
+虽然可重用内容可以在多个章节中被引用，但它属于单个 *父章节*.
+
+### “父章节”的概念
+
+父章节是拥有该可重用内容的章节。它是唯一可以编辑该内容的地方。
+
+尽管对可重用内容的更新会立即出现在所有实例中，但所有更改都必须源自父章节——无论是直接编辑还是通过变更请求。
+
+章节同时支持编辑工作流和安全性。由于 GitBook 强制执行基于权限的编辑，可重用内容只能在其父章节中更改。即使内容在整个组织中被重复使用，这也能确保编辑权限得到尊重。
+
+### 已知限制
+
+#### 集成
+
+集成提供的区块不支持用于可重用内容。这是因为 GitBook 中的集成是按章节安装的，而限制访问可确保第三方集成仅拥有你授予的权限。在不同章节之间引用可重用内容会破坏这一安全边界。
+
+#### 搜索
+
+目前，可重用内容只会在其父章节内的搜索结果中显示。我们正在积极移除此限制，以便可重用内容在被引用的任何位置都能出现在搜索结果中。
+
+## 在应用中
+
+### **创建可重用内容**
+
+要创建可重用内容，请选择一个或多个区块，然后打开 **操作菜单** <Image src="https://test-dai.imgix.net/org-4afef969-21f9-40f3-b5b8-b06c8b6cf68f/doc-22a3b060-9539-4176-97e4-49120e02f5d1/4fa265378c13a520-spaces-NkEGS7hzeqa35sMXQZ4X-uploads-89MTSo5XRpPMVr1T0rxS-actions.svg?rasterize-bypass=true" alt="The Actions menu icon in GitBook" /> ，选择 **转换为**，并选择 **可重用内容**。你也可以为该区块命名，以便以后更容易找到并重复使用。
+
+或者，你可以选择一个或多个区块，然后按 **Cmd + C** 以打开提示，询问你是否要创建可重用内容。
+
+### **插入可重用内容**
+
+你可以像插入任何其他区块一样插入可重用内容。按 `/` 在空白行上打开 **插入面板**。你也可以点击 `+` 旁边的按钮，无论是在任何区块还是空白行旁。
+
+页面侧边栏中的可重用内容面板会列出你当前章节中之前创建的内容区块。
+
+要从当前章节或其他章节插入可重用内容，你可以访问：
+
+1. 从以下位置打开可重用内容选择器： **插入面板** 或 `+` 菜单。
+2. 使用顶部的章节选择器选择源章节。
+3. 按名称搜索可重用区块，然后选择它进行插入。
+
+从其他章节插入内容不会转移所有权。只有父章节可以编辑可重用内容。来自该父章节的更新会继续同步到每个实例。
+
+### **编辑可重用内容**
+
+可重用内容与其他内容一样——如果启用了实时编辑，你可以直接编辑任何实例；否则可以通过变更请求进行编辑。你所做的任何更改都会同步到该内容被使用的所有地方。
+
+如果你是在变更请求中进行更改，那么在该变更请求合并后，内容将同步到所有其他实例。
+
+### **分离可重用内容**
+
+你可以通过打开 **操作菜单** <Image src="https://test-dai.imgix.net/org-4afef969-21f9-40f3-b5b8-b06c8b6cf68f/doc-22a3b060-9539-4176-97e4-49120e02f5d1/4fa265378c13a520-spaces-NkEGS7hzeqa35sMXQZ4X-uploads-89MTSo5XRpPMVr1T0rxS-actions.svg?rasterize-bypass=true" alt="The Actions menu icon in GitBook" /> 并选择 **分离**。分离后会将内容转换回普通区块。
+
+一旦分离，你对区块所做的任何更改都不会反映到其他实例中，而你在那些实例中的更改也不会反映到已分离的区块中。该可重用内容的所有其他实例仍会彼此同步。
+
+### 删除可重用内容
+
+如果你愿意，也可以将你章节中的可重用内容完全删除。在页面的目录中找到该可重用内容，然后打开 **操作菜单** <Image src="https://test-dai.imgix.net/org-4afef969-21f9-40f3-b5b8-b06c8b6cf68f/doc-22a3b060-9539-4176-97e4-49120e02f5d1/4fa265378c13a520-spaces-NkEGS7hzeqa35sMXQZ4X-uploads-89MTSo5XRpPMVr1T0rxS-actions.svg?rasterize-bypass=true" alt="The Actions menu icon in GitBook" /> 位于你想删除的内容旁边的菜单，并选择 **删除**.
+
+删除可重用内容将会 **将其从所有使用它的页面中删除**。此操作无法撤销。
+
+## 与 GitHub 和 GitLab 同步
+
+同步到 GitHub 和 GitLab 时，完全支持可重用内容。你的可重用内容将导出到一个专用的 `包括` 文件夹中，每个内容都是一个单独的 Markdown 文件。
+
+然后，你的内容会在其他页面中通过 `包括` 指令进行引用。
+
+<Callout kind="info">
+  同步时， `.gitbook/includes` 目录会在每个已同步章节的根目录中创建（这可能不是整个仓库的根目录）。如果你的 `.gitbook/includes` 文件夹或其文件出现在你章节的目录中，你可能需要从 TOC 中手动隐藏它们。
+</Callout>
+
+#### 示例
+
+<Callout kind="success">
+  如果你是在 GitHub 端编写，请确保 include 的路径是相对于包含该引用的文件，而不是仓库根目录。
+</Callout>
+
+```markdown
+{% include "../../.gitbook/includes/reusable-block.md" %}
+```

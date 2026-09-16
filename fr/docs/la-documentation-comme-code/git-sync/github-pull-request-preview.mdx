@@ -1,0 +1,35 @@
+---
+title: Aperçu des pull requests GitHub
+description: Voyez un aperçu de votre contenu lorsque vous créez une pull request dans GitHub
+metaTitle: Aperçu des pull requests GitHub | GitBook Documentation
+ogImage: https://test-dai.imgix.net/org-4afef969-21f9-40f3-b5b8-b06c8b6cf68f/doc-22a3b060-9539-4176-97e4-49120e02f5d1/0a5a1a9630785855-organizations-d8f63b60-89ae-11e7-8574-5927d48c4877-sites-site_p4Xo4-socialprevie.jpg?fm=auto&auto=compress%2Cformat
+---
+
+Lorsque vous soumettez une pull request (PR) à une branche GitHub synchronisée avec une section GitBook, vous pouvez prévisualiser le contenu avant la fusion. Cela vous permet de vérifier l’impact des modifications avant de les fusionner.
+
+Vous pouvez utiliser cette fonctionnalité pour disposer d’une dernière couche de vérifications avant de fusionner une PR, ce qui vous permet de voir vos modifications dans un environnement hors production avant de les fusionner dans votre branche synchronisée.
+
+### Comment accéder aux liens d’aperçu
+
+Ce comportement fonctionne immédiatement, à condition d’avoir accordé le [l’application GitHub de GitBook](https://github.com/apps/gitbook-com) les autorisations de lecture seule nécessaires aux PR.
+
+Pour chaque PR créée à l’aide d’une branche cible synchronisée avec une section GitBook, vous verrez un statut ajouté à la PR avec une URL d’aperçu unique. En cliquant sur le **Détails** lien dans le statut, vous accéderez à l’URL d’aperçu de votre contenu. Vous pourrez ensuite vous assurer que le contenu est conforme à vos attentes avant de fusionner la PR.
+
+<Callout kind="info">
+  Les liens d’aperçu ne sont accessibles qu’aux utilisateurs disposant d’un compte GitBook.
+</Callout>
+
+### Considérations de sécurité
+
+Pour des raisons de sécurité, par défaut GitBook ne génère actuellement pas d’aperçus pour les PR ouvertes depuis des forks de votre dépôt. Comme le contenu de l’aperçu de la PR est accessible sous votre propre domaine, que ce soit sur `.gitbook.io` ou sur votre domaine personnalisé, un utilisateur pourrait générer du contenu malveillant dans un fork de votre dépôt public et le faire diffuser sous votre nom.
+
+Nous permettons aux utilisateurs de configurer explicitement cela via une option dans les paramètres de Git Sync.
+
+### FAQ
+
+#### Pourquoi ne puis-je pas voir un aperçu de ma documentation GitBook dans ma pull request ?
+
+Causes courantes :
+
+- <strong>Votre site n’est pas publié.</strong> Les URL d’aperçu des PR sont diffusées depuis votre site de documentation publié (sur `.gitbook.io` ou sur votre domaine personnalisé).
+- <strong>Votre site se trouve derrière un accès authentifié.</strong> Les aperçus Git Sync des PR ne sont pas disponibles pour les sites publiés derrière [un accès authentifié](/fr/docs/publier/site-audience/authenticated-access).

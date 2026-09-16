@@ -1,0 +1,68 @@
+---
+title: 使用 OpenAPI 代理
+metaTitle: 使用 OpenAPI 代理 | GitBook Documentation
+ogImage: https://test-dai.imgix.net/org-4afef969-21f9-40f3-b5b8-b06c8b6cf68f/doc-22a3b060-9539-4176-97e4-49120e02f5d1/0a5a1a9630785855-organizations-d8f63b60-89ae-11e7-8574-5927d48c4877-sites-site_p4Xo4-socialprevie.jpg?fm=auto&auto=compress%2Cformat
+---
+
+GitBook 可以代理 **试试看** 请求，因此即使你的 API 服务器不支持 CORS，它们也能正常工作。
+
+### 存在的原因
+
+除非 API 服务器通过 CORS 标头明确允许，否则浏览器会阻止跨域请求。未配置 CORS 时， **试试看** 请求会在浏览器中失败。代理会通过 GitBook 在服务器端路由这些请求，从而绕过该限制。
+
+### 为整个规范启用代理
+
+添加 `x-enable-proxy: true` 到你的 OpenAPI 规范根目录下。
+
+```yaml
+openapi: '3.0.3'
+x-enable-proxy: true
+info:
+  title: 示例 API
+  version: '1.0.0'
+servers:
+  - url: https://api.example.com
+```
+
+### 为特定操作启用或禁用
+
+添加 `x-enable-proxy` 在某个操作上。
+
+```yaml
+openapi: '3.0.3'
+info:
+  title: 示例 API
+  version: '1.0.0'
+servers:
+  - url: https://api.example.com
+paths:
+  /reports:
+    get:
+      summary: 报告列表
+      x-enable-proxy: true
+      responses:
+        '200':
+          description: 成功
+    post:
+      summary: 创建报告
+      x-enable-proxy: false
+      responses:
+        '201':
+          description: 已创建
+```
+
+<Callout kind="info">
+  操作级 `x-enable-proxy` 优先于根级值。
+</Callout>
+
+### 代理支持的内容
+
+GitBook 会转发所有 `HTTP` 方法（`GET`, `POST`, `PUT`, `DELETE`, `PATCH`）、标头、Cookie 和请求正文。
+
+### 安全性
+
+代理只会将请求转发到你规范中的 `servers` 数组里列出的 URL。它不能用于访问任意 URL。
+
+<Callout kind="info">
+  请确保你的 `servers` 数组包含你想要测试的每个基础 URL。如果某个 URL 未列出， **试试看** 到该主机的请求将绕过代理。
+</Callout>

@@ -1,0 +1,25 @@
+---
+title: 列挙型の説明
+description: 列挙型に説明を追加する方法を学びましょう
+metaTitle: 列挙型の説明 | GitBook Documentation
+ogImage: https://test-dai.imgix.net/org-4afef969-21f9-40f3-b5b8-b06c8b6cf68f/doc-22a3b060-9539-4176-97e4-49120e02f5d1/0a5a1a9630785855-organizations-d8f63b60-89ae-11e7-8574-5927d48c4877-sites-site_p4Xo4-socialprevie.jpg?fm=auto&auto=compress%2Cformat
+---
+
+APIオペレーションに enum が含まれている場合、次を追加できます `x-enumDescriptions` 各オプションについてより詳しい情報を提供するために。GitBook は、オペレーションの横にある表に enum の値とその説明を表示します。
+
+```yaml title="openapi.yaml"
+openapi: '3.0'
+info: ...
+components:
+  schemas:
+    project_status:
+      type: string
+      enum:
+        - LIVE
+        - PENDING
+        - REJECTED
+      x-enumDescriptions:
+        LIVE: プロジェクトは公開中です。
+        PENDING: プロジェクトは承認待ちです。
+        REJECTED: プロジェクトは却下されました。
+```

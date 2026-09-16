@@ -1,0 +1,83 @@
+---
+title: Invite
+description: Ajoutez un bloc d’invite à une page pour partager des invites IA réutilisables
+metaTitle: Invite | GitBook Documentation
+ogImage: https://test-dai.imgix.net/org-4afef969-21f9-40f3-b5b8-b06c8b6cf68f/doc-22a3b060-9539-4176-97e4-49120e02f5d1/0a5a1a9630785855-organizations-d8f63b60-89ae-11e7-8574-5927d48c4877-sites-site_p4Xo4-socialprevie.jpg?fm=auto&auto=compress%2Cformat
+---
+
+Les blocs d’invite vous permettent de partager des invites d’IA réutilisables dans vos docs. Les lecteurs peuvent copier l’invite en un clic ou l’ouvrir dans un outil d’IA pris en charge.
+
+### Ajouter un bloc d’invite
+
+1. Sur une ligne vide, saisissez `/`.
+2. Cliquez sur **Invite** dans le menu d’insertion.
+3. Ajoutez le contenu et les paramètres du bloc.
+
+### Champs du bloc d’invite
+
+Chaque bloc d’invite comprend ces champs :
+
+- **Description** : Un bref résumé de ce que fait l’invite.
+- **Icône** : Une icône facultative qui aide les lecteurs à repérer le bloc.
+- **Invite** : Le texte de l’invite que vous pouvez copier ou envoyer à un outil d’IA.
+
+Le champ d’invite prend en charge Markdown, vous pouvez donc structurer des invites plus longues avec des titres, des listes et d’autres mises en forme.
+
+### Options de l’invite
+
+#### Ouvrir dans les fournisseurs d’IA
+
+Le **Ouvrir dans les fournisseurs d’IA** paramètre contrôle si le bloc affiche un menu d’outils d’IA capables d’ouvrir l’invite directement.
+
+Si vous activez ce paramètre, les lecteurs peuvent ouvrir l’invite depuis le menu du fournisseur dans les docs publiés.
+
+Si vous laissez ce paramètre non défini, GitBook déduit sa valeur initiale à partir de l’action de page au niveau du site. **Ouvrir dans les fournisseurs d’IA** Vous pouvez gérer ce paramètre dans [Configuration supplémentaire](/fr/docs/gerer-votre-site/customization/extra-configuration#open-in-ai-providers).
+
+#### Visibilité par défaut
+
+Le **Visibilité par défaut** paramètre contrôle la quantité de l’invite que les lecteurs peuvent voir au départ.
+
+Choisissez **Masqué** pour masquer l’invite. Choisissez **Partiellement visible** pour un aperçu sur 10 lignes, ou **Entièrement visible** pour l’invite complète.
+
+### Exemple
+
+Utilisez un bloc d’invite lorsque vous voulez que les lecteurs réutilisent une invite exactement telle qu’elle est écrite. Par exemple :
+
+Example prompt
+
+```text
+Résumez les principales modifications dans cette note de version. Regroupez la réponse en : nouvelles fonctionnalités, changements incompatibles et prochaines étapes recommandées. Limitez la réponse à 150 mots.
+```
+
+### Quand utiliser un bloc d’invite
+
+Les blocs d’invite fonctionnent bien pour :
+
+- Invites réutilisables pour le support, l’onboarding ou le dépannage
+- Modèles d’invite pour les résumés, les analyses ou les brouillons
+- Flux de travail qui commencent dans vos docs et se poursuivent dans un outil d’IA
+
+### Bonnes pratiques
+
+Rédigez les invites de la même façon que vous voulez que les lecteurs les utilisent :
+
+- Énoncez clairement la tâche.
+- Définissez le format de sortie.
+- Ajoutez des contraintes comme la longueur, le ton ou les informations requises.
+
+### Comportement dans les docs publiés
+
+Sur une page publiée, un bloc d’invite aide les lecteurs à aller plus vite.
+
+- **Copier l’invite** copie l’invite complète dans le presse-papiers.
+- **Ouvrir dans les fournisseurs d’IA** affiche un menu de fournisseurs lorsqu’il est activé.
+
+## Représentation en Markdown
+
+````markdown
+{% prompt description="Exemple d’invite" icon="rectangle-terminal" openInAIProviders="true" defaultExpanded="full” %}
+```markdown
+Résumez les principales modifications dans cette note de version. Regroupez la réponse en : nouvelles fonctionnalités, changements incompatibles et prochaines étapes recommandées. Limitez la réponse à 150 mots.
+```
+{% endprompt %}
+````

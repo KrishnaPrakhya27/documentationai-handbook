@@ -1,0 +1,88 @@
+---
+title: 设置 Okta
+description: 为你的文档访客设置 Okta 登录界面
+metaTitle: 设置 Okta | GitBook Documentation
+ogImage: https://test-dai.imgix.net/org-4afef969-21f9-40f3-b5b8-b06c8b6cf68f/doc-22a3b060-9539-4176-97e4-49120e02f5d1/0a5a1a9630785855-organizations-d8f63b60-89ae-11e7-8574-5927d48c4877-sites-site_p4Xo4-socialprevie.jpg?fm=auto&auto=compress%2Cformat
+---
+
+<Callout kind="alert">
+  本指南将带你完成为文档设置受保护登录页面的过程。在阅读本指南之前，请确保你已经先完成了以下过程： [启用已认证访问](/zh/docs/fa-bu/site-audience/authenticated-access/enabling-authenticated-access).
+</Callout>
+
+要使用 Okta 为你的 GitBook 站点设置经过身份验证的访问，流程如下：
+
+<Steps>
+  <Step title="创建一个新的 Okta 应用">
+    从你的 Okta 仪表板创建一个 Okta 应用。
+  </Step>
+
+  <Step title="安装并配置 Okta 集成">
+    安装 Okta 集成并添加所需配置。
+  </Step>
+
+  <Step title="为自适应内容配置 Okta（可选）">
+    配置 Okta 以便与 GitBook 中的自适应内容配合使用。
+  </Step>
+</Steps>
+
+### 创建一个新的 Okta 应用
+
+首先，登录到 Okta 平台（管理员版本），然后通过点击左侧边栏中的 Applications 按钮来创建一个新的应用集成（或使用现有的集成）。
+
+<Image src="https://test-dai.imgix.net/org-4afef969-21f9-40f3-b5b8-b06c8b6cf68f/doc-22a3b060-9539-4176-97e4-49120e02f5d1/1b54e7cdb4ad87ba-spaces-NkEGS7hzeqa35sMXQZ4X-uploads-8roQ3QDR5zsyFh2FoQS4-Screen-Shot-2023-10-30-.png?fm=auto&auto=compress%2Cformat" alt="An Okta screenshot showing the create app integration screen" />
+
+点击 Create App Integration，并选择 OIDC - OpenID Connect 作为登录方式。然后选择 Web Application 作为应用类型。
+
+<Image src="https://test-dai.imgix.net/org-4afef969-21f9-40f3-b5b8-b06c8b6cf68f/doc-22a3b060-9539-4176-97e4-49120e02f5d1/4dd960d2464f0b02-spaces-NkEGS7hzeqa35sMXQZ4X-uploads-qgFHYo6HOUGF8dUTFEJM-Screen-Shot-2023-10-30-.png?fm=auto&auto=compress%2Cformat" alt="An Okta screenshot showing the integration setup" />
+
+为它取一个合适的名称，不要修改该页面上的任何其他设置。对于分配，请选择合适的复选框。点击 Save。
+
+在下一屏幕中，复制 Client ID 和 Client Secret。点击右上角的下拉菜单，复制电子邮件地址下方的 Okta Domain。
+
+<Image src="https://test-dai.imgix.net/org-4afef969-21f9-40f3-b5b8-b06c8b6cf68f/doc-22a3b060-9539-4176-97e4-49120e02f5d1/a3ae098ddc270e3c-spaces-NkEGS7hzeqa35sMXQZ4X-uploads-JQWvrITuUlno737DbQKM-Screen-Shot-2023-10-30-.png?fm=auto&auto=compress%2Cformat" alt="An Okta screenshot showing where to copy client credentials" />
+
+我们需要这些值来配置 Okta 集成。
+
+### 安装并配置 Okta 集成
+
+进入你想发布的站点中的 Integrations 选项卡，找到 Okta 集成。
+
+<Image src="https://test-dai.imgix.net/org-4afef969-21f9-40f3-b5b8-b06c8b6cf68f/doc-22a3b060-9539-4176-97e4-49120e02f5d1/c74994ebdf91855a-spaces-NkEGS7hzeqa35sMXQZ4X-uploads-eFArORtsvAcvgwbDZNce-Screen-Shot-2024-12-13-.png?fm=auto&auto=compress%2Cformat" alt="A GitBook screenshot showing the site settings page" />
+
+在你的站点上安装该集成。
+
+在站点上安装后，你会看到一个屏幕，要求你输入 Client ID、Okta Domain 和 Client Secret。
+
+<Image src="https://test-dai.imgix.net/org-4afef969-21f9-40f3-b5b8-b06c8b6cf68f/doc-22a3b060-9539-4176-97e4-49120e02f5d1/01bbd6ae1c4c3cb7-spaces-NkEGS7hzeqa35sMXQZ4X-uploads-HrwQ0ASv1tD6kTZPVLMY-Screen-Shot-2024-12-13-.png?fm=auto&auto=compress%2Cformat" alt="A GitBook screenshot showing the Okta credentials modal" />
+
+对于 Client ID、Okta Domain（删除 `https://`前缀，如果有的话）以及 Client Secret，请粘贴你从 Okta 仪表板复制的值。
+
+点击 Save。
+
+复制弹窗中显示的 URL，并将其作为 Okta 中的登录重定向 URI 输入（如下方截图所示）。点击 Save。
+
+<Image src="https://test-dai.imgix.net/org-4afef969-21f9-40f3-b5b8-b06c8b6cf68f/doc-22a3b060-9539-4176-97e4-49120e02f5d1/a0bc1d3c93bde414-spaces-NkEGS7hzeqa35sMXQZ4X-uploads-pPZlqJlE6koyHrWhSp8i-Screen-Shot-2024-01-14-.png?fm=auto&auto=compress%2Cformat" alt="An Okta screenshot showing the sign-in redirect URI configuration" />
+
+现在，在 GitBook 中关闭集成弹窗，然后点击 Manage site 按钮。导航到 **受众**，选择 **经过身份验证的访问**，并选择 Okta 作为后端。然后，点击 **更新受众**。转到站点页面并点击 **发布**。<br /><br />该站点现在已在由你的 Auth0 应用程序控制的身份验证访问后发布。要试用，请点击 Visit。系统会要求你使用 Okta 登录，这确认了你的站点已通过 Auth0 使用 Okta 发布在身份验证访问之后。
+
+### 为自适应内容配置 Okta（可选）
+
+要在具有身份验证访问的 GitBook 站点中启用自适应内容，你需要配置你的 Okta 应用程序，以便在身份验证令牌中将相关用户数据作为声明包含进去。
+
+声明是嵌入在发送到 GitBook 的令牌中的键值对。这些声明可用于根据用户的角色、套餐、位置或任何其他标识属性动态调整文档内容。
+
+Okta 支持多种类型的声明：
+
+- **标准声明**<br />这些是常见声明（例如 `电子邮件`, `name`，或 `组`）可能默认包含，但通常需要显式添加到你的令牌配置中，以确保始终可用。
+- **自定义声明**<br />你可以在 Okta 中使用 [自定义用户属性](https://help.okta.com/en-us/content/topics/users-groups-profiles/usgp-add-custom-user-attributes.htm) 或基于表达式的逻辑定义自定义声明。这些允许你传递高度具体的值——例如套餐等级、账户 ID 或内部团队标记。
+- **将组作为声明**<br />你还可以将 Okta 组作为声明传递，这在定义“企业用户”或“测试版用户”等受众细分时尤其有用。这些内容可以在你的授权服务器的声明配置中进行过滤和映射。
+
+要在 Okta 中添加或自定义声明：
+
+1. 打开你的 Okta 管理控制台。
+2. 导航到 **Security > API > Authorization Servers**.
+3. 编辑用于你的 GitBook 站点的授权服务器。
+4. 在 **Claims** 选项卡下，添加规则以在令牌中包含所需的声明。
+5. 确保你的 GitBook 站点正在正确读取并映射这些声明。
+
+一旦声明被传递到 GitBook，请按照 [自适应你的内容](/zh/docs/fa-bu/adaptive-content/adapting-your-content) 中的步骤来定义哪些内容应显示给谁。

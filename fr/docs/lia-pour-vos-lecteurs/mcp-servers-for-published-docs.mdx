@@ -1,0 +1,246 @@
+---
+title: Serveurs MCP pour la documentation publiée
+description: La documentation publiée sur GitBook génère automatiquement un serveur MCP que vous pouvez connecter à des outils externes
+metaTitle: Serveurs MCP pour la documentation publiée | GitBook Documentation
+ogImage: https://test-dai.imgix.net/org-4afef969-21f9-40f3-b5b8-b06c8b6cf68f/doc-22a3b060-9539-4176-97e4-49120e02f5d1/0a5a1a9630785855-organizations-d8f63b60-89ae-11e7-8574-5927d48c4877-sites-site_p4Xo4-socialprevie.jpg?fm=auto&auto=compress%2Cformat
+---
+
+Chaque site GitBook publié inclut automatiquement un serveur Model Context Protocol (MCP).
+
+Les outils d’IA peuvent l’utiliser pour lire directement votre documentation publiée. Cela fonctionne avec Claude, Claude Code, Cursor, Codex, VS Code et d’autres clients MCP.
+
+<a id="choose-the-right-endpoint"></a>
+
+### Choisissez le bon point de terminaison
+
+Votre serveur MCP se trouve à l’URL de votre site publié, plus l’un de ces points de terminaison :
+
+| Si votre site est... | Utilisez cette URL | Exemple |
+| --- | --- | --- |
+| Public, partagé via un lien de partage avec tout le contenu publié exposé, ou entièrement authentifié | `{docs-site-url}/~gitbook/mcp` | `https://gitbook.com/docs/~gitbook/mcp` |
+| Partiellement authentifié, avec du contenu public ou partagé via lien encore exposé | `{docs-site-url}/~gitbook/mcp/auth` | `https://gitbook.com/docs/~gitbook/mcp/auth` |
+
+Pour les sites entièrement authentifiés, les clients se connectent via la découverte MCP et OAuth. Pour plus de détails, consultez le [flux d’autorisation MCP](https://modelcontextprotocol.io/docs/tutorials/security/authorization#the-authorization-flow-step-by-step).
+
+<Callout kind="info">
+  Si vous ouvrez cette URL dans un navigateur, vous verrez une erreur. Utilisez-la dans un outil capable d’envoyer des requêtes HTTP, comme un assistant IA ou un IDE.
+</Callout>
+
+<Callout kind="info">
+  **Actions de page** doit être activé pour que le serveur MCP fonctionne. Si vous désactivez **Personnalisation du site** → **Actions de page**, GitBook désactive `~gitbook/mcp` et le point de terminaison renvoie `404`. **Se connecter avec le serveur MCP** contrôle uniquement si le lien MCP apparaît dans le menu des actions de page.
+</Callout>
+
+### Connectez un outil d’IA
+
+<Steps>
+  <Step title="Trouvez l’URL de votre serveur MCP" titleType="h3">
+    Commencez avec l’URL de votre documentation publiée. Puis ajoutez le point de terminaison de [Choisissez le bon point de terminaison](#choose-the-right-endpoint).
+
+    Par exemple, si votre site de documentation est `https://gitbook.com/docs`, votre URL de serveur MCP est `https://gitbook.com/docs/~gitbook/mcp`.
+  </Step>
+
+  <Step title="Ajoutez le serveur à votre outil" titleType="h3">
+    Utilisez l’onglet correspondant à votre outil ci-dessous. Remplacez `{docs-site-url}` par l’URL de votre site publié.
+
+    Si votre site utilise le deuxième point de terminaison, remplacez `/~gitbook/mcp` par `/~gitbook/mcp/auth`.
+  </Step>
+
+  <Step title="Posez une question de test" titleType="h3">
+    Exécutez l’une des invites dans [Essayez](#try-it). Si l’outil peut rechercher dans votre documentation et répondre à partir d’elle, la connexion fonctionne.
+  </Step>
+</Steps>
+
+<Tabs>
+  <Tab title="Claude">
+    Ces étapes fonctionnent dans Claude sur le Web et dans Claude Desktop.
+
+    Ouvrez **Paramètres** → **Connecteurs**.
+
+    Cliquez sur **Ajouter un connecteur personnalisé**. Puis collez votre URL de serveur MCP, par exemple `{docs-site-url}/~gitbook/mcp`.
+
+    Exemple :
+
+    ```
+    https://gitbook.com/docs/~gitbook/mcp
+    ```
+
+    Si Claude n’affiche pas les connecteurs distants, votre offre actuelle ou le déploiement en cours ne les prend peut-être pas encore en charge.
+  </Tab>
+
+  <Tab title="Claude Code">
+    Exécutez cette commande dans votre terminal :
+
+    ```shell
+    claude mcp add --transport http my-docs https://gitbook.com/docs/~gitbook/mcp
+    ```
+
+    Remplacez `my-docs` par le nom de serveur que vous voulez.
+
+    Si votre site utilise le point de terminaison public authentifié, remplacez le suffixe de l’URL par `/~gitbook/mcp/auth`.
+  </Tab>
+
+  <Tab title="Cursor">
+    Ouvrez **Paramètres** → **MCP**.
+
+    Cliquez sur **Ajouter un nouveau serveur MCP**. Puis collez `{docs-site-url}/~gitbook/mcp`.
+
+    Vous pouvez aussi ajouter ce fichier dans `.cursor/mcp.json`:
+
+    ```json
+    {
+      "mcpServers": {
+        "my-docs": {
+          "url": "https://gitbook.com/docs/~gitbook/mcp"
+        }
+      }
+    }
+    ```
+
+    Remplacez `my-docs` avec le nom de serveur de votre choix si vous voulez.
+  </Tab>
+
+  <Tab title="Codex">
+    Utilisez la commande `codex mcp add` ou ajoutez le serveur à votre `config.toml`.
+
+    Exemple de commande :
+
+    ```shell
+    codex mcp add my-docs https://gitbook.com/docs/~gitbook/mcp
+    ```
+
+    Exemple de configuration :
+
+    ```toml
+    [mcp_servers.my-docs]
+    url = "https://gitbook.com/docs/~gitbook/mcp"
+    ```
+
+    Remplacez `my-docs` avec le nom de serveur de votre choix si vous voulez.
+  </Tab>
+
+  <Tab title="VS Code (Copilot)">
+    Ouvrez votre `mcp.json` fichier. Puis ajoutez une entrée de serveur avec un transport HTTP :
+
+    ```json
+    {
+      "servers": {
+        "my-docs": {
+          "type": "http",
+          "url": "https://gitbook.com/docs/~gitbook/mcp"
+        }
+      }
+    }
+    ```
+
+    Remplacez `my-docs` avec le nom de serveur de votre choix si vous voulez.
+  </Tab>
+</Tabs>
+
+<a id="try-it"></a>
+
+### Essayez
+
+Collez l’une de ces invites dans votre assistant :
+
+- `Avec le serveur MCP my-docs, comment configurer un accès authentifié ?`
+- `Recherchez dans ma documentation tout ce qui concerne les domaines personnalisés et résumez les étapes.`
+- `Listez les outils exposés par le serveur MCP my-docs. Puis utilisez-les pour trouver la page sur les actions de page.`
+
+Si vous utilisez un outil agentique, vous pouvez aussi lui donner cette invite de configuration :
+
+```
+Ajoutez un serveur MCP nommé my-docs avec un transport HTTP à https://gitbook.com/docs/~gitbook/mcp. Puis vérifiez qu’il se connecte en listant ses outils disponibles.
+```
+
+### Prérequis
+
+Pour utiliser un serveur MCP :
+
+- Votre site doit être publié. Le serveur MCP expose uniquement le contenu publié.
+- **Actions de page** doit être activé dans **Personnalisation du site** → **Actions de page**.
+- Votre outil doit prendre en charge MCP via HTTP.
+- Si votre site utilise [l’accès authentifié](/fr/docs/publier/site-audience/authenticated-access), votre outil doit prendre en charge la [spécification d’autorisation MCP](https://modelcontextprotocol.io/specification/2025-06-18/basic/authorization).
+- Si votre site utilise des liens de partage, utilisez l’URL du site de lien de partage, puis ajoutez le point de terminaison de [Choisissez le bon point de terminaison](#choose-the-right-endpoint).
+- GitBook prend uniquement en charge le transport HTTP. `stdio` et `SSE` ne sont pas pris en charge.
+
+Dans la **Actions de page** section de vos [Personnalisation](/fr/docs/gerer-votre-site/customization) paramètres, vous pouvez activer l’option **Se connecter avec le serveur MCP** option. Cela permet aux visiteurs de copier l’URL du serveur MCP de votre site depuis [le menu Actions de page](/fr/docs/gerer-votre-site/customization/extra-configuration#page-actions).
+
+### Ajoutez le lien MCP à votre site
+
+Dans [Personnalisation du site](/fr/docs/gerer-votre-site/customization), ouvrez [Actions de page](/fr/docs/gerer-votre-site/customization/extra-configuration#page-actions). Assurez-vous que **Actions de page** est activé. Puis activez **Se connecter avec le serveur MCP**.
+
+Cela ajoute un lien MCP copiable au menu Actions de page. Cela ne modifie pas le point de terminaison utilisé par votre outil.
+
+### Confidentialité et accès
+
+Utilisez le point de terminaison de [Choisissez le bon point de terminaison](#choose-the-right-endpoint).
+
+Le serveur MCP donne un accès en lecture seule à votre documentation publiée.
+
+Les pages masquées restent accessibles via MCP. Masquer une page ne la retire que de la table des matières publiée.
+
+Il n’expose jamais les données de compte, les analyses ni les données internes de GitBook.
+
+Il ne sert que la dernière version publiée. Les brouillons et les modifications non publiées restent privés.
+
+### Dépannage
+
+Si un outil ne peut pas se connecter :
+
+- Vérifiez que votre site publié est accessible.
+- Vérifiez que l’URL utilise le point de terminaison de [Choisissez le bon point de terminaison](#choose-the-right-endpoint).
+- Si le site utilise l’authentification, utilisez un client qui prend en charge la [spécification d’autorisation MCP](https://modelcontextprotocol.io/specification/2025-06-18/basic/authorization).
+- Si l’outil a besoin de `stdio` ou `SSE`, cela ne fonctionnera pas avec GitBook.
+
+### Utilisez MCP avec les sites authentifiés
+
+Si votre site GitBook utilise [l’accès authentifié](/fr/docs/publier/site-audience/authenticated-access), le serveur MCP à `/~gitbook/mcp` utilise la même authentification. Les clients MCP qui prennent en charge la [spécification d’autorisation MCP](https://modelcontextprotocol.io/docs/tutorials/security/authorization) — y compris Claude et Claude Code — peuvent se connecter automatiquement à l’aide d’OAuth et de l’enregistrement dynamique de client (DCR).
+
+Si votre site utilise plutôt des liens de partage, utilisez l’URL complète du site de lien de partage, puis ajoutez le point de terminaison de [Choisissez le bon point de terminaison](#choose-the-right-endpoint).
+
+GitBook ne prend pas en charge les sites utilisant uniquement des liens de partage ni les sites utilisant des jetons d’authentification visiteur transmis comme en-têtes statiques pour l’authentification MCP.
+
+Les clients MCP pris en charge — y compris Claude — suivent [spécification d’autorisation MCP](https://modelcontextprotocol.io/specification/2025-06-18/basic/authorization) pour se connecter.
+
+<Steps>
+  <Step title="Découvrez le serveur OAuth" titleType="h3">
+    Pendant la négociation MCP, le client découvre le serveur OAuth de votre site.
+  </Step>
+
+  <Step title="Enregistrez un client avec DCR" titleType="h3">
+    Le client enregistre un client OAuth via Dynamic Client Registration.
+
+    Vous n’avez pas besoin de créer manuellement un ID client.
+  </Step>
+
+  <Step title="Connectez-vous avec le fournisseur d’authentification de votre site" titleType="h3">
+    Le client vous redirige vers le fournisseur d’authentification de votre site.
+
+    Vous vous connectez avec le même fournisseur que celui déjà utilisé par votre site de documentation.
+  </Step>
+
+  <Step title="Échangez le code contre un jeton" titleType="h3">
+    Après la connexion, le client échange le code d’autorisation contre un jeton d’accès.
+  </Step>
+
+  <Step title="Réutilisez le jeton" titleType="h3">
+    Le client envoie ce jeton avec les requêtes MCP ultérieures jusqu’à son expiration.
+  </Step>
+</Steps>
+
+Ce flux fonctionne avec les backends d’accès authentifié suivants :
+
+- [Auth0](/fr/docs/publier/site-audience/authenticated-access/setting-up-auth0)
+- [Azure AD](/fr/docs/publier/site-audience/authenticated-access/setting-up-azure-ad)
+- [Okta](/fr/docs/publier/site-audience/authenticated-access/setting-up-okta)
+- [AWS Cognito](/fr/docs/publier/site-audience/authenticated-access/setting-up-aws-cognito)
+- [OIDC](/fr/docs/publier/site-audience/authenticated-access/setting-up-oidc)
+- [Backend personnalisé](/fr/docs/publier/site-audience/authenticated-access/setting-up-a-custom-backend) avec une URL de secours configurée
+
+<Callout kind="alert">
+  L’authentification MCP ne prend pas en charge les sites qui reposent uniquement sur des jetons d’authentification visiteur statiques dans les en-têtes de requête.
+
+  Utilisez plutôt l’un des backends d’accès authentifié ci-dessus.
+</Callout>
+
+Pour configurer cela, commencez par [Accès authentifié](/fr/docs/publier/site-audience/authenticated-access) et [Activation de l’accès authentifié](/fr/docs/publier/site-audience/authenticated-access/enabling-authenticated-access).

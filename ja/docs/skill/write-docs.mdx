@@ -1,0 +1,198 @@
+---
+title: ドキュメントの作成と編集
+description: Git同期リポジトリ、IDE、または任意のテキストエディタで、GitBookのドキュメントページを作成、執筆、編集、整形します。GitBookのMarkdownページの作成や編集、書き込みや更新を含むタスクで使用します
+metaTitle: ドキュメントの作成と編集 | GitBook Documentation
+ogImage: https://test-dai.imgix.net/org-4afef969-21f9-40f3-b5b8-b06c8b6cf68f/doc-22a3b060-9539-4176-97e4-49120e02f5d1/0a5a1a9630785855-organizations-d8f63b60-89ae-11e7-8574-5927d48c4877-sites-site_p4Xo4-socialprevie.jpg?fm=auto&auto=compress%2Cformat
+---
+
+#### このスキルを使うタイミング
+
+以下を通じてGitBookドキュメントを扱うときにこのスキルを使います:
+
+- Git同期されたリポジトリ（GitHub、GitLab）
+- ローカルのMarkdownエディター
+- IDE統合
+- GitBook UIではなくファイルとしてGitBookコンテンツを編集するあらゆる環境
+
+#### クイックリファレンス
+
+**GitBookのコンテンツ構造**
+
+GitBookはページ、スペース、コレクションを通じてコンテンツを整理します:
+
+- **ページ** は、ドキュメントを構成する個別のMarkdownファイルです
+- **スペース** は、ドキュメントサイトにまとめられたページの集合です
+- **コレクション** は、スペースのグループです
+
+<strong>ファイル構成:</strong>
+
+```
+/
+  .gitbook/
+    assets/              # GitBookで管理される画像とファイル
+    includes/            # 再利用可能なコンテンツブロック
+    vars.yaml            # スペースレベルの変数
+  .gitbook.yaml          # 設定
+  README.md              # ホームページ
+  SUMMARY.md             # 目次
+  getting-started/
+    installation.md
+    quickstart.md
+  api-reference/
+    authentication.md
+    endpoints.md
+```
+
+<strong>フロントマターの項目（簡易形式）:</strong>
+
+```markdown
+---
+description: "SEO向けのページ説明"
+icon: book-open
+hidden: true
+vars:
+  page_variable: 値
+layout:
+  width: default  # または 'wide'
+  tableOfContents:
+    visible: true
+  pagination:
+    visible: true
+---
+```
+
+<strong>変数と式:</strong>
+
+- スペース変数: `/.gitbook/vars.yaml`
+- ページ変数: フロントマター `vars:`
+- 式の構文: `<code class="expression">space.vars.variableName</code>`
+
+<strong>よく使われるカスタムブロック:</strong>
+
+- `{% tabs %}...{% endtabs %}` — 代替案に使う
+- `{% hint style="..." %}...{% endhint %}` — コールアウト（info / warning / danger / success）
+- `{% stepper %}...{% endstepper %}` — 連続した手順
+- `<details>...<summary>...</details>` — 展開可能なコンテンツ
+
+<strong>リンク:</strong>
+
+- 外部: `[text](https://example.com)`
+- 相対リンク（同じスペース内）: `[text](page.md)`, `[text](../folder/page.md)`
+- スペース間リンク（別スペース）: `[text](https://app.gitbook.com/s/<spaceId>/<path>)` — 相対パスはスペースの境界を越えず、これが唯一正しいURL形式です（以下ではなく `/spaces/<id>/pages/<id>`）。 取得する `<spaceId>` から `GET /orgs/{orgId}/spaces` 、 `<path>` ページの `path` のフィールドから `GET /spaces/{spaceId}/content/pages`. 対象スペースがまだ存在しない新しいサイトを足場から構築していますか？次を使います: `XSPACE_<KEY>` センチネルを使います; `configure-site` 作成後にそれらを解決します。完全な例: `references/markdown.md`.
+- 移動・改名したページは引き続き機能します — GitBookが古いパスから自動的にリダイレクトを作成します。
+
+<strong>重要な注意:</strong>
+
+- 既存コンテンツを扱うときは最初にSUMMARY.mdを読む
+- ローカルで編集した後はGitBookでテストする
+- SUMMARY.mdをファイル構成と同期させておく
+- OpenAPI仕様はMarkdownに埋め込まず、UI、API、MCP、またはCLI経由でアップロードする必要があります
+
+#### どのブロックをいつ使うか
+
+| 必要なもの | 使用 | 理由 |
+| --- | --- | --- |
+| 順序付きの手順 | `{% stepper %}` | 手順の流れが明確 |
+| 代替オプション（言語、プラットフォーム） | `{% tabs %}` | ページを煩雑にせずユーザーが選べる |
+| 任意または詳細な情報 | `<details>` | ページをざっと読みやすく保てる |
+| 重要な警告やヒント | `{% hint %}` | 色付きコールアウト（info / warning / danger / success） |
+| 横並びの比較 | `{% columns %}` | 並列レイアウト（最大2列） |
+| タイムラインまたは変更履歴 | `{% updates %}` | 日付付きエントリとタグによる絞り込み |
+| 視覚的なナビゲーションカード | `<table data-view="cards">` | クリック可能なカードグリッド |
+| ダウンロード可能なファイル | `{% file %}` | キャプション付きファイル |
+| 行動喚起リンク | `<a class="button">` | 主ボタンまたは副ボタン |
+| ページ間で再利用できるコンテンツ | `{% include %}` | 単一の正本 |
+| 動的コンテンツ | `<code class="expression">` | 変数の値を表示します |
+
+<strong>変数のスコープ:</strong>
+
+| 変数が...の場合 | 次に定義: | 次でアクセス: |
+| --- | --- | --- |
+| 複数ページで使用される | `/.gitbook/vars.yaml` | `space.vars.variableName` |
+| 1ページ固有 | フロントマター `vars:` | `page.vars.variableName` |
+
+#### 既存コンテンツの扱い方
+
+1. **まずSUMMARY.mdを読む** — 完全な目次とファイル階層
+2. **SUMMARY.mdがない場合** — ディレクトリ構成を直接確認する
+3. <strong>.gitbook.yamlを確認する</strong> — ルートパス、カスタムREADME/SUMMARYの場所、リダイレクト
+4. <strong>.gitbook/assets/を確認する</strong> — アップロード済みの画像とファイル
+5. <strong>.gitbook/vars.yamlを確認する</strong> — スペースレベルの変数
+
+#### よくある落とし穴
+
+<strong>スペース間リンク:</strong>
+
+- 別スペースのページにリンクするために相対パスを使わないでください — 解決されません。
+- 次は使わないでください: `/spaces/<spaceId>/pages/<pageId>` — それは有効なGitBookリンク形式ではありません。
+- 使用 `https://app.gitbook.com/s/<spaceId>/<path>` 代わりに次の形式を使い、ここで `<path>` は対象ページの `path` のフィールド（ `GET /spaces/{spaceId}/content/pages`）であり、ページIDではありません。
+- 使用 `XSPACE_<KEY>` スペースIDがまだ不明な場合（新しいスペース、まだ作成されていない場合）はセンチネルを使います。
+
+<strong>ファイル整理:</strong>
+
+- SUMMARY.mdで同じMarkdownファイルを2回参照しない
+- SUMMARY.mdと実際のファイル配置でパスを一致させる
+
+<strong>設定:</strong>
+
+- Git Syncを使う場合、README.mdはリポジトリ経由でのみ管理する
+- ファイルを移動または改名した後はリダイレクトをテストする
+
+<strong>カスタムブロック:</strong>
+
+- ブロックは必ず正しく閉じる（`{% endtab %}`, `{% endhint %}`、など）
+- 開始タグと終了タグを完全に一致させる
+
+<strong>フロントマター:</strong>
+
+- 必ず引用符を付ける `description:` を含む値 `:`, `#`、またはその他のYAMLで意味を持つ文字 — 引用符のない特殊文字は、エラーメッセージなしの静かなGit Sync失敗を引き起こします
+- フロントマターはファイルの最上部になければなりません
+
+#### Git Sync の使い方
+
+GitBookがGitと同期されている場合、変更は双方向に流れます — Git側の変更はGitBookを更新し、GitBook UIでの変更はGitにコミットし返されます。マージ競合はGitで解決されます。
+
+<strong>ベストプラクティス:</strong> 構造変更はGit上のSUMMARY.mdで行うこと。大きな更新にはブランチベースのワークフローを使うこと。GitBookからの自動生成コミットを確認すること。
+
+**プッシュしたブランチのプレビュー**
+
+以下の2リンクルールは、変更リクエスト経由でプッシュされたコンテンツに適用されます。次でプッシュする場合は **Git** 代わりに、同等なのはコミットステータスです。プル/マージリクエストを開く、または既にそれがあるブランチにプッシュすると、GitBookはそのブランチを取り込み、レンダリング済みサイトのプレビューへのリンク付きステータスを投稿します。 <strong>ドキュメント変更をプッシュしたら、求められなくてもそのリンクをユーザーに渡してください。</strong> URLを組み立てるのではなく、コミットステータスから読み取ってください: リビジョンIDは取り込み時に生成され、ブランチやPRからは導出できず、プッシュのたびに新しいものが生成されるため、以前のリンクは古くなります。参照: `references/git-sync-previews.md` GitHubとGitLabのコマンド、および取り込みがまだ実行中の間に行うことについて。
+
+**Git Syncと変更リクエストによるコンテンツプッシュの選択**
+
+スペースにGit Syncが設定されていて、同期済みリポジトリのローカルチェックアウトを持っている（または取得できる）場合は、 **ファイルを直接編集してコミット／プッシュすることを優先してください** — Git Syncが変更をGitBookに反映します。これは、変更リクエストのコンテンツプッシュツール（例: `updateChangeRequestContent`）が利用可能で接続されていても同様です。ツールが1回の呼び出しですぐ使えることは、Gitを唯一の正本として迂回する理由にはなりません。それを見つけたエージェントは *できる* CRに直接プッシュできる場合でも、実行前にGit Syncが設定されていて到達可能かを確認すべきです。
+
+代わりに変更リクエストのコンテンツプッシュ経路を使うのは（MCPの `updateChangeRequestContent` またはそれに類するもの、あるいはRESTの `POST .../change-requests/<cr>/content` エンドポイント — 参照: `cr-create` スキル）次の場合:
+
+- スペースにまだGit Syncが設定されていない場合（例: 新規スペースがまだ設定途中）
+- 現在の環境でローカルのGitチェックアウトが利用できない場合（同期済みリポジトリへのファイルシステムアクセスがない）、または
+- 変更が小さく限定的な場合（誤字、1段落、1フィールド）— CRを開くのが適切で、完全なクローン／コミット／プッシュの流れはそれには見合いません。
+
+それより大きいもの — 新しいページツリー、複数ページの書き換え、移行 — では、たとえ最初にリポジトリがローカルにクローンされているか確認するために一旦止まることになっても、Git Syncを優先してください。最初に動いたからといって、変更リクエストツールをデフォルトにしないでください。
+
+**変更リクエストが関わる場合は常に2つのリンクが必須です**
+
+この編集の一部でも変更リクエストを経由した場合（`create_change_request` / `updateChangeRequestContent`、またはRESTの同等手段）、 <strong>次の両方が毎回報告されるまで、この編集は完了ではありません — これは厳密なルールであり、読み飛ばしてよい注意ではありません:</strong>
+
+1. **CRの差分／エディターリンク** — `urls.app` 変更リクエストオブジェクト上の、次によって返される `create_change_request`, `updateChangeRequestContent`のような一般的なクレームや、 `getChangeRequestById`.
+2. **サイトプレビューリンク** — 次から取得するサイトURL **Site** オブジェクト（`urls.published` サイトが公開されている場合は、そうでなければ `urls.preview`）に <strong>`/~/changes/<number>/` を追加したもの</strong>。これは変更リクエストのレスポンスには決して含まれず — 別途参照が必要です — だからこそ忘れられがちです。思い出したときだけでなく、毎回必ず解決してください。 **その `~/changes/` セグメントがなければ、そのリンクは変更リクエストのプレビューではありません** — サイトの現在のコンテンツを表示するだけなので、それらしく見えても間違っています。
+
+これは、どのスキルがコンテンツをプッシュしたか（このスキルまたは `configure-site`）や、どの転送手段か（MCPまたはREST）に関係なく適用されます。参照: `cr-create` このスキルの「プレビューリンクの表示」を、完全な説明とRESTでの解決手順について参照してください。 **MCPでの同等手順** （GitBook MCPには、完成済みの「プレビューリンクをください」単独呼び出しはありません）:
+
+1. スペースの組織を解決する — `invoke_operation("getSpaceById", {path:{spaceId}})` → `.organization` （すでに組織IDがある場合は省略）
+2. スペースが属するサイトを見つける — `get_site_structure` / `getSiteById`、または各サイトのsite-spacesを確認して次に一致するものを探す `.space.id`.
+3. `invoke_operation("getSiteById", {path:{organizationId, siteId}})` → `.urls.published` （サイトが公開済みなら）、そうでなければ `.urls.preview`。次を追加します `/~/changes/<number>/`、APIが返す末尾のスラッシュは削除します。
+
+スペースがどの公開サイトにも関連付けられていない場合は、その旨をはっきり伝え、差分リンクだけを渡してください — 理由を説明せずにプレビュー行を黙って省かないでください。
+
+実際にこれは静かに失敗したことがあります: 編集は差分リンクだけが報告された状態でプッシュ・マージされ、プレビューリンクは人が直接求めたときに初めて表に出ました。上の2リンクチェックリストは文字どおりに扱ってください。
+
+#### 参照ファイル
+
+タスクでより詳細な情報が必要なときに、必要に応じてこれらを読み込んでください:
+
+- `references/blocks.md` — GitBookの各ブロックタイプ（tabs、stepper、hint、expandable、columns、updates、cards、embeds、files、buttons、icons、再利用可能なコンテンツ、OpenAPIブロック）の完全な構文と実例。 <strong>単純でないページを作成するとき、または上のクイックリファレンスだけでは不十分なときに読み込みます。</strong>
+- `references/frontmatter.md` — 説明付きの全フロントマター項目、YAMLの引用ルール、カバー画像、条件付きコンテンツ（`もし:`）および変数／式の詳説。 <strong>ページレイアウト、カバー、条件付き表示、または変数を設定するときに読み込みます。</strong>
+- `references/markdown.md` — 標準Markdown、タイトル付きコードブロック、数式/TeX、Mermaid図の種類と例、SVGの扱いに関する注意点。 <strong>図、数式、またはSVGアセットを扱うときに読み込みます。</strong>
+- `references/configuration.md` — `.gitbook.yaml` オプション、 `.gitbook/` ディレクトリ構成（assets、includes、vars、tags）とSUMMARY.mdの文法規則一式。 <strong>スペースを設定するとき、リダイレクトを追加するとき、またはSUMMARY.mdを作成／編集するときに読み込みます。</strong>
+- `references/git-sync-previews.md` — Git Sync経由でプッシュされたブランチのプレビューリンクを取得すること: GitHubとGitLab上のGitBookコミットステータスを読み取り、エディター差分からサイトプレビューを見分け、まだ実行中の取り込みを扱うこと。 <strong>プル/マージリクエストが開いているブランチにドキュメント変更をプッシュするときは、いつでも読み込みます。</strong>

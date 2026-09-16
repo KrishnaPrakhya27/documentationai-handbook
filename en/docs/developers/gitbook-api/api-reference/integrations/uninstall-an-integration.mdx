@@ -1,0 +1,25 @@
+---
+title: Uninstall an integration
+metaTitle: Uninstall an integration | Developers | GitBook Documentation
+ogImage: https://test-dai.imgix.net/org-4afef969-21f9-40f3-b5b8-b06c8b6cf68f/doc-22a3b060-9539-4176-97e4-49120e02f5d1/0a5a1a9630785855-organizations-d8f63b60-89ae-11e7-8574-5927d48c4877-sites-site_p4Xo4-socialprevie.jpg?fm=auto&auto=compress%2Cformat
+---
+
+**DELETE** `/integrations/{integrationName}/installations/{installationId}`
+
+**Parameters**
+
+<ParamField header="Authorization" param-type="string" required={true} />
+
+<ParamField path="integrationName" param-type="string" required={true}>
+  Name of the integration.
+</ParamField>
+
+<ParamField path="installationId" param-type="string" required={true}>
+  Identifier of the installation
+</ParamField>
+
+**Responses**
+
+`204` Integration installation did not exist
+
+`205` Integration uninstalled successfully

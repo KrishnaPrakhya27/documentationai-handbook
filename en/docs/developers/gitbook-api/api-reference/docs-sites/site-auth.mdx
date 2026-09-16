@@ -1,0 +1,31 @@
+---
+title: Site auth
+description: Manage the authentication needed for publishing your site.
+metaTitle: Site auth | Developers | GitBook Documentation
+ogImage: https://test-dai.imgix.net/org-4afef969-21f9-40f3-b5b8-b06c8b6cf68f/doc-22a3b060-9539-4176-97e4-49120e02f5d1/0a5a1a9630785855-organizations-d8f63b60-89ae-11e7-8574-5927d48c4877-sites-site_p4Xo4-socialprevie.jpg?fm=auto&auto=compress%2Cformat
+---
+
+Configure the credentials or tokens required to publish documentation externally. This helps ensure your site is consistently kept up to date.
+
+## The SitePublishingAuth object
+
+<ResponseField name="object" field-type="string" required={true} enum="publishing-auth">
+  Type of Object, always equals to "publishing-auth"
+</ResponseField>
+
+<ResponseField name="privateKey" field-type="string" required={true}>
+  Private key used to sign JWT tokens.
+</ResponseField>
+
+<ResponseField name="fallbackURL" field-type="string">
+  URL to redirect to when the authenticated access secret is invalid.
+</ResponseField>
+
+<ResponseField name="logoutURL" field-type="string">
+  URL used to log visitors out from the upstream custom auth backend.
+</ResponseField>
+
+<ResponseField name="integration" field-type="string">
+  Name of the authenticated access integration installed on the site (if any).
+  It is also the one being used as VA backend when the published auth settings are configured to use "integration" as backend.
+</ResponseField>

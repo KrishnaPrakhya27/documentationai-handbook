@@ -1,0 +1,87 @@
+---
+title: Compute and render a full revision from a structured content source
+metaTitle: Compute and render a full revision from a structured content source | Developers | GitBook Documentation
+ogImage: https://test-dai.imgix.net/org-4afef969-21f9-40f3-b5b8-b06c8b6cf68f/doc-22a3b060-9539-4176-97e4-49120e02f5d1/0a5a1a9630785855-organizations-d8f63b60-89ae-11e7-8574-5927d48c4877-sites-site_p4Xo4-socialprevie.jpg?fm=auto&auto=compress%2Cformat
+---
+
+Server-renders an entire revision — pages, files, and reusable contents — from a provided content source definition, resolving all template expressions and variables. Use this to evaluate and preview computed content before publishing. Returns the full set of pages and files with all dynamic content fully resolved.
+
+**POST** `/spaces/{spaceId}/content/computed/revision`
+
+**Parameters**
+
+<ParamField header="Authorization" param-type="string" />
+
+<ParamField path="spaceId" param-type="string" required={true}>
+  The unique id of the space
+</ParamField>
+
+**Request body**
+
+<ParamField body="source" param-type="string" required={true} />
+
+<ParamField body="seed" param-type="string" required={true}>
+  Seed to use for the generation of IDs.
+</ParamField>
+
+**Responses**
+
+`200` Computed pages and files
+
+<ResponseField name="pages" field-type="string[]" required={true} />
+
+<ResponseField name="files" field-type="array" required={true}>
+  <Expandable title="Array Items">
+    <ResponseField name="id" field-type="string" required={true} />
+
+    <ResponseField name="name" field-type="string" required={true} />
+
+    <ResponseField name="contentType" field-type="string" required={true} />
+
+    <ResponseField name="downloadURL" field-type="string" required={true} />
+
+    <ResponseField name="size" field-type="number" required={true} />
+
+    <ResponseField name="dimensions" field-type="object">
+      For images, it contains the dimensions of it.
+
+      <Expandable title="Object Properties">
+        <ResponseField name="width" field-type="number" required={true} />
+
+        <ResponseField name="height" field-type="number" required={true} />
+      </Expandable>
+    </ResponseField>
+
+    <ResponseField name="git" field-type="object">
+      <Expandable title="Object Properties">
+        <ResponseField name="oid" field-type="string" required={true}>
+          SHA for the blob
+        </ResponseField>
+
+        <ResponseField name="path" field-type="string" required={true}>
+          Path of the blob in the Git tree
+        </ResponseField>
+      </Expandable>
+    </ResponseField>
+  </Expandable>
+</ResponseField>
+
+<ResponseField name="reusableContents" field-type="array" required={true}>
+  <Expandable title="Array Items">
+    <ResponseField name="id" field-type="string" required={true} />
+
+    <ResponseField name="title" field-type="string" required={true} />
+
+    <ResponseField name="git" field-type="object">
+      <Expandable title="Object Properties">
+        <ResponseField name="oid" field-type="string" required={true}>
+          SHA for the blob
+        </ResponseField>
+
+        <ResponseField name="path" field-type="string" required={true}>
+          Path of the blob in the Git tree
+        </ResponseField>
+      </Expandable>
+    </ResponseField>
+  </Expandable>
+</ResponseField>

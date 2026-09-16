@@ -1,0 +1,57 @@
+---
+title: Améliorations automatiques de la documentation
+description: Identifiez les pages incorrectes et obsolètes dans votre documentation, examinez les résultats et corrigez-les automatiquement avec GitBook Agent
+metaTitle: Améliorations automatiques de la documentation | GitBook Documentation
+ogImage: https://test-dai.imgix.net/org-4afef969-21f9-40f3-b5b8-b06c8b6cf68f/doc-22a3b060-9539-4176-97e4-49120e02f5d1/0a5a1a9630785855-organizations-d8f63b60-89ae-11e7-8574-5927d48c4877-sites-site_p4Xo4-socialprevie.jpg?fm=auto&auto=compress%2Cformat
+---
+
+<Callout kind="alert">
+  <strong>Cette fonctionnalité est actuellement en accès anticipé.</strong>
+
+  Nous déployons l’accès progressivement. Restez à l’écoute pour suivre les avancées sur les fonctionnalités ci-dessous.
+</Callout>
+
+GitBook Agent peut identifier les problèmes dans votre documentation — tels que des lacunes de contenu, des pages obsolètes et des informations incorrectes — et proposer et mettre en œuvre des améliorations.
+
+## Que peut détecter GitBook Agent ?
+
+- **Lacunes de contenu** se produisent lorsque GitBook voit des utilisateurs poser des questions sur votre produit auxquelles la documentation a du mal à répondre, par exemple :
+
+  - un client qui pose une question à votre équipe support qu’il n’a pas trouvée dans la documentation.
+  - un point de terminaison API dépourvu de documentation complète.
+- **Contenu obsolète** est détecté lorsque le contenu de votre page a été remplacé par du contenu trouvé dans une source externe, par exemple :
+
+  - une mise à jour du SDK qui a modifié la signature d’une fonction.
+  - une fonctionnalité payante passée au niveau gratuit, alors que la documentation n’a pas été mise à jour.
+- **Contenu incorrect** est signalé lorsque le contenu du site de documentation est manifestement erroné, par exemple :
+
+  - un guide pointant vers des API qui n’existent plus, ou dont la fonctionnalité a été mise hors service.
+  - des sources externes, comme votre site web marketing, qui ne concordent pas avec la documentation.
+
+## Comment fonctionne l’identification
+
+<Steps>
+  <Step title="Connecter des sources" titleType="h3">
+    GitBook Agent fonctionne au mieux lorsqu’il est connecté à des sources externes comme votre système de gestion des tickets support, des forums publics ou votre site web marketing. Certaines sources nécessitent une clé API ou une authentification supplémentaire avant la fin de la configuration. [En savoir plus sur nos connexions.](/fr/docs/lia-pour-vos-lecteurs/connections)
+  </Step>
+
+  <Step title="GitBook Agent génère des constats" titleType="h3">
+    GitBook examine régulièrement vos sources et génère des constats à partir des résultats. GitBook rassemble ces constats pour que votre équipe les examine. [En savoir plus sur la manière dont nous ingérons les données.](/fr/docs/lia-pour-vos-lecteurs/connections)
+  </Step>
+
+  <Step title="Examinez vos constats" titleType="h3">
+    Examinez vos constats pour commencer à corriger les problèmes. Chaque constat comprend un résumé du problème, le sujet auquel il appartient, des éléments de preuve à l’appui et des liens vers les pages que GitBook a utilisées comme contexte.
+  </Step>
+
+  <Step title="Corriger ou archiver" titleType="h3">
+    Certains constats peuvent être corrigés automatiquement par GitBook Agent. Lorsque cette option est disponible, vous pouvez créer [des demandes de modification](/fr/docs/collaborer/change-requests) directement depuis le constat. Vous pouvez aussi archiver les constats que vous ne souhaitez pas conserver dans votre liste active.
+  </Step>
+</Steps>
+
+Pour demander l’accès aux fonctionnalités d’amélioration automatique de la documentation de GitBook Agent, ouvrez les **Paramètres**.
+
+<Image src="https://test-dai.imgix.net/org-4afef969-21f9-40f3-b5b8-b06c8b6cf68f/doc-22a3b060-9539-4176-97e4-49120e02f5d1/380d938a3f86e215-spaces-NkEGS7hzeqa35sMXQZ4X-uploads-TO7pu11GsUcHQGwM4fRw-2026-07-13_connections-.png?fm=auto&auto=compress%2Cformat" alt="" />
+
+## Correctifs automatiques
+
+Lorsqu’un constat prend en charge les correctifs automatiques, GitBook affiche une **Créer une demande de modification** action afin que GitBook Agent puisse générer une correction proposée que votre équipe pourra examiner. Pour ignorer la suggestion, archivez plutôt le constat. GitBook ne rouvrira pas les constats que vous avez archivés.

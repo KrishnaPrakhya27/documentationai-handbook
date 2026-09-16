@@ -1,0 +1,246 @@
+---
+title: 公開ドキュメント向けMCPサーバー
+description: GitBookで公開されたドキュメントは、自動的にMCPサーバーを生成し、外部ツールと接続できます
+metaTitle: 公開ドキュメント向けMCPサーバー | GitBook Documentation
+ogImage: https://test-dai.imgix.net/org-4afef969-21f9-40f3-b5b8-b06c8b6cf68f/doc-22a3b060-9539-4176-97e4-49120e02f5d1/0a5a1a9630785855-organizations-d8f63b60-89ae-11e7-8574-5927d48c4877-sites-site_p4Xo4-socialprevie.jpg?fm=auto&auto=compress%2Cformat
+---
+
+公開されたすべての GitBook サイトには、Model Context Protocol (MCP) サーバーが自動的に含まれます。
+
+AI ツールはこれを使って、公開済みのドキュメントを直接読み取れます。これは Claude、Claude Code、Cursor、Codex、VS Code、その他の MCP クライアントで動作します。
+
+<a id="choose-the-right-endpoint"></a>
+
+### 適切なエンドポイントを選択する
+
+MCP サーバーは、公開サイトの URL に次のいずれかのエンドポイントを付けた場所にあります。
+
+| サイトが次のいずれかの場合... | この URL を使用 | 例 |
+| --- | --- | --- |
+| 公開、共有リンクによって共有されており、すべての公開コンテンツが表示される、または完全に認証済み | `{docs-site-url}/~gitbook/mcp` | `https://gitbook.com/docs/~gitbook/mcp` |
+| 部分的に認証済みで、一部の公開コンテンツまたは共有リンクのコンテンツが引き続き表示される | `{docs-site-url}/~gitbook/mcp/auth` | `https://gitbook.com/docs/~gitbook/mcp/auth` |
+
+完全に認証済みのサイトでは、クライアントは MCP のディスカバリーと OAuth を通じてサインインします。詳細は、 [MCP 認可フロー](https://modelcontextprotocol.io/docs/tutorials/security/authorization#the-authorization-flow-step-by-step).
+
+<Callout kind="info">
+  この URL をブラウザーで開くと、エラーが表示されます。AI アシスタントや IDE など、HTTP リクエストを送信できるツールで使用してください。
+</Callout>
+
+<Callout kind="info">
+  **ページアクション** は、MCP サーバーを動作させるために有効になっている必要があります。 **サイトのカスタマイズ** → **ページアクション**をオフにすると、GitBook は `~gitbook/mcp` を無効化し、エンドポイントは `404`. **MCP サーバーに接続する** は、MCP リンクがページアクションメニューに表示されるかどうかだけを制御します。
+</Callout>
+
+### AI ツールを接続する
+
+<Steps>
+  <Step title="MCP サーバーの URL を見つける" titleType="h3">
+    公開済みのドキュメント URL から始めます。次に、 [適切なエンドポイントを選択する](#choose-the-right-endpoint).
+
+    たとえば、ドキュメントサイトが `https://gitbook.com/docs`の場合、MCP サーバーの URL は `https://gitbook.com/docs/~gitbook/mcp`.
+  </Step>
+
+  <Step title="サーバーをツールに追加する" titleType="h3">
+    下の該当するツールのタブを使用してください。 `{docs-site-url}` を、あなた自身の公開サイト URL に置き換えてください。
+
+    サイトが 2 つ目のエンドポイントを使用する場合は、 `/~gitbook/mcp` を `/~gitbook/mcp/auth`.
+  </Step>
+
+  <Step title="に置き換えてください。" titleType="h3">
+    のプロンプトのいずれかを実行してください。 [試してみる](#try-it)。ツールがドキュメントを検索し、そこから回答できるなら、接続は成功です。
+  </Step>
+</Steps>
+
+<Tabs>
+  <Tab title="Claude">
+    これらの手順は、Web 版 Claude と Claude Desktop で使えます。
+
+    開く **設定** → **コネクタ**.
+
+    クリックして **カスタムコネクタを追加**。その後、次のように MCP サーバーの URL を貼り付けます。 `{docs-site-url}/~gitbook/mcp`.
+
+    例:
+
+    ```
+    https://gitbook.com/docs/~gitbook/mcp
+    ```
+
+    Claude にリモートコネクタが表示されない場合、現在のプランまたは展開ではまだサポートされていない可能性があります。
+  </Tab>
+
+  <Tab title="Claude Code">
+    次のコマンドをターミナルで実行してください。
+
+    ```shell
+    claude mcp add --transport http my-docs https://gitbook.com/docs/~gitbook/mcp
+    ```
+
+    置換 `my-docs` を、任意のサーバー名に置き換えてください。
+
+    サイトが認証済みの公開エンドポイントを使用している場合は、URL の末尾を次に置き換えてください。 `/~gitbook/mcp/auth`.
+  </Tab>
+
+  <Tab title="Cursor">
+    開く **設定** → **MCP**.
+
+    クリックして **新しい MCP サーバーを追加**。その後、 `{docs-site-url}/~gitbook/mcp`.
+
+    にもこのファイルを追加できます。 `.cursor/mcp.json`:
+
+    ```json
+    {
+      "mcpServers": {
+        "my-docs": {
+          "url": "https://gitbook.com/docs/~gitbook/mcp"
+        }
+      }
+    }
+    ```
+
+    置換 `my-docs` 必要であれば、ここを独自のサーバー名に置き換えてください。
+  </Tab>
+
+  <Tab title="Codex">
+    を使用するか、サーバーを `codex mcp add` コマンドで追加するか、あるいはサーバーを `config.toml`.
+
+    コマンド例:
+
+    ```shell
+    codex mcp add my-docs https://gitbook.com/docs/~gitbook/mcp
+    ```
+
+    設定例:
+
+    ```toml
+    [mcp_servers.my-docs]
+    url = "https://gitbook.com/docs/~gitbook/mcp"
+    ```
+
+    置換 `my-docs` 必要であれば、ここを独自のサーバー名に置き換えてください。
+  </Tab>
+
+  <Tab title="VS Code (Copilot)">
+    あなたの `mcp.json` ファイル。次に、HTTP トランスポートのサーバーエントリを追加します。
+
+    ```json
+    {
+      "servers": {
+        "my-docs": {
+          "type": "http",
+          "url": "https://gitbook.com/docs/~gitbook/mcp"
+        }
+      }
+    }
+    ```
+
+    置換 `my-docs` 必要であれば、ここを独自のサーバー名に置き換えてください。
+  </Tab>
+</Tabs>
+
+<a id="try-it"></a>
+
+### 試してみる
+
+次のプロンプトのいずれかをアシスタントに貼り付けてください。
+
+- `my-docs MCP サーバーを使って、認証済みアクセスをどのように設定しますか？`
+- `カスタムドメインに関する情報をドキュメント全体から検索し、手順を要約してください。`
+- `my-docs MCP サーバーが公開しているツールを一覧表示してください。その後、それらを使ってページアクションについてのページを見つけてください。`
+
+エージェント型ツールを使う場合は、次のセットアッププロンプトも指定できます。
+
+```
+HTTP トランスポートで my-docs という名前の MCP サーバーを https://gitbook.com/docs/~gitbook/mcp に追加してください。次に、利用可能なツールを一覧表示して接続を確認してください。
+```
+
+### 要件
+
+MCP サーバーを使うには:
+
+- サイトは公開されている必要があります。MCP サーバーが公開するのは公開済みコンテンツのみです。
+- **ページアクション** は **サイトのカスタマイズ** → **ページアクション**.
+- に含まれている必要があります。
+- ツールが [認証済みアクセス](/ja/docs/gong-kai/site-audience/authenticated-access)を使用するサイトの場合、ツールは [MCP 認可仕様](https://modelcontextprotocol.io/specification/2025-06-18/basic/authorization).
+- サイトが共有リンクを使用している場合は、共有リンク用のサイト URL を使用し、次に [適切なエンドポイントを選択する](#choose-the-right-endpoint).
+- GitBook は HTTP トランスポートのみをサポートしています。 `stdio` 、 `SSE` はサポートされていません。
+
+次の場所で **ページアクション** セクションから表示および管理できます。 [カスタマイズ](/ja/docs/saitowosuru/customization) 設定で、 **MCP サーバーに接続する** オプションを有効にできます。これにより、訪問者は [ページアクションメニュー](/ja/docs/saitowosuru/customization/extra-configuration#page-actions).
+
+### サイトに MCP リンクを追加する
+
+では [サイトのカスタマイズ](/ja/docs/saitowosuru/customization)、 [ページアクション](/ja/docs/saitowosuru/customization/extra-configuration#page-actions)がオンになっていることを確認してください。次に **ページアクション** をオンにします。 **MCP サーバーに接続する**.
+
+これにより、ページアクションメニューにコピー可能な MCP リンクが追加されます。ツールが使用するエンドポイントは変わりません。
+
+### プライバシーとアクセス
+
+のエンドポイントを使用してください。 [適切なエンドポイントを選択する](#choose-the-right-endpoint).
+
+MCP サーバーは、公開済みのドキュメントへの読み取り専用アクセスを提供します。
+
+非表示のページは MCP 経由でも利用可能なままです。ページを非表示にしても、公開済みの目次から削除されるだけです。
+
+アカウントデータ、分析データ、または内部の GitBook データを公開することはありません。
+
+最新の公開バージョンのみを提供します。下書きや未公開の変更は非公開のままです。
+
+### トラブルシューティング
+
+ツールが接続できない場合:
+
+- 公開済みサイトにアクセスできることを確認してください。
+- URL が [適切なエンドポイントを選択する](#choose-the-right-endpoint).
+- を使用していることを確認してください。 [MCP 認可仕様](https://modelcontextprotocol.io/specification/2025-06-18/basic/authorization).
+- サイトが認証を使用している場合は、 `stdio` または `SSE`をサポートするクライアントを使用してください。
+
+### 認証済みサイトで MCP を使う
+
+GitBook サイトが [認証済みアクセス](/ja/docs/gong-kai/site-audience/authenticated-access)を使用している場合、 `/~gitbook/mcp` の MCP サーバーは [MCP 認可仕様](https://modelcontextprotocol.io/docs/tutorials/security/authorization) と同じ認証を使用します。Claude や Claude Code を含む、
+
+共有リンクの代わりにサイトが共有リンクを使用している場合は、完全な共有リンク用サイト URL を使用し、次に [適切なエンドポイントを選択する](#choose-the-right-endpoint).
+
+GitBook は、共有リンクのみのサイト、または MCP 認証のために静的ヘッダーで渡される訪問者認証トークンを使用するサイトをサポートしていません。
+
+Claude を含む、サポートされている MCP クライアントは、 [MCP 認可仕様](https://modelcontextprotocol.io/specification/2025-06-18/basic/authorization) に従って接続します。
+
+<Steps>
+  <Step title="OAuth サーバーを検出する" titleType="h3">
+    MCP のハンドシェイク中に、クライアントはサイトの OAuth サーバーを検出します。
+  </Step>
+
+  <Step title="DCR でクライアントを登録する" titleType="h3">
+    クライアントは Dynamic Client Registration を使って OAuth クライアントを登録します。
+
+    クライアント ID を手動で作成する必要はありません。
+  </Step>
+
+  <Step title="サイトの認証プロバイダーでサインインする" titleType="h3">
+    クライアントは、サイトの認証プロバイダーにリダイレクトします。
+
+    ドキュメントサイトがすでに使用しているのと同じプロバイダーでサインインします。
+  </Step>
+
+  <Step title="コードをトークンに交換する" titleType="h3">
+    サインイン後、クライアントは認可コードをアクセストークンに交換します。
+  </Step>
+
+  <Step title="トークンを再利用する" titleType="h3">
+    クライアントは、そのトークンを以降の MCP リクエストに、期限が切れるまで送信します。
+  </Step>
+</Steps>
+
+このフローは、次の認証済みアクセスバックエンドで動作します。
+
+- [Auth0](/ja/docs/gong-kai/site-audience/authenticated-access/setting-up-auth0)
+- [Azure AD](/ja/docs/gong-kai/site-audience/authenticated-access/setting-up-azure-ad)
+- [Okta](/ja/docs/gong-kai/site-audience/authenticated-access/setting-up-okta)
+- [AWS Cognito](/ja/docs/gong-kai/site-audience/authenticated-access/setting-up-aws-cognito)
+- [OIDC](/ja/docs/gong-kai/site-audience/authenticated-access/setting-up-oidc)
+- [カスタムバックエンド](/ja/docs/gong-kai/site-audience/authenticated-access/setting-up-a-custom-backend) 設定済みのフォールバック URL を使用する
+
+<Callout kind="alert">
+  MCP 認証は、リクエストヘッダー内の静的な訪問者認証トークンのみに依存するサイトをサポートしていません。
+
+  代わりに、上記の認証済みアクセスバックエンドのいずれかを使用してください。
+</Callout>
+
+これを設定するには、まず [認証アクセス](/ja/docs/gong-kai/site-audience/authenticated-access) 、 [認証済みアクセスを有効にする](/ja/docs/gong-kai/site-audience/authenticated-access/enabling-authenticated-access).

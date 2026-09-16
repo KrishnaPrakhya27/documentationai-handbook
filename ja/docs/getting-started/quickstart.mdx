@@ -1,0 +1,189 @@
+---
+title: クイックスタート
+description: GitBookで素早くセットアップし、数分で最初のドキュメントサイトを公開しましょう
+metaTitle: クイックスタート | GitBook Documentation
+ogImage: https://test-dai.imgix.net/org-4afef969-21f9-40f3-b5b8-b06c8b6cf68f/doc-22a3b060-9539-4176-97e4-49120e02f5d1/0a5a1a9630785855-organizations-d8f63b60-89ae-11e7-8574-5927d48c4877-sites-site_p4Xo4-socialprevie.jpg?fm=auto&auto=compress%2Cformat
+---
+
+このクイックスタートガイドでは、GitBook のセットアップ方法と、数分で最初の Docs サイトを公開する方法を説明します。
+
+このガイドの最後には、拡張やカスタマイズの準備が整った公開中のドキュメントサイトが手に入ります。
+
+<Steps>
+  <Step title="アカウントを作成する" titleType="h3">
+    [アカウントを作成](https://app.gitbook.com/join) 最初のドキュメントサイトを始めるために。
+  </Step>
+
+  <Step title="最初のサイトを作成" titleType="h3">
+    1. 組織から **ホーム**、 <strong>+</strong> の横にある **サイト** をサイドバーで。
+    2. 訪問者がすぐに認識できるサイト名を付けてください。
+    3. クリックして **作成**.
+  </Step>
+
+  <Step title="どのように始めるかを選択してください" titleType="h3">
+    GitBook が新しいサイトへようこそと案内し、どのように始めたいかを尋ねます。
+
+    | 開始地点 | 最適な用途 |
+    | --- | --- |
+    | **Docs テンプレート** | プレースホルダーのセクションを含む、完成済みのドキュメントレイアウトから始める方法です。完全なサイトが動作するのを最も早く確認できます。 |
+    | **インポート** | オンラインのドキュメント、Markdown、または HTML から既存のコンテンツを取り込む方法です。 |
+    | **OpenAPI** | OpenAPI 仕様から、インタラクティブな API リファレンスドキュメントを生成します。 |
+    | **空白** | 空のセクションから始め、ゼロから作成します。 |
+    | **Git と同期** | GitHub または GitLab リポジトリとドキュメントを同期して、同期を維持します。 |
+
+    すでに GitBook で作業している内容がある場合は、組織の既存コンテンツから選ぶこともできます。
+
+    このガイドはテンプレートの流れに従います：
+
+    1. クリックして **Docs テンプレート** プレビューを確認します。
+    2. クリックして **Docs テンプレートを使用** 適用します。
+  </Step>
+
+  <Step title="新しいサイトを確認する" titleType="h3">
+    サイトは未公開の状態で開くため、公開前にすべてを編集・カスタマイズ・プレビューできます。サイドバーには次が表示されます：
+
+    | サイドバー領域 | ここにあるもの |
+    | --- | --- |
+    | **サイトヘッダー** | サイト名、公開ステータス、および **プレビュー** 、 **公開** ボタンがあります。 |
+    | **全般** | **概要**, **変更リクエスト**, **サイト構造**を読み取り、 **設定**. |
+    | **ツール** | **スタイルガイド**, **カスタマイズ**, **分析**を読み取り、 **拡張**. |
+    | **コンテンツ** | これらはサイトのセクションです。Docs テンプレートの場合は、Home、Documentation、API Reference、Changelog、Help Center です。左側の **コンテンツ** ヘッダーで使って、セクションを検索・名前変更・追加できます。 |
+
+    <Callout kind="success">
+      コンテンツはまだ公開されていません。そのため、公開する前にドキュメントサイトを編集・カスタマイズ・プレビューできます。 **公開** すぐに公開するには、
+
+       [このページの「ドキュメントを公開する」ステップへジャンプします](#publish-your-documentation)
+    </Callout>
+  </Step>
+
+  <Step title="コンテンツを編集" titleType="h3">
+    Docs テンプレートでは、サイドバーの **コンテンツ** 部分にプレースホルダーのセクションが表示されます。任意のセクションをクリックして開き、プレースホルダーの内容を確認します。
+
+    GitBook では、コンテンツの編集と更新に 2 つの方法があります。ビジュアルエディターを使う方法と、docs-as-code ワークフローに従う方法です。 <strong>どちらか一方を選んでも、両方を組み合わせても構いません。</strong> どのワークフローを選んでも、 **ブランチベースの編集フロー**を使用してコンテンツを編集します。 [コンセプトページ](/ja/docs/rifarensu/concepts).
+
+    <Tabs>
+      <Tab title="ビジュアルエディター">
+        GitBook の WYSIWYG（見たまま編集）エディターを使うと、視覚的にコンテンツを編集したり、コンテンツブロックをドラッグして並べ替えたり、作業しながら見た目を確認できます。コードエディターを使いたくない場合や、Notion や Google Docs のようなツールに慣れている場合に最適です。
+
+        **変更リクエストでドキュメントを編集する**
+
+        1. 次の場所で **コンテンツ** サイドバーの
+        2. クリックして **編集** セクションで、Documentation などのセクションをクリックして開きます。
+        3. クリックして **右上の** \> <strong>これは、セクションのコンテンツを変更できる変更リクエストを開きます。</strong> 新規追加…
+        4. ページ
+
+        **左側の目次内に**
+
+        ウェブアプリの上部には、 **エディター**, **変更**を読み取り、 **プレビュー**のタブが表示されます。これらはコンテンツのさまざまな表示に切り替えるためのものです。 **プレビュー** をクリックすると、変更リクエスト内のすべての変更を反映したドキュメントサイトの見た目を、デスクトップとモバイルの両方で確認できます。
+
+        **変更をマージする**
+
+        変更に満足したら、右上の **マージ** ボタンをクリックします。これにより、変更リクエストのすべての編集がコンテンツのプライマリーバージョンに反映されます。コンテンツが公開中のドキュメントサイトの一部である場合、サイトはすぐに更新されます。
+      </Tab>
+
+      <Tab title="AI エージェント">
+        GitHub または GitLab リポジトリとドキュメントを同期して、既存の開発環境でコードベースの編集を有効にします。その他のコードと並べてドキュメントを管理したい技術ユーザーに最適です。
+
+        **Git Sync をセットアップ**
+
+        1. 同期したいセクションを **コンテンツ** サイドバーの
+        2. Git Sync インジケーターの **セットアップ** トップバーの
+        3. 手順に従って、選択した Git リポジトリにセクションを同期します。 [Git Sync ページ](/ja/docs/docs-as-code/git-sync) で詳細を確認してください。
+
+        **開発環境からドキュメントを編集する**
+
+        セクションを Git リポジトリに同期したら、
+
+        1. リポジトリを開きます。
+        2. プルリクエストを作成します。
+        3. 希望する変更を加えます。
+
+        <Callout kind="info">
+          GitBook は [Markdown 編集](/ja/docs/kontentsuwo/formatting/markdown)をサポートしているため、一般的な構文を使ってコンテンツを作成・整形できます。
+
+          GitBook の標準ブロックはすべて、Markdown を使って記述および整形できます。
+        </Callout>
+
+        **左側の目次内に**
+
+        できます [変更内容をプレビューする](/ja/docs/docs-as-code/git-sync/github-pull-request-preview) GitHub または GitLab のプルリクエストから公開中のドキュメントサイトで確認できます。プルリクエストには、固有のプレビュー URL を含むステータスが表示されます。 **詳細** そのステータスで開くと、マージ後のサイトの見た目を確認できます。
+
+        **変更をマージする**
+
+        プルリクエストをマージすると、GitBook アプリ内と公開中のドキュメントサイトの両方でコンテンツが更新されます。GitBook アプリでは、すべてのコミットとマージ済みのプルリクエストが、バージョン履歴の更新としてセクションに同期されます。
+      </Tab>
+    </Tabs>
+  </Step>
+
+  <Step title="ドキュメントをカスタマイズする" titleType="h3">
+    **サイトのナビゲーションを整理する**
+
+    API リファレンス、ヘルプセンター、変更履歴など、必要に応じていつでもサイトにコンテンツを追加し、訪問者が探しているものを見つけやすいようにサイトのナビゲーションバーを整理できます。 [サイト構造](/ja/docs/saitowosuru/site-structure) で、セクション、グループ、バリアントについて学びましょう。
+
+    **見た目をカスタマイズする**
+
+    サイトはそのままでも見栄えが良いですが、 **カスタマイズ**の下で、独自の [ロゴ、色、フォント](/ja/docs/saitowosuru/customization/icons-colors-and-themes)を設定し、レイアウトを調整し、 [サイトの公開設定](/ja/docs/saitowosuru/site-settings#audience).
+  </Step>
+
+  <Step title="ドキュメントを公開する" titleType="h3">
+    <a id="publish-your-documentation"></a>
+
+    いつでもクリックひとつでサイトを公開できます。
+
+    1. 組織からサイトを開く **ホーム**.
+    2. クリックして **公開** をサイトヘッダーで。
+
+    サイトが公開されると、 **概要** 画面が公開サイトへのリンク付きで更新されます。
+
+    <Callout kind="success">
+      より詳しく公開を探求したいですか？ [GitBook でコンテンツを作成・公開するための完全ガイド](/en/docs/guides/editing-and-publishing-documentation/complete-guide-to-publishing-docs-gitbook).
+    </Callout>
+  </Step>
+</Steps>
+
+#### カスタムドメインを追加する
+
+デフォルトでは、サイトは次の形式の固有 URL で公開されます：
+
+```text title="サイトのデフォルト URL"
+https://[organization-name].gitbook.io/[site-title]
+```
+
+これは一部のチームには適しているかもしれませんが、多くのチームは URL を次のように変更することを選びます [カスタムドメイン](/ja/docs/gong-kai/custom-domain) または [カスタムサブディレクトリ](/ja/docs/gong-kai/custom-domain/setting-a-custom-subdirectory).
+
+1. 展開 **設定** サイトのサイドバーで。
+2. クリックして **ドメインとURL**.
+3. 希望するオプションを選択します。
+4. ドメインプロバイダーに対して DNS 設定を構成する手順に従います。
+
+<Callout kind="info">
+  DNS 変更が反映されるまで最大 48 時間かかることがありますが、通常はもっと早く伝播します。
+</Callout>
+
+#### 次のステップ
+
+<Columns cols={3}>
+  <Card title="チームを招待して共同作業する" href="/ja/docs/gong-tong-zuo-ye/member-management/invite-members-to-your-organization" image="https://test-dai.imgix.net/org-4afef969-21f9-40f3-b5b8-b06c8b6cf68f/doc-22a3b060-9539-4176-97e4-49120e02f5d1/c0decc2f68333913-spaces-NkEGS7hzeqa35sMXQZ4X-uploads-x86ICzAJYkRIHo8CkBfa-Invite-your-team-to-col.png?fm=auto&auto=compress%2Cformat">
+    組織にチームメンバーを追加し、権限を設定する
+  </Card>
+
+  <Card title="サイトの公開範囲を変更する" href="/ja/docs/gong-kai/publish-a-docs-site#publish-a-docs-site" image="https://test-dai.imgix.net/org-4afef969-21f9-40f3-b5b8-b06c8b6cf68f/doc-22a3b060-9539-4176-97e4-49120e02f5d1/b82eaa90622f4960-spaces-NkEGS7hzeqa35sMXQZ4X-uploads-A33LxfEQT05aX7uUdLpb-Change-site-visibility.png?fm=auto&auto=compress%2Cformat">
+    共有リンクと認証アクセスで、誰がコンテンツを閲覧できるかを制御する
+  </Card>
+
+  <Card title="自動翻訳を追加する" href="/ja/docs/saitowosuru/site-settings" image="https://test-dai.imgix.net/org-4afef969-21f9-40f3-b5b8-b06c8b6cf68f/doc-22a3b060-9539-4176-97e4-49120e02f5d1/4b674fcc42d852e8-spaces-NkEGS7hzeqa35sMXQZ4X-uploads-C5waVC2qQyf9I6hE7uQW-Add-auto-translations.png?fm=auto&auto=compress%2Cformat">
+    自動で更新されるワンクリック翻訳を作成する
+  </Card>
+
+  <Card title="インテグレーションをインストールする" image="https://test-dai.imgix.net/org-4afef969-21f9-40f3-b5b8-b06c8b6cf68f/doc-22a3b060-9539-4176-97e4-49120e02f5d1/2dc17377a3c25f97-spaces-NkEGS7hzeqa35sMXQZ4X-uploads-itoGCSdPpGwPPCGwb29a-Install-integrations.png?fm=auto&auto=compress%2Cformat">
+    強力なインテグレーションでスタックと連携し、機能を拡張する
+  </Card>
+
+  <Card title="API リファレンスを追加する" image="https://test-dai.imgix.net/org-4afef969-21f9-40f3-b5b8-b06c8b6cf68f/doc-22a3b060-9539-4176-97e4-49120e02f5d1/de9ec2e9d9bb54ae-spaces-NkEGS7hzeqa35sMXQZ4X-uploads-2mbcS7cM3bp2Gi5XwWmf-Add-an-API-reference.png?fm=auto&auto=compress%2Cformat">
+    API 仕様から、自動更新されるインタラクティブな API リファレンスドキュメントを作成する
+  </Card>
+
+  <Card title="ドキュメント分析を追跡する" href="/ja/docs/anaritikusu/insights" image="https://test-dai.imgix.net/org-4afef969-21f9-40f3-b5b8-b06c8b6cf68f/doc-22a3b060-9539-4176-97e4-49120e02f5d1/ab805869fc7b2f1c-spaces-NkEGS7hzeqa35sMXQZ4X-uploads-SmrnppLSbEjgJXeblvHp-Track-docs-analytics.png?fm=auto&auto=compress%2Cformat">
+    組み込みのインサイトを使って成果を測定し、ユーザーの行動を理解する
+  </Card>
+</Columns>

@@ -1,0 +1,297 @@
+---
+title: List all top-level comments posted on a space
+metaTitle: List all top-level comments posted on a space | Developers | GitBook Documentation
+ogImage: https://test-dai.imgix.net/org-4afef969-21f9-40f3-b5b8-b06c8b6cf68f/doc-22a3b060-9539-4176-97e4-49120e02f5d1/0a5a1a9630785855-organizations-d8f63b60-89ae-11e7-8574-5927d48c4877-sites-site_p4Xo4-socialprevie.jpg?fm=auto&auto=compress%2Cformat
+---
+
+Returns a paginated list of comments posted directly on the space (not inside a change request). To read replies to a specific comment, use the comment replies endpoint.
+
+**GET** `/spaces/{spaceId}/comments`
+
+**Parameters**
+
+<ParamField header="Authorization" param-type="string" />
+
+<ParamField path="spaceId" param-type="string" required={true}>
+  The unique id of the space
+</ParamField>
+
+<ParamField query="page" param-type="string">
+  Identifier of the page results to fetch.
+</ParamField>
+
+<ParamField query="limit" param-type="number">
+  The number of results per page
+</ParamField>
+
+<ParamField query="order" param-type="string" enum="asc,desc">
+  An order for the items in the list
+</ParamField>
+
+<ParamField query="status" param-type="string" enum="all,open,resolved">
+  When provided, only comments with the given status are returned. Defaults to "all".
+</ParamField>
+
+<ParamField query="format" param-type="string" enum="document,markdown">
+  Output format for the content.
+</ParamField>
+
+<ParamField query="targetPage" param-type="string">
+  The target page of the comment
+</ParamField>
+
+<ParamField query="authors" param-type="string[]">
+  User IDs to filter queried comments on
+</ParamField>
+
+**Responses**
+
+`200` OK
+
+<ResponseField name="next" field-type="object">
+  <Expandable title="Object Properties">
+    <ResponseField name="page" field-type="string" required={true}>
+      Unique identifier to query the next results page
+    </ResponseField>
+  </Expandable>
+</ResponseField>
+
+<ResponseField name="count" field-type="number">
+  Total count of objects in the list
+</ResponseField>
+
+<ResponseField name="items" field-type="array" required={true}>
+  <Expandable title="Array Items">
+    <ResponseField name="object" field-type="string" required={true} enum="comment">
+      Type of Object, always equals to "comment"
+    </ResponseField>
+
+    <ResponseField name="id" field-type="string" required={true}>
+      Unique identifier for the comment.
+    </ResponseField>
+
+    <ResponseField name="postedBy" field-type="object" required={true}>
+      <Expandable title="Object Properties">
+        <ResponseField name="object" field-type="string" required={true} enum="user">
+          Type of Object, always equals to "user"
+        </ResponseField>
+
+        <ResponseField name="id" field-type="string" required={true}>
+          Unique identifier for the user
+        </ResponseField>
+
+        <ResponseField name="displayName" field-type="string" required={true}>
+          Full name for the user
+        </ResponseField>
+
+        <ResponseField name="email" field-type="string">
+          Email address of the user
+        </ResponseField>
+
+        <ResponseField name="photoURL" field-type="string">
+          URL of the user's profile picture
+        </ResponseField>
+
+        <ResponseField name="urls" field-type="object" required={true}>
+          URLs associated with the object
+
+          <Expandable title="Object Properties">
+            <ResponseField name="location" field-type="string" required={true}>
+              URL of the user in the API
+            </ResponseField>
+          </Expandable>
+        </ResponseField>
+      </Expandable>
+    </ResponseField>
+
+    <ResponseField name="postedAt" field-type="string" required={true} />
+
+    <ResponseField name="editedAt" field-type="string" />
+
+    <ResponseField name="reactions" field-type="array" required={true}>
+      <Expandable title="Array Items">
+        <ResponseField name="emoji" field-type="string" required={true}>
+          The Emoji of the reaction
+        </ResponseField>
+
+        <ResponseField name="count" field-type="number" required={true}>
+          The number of users who reacted with this emoji
+        </ResponseField>
+
+        <ResponseField name="users" field-type="array" required={true}>
+          The users who reacted with this emoji
+
+          <Expandable title="Array Items">
+            <ResponseField name="user" field-type="object" required={true}>
+              <Expandable title="Object Properties">
+                <ResponseField name="object" field-type="string" required={true} enum="user">
+                  Type of Object, always equals to "user"
+                </ResponseField>
+
+                <ResponseField name="id" field-type="string" required={true}>
+                  Unique identifier for the user
+                </ResponseField>
+
+                <ResponseField name="displayName" field-type="string" required={true}>
+                  Full name for the user
+                </ResponseField>
+
+                <ResponseField name="email" field-type="string">
+                  Email address of the user
+                </ResponseField>
+
+                <ResponseField name="photoURL" field-type="string">
+                  URL of the user's profile picture
+                </ResponseField>
+
+                <ResponseField name="urls" field-type="object" required={true}>
+                  URLs associated with the object
+
+                  <Expandable title="Object Properties">
+                    <ResponseField name="location" field-type="string" required={true}>
+                      URL of the user in the API
+                    </ResponseField>
+                  </Expandable>
+                </ResponseField>
+              </Expandable>
+            </ResponseField>
+
+            <ResponseField name="reactedAt" field-type="string" required={true} />
+          </Expandable>
+        </ResponseField>
+      </Expandable>
+    </ResponseField>
+
+    <ResponseField name="replies" field-type="number" required={true}>
+      The number of replies to this comment.
+    </ResponseField>
+
+    <ResponseField name="repliers" field-type="array" required={true}>
+      The users who replied to this comment.
+
+      <Expandable title="Array Items">
+        <ResponseField name="updatedAt" field-type="string" required={true} />
+
+        <ResponseField name="count" field-type="integer" required={true} />
+
+        <ResponseField name="user" field-type="object" required={true}>
+          <Expandable title="Object Properties">
+            <ResponseField name="object" field-type="string" required={true} enum="user">
+              Type of Object, always equals to "user"
+            </ResponseField>
+
+            <ResponseField name="id" field-type="string" required={true}>
+              Unique identifier for the user
+            </ResponseField>
+
+            <ResponseField name="displayName" field-type="string" required={true}>
+              Full name for the user
+            </ResponseField>
+
+            <ResponseField name="email" field-type="string">
+              Email address of the user
+            </ResponseField>
+
+            <ResponseField name="photoURL" field-type="string">
+              URL of the user's profile picture
+            </ResponseField>
+
+            <ResponseField name="urls" field-type="object" required={true}>
+              URLs associated with the object
+
+              <Expandable title="Object Properties">
+                <ResponseField name="location" field-type="string" required={true}>
+                  URL of the user in the API
+                </ResponseField>
+              </Expandable>
+            </ResponseField>
+          </Expandable>
+        </ResponseField>
+      </Expandable>
+    </ResponseField>
+
+    <ResponseField name="body" field-type="string" required={true} />
+
+    <ResponseField name="target" field-type="object" required={true}>
+      Information about the target of the comment.
+
+      <Expandable title="Object Properties">
+        <ResponseField name="node" field-type="object">
+          The node this comment is attached to.
+
+          <Expandable title="Object Properties">
+            <ResponseField name="id" field-type="string" required={true} />
+          </Expandable>
+        </ResponseField>
+
+        <ResponseField name="tableCell" field-type="object">
+          Details about the table cell this comment is attached to, if any.
+
+          <Expandable title="Object Properties">
+            <ResponseField name="record" field-type="string" required={true} />
+
+            <ResponseField name="definition" field-type="string" required={true} />
+          </Expandable>
+        </ResponseField>
+
+        <ResponseField name="changeRequest" field-type="string">
+          The change request containing this comment, if the comment was made inside a change request.
+        </ResponseField>
+
+        <ResponseField name="review" field-type="string">
+          The review containing this comment, if this comment was made as part of a review.
+        </ResponseField>
+
+        <ResponseField name="page" field-type="object">
+          Information about the page, if this comment refers to a specific page.
+
+          <Expandable title="Object Properties">
+            <ResponseField name="id" field-type="string" required={true}>
+              The ID of the page
+            </ResponseField>
+          </Expandable>
+        </ResponseField>
+
+        <ResponseField name="space" field-type="string" required={true}>
+          The space containing this comment.
+        </ResponseField>
+
+        <ResponseField name="revision" field-type="string" required={true}>
+          The revision in which the target can be found in.
+        </ResponseField>
+      </Expandable>
+    </ResponseField>
+
+    <ResponseField name="urls" field-type="object" required={true}>
+      URLs associated with the object
+
+      <Expandable title="Object Properties">
+        <ResponseField name="location" field-type="string" required={true}>
+          URL of the comment in the API
+        </ResponseField>
+      </Expandable>
+    </ResponseField>
+
+    <ResponseField name="permissions" field-type="object" required={true}>
+      The set of permissions for the comment
+
+      <Expandable title="Object Properties">
+        <ResponseField name="view" field-type="boolean" required={true}>
+          Can the user view the comment.
+        </ResponseField>
+
+        <ResponseField name="edit" field-type="boolean" required={true}>
+          Can the user edit the comment.
+        </ResponseField>
+
+        <ResponseField name="reply" field-type="boolean">
+          Can the user react or send a reply to the comment.
+        </ResponseField>
+
+        <ResponseField name="delete" field-type="boolean" required={true}>
+          Can the user delete the comment.
+        </ResponseField>
+      </Expandable>
+    </ResponseField>
+  </Expandable>
+</ResponseField>

@@ -1,0 +1,103 @@
+---
+title: Tableaux
+description: Gardez les informations organisées et facilitez la documentation des données avec des tableaux
+metaTitle: Tableaux | GitBook Documentation
+ogImage: https://test-dai.imgix.net/org-4afef969-21f9-40f3-b5b8-b06c8b6cf68f/doc-22a3b060-9539-4176-97e4-49120e02f5d1/0a5a1a9630785855-organizations-d8f63b60-89ae-11e7-8574-5927d48c4877-sites-site_p4Xo4-socialprevie.jpg?fm=auto&auto=compress%2Cformat
+---
+
+Vous pouvez ajouter des tableaux pour mieux organiser vos informations sur une page GitBook. Vous pouvez voir un exemple de ce qui est possible dans le tableau d’exemple ci-dessous :
+
+| Entreprise | Statut&lt;select>&lt;option value="36bef47f343d4588bc43db3e5c701796" label="En cours" color="blue">&lt;/option>&lt;/select> | Contact | MRR | Contact | MRR | Statut&lt;select>&lt;option value="3e7a52c673ec4a01992566d18271f7a5" label="En cours" color="blue">&lt;/option>&lt;option value="2362fd3eafc7476fb8646ac754f34b72" label="Terminé" color="blue">&lt;/option>&lt;/select> |
+| --- | --- | --- | --- | --- | --- | --- |
+| **Ace AI** – Conception | En cours | [rena@ace.ai](mailto:noreply@gitbook.com) | $450 | [rena@ace.ai](mailto:noreply@gitbook.com) | $420 | En cours |
+| **Discrete Data** – API | En cours | [dave@dd.inc](mailto:noreply@gitbook.com) | $100 | [dave@dd.inc](mailto:noreply@gitbook.com) | $69 |  |
+| **Example Co** |  | [pete@example.com](mailto:pete@example.com) | $50 |  |  |  |
+
+### Options du bloc tableau
+
+Lorsque vous ouvrez le menu Options à gauche d’un bloc tableau, vous disposez d’un certain nombre d’options pour modifier l’apparence et gérer les données à l’intérieur du tableau :
+
+- <strong>Tableau/Cartes :</strong> Choisissez d’afficher vos données soit sous forme de bloc tableau, soit sous forme de bloc cartes. GitBook remplit ces deux blocs à partir des mêmes données, vous pouvez donc passer de l’un à l’autre selon l’apparence et le design souhaités.
+- <strong>Ajouter une colonne :</strong> Ajoutez une nouvelle colonne à droite de votre tableau. Vous pouvez choisir le type de colonne à l’aide du menu, ou simplement cliquer **Ajouter une colonne** pour ajouter une colonne de texte.
+- <strong>Insérer une ligne :</strong> Ajoutez une nouvelle ligne en bas de votre tableau.
+- <strong>Afficher l’en-tête :</strong> Masquez ou affichez la ligne de titre supérieure de votre tableau.
+- <strong>Figer l’en-tête :</strong> Gardez la ligne supérieure de votre tableau visible sur la page pendant que vous faites défiler les lignes en dessous. C’est utile pour les grands tableaux où vous souhaitez que les titres de colonnes restent visibles.
+- <strong>Figer la première colonne :</strong> Gardez la colonne la plus à gauche de votre tableau visible pendant que vous faites défiler horizontalement les colonnes vers la droite. C’est utile pour les tableaux plus larges que la largeur de la page, lorsque vous souhaitez que les libellés de ligne ou les identifiants restent visibles.
+- <strong>Réinitialiser la taille des colonnes :</strong> Si vous avez modifié la largeur des colonnes, cela les réinitialisera toutes pour qu’elles soient à nouveau égales.
+- <strong>Colonnes visibles :</strong> Choisissez quelles colonnes sont visibles et lesquelles sont masquées. Si vous avez des colonnes masquées dans votre tableau, c’est dans ce menu que vous pouvez les rendre visibles à nouveau.
+- <strong>Supprimer :</strong> Supprime le bloc tableau et tout son contenu.
+
+### Fusion des cellules
+
+Sélectionnez plusieurs cellules en les faisant glisser, ou en maintenant Maj enfoncé et en appuyant sur les touches fléchées. Utilisez la poignée qui apparaît après la sélection des cellules pour les fusionner.
+
+La fusion fonctionne avec **Texte** et **Nombre** cellules uniquement. GitBook bloque la fusion pour les champs non pris en charge, les types de champs mixtes, les commentaires en dehors de la cellule d’ancrage et l’affichage Cartes. GitBook bloque également le réordonnancement des cellules fusionnées ou des lignes contenant des cellules fusionnées.
+
+Les fusions utilisent les attributs natifs `colspan` et `rowspan` lorsque vous utilisez Git Sync. Les fusions sont positionnelles : la cellule d’ancrage et les étendues suivent l’ordre actuel des lignes et l’ordre des colonnes visibles du tableau.
+
+La version un ne prend pas en charge les fusions rectangulaires, comme une `2x2` sélection. Lorsque vous fusionnez des cellules, sélectionnez la valeur à conserver. GitBook efface les autres valeurs. Le fait de séparer les cellules ne restaure pas les valeurs effacées.
+
+### Modification du type d’une colonne
+
+Selon les données que vous souhaitez afficher, vous pouvez définir différents types de données pour les colonnes de votre tableau. Ceux-ci ajoutent une mise en forme, des embellissements ou des restrictions à chaque cellule de la colonne :
+
+- <strong>Texte :</strong> Une colonne de texte standard, avec prise en charge de la mise en forme standard.
+- <strong>Nombre :</strong> Une colonne numérique, avec ou sans décimales.
+- <strong>Case à cocher :</strong> Une case à cocher sur chaque ligne, qui peut être cochée ou décochée.
+- <strong>Sélection :</strong> Vous pouvez sélectionner des données à partir d’une liste d’options que vous pouvez définir en ouvrant le **Options des colonnes** menu et en choisissant **Gérer les options**. Cela peut être à choix unique ou à choix multiple.
+- <strong>Utilisateurs :</strong> Vous pouvez ajouter le nom et l’avatar d’un membre de votre organisation. Cela peut être à choix unique ou à choix multiple.
+- <strong>Fichiers :</strong> Référencez un fichier dans la section. Vous pouvez téléverser de nouveaux fichiers lors du remplissage des cellules de la colonne.
+- <strong>Note :</strong> Une note en étoiles. Vous pouvez configurer la note maximale en ouvrant le **Options de colonne** menu et en choisissant **Max**.
+
+Utilisez le **Options de colonne** menu pour modifier le type d’une colonne. Lorsque vous modifiez le type d’une colonne, une invite s’affiche pour vous demander de confirmer la modification, car les données de la colonne pourraient être supprimées ou endommagées par cette action.
+
+### Redimensionnement des colonnes
+
+Survolez le bord d’une colonne et faites-le glisser pour la redimensionner. Un comptage de pixels apparaît au-dessus du curseur pour vous aider à définir des tailles de colonnes cohérentes.
+
+GitBook stocke les tailles des colonnes sous forme de pourcentage de la largeur totale, ce qui permet un dimensionnement relatif basé sur la largeur globale du tableau.
+
+### Tableaux défilants
+
+Les tableaux plus larges que le conteneur de l’éditeur pourront défiler horizontalement.
+
+### Options de colonne
+
+Pour réorganiser les colonnes, cliquez et faites glisser la poignée de glissement <Image src="https://test-dai.imgix.net/org-4afef969-21f9-40f3-b5b8-b06c8b6cf68f/doc-22a3b060-9539-4176-97e4-49120e02f5d1/0a460c049ef3df1f-spaces-NkEGS7hzeqa35sMXQZ4X-uploads-PnnI41SqLSaKBNwT98fW-actions-horizontal.svg?rasterize-bypass=true" alt="The table drag handle icon in GitBook" /> en haut de la colonne que vous souhaitez déplacer.
+
+Vous pouvez ajouter de nouvelles colonnes en cliquant sur le **Ajouter une colonne** bouton qui apparaît lorsque vous survolez le bord droit du tableau.
+
+Dans le **Options de colonne** menu, vous pouvez également activer ou désactiver le dimensionnement automatique, ajouter une nouvelle colonne à droite, masquer la colonne ou supprimer la colonne.
+
+### Options de ligne
+
+Survolez la ligne et cliquez sur le **Options de ligne** <Image src="https://test-dai.imgix.net/org-4afef969-21f9-40f3-b5b8-b06c8b6cf68f/doc-22a3b060-9539-4176-97e4-49120e02f5d1/4fa265378c13a520-spaces-NkEGS7hzeqa35sMXQZ4X-uploads-89MTSo5XRpPMVr1T0rxS-actions.svg?rasterize-bypass=true" alt="The Row options menu icon in GitBook" /> bouton qui apparaît à sa gauche pour ouvrir le **Options de ligne** menu. Vous verrez un certain nombre d’options :
+
+- <strong>Ouvrir la ligne :</strong> Ouvrez la ligne dans une fenêtre modale qui affiche toutes ses données. Vous pouvez ici modifier rapidement les types de ligne, éditer les données et voir les données des colonnes masquées.
+- <strong>Insérer au-dessus/au-dessous :</strong> Ajoutez une nouvelle ligne au-dessus ou en dessous de la ligne actuellement sélectionnée.
+- <strong>Ajouter une colonne :</strong> Ajoutez une nouvelle colonne à droite du tableau.
+- <strong>Supprimer la ligne :</strong> Supprimez définitivement toutes les données de la ligne de votre tableau.
+
+### Images dans les tableaux
+
+Lorsque vous cliquez dans une cellule du tableau, vous pouvez appuyer sur la touche / pour insérer des images. Les images ne peuvent pas être ajoutées à la ligne d’en-tête d’un tableau.
+
+### Représentation en Markdown
+
+```markdown
+# Tableau
+
+|   |   |   |
+| - | - | - |
+|   |   |   |
+|   |   |   |
+|   |   |   |
+```
+
+<Expandable title="Puis-je créer des tableaux imbriqués dans GitBook ?">
+  Il n’est pas possible d’imbriquer des tableaux dans GitBook. Pour garantir que les documents restent faciles à rédiger, fiables à afficher et accessibles à tous les utilisateurs, GitBook conserve des tableaux plats.
+
+  Lorsqu’un tableau se trouve à l’intérieur d’une autre cellule de tableau, il devient difficile de le modifier, de le redimensionner, de s’y déplacer ou de maintenir un formatage cohérent sur tous les appareils.
+
+  Les tableaux imbriqués introduisent également une complexité importante dans la structure sous-jacente du document, cassant souvent la sémantique claire et entraînant un comportement imprévisible dans des fonctionnalités telles que Git Sync.
+</Expandable>

@@ -1,0 +1,91 @@
+---
+title: List all users who have made edits to a change request
+metaTitle: List all users who have made edits to a change request | Developers | GitBook Documentation
+ogImage: https://test-dai.imgix.net/org-4afef969-21f9-40f3-b5b8-b06c8b6cf68f/doc-22a3b060-9539-4176-97e4-49120e02f5d1/0a5a1a9630785855-organizations-d8f63b60-89ae-11e7-8574-5927d48c4877-sites-site_p4Xo4-socialprevie.jpg?fm=auto&auto=compress%2Cformat
+---
+
+Returns a list of users who have contributed content edits to the change request. Use this to identify who has been actively editing the draft, for example when deciding who to notify before merging.
+
+**GET** `/spaces/{spaceId}/change-requests/{changeRequestId}/contributors`
+
+**Parameters**
+
+<ParamField header="Authorization" param-type="string" />
+
+<ParamField path="spaceId" param-type="string" required={true}>
+  The unique id of the space
+</ParamField>
+
+<ParamField path="changeRequestId" param-type="string" required={true}>
+  The unique ID of the change request or its number identifier in the space
+</ParamField>
+
+**Responses**
+
+`200` Contributors on the change request
+
+<ResponseField name="next" field-type="object">
+  <Expandable title="Object Properties">
+    <ResponseField name="page" field-type="string" required={true}>
+      Unique identifier to query the next results page
+    </ResponseField>
+  </Expandable>
+</ResponseField>
+
+<ResponseField name="count" field-type="number">
+  Total count of objects in the list
+</ResponseField>
+
+<ResponseField name="items" field-type="array" required={true}>
+  <Expandable title="Array Items">
+    <ResponseField name="updatedAt" field-type="string" required={true} />
+
+    <ResponseField name="count" field-type="integer" required={true} />
+
+    <ResponseField name="user" field-type="object" required={true}>
+      <Expandable title="Object Properties">
+        <ResponseField name="object" field-type="string" required={true} enum="user">
+          Type of Object, always equals to "user"
+        </ResponseField>
+
+        <ResponseField name="id" field-type="string" required={true}>
+          Unique identifier for the user
+        </ResponseField>
+
+        <ResponseField name="displayName" field-type="string" required={true}>
+          Full name for the user
+        </ResponseField>
+
+        <ResponseField name="email" field-type="string">
+          Email address of the user
+        </ResponseField>
+
+        <ResponseField name="photoURL" field-type="string">
+          URL of the user's profile picture
+        </ResponseField>
+
+        <ResponseField name="urls" field-type="object" required={true}>
+          URLs associated with the object
+
+          <Expandable title="Object Properties">
+            <ResponseField name="location" field-type="string" required={true}>
+              URL of the user in the API
+            </ResponseField>
+          </Expandable>
+        </ResponseField>
+      </Expandable>
+    </ResponseField>
+
+    <ResponseField name="actionType" field-type="string" required={true} enum="edit,comment" />
+  </Expandable>
+</ResponseField>
+
+`404` Not Found
+
+<ResponseField name="error" field-type="object" required={true}>
+  <Expandable title="Object Properties">
+    <ResponseField name="code" field-type="integer" required={true} enum="404" />
+
+    <ResponseField name="message" field-type="string" required={true} />
+  </Expandable>
+</ResponseField>

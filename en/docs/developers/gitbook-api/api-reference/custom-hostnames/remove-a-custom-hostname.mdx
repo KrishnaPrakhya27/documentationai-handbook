@@ -1,0 +1,23 @@
+---
+title: Remove a custom hostname
+metaTitle: Remove a custom hostname | Developers | GitBook Documentation
+ogImage: https://test-dai.imgix.net/org-4afef969-21f9-40f3-b5b8-b06c8b6cf68f/doc-22a3b060-9539-4176-97e4-49120e02f5d1/0a5a1a9630785855-organizations-d8f63b60-89ae-11e7-8574-5927d48c4877-sites-site_p4Xo4-socialprevie.jpg?fm=auto&auto=compress%2Cformat
+---
+
+The custom hostname will continue to point to the content or organization unless it is used for another one.
+
+**DELETE** `/custom-hostnames/{hostname}`
+
+**Parameters**
+
+<ParamField header="Authorization" param-type="string" required={true} />
+
+<ParamField path="hostname" param-type="string" required={true}>
+  The custom hostname, for example "docs.gitbook.com"
+</ParamField>
+
+**Responses**
+
+`204` Custom hostname did not exist
+
+`205` Custom hostname has been removed

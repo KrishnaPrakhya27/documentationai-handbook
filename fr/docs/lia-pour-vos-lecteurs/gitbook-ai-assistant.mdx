@@ -1,0 +1,179 @@
+---
+title: Assistant IA
+description: L’Assistant IA fournit aux utilisateurs des réponses précises et contextuelles issues de l’ensemble de votre base de connaissances — pas seulement de votre documentation
+metaTitle: Assistant IA | GitBook Documentation
+ogImage: https://test-dai.imgix.net/org-4afef969-21f9-40f3-b5b8-b06c8b6cf68f/doc-22a3b060-9539-4176-97e4-49120e02f5d1/0a5a1a9630785855-organizations-d8f63b60-89ae-11e7-8574-5927d48c4877-sites-site_p4Xo4-socialprevie.jpg?fm=auto&auto=compress%2Cformat
+---
+
+<Image src="https://test-dai.imgix.net/org-4afef969-21f9-40f3-b5b8-b06c8b6cf68f/doc-22a3b060-9539-4176-97e4-49120e02f5d1/dfb18b4167641ecd-spaces-NkEGS7hzeqa35sMXQZ4X-uploads-lzOUuOwM4Vffctmf3VHC-25_03_31_gitbook_assist.png?fm=auto&auto=compress%2Cformat" alt="GitBook Assistant" caption="L’assistant GitBook" />
+
+L’assistant IA donne à vos utilisateurs des réponses rapides et précises sur votre documentation en langage naturel. Il est personnalisé pour vos utilisateurs, peut être intégré à votre site web ou à votre produit, et peut apparaître dans la barre latérale ou dans le champ de recherche de votre documentation publiée.
+
+Considérez-le comme un expert produit disponible pour tous vos utilisateurs, aux endroits et aux moments où ils en ont le plus besoin.
+
+L’Assistant utilise la récupération agentique pour comprendre le contexte des requêtes à partir de la page actuelle de l’utilisateur, des pages déjà consultées et des conversations précédentes.
+
+Essayez de poser une question à l’Assistant dans la boîte ci-dessous :
+
+## Configurer l’assistant IA
+
+Pour configurer l’assistant IA, ouvrez **Personnaliser**, sous **Outils** dans la barre latérale du site, puis cliquez sur **Assistant IA**. Vous pouvez ici activer l’Assistant et personnaliser ses instructions, son message d’accueil et les questions suggérées.
+
+### Ajouter des instructions personnalisées
+
+Les instructions personnalisées ajustent le ton de l’Assistant et ajoutent des connaissances ou une terminologie propres au produit, afin que ses réponses correspondent systématiquement à votre style global.
+
+<Callout kind="info">
+  Les instructions personnalisées affinent le ton et les connaissances de l’Assistant. Elles ne peuvent pas contourner ses garde-fous intégrés.
+</Callout>
+
+### Personnaliser un message d’accueil
+
+Le message d’accueil est la première chose que les visiteurs voient lorsqu’ils ouvrent l’Assistant sans conversation en cours. Utilisez-le pour définir les attentes ou orienter les utilisateurs vers un flux de travail spécifique.
+
+### Ajouter des questions suggérées
+
+Les questions suggérées sont des invites préécrites affichées lorsque l’Assistant s’ouvre sans conversation en cours. Elles aident les utilisateurs à comprendre ce qu’ils peuvent demander et peuvent vous aider à orienter vos utilisateurs vers des réponses ou des flux de travail utiles.
+
+#### Bonnes pratiques pour les questions suggérées :
+
+- Commencez par un objectif réel de l’utilisateur (installation, dépannage, intégration).
+- Utilisez les mots employés par vos utilisateurs (évitez les noms de code internes).
+- Restez précis. « Comment puis-je… ? » est préférable à « Parlez-moi de… ».
+- Couvrez différents types de besoins : démarrage rapide, mode d’emploi, dépannage et documentation de référence.
+
+<Callout kind="info">
+  Si vous intégrez l’Assistant dans votre produit, vous pouvez également définir dynamiquement des suggestions dans votre configuration d’intégration. Voir [Personnaliser l’intégration](/fr/docs/publier/embedding/configuration/customizing-docs-embed#adding-suggestions).
+</Callout>
+
+<a id="choose-your-sites-search-experience"></a>
+
+### Choisissez où l’Assistant apparaît
+
+Sous **Apparence**, définissez **Emplacement** pour choisir comment les lecteurs accèdent à l’Assistant :
+
+- **Barre latérale** (par défaut) — l’expérience de chat complète, disponible avec les formules de site Ultimate
+- **Champ de recherche** — des réponses intégrées aux résultats de recherche par mots-clés, disponibles avec les formules de site Premium et Ultimate
+
+<Callout kind="info">
+  Le message d’accueil de l’Assistant s’applique uniquement à l’emplacement dans la barre latérale ; il est donc masqué lorsque **Emplacement** est défini sur **Champ de recherche**.
+</Callout>
+
+<Callout kind="alert">
+  Désactiver **Assistant IA** puis réactiver réinitialise **Emplacement** à **Barre latérale**. Si votre site utilise l’emplacement dans le champ de recherche, configurez-le à nouveau après avoir réactivé l’Assistant.
+</Callout>
+
+## Utiliser l’assistant IA dans la documentation publiée
+
+La manière dont les lecteurs accèdent à l’Assistant dépend de son emplacement.
+
+### Emplacement dans la barre latérale
+
+Les utilisateurs peuvent accéder à l’Assistant GitBook de trois façons :
+
+- Appuyez sur <kbd>⌘</kbd> \+ <kbd>I</kbd> sur Mac ou <kbd>Ctrl</kbd> \+ <kbd>I</kbd> sur PC
+- Cliquez sur le **GitBook Assistant**  bouton à côté de la <strong>Poser une question ou rechercher…</strong> barre
+- Tapez une question dans la <strong>Poser une question ou rechercher…</strong> barre et choisissez l’option « Poser… » en haut du menu
+
+### Emplacement de la barre de recherche
+
+Avec **Emplacement** défini sur **Champ de recherche**, les utilisateurs peuvent poser une question directement dans la <strong>Poser une question ou rechercher…</strong> barre en haut de la page, à côté des résultats par mot-clé.
+
+Ils peuvent l’ouvrir en cliquant directement dessus, ou en appuyant sur <kbd>⌘</kbd> \+ <kbd>K</kbd> sur Mac ou <kbd>Ctrl</kbd> \+ <kbd>K</kbd> sur PC.
+
+En plus d’une réponse synthétisée, vos utilisateurs verront aussi ci-dessous une section dépliable qui affiche les sources que l’Assistant a utilisées pour rédiger sa réponse, ainsi que des questions connexes sur lesquelles vous pouvez cliquer pour poursuivre.
+
+L’Assistant répond à partir du contenu de votre site de documentation et de toutes les sources que vous avez ajoutées via [les connexions](/fr/docs/lia-pour-vos-lecteurs/connections).
+
+<Callout kind="alert">
+  L’Assistant ne répond pas à travers des sections publiées individuelles sur différents [sites de documentation](/fr/docs/publier/publish-a-docs-site).
+
+  La recherche multi-section n’est disponible que lors de la consultation de [sections](/fr/docs/gerer-votre-site/site-structure/site-sections) qui se trouvent sur le même site.
+</Callout>
+
+## Recherche dans la documentation publiée
+
+La recherche par mots-clés est automatiquement activée sur chaque site, que l’Assistant soit activé ou non.
+
+Vos utilisateurs peuvent rechercher des mots-clés dans votre site de documentation et accéder rapidement à des pages ou sections de page spécifiques sur l’ensemble de votre site.
+
+## Intégrez l’Assistant IA dans votre produit
+
+Vous pouvez intégrer GitBook Assistant directement dans votre produit ou votre site web, offrant aux utilisateurs un accès instantané à une assistance alimentée par l’IA sans quitter votre application. L’Assistant peut être intégré dans le cadre de [Docs Embed](/fr/docs/publier/embedding), qui inclut l’onglet Assistant pour le chat alimenté par l’IA, l’onglet Recherche pour une découverte ciblée, et l’onglet Docs pour parcourir votre documentation.
+
+Choisissez la méthode d’intégration qui correspond à votre stack :
+
+- [**Balise script autonome**](/fr/docs/publier/embedding/implementation/script) – Configuration rapide avec une `<script>` balise
+- [**Node.js/NPM**](/fr/docs/publier/embedding/implementation/nodejs) – Intégration côté serveur ou au moment de la compilation
+- [**Composant React**](/fr/docs/publier/embedding/implementation/react) – Composants React préconstruits
+
+### Guides supplémentaires pour l’intégration de l’Assistant :
+
+- [Utiliser l’Assistant intégré avec des docs authentifiées](/fr/docs/publier/embedding/using-with-authenticated-docs) – Requis si vos docs nécessitent une connexion
+- [Personnaliser l’intégration de l’Assistant](/fr/docs/publier/embedding/configuration/customizing-docs-embed) – Messages de bienvenue, actions et suggestions
+- [Créer des outils d’intégration personnalisés](/fr/docs/publier/embedding/configuration/creating-custom-tools) – Connectez Assistant à vos API
+- [Référence de l’API](/fr/docs/publier/embedding/configuration/reference) – Toutes les méthodes et tous les événements disponibles
+
+## Étendez les connaissances de l’Assistant IA
+
+L’Assistant IA peut utiliser des connaissances externes via [les connexions](/fr/docs/lia-pour-vos-lecteurs/connections) et [serveurs MCP](/fr/docs/lia-pour-vos-lecteurs/mcp-servers-for-published-docs).
+
+Vous pouvez utiliser des connexions lorsque vous souhaitez que GitBook synchronise des enregistrements dans votre site, ou utiliser des serveurs MCP lorsque vous souhaitez connecter l’Assistant IA à des outils personnalisés.
+
+<Columns cols={2}>
+  <Card title="Connexions">
+    Les connexions sont idéales pour les sources riches en contenu :
+
+    - problèmes et discussions GitHub
+    - conversations Slack ou Discord
+    - contenu d’assistance
+    - documentation externe, centres d’aide et sites web
+  </Card>
+
+  <Card title="serveurs MCP">
+    Les serveurs MCP sont idéaux pour les outils et données en direct :
+
+    - État actuel du compte ou du produit
+    - Systèmes internes qui changent souvent
+    - Actions comme la création de tickets ou le signalement de bugs
+    - Sources que vous ne voulez pas synchroniser dans GitBook
+  </Card>
+</Columns>
+
+<Tabs>
+  <Tab title="Ajouter une connexion">
+    <Steps>
+      <Step title="Ouvrez les paramètres de votre site">
+        Ouvrez le tableau de bord de votre site. Puis choisissez **Paramètres** → **Connexions**.
+      </Step>
+
+      <Step title="Connecter une source">
+        Choisissez un type de source. Puis autorisez-la, ou saisissez l’URL à importer.
+      </Step>
+
+      <Step title="Exposer les enregistrements à l’Assistant IA">
+        Activez **Exposer dans la recherche / l’assistant** pour la connexion.
+
+        GitBook peut ensuite utiliser ces enregistrements dans la recherche et l’Assistant IA.
+      </Step>
+    </Steps>
+  </Tab>
+
+  <Tab title="Ajouter un serveur MCP">
+    <Steps>
+      <Step title="Ouvrez les paramètres de votre site">
+        Ouvrez le tableau de bord de votre site. Puis choisissez **Paramètres** → **IA et MCP**.
+      </Step>
+
+      <Step title="Ajouter un nouveau serveur">
+        Dans le tableau des serveurs MCP, cliquez sur **Ajouter un serveur MCP**.
+      </Step>
+
+      <Step title="Saisissez les détails du serveur">
+        Donnez un nom au serveur. Ajoutez son URL.
+
+        Puis configurez les en-têtes HTTP que GitBook doit envoyer avec chaque requête.
+      </Step>
+    </Steps>
+  </Tab>
+</Tabs>

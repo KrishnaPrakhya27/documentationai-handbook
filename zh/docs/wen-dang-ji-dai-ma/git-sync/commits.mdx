@@ -1,0 +1,36 @@
+---
+title: 提交信息与自动链接
+metaTitle: 提交信息与自动链接 | GitBook Documentation
+ogImage: https://test-dai.imgix.net/org-4afef969-21f9-40f3-b5b8-b06c8b6cf68f/doc-22a3b060-9539-4176-97e4-49120e02f5d1/0a5a1a9630785855-organizations-d8f63b60-89ae-11e7-8574-5927d48c4877-sites-site_p4Xo4-socialprevie.jpg?fm=auto&auto=compress%2Cformat
+---
+
+默认情况下，当将内容从 GitBook 导出到 Git 仓库时，GitBook 会根据已合并的变更请求生成提交信息：
+
+```
+GITBOOK-14：改进有关用户管理的文档
+```
+
+## 自动链接 `GITBOOK-<num>` 在 GitHub 和 GitLab 中
+
+如果你想自动解析你的 GitBook 变更请求 ID（例如 *GITBOOK-123*) 将提交中的链接自动解析为链接，你可以使用 GitHub 的 *自动链接引用* 功能。请参阅以下说明： [GitHub](https://help.github.com/en/github/administering-a-repository/configuring-autolinks-to-reference-external-resources).
+
+使用以下 URL 格式，其中 `spaceId` 对应于你章节的 URL：
+
+`<https://app.gitbook.com/s/{spaceId}/~/changes/<num>/`
+
+<Image src="https://test-dai.imgix.net/org-4afef969-21f9-40f3-b5b8-b06c8b6cf68f/doc-22a3b060-9539-4176-97e4-49120e02f5d1/13555172df35b148-spaces-NkEGS7hzeqa35sMXQZ4X-uploads-XMOX8gtwZIZGwdSWhSdX-gitsync-autolink-2x.png?fm=auto&auto=compress%2Cformat" alt="A GitBook screenshot showing autolink setup" caption="自动链接设置。" />
+
+## 自定义提交信息模板
+
+当将 GitBook 与 [monorepo](/zh/docs/wen-dang-ji-dai-ma/git-sync/monorepos)一起使用时，或者当你对提交信息有特定规范时；你可能希望自定义 GitBook 在向 Git 推送提交时使用的消息。
+
+模板可以包含以下占位符：
+
+- `{change_request_number}` 变更请求的唯一数字 ID
+- `{change_request_subject}` 变更请求合并时的主题，或 `无主题` 如果未提供任何主题。
+
+默认模板为：
+
+```
+GITBOOK-{change_request_number}: {change_request_subject}
+```

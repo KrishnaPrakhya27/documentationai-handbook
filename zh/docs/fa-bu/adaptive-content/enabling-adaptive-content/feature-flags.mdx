@@ -1,0 +1,178 @@
+---
+title: 功能标记
+description: 通过功能标记提供商将访客数据传递到你的文档中
+metaTitle: 功能标记 | GitBook Documentation
+ogImage: https://test-dai.imgix.net/org-4afef969-21f9-40f3-b5b8-b06c8b6cf68f/doc-22a3b060-9539-4176-97e4-49120e02f5d1/0a5a1a9630785855-organizations-d8f63b60-89ae-11e7-8574-5927d48c4877-sites-site_p4Xo4-socialprevie.jpg?fm=auto&auto=compress%2Cformat
+---
+
+<Callout kind="alert">
+  在功能标志中使用自适应内容需要向你的应用程序添加代码。
+
+  目前，GitBook helper 仅支持基于 React 的设置。
+</Callout>
+
+GitBook 提供用于以下流行功能标记服务提供商的辅助函数和集成： [**LaunchDarkly**](#launchdarkly) 以及 [**Reflag**](#reflag).
+
+这使你能够在用户阅读文档时读取他们在产品中可访问的功能标记。如果你需要为仅对特定人群可用的功能显示文档，这会很有用。
+
+### LaunchDarkly
+
+LaunchDarkly 允许你通过以下方式将功能标记访问权限作为声明发送： [`launchdarkly-react-client-sdk`](https://launchdarkly.com/docs/sdk/client-side/react/react-web) 以及 GitBook 的 `@gitbook/adaptive` 包。
+
+如果你已经在产品中使用 LaunchDarkly 功能标记，那么你很可能已经配置好了这个包。
+
+要将这些功能标记作为声明传递给 GitBook，请按照以下步骤操作：
+
+<Steps>
+  <Step title="安装 LaunchDarkly 集成">
+    要开始使用，你首先需要 [安装 LaunchDarkly 集成](https://app.gitbook.com/integrations/launchdarkly) 到你的 GitBook 站点中。
+  </Step>
+
+  <Step title="设置你的项目和访问密钥">
+    将你的项目密钥和来自以下位置的服务访问令牌添加到： [LaunchDarkly 设置](https://app.launchdarkly.com/settings) 到该集成的配置中。
+  </Step>
+
+  <Step title="将 GitBook helper 安装并添加到你的应用程序中">
+    在设置好 LaunchDarkly 集成后，你需要在应用程序中安装 GitBook 自适应内容 helper。
+
+    ```bash
+    npm install @gitbook/adaptive
+    ```
+  </Step>
+
+  <Step title="配置你的应用程序">
+    你需要使用 `withLaunchDarkly` helper 与 LaunchDarkly React SDK 一起使用，以将上下文传递给 GitBook。
+
+    ```javascript
+    import { render } from 'react-dom';
+    import { withLaunchDarkly } from '@gitbook/adaptive';
+    import { asyncWithLDProvider, useLDClient } from 'launchdarkly-react-client-sdk';
+    import MyApplication from './MyApplication';
+
+    function PassFeatureFlagsToGitBookSite() {
+        const ldClient = useLDClient();
+        React.useEffect(() => {
+            if (!ldClient) {
+                return;
+            }
+            return withLaunchDarkly(ldClient);
+        }, [ldClient]);
+        return null;
+    }
+    (async () => {
+        const LDProvider = await asyncWithLDProvider({
+            clientSideID: 'client-side-id-123abc',
+            context: {
+                kind: 'user',
+                key: 'user-key-123abc',
+                name: 'Sandy Smith',
+                email: 'sandy@example.com'
+            },
+            options: { /* ... */ }
+        });
+        render(
+            &#x3C;LDProvider>
+                &#x3C;PassFeatureFlagsToGitBookSite />
+                &#x3C;MyApplication />
+            &#x3C;/LDProvider>,
+            document.getElementById('reactDiv'),
+        );
+    })();
+    ```
+  </Step>
+
+  <Step title="检查你的访客 schema">
+    一笔 [访客 schema](/zh/docs/fa-bu/adaptive-content/enabling-adaptive-content#set-your-visitor-schema) 是你的声明能够在已发布站点中被读取所必需的。安装并配置 LaunchDarkly 集成应会自动为你设置访客 schema。
+  </Step>
+
+  <Step title="个性化你的内容">
+    在设置好访客 schema 后，你就可以使用用户可访问的功能标记，为访问你站点的用户定制文档体验。
+
+    任何在 LaunchDarkly 中可用的功能标记值都会作为访客 schema 的一部分暴露在 `visitor.claims.unsigned.launchdarkly` 对象下。了解更多关于未签名声明的信息 [这里](/zh/docs/fa-bu/adaptive-content/enabling-adaptive-content#set-an-unsigned-claim).
+
+    前往 [调整你的内容](/zh/docs/fa-bu/adaptive-content/adapting-your-content) 以了解更多如何为你的用户个性化文档。
+  </Step>
+</Steps>
+
+### Reflag
+
+Reflag 允许你通过以下方式将功能标记访问权限作为声明发送： [`@reflag/react-sdk`](https://www.npmjs.com/package/@reflag/react-sdk) 以及 GitBook 的 [`@gitbook/adaptive`](https://github.com/GitbookIO/integrations/tree/main/packages/adaptive) 包。
+
+如果你已经在产品中使用 Reflag 功能标记，那么你很可能已经配置好了这个包。
+
+要将这些功能标记作为声明传递给 GitBook，请按照以下步骤操作：
+
+<Steps>
+  <Step title="安装 Reflag 集成">
+    要开始使用，你首先需要 [安装 Reflag 集成](https://app.gitbook.com/integrations/bucket) 到你的 GitBook 站点中。
+  </Step>
+
+  <Step title="设置你的密钥">
+    将来自以下位置的密钥添加到： [Reflag 设置](https://app.reflag.com/envs/current/settings/app-environments) 到该集成的配置中。
+  </Step>
+
+  <Step title="将 GitBook helper 安装到你的应用程序中">
+    在设置好 Reflag 集成后，你需要在应用程序中安装 GitBook 自适应内容 helper。
+
+    ```bash
+    npm install @gitbook/adaptive
+    ```
+  </Step>
+
+  <Step title="配置你的应用程序">
+    你需要使用 `withReflag` helper 与 Reflag React SDK 一起使用，以将上下文传递给 GitBook。
+
+    ```javascript
+    import { withReflag } from '@gitbook/adaptive';
+    import { ReflagProvider, useClient } from '@reflag/react-sdk';
+    import MyApplication from './MyApplication';
+
+    function PassFeatureFlagsToGitBookSite() {
+        const client = useClient();
+        React.useEffect(() => {
+            if (!client) {
+                return;
+            }
+            return withReflag(client);
+        }, [client]);
+        return null;
+    }
+    export function Application() {
+        const currentUser = useLoggedInUser();
+        const appConfig = useAppConfig();
+        return (
+            &#x3C;ReflagProvider
+                publishableKey={appConfig.reflagCom.publishableKey}
+                user={{
+                    id: currentUser.uid,
+                    email: currentUser.email ?? undefined,
+                    name: currentUser.displayName ?? '',
+                }}
+                company={{
+                    id: currentUser.company.id,
+                }}
+            >
+                &#x3C;PassFeatureFlagsToGitBookSite />
+                &#x3C;MyApplication />
+            &#x3C;/ReflagProvider>
+        );
+    }
+    ```
+  </Step>
+
+  <Step title="检查你的访客 schema">
+    一笔 [访客 schema](/zh/docs/fa-bu/adaptive-content/enabling-adaptive-content#set-your-visitor-schema) 是你的声明能够在已发布站点中被读取所必需的。安装并配置 Reflag 集成应会自动为你设置访客 schema。
+  </Step>
+
+  <Step title="个性化你的内容">
+    在设置好访客 schema 后，你就可以使用用户可访问的功能标记，为访问你站点的用户定制文档体验。
+
+    任何在 Reflag 中可用的功能标记值都会作为访客 schema 的一部分暴露在 `visitor.claims.unsigned.reflag` 对象下。了解更多关于未签名声明的信息 [这里](/zh/docs/fa-bu/adaptive-content/enabling-adaptive-content#set-an-unsigned-claim).
+
+    前往 [调整你的内容](/zh/docs/fa-bu/adaptive-content/adapting-your-content) 以了解更多如何为你的用户个性化文档。
+  </Step>
+</Steps>
+
+<Callout kind="info">
+  功能标记值会在客户端进行评估，因此请避免使用此方法传递敏感或与安全相关的关键数据。
+</Callout>

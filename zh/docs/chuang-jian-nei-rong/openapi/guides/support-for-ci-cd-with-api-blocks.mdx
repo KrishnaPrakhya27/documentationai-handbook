@@ -1,0 +1,85 @@
+---
+title: 与 CI/CD 集成
+description: 了解如何在 GitBook 中自动更新你的 OpenAPI 规范
+metaTitle: 与 CI/CD 集成 | GitBook Documentation
+ogImage: https://test-dai.imgix.net/org-4afef969-21f9-40f3-b5b8-b06c8b6cf68f/doc-22a3b060-9539-4176-97e4-49120e02f5d1/0a5a1a9630785855-organizations-d8f63b60-89ae-11e7-8574-5927d48c4877-sites-site_p4Xo4-socialprevie.jpg?fm=auto&auto=compress%2Cformat
+---
+
+GitBook 可以与您已有的任何用于管理 OpenAPI 规范的 CI/CD 流水线配合使用。通过使用 GitBook CLI，您可以自动更新您的 API 参考文档。
+
+### 上传规范文件
+
+如果您的 OpenAPI 规范是在 CI 过程中生成的，您可以直接从构建环境中上传它：
+
+```bash
+# 将您的 GitBook API 令牌设置为环境变量
+export GITBOOK_TOKEN=<api-token>
+
+gitbook openapi publish \
+  --spec spec_name \
+  --organization organization_id \
+  example.openapi.yaml
+```
+
+### 设置新的源 URL 或触发刷新
+
+如果您的 OpenAPI 规范托管在一个 URL 上，GitBook 会自动检查更新。要强制更新（例如，在发布之后），请运行：
+
+```bash
+# 将您的 GitBook API 令牌设置为环境变量
+export GITBOOK_TOKEN=<api-token>
+
+gitbook openapi publish \
+  --spec spec_name \
+  --organization organization_id \
+  https://api.example.com/openapi.yaml
+```
+
+### 使用 GitHub Actions 更新您的规范
+
+如果您正在设置一个用于发布 OpenAPI 规范的工作流，请在您的仓库中完成以下步骤：
+
+1. 在您的仓库中，前往“Settings → Secrets and variables → Actions”。
+2. 添加一个密钥： `GITBOOK_TOKEN` （您的 GitBook API 令牌）。
+3. 添加变量（或者在工作流中直接硬编码它们）：
+
+   - `GITBOOK_SPEC_NAME` → 您在 GitBook 中的规范名称
+   - `GITBOOK_ORGANIZATION_ID` → 您的 GitBook 组织 ID
+4. 将工作流文件保存为 `.github/workflows/gitbook-openapi-publish.yml`.
+5. 将更改推送到“main”（或者手动运行该工作流）。
+
+然后您可以使用此操作来更新您的规范：
+
+```yaml title=".github/workflows/gitbook-openapi-publish.yml"
+name: 将 OpenAPI 发布到 GitBook
+
+on:
+  push:
+    branches: [ "main" ]
+    paths:
+      - "**/*.yaml"
+      - "**/*.yml"
+      - "**/*.json"
+  workflow_dispatch:
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    env:
+      # 必需的密钥
+      GITBOOK_TOKEN: ${{ secrets.GITBOOK_TOKEN }}
+      # 优先使用仓库/组织变量；如果愿意，也可以回退到内联字符串
+      GITBOOK_SPEC_NAME: ${{ vars.GITBOOK_SPEC_NAME }}
+      GITBOOK_ORGANIZATION_ID: ${{ vars.GITBOOK_ORGANIZATION_ID }}
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: 将规范文件发布到 GitBook
+        run: |
+          npx -y @gitbook/cli@latest openapi publish \
+            --spec "$GITBOOK_SPEC_NAME" \
+            --organization "$GITBOOK_ORGANIZATION_ID" \
+            <path_to_spec>
+```

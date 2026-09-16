@@ -1,0 +1,232 @@
+---
+title: Configurer un sous-répertoire avec AWS en utilisant CloudFront et Route 53
+description: Hébergez votre documentation dans un sous-répertoire /docs à l’aide d’AWS CloudFront et Route 53.
+metaTitle: Configurer un sous-répertoire avec AWS en utilisant CloudFront et Route 53 | GitBook Documentation
+ogImage: https://test-dai.imgix.net/org-4afef969-21f9-40f3-b5b8-b06c8b6cf68f/doc-22a3b060-9539-4176-97e4-49120e02f5d1/0a5a1a9630785855-organizations-d8f63b60-89ae-11e7-8574-5927d48c4877-sites-site_p4Xo4-socialprevie.jpg?fm=auto&auto=compress%2Cformat
+---
+
+<Callout kind="info">
+  Ce guide explique comment configurer un sous-répertoire à l’aide d’AWS CloudFront et Lambda@Edge. C’est une approche pour les utilisateurs d’AWS. Si vous avez une configuration AWS différente (par exemple un équilibreur de charge avec des instances EC2 exécutant NGINX), vous devrez peut-être configurer votre proxy inverse différemment. Contactez l’assistance si vous avez besoin d’aide pour des configurations alternatives.
+</Callout>
+
+<Steps>
+  <Step title="Configurer votre site GitBook">
+    Dans votre organisation GitBook, cliquez sur le nom de votre site de documentation dans la barre latérale, puis cliquez **Gérer le site** ou ouvrez l’onglet **Paramètres** . Ouvrez la **section Domaine et redirections** et, sous « Sous-répertoire », cliquez sur **Configurer un sous-répertoire**.
+
+    Saisissez l’URL où vous souhaitez héberger votre documentation. Indiquez ensuite le sous-répertoire d’accès à la documentation, par ex. `example.com/docs`, puis cliquez sur **Configurer**.
+
+    Sous **Configuration supplémentaire**, vous verrez maintenant une URL de proxy. Vous l’utiliserez à l’étape suivante lors de la configuration de votre fonction Lambda. Copiez-la dans votre presse-papiers.
+  </Step>
+
+  <Step title="Créez votre fonction Lambda@Edge">
+    Connectez-vous à votre console AWS et accédez à **Lambda**.
+
+    Cliquez sur le bouton **Créer une fonction** .
+
+    Choisissez **Créer à partir de zéro**, puis :
+
+    - Donnez à votre fonction un nom descriptif, par exemple `gitbook-subpath-proxy.`
+    - Sélectionnez **Node.js** comme runtime (utilisez la dernière version disponible).
+    - Laissez l’architecture et les autres paramètres par défaut.
+
+    Cliquez sur **Créer une fonction**.
+  </Step>
+
+  <Step title="Mettre à jour le code de la fonction Lambda">
+    Dans l’éditeur de la fonction Lambda, remplacez le code par défaut par ce qui suit :
+
+    ```javascript
+    export const handler = async (event) => {
+    	const request = event.Records[0].cf.request;
+    	
+    	// mettez à jour si votre sous-répertoire n’est pas /docs
+    	const subdirectory = '/docs';
+    	
+    	// mettez à jour ci-dessous avec votre URL de proxy
+    	const target = new URL('<proxy URL you got from GitBook>');
+
+    	// réécriture : /docs* -> proxy.gitbook.site
+    	if (request.uri.startsWith(subdirectory)) {
+    		request.uri = target.pathname + request.uri.substring(subdirectory.length);
+
+    		// Supprimer le slash final s’il est présent
+    		if (request.uri.endsWith('/')) {
+    			request.uri = request.uri.slice(0, -1);
+    		}
+
+    		request.origin = {
+    			custom: {
+    				domainName: target.host,
+    				port: 443,
+    				protocol: 'https',
+    				path: '',
+    				sslProtocols: ['TLSv1.2'],
+    				readTimeout: 30,
+    				keepaliveTimeout: 5,
+    				customHeaders: {},
+    			},
+    		};
+
+    		request.headers['host'] = [{ key: 'host', value: target.host }];
+    		request.headers['x-forwarded-host'] = [{ key: 'x-forwarded-host', value: target.host }];
+    	}
+        
+    	return request;
+    };
+    ```
+
+    <Callout kind="alert">
+      Assurez-vous de mettre à jour `target` à la ligne 8 avec l’URL du proxy obtenue de GitBook à la première étape. Cela ressemblera à `https://proxy.gitbook.site/sites/site_XXXX`
+    </Callout>
+
+    <Callout kind="alert">
+      Assurez-vous également de mettre à jour `subdirectory` à la ligne 5 si vous utilisez un chemin de sous-répertoire différent de `/docs`.
+    </Callout>
+
+    Cliquez sur **Déployez** pour enregistrer vos modifications.
+  </Step>
+
+  <Step title="Configurez les autorisations Lambda pour Lambda@Edge">
+    Avant de pouvoir utiliser votre fonction Lambda avec CloudFront, vous devez configurer le rôle d’exécution pour autoriser Lambda@Edge à l’assumer.
+
+    1. Dans votre fonction Lambda, cliquez sur l’onglet **Configuration** onglet
+    2. Cliquez sur **Autorisations** dans la barre latérale gauche
+    3. Sous **Rôle d’exécution**, cliquez sur le nom du rôle pour l’ouvrir dans IAM
+    4. Cliquez sur le bouton **Relations de confiance** onglet
+    5. Cliquez sur **Modifier la politique de confiance**
+    6. Remplacez la politique de confiance par ce qui suit :
+
+    ```json
+    {
+        "Version": "2012-10-17",
+        "Statement": [
+            {
+                "Effect": "Allow",
+                "Principal": {
+                    "Service": [
+                        "edgelambda.amazonaws.com",
+                        "lambda.amazonaws.com"
+                    ]
+                },
+                "Action": "sts:AssumeRole"
+            }
+        ]
+    }
+    ```
+
+    Cliquez sur **Mettre à jour la politique** pour enregistrer.
+  </Step>
+
+  <Step title="Publiez votre fonction Lambda">
+    Lambda@Edge nécessite une version publiée (pas seulement `$LATEST`).
+
+    1. Dans votre fonction Lambda, cliquez sur le menu déroulant **Actions** en haut à droite
+    2. Sélectionnez **Publier une nouvelle version**
+    3. Ajoutez éventuellement une description comme « Version initiale pour CloudFront »
+    4. Cliquez sur **Publier**
+    5. <strong>Important :</strong> Copiez l’ARN de la version publiée qui apparaît en haut de la page (il inclura un numéro de version à la fin, par exemple `arn:aws:lambda:us-east-1:123456789:function:gitbook-subpath-proxy:1`)
+
+    <Callout kind="alert">
+      Les fonctions Lambda@Edge doivent être créées dans la région **us-east-1** (Virginie du Nord). Si vous avez créé votre fonction dans une autre région, vous devrez la recréer dans us-east-1.
+    </Callout>
+  </Step>
+
+  <Step title="Créez votre distribution CloudFront">
+    Accédez à **CloudFront** dans la console AWS et cliquez sur **Créer une distribution**.
+
+    Configurez les paramètres suivants. Lorsque les paramètres ne sont pas précisés, conservez les paramètres par défaut.
+
+    **Spécifier l’origine**
+
+    | Paramètre | Valeur |
+    | --- | --- |
+    | **Type d’origine** | Autre |
+    | **Origine personnalisée** | Le domaine principal de votre site Web (par ex., `example.com`) |
+
+    **Paramètres de cache**
+
+    | Paramètre | Valeur |
+    | --- | --- |
+    | **Politique de cache** | CachingDisabled |
+    | **Politique de requêtes d’origine** | AllViewerExceptHostHeader |
+
+    Cliquez sur <strong>Ensuite,</strong> sélectionnez vos protections de sécurité préférées, puis cliquez sur **Suivant** à nouveau.
+
+    Cliquez sur **Créer une distribution**.
+
+    Attendez que la distribution soit déployée (le statut passera de « En cours » à « Activé »). Cela peut prendre plusieurs minutes.
+  </Step>
+
+  <Step title="Associez Lambda@Edge à CloudFront">
+    Une fois votre distribution CloudFront déployée :
+
+    1. Cliquez sur l’ID de votre distribution pour ouvrir ses paramètres
+    2. Accédez à l’onglet **Comportements** onglet
+    3. Sélectionnez le comportement par défaut et cliquez sur **Modifier**
+    4. Faites défiler jusqu’à **Associations de fonctions**
+    5. Sous **Requête d’origine**, sélectionnez **Lambda@Edge**
+    6. Dans le champ **ARN de la fonction Lambda** collez l’ARN de votre fonction Lambda publiée (depuis l’étape 5)
+    7. Cochez **Inclure le corps** pour permettre à la fonction d’accéder au corps des requêtes si nécessaire
+    8. Cliquez sur **Enregistrer les modifications**
+  </Step>
+
+  <Step title="Configurez le domaine et les enregistrements DNS">
+    1. Sur la page principale de votre distribution CloudFront, cliquez sur l’onglet **Général** et, sous **Noms de domaine alternatifs**, cliquez sur **Ajouter un domaine**
+    2. Saisissez le domaine pour lequel vous configurez votre sous-répertoire, par ex. `example.com` et cliquez sur **Suivant**
+    3. Sélectionnez votre certificat TLS existant, ou créez-en un nouveau si nécessaire, puis cliquez sur **Suivant** à nouveau
+  </Step>
+
+  <Step title="Configurez les enregistrements DNS Route 53 à partir de CloudFront">
+    Si vous utilisez Route 53 pour le DNS, vous devrez créer ou mettre à jour vos enregistrements DNS pour les faire pointer vers votre distribution CloudFront.
+
+    1. Tout en restant sur la page principale de votre distribution CloudFront, assurez-vous d’être sur l’onglet **Général** puis, sous l’URL que vous avez configurée dans <strong>Noms de domaine alternatifs,</strong> cliquez sur <strong>Routez les domaines vers CloudFront.</strong>
+    2. Cliquez sur **Configurer le routage automatiquement** pour créer des enregistrements DNS A et AAAA pour votre domaine
+
+    <Callout kind="info">
+      Si vous n’utilisez pas Route 53, vous devrez mettre à jour les paramètres de votre fournisseur DNS pour faire pointer votre domaine vers le nom de domaine de votre distribution CloudFront. Vous le trouverez dans les détails de la distribution CloudFront, sous « Nom de domaine de la distribution ».
+    </Callout>
+  </Step>
+
+  <Step title="Testez votre configuration">
+    Une fois que toutes les modifications se sont propagées (cela peut prendre 10 à 15 minutes) :
+
+    1. Ouvrez un navigateur et accédez à votre domaine avec le chemin du sous-répertoire (par ex., `https://example.com/docs`)
+    2. Vous devriez voir votre site de documentation GitBook !
+
+    Si le site ne se charge pas immédiatement, essayez :
+
+    - Attendre encore quelques minutes pour la propagation DNS
+    - Vider le cache de votre navigateur ou essayer une fenêtre de navigation privée
+    - Exécuter `nslookup votredomaine.com` dans le terminal pour vérifier que le DNS se résout correctement
+    - Vérifier que le statut de la distribution CloudFront est « Activé » et non « En cours »
+
+    <Callout kind="success">
+      Félicitations ! Votre documentation GitBook est maintenant accessible via votre sous-répertoire personnalisé.
+    </Callout>
+  </Step>
+</Steps>
+
+### Dépannage
+
+<strong>La fonction Lambda ne se déclenche pas :</strong>
+
+- Assurez-vous d’avoir publié une version de votre fonction Lambda (sans utiliser `$LATEST`)
+- Vérifiez que la fonction Lambda se trouve dans la région us-east-1
+- Vérifiez que la politique de confiance inclut `edgelambda.amazonaws.com`
+
+<strong>Le DNS ne se résout pas :</strong>
+
+- Les changements DNS peuvent prendre du temps à se propager (jusqu’à 48 heures, bien que généralement beaucoup plus rapidement)
+- Vérifiez que vos enregistrements Route 53 pointent vers la bonne distribution CloudFront
+- Vérifiez que vous avez supprimé tout ancien enregistrement DNS conflictuel
+
+<strong>Erreurs de certificat SSL :</strong>
+
+- Assurez-vous que votre certificat SSL dans AWS Certificate Manager inclut votre domaine personnalisé
+- Les certificats pour CloudFront doivent être créés dans la région us-east-1
+
+<strong>Le sous-répertoire ne fonctionne pas :</strong>
+
+- Vérifiez la `SOUS-RÉPERTOIRE` valeur dans votre fonction Lambda correspond à ce que vous avez configuré dans GitBook
+- Vérifiez que `target` dans votre fonction Lambda est correct
+- Consultez les journaux CloudFront pour voir si les requêtes atteignent la distribution

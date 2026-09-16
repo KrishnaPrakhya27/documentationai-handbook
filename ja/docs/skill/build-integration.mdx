@@ -1,0 +1,126 @@
+---
+title: インテグレーションを構築する
+description: GitBookインテグレーションを構築、開発、公開する — GitBook内で動作し、カスタムブロックの追加、イベントへの反応、OAuth経由での外部サービス接続、エディタの拡張を行うアプリ。このスキルは、〜する場合に使用します
+metaTitle: インテグレーションを構築する | GitBook Documentation
+ogImage: https://test-dai.imgix.net/org-4afef969-21f9-40f3-b5b8-b06c8b6cf68f/doc-22a3b060-9539-4176-97e4-49120e02f5d1/0a5a1a9630785855-organizations-d8f63b60-89ae-11e7-8574-5927d48c4877-sites-site_p4Xo4-socialprevie.jpg?fm=auto&auto=compress%2Cformat
+---
+
+GitBook の開発プラットフォーム上でインテグレーションを構築するためのスキル: GitBook 自体の中で動作するアプリです。インテグレーションは、エディタ内でカスタムブロックを描画し、設定 UI を表示し、イベント（コンテンツ更新、Git 同期完了、スペース閲覧）を監視し、OAuth で外部サービスに対して認証し、HTTP 経由であらゆるものと通信できます。
+
+このスキルはインテグレーションのライフサイクル全体、つまりスキャフォールド、コード作成、開発、公開をカバーします。ドキュメントの作成または再構成については *site* インテグレーションをインストールする先として `configure-site`; ページコンテンツの作成については `write-docs`.
+
+## インテグレーションとは何か（メンタルモデル）
+
+インテグレーションは、GitBook のランタイムによって実行される小さな TypeScript アプリです。ページに注入されるスクリプトでも、ユーザーのサーバー上で動くコードでもありません。次の 3 つの結果が、他のすべてを形作ります:
+
+1. <strong>レンダリングは GitBook のバックエンドで行われます。</strong> コンポーネントの `render` 関数は、あらゆるインタラクションのたびにサーバー側で実行され、ContentKit のマークアップ（JSX 風の UI 記述）を返します。あなたが制御できるクライアント側の React ツリーはなく、DOM へのアクセスもありません。UI の更新は action → 新しい state → 再レンダー のループで行われます。
+2. <strong>サイトに JavaScript を注入することはできません。</strong> サーバー側の `site:script:inject` 、 `site:script:cookies` GitBook 所有のインテグレーションで見かける scopes は内部専用です。ユーザーのプランが「ドキュメントに script タグを追加する」ことに相当するなら、早めにそう伝えてください。サポートされる方法はカスタムブロック、webframes、events です。
+3. <strong>ローカル開発はプロキシであって、訪れるサーバーではありません。</strong> `gitbook dev` は *インストール済みの* インテグレーションのトラフィックをあなたのマシンに転送します。開発サーバーのポートをブラウザで直接開くことはありません。app.gitbook.com 内でインテグレーションを操作します。
+
+## プロジェクトは
+
+`gitbook new` この構成をスキャフォールドします:
+
+```
+my-integration/
+├── gitbook-manifest.yaml   # ID、scopes、blocks、設定スキーマ
+├── .gitbook-dev.yaml       # ローカル開発設定（`gitbook dev` で生成）
+├── package.json
+└── src/
+    └── index.tsx           # エントリファイル — default-export は createIntegration()
+```
+
+エントリファイル（ `script:` マニフェスト内の が指しているもの）は default-export で `createIntegration({ fetch, components, events })`:
+
+```tsx
+import { createIntegration, createComponent } from '@gitbook/runtime';
+
+const helloBlock = createComponent({
+    componentId: 'hello-world',            // マニフェスト内のブロック ID と一致する必要があります
+    initialState: { message: 'Say hello!' },
+    action: async (element, action, context) => {
+        switch (action.action) {
+            case 'say':
+                return { state: { message: 'Hello world' } };
+            default:
+                return {};
+        }
+    },
+    render: async (element, context) => (
+        <block>
+            <button label={element.state.message} onPress={{ action: 'say' }} />
+        </block>
+    ),
+});
+
+export default createIntegration({
+    components: [helloBlock],
+    events: {
+        space_content_updated: async (event, context) => {
+            // コンテンツの変更に प्रतिक्रियाする
+        },
+    },
+});
+```
+
+カスタムブロックがエディタの挿入パレット（⌘ + /）に表示されるのは、次の両方で宣言されている場合のみです **両方を** 場所: `createComponent` コード内の <em>、</em> a `blocks:` マニフェストのエントリで、その `id` が `componentId`と一致していること。片方を忘れるのが、「ブロックが表示されない」原因として最も一般的です。
+
+## マニフェストについて、簡単に
+
+`gitbook-manifest.yaml` は、インテグレーションの ID と権限の付与です。必須: `name` （GitBook 全体でグローバルに一意である必要があります。名前空間付きの `acme-changelog`ではなく `test`), `title`, `説明`, `組織` のようなものを選んでください。 `visibility`, `scopes`を読み取り、 `script`。コードが実際に使う scope だけを要求してください。インストーラはそれらを確認できます。
+
+マニフェストではさらに `ブロック`、インストーラ向けの `configurations` （アカウントレベルおよびサイトレベルのプロパティスキーマを設定フォームとして表示するもの）、および `secrets` （例: `CLIENT_ID: ${{ env.CLIENT_ID }}`）を宣言します。これらは公開時に読み込まれるため、 `dotenv-cli` を使って `gitbook publish` があなたの `.env`).
+
+フィールドごとの完全なスキーマ、scope リスト、設定プロパティ型: `references/manifest.md`。基本を超えてマニフェストを編集するときは、必ず読んでください。
+
+## 開発ループ
+
+ループには一見わかりにくい順序があります — **公開がローカル開発より先**:
+
+1. <strong>前提条件。</strong> Node 18 以上、[https://app.gitbook.com/account/developer](https://app.gitbook.com/account/developer) からの個人アクセストークン、そして CLI: `npm install @gitbook/cli -g`、次に `gitbook auth` （または `gitbook auth --token=<token>`)。トークンを会話に貼り付ける必要がある場合は、環境変数にエクスポートし、決してそのまま返したりコミットしたりしないでください。
+2. <strong>スキャフォールド。</strong> `gitbook new <dir>` — 名前、タイトル、組織、scopes を尋ねられます。
+3. <strong>1 回公開します。</strong> `gitbook publish` をプロジェクトルートで実行します。これによりインテグレーション（デフォルトでは非公開）が登録され、インストールリンクが出力されます。
+4. **それを** そのリンクから少なくとも 1 つの space または site にインストールします。どこかにインストールされるまではローカル開発は動きません。
+5. <strong>開発。</strong> `gitbook dev` を起動するとプロキシが開始されます。インストール済みインテグレーションのすべてのトラフィックは、公開版ではなくローカルコードから提供されます。サーバー URL ではなく、GitBook エディタ内で操作してください。UI の変更にはブラウザの更新が必要です。より快適なループにするため、ブラウザのキャッシュを無効にしてください。ログは *ブラウザ* のコンソール、またはコードが実行される場所に応じてターミナルに表示されます。ログが壊れていると結論づける前に、両方を確認してください。
+6. **再公開** とともに `gitbook publish` して、ホスト版を更新したいときはいつでも行います。 `gitbook unpublish <name>` で削除されます。
+
+CLI コマンドリファレンス（ `gitbook whoami` 、 `gitbook openapi publish`): `references/manifest.md`.
+
+## Runtime: fetch, events, environment, OAuth
+
+詳細と完全な表は `references/runtime.md` にあります。イベントハンドラ、OAuth フロー、または `context.environment`に触れるものを書くときは読んでください。要点:
+
+- <strong>`fetch`</strong> は標準の Fetch API `Request`/`Response` オブジェクトを使って、インテグレーションの公開エンドポイントへの受信 HTTP リクエストを処理します。送信 HTTP も `fetch` 同様にプレーンです。
+- <strong>`events`</strong> はイベント名（`installation_setup`, `space_installation_setup`, `space_view`, `ui_render`, `space_content_updated`, `space_visibility_updated`, `space_gitsync_started`, `space_gitsync_completed`）をハンドラにマップします。一部のイベントには一致する scopes が必要です。
+- <strong>`context.environment`</strong> を公開します `apiEndpoint`, `apiTokens`、インストール情報（space、status、インストールごとの `configuration` インストーラが入力した値）、 `secrets`および公開 URL（`environment.integration.urls.publicEndpoint`).
+- **OAuth** に対する外部プロバイダー経由の認証は、定型パターンです: `ボタン`型の設定プロパティで、その `callback_url` が `createOAuthHandler({...})` にルーティングされ、client id/secret は `secrets`から取得します。リダイレクトや token exchange を手書きしないでください。
+- **インテグレーション内から GitBook API を呼び出す**ときは、 `context.api` （認証済みの `@gitbook/api` クライアント）を使い、raw token から独自クライアントを構築しないでください。
+
+## ContentKit: UI の構築
+
+ContentKit はコンポーネントの語彙です `render` が返せるもの: レイアウト（`block`, `vstack`, `hstack`, `divider`）、表示（`box`, `card`, `text`, `画像`, `markdown`）、およびインタラクティブ要素（`ボタン`, `textinput`, `選択して`, `switch`, `checkbox`, `radio`, `codeblock`, `webframe`, `モーダル`）です。インタラクティビティのモデルを一言でいうと: 入力は値を `state` キーにバインドし、ボタンは action を送出し、あなたの `action` reducer が新しい state を返し、GitBook が再レンダーします。
+
+を読んでください `references/contentkit.md` は、単純なボタン以外のコンポーネントを書く前に読んでください。完全な prop 表に加え、推測しにくいパターンがすべて載っています: ライブプレビュー用の動的 state バインディング、webframe `postMessage` 通信、 `returnValue`を使うモーダル、 `@editor.node.updateProps`による props の永続化、 `@link.unfurl` \+ `urlUnfurl` によるリンクの展開、manifest パターン、ブロックの Markdown コードブロックへのシリアライズ。
+
+## 公開と共有
+
+マニフェストの visibility が到達範囲を制御します:
+
+- `private` （デフォルト）— 所有組織のメンバーのみがインストール可能。社内ツールに適しています。開発中はここに留めてください。
+- `unlisted` — 任意の組織がインストール可能ですが、共有インストールリンク経由のみです。特定の顧客やベータテスターへの共有に適しています。
+- `public` — 誰でもインストール可能。インテグレーションマーケットプレイスに提出する前に必要です（これは別のレビュー प्रक्रियाです。GitBook の「アプリをレビューに提出する」ドキュメントを参照してください）。
+
+再実行 `gitbook publish` してから visibility を変更します。 `public`を提案する前に、マニフェストが提出可能か確認してください: `アイコン`, `summary` （Markdown、2048 文字以下）、 `previewImages` （1600×800）、 `categories`, `externalLinks`.
+
+## 作業スタイル
+
+- **新規開始時は手作業ではなく CLI でスキャフォールドする** のがよいです — `gitbook new` マニフェスト、TypeScript 設定、 `@gitbook/runtime` のバージョンを正しく設定します。
+- **ブロックの ID チェーンを追跡する** （manifest `blocks[].id` ↔ `componentId`）ことを、コンポーネントがうまく動かないときは毎回行ってください。
+- **秘密情報はマニフェストファイル自体から外に出しておきます** — 常に `${{ env.X }}` の間接参照を使い、リテラル値は使わないでください。
+- **ユーザーの目的が <em><strong>**GitBookの外で**</strong></em> GitBook** からのコンテンツやサイトの自動化（REST API を叩くスクリプト、CI パイプライン）である場合、インテグレーションは適切なツールではないかもしれません。個人トークンを使うプレーンな API の方が簡単です。コードを *内部で* 動かす必要があるとき、つまりブロック、設定 UI、イベント反応、インストーラに代わっての OAuth のときに、インテグレーションは真価を発揮します。
+
+## 参照
+
+- `references/manifest.md` — すべての `gitbook-manifest.yaml` フィールド、すべての scopes、設定プロパティ型、secrets、CLI コマンドリファレンス、インストール/設定フロー。
+- `references/runtime.md` — `createIntegration` / `createComponent` / `createOAuthHandler` のシグネチャ、イベントカタログ、 `context.environment` 形、HTTP の入出力。
+- `references/contentkit.md` — props、組み込み action、インタラクティビティのレシピ（動的バインディング、webframes、modals、unfurling、Markdown シリアライズ）を含む完全なコンポーネントリファレンス。

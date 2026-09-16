@@ -1,0 +1,168 @@
+---
+title: 配置“测试它”按钮
+metaTitle: 配置“测试它”按钮 | GitBook Documentation
+ogImage: https://test-dai.imgix.net/org-4afef969-21f9-40f3-b5b8-b06c8b6cf68f/doc-22a3b060-9539-4176-97e4-49120e02f5d1/0a5a1a9630785855-organizations-d8f63b60-89ae-11e7-8574-5927d48c4877-sites-site_p4Xo4-socialprevie.jpg?fm=auto&auto=compress%2Cformat
+---
+
+你可以使用多个 OpenAPI 扩展在 GitBook 中配置“测试它”按钮及其配套窗口。这些扩展可以帮助改进并配置用户的测试套件。
+
+### 隐藏“测试它”按钮
+
+你可以通过添加 `x-hideTryItPanel` 到某个端点，或你的 OpenAPI 规范的根级别。
+
+```yaml title="openapi.yaml"
+openapi: '3.0'
+info: ...
+tags: [...]
+paths:
+  /example:
+    get:
+      summary: 示例摘要
+      description: 示例描述
+      operationId: examplePath
+      responses: [...]
+      parameters: [...]
+      x-hideTryItPanel: true
+```
+
+### 代理“测试它”请求
+
+某些 API 会阻止浏览器请求，通常是因为 CORS。
+
+路由 <strong>“测试它”</strong> 通过在你的规范中添加 `x-enable-proxy` 到你的规范中。
+
+参见 [使用 OpenAPI 代理](/zh/docs/chuang-jian-nei-rong/openapi/guides/using-openapi-proxy) 中的示例。
+
+### 在测试窗口中启用身份验证
+
+如果你的规范声明了认证，请求运行器才能呈现并应用认证。请在 `components.securitySchemes`中定义方案，然后通过 `security` 将它们全局附加（适用于所有操作）或按操作附加（覆盖全局设置）。
+
+#### 声明你的认证方案
+
+下面是常见模式。在 YAML 中使用直引号。
+
+<Tabs>
+  <Tab title="HTTP Bearer（例如 JWT）">
+    ```yaml
+    openapi: '3.0.3'
+    components:
+      securitySchemes:
+        bearerAuth:
+          type: http
+          scheme: bearer
+          bearerFormat: JWT
+    ```
+  </Tab>
+
+  <Tab title="头部中的 API 密钥">
+    ```yaml
+    openapi: '3.0.3'
+    components:
+      securitySchemes:
+        apiKeyAuth:
+          type: apiKey
+          in: header
+          name: X-API-Key
+    ```
+  </Tab>
+
+  <Tab title="OAuth2（authorizationCode）">
+    ```yaml
+    openapi: '3.0.3'
+    components:
+      securitySchemes:
+        oauth2:
+          type: oauth2
+          flows:
+            authorizationCode:
+              authorizationUrl: 'https://auth.example.com/oauth/authorize'
+              tokenUrl: 'https://auth.example.com/oauth/token'
+              scopes:
+                read:items: '读取项目'
+                write:items: '写入项目'
+    ```
+  </Tab>
+</Tabs>
+
+#### 在全局或按操作应用方案
+
+<Tabs>
+  <Tab title="全局">
+    ```yaml
+    openapi: '3.0.3'
+    security:
+      - bearerAuth: []
+    paths: ...
+    ```
+  </Tab>
+
+  <Tab title="按操作">
+    ```yaml
+    paths:
+      /reports:
+        get:
+          summary: 获取报告
+          security:
+            - apiKeyAuth: []
+          responses:
+            '200':
+              description: 成功
+    ```
+  </Tab>
+</Tabs>
+
+### 使用以下内容控制端点 URL `servers`
+
+请求运行器会针对你在 `servers` 数组中定义的 URL。声明一个或多个服务器；你也可以使用变量对它们进行参数化。
+
+<Tabs>
+  <Tab title="单个服务器">
+    ```yaml
+    openapi: '3.0.3'
+    servers:
+      - url: https://instance.api.region.example.cloud
+    ```
+  </Tab>
+
+  <Tab title="多个服务器">
+    ```yaml
+    servers:
+      - url: https://api.example.com
+        description: 生产环境
+      - url: https://staging-api.example.com
+        description: 预发布环境
+    ```
+  </Tab>
+
+  <Tab title="服务器变量">
+    ```yaml
+    servers:
+      - url: https://{instance}.api.{region}.example.cloud
+        variables:
+          instance:
+            default: acme
+            description: 你的租户或实例 slug
+          region:
+            default: eu
+            enum:
+              - eu
+              - us
+              - ap
+            description: 区域部署
+    ```
+  </Tab>
+
+  <Tab title="按操作的服务器">
+    ```yaml
+    paths:
+      /reports:
+        get:
+          summary: 获取报告
+          servers:
+            - url: https://reports.api.example.com
+          responses:
+            '200':
+              description: 成功
+    ```
+  </Tab>
+</Tabs>

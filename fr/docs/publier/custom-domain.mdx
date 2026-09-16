@@ -1,0 +1,98 @@
+---
+title: Définir un domaine personnalisé
+description: Définissez un domaine personnalisé pour vos sites de documentation
+metaTitle: Définir un domaine personnalisé | GitBook Documentation
+ogImage: https://test-dai.imgix.net/org-4afef969-21f9-40f3-b5b8-b06c8b6cf68f/doc-22a3b060-9539-4176-97e4-49120e02f5d1/0a5a1a9630785855-organizations-d8f63b60-89ae-11e7-8574-5927d48c4877-sites-site_p4Xo4-socialprevie.jpg?fm=auto&auto=compress%2Cformat
+---
+
+<Callout kind="alert">
+  Cette page explique comment configurer un domaine personnalisé et un sous-domaine. Si vous souhaitez configurer un sous-répertoire personnalisé (tel que `example.com/docs`), consultez la [Définir un sous-répertoire personnalisé](/fr/docs/publier/custom-domain/setting-a-custom-subdirectory) page.
+</Callout>
+
+Par défaut, vos sites sont accessibles sur un `[subdomain].gitbook.io` domaine.
+
+Vous pouvez personnaliser cela en définissant un domaine personnalisé, ce qui permet à votre public d’accéder à votre documentation sur le domaine de votre choix.
+
+<Steps>
+  <Step title="Choisissez un sous-domaine" titleType="h3">
+    Lorsque vous choisissez un sous-domaine, vous pouvez utiliser `www` ou un sous-domaine personnalisé. Voici quelques sous-domaines couramment utilisés :
+
+    - `docs.example.com`
+    - `help.example.com`
+    - `developers.example.com`
+  </Step>
+
+  <Step title="Lancer la configuration du domaine personnalisé" titleType="h3">
+    Accédez au site pour lequel vous souhaitez définir le domaine personnalisé. Cliquez sur <strong>Paramètres,</strong> puis choisissez <strong>Configurer un domaine personnalisé.</strong>
+
+    À partir de là, vous verrez une fenêtre dans laquelle vous pourrez saisir le domaine personnalisé choisi à la première étape. Saisissez-le puis cliquez sur <strong>Suivant.</strong>
+  </Step>
+
+  <Step title="Configurer le DNS" titleType="h3">
+    À ce stade, vous verrez une fenêtre avec trois champs : <strong>Type, Nom, Cible.</strong>
+
+    Ce sont les informations que vous utiliserez pour configurer votre domaine personnalisé chez votre fournisseur DNS. Cela se fait *en dehors de* GitBook, chez le fournisseur que vous utilisez pour votre domaine.
+
+    Copiez le contenu des champs **Nom** et **Cible** à utiliser chez votre fournisseur DNS. Chaque fournisseur est différent, donc en cas de doute, vérifiez directement auprès de lui comment ajouter cet enregistrement. Vous devriez pouvoir choisir le **Type** d’enregistrement dans une liste proposée par votre fournisseur.
+
+    Après avoir ajouté l’enregistrement, les modifications peuvent mettre un certain temps à se propager. Nous recommandons **d’attendre au moins 1 heure** avant de passer à l’étape suivante. Cliquez sur **Suivant** quand vous êtes prêt.
+  </Step>
+
+  <Step title="Finaliser votre configuration" titleType="h3">
+    Après avoir ajouté l’enregistrement et une fois celui-ci propagé, il est temps de passer en production ! GitBook vérifiera le domaine, l’enregistrement que vous avez ajouté et configurera automatiquement le certificat SSL pour votre domaine.
+
+    Une fois terminé, vous recevrez une notification et pourrez cliquer sur **Terminer**. Vous pouvez également fermer la fenêtre si besoin ; nous vous enverrons une notification une fois le processus terminé de notre côté.
+  </Step>
+</Steps>
+
+### Modifier ou mettre à jour votre domaine personnalisé
+
+Pour modifier le domaine personnalisé d’un site, ouvrez les **Paramètres**, sous **Général** dans la barre latérale du site, puis cliquez sur **Domaine et URL**. Vous pouvez supprimer le domaine actuel et en ajouter un nouveau, ou modifier la configuration existante.
+
+N’oubliez pas de mettre à jour les paramètres DNS chez votre fournisseur de domaine afin de les faire pointer vers la nouvelle configuration GitBook — le processus est le même que pour la configuration initiale, avec un enregistrement CNAME pointant vers la valeur fournie par GitBook.
+
+### Dépannage
+
+La configuration d’un domaine personnalisé peut parfois rencontrer des obstacles. Ci-dessous, nous décrivons les problèmes fréquents rencontrés au cours de ce processus et proposons des solutions détaillées pour chacun d’eux.
+
+<Expandable title="Mon sous-domaine personnalisé ne fonctionne pas.">
+  Les problèmes de domaine personnalisé sont généralement liés au DNS. Vérifiez votre configuration DNS :
+
+  1. Vérifiez que vous avez créé un **enregistrement CNAME** (et non un enregistrement A) pointant vers la valeur fournie par GitBook.
+  2. Assurez-vous d’utiliser le format de sous-domaine (`docs.votresite.com` ou `www.votresite.com`).
+  3. Si vous utilisez Cloudflare, désactivez le proxy (nuage orange) — l’enregistrement doit être défini sur « DNS uniquement ».
+
+  Problèmes DNS courants :
+
+  - **Enregistrements en conflit** — supprimez tous les enregistrements A, AAAA ou autres existants pour le même sous-domaine.
+  - **Délais TTL** — les modifications DNS peuvent mettre jusqu’à 48 heures à se propager dans le monde entier.
+  - **Enregistrements CAA** — si vous avez des enregistrements CAA, ajoutez `0 issue "pki.goog"` pour autoriser les certificats SSL de GitBook.
+
+  Pour tester votre configuration, utilisez un outil de recherche DNS tel que [WhatsMyDNS](https://www.whatsmydns.net/#CNAME) pour vérifier que votre enregistrement CNAME pointe vers la bonne adresse GitBook. Si les problèmes persistent après 48 heures, contactez l’assistance avec le nom de votre domaine et la valeur CNAME fournie par GitBook.
+</Expandable>
+
+<Expandable title="Erreur SSL : une erreur s’est produite lors de la provision de votre certificat SSL.">
+  Lorsqu’un domaine personnalisé est défini pour votre organisation, groupe ou section, nous configurons un certificat SSL de notre côté afin que votre documentation se charge de manière sécurisée, via HTTPS.<br /><br />Cela se fait automatiquement lorsque vous définissez votre domaine personnalisé — vous n’avez pas besoin d’acheter ou de configurer un certificat SSL.
+
+  Il arrive parfois que des erreurs se produisent à cette étape, généralement lorsque l’enregistrement CNAME du domaine personnalisé n’a pas encore été propagé.
+
+  Dans ces cas, nous pouvons recommander ce qui suit :
+
+  1. Vérifiez que votre enregistrement CNAME est correctement configuré.<br />Veuillez consulter notre page sur la configuration du DNS pour vous aider.<br />Si l’enregistrement CNAME est incorrect, nous ne pourrons pas configurer le certificat SSL et terminer la configuration du domaine personnalisé.
+  2. Autorisez <em>**au moins une heure**</em> entre la configuration de l’enregistrement CNAME et la finalisation de la configuration du domaine personnalisé.
+  3. Vérifiez si le CNAME a été propagé. Vous pouvez essayer d’utiliser un outil de recherche DNS tiers, tel que [WhatsMyDNS](https://www.whatsmydns.net/), pour savoir ce que les serveurs considèrent comme correct pour votre enregistrement CNAME.
+  4. Si vous utilisez Cloudflare, veuillez confirmer que vous n’avez pas l’enregistrement proxy [comme expliqué ici](https://developers.cloudflare.com/fundamentals/setup/manage-domains/pause-cloudflare/#disable-proxy-on-dns-records).
+</Expandable>
+
+<Expandable title="Erreur de domaine déjà connecté : votre sous-domaine est déjà configuré pour un contenu différent.">
+  Un domaine personnalisé attribué à un site doit être unique. Tenter d’utiliser le même domaine personnalisé à plusieurs endroits entraînera une erreur.
+
+  Si cela se produit, vous pouvez cliquer sur le lien dans le message d’erreur pour consulter le contenu auquel le domaine personnalisé est déjà connecté. Cela peut vous aider à décider de la prochaine étape.
+
+  Il est également possible que vous n’ayez pas accès au contenu — dans ce cas, contactez l’équipe d’assistance et elle pourra vous aider à déterminer les étapes suivantes.
+
+  La solution à cette erreur sera toujours l’une de ces deux choses :
+
+  1. Choisissez un autre domaine personnalisé ; ou
+  2. Dissociez le domaine personnalisé du contenu auquel il est déjà connecté, puis reconnectez-le au nouveau contenu.
+</Expandable>

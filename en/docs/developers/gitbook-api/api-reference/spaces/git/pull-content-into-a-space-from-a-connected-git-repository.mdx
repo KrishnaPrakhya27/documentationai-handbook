@@ -1,0 +1,69 @@
+---
+title: Pull content into a space from a connected Git repository
+metaTitle: Pull content into a space from a connected Git repository | Developers | GitBook Documentation
+ogImage: https://test-dai.imgix.net/org-4afef969-21f9-40f3-b5b8-b06c8b6cf68f/doc-22a3b060-9539-4176-97e4-49120e02f5d1/0a5a1a9630785855-organizations-d8f63b60-89ae-11e7-8574-5927d48c4877-sites-site_p4Xo4-socialprevie.jpg?fm=auto&auto=compress%2Cformat
+---
+
+Triggers an import from provided Git repository into the space, updating the space's content to match the repository (if not standalone). This is an async operation — it runs in the background after the request returns 204.
+
+**POST** `/spaces/{spaceId}/git/import`
+
+**Parameters**
+
+<ParamField header="Authorization" param-type="string" />
+
+<ParamField path="spaceId" param-type="string" required={true}>
+  The unique id of the space
+</ParamField>
+
+**Request body**
+
+<ParamField body="url" param-type="string" required={true}>
+  URL of the Git repository to import. It can contain basic auth credentials.
+</ParamField>
+
+<ParamField body="ref" param-type="string" required={true}>
+  Git ref to import in the format "refs/heads/main"
+</ParamField>
+
+<ParamField body="repoCacheID" param-type="string" deprecated={true}>
+  Unique identifier to use to cache the Git repository across multiple operations.
+</ParamField>
+
+<ParamField body="repoTreeURL" param-type="string">
+  URL to use as a prefix for external file references.
+</ParamField>
+
+<ParamField body="repoCommitURL" param-type="string">
+  URL to use as a prefix for the commit URL.
+</ParamField>
+
+<ParamField body="repoProjectDirectory" param-type="string">
+  Path to a root directory for the project in the repository.
+</ParamField>
+
+<ParamField body="timestamp" param-type="string" />
+
+<ParamField body="force" param-type="boolean" />
+
+<ParamField body="standalone" param-type="boolean">
+  If true, the import will generate a revision without updating the space primary content.
+</ParamField>
+
+<ParamField body="gitInfo" param-type="object">
+  Update metadata about the Git provider on the space
+
+  <Expandable title="Object Properties">
+    <ParamField body="provider" param-type="string" enum="github,gitlab">
+      The git provider
+    </ParamField>
+
+    <ParamField body="url" param-type="string">
+      The repository's tree URL
+    </ParamField>
+  </Expandable>
+</ParamField>
+
+**Responses**
+
+`204` Operation to import the repository has been queued.

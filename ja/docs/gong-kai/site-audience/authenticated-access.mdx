@@ -1,0 +1,41 @@
+---
+title: 認証付きアクセス
+description: 公開コンテンツにカスタム認証を設定します
+metaTitle: 認証付きアクセス | GitBook Documentation
+ogImage: https://test-dai.imgix.net/org-4afef969-21f9-40f3-b5b8-b06c8b6cf68f/doc-22a3b060-9539-4176-97e4-49120e02f5d1/0a5a1a9630785855-organizations-d8f63b60-89ae-11e7-8574-5927d48c4877-sites-site_p4Xo4-socialprevie.jpg?fm=auto&auto=compress%2Cformat
+---
+
+認証付きアクセスを使うと、コンテンツを公開しながら、閲覧したい訪問者には認証を要求できます。有効にすると、GitBook は認証プロバイダーにコンテンツへのアクセス権限の管理を任せます。
+
+<Image src="https://test-dai.imgix.net/org-4afef969-21f9-40f3-b5b8-b06c8b6cf68f/doc-22a3b060-9539-4176-97e4-49120e02f5d1/d03f9bc4372e817e-spaces-NkEGS7hzeqa35sMXQZ4X-uploads-htkyhDNCjMpzhHtUkBSe-26_01_06_authenticated_.png?fm=auto&auto=compress%2Cformat" alt="A screenshot showing a login screen for docs behind authenticated access" caption="公開済みのドキュメントにサインインを追加します。" />
+
+### ユースケース
+
+認証付きアクセスの一般的なユースケースには、次のようなものがあります:
+
+- 有料顧客、見込み顧客、またはパートナーのみがアクセスできるべき機密性の高い製品ドキュメントを公開すること。
+- 自社の従業員のみがアクセスできるべき社内ナレッジベースのコンテンツを公開すること。
+
+### 仕組み
+
+認証付きアクセスを設定する際に選べる方法は 2 つあります:
+
+1. 当社の認証連携のいずれかをインストールすること — 現在、Okta、Azure、Auth0 をサポートしています。私たちは **強く推奨します** この方法は、当社がサポートしている認証プロバイダーを使用している場合におすすめです。
+2. 認証を処理するための独自のサーバーを作成し、ホストします。さまざまな技術を使用できますが、選んだソリューションの実装と保守はあなた次第です。
+
+### 組み込みのログインおよびログアウトURL
+
+GitBook では、公開サイトでのサインインとサインアウト用の組み込みURLを利用できます:
+
+- `<publishedSiteURL>/~gitbook/auth/login`
+- `<publishedSiteURL>/~gitbook/auth/logout`
+
+ログインURLは、サイトのヘッダーリンクなど、サインインリンクを表示したい場所ならどこでも使えます。
+
+訪問者がログインURLを開くと、GitBook はそのサイトに設定された認証バックエンドへリダイレクトします。これは、連携バックエンドでもカスタムバックエンドでも動作します。
+
+GitBook はさらに次のものも追加します `location` 訪問者が最初に開いたページに一致するクエリパラメータ。バックエンドはその値を使って、サインイン後に同じページへ戻すことができます。
+
+ログアウトURLを使って、訪問者を GitBook セッションからサインアウトさせます。
+
+に移動します [認証済みアクセスを有効にする](/ja/docs/gong-kai/site-audience/authenticated-access/enabling-authenticated-access) サイトの保護されたアクセスの設定を始めるには。

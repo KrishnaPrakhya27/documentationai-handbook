@@ -1,0 +1,60 @@
+---
+title: Ajouter des exemples de code personnalisés
+description: Découvrez comment configurer des exemples de code personnalisés à afficher avec vos points de terminaison d’API
+metaTitle: Ajouter des exemples de code personnalisés | GitBook Documentation
+ogImage: https://test-dai.imgix.net/org-4afef969-21f9-40f3-b5b8-b06c8b6cf68f/doc-22a3b060-9539-4176-97e4-49120e02f5d1/0a5a1a9630785855-organizations-d8f63b60-89ae-11e7-8574-5927d48c4877-sites-site_p4Xo4-socialprevie.jpg?fm=auto&auto=compress%2Cformat
+---
+
+GitBook peut générer automatiquement des exemples de code génériques pour chaque opération d’API. Si vous préférez présenter des extraits personnalisés ou plus détaillés, ajoutez `x-codeSamples` à votre définition OpenAPI. De cette façon, vous contrôlez la manière dont vos points de terminaison sont présentés et pouvez proposer des exemples spécifiques à un langage ou à un SDK.
+
+```yaml title="openapi.yaml"
+paths:
+  /users:
+    get:
+      summary: Récupérer les utilisateurs
+      x-codeSamples:
+        - lang: JavaScript
+          label: SDK Node
+          source: |
+            import { createAPIClient } from 'my-api-sdk';
+
+            const client = createAPIClient({ apiKey: 'my-api-key' });
+            client.users.list().then(users => {
+              console.log(users);
+            });
+        - lang: Java
+          label: SDK Java
+          source: |
+            MyApiClient client = new MyApiClient("my-api-key");
+            List<User> users = client.getUsers();
+            System.out.println(users);
+```
+
+**Points clés**
+
+- `x-codeSamples` est un tableau d’objets d’exemples de code.
+- Chaque objet définit :
+
+  - `lang`: La langue du code (par ex. JavaScript, Java).
+  - `label`: Un court libellé pour le bloc de code.
+  - `source`: L’extrait de code réel.
+
+### Guide rapide
+
+<Expandable title="Comment ajouter des exemples de code personnalisés depuis Fern ?">
+  Utilisez des exemples de SDK générés par Fern comme exemples de code personnalisés dans votre définition OpenAPI.
+
+  Ce guide explique comment trouver les exemples générés, les mettre en forme `x-codeSamples`, et les ajouter à une opération d’API.
+</Expandable>
+
+<Expandable title="Comment ajouter des exemples de code personnalisés depuis Stainless ?">
+  Utilisez des exemples de SDK générés par Stainless comme exemples de code personnalisés dans votre définition OpenAPI.
+
+  Ce guide explique comment trouver les exemples générés, les mettre en forme `x-codeSamples`, et les ajouter à une opération d’API.
+</Expandable>
+
+<Expandable title="Comment ajouter des exemples de code personnalisés depuis HeyAPI ?">
+  Utilisez des exemples de SDK générés par HeyAPI comme exemples de code personnalisés dans votre définition OpenAPI.
+
+  Ce guide explique comment trouver les exemples générés, les mettre en forme `x-codeSamples`, et les ajouter à une opération d’API.
+</Expandable>

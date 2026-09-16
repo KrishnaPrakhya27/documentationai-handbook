@@ -1,0 +1,90 @@
+---
+title: 角色
+description: GitBook 中每种角色的详细说明——每种角色能做什么，以及如何使用它们来控制整个组织的访问权限
+metaTitle: 角色 | GitBook Documentation
+ogImage: https://test-dai.imgix.net/org-4afef969-21f9-40f3-b5b8-b06c8b6cf68f/doc-22a3b060-9539-4176-97e4-49120e02f5d1/0a5a1a9630785855-organizations-d8f63b60-89ae-11e7-8574-5927d48c4877-sites-site_p4Xo4-socialprevie.jpg?fm=auto&auto=compress%2Cformat
+---
+
+当你向组织中添加成员时，你可以给他们一个 **默认角色**。此角色将适用于所有继承组织权限的内容。了解默认角色是充分利用 GitBook 处理权限管理方式的关键。
+
+请参阅我们关于 [**权限与继承**](/zh/docs/xie-zuo/member-management/permissions-and-inheritance) 的文档，以全面了解权限如何在 GitBook 的内容中层层传递。
+
+### GitBook 中的角色
+
+角色用于定义成员对内容（以及在管理员的情况下，对组织）的访问和控制级别。
+
+<Callout kind="alert">
+  无论角色如何，组织中的每一位成员都会计入计费所需的成员总数。要了解有关成员管理的更多信息，请参阅 [邀请和移除成员](/zh/docs/xie-zuo/member-management/invite-members-to-your-organization).
+</Callout>
+
+随着你在列表中向上， प्रत्येक角色都会逐步获得更高的访问权限。让我们从最低访问级别开始，逐步往上看：
+
+<Expandable title="访客角色">
+  访客角色是 GitBook 中一个非常特定的角色。访客是指拥有 **没有默认组织角色**的成员。访客在其他方面都像普通用户，只是需要在内容级别明确设置其权限。
+
+  邀请访客加入组织意味着他们只能看到直接添加给他们的内容。如果你想向组织中添加外部利益相关者或承包商，但又不想担心默认授予他们任何内容的访问权限，这非常适合。
+
+  <Callout kind="alert">
+    访客成员在计费时会计入组织成员总数。
+  </Callout>
+</Expandable>
+
+<Expandable title="读者">
+  读者是 GitBook 中最基础的角色：它提供只读访问权限。
+
+  <Callout kind="info">
+    所有套餐中的组织都需要为读者席位付费。
+  </Callout>
+</Expandable>
+
+<Expandable title="评论者">
+  评论者拥有与读者相同的只读访问权限，但他们也可以对内容和空间发表评论（有关其工作方式的更多信息，请参阅我们的 [comments](/zh/docs/xie-zuo/comments) 文档）。
+</Expandable>
+
+<Expandable title="编辑器">
+  编辑者可以像评论者一样阅读和评论，但他们还可以通过几种方式编辑内容。首先，对于处于 **open** 替换为 [实时编辑](/zh/docs/xie-zuo/live-edits)其次，对于已启用实时编辑的空间 **锁定**时，编辑者可以创建并提交 [变更请求](/zh/docs/xie-zuo/change-requests)。编辑者不能合并变更请求。
+</Expandable>
+
+<Expandable title="审核者">
+  审阅者拥有与编辑者相同的所有权限，不过他们还可以合并自己和他人的变更请求。
+</Expandable>
+
+<Expandable title="创建者">
+  创建者本质上是内容级管理员。他们拥有与审阅者相同的所有权限，不过他们还可以创建和删除空间、集合和站点，合并变更请求，并在内容级别管理权限。
+
+  <Callout kind="info">
+    如果创建者同时也是另一个 GitBook 组织中的创建者或管理员，他们可以 [在组织之间移动内容](/zh/docs/chuang-jian-nei-rong/content-structure/space#move-a-space).
+  </Callout>
+</Expandable>
+
+<Expandable title="管理">
+  管理员就像你组织中的超级用户——他们拥有完全访问权限！如果你愿意让某人进行可能影响计费、管理成员以及总体上掌控组织各个方面的更改，就将其设为管理员。
+
+  <Callout kind="info">
+    如果管理员同时也是另一个 GitBook 组织中的创建者或管理员，他们可以 [在组织之间移动内容](/zh/docs/chuang-jian-nei-rong/content-structure/space#move-a-space).
+  </Callout>
+</Expandable>
+
+### 文档站点上的角色
+
+当角色应用于 [站点级别](/zh/docs/xie-zuo/member-management/permissions-and-inheritance)时，只有 **管理员** 管理员可以更改站点设置。其他所有角色仍然可以在其有权访问的空间中贡献和编辑内容——他们只是无法管理站点本身。下表显示了每个角色如何对应其站点权限。
+
+| 权限级别 | 站点权限 |
+| --- | --- |
+| 管理员 | 编辑和查看 |
+| 创建者 | 查看 |
+| 审核者 | 查看 |
+| 编辑器 | 查看 |
+| 评论者 | 查看 |
+| 读者 | 查看 |
+| 无访问权限 | 无法查看 |
+
+### **读者角色和公开文档读者**
+
+读者角色是已受邀加入组织且拥有付费席位的成员。公开文档读者是无需邀请或付费席位的站点访客。
+
+|  | 读者角色（你的组织） | 公开文档读者（站点访客） |
+| --- | --- | --- |
+| **需要邀请** | 是 | 否 |
+| **付费席位** | 是 | 否 |
+| **内容访问权限** | 已发布和未发布（在获得权限的情况下） | 仅已发布内容 |

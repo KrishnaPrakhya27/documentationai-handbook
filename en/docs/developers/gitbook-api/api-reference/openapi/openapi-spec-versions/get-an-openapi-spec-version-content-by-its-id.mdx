@@ -1,0 +1,53 @@
+---
+title: Get an OpenAPI spec version content by its ID
+metaTitle: Get an OpenAPI spec version content by its ID | Developers | GitBook Documentation
+ogImage: https://test-dai.imgix.net/org-4afef969-21f9-40f3-b5b8-b06c8b6cf68f/doc-22a3b060-9539-4176-97e4-49120e02f5d1/0a5a1a9630785855-organizations-d8f63b60-89ae-11e7-8574-5927d48c4877-sites-site_p4Xo4-socialprevie.jpg?fm=auto&auto=compress%2Cformat
+---
+
+**GET** `/orgs/{organizationId}/openapi/{specSlug}/versions/{versionId}/content`
+
+**Parameters**
+
+<ParamField header="Authorization" param-type="string" />
+
+<ParamField path="organizationId" param-type="string" required={true}>
+  The unique id of the organization
+</ParamField>
+
+<ParamField path="specSlug" param-type="string" required={true}>
+  Slug of the OpenAPI specification
+</ParamField>
+
+<ParamField path="versionId" param-type="string" required={true}>
+  The unique ID of the OpenAPI specification version
+</ParamField>
+
+**Responses**
+
+`200` OK
+
+<ResponseField name="filesystem" field-type="object" required={true}>
+  Filesystem containing all specifications.
+</ResponseField>
+
+<ResponseField name="urls" field-type="object" required={true}>
+  URLs associated with the specification content.
+
+  <Expandable title="Object Properties">
+    <ResponseField name="source" field-type="string" required={true} />
+
+    <ResponseField name="public" field-type="string" required={true}>
+      Publicly accessible URL for the specification. Available for public specs (proxy URL for stored specs, source URL for external specs). Null for private specs. Can be used for the "Try it" feature.
+    </ResponseField>
+  </Expandable>
+</ResponseField>
+
+`404` Not Found
+
+<ResponseField name="error" field-type="object" required={true}>
+  <Expandable title="Object Properties">
+    <ResponseField name="code" field-type="integer" required={true} enum="404" />
+
+    <ResponseField name="message" field-type="string" required={true} />
+  </Expandable>
+</ResponseField>

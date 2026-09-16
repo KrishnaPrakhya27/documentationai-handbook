@@ -1,0 +1,59 @@
+---
+title: Cloudflareでサブディレクトリを設定する
+description: Cloudflareを使って、/docsサブディレクトリでドキュメントをホストします
+metaTitle: Cloudflareでサブディレクトリを設定する | GitBook Documentation
+ogImage: https://test-dai.imgix.net/org-4afef969-21f9-40f3-b5b8-b06c8b6cf68f/doc-22a3b060-9539-4176-97e4-49120e02f5d1/0a5a1a9630785855-organizations-d8f63b60-89ae-11e7-8574-5927d48c4877-sites-site_p4Xo4-socialprevie.jpg?fm=auto&auto=compress%2Cformat
+---
+
+<Steps>
+  <Step title="GitBookサイトの設定" titleType="h3">
+    GitBook の組織で、サイドバーのドキュメントサイト名をクリックし、次に **サイトを管理** または **設定** タブを開いて **ドメインとリダイレクト** セクションを開き、「Subdirectory」の下で、クリック **サブディレクトリを設定**.
+
+    ドキュメントをホストしたいURLを入力してください。次に、ドキュメントにアクセスするためのサブディレクトリを指定します。例： `tomatopy.pizza/docs`、そして **設定**.
+
+    次の項目の下で **追加設定**、プロキシ URL が表示されます。次の手順で Cloudflare Worker を設定するときにこれを使用します。クリップボードにコピーしてください。
+  </Step>
+
+  <Step title="Cloudflare Worker を作成する" titleType="h3">
+    Cloudflare アカウントにサインインし、次へ移動します **Workers & Pages**
+
+    をクリックするか、 **作成** ボタン。
+
+    「アプリケーションを作成」画面で、次をクリックします **Hello world** 「テンプレートから開始」カード内のボタン。
+
+    Worker に、より分かりやすい名前を付けます。たとえば `mydocs-subpath-proxy`。Worker の名前変更が終わったら、次をクリックします **デプロイ**.
+  </Step>
+
+  <Step title="カスタムドメインを設定する" titleType="h3">
+    Worker には、使用できる既定の URL が割り当てられます。代わりにカスタムドメインを設定するには（たとえば `tomatopy.pizza`）、次をクリックします <strong>設定。</strong> 次に、「Domains & Routes」セクションで、次をクリックします <strong>\+ Add</strong>.
+
+    開いた「Domains & Routes」トレイで、次をクリックします **カスタムドメイン**、次に続くテキストボックスにカスタムドメインを入力します。カスタムドメインを指定するときは、 *含めないで* サブディレクトリは含めないでください。たとえば、 `tomatopy.pizza` は正しく、 `tomatopy.pizza/docs` は正しくありません。
+  </Step>
+
+  <Step title="Worker コードを更新する" titleType="h3">
+    Worker のデプロイが完了したら、次をクリックします **コードを編集**、または次をクリックします **プロジェクトに進む**、その後 **コードを編集** 右上のボタン。
+
+    開いたコードエディターで、サンプルコードを次のスニペットに置き換えます：
+
+    ```javascript
+    export default {
+      fetch(request) { 
+        const SUBDIRECTORY = '/docs';
+        const url = new URL(request.url);
+        const target = "<INSERT YOUR PROXY URL FROM GITBOOK>" + url.pathname.slice(SUBDIRECTORY.length);
+        const proxy = new URL(
+          target.endsWith('/') ? target.slice(0, -1) : target 
+        )
+        proxy.search = url.search;
+        return fetch(new Request(proxy, request));
+      }
+    };
+    ```
+
+    <Callout kind="info">
+      最初の手順で GitBook から取得したプロキシ URL を使って、5 行目の URL を必ず更新してください。
+    </Callout>
+
+    それが完了したら、次をクリックします **デプロイ**。この処理には少し時間がかかる場合があります。完了したら、URL にアクセスしたときにドキュメントサイトが表示されるはずです！
+  </Step>
+</Steps>

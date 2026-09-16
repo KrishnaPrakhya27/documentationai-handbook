@@ -1,0 +1,176 @@
+---
+title: 连接
+description: 将外部来源连接到 GitBook Assistant 和 GitBook Agent
+metaTitle: 连接 | GitBook Documentation
+ogImage: https://test-dai.imgix.net/org-4afef969-21f9-40f3-b5b8-b06c8b6cf68f/doc-22a3b060-9539-4176-97e4-49120e02f5d1/0a5a1a9630785855-organizations-d8f63b60-89ae-11e7-8574-5927d48c4877-sites-site_p4Xo4-socialprevie.jpg?fm=auto&auto=compress%2Cformat
+---
+
+连接可让你将外部内容引入你的文档站点。
+
+已连接内容可以显示在 [AI 助手](/zh/docs/wei-du-zhe-ti-gong-de-ai/gitbook-ai-assistant)。某些连接还可以帮助 GitBook 生成变更请求。
+
+要添加连接，请打开你站点的 **设置** 并点击 **连接**.
+
+<Image src="https://test-dai.imgix.net/org-4afef969-21f9-40f3-b5b8-b06c8b6cf68f/doc-22a3b060-9539-4176-97e4-49120e02f5d1/380d938a3f86e215-spaces-NkEGS7hzeqa35sMXQZ4X-uploads-TO7pu11GsUcHQGwM4fRw-2026-07-13_connections-.png?fm=auto&auto=compress%2Cformat" alt="" />
+
+### 可用连接
+
+你可以连接支持平台、开发者社区和其他内容来源：
+
+- Intercom、Zendesk、Freshdesk、Front、HubSpot、Zoho Desk 和 Pylon
+- GitHub Discussions 和 GitHub Issues
+- YouTube、网站或 MCP 服务器
+
+### 连接如何工作
+
+<Steps>
+  <Step title="连接来源" titleType="h3">
+    选择一种来源类型。然后进行授权，或输入你希望 GitBook 导入的 URL。
+
+    <Callout kind="info">
+      如果你连接 YouTube，请输入频道 ID——不要输入频道名称。
+
+      频道名称不适用于此来源。
+
+      在 YouTube Studio 中，打开 **设置** → **频道** → **高级设置**.
+
+      复制 **频道 ID**.
+
+      如果你的频道 URL 包含 `/channel/`，请复制其后的部分 `/channel/`.
+    </Callout>
+
+    每个连接都会从该来源创建一条记录流，例如问题、讨论、工单、对话、页面或视频。
+  </Step>
+
+  <Step title="GitBook 会同步记录" titleType="h3">
+    保存连接后，GitBook 会开始从该来源同步记录。
+
+    在连接列表中，你可以查看同步状态、记录数量和上次同步时间。
+
+    已连接的 URL 默认每天刷新一次。你也可以从你站点的 **设置** → **连接**.
+  </Step>
+
+  <Step title="选择记录的使用方式" titleType="h3">
+    对于每个连接，你可以选择其记录是否显示在搜索和 GitBook Assistant 中，以及是否帮助 GitBook 生成变更请求。
+
+    你还可以调整连接的搜索排序，以提高或降低其记录的优先级。
+  </Step>
+</Steps>
+
+### 连接设置
+
+编辑连接时，你可以配置以下选项：
+
+#### 标签
+
+使用 **标签** 为连接指定一个清晰的名称。
+
+这会让你在连接列表中更容易识别该来源，尤其是在你连接了多个仓库、网站或频道时。
+
+#### 自动生成变更请求
+
+<Callout kind="alert">
+  自动生成变更请求目前处于早期访问阶段。
+
+  参见 [自动改进文档](/zh/docs/gitbook-agent/automatic-docs-improvements) 了解如何申请访问权限
+</Callout>
+
+开启 **自动生成变更请求** 以便让 GitBook 从连接的记录中学习并建议文档更新。
+
+GitBook 可以使用这些记录创建变更请求，并提供建议修改供你的团队审核。
+
+#### 在搜索 / 助手中公开
+
+开启 **在搜索 / 助手中公开** 使访客可以搜索此连接中的记录，并可用于回答问题。
+
+这使已连接内容可以出现在你站点的 AI 驱动搜索体验以及 GitBook Assistant 的回复中。
+
+<Callout kind="alert">
+  启用 **在搜索 / 助手中公开** 后，该连接中的记录将对任何可以访问该站点的人可用——如果站点对外共享，也包括外部访客。
+</Callout>
+
+#### 搜索排名提升
+
+使用 **搜索排名提升** 以在搜索中提高或降低连接记录的优先级。
+
+如果此来源应更频繁地出现，请提高该值。如果此来源应比你的主要文档权重更低，请降低该值。
+
+### 连接器详情
+
+此部分中的所有连接器都可以为以下内容提供上下文： [AI 助手](/zh/docs/wei-du-zhe-ti-gong-de-ai/gitbook-ai-assistant)。GitBook Agent 可以使用已解决记录来识别 [内容缺口](/zh/docs/gitbook-agent/automatic-docs-improvements) 并建议文档更新。
+
+#### Intercom
+
+GitBook 会索引已解决的对话，这些对话至少有一条来自人工或 AI 支持代理的回复。它不会索引未开放、未解决或垃圾对话。
+
+要连接 Intercom，请使用具有对对话读取权限的 API 密钥。你可以自行控制其作用范围和过期时间。
+
+#### Zendesk
+
+GitBook 会索引已解决的对话，这些对话至少有一条来自人工或 AI 支持代理的回复。它不会索引未开放、未解决或垃圾对话。
+
+要连接 Zendesk，请输入你的 Zendesk 子域，例如 `gitbook.zendesk.com`。你还需要一个具有对对话读取权限的 API 密钥。你可以自行控制其作用范围和过期时间。
+
+#### Pylon
+
+GitBook 会索引已解决的对话，这些对话至少有一条来自人工或 AI 支持代理的回复。它不会索引未开放、未解决或垃圾对话。
+
+要连接 Pylon，请使用具有对对话读取权限的凭据。
+
+#### GitHub Discussions
+
+GitBook 会索引已解决且至少有一条回复的讨论。它不会索引未解决或垃圾讨论。
+
+要连接 GitHub Discussions，请使用具有对讨论读取权限的凭据。
+
+#### GitHub Issues
+
+GitBook 会索引已解决的问题。它不会索引开放、未解决或垃圾对话。
+
+要连接 GitHub Issues，请使用具有对问题读取权限的凭据。
+
+#### 为这些连接器存储的数据
+
+GitBook 只存储对话、讨论或问题。我们不存储元数据或个人信息。
+
+GitBook 会在存储前对敏感信息进行脱敏。我们不会在索引记录中存储敏感信息。
+
+### 数据保留与隐私
+
+#### GitBook 会索引什么？
+
+GitBook 会索引你连接中的内容，并将其用于搜索、变更请求和其他内容驱动功能。我们从连接中索引的每一项都称为 <strong>记录。</strong> 记录的示例包括 Intercom 工单、Freshdesk 工单、网站页面等。
+
+我们使用记录来建议内容更改，并为在 GitBook 中运行的代理提供额外上下文。
+
+只要来源保持连接，我们就会保留记录。如果你移除连接，我们会删除所有存储的记录。我们不会删除使用这些记录作为上下文生成的任何内容，也不会从任何已存储的 AI 对话日志中移除这些记录的内容。
+
+例如，你可能连接了 Intercom，而 GitBook 根据一张已关闭的 Intercom 支持工单建议了一项文档更改。如果之后你移除 Intercom 连接，我们所有 Intercom 特定的存储数据都会被删除，但这些变更请求仍会保留。
+
+#### 常见问题
+
+<Expandable title="你们对 PII 的政策是什么？">
+  一般来说，GitBook 只会请求可用作上下文的来源字段（有关各来源的更多细节，请参阅连接器页面）。
+
+  当我们摄取一条记录时，会先经过 PII 脱敏流程。第一步是在内存中脱敏任何电子邮件、电话号码、地址和其他个人信息。
+
+  然后我们使用第三方 LLM 进行第二步 PII 处理。这是一个符合 ZDR 的不存储请求，不会存储在第三方服务器上，也不会用于任何训练。
+
+  在我们进行预处理期间，PII 可能会在我们的服务器上保留几分钟，但我们只存储处理后的记录。
+</Expandable>
+
+<Expandable title="你们会把数据发送给任何第三方吗？">
+  在完成初始的内部 PII 脱敏后，我们会使用第三方来进一步脱敏 PII。
+
+  在创建变更请求和回复用户问题时，我们也会在第三方服务中使用已脱敏的记录内容。
+
+  例如，在使用 GitBook Agent 撰写内容时，代理可能会包含来自外部记录的内容作为额外上下文。
+</Expandable>
+
+<Expandable title="GitBook 是否会将数据用于任何模型训练，无论是自身还是通过第三方？">
+  不会，我们不使用记录数据进行训练，并且也会向第三方提供商确认他们同样不会这样做。
+</Expandable>
+
+<Expandable title="我可以限制 GitBook 获取哪些记录吗？">
+  特定连接器的要求和已索引记录列在 [连接器详情](#connector-details).
+</Expandable>

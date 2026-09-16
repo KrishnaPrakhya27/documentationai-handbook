@@ -1,0 +1,30 @@
+---
+title: 図面
+description: GitBook内で図面を作成し、ページに追加します
+metaTitle: 図面 | GitBook Documentation
+ogImage: https://test-dai.imgix.net/org-4afef969-21f9-40f3-b5b8-b06c8b6cf68f/doc-22a3b060-9539-4176-97e4-49120e02f5d1/0a5a1a9630785855-organizations-d8f63b60-89ae-11e7-8574-5927d48c4877-sites-site_p4Xo4-socialprevie.jpg?fm=auto&auto=compress%2Cformat
+---
+
+GitBook に統合された [Excalidraw](https://excalidraw.com/) エディタで、そのまま GitBook ページに追加できます。
+
+図を作成するには、 `/` 空行で挿入パレットを開き、 **描画**。これにより Excalidraw のツールが入ったポップオーバーが開きます。作業が終わったらポップオーバーを閉じるだけで、図は GitBook ページに表示されます。
+
+GitBook は、このセクション内の図を特別な SVG ファイルとして保存します。これらのファイルの拡張子は `drawing.svg`.
+
+### 描画ブロックの例
+
+<Image src="https://test-dai.imgix.net/org-4afef969-21f9-40f3-b5b8-b06c8b6cf68f/doc-22a3b060-9539-4176-97e4-49120e02f5d1/ddd1a5dc299fc7b1-spaces-NkEGS7hzeqa35sMXQZ4X-uploads-EU4IQ0zVbLLZ2o7ivizA-file-excalidraw.svg?rasterize-bypass=true" alt="GitBook で描かれた図" />
+
+### GitBook AI で描く
+
+描画ブロックを使用しているときは、プロンプトを指定してイラストの生成を GitBook AI に依頼できます。プロンプトを入力して **生成**、または開始するには提案されたプロンプトのいずれかを選択します。
+
+GitBook AI が図の作成を完了したら、ダブルクリックして完全な描画パレットを開き、好きなように編集できます。
+
+図を編集するときは、 **AI を使って生成** ボタンをクリックすると、GitBook AI のプロンプトエディタが再び開き、新しい図を生成できます。
+
+### Markdownでの表記
+
+```markdown
+<img src="https://example.com/file.svg" alt="図の説明の例" class="gitbook-drawing">
+```

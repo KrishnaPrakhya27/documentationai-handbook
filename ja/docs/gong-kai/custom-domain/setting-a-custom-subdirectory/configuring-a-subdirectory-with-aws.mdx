@@ -1,0 +1,232 @@
+---
+title: CloudFrontとRoute 53を使ってAWSでサブディレクトリを設定する
+description: AWS CloudFrontとRoute 53を使って、/docsサブディレクトリでドキュメントをホストします。
+metaTitle: CloudFrontとRoute 53を使ってAWSでサブディレクトリを設定する | GitBook Documentation
+ogImage: https://test-dai.imgix.net/org-4afef969-21f9-40f3-b5b8-b06c8b6cf68f/doc-22a3b060-9539-4176-97e4-49120e02f5d1/0a5a1a9630785855-organizations-d8f63b60-89ae-11e7-8574-5927d48c4877-sites-site_p4Xo4-socialprevie.jpg?fm=auto&auto=compress%2Cformat
+---
+
+<Callout kind="info">
+  このガイドでは、AWS CloudFront と Lambda@Edge を使ってサブディレクトリを設定する方法を説明します。これは AWS ユーザー向けの一つの方法です。別の AWS 構成（たとえば、NGINX を実行している EC2 インスタンスを持つロードバランサーなど）を使っている場合は、リバースプロキシの設定を別に行う必要があるかもしれません。お問い合わせ サポート 代替構成についての案内が必要な場合は。
+</Callout>
+
+<Steps>
+  <Step title="GitBookサイトの設定">
+    GitBook の組織で、サイドバーのドキュメントサイト名をクリックし、次に **サイトを管理** または **設定** タブを開いて **ドメインとリダイレクト** セクションを開き、「Subdirectory」の下で、クリック **サブディレクトリを設定**.
+
+    ドキュメントをホストしたいURLを入力してください。次に、ドキュメントにアクセスするためのサブディレクトリを指定します。例： `example.com/docs`、そして **設定**.
+
+    次の項目の下で **追加設定**すると、プロキシ URL が表示されます。次の手順で Lambda 関数を設定するときにこれを使用します。クリップボードにコピーしてください。
+  </Step>
+
+  <Step title="Lambda@Edge 関数を作成する">
+    AWS コンソールにサインインし、 **Lambda**.
+
+    をクリックするか、 **関数の作成** ボタン。
+
+    選択 **一から作成**、次に:
+
+    - 関数にわかりやすい名前を付けます。たとえば `gitbook-subpath-proxy。`
+    - を選択します **Node.js** をランタイムとして使用します（利用可能な最新バージョンを使用してください）。
+    - アーキテクチャとその他の設定はデフォルトのままにします。
+
+    クリックして **関数の作成**.
+  </Step>
+
+  <Step title="Lambda 関数のコードを更新する">
+    Lambda 関数エディタで、デフォルトのコードを次の内容に置き換えます:
+
+    ```javascript
+    export const handler = async (event) => {
+    	const request = event.Records[0].cf.request;
+    	
+    	// サブディレクトリが /docs でない場合は更新
+    	const subdirectory = '/docs';
+    	
+    	// 以下のプロキシ URL に更新
+    	const target = new URL('<GitBook から取得した proxy URL>');
+
+    	// 書き換え: /docs* -> proxy.gitbook.site
+    	if (request.uri.startsWith(subdirectory)) {
+    		request.uri = target.pathname + request.uri.substring(subdirectory.length);
+
+    		// 末尾のスラッシュがあれば削除
+    		if (request.uri.endsWith('/')) {
+    			request.uri = request.uri.slice(0, -1);
+    		}
+
+    		request.origin = {
+    			custom: {
+    				domainName: target.host,
+    				port: 443,
+    				protocol: 'https',
+    				path: '',
+    				sslProtocols: ['TLSv1.2'],
+    				readTimeout: 30,
+    				keepaliveTimeout: 5,
+    				customHeaders: {},
+    			},
+    		};
+
+    		request.headers['host'] = [{ key: 'host', value: target.host }];
+    		request.headers['x-forwarded-host'] = [{ key: 'x-forwarded-host', value: target.host }];
+    	}
+        
+    	return request;
+    };
+    ```
+
+    <Callout kind="alert">
+      必ず `target` を 8 行目で、最初の手順で GitBook から取得したプロキシ URL に更新してください。これは次のようになります `https://proxy.gitbook.site/sites/site_XXXX`
+    </Callout>
+
+    <Callout kind="alert">
+      また、 `subdirectory` を 5 行目で、次のパスではなく別のサブディレクトリパスを使っている場合は更新してください: `/docs`.
+    </Callout>
+
+    クリックして **デプロイ** して変更を保存します。
+  </Step>
+
+  <Step title="Lambda@Edge 用の Lambda 権限を設定する">
+    CloudFront で Lambda 関数を使用する前に、Lambda@Edge がその関数を引き受けられるように実行ロールを設定する必要があります。
+
+    1. Lambda 関数で、 **設定** タブ
+    2. クリックして **権限** を左側のサイドバーで
+    3. 次の項目の下で **実行ロール**をクリックして IAM で開きます
+    4. をクリックするか、 **信頼関係** タブ
+    5. クリックして **信頼ポリシーを編集**
+    6. 信頼ポリシーを次の内容に置き換えます:
+
+    ```json
+    {
+        "Version": "2012-10-17",
+        "Statement": [
+            {
+                "Effect": "Allow",
+                "Principal": {
+                    "Service": [
+                        "edgelambda.amazonaws.com",
+                        "lambda.amazonaws.com"
+                    ]
+                },
+                "Action": "sts:AssumeRole"
+            }
+        ]
+    }
+    ```
+
+    クリックして **ポリシーを更新** して保存します。
+  </Step>
+
+  <Step title="Lambda 関数を公開する">
+    Lambda@Edge では公開済みのバージョンが必要です（ `$LATEST`).
+
+    1. Lambda 関数で、 **アクション** 右上のドロップダウンをクリックし、
+    2. を選択します **新しいバージョンを公開**
+    3. 必要に応じて「CloudFront 用の初期バージョン」などの説明を追加します
+    4. クリックして **公開**
+    5. <strong>重要:</strong> ページ上部に表示される公開済みバージョンの ARN をコピーしてください（末尾にバージョン番号が付く形式です。たとえば `arn:aws:lambda:us-east-1:123456789:function:gitbook-subpath-proxy:1`)
+
+    <Callout kind="alert">
+      Lambda@Edge 関数は **us-east-1** （米国東部 1（バージニア北部））リージョンで作成する必要があります。別のリージョンで関数を作成した場合は、us-east-1 で作り直す必要があります。
+    </Callout>
+  </Step>
+
+  <Step title="CloudFront ディストリビューションを作成する">
+    に移動します <strong>AWS コンソールで CloudFront を開き、</strong> にクリック **ディストリビューションを作成**.
+
+    次の設定を構成します。指定がない設定はデフォルトのままにしてください。
+
+    **オリジンを指定**
+
+    | 設定 | 値 |
+    | --- | --- |
+    | **オリジンの種類** | その他 |
+    | **カスタムオリジン** | メインの Web サイトのドメイン（例: `example.com`) |
+
+    **キャッシュ設定**
+
+    | 設定 | 値 |
+    | --- | --- |
+    | **キャッシュポリシー** | CachingDisabled |
+    | **オリジンリクエストポリシー** | AllViewerExceptHostHeader |
+
+    クリックして <strong>次に、</strong> お好みのセキュリティ保護を選択してから、 **次へ** をもう一度クリックします。
+
+    クリックして **ディストリビューションを作成**.
+
+    ディストリビューションのデプロイが完了するまで待ちます（ステータスは「In Progress」から「Enabled」に変わります）。数分かかる場合があります。
+  </Step>
+
+  <Step title="Lambda@Edge を CloudFront に関連付ける">
+    CloudFront ディストリビューションがデプロイされたら:
+
+    1. ディストリビューション ID をクリックして設定を開きます
+    2. に移動し、 **ビヘイビア** タブ
+    3. デフォルトのビヘイビアを選択して、 **編集**
+    4. 下にスクロールして **関数の関連付け**
+    5. 次の項目の下で **オリジンリクエスト**、次を選択します **Lambda@Edge**
+    6. 次の場所で **Lambda 関数 ARN** フィールドに、公開した Lambda 関数の ARN を貼り付けます（手順 5 から）
+    7. 確認してください **本文を含める** 必要に応じて関数がリクエスト本文にアクセスできるようにするため
+    8. クリックして **変更を保存**
+  </Step>
+
+  <Step title="ドメインと DNS レコードを設定する">
+    1. CloudFront ディストリビューションのメインページで、 **全般** タブをクリックし、 **代替ドメイン名**、をクリックします **ドメインを追加**
+    2. サブディレクトリを構成するドメインを入力します。例: `example.com` に戻って **次へ**
+    3. 既存の TLS 証明書を選択するか、必要に応じて新規作成し、 **次へ** をもう一度クリックします
+  </Step>
+
+  <Step title="CloudFront から Route 53 DNS レコードを設定する">
+    DNS に Route 53 を使用している場合は、DNS レコードを作成または更新して CloudFront ディストリビューションを指すようにする必要があります。
+
+    1. CloudFront ディストリビューションのメインページのまま、 **全般** タブを開き、その下の、で設定した URL の下に <strong>代替ドメイン名、</strong> をクリックします <strong>Route ドメインを CloudFront にルーティングします。</strong>
+    2. をクリックします **ルーティングを自動的に設定** して、ドメインの A および AAAA の DNS レコードを作成します
+
+    <Callout kind="info">
+      Route 53 を使っていない場合は、DNS プロバイダーの設定を更新して、ドメインを CloudFront ディストリビューションのドメイン名に向ける必要があります。これは CloudFront ディストリビューションの詳細の「Distribution domain name」で確認できます。
+    </Callout>
+  </Step>
+
+  <Step title="設定をテストする">
+    すべての変更が伝播したら（これには 10〜15 分かかることがあります）：
+
+    1. ブラウザを開き、サブディレクトリのパス付きでドメインに移動します（例: `https://example.com/docs`)
+    2. GitBook のドキュメントサイトが表示されるはずです！
+
+    サイトがすぐに読み込まれない場合は、次を試してください:
+
+    - DNS の伝播を待つために数分待つ
+    - ブラウザのキャッシュをクリアするか、シークレットウィンドウを試す
+    - 実行 `nslookup yourdomain.com` をターミナルで実行して、DNS が正しく解決されているか確認する
+    - CloudFront ディストリビューションのステータスが「In Progress」ではなく「Enabled」になっているか確認する
+
+    <Callout kind="success">
+      おめでとうございます！GitBook のドキュメントがカスタムサブディレクトリ経由でアクセスできるようになりました。
+    </Callout>
+  </Step>
+</Steps>
+
+### トラブルシューティング
+
+<strong>Lambda 関数がトリガーされない:</strong>
+
+- Lambda 関数の公開済みバージョンを使用していることを確認してください（ `$LATEST`)
+- Lambda 関数が us-east-1 リージョンにあることを確認してください
+- 信頼ポリシーに次が含まれていることを確認してください `edgelambda.amazonaws.com`
+
+<strong>DNS が解決されない:</strong>
+
+- DNS の変更が伝播するまで時間がかかる場合があります（最大 48 時間ですが、通常はもっと早いです）
+- Route 53 のレコードが正しい CloudFront ディストリビューションを指しているか確認してください
+- 競合する古い DNS レコードを削除したことを確認してください
+
+<strong>SSL 証明書エラー:</strong>
+
+- AWS Certificate Manager の SSL 証明書にカスタムドメインが含まれていることを確認してください
+- CloudFront 用の証明書は us-east-1 リージョンで作成する必要があります
+
+<strong>サブディレクトリが機能しない:</strong>
+
+- 確認してください `SUBDIRECTORY` Lambda 関数内の値が GitBook で設定した内容と一致していること
+- 確認してください `target` Lambda 関数内の
+- CloudFront ログを確認して、リクエストがディストリビューションに到達しているか見てください

@@ -1,0 +1,41 @@
+---
+title: Configurer un sous-répertoire avec Vercel
+description: Hébergez votre documentation dans un sous-répertoire /docs à l’aide de Vercel
+metaTitle: Configurer un sous-répertoire avec Vercel | GitBook Documentation
+ogImage: https://test-dai.imgix.net/org-4afef969-21f9-40f3-b5b8-b06c8b6cf68f/doc-22a3b060-9539-4176-97e4-49120e02f5d1/0a5a1a9630785855-organizations-d8f63b60-89ae-11e7-8574-5927d48c4877-sites-site_p4Xo4-socialprevie.jpg?fm=auto&auto=compress%2Cformat
+---
+
+<Steps>
+  <Step title="Configuration de votre site GitBook" titleType="h3">
+    Dans votre organisation GitBook, cliquez sur le nom de votre site de documentation dans la barre latérale, puis **Gérer le site**, puis **Domaine et redirections**. Sous « Sous-répertoire », cliquez sur **Configurer un sous-répertoire**.
+
+    Saisissez l’URL sur laquelle vous souhaitez héberger votre documentation. Indiquez ensuite le sous-répertoire d’accès à la documentation, par ex. `tomatopy.pizza/docs`, puis cliquez sur **Configurer**.
+
+    Sous **Configuration supplémentaire**, vous verrez désormais une URL proxy. Vous l’utiliserez à l’étape suivante lors de la configuration de vos paramètres Vercel. Copiez-la dans votre presse-papiers.
+  </Step>
+
+  <Step title="Mettez à jour votre fichier vercel.json" titleType="h3">
+    Dans votre application Vercel, ouvrez votre `vercel.json`fichier (ou créez-en un dans le répertoire racine si vous n’en avez pas déjà un). Ensuite, ajoutez ce qui suit :
+
+    ```json
+    {
+        "rewrites": [
+            {
+                "source": "/docs",
+                "destination": "<INSERT YOUR PROXY URL FROM GITBOOK>"
+            },
+            {
+                "source": "/docs/:match*",
+                "destination": "<INSERT YOUR PROXY URL FROM GITBOOK>/:match*"
+            }
+        ]
+    }
+    ```
+
+    *Veillez à mettre à jour l’URL* à la ligne 5 avec l’URL proxy obtenue depuis GitBook à la première étape.
+  </Step>
+
+  <Step title="Redéployez votre application et essayez-la !" titleType="h3">
+    Redéployez votre application Vercel avec la configuration mise à jour. Cela peut prendre quelques instants. À présent, lorsque vous visiterez l’URL, vous devriez voir votre site de documentation !
+  </Step>
+</Steps>

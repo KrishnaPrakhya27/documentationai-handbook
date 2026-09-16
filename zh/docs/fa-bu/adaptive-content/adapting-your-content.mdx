@@ -1,0 +1,107 @@
+---
+title: 调整你的内容
+description: 为不同用户定制你的内容
+metaTitle: 调整你的内容 | GitBook Documentation
+ogImage: https://test-dai.imgix.net/org-4afef969-21f9-40f3-b5b8-b06c8b6cf68f/doc-22a3b060-9539-4176-97e4-49120e02f5d1/0a5a1a9630785855-organizations-d8f63b60-89ae-11e7-8574-5927d48c4877-sites-site_p4Xo4-socialprevie.jpg?fm=auto&auto=compress%2Cformat
+---
+
+设置好身份验证方式后，你就可以使用这些数据为不同用户调整你网站中的内容。
+
+你可以调整并个性化文档的许多部分，包括：
+
+- 隐藏或显示 [页面](/zh/docs/chuang-jian-nei-rong/content-structure/page)
+- 隐藏或显示站点 [变体](/zh/docs/guan-li-ni-de-zhan-dian/site-structure/variants)
+- 隐藏或显示站点 [部分](/zh/docs/guan-li-ni-de-zhan-dian/site-structure/site-sections)
+- 隐藏或显示 [页眉链接](/zh/docs/guan-li-ni-de-zhan-dian/customization/layout-and-structure#header)
+- 向……添加个性化内容 [行内表达式](/zh/docs/chuang-jian-nei-rong/variables-and-expressions)
+
+### 使用条件编辑器
+
+条件编辑器用于设置显示或隐藏页面、变体或部分的条件。打开条件编辑器后，你可以将条件写成一个 [表达式](/zh/docs/chuang-jian-nei-rong/variables-and-expressions) 它将基于你网站访客提供的数据运行。
+
+<Image src="https://test-dai.imgix.net/org-4afef969-21f9-40f3-b5b8-b06c8b6cf68f/doc-22a3b060-9539-4176-97e4-49120e02f5d1/a06ffc3eef0907ac-spaces-NkEGS7hzeqa35sMXQZ4X-uploads-NQ8RM1GDU6HUyBKBp2wF-22_01_06_condition_edit.png?fm=auto&auto=compress%2Cformat" alt="" />
+
+#### 示例
+
+你通过用户传递给 GitBook 的数据会附加到一个名为 `visitor.claims`.
+
+如果我们想编写一个条件语句来……，让我们看一个示例 **仅向属于测试计划的用户显示某个页面** 你可以这样定义。
+
+```javascript
+visitor.claims.isBetaUser == true
+```
+
+上面的表达式表示，任何匹配此声明的用户（即 `isBetaUser` 为 `true` 在用户声明中为 true）都可以查看并访问该页面。任何不匹配此声明的用户（包括未设置任何声明的访客）都无法查看或访问该页面。
+
+条件编辑器还内置了自动补全功能，它会根据你网站先前访客中发现的声明或属性提供建议，帮助你为页面、变体或部分编写条件语句。
+
+当你使用自动补全时，你会注意到 [变量](/zh/docs/chuang-jian-nei-rong/variables-and-expressions#use-variables-in-your-content) 也可用于使用。你可以将自己定义的变量与来自用户数据的声明结合起来编写条件表达式。例如，你可以：
+
+1. 为你的产品最新版本设置一个变量
+2. 然后，配置一个声明，用于显示访问你文档的访客正在使用你产品的哪个版本
+3. 最后，编写一个表达式，仅当用户使用的是你文档的最新版本时才显示某些页面
+
+你可以编写许多不同类型的表达式，只要它们是有效的 JavaScript 即可。例如，你可以在条件编辑器中组合多个声明，使用 `&&` 或 `||` 运算符。你可以阅读更多关于运算符的内容 [这里](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators#binary_logical_operators).
+
+### 面向人类访客和 AI 代理
+
+使用内置的 `visitor.type` 属性向人类和 AI 代理显示不同内容。此属性有两个值之一：
+
+- `human` 表示人类访客
+- `agent` 表示 AI 代理
+
+例如，使用此条件仅向 AI 代理显示内容：
+
+```javascript
+visitor.type === "agent"
+```
+
+使用以下条件仅向人类访客显示内容：
+
+```javascript
+visitor.type === "human"
+```
+
+### 使用细分进行测试
+
+细分代表你可以配置用于测试条件的模拟用户数据。
+
+例如，你可以设置一个细分，代表企业套餐中的开发者，或免费套餐中的已登录用户，然后查看哪些页面对他们可见。
+
+[你可以在这里阅读更多关于设置和使用细分的内容。](/zh/docs/fa-bu/adaptive-content/testing-with-segments)
+
+### 条件页面
+
+要为页面打开条件编辑器，请前往操作菜单 <Image src="https://test-dai.imgix.net/org-4afef969-21f9-40f3-b5b8-b06c8b6cf68f/doc-22a3b060-9539-4176-97e4-49120e02f5d1/4fa265378c13a520-spaces-NkEGS7hzeqa35sMXQZ4X-uploads-89MTSo5XRpPMVr1T0rxS-actions.svg?rasterize-bypass=true" alt="The Actions menu icon in GitBook" /> 旁边，然后点击 <strong>添加条件。</strong> 你也可以从 [页面选项](/zh/docs/can-kao/gitbook-ui#page-options).
+
+如果页面旁有页面条件图标，你就可以看到该部分中哪些页面已设置条件 <Image src="https://test-dai.imgix.net/org-4afef969-21f9-40f3-b5b8-b06c8b6cf68f/doc-22a3b060-9539-4176-97e4-49120e02f5d1/ecbe087f090f9eff-spaces-NkEGS7hzeqa35sMXQZ4X-uploads-51vQZhUqnkdsYpyUo1Pj-page-condition.svg?rasterize-bypass=true" alt="The Page condition icon in GitBook" /> 在其旁边。
+
+### 条件变体
+
+要为变体打开条件编辑器，请前往操作菜单 <Image src="https://test-dai.imgix.net/org-4afef969-21f9-40f3-b5b8-b06c8b6cf68f/doc-22a3b060-9539-4176-97e4-49120e02f5d1/4fa265378c13a520-spaces-NkEGS7hzeqa35sMXQZ4X-uploads-89MTSo5XRpPMVr1T0rxS-actions.svg?rasterize-bypass=true" alt="The Actions menu icon in GitBook" /> 旁边，然后点击 **添加条件**.
+
+如果变体旁有页面条件图标，你就可以看到文档中哪些变体已设置条件 <Image src="https://test-dai.imgix.net/org-4afef969-21f9-40f3-b5b8-b06c8b6cf68f/doc-22a3b060-9539-4176-97e4-49120e02f5d1/ecbe087f090f9eff-spaces-NkEGS7hzeqa35sMXQZ4X-uploads-51vQZhUqnkdsYpyUo1Pj-page-condition.svg?rasterize-bypass=true" alt="The Page condition icon in GitBook" /> 在其旁边。
+
+### 条件部分
+
+要为部分打开条件编辑器，请前往操作菜单 <Image src="https://test-dai.imgix.net/org-4afef969-21f9-40f3-b5b8-b06c8b6cf68f/doc-22a3b060-9539-4176-97e4-49120e02f5d1/4fa265378c13a520-spaces-NkEGS7hzeqa35sMXQZ4X-uploads-89MTSo5XRpPMVr1T0rxS-actions.svg?rasterize-bypass=true" alt="The Actions menu icon in GitBook" /> 旁边，然后点击 **添加条件**.
+
+如果部分旁有页面条件图标，你就可以看到文档中哪些部分已设置条件 <Image src="https://test-dai.imgix.net/org-4afef969-21f9-40f3-b5b8-b06c8b6cf68f/doc-22a3b060-9539-4176-97e4-49120e02f5d1/ecbe087f090f9eff-spaces-NkEGS7hzeqa35sMXQZ4X-uploads-51vQZhUqnkdsYpyUo1Pj-page-condition.svg?rasterize-bypass=true" alt="The Page condition icon in GitBook" /> 在其旁边。
+
+### 条件页面页眉链接
+
+要为页面页眉链接打开条件编辑器，请前往操作菜单 <Image src="https://test-dai.imgix.net/org-4afef969-21f9-40f3-b5b8-b06c8b6cf68f/doc-22a3b060-9539-4176-97e4-49120e02f5d1/4fa265378c13a520-spaces-NkEGS7hzeqa35sMXQZ4X-uploads-89MTSo5XRpPMVr1T0rxS-actions.svg?rasterize-bypass=true" alt="The Actions menu icon in GitBook" /> 旁边，然后点击 **添加条件**.
+
+如果该链接旁有页面条件图标，你就可以看到文档中哪些链接已设置条件 <Image src="https://test-dai.imgix.net/org-4afef969-21f9-40f3-b5b8-b06c8b6cf68f/doc-22a3b060-9539-4176-97e4-49120e02f5d1/ecbe087f090f9eff-spaces-NkEGS7hzeqa35sMXQZ4X-uploads-51vQZhUqnkdsYpyUo1Pj-page-condition.svg?rasterize-bypass=true" alt="The Page condition icon in GitBook" /> 在其旁边。
+
+### 行内表达式
+
+除了控制内容可见性外，你还可以使用 [表达式](/zh/docs/chuang-jian-nei-rong/variables-and-expressions)进行行内使用，就像页面和空间变量一样。
+
+要通过表达式行内引用某个声明，请在编辑器中输入 <kbd>/</kbd> ，然后选择 <Image src="https://test-dai.imgix.net/org-4afef969-21f9-40f3-b5b8-b06c8b6cf68f/doc-22a3b060-9539-4176-97e4-49120e02f5d1/14813af6b5913b02-spaces-NkEGS7hzeqa35sMXQZ4X-uploads-yV0YSeHof9IkW4nnHQ4C-Expression.svg?rasterize-bypass=true" alt="" /> **表达式**。声明将在表达式编辑器中作为……上的属性可访问 `visitor` .
+
+### 使用 Git Sync
+
+在 GitBook 中设置的条件会通过 Git Sync 同步，并显示在同步后的 Markdown 页面中。这意味着设置了可见性条件的块和页面在你的同步仓库中仍然可见。
+
+通过声明传递的数据在 Markdown 中永远不可见，并会安全地传递给 GitBook。

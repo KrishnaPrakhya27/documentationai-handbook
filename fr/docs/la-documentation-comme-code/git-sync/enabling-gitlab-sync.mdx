@@ -1,0 +1,77 @@
+---
+title: Activer la synchronisation GitLab
+description: Synchronisez votre dépôt GitLab avec GitBook
+metaTitle: Activer la synchronisation GitLab | GitBook Documentation
+ogImage: https://test-dai.imgix.net/org-4afef969-21f9-40f3-b5b8-b06c8b6cf68f/doc-22a3b060-9539-4176-97e4-49120e02f5d1/0a5a1a9630785855-organizations-d8f63b60-89ae-11e7-8574-5927d48c4877-sites-site_p4Xo4-socialprevie.jpg?fm=auto&auto=compress%2Cformat
+---
+
+Ce guide vous expliquera comment configurer votre site GitBook avec un dépôt sur GitLab.
+
+<Image src="https://test-dai.imgix.net/org-4afef969-21f9-40f3-b5b8-b06c8b6cf68f/doc-22a3b060-9539-4176-97e4-49120e02f5d1/f8ae407a73a9b913-spaces-NkEGS7hzeqa35sMXQZ4X-uploads-jSaHb62zdd8xp9NpBCif-Git-Sync---GitLab.png?fm=auto&auto=compress%2Cformat" alt="A GitBook screenshot showing GitLab Sync configuration options" caption="Options de configuration de GitLab Sync." />
+
+<Steps>
+  <Step title="Ouvrez Git Sync pour votre site" titleType="h3">
+    Depuis votre site, ouvrez Git Sync dans la barre latérale.
+  </Step>
+
+  <Step title="Connecter GitLab" titleType="h3">
+    Créez un jeton d’accès personnel dans les paramètres utilisateur de GitLab. Activez `api`, `read_repository`, et `write_repository`, puis saisissez le jeton dans GitBook.
+
+    <Callout kind="info">
+      Si votre jeton a un rôle, sélectionnez `Mainteneur` ou `Administrateur`.
+    </Callout>
+  </Step>
+
+  <Step title="Sélectionnez un dépôt et une branche" titleType="h3">
+    Sous **Dépôt source**, sélectionnez le dépôt qui contient votre documentation. Sélectionnez la branche avec laquelle GitBook se synchronise. Si la branche n’existe pas, GitBook la crée lors de la synchronisation initiale.
+
+    <Callout kind="info">
+      <strong>Vous ne trouvez pas votre dépôt ?</strong> Assurez-vous que votre jeton d’accès personnel dispose des étendues requises et de l’accès au dépôt.
+    </Callout>
+
+    <Callout kind="alert">
+      Si votre `main` branche est protégée, sélectionnez une branche distincte pour Git Sync. Vous pouvez fusionner cette branche dans `main` tout en conservant sa protection.
+    </Callout>
+  </Step>
+
+  <Step title="Choisissez une direction de synchronisation initiale" titleType="h3">
+    Choisissez la source de vérité pour la synchronisation initiale. Sélectionnez **Inverser la direction** si le contenu du dépôt doit remplacer le contenu GitBook.
+
+    <Callout kind="alert">
+      <strong>GitLab → GitBook peut remplacer le contenu de votre site.</strong> Avant de lancer la synchronisation, confirmez le dépôt, la branche et la direction. Assurez-vous que le contenu de destination peut être remplacé sans risque.
+    </Callout>
+  </Step>
+
+  <Step title="Définissez le répertoire du projet" titleType="h3">
+    Si votre documentation se trouve dans un sous-répertoire, saisissez-la sous **Répertoire du projet**. GitBook stocke le `docs.yaml` fichier de votre site dans ce répertoire. Utilisez cette configuration si votre documentation se trouve dans un [monorepo](/fr/docs/la-documentation-comme-code/git-sync/monorepos).
+  </Step>
+
+  <Step title="Associez vos espaces" titleType="h3">
+    Sous **Mappage du contenu**, associez chaque espace à un répertoire du dépôt. Utilisez `./` pour les chemins relatifs au répertoire du projet. Utilisez `/` pour les chemins à partir de la racine du dépôt. Les espaces nouvellement associés se synchronisent automatiquement.
+  </Step>
+
+  <Step title="Consultez les options avancées" titleType="h3">
+    Si nécessaire, configurez les fichiers d’instructions de l’agent, un modèle de message de commit ou des aperçus de fork.
+  </Step>
+
+  <Step title="Synchronisez votre site" titleType="h3">
+    Cliquez sur **Synchroniser** pour lancer la synchronisation initiale.
+  </Step>
+
+  <Step title="Écrire et valider" titleType="h3">
+    Fusionnez une demande de modification dans GitBook pour valider ses changements dans GitLab. Les commits vers GitLab se synchronisent ensuite vers GitBook.
+  </Step>
+</Steps>
+
+#### Exclure un espace de la synchronisation Git Sync à l’échelle du site
+
+Dans le mappage de contenu Git Sync du site, cliquez sur l’icône de suppression à côté de l’espace que vous souhaitez exclure. Vous pouvez ensuite configurer Git Sync à partir de cet espace.
+
+Si le site utilise déjà Git Sync, GitBook vous demande de choisir un périmètre :
+
+- Sélectionnez le dépôt et la branche du site pour ajouter l’espace à la synchronisation Git Sync à l’échelle du site.
+- Sélectionnez un dépôt et une branche indépendants pour configurer Git Sync pour l’espace.
+
+Si le site n’utilise pas Git Sync, GitBook configure Git Sync indépendamment pour l’espace.
+
+Pour configurer Git Sync pour un seul espace, dans l’espace que vous souhaitez synchroniser, cliquez sur **Configurer** à côté de **Git Sync** dans le [en-tête de l’espace](/fr/docs/reference/gitbook-ui#space-header). Dans la liste des fournisseurs, cliquez sur **GitLab Sync**, puis cliquez sur **Configurer**.

@@ -1,0 +1,77 @@
+---
+title: Get an integration event by its ID
+metaTitle: Get an integration event by its ID | Developers | GitBook Documentation
+ogImage: https://test-dai.imgix.net/org-4afef969-21f9-40f3-b5b8-b06c8b6cf68f/doc-22a3b060-9539-4176-97e4-49120e02f5d1/0a5a1a9630785855-organizations-d8f63b60-89ae-11e7-8574-5927d48c4877-sites-site_p4Xo4-socialprevie.jpg?fm=auto&auto=compress%2Cformat
+---
+
+**GET** `/integrations/{integrationName}/events/{eventId}`
+
+**Parameters**
+
+<ParamField header="Authorization" param-type="string" />
+
+<ParamField path="integrationName" param-type="string" required={true}>
+  Name of the integration.
+</ParamField>
+
+<ParamField path="eventId" param-type="string" required={true}>
+  ID of the integration event
+</ParamField>
+
+**Responses**
+
+`200` Integration event
+
+<ResponseField name="event" field-type="object" required={true}>
+  <Expandable title="Object Properties">
+    <ResponseField name="id" field-type="string" required={true}>
+      Unique ID of the event.
+    </ResponseField>
+
+    <ResponseField name="integrationId" field-type="string" required={true}>
+      Unique ID of the integration.
+    </ResponseField>
+
+    <ResponseField name="installationId" field-type="string">
+      Unique ID of the integration installation.
+    </ResponseField>
+
+    <ResponseField name="createdAt" field-type="string" required={true} />
+
+    <ResponseField name="payload" field-type="string" required={true}>
+      Any event that can be received from GitBook.
+    </ResponseField>
+
+    <ResponseField name="status" field-type="string" required={true} enum="success,failed">
+      Status of the event.
+    </ResponseField>
+  </Expandable>
+</ResponseField>
+
+<ResponseField name="trace" field-type="object">
+  <Expandable title="Object Properties">
+    <ResponseField name="logs" field-type="array" required={true}>
+      <Expandable title="Array Items">
+        <ResponseField name="message" field-type="string">
+          The message of the log entry.
+        </ResponseField>
+
+        <ResponseField name="timestamp" field-type="string" />
+
+        <ResponseField name="level" field-type="string" enum="debug,info,warn,error">
+          The level of the log entry.
+        </ResponseField>
+      </Expandable>
+    </ResponseField>
+  </Expandable>
+</ResponseField>
+
+`404` Not Found
+
+<ResponseField name="error" field-type="object" required={true}>
+  <Expandable title="Object Properties">
+    <ResponseField name="code" field-type="integer" required={true} enum="404" />
+
+    <ResponseField name="message" field-type="string" required={true} />
+  </Expandable>
+</ResponseField>

@@ -1,0 +1,54 @@
+---
+title: Signaler un bug
+description: Capturez les informations réseau et de console dont l’équipe d’assistance GitBook a besoin pour enquêter sur un bug
+metaTitle: Signaler un bug | GitBook Documentation
+ogImage: https://test-dai.imgix.net/org-4afef969-21f9-40f3-b5b8-b06c8b6cf68f/doc-22a3b060-9539-4176-97e4-49120e02f5d1/0a5a1a9630785855-organizations-d8f63b60-89ae-11e7-8574-5927d48c4877-sites-site_p4Xo4-socialprevie.jpg?fm=auto&auto=compress%2Cformat
+---
+
+Signalez les bugs depuis le widget d’assistance de l’application ou en envoyant un e-mail à [support@gitbook.com](mailto:support@gitbook.com), en fournissant autant de contexte que possible sur la manière dont vous avez rencontré le problème.
+
+Pour certains problèmes, l’équipe d’assistance demande une **capture HAR** (HTTP Archive). Elle enregistre les requêtes et réponses de votre navigateur avec l’application GitBook, ce qui permet à l’équipe d’enquêter plus en détail. Capturez-la en même temps qu’un journal de la console :
+
+<Tabs>
+  <Tab title="Chrome">
+    1. Dans Chrome, rendez-vous sur la page GitBook où vous rencontrez le problème.
+    2. Cliquez sur <strong>⋮</strong> en haut à droite de la fenêtre de votre navigateur, puis **Autres outils → Outils de développement**.
+    3. Cliquez sur l’onglet **Réseau** et cochez **Conserver le journal**.
+    4. Vérifiez que le cercle rouge en haut à gauche de l’onglet Réseau est visible — l’enregistrement a commencé. Si le cercle est noir, cliquez dessus pour démarrer l’enregistrement.
+    5. Actualisez la page et reproduisez le problème.
+    6. Cliquez sur l’icône de téléchargement (↓) dans la barre d’outils de l’onglet Réseau pour enregistrer toutes les requêtes dans un fichier HAR.
+    7. Cliquez sur l’onglet **Console** onglet, cliquez avec le bouton droit n’importe où dans la console, puis cliquez sur <strong>Enregistrer sous…</strong>. Nommez le fichier `Chrome-console.log`.
+    8. Répondez à votre dossier avec les deux fichiers sous forme de liens partagés.
+  </Tab>
+
+  <Tab title="Firefox">
+    1. Dans Firefox, rendez-vous sur la page GitBook où vous rencontrez le problème.
+    2. Cliquez sur le menu Firefox en haut à droite, puis **Développeur web → Réseau**.
+    3. Cliquez sur l’onglet **Réseau** et cochez **Conserver les journaux**.
+    4. Actualisez la page et reproduisez le problème pendant que la capture est en cours.
+    5. Cliquez avec le bouton droit sur n’importe quelle ligne du panneau d’activité, puis cliquez sur **Tout enregistrer au format HAR**.
+    6. Cliquez sur l’onglet **Console** onglet, cliquez avec le bouton droit sur n’importe quelle ligne, puis cliquez sur **Tout sélectionner**. Collez le contenu dans un fichier texte nommé `console-log.txt`.
+    7. Répondez à votre dossier avec les deux fichiers sous forme de liens partagés.
+  </Tab>
+
+  <Tab title="Safari">
+    1. Dans Safari, rendez-vous sur la page GitBook où vous rencontrez le problème.
+    2. Dans la barre de menus, cliquez sur **Développement** et sélectionnez **Afficher l’Inspecteur Web**.
+    3. Cliquez sur l’onglet **Console** et cochez **Conserver le journal**, puis allez à l’onglet **Réseau** .
+    4. Actualisez la page et reproduisez le problème pendant que la capture est en cours.
+    5. Cliquez avec le bouton droit sur n’importe quelle ligne du panneau d’activité, puis cliquez sur **Exporter le HAR**.
+    6. Dans l’onglet **Console** cliquez avec le bouton droit sur n’importe quelle ligne, puis cliquez sur **Tout sélectionner**. Collez le contenu dans un fichier texte nommé `console-log.txt`.
+    7. Répondez à votre dossier avec les deux fichiers sous forme de liens partagés.
+  </Tab>
+
+  <Tab title="Edge">
+    1. Dans Edge, rendez-vous sur la page GitBook où vous rencontrez le problème.
+    2. Cliquez sur le menu Edge (⋮) en haut à droite et sélectionnez **Outils de développement**.
+    3. Cliquez sur l’onglet **Réseau** onglet et désactivez l’ **option entrées à la navigation** (la flèche bleue avec un X rouge).
+    4. Vérifiez que le bouton vert de lecture (**démarrer la session de profilage**) est sélectionné — la capture est en cours.
+    5. Actualisez la page et reproduisez le problème.
+    6. Cliquez sur l’onglet **Exporter au format HAR** icône (la disquette).
+    7. Dans l’onglet **Console** cliquez avec le bouton droit sur n’importe quelle ligne, puis cliquez sur **Tout copier**. Collez le contenu dans un fichier texte nommé `console-log.txt`.
+    8. Répondez à votre dossier avec les deux fichiers sous forme de liens partagés.
+  </Tab>
+</Tabs>

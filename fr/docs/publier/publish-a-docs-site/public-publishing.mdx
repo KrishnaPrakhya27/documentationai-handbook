@@ -1,0 +1,52 @@
+---
+title: Publication publique
+description: Publiez votre documentation sur le web de manière publique afin que tout le monde puisse y accéder
+metaTitle: Publication publique | GitBook Documentation
+ogImage: https://test-dai.imgix.net/org-4afef969-21f9-40f3-b5b8-b06c8b6cf68f/doc-22a3b060-9539-4176-97e4-49120e02f5d1/0a5a1a9630785855-organizations-d8f63b60-89ae-11e7-8574-5927d48c4877-sites-site_p4Xo4-socialprevie.jpg?fm=auto&auto=compress%2Cformat
+---
+
+Si vous avez créé vos documents pour un public, vous pouvez les publier sur le Web. Les espaces que vous publiez sur le Web peuvent être indexés par les moteurs de recherche et seront accessibles à tous. Si vous ne souhaitez pas que votre contenu soit indexé par les moteurs de recherche, vous pouvez aussi désactiver cette option — en savoir plus à ce sujet [ci-dessous](#publish-as-public).
+
+Quelle que soit la manière dont vous publiez votre contenu, vous conserverez le contrôle sur les personnes qui peuvent *modifier* votre contenu. Et seule votre branche de contenu principale sera publiée, donc toute [demande de modification](/fr/docs/collaborer/change-requests) restera privée jusqu'à sa fusion.
+
+### Publier en public
+
+Pour publier vos documents publiquement sur le Web, rendez-vous sur le site de documentation que vous souhaitez publier, cliquez sur **Publier** bouton, puis choisissez l'option **Public** .
+
+### **Publier sans indexation par les moteurs de recherche**
+
+Par défaut, votre site sera indexé par les moteurs de recherche. Vous pouvez également choisir de désactiver cette option — ce qui signifie que la documentation reste disponible à tous sur le Web, mais qu'elle *ne le seront pas* indexées par des moteurs de recherche comme Google.
+
+Ils resteront accessibles à toute personne disposant du lien vers votre documentation. Les sites de documentation non indexés peuvent être particulièrement utiles si vous souhaitez publier une version bêta de votre documentation, ou effectuer des tests utilisateurs à grande échelle sans nuire à votre SEO avec un contenu potentiellement dupliqué.
+
+### Contrôles d'indexation de recherche au niveau de la page
+
+Vous pouvez également contrôler l'indexation par les moteurs de recherche au niveau de chaque page. GitBook propose deux types de contrôles d'indexation de recherche :
+
+#### Indexation pour la recherche interne
+
+Détermine si les pages sont indexées dans le moteur de recherche interne de GitBook et dans la fonctionnalité Ask AI. Cela affecte :
+
+- La recherche de contenu dans votre section GitBook
+- La capacité d'Ask AI à référencer le contenu de la page
+
+<strong>Indexation externe pour la recherche (robots d'exploration Web)</strong>
+
+Détermine si les moteurs de recherche et les robots d'exploration Web (Google, ChatGPT, etc.) peuvent indexer vos pages. Cela affecte :
+
+- Le SEO et la visibilité via les moteurs de recherche
+- L'accès des robots d'exploration Web à votre contenu
+
+#### **Comportement d'héritage hiérarchique**
+
+<strong>Les paramètres d'indexation de recherche suivent un modèle d'héritage hiérarchique :</strong>
+
+- **Contrôles de la page parente**: Lorsque vous désactivez l'indexation de recherche sur une page parente, cela désactive automatiquement l'indexation pour TOUTES les sous-pages en dessous.
+- **Les pages enfants ne peuvent pas outrepasser**: Les sous-pages ne peuvent pas réactiver l'indexation de recherche si leur page parente l'a désactivée.
+- **Effet en cascade**: Cela crée un effet en cascade sur toute la hiérarchie des pages - désactiver l'indexation sur une page de niveau supérieur la désactivera pour toute la section.
+
+Ce comportement hiérarchique garantit des politiques d'indexation cohérentes entre les sections de contenu liées et évite l'exposition accidentelle de contenu qui devrait rester privé au sein d'une section.
+
+<Callout kind="info">
+  Cette fonctionnalité est disponible avec les [forfaits de site Premium et Ultimate](https://www.gitbook.com/pricing).
+</Callout>

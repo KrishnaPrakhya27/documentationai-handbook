@@ -1,0 +1,66 @@
+---
+title: Content variants
+description: Publish documentation for multiple product versions or languages in a single site
+metaTitle: Content variants | GitBook Documentation
+ogImage: https://test-dai.imgix.net/org-4afef969-21f9-40f3-b5b8-b06c8b6cf68f/doc-22a3b060-9539-4176-97e4-49120e02f5d1/0a5a1a9630785855-organizations-d8f63b60-89ae-11e7-8574-5927d48c4877-sites-site_p4Xo4-socialprevie.jpg?fm=auto&auto=compress%2Cformat
+---
+
+You can publish multiple versions of the same documentation as part of a single docs site. These variants will be available to the end users via the variant picker at the top of the table of contents on the published site.
+
+<Image src="https://test-dai.imgix.net/org-4afef969-21f9-40f3-b5b8-b06c8b6cf68f/doc-22a3b060-9539-4176-97e4-49120e02f5d1/64f4d3a9af8e928f-spaces-NkEGS7hzeqa35sMXQZ4X-uploads-2cQxJ5sTMVUkXOcuDEU8-Adding-a-section-2x.png?fm=auto&auto=compress%2Cformat" alt="A GitBook screenshot showing a docs site's structure" />
+
+### Add multiple languages or versions
+
+A site with multiple variants is useful if you need to keep variations of your content together — such as if you’re documenting multiple versions of an API (v1, v2, v3, etc.), or documenting your content in different languages.
+
+<Callout kind="info">
+  Variants can contain any content, but it’s recommended to use them as *variations of the same content*. If your content is semantically different, consider adding it as [sections](/en/docs/manage-your-site/site-structure/site-sections) instead.
+</Callout>
+
+When adding a translation or multiple languages as a variant, it’s best practice to set the language of your variant to give your users the best experience when navigating your docs.
+
+Adding multiple variants with languages set will move the language picker to the upper right, giving a cleaner, more direct experience from the default variant picker.
+
+### Adding a variant to your docs site
+
+Open the structure editor from **Site structure**, under **General** in the site sidebar. Here you can see all the content of your site.
+
+To add a variant, click the **Add variant** button in the section you'd like to add to, then choose the content to add. The new variant is then added to the list of variants within the chosen section and will be available to visitors in the variant dropdown on your site.
+
+### Changing a variant
+
+You can change the name and slug of each of your variants by clicking the <Image src="https://test-dai.imgix.net/org-4afef969-21f9-40f3-b5b8-b06c8b6cf68f/doc-22a3b060-9539-4176-97e4-49120e02f5d1/ab76723fb229a5ad-spaces-NkEGS7hzeqa35sMXQZ4X-uploads-A3OfGjPkE5GnOQvN36jN-edit.svg?rasterize-bypass=true" alt="The Edit icon in GitBook" /> **Edit** button in the table row of the variant you’d like to edit. This will open a modal. Edit the field(s) you'd like to change, then click the **Save** button to save. You can also delete the variant by clicking the **Delete variant** button in the lower left.
+
+If your site supports multiple languages, you can also translate variant titles so the picker shows localized labels. See [Multilingual sections](/en/docs/manage-your-site/site-structure/multilingual-sections).
+
+<Callout kind="info">
+  Changing a variant's slug will change its canonical URL. GitBook will create an automatic redirect from the old URL to the new one. You can also [manually create redirects](/en/docs/publish/site-redirects).
+</Callout>
+
+To replace a variant’s content, first delete it by clicking its **Edit** <Image src="https://test-dai.imgix.net/org-4afef969-21f9-40f3-b5b8-b06c8b6cf68f/doc-22a3b060-9539-4176-97e4-49120e02f5d1/ab76723fb229a5ad-spaces-NkEGS7hzeqa35sMXQZ4X-uploads-A3OfGjPkE5GnOQvN36jN-edit.svg?rasterize-bypass=true" alt="The Edit icon in GitBook" /> button, then click the **Delete** button in the lower left of the modal. Once the variant is deleted, click the **Add variant** button to add the new content.
+
+### Reordering variants
+
+Your site displays variants in the order that they appear in your **Site structure** table. Variants can be reordered by grabbing the **Drag handle** <Image src="https://test-dai.imgix.net/org-4afef969-21f9-40f3-b5b8-b06c8b6cf68f/doc-22a3b060-9539-4176-97e4-49120e02f5d1/4c115a43418b42e3-spaces-NkEGS7hzeqa35sMXQZ4X-uploads-aS1QvPIBVYwhpFTGcPBN-options-menu.svg?rasterize-bypass=true" alt="The Options menu icon in GitBook" /> and moving it up or down. The changed order will be reflected on your site immediately.
+
+You can also use the keyboard to select and move content: select a section or variant with the space bar, then use the arrow keys to move it up or down. Hit the space bar again to confirm the new position.
+
+### Setting a default variant
+
+If you have multiple variants within a section, one variant will be marked as the default. This variant is shown when visitors arrive on your site (or when they visit a section). Other variants each have a slug that is appended to the site's URL.
+
+To set a variant as default, click on the **Actions menu** <Image src="https://test-dai.imgix.net/org-4afef969-21f9-40f3-b5b8-b06c8b6cf68f/doc-22a3b060-9539-4176-97e4-49120e02f5d1/4fa265378c13a520-spaces-NkEGS7hzeqa35sMXQZ4X-uploads-89MTSo5XRpPMVr1T0rxS-actions.svg?rasterize-bypass=true" alt="The Actions menu icon in GitBook" /> in the variant’s table row and then click **Set as default**.
+
+<Callout kind="info">
+  Setting a variant as default removes its slug field, as it will be served from the section root instead. GitBook will redirect the variant's slug to the appropriate path, to ensure visitors keep seeing your content.
+</Callout>
+
+### Remove a variant from a site
+
+To remove a variant from a site, open the structure editor from **Site structure**, under **General** in the site sidebar, and find the content you want to remove.
+
+Open the **Actions menu** <Image src="https://test-dai.imgix.net/org-4afef969-21f9-40f3-b5b8-b06c8b6cf68f/doc-22a3b060-9539-4176-97e4-49120e02f5d1/4fa265378c13a520-spaces-NkEGS7hzeqa35sMXQZ4X-uploads-89MTSo5XRpPMVr1T0rxS-actions.svg?rasterize-bypass=true" alt="The Actions menu icon in GitBook" /> for the variant you want to remove and choose **Remove**.
+
+<Callout kind="success">
+  Removing a variant from your site will remove it from the published site, but **will not delete the content itself** — you can still find it in [All content](/en/docs/create-content/content-structure/all-content).
+</Callout>

@@ -1,0 +1,160 @@
+---
+title: Personnalisation de l’Embed
+description: Personnalisez l’expérience lors de l’intégration de Docs Embed dans votre produit ou application en définissant des messages de bienvenue, des actions, et plus encore
+metaTitle: Personnalisation de l’Embed | GitBook Documentation
+ogImage: https://test-dai.imgix.net/org-4afef969-21f9-40f3-b5b8-b06c8b6cf68f/doc-22a3b060-9539-4176-97e4-49120e02f5d1/0a5a1a9630785855-organizations-d8f63b60-89ae-11e7-8574-5927d48c4877-sites-site_p4Xo4-socialprevie.jpg?fm=auto&auto=compress%2Cformat
+---
+
+Après [avoir ajouté Docs Embed à votre site web ou à votre application](/fr/docs/publier/embedding/implementation), vous pouvez personnaliser davantage l’expérience en ajoutant des boutons d’action dans la barre latérale, des suggestions pour inciter vos utilisateurs avec des questions contextuelles, des onglets, et plus encore.
+
+### Personnalisation du bouton ([autonome](/fr/docs/publier/embedding/implementation/script) ) uniquement)
+
+Lors de l’utilisation de l’ [implémentation avec balise de script autonome](/fr/docs/publier/embedding/implementation/script), vous pouvez personnaliser le libellé et l’icône du bouton qui lance le widget intégré.
+
+<Callout kind="info">
+  Cette option de personnalisation du bouton n’est disponible que lorsque vous utilisez l’ [implémentation avec balise de script autonome](/fr/docs/publier/embedding/implementation/script). Pour [React](/fr/docs/publier/embedding/implementation/react) ou [le package Node.js/NPM](/fr/docs/publier/embedding/implementation/nodejs) les implémentations, vous devrez créer votre propre bouton pour lancer l’intégration.
+</Callout>
+
+```javascript
+window.GitBook("configure", {
+  button: {
+    label: "Ask",
+    icon: "assistant", // 'assistant' | 'sparkle' | 'help' | 'book'
+  },
+});
+```
+
+<strong>Options d’icône disponibles :</strong>
+
+- `assistant` \-  Icône Assistant (par défaut)
+- `sparkle` \-  Icône étincelle
+- `help` \-  Icône aide/question
+- `book` \-  Icône livre
+
+### Définition du schéma de couleurs
+
+Par défaut, l’intégration suit le `color-scheme`CSS de l’iframe. Cela lui permet de correspondre automatiquement au thème de votre application ou à la préférence du navigateur.
+
+Si vous souhaitez forcer un mode, transmettez `colorScheme` lorsque vous initialisez l’intégration, construisez l’URL du frame ou rendez le composant React. Cela ne fait pas partie de `configure`.
+
+<Tabs>
+  <Tab title="Script autonome">
+    ```javascript
+    window.GitBook(
+      "init",
+      { siteURL: "https://docs.company.com" },
+      { colorScheme: "dark" }
+    );
+    ```
+  </Tab>
+
+  <Tab title="Node.js/NPM">
+    ```javascript
+    const iframeURL = gitbook.getFrameURL({
+      colorScheme: "dark",
+    });
+    ```
+  </Tab>
+
+  <Tab title="React">
+    ```jsx
+    <GitBookFrame colorScheme="dark" />
+    ```
+  </Tab>
+</Tabs>
+
+### Ajout d’actions
+
+L’ajout d’actions à l’intégration vous permet de donner aux utilisateurs des actions supplémentaires dans l’interface. Chaque action se compose d’un libellé, d’une icône (de [Font Awesome](https://fontawesome.com/search?ip=brands%2Cclassic%2Cduotone)), et d’une `onClick` action qui s’exécute lorsque l’utilisateur clique sur l’action. Toutes les actions que vous ajoutez apparaîtront dans la barre latérale à côté des onglets. Les actions peuvent contrôler Docs Embed lui-même ou exécuter n’importe quel code de votre choix.
+
+```javascript
+window.GitBook("configure", {
+  actions: [
+    {
+      label: "Contact Support",
+      icon: "circle-question",
+      onClick: () => {
+        window.open("https://support.example.com", "_blank");
+      },
+    },
+    {
+      label: "Documentation",
+      icon: "book",
+      onClick: () => {
+        window.open("https://docs.example.com", "_blank");
+      },
+    },
+  ],
+});
+```
+
+### Ajout de suggestions
+
+Vous pouvez ajouter des suggestions à l’onglet Assistant, qui apparaîtront comme des invites cliquables que vos utilisateurs pourront utiliser lorsque l’Assistant se charge.
+
+```javascript
+window.GitBook("configure", {
+  suggestions: [
+    "Aidez-moi à démarrer avec mon nouveau compte",
+    "Comment réinitialiser mon mot de passe ?",
+    "Quels sont vos tarifs ?",
+  ],
+});
+```
+
+### Ajout d’un message d’accueil
+
+Personnalisez le message de bienvenue affiché dans l’onglet Assistant :
+
+```javascript
+window.GitBook("configure", {
+  greeting: {
+    title: "Bienvenue !",
+    subtitle: "Comment puis-je vous aider aujourd’hui ?",
+  },
+});
+```
+
+### Remplacement du nom de l’assistant
+
+Utilisez `assistantName` pour remplacer le nom de l’assistant affiché dans l’interface.
+
+La valeur peut contenir jusqu’à 32 caractères.
+
+```javascript
+window.GitBook("configure", {
+  assistantName: "Support Copilot",
+});
+```
+
+### Affichage d’un bouton de fermeture
+
+Utilisez `closeButton` pour afficher un bouton de fermeture dans l’Assistant.
+
+```javascript
+window.GitBook("configure", {
+  closeButton: true,
+});
+```
+
+### Affichage ou masquage de la marque
+
+Utilisez `trademark` pour afficher ou masquer la marque GitBook dans l’interface intégrée — y compris le pied de page de Docs Embed et l’image de marque de l’Assistant.
+
+```javascript
+window.GitBook("configure", {
+  trademark: false,
+});
+```
+
+### Configuration des onglets
+
+Remplacez les onglets affichés. Tous les onglets sont activés par défaut, à condition que votre site les prenne en charge. Par exemple, si l’Assistant n’est pas activé sur votre site, il ne sera pas affiché. Si vous définissez `tabs`, l’intégration n’affiche que les onglets que vous listez.
+
+```javascript
+window.GitBook("configure", {
+  tabs: ["assistant", "search", "docs"], // Afficher tous les onglets
+  // tabs: ["search", "docs"], // Afficher uniquement les onglets recherche et docs
+  // tabs: ['docs'], // Afficher uniquement l’onglet docs
+});
+```

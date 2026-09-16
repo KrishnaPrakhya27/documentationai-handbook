@@ -1,0 +1,178 @@
+---
+title: Indicateurs de fonctionnalité
+description: Transmettez les données des visiteurs à votre documentation via un fournisseur d’indicateurs de fonctionnalité
+metaTitle: Indicateurs de fonctionnalité | GitBook Documentation
+ogImage: https://test-dai.imgix.net/org-4afef969-21f9-40f3-b5b8-b06c8b6cf68f/doc-22a3b060-9539-4176-97e4-49120e02f5d1/0a5a1a9630785855-organizations-d8f63b60-89ae-11e7-8574-5927d48c4877-sites-site_p4Xo4-socialprevie.jpg?fm=auto&auto=compress%2Cformat
+---
+
+<Callout kind="alert">
+  L’utilisation de contenu adaptatif avec des drapeaux de fonctionnalité nécessite d’ajouter du code à votre application.
+
+  À l’heure actuelle, l’assistant GitBook ne prend en charge que les configurations basées sur React.
+</Callout>
+
+GitBook fournit des fonctions d’assistance et des intégrations pour les fournisseurs populaires de services de drapeaux de fonctionnalité comme [**LaunchDarkly**](#launchdarkly) et [**Reflag**](#reflag).
+
+Cela vous permet de lire les drapeaux de fonctionnalité auxquels les utilisateurs ont accès dans votre produit, pendant qu’ils lisent votre documentation. C’est utile si vous devez afficher de la documentation pour des fonctionnalités qui ne sont disponibles que pour un groupe de personnes spécifique.
+
+### LaunchDarkly
+
+LaunchDarkly vous permet d’envoyer l’accès aux drapeaux de fonctionnalité sous forme de revendications via le [`launchdarkly-react-client-sdk`](https://launchdarkly.com/docs/sdk/client-side/react/react-web) et le `@gitbook/adaptive` package.
+
+Si vous utilisez déjà des drapeaux de fonctionnalité LaunchDarkly dans votre produit, il y a de fortes chances que ce package soit déjà configuré.
+
+Pour vous transmettre ces drapeaux de fonctionnalité sous forme de revendications vers GitBook, suivez ces étapes :
+
+<Steps>
+  <Step title="Installez l’intégration LaunchDarkly">
+    Pour commencer, vous devrez d’abord [installer l’intégration LaunchDarkly](https://app.gitbook.com/integrations/launchdarkly) sur votre site GitBook.
+  </Step>
+
+  <Step title="Configurez votre projet et vos clés d’accès">
+    Ajoutez votre clé de projet et votre jeton d’accès de service depuis vos [paramètres LaunchDarkly](https://app.launchdarkly.com/settings) dans la configuration de l’intégration.
+  </Step>
+
+  <Step title="Installez et ajoutez l’assistant GitBook à votre application">
+    Après avoir configuré l’intégration LaunchDarkly, vous devrez installer l’assistant de contenu adaptatif GitBook dans votre application.
+
+    ```bash
+    npm install @gitbook/adaptive
+    ```
+  </Step>
+
+  <Step title="Configurez votre application">
+    Vous devrez utiliser `withLaunchDarkly` l’assistant avec le SDK React LaunchDarkly pour transmettre le contexte à GitBook.
+
+    ```javascript
+    import { render } from 'react-dom';
+    import { withLaunchDarkly } from '@gitbook/adaptive';
+    import { asyncWithLDProvider, useLDClient } from 'launchdarkly-react-client-sdk';
+    import MyApplication from './MyApplication';
+
+    function PassFeatureFlagsToGitBookSite() {
+        const ldClient = useLDClient();
+        React.useEffect(() => {
+            if (!ldClient) {
+                return;
+            }
+            return withLaunchDarkly(ldClient);
+        }, [ldClient]);
+        return null;
+    }
+    (async () => {
+        const LDProvider = await asyncWithLDProvider({
+            clientSideID: 'client-side-id-123abc',
+            context: {
+                kind: 'user',
+                key: 'user-key-123abc',
+                name: 'Sandy Smith',
+                email: 'sandy@example.com'
+            },
+            options: { /* ... */ }
+        });
+        render(
+            &#x3C;LDProvider>
+                &#x3C;PassFeatureFlagsToGitBookSite />
+                &#x3C;MyApplication />
+            &#x3C;/LDProvider>,
+            document.getElementById('reactDiv'),
+        );
+    })();
+    ```
+  </Step>
+
+  <Step title="Vérifiez votre schéma du visiteur">
+    Un [schéma du visiteur](/fr/docs/publier/adaptive-content/enabling-adaptive-content#set-your-visitor-schema) est nécessaire pour que vos revendications puissent être lues sur votre site publié. L’installation et la configuration de l’intégration LaunchDarkly devraient automatiquement définir votre schéma du visiteur.
+  </Step>
+
+  <Step title="Personnalisez votre contenu">
+    Après avoir défini votre schéma du visiteur, vous êtes prêt à adapter l’expérience de votre documentation aux utilisateurs qui visitent votre site, en utilisant les drapeaux de fonctionnalité auxquels l’utilisateur a accès.
+
+    Toute valeur de drapeau de fonctionnalité disponible dans LaunchDarkly sera exposée dans le schéma du visiteur sous l’objet `visitor.claims.unsigned.launchdarkly` En savoir plus sur les revendications non signées [ici](/fr/docs/publier/adaptive-content/enabling-adaptive-content#set-an-unsigned-claim).
+
+    Rendez-vous sur [l’adaptation de votre contenu](/fr/docs/publier/adaptive-content/adapting-your-content) pour en savoir plus sur la personnalisation de votre documentation pour vos utilisateurs.
+  </Step>
+</Steps>
+
+### Reflag
+
+Reflag vous permet d’envoyer l’accès aux drapeaux de fonctionnalité sous forme de revendications via le [`@reflag/react-sdk`](https://www.npmjs.com/package/@reflag/react-sdk) et le [`@gitbook/adaptive`](https://github.com/GitbookIO/integrations/tree/main/packages/adaptive) package.
+
+Si vous utilisez déjà des drapeaux de fonctionnalité Reflag dans votre produit, il y a de fortes chances que ce package soit déjà configuré.
+
+Pour vous transmettre ces drapeaux de fonctionnalité sous forme de revendications vers GitBook, suivez ces étapes :
+
+<Steps>
+  <Step title="Installez l’intégration Reflag">
+    Pour commencer, vous devrez d’abord [installez l’intégration Reflag](https://app.gitbook.com/integrations/bucket) sur votre site GitBook.
+  </Step>
+
+  <Step title="Configurez votre clé secrète">
+    Ajoutez votre clé secrète depuis vos [paramètres Reflag](https://app.reflag.com/envs/current/settings/app-environments) dans la configuration de l’intégration.
+  </Step>
+
+  <Step title="Installez l’assistant GitBook dans votre application">
+    Après avoir configuré l’intégration Reflag, vous devrez installer l’assistant de contenu adaptatif GitBook dans votre application.
+
+    ```bash
+    npm install @gitbook/adaptive
+    ```
+  </Step>
+
+  <Step title="Configurez votre application">
+    Vous devrez utiliser `withReflag` l’assistant avec le SDK React Reflag pour transmettre le contexte à GitBook.
+
+    ```javascript
+    import { withReflag } from '@gitbook/adaptive';
+    import { ReflagProvider, useClient } from '@reflag/react-sdk';
+    import MyApplication from './MyApplication';
+
+    function PassFeatureFlagsToGitBookSite() {
+        const client = useClient();
+        React.useEffect(() => {
+            if (!client) {
+                return;
+            }
+            return withReflag(client);
+        }, [client]);
+        return null;
+    }
+    export function Application() {
+        const currentUser = useLoggedInUser();
+        const appConfig = useAppConfig();
+        return (
+            &#x3C;ReflagProvider
+                publishableKey={appConfig.reflagCom.publishableKey}
+                user={{
+                    id: currentUser.uid,
+                    email: currentUser.email ?? undefined,
+                    name: currentUser.displayName ?? '',
+                }}
+                company={{
+                    id: currentUser.company.id,
+                }}
+            >
+                &#x3C;PassFeatureFlagsToGitBookSite />
+                &#x3C;MyApplication />
+            &#x3C;/ReflagProvider>
+        );
+    }
+    ```
+  </Step>
+
+  <Step title="Vérifiez votre schéma du visiteur">
+    Un [schéma du visiteur](/fr/docs/publier/adaptive-content/enabling-adaptive-content#set-your-visitor-schema) est nécessaire pour que vos revendications puissent être lues sur votre site publié. L’installation et la configuration de l’intégration Reflag devraient automatiquement définir votre schéma du visiteur.
+  </Step>
+
+  <Step title="Personnalisez votre contenu">
+    Après avoir défini votre schéma du visiteur, vous êtes prêt à adapter l’expérience de votre documentation aux utilisateurs qui visitent votre site, en utilisant les drapeaux de fonctionnalité auxquels l’utilisateur a accès.
+
+    Toute valeur de drapeau de fonctionnalité disponible dans Reflag sera exposée dans le schéma du visiteur sous l’objet `visitor.claims.unsigned.reflag` En savoir plus sur les revendications non signées [ici](/fr/docs/publier/adaptive-content/enabling-adaptive-content#set-an-unsigned-claim).
+
+    Rendez-vous sur [l’adaptation de votre contenu](/fr/docs/publier/adaptive-content/adapting-your-content) pour en savoir plus sur la personnalisation de votre documentation pour vos utilisateurs.
+  </Step>
+</Steps>
+
+<Callout kind="info">
+  Les valeurs des drapeaux de fonctionnalité sont évaluées côté client ; évitez donc d’utiliser cette méthode pour transmettre des données sensibles ou critiques pour la sécurité.
+</Callout>

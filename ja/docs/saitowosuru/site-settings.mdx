@@ -1,0 +1,120 @@
+---
+title: サイト設定
+description: 公開サイト全体の設定をカスタマイズ・編集します
+metaTitle: サイト設定 | GitBook Documentation
+ogImage: https://test-dai.imgix.net/org-4afef969-21f9-40f3-b5b8-b06c8b6cf68f/doc-22a3b060-9539-4176-97e4-49120e02f5d1/0a5a1a9630785855-organizations-d8f63b60-89ae-11e7-8574-5927d48c4877-sites-site_p4Xo4-socialprevie.jpg?fm=auto&auto=compress%2Cformat
+---
+
+<Image src="https://test-dai.imgix.net/org-4afef969-21f9-40f3-b5b8-b06c8b6cf68f/doc-22a3b060-9539-4176-97e4-49120e02f5d1/aaf28530d97dde2a-spaces-NkEGS7hzeqa35sMXQZ4X-uploads-tLuT2q1SZk1DTXdXd5Qw-26_03_30_site_settings-.png?fm=auto&auto=compress%2Cformat" alt="A GitBook screenshot showing site settings" caption="公開済みドキュメントの設定を更新します。" />
+
+### 全般
+
+<Expandable title="サイトタイトル">
+  サイト名を変更します。カスタムロゴがない場合、サイト訪問者に表示されるのはこの名前です。
+</Expandable>
+
+<Expandable title="分析用Cookie">
+  GitBook の [サイト分析](/ja/docs/anaritikusu/insights)を使用する場合、サイトはCookieを使って再訪問者を識別し、分析を表示するために必要なデータを収集します。これらのCookieを無効にすることもできますが、その場合サイト分析は利用できません。<br /><br />Cookieに関する通知は、サイトで統合を通じて分析が有効になっているときに表示されます。特に **Google アナリティクス**.
+
+  通知を削除するには、 **サイト設定 → 統合**  を右上で開きます。次に、無効にするか削除します **Google アナリティクス**
+
+  これらのCookieを無効にすると、 [サイト分析](/ja/docs/anaritikusu/insights) そのサイトでは無効になります。
+</Expandable>
+
+<Expandable title="サイトの公開を停止">
+  サイトの公開を停止しますが、設定とカスタマイズは保持されます。いつでも再度公開できます。
+</Expandable>
+
+<Expandable title="サイトを削除">
+  サイトの公開を停止し、サイトを次の場所から削除します **docs site** GitBook アプリのセクション内から。
+
+  <strong>注：</strong> サイトの削除は永続的な操作で、元に戻せません。設定やカスタマイズはすべて失われますが、コンテンツはそのまま [space](/ja/docs/kontentsuwo/content-structure/space).
+</Expandable>
+
+<Expandable title="アクセス">
+  ドキュメントサイトにアクセスして管理できるユーザーを管理します。
+
+  開く **アクセス** に戻って **権限を管理**。また、 **共有** をサイトの **概要** ページ。
+
+  サイト権限はすべてのプランで利用できます。
+
+  デフォルトでは、新しいサイトはリンクされた [スペース](/ja/docs/kontentsuwo/content-structure/space)から権限を継承します。サイト権限のモーダルで権限を更新するまでは、これが適用されます。
+
+  サイト権限は、次を使用するリンク済みスペースの権限にも影響する場合があります。 **継承** モード。この場合、各継承スペースには、組織、親コレクション、そしてそれを含む各サイトから付与された最も高い権限レベルが適用されます。
+</Expandable>
+
+### エージェント
+
+[概要](/ja/docs/gitbook-agent/overview)
+
+### スタイルガイド
+
+チームのライティングルールを定義し、GitBook Agent の一貫性を保つスタイルガイドを作成、再利用、または切り離します。
+
+[スタイルガイド](/ja/docs/kontentsuwo/styleguide)
+
+### 対象
+
+<Expandable title="対象">
+  公開済みコンテンツを閲覧できるユーザーを選択します。詳細は [ドキュメントサイトを公開する](/ja/docs/gong-kai/publish-a-docs-site) 詳細は
+</Expandable>
+
+<Expandable title="アダプティブコンテンツ">
+  サイトのページ、バリアント、セクションでアダプティブコンテンツを有効にします。 [アダプティブコンテンツ](/ja/docs/gong-kai/adaptive-content) 権限に応じて、訪問者ごとにコンテンツを非表示または表示できます。
+
+  訪問者トークンの署名キーもここに表示されます。
+</Expandable>
+
+### ドメインとURL
+
+<Expandable title="カスタムドメイン">
+  カスタムドメインを設定して、サイトを独自のブランドに統一します。詳細は [カスタムドメインを設定する](/ja/docs/gong-kai/custom-domain) 詳細は
+</Expandable>
+
+<Expandable title="GitBookサブディレクトリ">
+  コンテンツをサブディレクトリで公開します（例: `yourcompany.com/docs`）。詳細は [カスタムサブディレクトリの設定](/ja/docs/gong-kai/custom-domain/setting-a-custom-subdirectory).
+</Expandable>
+
+### リダイレクト
+
+[サイトのリダイレクト](/ja/docs/gong-kai/site-redirects)
+
+### 機能
+
+<Expandable title="PDFエクスポート">
+  訪問者がGitBookをPDFとしてエクスポートできるようにします。詳細は [PDFエクスポート](/ja/docs/gong-kai/pdf-export) 詳細は
+</Expandable>
+
+<Expandable title="ページ評価">
+  公開済みコンテンツの訪問者が各ページに評価を残せるようにするかどうかを選択します。感想を悲しい顔、中立の顔、嬉しい顔から選べます。
+
+  これらの評価結果は、 [サイト分析](/ja/docs/anaritikusu/insights) ドキュメントサイトのダッシュボードから開き、次を選択することで確認できます **ページとフィードバック**.
+</Expandable>
+
+### AI と MCP
+
+AIの設定はプランによって利用可否が異なります。検索ボックスの配置は Premium と Ultimate のサイトプランで利用できます。サイドバーの配置と MCP コネクタは Ultimate で利用できます。
+
+<Expandable title="AIアシスタント">
+  サイトで AI アシスタントをオンまたはオフにします。詳細は [AIアシスタント](/ja/docs/notamenoai/gitbook-ai-assistant) 詳細は
+</Expandable>
+
+<Expandable title="外観">
+  アシスタントの表示位置を次で選択します **配置** — **サイドバー** で、完全なチャット体験を利用できます。Ultimate サイトプランで利用可能です。または **検索ボックス** サイトの検索バーで質問に答えられるようにします。Premium と Ultimate のサイトプランで利用できます。ここではアシスタントの挨拶も設定でき、これはサイドバー配置にのみ適用されます。詳細は [AIアシスタント](/ja/docs/notamenoai/gitbook-ai-assistant) 詳細は
+</Expandable>
+
+<Expandable title="MCP コネクタで GitBook アシスタントを拡張">
+  GitBook アシスタントがドキュメント内で質問に答える際に使用できる MCP サーバーを設定します。この設定は Ultimate サイトプランで利用できます。詳細は [公開ドキュメント向けMCPサーバー](/ja/docs/notamenoai/mcp-servers-for-published-docs) 詳細は
+</Expandable>
+
+### 接続
+
+[接続](/ja/docs/notamenoai/connections)
+
+### 構成
+
+[サイト構造](/ja/docs/saitowosuru/site-structure)
+
+### プラン
+
+[プラン](/ja/docs/akauntoto/plans)

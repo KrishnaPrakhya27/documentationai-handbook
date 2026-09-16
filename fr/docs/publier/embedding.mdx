@@ -1,0 +1,72 @@
+---
+title: Intégrer dans votre produit
+description: Intégrez votre documentation dans votre produit ou votre site web à l’aide de Docs Embed.
+metaTitle: Intégrer dans votre produit | GitBook Documentation
+ogImage: https://test-dai.imgix.net/org-4afef969-21f9-40f3-b5b8-b06c8b6cf68f/doc-22a3b060-9539-4176-97e4-49120e02f5d1/0a5a1a9630785855-organizations-d8f63b60-89ae-11e7-8574-5927d48c4877-sites-site_p4Xo4-socialprevie.jpg?fm=auto&auto=compress%2Cformat
+---
+
+L’intégration Docs est une fenêtre puissante sur la connaissance de votre produit que vous pouvez ajouter à n’importe quel produit ou site web. Les utilisateurs peuvent poser des questions à [GitBook Assistant](/fr/docs/lia-pour-vos-lecteurs/gitbook-ai-assistant), rechercher dans vos docs ou parcourir directement les pages, sans quitter votre produit. Vous pouvez ouvrir l’intégration avec un bouton, l’intégrer dans n’importe quel composant de votre choix ou la contrôler entièrement par programmation.
+
+<Image src="https://test-dai.imgix.net/org-4afef969-21f9-40f3-b5b8-b06c8b6cf68f/doc-22a3b060-9539-4176-97e4-49120e02f5d1/61019d2f4b9d0980-spaces-NkEGS7hzeqa35sMXQZ4X-uploads-5krgZgNq1Mj79a3aVB7h-emebeddable_assistant.png?fm=auto&auto=compress%2Cformat" alt="Embed GitBook Assistant into your product or website" caption="Intégrez votre documentation dans votre produit ou site web" />
+
+## Vue d’ensemble
+
+L’intégration Docs peut contenir trois onglets :
+
+- **Assistant**: L’ [GitBook Assistant](/fr/docs/lia-pour-vos-lecteurs/gitbook-ai-assistant) \- une interface de chat alimentée par l’IA pour aider les utilisateurs à trouver des réponses
+- **Recherche**: une interface axée sur la recherche pour trouver rapidement des pages et poser des questions ciblées
+- **Docs**: un navigateur pour parcourir votre site de documentation
+
+Tous les onglets sont activés par défaut. Si vous définissez `onglets`, l’intégration n’affiche que les onglets que vous listez.
+
+Vous pouvez personnaliser et remplacer la configuration par défaut avec des actions personnalisées, des outils, des questions suggérées, [Accès authentifié](/fr/docs/publier/site-audience/authenticated-access), et bien plus encore.
+
+## Commencer
+
+<Steps>
+  <Step title="Prérequis">
+    Avant d’intégrer votre documentation, assurez-vous que :
+
+    1. **Votre documentation est publiée** et accessible à une URL (par ex., `https://docs.company.com`).
+    2. **Vous avez récupéré l’URL du script d’intégration** dans les paramètres de votre site (Paramètres → IA et MCP → Intégration).
+
+    <Callout kind="info">
+      Si vous souhaitez utiliser l’onglet Assistant, [GitBook Assistant doit être activé](/fr/docs/lia-pour-vos-lecteurs/gitbook-ai-assistant) pour votre site de documentation (Paramètres → IA et MCP).
+    </Callout>
+  </Step>
+
+  <Step title="Implémentation">
+    Utilisez notre skill pour intégrer rapidement GitBook Assistant à votre produit à l’aide de votre pile existante.
+
+    <Card href="/files/a126064ad2ece89666c681a5e71c858a9d2923e8" />
+
+    Sinon, poursuivez votre lecture dans la documentation pour l’approche qui correspond à votre configuration :
+
+    <Columns cols={3}>
+      <Card title="Balise script autonome" href="/fr/docs/publier/embedding/implementation/script" icon="code">
+        Ajoutez une balise &lt;script> pour l’installation la plus rapide, puis personnalisez son apparence
+      </Card>
+
+      <Card title="Node.js/NPM" href="/fr/docs/publier/embedding/implementation/nodejs" icon="box">
+        Installez via NPM pour le rendu côté serveur ou le contrôle au moment de la compilation
+      </Card>
+
+      <Card title="Composant React" href="/fr/docs/publier/embedding/implementation/react">
+        Utilisez des composants React préconçus pour une intégration fluide
+      </Card>
+    </Columns>
+
+    <Callout kind="info">
+      Si votre documentation utilise [Accès authentifié](/fr/docs/publier/site-audience/authenticated-access), suivez les étapes de [comment configurer l’intégration avec une documentation authentifiée](/fr/docs/publier/embedding/using-with-authenticated-docs).
+    </Callout>
+  </Step>
+
+  <Step title="Configuration">
+    - [Personnalisation de l’intégration](/fr/docs/publier/embedding/configuration/customizing-docs-embed) – Ajoutez des messages de bienvenue, des actions personnalisées et des suggestions
+    - [Créer des outils personnalisés](/fr/docs/publier/embedding/configuration/creating-custom-tools) – Connectez Assistant aux API de votre produit
+  </Step>
+</Steps>
+
+## Pour aller plus loin
+
+Pour la référence complète de l’API et le code source, consultez le [`@gitbook/embed` package sur GitHub](https://github.com/GitbookIO/gitbook/tree/main/packages/embed).

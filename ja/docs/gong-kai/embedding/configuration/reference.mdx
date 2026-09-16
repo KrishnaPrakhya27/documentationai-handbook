@@ -1,0 +1,353 @@
+---
+title: APIリファレンス
+description: Docs Embedをプログラムで扱う際に使用できるメソッドについて詳しく学びます
+metaTitle: APIリファレンス | GitBook Documentation
+ogImage: https://test-dai.imgix.net/org-4afef969-21f9-40f3-b5b8-b06c8b6cf68f/doc-22a3b060-9539-4176-97e4-49120e02f5d1/0a5a1a9630785855-organizations-d8f63b60-89ae-11e7-8574-5927d48c4877-sites-site_p4Xo4-socialprevie.jpg?fm=auto&auto=compress%2Cformat
+---
+
+Docs Embed は、統合方法に応じて異なる API を提供します。このリファレンスでは、すべての統合方法にわたる利用可能なメソッドを説明します。
+
+## メソッド比較
+
+| 方法 | スタンドアロン スクリプト | NPM パッケージ | React コンポーネント |
+| --- | --- | --- | --- |
+| **初期化** | `GitBook('init', options, frameOptions)` | `createGitBook(options)` | `<GitBookProvider siteURL="...">` |
+| **カラースキームの上書き** | `GitBook('init', options, { colorScheme })` | `client.getFrameURL({ colorScheme })` | `<GitBookFrame colorScheme="..." />` |
+| **フレーム URL を取得** | ❌（内部で処理されます） | `client.getFrameURL(options)` | `useGitBook().getFrameURL(options)` |
+| **フレームクライアントを作成** | ❌（内部で処理されます） | `client.createFrame(iframe)` | `useGitBook().createFrame(iframe)` |
+| **ウィジェットを表示/非表示** | `GitBook('show')` / `GitBook('hide')` | ❌ | ❌ |
+| **ウィンドウを開く/閉じる** | `GitBook('open')` / `GitBook('close')` / `GitBook('toggle')` | ❌ | ❌ |
+| **ページへ移動** | `GitBook('navigateToPage', path)` | `frame.navigateToPage(path)` | フレームクライアント経由 |
+| **アシスタントへ移動** | `GitBook('navigateToAssistant')` | `frame.navigateToAssistant()` | フレームクライアント経由 |
+| **メッセージを投稿** | `GitBook('postUserMessage', message)` | `frame.postUserMessage(message)` | フレームクライアント経由 |
+| **チャットをクリア** | `GitBook('clearChat')` | `frame.clearChat()` | フレームクライアント経由 |
+| **設定** | `GitBook('configure', settings)` | `frame.configure(settings)` | Props の `<GitBookFrame>` |
+| **イベントリスナー** | ❌ | `frame.on(event, listener)` | フレームクライアント経由 |
+| **アンロード** | `GitBook('unload')` | ❌ | ❌ |
+
+## スタンドアロン スクリプト API
+
+### 初期化
+
+#### `GitBook('init', options, frameOptions)`
+
+サイト URL と、必要に応じた認証済みアクセスを指定してウィジェットを初期化します。
+
+<strong>パラメーター:</strong>
+
+- `options`: `{ siteURL: string }` \- GitBook ドキュメントサイトの URL
+- `frameOptions`: `{ visitor?: { token?: string, unsignedClaims?: Record<string, unknown> }, colorScheme?: 'light' | 'dark' }` （任意）- フレームオプション
+
+<strong>例:</strong>
+
+```javascript
+window.GitBook('init', 
+  { siteURL: 'https://docs.company.com' },
+  { visitor: { token: 'your-jwt-token' }, colorScheme: 'dark' }
+);
+```
+
+省略した場合、 `colorScheme` iframe の CSS に従います `color-scheme`.
+
+### ウィジェットの制御
+
+#### ウィジェットを表示
+
+非表示になっている場合は GitBook ウィジェットを表示します。
+
+<strong>例:</strong>
+
+```js
+window.GitBook("show");
+```
+
+#### ウィジェットを非表示にする
+
+GitBook ウィジェットをアンロードせずに非表示にします。
+
+<strong>例:</strong>
+
+```js
+window.GitBook("hide");
+```
+
+#### ウィンドウを開く
+
+Docs Embed ウィンドウを開きます。
+
+<strong>例:</strong>
+
+```js
+window.GitBook("open");
+```
+
+#### ウィンドウを閉じる
+
+Docs Embed ウィンドウを閉じます。
+
+<strong>例:</strong>
+
+```js
+window.GitBook("close");
+```
+
+#### ウィンドウを切り替える
+
+Docs Embed ウィンドウを開閉します。
+
+<strong>例:</strong>
+
+```js
+window.GitBook("toggle");
+```
+
+#### ウィジェットをアンロードする
+
+GitBook ウィジェットをサイトから完全に削除します。
+
+<strong>例:</strong>
+
+```js
+window.GitBook("unload");
+```
+
+### ナビゲーション
+
+#### `GitBook('navigateToPage', path)`
+
+パスを指定して、GitBook ドキュメント内の特定のページへ移動します。
+
+<strong>パラメーター:</strong>
+
+- `path` （string）: 移動先ページのパス
+
+<strong>例:</strong>
+
+```javascript
+// はじめにガイドへ移動
+window.GitBook("navigateToPage", "/getting-started");
+
+// 特定の API ドキュメントページへ移動
+window.GitBook("navigateToPage", "/api/authentication");
+
+// FAQ セクションへ移動
+window.GitBook("navigateToPage", "/faq/billing");
+```
+
+#### `GitBook('navigateToAssistant')`
+
+アシスタントタブへ直接移動します。
+
+<strong>例:</strong>
+
+```javascript
+// アシスタントタブに切り替える
+window.GitBook("navigateToAssistant");
+
+// ボタンクリックへの応答として使用できます
+document.getElementById("help-button").addEventListener("click", () => {
+  window.GitBook("navigateToAssistant");
+});
+```
+
+### チャット
+
+#### `GitBook('postUserMessage', message)`
+
+ユーザーが入力したかのようにチャットへメッセージを投稿します。
+
+<strong>パラメーター:</strong>
+
+- `message` （string）: チャットに投稿するメッセージ
+
+<strong>例:</strong>
+
+```javascript
+// 事前定義されたメッセージを送信
+window.GitBook("postUserMessage", "パスワードをリセットするにはどうすればよいですか？");
+
+// ユーザーの操作に基づいてメッセージを送信
+function askAboutBilling() {
+  window.GitBook("postUserMessage", "請求について質問があります");
+}
+
+// コンテキスト付きでメッセージを送信
+const userPlan = "premium";
+window.GitBook(
+  "postUserMessage",
+  `私は ${userPlan} プランを利用しており、高度な機能についてサポートが必要です`
+);
+```
+
+#### `GitBook('clearChat')`
+
+現在のチャットセッションからすべてのメッセージを削除します。
+
+<strong>例:</strong>
+
+```javascript
+// チャットをクリア
+window.GitBook("clearChat");
+
+// チャットをクリアして新しい会話を開始
+function startNewConversation() {
+  window.GitBook("clearChat");
+  window.GitBook("postUserMessage", "こんにちは、新しい問題についてサポートが必要です");
+}
+
+// コンテキストを切り替えるときにチャットをクリア
+document.getElementById("new-topic").addEventListener("click", () => {
+  window.GitBook("clearChat");
+  window.GitBook("navigateToAssistant");
+});
+```
+
+### 設定
+
+#### `GitBook('configure', settings)`
+
+埋め込みをカスタマイズオプションで設定します。詳細は [設定セクション](/ja/docs/gong-kai/embedding/implementation/script#configuration-options) 利用可能なオプションについて。
+
+<strong>例:</strong>
+
+```javascript
+window.GitBook('configure', {
+  trademark: false,
+  tabs: ['assistant', 'search', 'docs'],
+  actions: [
+    {
+      icon: 'circle-question',
+      label: 'サポートに問い合わせる',
+      onClick: () => window.open('https://support.example.com', '_blank')
+    }
+  ],
+  greeting: { title: 'ようこそ！', subtitle: 'どのようなご用件でしょうか？' },
+  assistantName: 'サポート Copilot',
+  closeButton: true,
+  suggestions: ['GitBook とは？', 'どこから始めればよいですか？']
+});
+```
+
+## NPM パッケージ API
+
+### クライアントファクトリー
+
+#### `createGitBook(options)`
+
+GitBook クライアントインスタンスを作成します。
+
+<strong>パラメーター:</strong>
+
+- `options`: `{ siteURL: string }` \- GitBook ドキュメントサイトの URL
+
+<strong>返り値:</strong> `GitBookClient`
+
+<strong>例:</strong>
+
+```javascript
+import { createGitBook } from '@gitbook/embed';
+
+const gitbook = createGitBook({
+  siteURL: 'https://docs.company.com'
+});
+```
+
+#### `client.getFrameURL(options)`
+
+必要に応じて認証済みアクセス付きで iframe URL を取得します。
+
+<strong>パラメーター:</strong>
+
+- `options`: `{ visitor?: { token?: string, unsignedClaims?: Record<string, unknown> }, colorScheme?: 'light' | 'dark' }` （任意）
+
+<strong>返り値:</strong> `string`
+
+<strong>例:</strong>
+
+```javascript
+const iframeURL = gitbook.getFrameURL({
+  colorScheme: 'dark',
+  visitor: {
+    token: 'your-jwt-token',
+    unsignedClaims: { userId: '123', plan: 'premium' }
+  }
+});
+```
+
+#### `client.createFrame(iframe)`
+
+iframe と通信するためのフレームクライアントを作成します。
+
+<strong>パラメーター:</strong>
+
+- `iframe`: `HTMLIFrameElement` \- iframe 要素
+
+<strong>返り値:</strong> `GitBookFrameClient`
+
+<strong>例:</strong>
+
+```javascript
+const iframe = document.createElement('iframe');
+iframe.src = gitbook.getFrameURL();
+const frame = gitbook.createFrame(iframe);
+```
+
+### フレームクライアントのメソッド
+
+#### `frame.navigateToPage(path)`
+
+docs タブ内の特定のページへ移動します。
+
+<strong>パラメーター:</strong>
+
+- `path`: `string` \- ページへのパス
+
+#### `frame.navigateToAssistant()`
+
+アシスタントタブに切り替えます。
+
+#### `frame.postUserMessage(message)`
+
+チャットにメッセージを投稿します。
+
+<strong>パラメーター:</strong>
+
+- `message`: `string` \- 投稿するメッセージ
+
+#### `frame.clearChat()`
+
+チャット履歴をクリアします。
+
+#### `frame.configure(settings)`
+
+埋め込みを設定します。詳細は [設定セクション](/ja/docs/gong-kai/embedding/implementation/nodejs#configuration-options) 利用可能なオプションについて。
+
+#### `frame.on(event, listener)`
+
+イベントリスナーを登録します。
+
+<strong>パラメーター:</strong>
+
+- `event`: `string` \- イベント名
+- `listener`: `Function` \- コールバック関数
+
+<strong>返り値:</strong> `() => void` \- 登録解除関数
+
+<strong>例:</strong>
+
+```javascript
+const unsubscribe = frame.on('close', () => {
+  console.log('フレームが閉じました');
+});
+
+// 後で登録解除
+unsubscribe();
+```
+
+## React コンポーネント API
+
+以下を参照してください [React 統合ガイド](/ja/docs/gong-kai/embedding/implementation/react) コンポーネントの props と `useGitBook` フック API。
+
+`GitBookFrame` がサポートする `assistantName`, `closeButton`, `colorScheme="light" | "dark"`、および `visitor` 認証済みアクセス用の prop。
+
+`useGitBook().getFrameURL()` 同じ `colorScheme` パラメーターを NPM パッケージと同じように受け取ります。

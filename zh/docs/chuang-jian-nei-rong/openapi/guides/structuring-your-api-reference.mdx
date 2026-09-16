@@ -1,0 +1,147 @@
+---
+title: 构建你的 API 参考结构
+description: 了解如何使用图标和描述在多个页面之间组织 API 参考
+metaTitle: 构建你的 API 参考结构 | GitBook Documentation
+ogImage: https://test-dai.imgix.net/org-4afef969-21f9-40f3-b5b8-b06c8b6cf68f/doc-22a3b060-9539-4176-97e4-49120e02f5d1/0a5a1a9630785855-organizations-d8f63b60-89ae-11e7-8574-5927d48c4877-sites-site_p4Xo4-socialprevie.jpg?fm=auto&auto=compress%2Cformat
+---
+
+GitBook 不仅仅是渲染您的 OpenAPI 规范。它还允许您自定义 API 参考文档，以获得更好的清晰度、导航和品牌展示。
+
+要在 **每个标签一个页面** 以及 **每个操作一个页面**之间进行选择，请参见 [OpenAPI 布局](/zh/docs/chuang-jian-nei-rong/openapi/guides/openapi-layouts).
+
+本页说明如何使用标签控制生成的导航。
+
+### 使用标签组织生成的页面
+
+GitBook 使用标签在两种布局中组织生成的 API 参考页面。
+
+在 **每个标签一个页面**，GitBook 会为每个标签创建一个页面。使用 **每个操作一个页面**，GitBook 会为每个操作创建一个页面，并使用标签在目录中对这些页面进行分组。
+
+要将相关操作分组，请为每个操作分配相同的标签：
+
+```yaml
+paths:
+  /pet:
+    put:
+      tags:
+        - 宠物
+      summary: 更新现有宠物。
+      description: 通过 ID 更新现有宠物。
+      operationId: updatePet
+```
+
+### 重新排序目录中的页面
+
+生成的标签页面或标签组的顺序与您的 OpenAPI 中标签的顺序一致 `tags` array:
+
+```yaml
+tags:
+  - name: 宠物
+  - name: 商店
+  - name: user
+```
+
+### 嵌套页面到组中
+
+要构建多级导航，请使用 `x-parent` （或 `parent`）中的标签来定义层级。这适用于两种页面结构：
+
+```yaml
+tags:
+  - name: 全部
+  - name: 宠物
+    x-parent: 全部
+  - name: 商店
+    x-parent: 全部
+```
+
+上面的示例会创建如下目录：
+
+```
+全部
+├── 宠物
+└── 商店
+```
+
+如果 GitBook 生成了父页面且该页面没有描述，则会为其子页面显示基于卡片的布局。
+
+### 自定义页面标题、图标和描述
+
+您可以在 `tags` 部分。所有 [Font Awesome 图标](https://fontawesome.com/search) 可通过 `x-page-icon`.
+
+```yaml title="openapi.yaml"
+tags:
+  - name: 宠物
+    # 目录和页面中显示的页面标题
+    x-page-title: 宠物
+    # 目录中显示以及页面标题旁显示的图标
+    x-page-icon: dog
+    # 显示在标题上方的描述
+    x-page-description: 宠物太棒了！
+    # 页面内容
+    description: 关于您的宠物的一切
+```
+
+### 使用 GitBook Blocks 构建丰富的描述
+
+标签描述字段支持 GitBook Markdown，包括 [高级块](/zh/docs/chuang-jian-nei-rong/blocks) 如选项卡：
+
+```yaml title="openapi.yaml"
+---
+tags:
+  - name: 宠物
+    description: |
+      这里是宠物的详细信息。
+
+      {% tabs %}
+      {% tab title="狗" %}
+      这里是狗
+      {% endtab %}
+
+      {% tab title="猫" %}
+      这里是猫
+      {% endtab %}
+
+      {% tab title="兔子" %}
+      这里是兔子
+      {% endtab %}
+      {% endtabs %}
+```
+
+### 高亮 schema
+
+您可以通过使用 GitBook Markdown 在 GitBook 描述中高亮一个 schema。以下是一个示例，用于高亮 “petstore” 规范中的 “Pet” schema：
+
+```yaml title="openapi.yaml"
+---
+tags:
+  - name: 宠物
+      description: |
+          {% openapi-schemas spec="petstore" schemas="Pet" grouped="false" %}
+              Pet 对象
+          {% endopenapi-schemas %}
+```
+
+### 记录 webhook 端点
+
+GitBook 支持 OpenAPI 3.1，包括 webhook 端点。
+
+该 `webhooks` 字段是 OpenAPI 3.1 的一部分，因此您的规范必须声明 OpenAPI 3.1 版本。您可以直接在 OpenAPI 文件中定义 webhooks，GitBook 会将它们与其他 API 操作一起渲染。有关跨 OpenAPI 文档的版本支持，请参见 [OpenAPI 兼容性](/zh/docs/chuang-jian-nei-rong/openapi#openapi-compatibility).
+
+```yaml title="openapi.yaml"
+---
+openapi: 3.1.0 # Webhooks 可从 OpenAPI 3.1 开始使用
+
+webhooks:
+  newPet:
+    post:
+      summary: 新宠物事件
+      description: 系统中新宠物的信息
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Pet"
+      responses:
+        "200":
+          description: 返回 200 状态，以表明数据已成功接收
+```

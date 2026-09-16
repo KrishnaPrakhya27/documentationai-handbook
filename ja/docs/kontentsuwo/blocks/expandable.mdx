@@ -1,0 +1,55 @@
+---
+title: 展開可能
+description: ページを短く保ったり、長いコンテンツを隠したり、FAQを作成したりするために、展開可能ブロックをページに追加します
+metaTitle: 展開可能 | GitBook Documentation
+ogImage: https://test-dai.imgix.net/org-4afef969-21f9-40f3-b5b8-b06c8b6cf68f/doc-22a3b060-9539-4176-97e4-49120e02f5d1/0a5a1a9630785855-organizations-d8f63b60-89ae-11e7-8574-5927d48c4877-sites-site_p4Xo4-socialprevie.jpg?fm=auto&auto=compress%2Cformat
+---
+
+展開ブロックは、そうでなければ長い段落になってしまう内容を要約するのに役立ちます。また、手順ガイドやFAQにも最適です。
+
+デフォルトでは、公開済みのドキュメントサイトでは展開ブロックは折りたたまれた状態になります。展開ブロックをデフォルトで展開したい場合は、ブロックの **オプションメニュー** <Image src="https://test-dai.imgix.net/org-4afef969-21f9-40f3-b5b8-b06c8b6cf68f/doc-22a3b060-9539-4176-97e4-49120e02f5d1/4c115a43418b42e3-spaces-NkEGS7hzeqa35sMXQZ4X-uploads-aS1QvPIBVYwhpFTGcPBN-options-menu.svg?rasterize-bypass=true" alt="" /> を選択し、 **デフォルトで展開**.
+
+### 例
+
+<Expandable title="ステップ1: 展開ブロックを使い始める" defaultOpen={true}>
+  展開ブロックを追加するには、 `/` 空のブロックで、または `+` エディター左側の をクリックして、 **展開可能**.
+
+  オプションとして、展開済みブロックを **デフォルトで展開** に設定できます **オプションメニュー** <Image src="https://test-dai.imgix.net/org-4afef969-21f9-40f3-b5b8-b06c8b6cf68f/doc-22a3b060-9539-4176-97e4-49120e02f5d1/4c115a43418b42e3-spaces-NkEGS7hzeqa35sMXQZ4X-uploads-aS1QvPIBVYwhpFTGcPBN-options-menu.svg?rasterize-bypass=true" alt="" /> — まさにこのブロックのように。
+</Expandable>
+
+<Expandable title="ステップ2: ブロックにコンテンツを追加する">
+  展開ブロックを挿入したら、リストやコードブロックを含め、そこにコンテンツを追加できます。
+</Expandable>
+
+## Markdownでの表記
+
+```markdown
+# 展開ブロック
+
+<details open>
+
+<summary>展開ブロックのタイトルをここに追加</summary>
+
+展開ブロックの本文をここに追加します。この展開ブロックはデフォルトで展開されています。
+
+</details>
+
+<details>
+
+<summary>展開ブロックのタイトルをここに追加</summary>
+
+展開ブロックの本文をここに追加します。この展開ブロックはデフォルトで折りたたまれています。
+
+</details>
+```
+
+### 制限事項
+
+展開ブロック内で作成できるブロックにはいくつか制限があります。展開ブロックには次の種類のコンテンツを挿入できます:
+
+- 段落
+- 見出し（1、2、3）
+- 箇条書き、番号付きリスト、タスクリスト
+- インライン画像
+
+完全な一覧をいつでも確認するには、展開ブロック内で新しい行を開始して、 `/` を押して挿入パレットを表示すると、追加できるすべてのブロックを確認できます。

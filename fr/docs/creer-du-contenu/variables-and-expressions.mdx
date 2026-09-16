@@ -1,0 +1,48 @@
+---
+title: Variables et expressions
+description: Créez des variables réutilisables qui peuvent être référencées dans les pages et les sections
+metaTitle: Variables et expressions | GitBook Documentation
+ogImage: https://test-dai.imgix.net/org-4afef969-21f9-40f3-b5b8-b06c8b6cf68f/doc-22a3b060-9539-4176-97e4-49120e02f5d1/0a5a1a9630785855-organizations-d8f63b60-89ae-11e7-8574-5927d48c4877-sites-site_p4Xo4-socialprevie.jpg?fm=auto&auto=compress%2Cformat
+---
+
+Avec les variables, vous pouvez créer du texte réutilisable qui peut être référencé conditionnellement dans [des expressions](/fr/docs/creer-du-contenu/formatting/inline#expressions) et [des conditions pour du contenu adaptatif](/fr/docs/publier/adaptive-content/adapting-your-content#working-with-the-condition-editor).
+
+Si vous répétez plusieurs fois le même nom, la même phrase ou le même numéro de version dans votre contenu, vous pouvez créer une **variable** pour garder toutes ces occurrences synchronisées et exactes — ce qui est utile si vous devez un jour les mettre à jour, ou si elles sont complexes et souvent mal saisies.
+
+Vous pouvez créer des variables limitées à une seule page, ou à une seule section.
+
+### Créer une nouvelle variable
+
+Pour créer une nouvelle variable, cliquez sur la **Bibliothèque** dans votre table des matières lors de la modification d'une [demande de modification](/fr/docs/collaborer/change-requests). Puis, cliquez sur **Variables**.
+
+Vous pouvez utiliser le commutateur en haut pour afficher et créer des variables limitées soit à la page actuelle sur laquelle vous vous trouvez, soit à toutes les pages de la section actuelle.
+
+En cliquant sur **Créer une variable** ouvrira une fenêtre modale où vous pourrez donner à votre variable un nom et une valeur.
+
+Cliquez sur **Ajouter la variable** pour enregistrer votre variable.
+
+<Image src="https://test-dai.imgix.net/org-4afef969-21f9-40f3-b5b8-b06c8b6cf68f/doc-22a3b060-9539-4176-97e4-49120e02f5d1/1b45aae2ae8c3065-spaces-NkEGS7hzeqa35sMXQZ4X-uploads-QwfTEGjsxDThqQFvgOm8-Add-variable-2x.png?fm=auto&auto=compress%2Cformat" alt="A GitBook screenshot showing the Add variables screen. The variable Name box has been filled with the text ‘latest_version’ and the Value box has been filled with the text ‘v3.04.1’" caption="Vous pouvez ajouter des variables à une seule page ou à une section entière. Lorsque vous mettez à jour la valeur d'une variable, chaque occurrence sera mise à jour." />
+
+<Callout kind="info">
+  Les noms de variables doivent commencer par une lettre et peuvent contenir des lettres, des chiffres et des tirets bas.
+</Callout>
+
+### Utiliser des variables dans votre contenu
+
+Les variables peuvent être référencées et utilisées dans une [expression](/fr/docs/creer-du-contenu/formatting/inline#expressions) — que vous pouvez insérer en ligne dans votre contenu. Après avoir inséré une expression, double-cliquez dessus pour ouvrir l'éditeur d'expression.
+
+<Callout kind="info">
+  Les expressions ne peuvent être utilisées que dans le contenu d'une page d'un document. Elles ne fonctionnent pas dans les titres de page ni dans les métadonnées de page.
+</Callout>
+
+Les variables définies sous votre page sont accessibles via l'objet `page.vars` . De même, les variables définies pour l'ensemble de votre section sont accessibles via l'objet `space.vars` .
+
+<Callout kind="info">
+  Dans les expressions, les variables à l'échelle de la section se trouvent sous `space.vars` — l'API GitBook représente les sections sous forme d'objets `space` .
+</Callout>
+
+<Image src="https://test-dai.imgix.net/org-4afef969-21f9-40f3-b5b8-b06c8b6cf68f/doc-22a3b060-9539-4176-97e4-49120e02f5d1/808ca61d28ee1024-spaces-NkEGS7hzeqa35sMXQZ4X-uploads-aRWyFWMI24Cy2nVZmSzE-Using-variable-2x.png?fm=auto&auto=compress%2Cformat" alt="A GitBook screenshot showing an expression block within the editor. The expression editor is open below it and the ‘space.vars.latest_version’ variable has been selected" caption="Vous pouvez ajouter des variables à votre contenu au sein des expressions. L'éditeur d'expressions propose des options d'autocomplétion pour vous aider à trouver la variable dont vous avez besoin." />
+
+### Mettre à jour une variable
+
+Vous pouvez mettre à jour une variable à tout moment dans le cadre d'une demande de modification. La mise à jour de sa valeur la mettra à jour dans tous les blocs d'expression qui y font référence. La variable modifiée sera publiée sur tout site publié une fois que la demande de modification aura été fusionnée.

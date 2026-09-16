@@ -1,0 +1,55 @@
+---
+title: Update an AI agent conversation in an organization
+metaTitle: Update an AI agent conversation in an organization | Developers | GitBook Documentation
+ogImage: https://test-dai.imgix.net/org-4afef969-21f9-40f3-b5b8-b06c8b6cf68f/doc-22a3b060-9539-4176-97e4-49120e02f5d1/0a5a1a9630785855-organizations-d8f63b60-89ae-11e7-8574-5927d48c4877-sites-site_p4Xo4-socialprevie.jpg?fm=auto&auto=compress%2Cformat
+---
+
+Updates one of the calling user's conversations with the organization agent. Use this to rename it.
+
+**PATCH** `/orgs/{organizationId}/agent/conversations/{conversationId}`
+
+**Parameters**
+
+<ParamField header="Authorization" param-type="string" />
+
+<ParamField path="organizationId" param-type="string" required={true}>
+  The unique id of the organization
+</ParamField>
+
+<ParamField path="conversationId" param-type="string" required={true}>
+  The unique ID of the agent conversation (its client-generated local id, or "default" for the default conversation)
+</ParamField>
+
+**Request body**
+
+<ParamField body="title" param-type="string" required={true}>
+  The new title of the conversation.
+</ParamField>
+
+**Responses**
+
+`200` The updated conversation.
+
+<ResponseField name="object" field-type="string" required={true} enum="agent-conversation">
+  Type of Object, always equals to "agent-conversation"
+</ResponseField>
+
+<ResponseField name="id" field-type="string" required={true}>
+  The unique ID of the conversation. This is the client-generated identifier used to address the conversation; for the default conversation of a change request it is "default".
+</ResponseField>
+
+<ResponseField name="title" field-type="string">
+  The title of the conversation, generated from the first message. Absent until generated.
+</ResponseField>
+
+<ResponseField name="shared" field-type="boolean" required={true}>
+  Whether the conversation is shared with everyone who has access to its context, rather than only its creator. Conversations are shared by default; a private conversation is only ever visible to its creator and stays private for good.
+</ResponseField>
+
+<ResponseField name="changeRequest" field-type="string">
+  The change request the conversation is currently editing in. Only set for organization agent conversations, which start without one and attach a change request the first time the agent needs to change content. Absent for change request conversations, whose change request is the conversation's context.
+</ResponseField>
+
+<ResponseField name="createdAt" field-type="string" required={true} />
+
+<ResponseField name="updatedAt" field-type="string" required={true} />

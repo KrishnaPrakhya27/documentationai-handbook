@@ -1,0 +1,23 @@
+---
+title: Errors
+description: Learn about errors the GitBook API might return
+metaTitle: Errors | Developers | GitBook Documentation
+ogImage: https://test-dai.imgix.net/org-4afef969-21f9-40f3-b5b8-b06c8b6cf68f/doc-22a3b060-9539-4176-97e4-49120e02f5d1/0a5a1a9630785855-organizations-d8f63b60-89ae-11e7-8574-5927d48c4877-sites-site_p4Xo4-socialprevie.jpg?fm=auto&auto=compress%2Cformat
+---
+
+GitBook uses conventional HTTP response codes to indicate the success or failure of an API request. As a general rule:
+
+- Codes in the <strong>`2xx`</strong> range indicate success.
+- Codes in the <strong>`4xx`</strong> range indicate incorrect or incomplete parameters (e.g. a required parameter was omitted, or an operation failed with a 3rd party, etc.).
+- Codes in the <strong>`5xx`</strong> range indicate an error with GitBook's servers.
+
+GitBook also outputs an error message and an error code formatted in JSON:
+
+```json
+{
+    "error": {
+        "code": 404,
+        "message": "Page not found in this space"
+    }
+}
+```

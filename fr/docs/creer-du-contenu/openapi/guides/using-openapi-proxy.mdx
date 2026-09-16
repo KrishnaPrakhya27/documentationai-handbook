@@ -1,0 +1,68 @@
+---
+title: Utiliser le proxy OpenAPI
+metaTitle: Utiliser le proxy OpenAPI | GitBook Documentation
+ogImage: https://test-dai.imgix.net/org-4afef969-21f9-40f3-b5b8-b06c8b6cf68f/doc-22a3b060-9539-4176-97e4-49120e02f5d1/0a5a1a9630785855-organizations-d8f63b60-89ae-11e7-8574-5927d48c4877-sites-site_p4Xo4-socialprevie.jpg?fm=auto&auto=compress%2Cformat
+---
+
+GitBook peut acheminer via un proxy **Essayez-le** les requêtes afin qu’elles fonctionnent même lorsque votre serveur d’API ne prend pas en charge CORS.
+
+### Pourquoi cela existe
+
+Les navigateurs bloquent les requêtes inter-origines, sauf si le serveur d’API les autorise avec des en-têtes CORS. Sans CORS configuré, **Essayez-le** les requêtes échouent dans le navigateur. Le proxy achemine ces requêtes côté serveur via GitBook, contournant ainsi cette restriction.
+
+### Activer le proxy pour l’ensemble de votre spécification
+
+Ajoutez `x-enable-proxy: true` à la racine de votre spécification OpenAPI.
+
+```yaml
+openapi: '3.0.3'
+x-enable-proxy: true
+info:
+  title: Exemple d’API
+  version: '1.0.0'
+servers:
+  - url: https://api.example.com
+```
+
+### Activer ou désactiver pour une opération spécifique
+
+Ajoutez `x-enable-proxy` sur une opération.
+
+```yaml
+openapi: '3.0.3'
+info:
+  title: Exemple d’API
+  version: '1.0.0'
+servers:
+  - url: https://api.example.com
+paths:
+  /reports:
+    get:
+      summary: Lister les rapports
+      x-enable-proxy: true
+      responses:
+        '200':
+          description: OK
+    post:
+      summary: Créer un rapport
+      x-enable-proxy: false
+      responses:
+        '201':
+          description: Créé
+```
+
+<Callout kind="info">
+  Au niveau de l’opération `x-enable-proxy` prévaut sur la valeur définie à la racine.
+</Callout>
+
+### Ce que le proxy prend en charge
+
+GitBook transmet toutes les `HTTP` méthodes (`GET`, `POST`, `PUT`, `DELETE`, `PATCH`), les en-têtes, les cookies et les corps de requête.
+
+### Sécurité
+
+Le proxy transmet uniquement les requêtes vers les URL répertoriées dans le `servers` tableau de votre spécification. Il ne peut pas être utilisé pour atteindre des URL arbitraires.
+
+<Callout kind="info">
+  Assurez-vous que votre `servers` tableau inclut toutes les URL de base que vous souhaitez tester. Si une URL n’est pas répertoriée, **Essayez-le** les requêtes vers cet hôte contourneront le proxy.
+</Callout>

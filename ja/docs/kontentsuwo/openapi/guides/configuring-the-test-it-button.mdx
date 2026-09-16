@@ -1,0 +1,168 @@
+---
+title: 「テストする」ボタンの設定
+metaTitle: 「テストする」ボタンの設定 | GitBook Documentation
+ogImage: https://test-dai.imgix.net/org-4afef969-21f9-40f3-b5b8-b06c8b6cf68f/doc-22a3b060-9539-4176-97e4-49120e02f5d1/0a5a1a9630785855-organizations-d8f63b60-89ae-11e7-8574-5927d48c4877-sites-site_p4Xo4-socialprevie.jpg?fm=auto&auto=compress%2Cformat
+---
+
+GitBook では、いくつかの OpenAPI 拡張を使って「Test It」ボタンとそれに付随するウィンドウを設定できます。これらの拡張は、ユーザー向けのテストスイートの改善と設定に役立ちます。
+
+### 「Test it」ボタンを非表示にする
+
+エンドポイントに `x-hideTryItPanel` を追加することで、または OpenAPI 仕様のルートで「Test it」ボタンを非表示にできます。
+
+```yaml title="openapi.yaml"
+openapi: '3.0'
+info: ...
+tags: [...]
+paths:
+  /example:
+    get:
+      summary: 例の概要
+      description: 例の説明
+      operationId: examplePath
+      responses: [...]
+      parameters: [...]
+      x-hideTryItPanel: true
+```
+
+### 「Test it」リクエストをプロキシする
+
+一部の API ではブラウザからのリクエストがブロックされます。多くの場合、その理由は CORS です。
+
+ルート **テストする** GitBook 経由でトラフィックを中継するには、 `x-enable-proxy` を仕様に追加してください。
+
+以下を参照 [OpenAPI プロキシの使用](/ja/docs/kontentsuwo/openapi/guides/using-openapi-proxy) して例を確認してください。
+
+### テストウィンドウで認証を有効にする
+
+リクエストランナーが認証を表示して適用できるのは、仕様でそれが宣言されている場合のみです。スキームを `components.securitySchemes`の下に定義し、次に `security` を使ってグローバルに、または操作ごとに（グローバル設定を上書き）関連付けます。
+
+#### 認証スキームを宣言する
+
+以下は一般的なパターンです。YAML では通常の引用符を使用してください。
+
+<Tabs>
+  <Tab title="HTTP Bearer（例: JWT）">
+    ```yaml
+    openapi: '3.0.3'
+    components:
+      securitySchemes:
+        bearerAuth:
+          type: http
+          scheme: bearer
+          bearerFormat: JWT
+    ```
+  </Tab>
+
+  <Tab title="ヘッダー内の API キー">
+    ```yaml
+    openapi: '3.0.3'
+    components:
+      securitySchemes:
+        apiKeyAuth:
+          type: apiKey
+          in: header
+          name: X-API-Key
+    ```
+  </Tab>
+
+  <Tab title="OAuth2（authorizationCode）">
+    ```yaml
+    openapi: '3.0.3'
+    components:
+      securitySchemes:
+        oauth2:
+          type: oauth2
+          flows:
+            authorizationCode:
+              authorizationUrl: 'https://auth.example.com/oauth/authorize'
+              tokenUrl: 'https://auth.example.com/oauth/token'
+              scopes:
+                read:items: 'アイテムを読む'
+                write:items: 'アイテムを書き込む'
+    ```
+  </Tab>
+</Tabs>
+
+#### スキームをグローバルまたは操作ごとに適用する
+
+<Tabs>
+  <Tab title="グローバル">
+    ```yaml
+    openapi: '3.0.3'
+    security:
+      - bearerAuth: []
+    paths: ...
+    ```
+  </Tab>
+
+  <Tab title="操作ごと">
+    ```yaml
+    paths:
+      /reports:
+        get:
+          summary: レポートを取得
+          security:
+            - apiKeyAuth: []
+          responses:
+            '200':
+              description: OK
+    ```
+  </Tab>
+</Tabs>
+
+### でエンドポイントURLを制御する `servers`
+
+リクエストランナーは、あなたが `servers` 配列で定義した URL を対象にします。1 つ以上のサーバーを宣言できます。変数を使ってパラメータ化することもできます。
+
+<Tabs>
+  <Tab title="単一サーバー">
+    ```yaml
+    openapi: '3.0.3'
+    servers:
+      - url: https://instance.api.region.example.cloud
+    ```
+  </Tab>
+
+  <Tab title="複数のサーバー">
+    ```yaml
+    servers:
+      - url: https://api.example.com
+        description: 本番
+      - url: https://staging-api.example.com
+        description: ステージング
+    ```
+  </Tab>
+
+  <Tab title="サーバー変数">
+    ```yaml
+    servers:
+      - url: https://{instance}.api.{region}.example.cloud
+        variables:
+          instance:
+            default: acme
+            description: あなたのテナントまたはインスタンスのスラッグ
+          region:
+            default: eu
+            enum:
+              - eu
+              - us
+              - ap
+            description: 地域ごとのデプロイ
+    ```
+  </Tab>
+
+  <Tab title="操作ごとのサーバー">
+    ```yaml
+    paths:
+      /reports:
+        get:
+          summary: レポートを取得
+          servers:
+            - url: https://reports.api.example.com
+          responses:
+            '200':
+              description: OK
+    ```
+  </Tab>
+</Tabs>

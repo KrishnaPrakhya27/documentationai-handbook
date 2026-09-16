@@ -1,0 +1,40 @@
+---
+title: URL
+description: 通过 URL 查询参数将访客数据传递到你的文档中
+metaTitle: URL | GitBook Documentation
+ogImage: https://test-dai.imgix.net/org-4afef969-21f9-40f3-b5b8-b06c8b6cf68f/doc-22a3b060-9539-4176-97e4-49120e02f5d1/0a5a1a9630785855-organizations-d8f63b60-89ae-11e7-8574-5927d48c4877-sites-site_p4Xo4-socialprevie.jpg?fm=auto&auto=compress%2Cformat
+---
+
+<Callout kind="info">
+  前往我们的指南，找到一个 [完整操作指南](/en/docs/guides/docs-personalization-and-authentication/how-to-personalize-your-gitbook-site-using-url-parameters-and-adaptive-content) 了解如何使用 cookie 设置自适应内容。
+</Callout>
+
+你可以通过 URL 查询参数将访客数据传递到你的文档中。下面是该方法的概述：
+
+| 方法 | 用例 | 设置难易程度 | 安全性 | 格式 |
+| --- | --- | --- | --- | --- |
+| 查询参数 `visitor.<prop>=` | 功能标志、角色 | 易于使用 | ❌ 访客可以覆盖这些属性 | JSON |
+
+### 查询参数
+
+要通过 URL 参数将数据传递到 GitBook，你需要按以下格式在 URL 中传递数据 `visitor.<prop>`.
+
+例如：
+
+```url
+https://docs.acme.org/?visitor.language=fr
+```
+
+这将允许你在 [条件编辑器](/zh/docs/fa-bu/adaptive-content/adapting-your-content#working-with-the-condition-editor) 中的未签名对象下使用这些声明：
+
+```javascript
+visitor.claims.unsigned.language === "fr"
+```
+
+<Callout kind="alert">
+  通过一个 [未签名的](/zh/docs/fa-bu/adaptive-content/enabling-adaptive-content#set-an-unsigned-claim) 对象。此外，查询参数可以被访客轻松更改，因此最适合用于非敏感信息。
+</Callout>
+
+### 视频教程
+
+<Iframe src="https://www.youtube.com/embed/hCd2_AAHU_I" title="Embedded content" />

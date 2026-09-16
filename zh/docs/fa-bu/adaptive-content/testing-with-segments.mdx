@@ -1,0 +1,44 @@
+---
+title: 使用分段测试
+description: 使用模拟数据测试你的条件
+metaTitle: 使用分段测试 | GitBook Documentation
+ogImage: https://test-dai.imgix.net/org-4afef969-21f9-40f3-b5b8-b06c8b6cf68f/doc-22a3b060-9539-4176-97e4-49120e02f5d1/0a5a1a9630785855-organizations-d8f63b60-89ae-11e7-8574-5927d48c4877-sites-site_p4Xo4-socialprevie.jpg?fm=auto&auto=compress%2Cformat
+---
+
+分段允许你通过在模拟用户上定义声明来测试你设置的条件。
+
+例如，你可能只想向 Beta 用户显示某个页面或章节。通过创建一个分段并定义与这组模拟用户相关的属性，你可以模拟一个专门针对你所面向用户的分段。
+
+<Image src="https://test-dai.imgix.net/org-4afef969-21f9-40f3-b5b8-b06c8b6cf68f/doc-22a3b060-9539-4176-97e4-49120e02f5d1/09f2f02ae70b973f-spaces-NkEGS7hzeqa35sMXQZ4X-uploads-YrErMp571tYPUN2RzJJ0-26_01_06_segment_editor.png?fm=auto&auto=compress%2Cformat" alt="A GitBook screenshot showing the segment editor" caption="GitBook 中的分段编辑器。" />
+
+### 创建一个分段
+
+要创建新分段，请前往条件编辑器，并点击设置图标 <Image src="https://test-dai.imgix.net/org-4afef969-21f9-40f3-b5b8-b06c8b6cf68f/doc-22a3b060-9539-4176-97e4-49120e02f5d1/ba76c24cf90e5026-spaces-NkEGS7hzeqa35sMXQZ4X-uploads-wkBqgOPry9HAcW4cxJk0-settings.svg?rasterize-bypass=true" alt="The Settings icon in GitBook" /> ，该图标位于分段下拉菜单中现有分段旁边。
+
+在这里，你可以定义将显示在模拟用户上的数据。由于这些数据是被呈现出来的， `visitor.claims` 因此会省略 key。
+
+#### 示例
+
+按照我们文档中的示例，为 Beta 用户创建一个分段时，你需要创建一个新分段，并添加以下数据。
+
+```json
+{
+  "isBetaUser": true
+}
+```
+
+当返回条件编辑器时，选择我们创建的 Beta 分段应该会显示我们正在查看的页面 **会** 对我们的测试用户可访问。
+
+<Image src="https://test-dai.imgix.net/org-4afef969-21f9-40f3-b5b8-b06c8b6cf68f/doc-22a3b060-9539-4176-97e4-49120e02f5d1/292d6a43e2c4df16-spaces-NkEGS7hzeqa35sMXQZ4X-uploads-pTHHKitlueFU97EuEi14-26_01_06_testing_segmen.png?fm=auto&auto=compress%2Cformat" alt="A GitBook screenshot showing how to test a segment" caption="在 GitBook 中测试分段。" />
+
+### 检测到的分段
+
+检测到的分段可让你了解从访问你网站的访客那里接收到的声明类型。
+
+这些分段不可编辑，但你可以从分段编辑器中复制/粘贴声明，以创建自己的用户分段。
+
+### 在预览中测试分段
+
+除了在分段编辑器中测试分段外，当查看你网站的更改时，你还可以在预览中实时使用你的分段。
+
+在你网站的预览模式下，使用左上角的下拉菜单选择一个分段，以查看你的网站在所选分段下的显示效果。

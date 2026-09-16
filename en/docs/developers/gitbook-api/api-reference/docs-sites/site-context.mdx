@@ -1,0 +1,488 @@
+---
+title: Site context
+description: Manage context records, connections, and topics for a docs site.
+metaTitle: Site context | Developers | GitBook Documentation
+ogImage: https://test-dai.imgix.net/org-4afef969-21f9-40f3-b5b8-b06c8b6cf68f/doc-22a3b060-9539-4176-97e4-49120e02f5d1/0a5a1a9630785855-organizations-d8f63b60-89ae-11e7-8574-5927d48c4877-sites-site_p4Xo4-socialprevie.jpg?fm=auto&auto=compress%2Cformat
+---
+
+Manage the contextual records and topics used by your site to power AI experiences and insights.
+
+## The ContextRecord object
+
+<ResponseField name="object" field-type="string" required={true} enum="context-record" />
+
+<ResponseField name="id" field-type="string" required={true}>
+  The ID of the record
+</ResponseField>
+
+<ResponseField name="title" field-type="string" required={true}>
+  Title for the context record
+</ResponseField>
+
+<ResponseField name="description" field-type="string">
+  Optional short description of the context record
+</ResponseField>
+
+<ResponseField name="type" field-type="string" required={true} enum="ticket,document" />
+
+<ResponseField name="createdAt" field-type="string" required={true} />
+
+<ResponseField name="processedAt" field-type="string" />
+
+<ResponseField name="connection" field-type="string" required={true}>
+  The connection ID associated with the record
+</ResponseField>
+
+<ResponseField name="connector" field-type="string" required={true} />
+
+<ResponseField name="topics" field-type="string[]">
+  The associated topics of the record
+</ResponseField>
+
+<ResponseField name="urls" field-type="object" required={true}>
+  URLs associated with the record
+
+  <Expandable title="Object Properties">
+    <ResponseField name="location" field-type="string" required={true}>
+      URL of the record in the API
+    </ResponseField>
+
+    <ResponseField name="source" field-type="string">
+      URL of the record in the source
+    </ResponseField>
+  </Expandable>
+</ResponseField>
+
+## The ContextConnection object
+
+<ResponseField name="object" field-type="string" required={true} enum="context-connection" />
+
+<ResponseField name="id" field-type="string" required={true}>
+  The ID of the connection
+</ResponseField>
+
+<ResponseField name="createdAt" field-type="string" required={true} />
+
+<ResponseField name="syncedAt" field-type="string" />
+
+<ResponseField name="label" field-type="string">
+  Optional label for the connection
+</ResponseField>
+
+<ResponseField name="filter" field-type="string">
+  Optional filter used to restrict which items are ingested from the source. Its meaning depends on the connector: it can be a tag, label, or an expression. When empty or omitted, all resolved items are ingested.
+</ResponseField>
+
+<ResponseField name="status" field-type="string" required={true} enum="pending,syncing,succeeded,failed" />
+
+<ResponseField name="records" field-type="integer" required={true}>
+  Number of records ingested from this connection
+</ResponseField>
+
+<ResponseField name="failureMessage" field-type="string">
+  Failure message when synchronization fails
+</ResponseField>
+
+<ResponseField name="failureReason" field-type="string" enum="authentication,misconfigured,rate_limited,upstream_unavailable,unknown">
+  Why a synchronization failed, indicating who can resolve it. `authentication` and `misconfigured` need the connection to be reconfigured; `rate_limited` and `upstream_unavailable` are the source's own limits or downtime and are retried; `unknown` could not be attributed to the source's response.
+</ResponseField>
+
+<ResponseField name="email" field-type="object">
+  Parameters associated with the connection when it is an email connection
+
+  <Expandable title="Object Properties">
+    <ResponseField name="ingestionAddress" field-type="string">
+      Inbound email address for the connection
+    </ResponseField>
+  </Expandable>
+</ResponseField>
+
+<ResponseField name="usageSettings" field-type="object" required={true}>
+  <Expandable title="Object Properties">
+    <ResponseField name="changeRequests" field-type="boolean" required={true}>
+      Whether to use context to propose change requests
+    </ResponseField>
+
+    <ResponseField name="search" field-type="boolean" required={true}>
+      Whether to expose records in search results
+    </ResponseField>
+
+    <ResponseField name="sync" field-type="boolean">
+      Whether the connection syncs GitBook change-request state outward to the connected external system (outbound write). Requires a write-capable token or role.
+    </ResponseField>
+
+    <ResponseField name="searchBoost" field-type="string" required={true} enum="x0.8,x1.0,x1.2">
+      Relative score adjustment applied to records from a connection when searching.
+    </ResponseField>
+  </Expandable>
+</ResponseField>
+
+<ResponseField name="urls" field-type="object" required={true}>
+  URLs associated with the connection
+
+  <Expandable title="Object Properties">
+    <ResponseField name="location" field-type="string" required={true}>
+      URL of the connection in the API
+    </ResponseField>
+  </Expandable>
+</ResponseField>
+
+## The SiteTopic object
+
+<ResponseField name="object" field-type="string" required={true} enum="context-topic" />
+
+<ResponseField name="id" field-type="string" required={true}>
+  The ID of the topic
+</ResponseField>
+
+<ResponseField name="label" field-type="string" required={true}>
+  The label of the topic
+</ResponseField>
+
+<ResponseField name="parent" field-type="object">
+  The parent topic when this topic is nested under another one
+
+  <Expandable title="Object Properties">
+    <ResponseField name="id" field-type="string" required={true}>
+      The ID of the parent topic
+    </ResponseField>
+
+    <ResponseField name="label" field-type="string" required={true}>
+      The label of the parent topic
+    </ResponseField>
+  </Expandable>
+</ResponseField>
+
+<ResponseField name="createdAt" field-type="string" required={true} />
+
+<ResponseField name="updatedAt" field-type="string" required={true} />
+
+<ResponseField name="icon" field-type="string" required={true}>
+  Name of the icon
+</ResponseField>
+
+<ResponseField name="summary" field-type="object" required={true}>
+  <Expandable title="Object Properties">
+    <ResponseField name="object" field-type="string" required={true} enum="document" />
+
+    <ResponseField name="data" field-type="object" required={true}>
+      <Expandable title="Object Properties">
+        <ResponseField name="schemaVersion" field-type="integer">
+          The schema version of the document. If undefined, the document is considered to be of the latest schema version.
+        </ResponseField>
+      </Expandable>
+    </ResponseField>
+
+    <ResponseField name="nodes" field-type="string[]" required={true} />
+
+    <ResponseField name="meta" field-type="object">
+      <Expandable title="Object Properties">
+        <ResponseField name="token" field-type="string">
+          A content token that can be used to fetch the content referenced in this document from the API.
+        </ResponseField>
+      </Expandable>
+    </ResponseField>
+  </Expandable>
+</ResponseField>
+
+<ResponseField name="usageSettings" field-type="object" required={true}>
+  <Expandable title="Object Properties">
+    <ResponseField name="changeRequests" field-type="boolean" required={true}>
+      Whether to use context to propose change requests
+    </ResponseField>
+  </Expandable>
+</ResponseField>
+
+<ResponseField name="pages" field-type="number" required={true}>
+  The number of pages associated with the topic
+</ResponseField>
+
+<ResponseField name="records" field-type="number" required={true}>
+  The number of records in the topic
+</ResponseField>
+
+<ResponseField name="findings" field-type="object" required={true}>
+  The number of findings linked to the topic
+
+  <Expandable title="Object Properties">
+    <ResponseField name="open" field-type="number" required={true}>
+      The number of open findings linked to the topic
+    </ResponseField>
+
+    <ResponseField name="total" field-type="number" required={true}>
+      The total number of findings linked to the topic
+    </ResponseField>
+  </Expandable>
+</ResponseField>
+
+<ResponseField name="questions" field-type="object" required={true}>
+  Aggregated stats for questions and linked answers.
+
+  <Expandable title="Object Properties">
+    <ResponseField name="total" field-type="number" required={true}>
+      Total count of questions included in the aggregation.
+    </ResponseField>
+
+    <ResponseField name="answers" field-type="number" required={true}>
+      Total count of answers linked to the questions.
+    </ResponseField>
+
+    <ResponseField name="feedback" field-type="object" required={true}>
+      Aggregated feedback for answers linked to a site question.
+
+      <Expandable title="Object Properties">
+        <ResponseField name="positive" field-type="number" required={true}>
+          Count of answers with positive feedback.
+        </ResponseField>
+
+        <ResponseField name="negative" field-type="number" required={true}>
+          Count of answers with negative feedback.
+        </ResponseField>
+
+        <ResponseField name="unrated" field-type="number" required={true}>
+          Count of answers without feedback.
+        </ResponseField>
+      </Expandable>
+    </ResponseField>
+
+    <ResponseField name="answered" field-type="object" required={true}>
+      Aggregated answered assessment for answers linked to a site question.
+
+      <Expandable title="Object Properties">
+        <ResponseField name="yes" field-type="number" required={true}>
+          Count of answers assessed as fully answered.
+        </ResponseField>
+
+        <ResponseField name="partially" field-type="number" required={true}>
+          Count of answers assessed as partially answered.
+        </ResponseField>
+
+        <ResponseField name="no" field-type="number" required={true}>
+          Count of answers assessed as not answered.
+        </ResponseField>
+      </Expandable>
+    </ResponseField>
+
+    <ResponseField name="relevance" field-type="object" required={true}>
+      <Expandable title="Object Properties">
+        <ResponseField name="relevant" field-type="number" required={true} />
+
+        <ResponseField name="spam" field-type="number" required={true} />
+
+        <ResponseField name="off-topic" field-type="number" required={true} />
+
+        <ResponseField name="unclear" field-type="number" required={true} />
+      </Expandable>
+    </ResponseField>
+
+    <ResponseField name="types" field-type="object" required={true}>
+      <Expandable title="Object Properties">
+        <ResponseField name="exploring" field-type="number" required={true} />
+
+        <ResponseField name="how-to" field-type="number" required={true} />
+
+        <ResponseField name="troubleshooting" field-type="number" required={true} />
+
+        <ResponseField name="reference" field-type="number" required={true} />
+
+        <ResponseField name="unknown" field-type="number" required={true} />
+      </Expandable>
+    </ResponseField>
+
+    <ResponseField name="channelTypes" field-type="object" required={true}>
+      Count of answers by site channel type, including core channels.
+    </ResponseField>
+
+    <ResponseField name="channels" field-type="object" required={true}>
+      Count of answers by site channel ID.
+    </ResponseField>
+
+    <ResponseField name="weeklyPulse" field-type="number[]" required={true}>
+      Weekly count of related question answers for the past 3 months.
+    </ResponseField>
+  </Expandable>
+</ResponseField>
+
+<ResponseField name="urls" field-type="object" required={true}>
+  URLs associated with the topic
+
+  <Expandable title="Object Properties">
+    <ResponseField name="location" field-type="string" required={true}>
+      URL of the topic in the API
+    </ResponseField>
+  </Expandable>
+</ResponseField>
+
+## The SiteFinding object
+
+<ResponseField name="object" field-type="string" required={true} enum="site-finding" />
+
+<ResponseField name="id" field-type="string" required={true}>
+  The ID of the finding
+</ResponseField>
+
+<ResponseField name="scan" field-type="string" required={true}>
+  The site scan ID associated with the finding
+</ResponseField>
+
+<ResponseField name="topic" field-type="string" required={true}>
+  The site topic ID associated with the finding. It is null for findings that are not associated with a current topic in the site.
+</ResponseField>
+
+<ResponseField name="title" field-type="string" required={true}>
+  Short finding title
+</ResponseField>
+
+<ResponseField name="changeRequests" field-type="number" required={true}>
+  Number of change requests linked to the finding
+</ResponseField>
+
+<ResponseField name="pages" field-type="number" required={true}>
+  Number of pages linked to the finding
+</ResponseField>
+
+<ResponseField name="records" field-type="number" required={true}>
+  Number of records linked to the finding
+</ResponseField>
+
+<ResponseField name="questions" field-type="number" required={true}>
+  Number of questions linked to the finding
+</ResponseField>
+
+<ResponseField name="status" field-type="string" required={true} enum="candidate,open,done,canceled">
+  Status of a site finding.
+
+  - `candidate` is a finding that has been raised but not yet confirmed. Typically these are not shown to users.
+  - `open` is a finding that has been surfaced to users and is still under investigation.
+  - `done` is a finding that has been resolved and is no longer under investigation.
+  - `canceled` is a finding that has been canceled and is no longer under investigation.
+</ResponseField>
+
+<ResponseField name="type" field-type="string" required={true} enum="content-outdated,content-incorrect,content-gap,broken-link,outbound-link-error,other">
+  Classification of a site finding:
+
+  - Outdated content: The content was correct but is no longer up to date with external context and may be misleading or incorrect.
+  - Incorrect content: The content is factually wrong or misleading, leading users astray regardless of whether it was ever correct.
+  - Content gap: The content is missing important information that should be present to answer user questions effectively.
+  - Broken link: A URL on the site returns a 404, and can be resolved by creating a redirect or a new page.
+  - Outbound link error: An external URL used by the site's content fails to resolve, and can be fixed by replacing or removing the link.
+  - Other: Any other type of finding not covered by the above categories.
+</ResponseField>
+
+<ResponseField name="severity" field-type="string" required={true} enum="low,medium,high">
+  Estimated end-user severity of a site finding.
+</ResponseField>
+
+<ResponseField name="description" field-type="object" required={true}>
+  <Expandable title="Object Properties">
+    <ResponseField name="object" field-type="string" required={true} enum="document" />
+
+    <ResponseField name="data" field-type="object" required={true}>
+      <Expandable title="Object Properties">
+        <ResponseField name="schemaVersion" field-type="integer">
+          The schema version of the document. If undefined, the document is considered to be of the latest schema version.
+        </ResponseField>
+      </Expandable>
+    </ResponseField>
+
+    <ResponseField name="nodes" field-type="string[]" required={true} />
+
+    <ResponseField name="meta" field-type="object">
+      <Expandable title="Object Properties">
+        <ResponseField name="token" field-type="string">
+          A content token that can be used to fetch the content referenced in this document from the API.
+        </ResponseField>
+      </Expandable>
+    </ResponseField>
+  </Expandable>
+</ResponseField>
+
+<ResponseField name="autoFixable" field-type="boolean" required={true}>
+  Whether an AI agent should be able to fix this finding directly
+</ResponseField>
+
+<ResponseField name="brokenLinkAction" field-type="object">
+  Suggested fix for a broken-link finding, shaped as the input for `createSiteRedirect` so it can be applied directly. Absent when the finding has no directly applicable redirect (for example, a suggestion to create a new page).
+
+  <Expandable title="Object Properties">
+    <ResponseField name="source" field-type="string" required={true}>
+      The source path to redirect from.
+    </ResponseField>
+
+    <ResponseField name="captureWildcard" field-type="boolean">
+      Whether the redirect appends the wildcard-matched suffix of the source path to the destination.
+    </ResponseField>
+
+    <ResponseField name="destination" field-type="object" required={true}>
+      <Expandable title="Object Properties">
+        <ResponseField name="kind" field-type="string" required={true} enum="path" />
+
+        <ResponseField name="spaceId" field-type="string" required={true}>
+          Unique identifier for the space containing the page referenced by the path.
+        </ResponseField>
+
+        <ResponseField name="path" field-type="string" required={true}>
+          Path to the page within the space revision to resolve.
+        </ResponseField>
+      </Expandable>
+    </ResponseField>
+  </Expandable>
+</ResponseField>
+
+<ResponseField name="outboundLink" field-type="object">
+  Details of an `outbound-link-error` finding: the failing external URL and the observed failure, sourced from the site's outbound link checks. Absent on findings of any other type.
+
+  <Expandable title="Object Properties">
+    <ResponseField name="url" field-type="string" required={true}>
+      The external URL that fails to resolve.
+    </ResponseField>
+
+    <ResponseField name="status" field-type="string" required={true} enum="pending,healthy,suspect,failed,recovering,canceled">
+      Current health status of the URL for this site.
+    </ResponseField>
+
+    <ResponseField name="failureKind" field-type="string" enum="client-error,server-error,redirect,dns,tls,connection,timeout">
+      Classification of the confirmed failure.
+    </ResponseField>
+
+    <ResponseField name="httpStatus" field-type="number">
+      HTTP status code of the last observation, when one was received.
+    </ResponseField>
+
+    <ResponseField name="checkedAt" field-type="string" />
+  </Expandable>
+</ResponseField>
+
+<ResponseField name="createdAt" field-type="string" required={true} />
+
+<ResponseField name="updatedAt" field-type="string" required={true} />
+
+<ResponseField name="urls" field-type="object" required={true}>
+  URLs associated with the finding
+
+  <Expandable title="Object Properties">
+    <ResponseField name="location" field-type="string" required={true}>
+      URL of the finding list endpoint in the API
+    </ResponseField>
+  </Expandable>
+</ResponseField>
+
+## The SiteFindingPage object
+
+<ResponseField name="object" field-type="string" required={true} enum="site-finding-page" />
+
+<ResponseField name="spaceId" field-type="string" required={true}>
+  The space ID containing the linked page.
+</ResponseField>
+
+<ResponseField name="page" field-type="object" required={true}>
+  <Expandable title="Object Properties">
+    <ResponseField name="id" field-type="string" required={true} />
+
+    <ResponseField name="type" field-type="string" required={true} enum="document,group,link,computed" />
+
+    <ResponseField name="title" field-type="string" required={true} />
+
+    <ResponseField name="path" field-type="string" />
+  </Expandable>
+</ResponseField>

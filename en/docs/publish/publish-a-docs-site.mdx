@@ -1,0 +1,81 @@
+---
+title: Publish a docs site
+description: Publish your documentation to the internet as a docs site
+metaTitle: Publish a docs site | GitBook Documentation
+ogImage: https://test-dai.imgix.net/org-4afef969-21f9-40f3-b5b8-b06c8b6cf68f/doc-22a3b060-9539-4176-97e4-49120e02f5d1/0a5a1a9630785855-organizations-d8f63b60-89ae-11e7-8574-5927d48c4877-sites-site_p4Xo4-socialprevie.jpg?fm=auto&auto=compress%2Cformat
+---
+
+When you finish writing, editing, or importing your content, publish it for your selected audience.
+
+A docs site's content lives in its [sections](/en/docs/manage-your-site/site-structure). The structure you edit is the structure visitors get. New sections start as drafts, so you control what appears on your published site.
+
+<Image src="https://test-dai.imgix.net/org-4afef969-21f9-40f3-b5b8-b06c8b6cf68f/doc-22a3b060-9539-4176-97e4-49120e02f5d1/6bfce242bfb3164c-spaces-NkEGS7hzeqa35sMXQZ4X-uploads-aTAoahHyizxbZzQ10kq9-publishing-documentatio.png?fm=auto&auto=compress%2Cformat" alt="A GitBook screenshot showing the organization Home" caption="Your organization Home." />
+
+### Create a docs site
+
+To create a docs site:
+
+1. From your organization **Home**, click the <strong>+</strong> icon next to **Sites**.
+2. Enter a name that visitors will recognize.
+3. Click **Create**.
+4. Select a starting point: a documentation template, an import, an OpenAPI specification, a blank section, or Git Sync.
+
+For a complete setup walkthrough, see the [Quickstart](/en/docs/getting-started/quickstart).
+
+<Callout kind="info">
+  You can manage site permissions in **Settings** → **Members**. This lets you control who can view or edit each site independently of organization settings. See [Roles](/en/docs/collaborate/member-management/roles) for details.
+</Callout>
+
+### Publish a docs site
+
+To publish your site:
+
+1. From your organization **Home**, open your site.
+2. Click **Publish** in the site header.
+
+Sites are public by default. Change your site's visibility in **Settings** → **Audience**. See [Site settings](/en/docs/manage-your-site/site-settings).
+
+Choose one of these audience options:
+
+<Columns cols={3}>
+  <Card title="Public" href="/en/docs/publish/publish-a-docs-site/public-publishing" image="https://test-dai.imgix.net/org-4afef969-21f9-40f3-b5b8-b06c8b6cf68f/doc-22a3b060-9539-4176-97e4-49120e02f5d1/91e8d5b5185d7056-spaces-NkEGS7hzeqa35sMXQZ4X-uploads-oilRMA6SHJfDUlmxzFSc-Public.png?fm=auto&auto=compress%2Cformat">
+    Publish your docs publicly to the web.
+  </Card>
+
+  <Card title="Privately with share links" href="/en/docs/publish/site-audience/share-links" image="https://test-dai.imgix.net/org-4afef969-21f9-40f3-b5b8-b06c8b6cf68f/doc-22a3b060-9539-4176-97e4-49120e02f5d1/6bcc6c7bd8685cb1-spaces-NkEGS7hzeqa35sMXQZ4X-uploads-fc0Pst5E74fYtiKz3Evt-Share-links.png?fm=auto&auto=compress%2Cformat">
+    Publish your docs with private share links.
+  </Card>
+
+  <Card title="Authenticated Access" href="/en/docs/publish/site-audience/authenticated-access" image="https://test-dai.imgix.net/org-4afef969-21f9-40f3-b5b8-b06c8b6cf68f/doc-22a3b060-9539-4176-97e4-49120e02f5d1/d4b5e742d763a7b4-spaces-NkEGS7hzeqa35sMXQZ4X-uploads-vnW7XiU7dys1vIf7Hi6l-Auth-access.png?fm=auto&auto=compress%2Cformat">
+    Protect your published docs behind an OAuth sign in.
+  </Card>
+</Columns>
+
+### Preview your site
+
+Click **Preview** in the site header to see your content as visitors will — before you publish the site, or while you're working on changes. Review your content and customizations, then publish when everything looks right.
+
+### Delete or unpublish a docs site
+
+To unpublish your site, open **Settings** → **General** and select **Unpublish site**. Once confirmed, the site is no longer accessible to visitors.
+
+Unpublishing doesn't change your billing. To adjust the number of sites you pay for, update your plan in your organization's billing settings.
+
+#### My site is still accessible after unpublishing or deleting
+
+If you can still open the URL, the old version is usually cached — in your browser, a CDN, or a search engine result. To confirm the site is no longer live, open the URL in a private window, or clear your browser cache for that site and reload.
+
+#### My site still appears in search engines
+
+Search engines take time to update their indexes, so an unpublished site can appear in results for a while. How long depends on factors like crawl frequency and how many other sites link to the page.
+
+To speed it up, request a re-crawl from Google Search Console: open the **URL Inspection** tab, enter the URL, and click **Request indexing**. Google reviews the request and removes the page from its index if it's no longer published.
+
+You can check whether your site is still indexed by searching Google for `site:` followed by your site's URL.
+
+To delete a docs site:
+
+1. Open **Settings** → **General**.
+2. Select [**Delete site**](/en/docs/manage-your-site/site-settings#delete-site).
+
+Deleting a site permanently removes its settings and customizations. Your content remains in your organization — find it in [All content](/en/docs/create-content/content-structure/all-content).

@@ -1,0 +1,41 @@
+---
+title: Vercelでサブディレクトリを設定する
+description: Vercelを使って、/docsサブディレクトリでドキュメントをホストします
+metaTitle: Vercelでサブディレクトリを設定する | GitBook Documentation
+ogImage: https://test-dai.imgix.net/org-4afef969-21f9-40f3-b5b8-b06c8b6cf68f/doc-22a3b060-9539-4176-97e4-49120e02f5d1/0a5a1a9630785855-organizations-d8f63b60-89ae-11e7-8574-5927d48c4877-sites-site_p4Xo4-socialprevie.jpg?fm=auto&auto=compress%2Cformat
+---
+
+<Steps>
+  <Step title="GitBookサイトの設定" titleType="h3">
+    GitBook組織で、サイドバーのドキュメントサイト名をクリックし、次に **サイトを管理**、次に **ドメインとリダイレクト**。「サブディレクトリ」の下で、 **サブディレクトリを設定**.
+
+    ドキュメントをホストしたいURLを入力してください。次に、ドキュメントにアクセスするためのサブディレクトリを指定します。例： `tomatopy.pizza/docs`、そして **設定**.
+
+    次の項目の下で **追加設定**、プロキシURLが表示されます。これは次のステップでVercelの設定を行う際に使用します。クリップボードにコピーしてください。
+  </Step>
+
+  <Step title="vercel.jsonを更新する" titleType="h3">
+    Vercelアプリで、 `vercel.json`ファイルを開きます（まだない場合はルートディレクトリに作成してください）。そして、以下を追加します：
+
+    ```json
+    {
+        "rewrites": [
+            {
+                "source": "/docs",
+                "destination": "<INSERT YOUR PROXY URL FROM GITBOOK>"
+            },
+            {
+                "source": "/docs/:match*",
+                "destination": "<INSERT YOUR PROXY URL FROM GITBOOK>/:match*"
+            }
+        ]
+    }
+    ```
+
+    *URLを更新することを忘れないでください* 5行目のURLを、最初のステップでGitBookから取得したプロキシURLに置き換えてください。
+  </Step>
+
+  <Step title="アプリを再デプロイして、試してみましょう！" titleType="h3">
+    更新した設定でVercelアプリを再デプロイしてください。少し時間がかかる場合があります。これで、そのURLにアクセスすると、ドキュメントサイトが表示されるはずです！
+  </Step>
+</Steps>

@@ -1,0 +1,239 @@
+---
+title: Canaux
+description: Utilisez GitBook Assistant et GitBook Agent dans Slack, GitHub et Linear
+metaTitle: Canaux | GitBook Documentation
+ogImage: https://test-dai.imgix.net/org-4afef969-21f9-40f3-b5b8-b06c8b6cf68f/doc-22a3b060-9539-4176-97e4-49120e02f5d1/0a5a1a9630785855-organizations-d8f63b60-89ae-11e7-8574-5927d48c4877-sites-site_p4Xo4-socialprevie.jpg?fm=auto&auto=compress%2Cformat
+---
+
+<Callout kind="alert">
+  #### Les canaux sont actuellement en accès anticipé
+
+  Nous déployons progressivement l’accès aux canaux. Restez à l’écoute pour suivre les progrès sur les fonctionnalités ci-dessous.
+</Callout>
+
+Les canaux apportent [GitBook Assistant](/fr/docs/lia-pour-vos-lecteurs/gitbook-ai-assistant) et [GitBook Agent](/fr/docs/agent-gitbook/overview) dans les outils que votre équipe utilise déjà. Une fois connecté, votre équipe peut mentionner `@GitBook` dans Slack, GitHub ou Linear pour poser des questions, ouvrir des demandes de modification et garder votre documentation à jour — sans quitter leur flux de travail existant.
+
+Lorsque vous ajoutez un canal, vous choisissez comment GitBook apparaît dans cet outil. Chaque configuration fonctionne selon l’un des deux modes :
+
+<strong>Agent de support :</strong> GitBook Assistant répond directement aux questions de votre équipe ou des visiteurs dans le canal. Posez une question, obtenez une réponse extraite de votre documentation. Dans Slack, les citations de ces réponses renvoient vers l’URL du site publié pour les docs qu’elles mentionnent. Par exemple, une réponse citée renvoie vers votre site de docs, pas vers `app.gitbook.com`.
+
+<strong>Collaborateur :</strong> GitBook Agent rejoint l’équipe comme un coéquipier. Mentionnez `@GitBook` pour ouvrir des demandes de modification, demander des changements ou garder votre documentation synchronisée avec ce qui se passe dans cet outil. Dans Slack, les messages peuvent renvoyer vers `app.gitbook.com` lorsqu’ils font référence à un contexte de flux de travail interne, comme une demande de modification ou du contenu de brouillon. Lorsque Agent crée une demande de modification depuis un canal, il la relie automatiquement au fil, à l’issue ou à la pull request d’origine.
+
+Vous pouvez exécuter plusieurs configurations par canal — par exemple, le mode Agent de support pour un canal Slack orienté client, et le mode Collaborateur dans un autre canal pour votre équipe de documentation.
+
+Pour ajouter un canal, ouvrez **Paramètres** de votre site et cliquez sur **Canaux**.
+
+Utilisez les canaux lorsque les questions de support, les rapports de bugs ou les retours produit commencent dans Slack, GitHub ou Linear et que vous souhaitez que GitBook réponde sur place.
+
+<Callout kind="info">
+  #### Vous souhaitez intégrer GitBook Assistant dans votre site web ou votre produit ?
+
+  Rendez-vous sur [Intégrer dans votre produit](/fr/docs/publier/embedding) pour apprendre à intégrer GitBook Assistant.
+</Callout>
+
+<Image src="https://test-dai.imgix.net/org-4afef969-21f9-40f3-b5b8-b06c8b6cf68f/doc-22a3b060-9539-4176-97e4-49120e02f5d1/b8d77ca17e30b975-spaces-NkEGS7hzeqa35sMXQZ4X-uploads-vdGn4ibGuysRhvoOiAkI-26_05_01_channels-2x.png?fm=auto&auto=compress%2Cformat" alt="" />
+
+### Canaux disponibles
+
+<Columns cols={3}>
+  <Card title="Slack">
+    Disponible
+  </Card>
+
+  <Card title="Linear">
+    Disponible
+  </Card>
+
+  <Card title="GitHub">
+    Disponible
+  </Card>
+</Columns>
+
+### Bientôt disponible
+
+<Columns cols={3}>
+  <Card title="Discord">
+    Prévu
+  </Card>
+
+  <Card title="Intercom">
+    Prévu
+  </Card>
+
+  <Card title="Microsoft Teams">
+    Prévu
+  </Card>
+
+  <Card title="Google Chat">
+    Prévu
+  </Card>
+
+  <Card title="Demander un canal" href="https://github.com/orgs/GitbookIO/discussions/new?category=feature-requests">
+    <em>:arrow-up-right-from-square:</em>
+  </Card>
+</Columns>
+
+### Aperçu
+
+Les canaux connectent GitBook à des flux de travail externes.
+
+Ils vous permettent de :
+
+- Répondre aux questions sans quitter la conversation source.
+- Apporter le contexte de la documentation existante aux flux de support et produit.
+- Transformer des conversations importantes en mises à jour de la documentation avec [GitBook Agent](/fr/docs/agent-gitbook/overview).
+
+Utilisez les canaux lorsque la conversation commence en dehors de GitBook, mais que la réponse ou le suivi doit faire partie de votre processus de documentation.
+
+### Plateformes prises en charge
+
+Les canaux prennent actuellement en charge ces plateformes :
+
+- **Slack** pour les conversations et les fils de support.
+- **GitHub** pour les issues, le contexte des pull requests et les workflows de discussion.
+- **Linear** pour le suivi des issues et les workflows de retours produit.
+
+Chaque plateforme utilise le même modèle de base.
+
+GitBook reçoit les événements pris en charge de la plateforme connectée, rassemble le contexte de vos connaissances et répond via [GitBook Assistant](/fr/docs/lia-pour-vos-lecteurs/gitbook-ai-assistant) ou [GitBook Agent](/fr/docs/agent-gitbook/overview).
+
+### Rôles et autorisations
+
+Les canaux prennent en charge deux rôles :
+
+- **Collaborateur** — peut effectuer des modifications.
+- **Agent de support** — fournit des informations en lecture seule.
+
+Choisissez le rôle en fonction de ce que le canal doit faire.
+
+#### Collaborateur
+
+Utilisez **Collaborateur** lorsque le canal doit aider à transformer les conversations en travail de documentation.
+
+Un canal collaborateur peut utiliser GitBook Agent pour aider à créer ou mettre à jour le travail de documentation dans GitBook, par exemple en ouvrant ou en faisant progresser une demande de modification.
+
+#### Agent de support
+
+Utilisez **Agent de support** lorsque le canal doit uniquement répondre à des questions.
+
+Un canal d’agent de support utilise la documentation existante et les connaissances connectées pour répondre avec un contexte en lecture seule. Il n’apporte aucune modification au contenu.
+
+### Fonctionnement
+
+Les canaux gèrent les événements entrants provenant de votre plateforme connectée.
+
+Un événement entrant peut être un nouveau message, une mention, une mise à jour d’issue ou toute autre activité prise en charge provenant de Slack, GitHub ou Linear.
+
+GitBook traite ces événements en quatre étapes :
+
+<Steps>
+  <Step title="Recevoir un événement" titleType="h3">
+    La plateforme connectée envoie un événement pris en charge à GitBook via le canal que vous avez installé.
+  </Step>
+
+  <Step title="Rassembler le contexte" titleType="h3">
+    GitBook recherche le contexte de documentation pertinent ainsi que toute autre connaissance disponible sur le site.
+  </Step>
+
+  <Step title="Appliquer le rôle du canal" titleType="h3">
+    Si le canal est un **Agent de support**, GitBook renvoie des informations en lecture seule.
+
+    Si le canal est un **Collaborateur**, GitBook peut également transformer la conversation en travail de documentation via GitBook Agent.
+  </Step>
+
+  <Step title="Répondre dans l’outil source" titleType="h3">
+    La réponse réapparaît dans Slack, GitHub ou Linear, afin que le flux de travail reste au même endroit.
+  </Step>
+</Steps>
+
+<Callout kind="info">
+  La couverture exacte des événements dépend de la plateforme et du déploiement de votre accès anticipé. Si un déclencheur n’est pas encore disponible dans votre espace de travail, il n’a pas encore été documenté publiquement.
+</Callout>
+
+### Installation et autorisation
+
+Pour installer un canal, ouvrez le tableau de bord de votre site et choisissez **Paramètres** → **Canaux**.
+
+Puis choisissez la plateforme que vous souhaitez connecter.
+
+Chaque plateforme utilise un flux OAuth ou d’installation d’application. GitBook vous redirige vers la plateforme, vous approuvez l’accès, puis vous revenez dans GitBook pour terminer la configuration.
+
+<Callout kind="alert">
+  Les périmètres d’autorisation et les exigences d’administration spécifiques à chaque plateforme ne sont pas encore entièrement documentés.
+
+  Examinez attentivement l’écran d’autorisation avant d’approuver l’accès.
+</Callout>
+
+<Tabs>
+  <Tab title="Slack">
+    <Steps>
+      <Step title="Lancer l’installation" titleType="h3">
+        Dans **Paramètres** → **Canaux**, sélectionnez **Slack**.
+      </Step>
+
+      <Step title="Autoriser Slack" titleType="h3">
+        Connectez-vous à Slack si nécessaire.
+
+        Puis choisissez l’espace de travail Slack dans lequel vous souhaitez installer le canal et approuvez l’accès demandé.
+      </Step>
+
+      <Step title="Terminer la configuration dans GitBook" titleType="h3">
+        Après la redirection de Slack, terminez la configuration du canal dans GitBook.
+
+        Choisissez le rôle que le canal doit utiliser et enregistrez la configuration.
+      </Step>
+    </Steps>
+  </Tab>
+
+  <Tab title="GitHub">
+    <Steps>
+      <Step title="Lancer l’installation" titleType="h3">
+        Dans **Paramètres** → **Canaux**, sélectionnez **GitHub**.
+      </Step>
+
+      <Step title="Autoriser GitHub" titleType="h3">
+        Connectez-vous à GitHub si nécessaire.
+
+        Puis choisissez le compte personnel ou l’organisation où vous souhaitez installer l’application GitBook et approuvez l’accès demandé.
+      </Step>
+
+      <Step title="Terminer la configuration dans GitBook" titleType="h3">
+        Après la redirection de GitHub, terminez la configuration du canal dans GitBook.
+
+        Choisissez le rôle que le canal doit utiliser et enregistrez la configuration.
+      </Step>
+    </Steps>
+  </Tab>
+
+  <Tab title="Linear">
+    <Steps>
+      <Step title="Lancer l’installation" titleType="h3">
+        Dans **Paramètres** → **Canaux**, sélectionnez **Linear**.
+      </Step>
+
+      <Step title="Autoriser Linear" titleType="h3">
+        Connectez-vous à Linear si nécessaire.
+
+        Puis choisissez l’espace de travail Linear que vous souhaitez connecter et approuvez l’accès demandé.
+      </Step>
+
+      <Step title="Terminer la configuration dans GitBook" titleType="h3">
+        Après la redirection de Linear, terminez la configuration du canal dans GitBook.
+
+        Choisissez le rôle que le canal doit utiliser et enregistrez la configuration.
+      </Step>
+    </Steps>
+  </Tab>
+</Tabs>
+
+### Retours et réactions
+
+Les réactions permettent à votre équipe de donner rapidement un retour sur les réponses du canal.
+
+Utilisez les réactions lorsque vous souhaitez indiquer si une réponse était utile.
+
+Ce retour aide GitBook à comprendre quelles réponses fonctionnent bien dans de vrais flux de travail.
+
+<Callout kind="info">
+  Le mappage exact des réactions n’est pas encore documenté et peut varier selon la plateforme pendant l’accès anticipé.
+</Callout>

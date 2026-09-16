@@ -1,0 +1,57 @@
+---
+title: 自动改进文档
+description: 识别文档中不正确和过时的页面，审阅结果，并使用 GitBook Agent 自动修复
+metaTitle: 自动改进文档 | GitBook Documentation
+ogImage: https://test-dai.imgix.net/org-4afef969-21f9-40f3-b5b8-b06c8b6cf68f/doc-22a3b060-9539-4176-97e4-49120e02f5d1/0a5a1a9630785855-organizations-d8f63b60-89ae-11e7-8574-5927d48c4877-sites-site_p4Xo4-socialprevie.jpg?fm=auto&auto=compress%2Cformat
+---
+
+<Callout kind="alert">
+  <strong>此功能目前处于抢先体验阶段。</strong>
+
+  我们正在逐步开放访问权限。请持续关注下方功能的更多进展。
+</Callout>
+
+GitBook Agent 可以识别你文档中的问题——例如内容缺口、过时页面和错误信息——并建议并实施改进。
+
+## GitBook Agent 可以检测什么？
+
+- **内容缺口** 当 GitBook 发现用户就你的产品提出文档难以回答的问题时，就会出现，例如：
+
+  - 客户向支持团队提出一个他们在文档中找不到答案的问题。
+  - 某个 API 端点缺少完整文档。
+- **过时内容** 当页面上的内容已被外部来源中的内容取代时，会被检测到，例如：
+
+  - SDK 更新后更改了某个函数的签名。
+  - 某项付费功能已转为免费层级，但文档尚未更新。
+- **错误内容** 当文档站点上的内容被明确标记为错误时，例如：
+
+  - 某个指南指向已不存在的 API，或者该功能已经停止服务。
+  - 外部来源，例如你的营销网站，与文档内容不一致。
+
+## 识别是如何工作的
+
+<Steps>
+  <Step title="连接来源" titleType="h3">
+    当 GitBook Agent 连接到外部来源，例如你的支持工单系统、公开论坛或营销网站时，效果最佳。某些来源在完成设置前需要额外的 API 密钥或身份验证。 [了解有关我们的连接的更多信息。](/zh/docs/wei-du-zhe-ti-gong-de-ai/connections)
+  </Step>
+
+  <Step title="GitBook Agent 生成发现项" titleType="h3">
+    GitBook 会定期审查你的来源，并根据结果生成发现项。GitBook 会收集这些发现项供你的团队审阅。 [了解我们如何摄取数据的更多信息。](/zh/docs/wei-du-zhe-ti-gong-de-ai/connections)
+  </Step>
+
+  <Step title="审阅你的发现项" titleType="h3">
+    审阅你的发现项以开始修复问题。每个发现项都包括问题摘要、所属主题、支持证据，以及 GitBook 作为上下文使用的页面链接。
+  </Step>
+
+  <Step title="修复或归档" titleType="h3">
+    某些发现项可以由 GitBook Agent 自动修复。在该选项可用时，你可以创建 [变更请求](/zh/docs/xie-zuo/change-requests) ，并直接从该发现项发起。你也可以归档你不想保留在活动列表中的发现项。
+  </Step>
+</Steps>
+
+如需申请使用 GitBook Agent 的自动文档改进功能，请打开你站点的 **设置**.
+
+<Image src="https://test-dai.imgix.net/org-4afef969-21f9-40f3-b5b8-b06c8b6cf68f/doc-22a3b060-9539-4176-97e4-49120e02f5d1/380d938a3f86e215-spaces-NkEGS7hzeqa35sMXQZ4X-uploads-TO7pu11GsUcHQGwM4fRw-2026-07-13_connections-.png?fm=auto&auto=compress%2Cformat" alt="" />
+
+## 自动修复
+
+当某个发现项支持自动修复时，GitBook 会显示一个 **创建变更请求** 操作，这样 GitBook Agent 就可以为你的团队生成一个建议修复方案供审阅。如果你想跳过建议，也可以改为归档该发现项。对于你已归档的发现项，GitBook 不会再次打开。

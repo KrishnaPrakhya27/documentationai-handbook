@@ -1,0 +1,71 @@
+---
+title: List the pages affected by a documentation issue
+metaTitle: List the pages affected by a documentation issue | Developers | GitBook Documentation
+ogImage: https://test-dai.imgix.net/org-4afef969-21f9-40f3-b5b8-b06c8b6cf68f/doc-22a3b060-9539-4176-97e4-49120e02f5d1/0a5a1a9630785855-organizations-d8f63b60-89ae-11e7-8574-5927d48c4877-sites-site_p4Xo4-socialprevie.jpg?fm=auto&auto=compress%2Cformat
+---
+
+Lists the site pages a documentation issue relates to. Use this to locate which page(s) to edit when fixing an issue manually instead of via `triggerChangeRequestsForSiteFinding`.
+
+**GET** `/orgs/{organizationId}/sites/{siteId}/findings/{siteFindingId}/pages`
+
+**Parameters**
+
+<ParamField header="Authorization" param-type="string" />
+
+<ParamField query="page" param-type="string">
+  Identifier of the page results to fetch.
+</ParamField>
+
+<ParamField query="limit" param-type="number">
+  The number of results per page
+</ParamField>
+
+<ParamField path="organizationId" param-type="string" required={true}>
+  The unique id of the organization
+</ParamField>
+
+<ParamField path="siteId" param-type="string" required={true}>
+  The unique id of the site
+</ParamField>
+
+<ParamField path="siteFindingId" param-type="string" required={true}>
+  The unique id of the site finding
+</ParamField>
+
+**Responses**
+
+`200` List of pages linked to the site finding
+
+<ResponseField name="next" field-type="object">
+  <Expandable title="Object Properties">
+    <ResponseField name="page" field-type="string" required={true}>
+      Unique identifier to query the next results page
+    </ResponseField>
+  </Expandable>
+</ResponseField>
+
+<ResponseField name="count" field-type="number">
+  Total count of objects in the list
+</ResponseField>
+
+<ResponseField name="items" field-type="array" required={true}>
+  <Expandable title="Array Items">
+    <ResponseField name="object" field-type="string" required={true} enum="site-finding-page" />
+
+    <ResponseField name="spaceId" field-type="string" required={true}>
+      The space ID containing the linked page.
+    </ResponseField>
+
+    <ResponseField name="page" field-type="object" required={true}>
+      <Expandable title="Object Properties">
+        <ResponseField name="id" field-type="string" required={true} />
+
+        <ResponseField name="type" field-type="string" required={true} enum="document,group,link,computed" />
+
+        <ResponseField name="title" field-type="string" required={true} />
+
+        <ResponseField name="path" field-type="string" />
+      </Expandable>
+    </ResponseField>
+  </Expandable>
+</ResponseField>

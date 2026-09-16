@@ -1,0 +1,162 @@
+---
+title: Statistiques du site
+description: Consultez les statistiques liées au trafic et à l’utilisation de votre documentation publiée
+metaTitle: Statistiques du site | GitBook Documentation
+ogImage: https://test-dai.imgix.net/org-4afef969-21f9-40f3-b5b8-b06c8b6cf68f/doc-22a3b060-9539-4176-97e4-49120e02f5d1/0a5a1a9630785855-organizations-d8f63b60-89ae-11e7-8574-5927d48c4877-sites-site_p4Xo4-socialprevie.jpg?fm=auto&auto=compress%2Cformat
+---
+
+Les statistiques du site vous donnent des informations sur le contenu que vous avez publié et sur ses performances. Elles sont réparties en différentes sections — **Trafic**, **Pages et retours**, **Agents et LLM**, **Recherche**, **Demander à l’IA**, **Liens**, **MCP**, et **OpenAPI**.
+
+Vous pouvez consulter une vue d’ensemble de haut niveau de vos statistiques sur l’écran « Vue d’ensemble » de votre site, sous « Général » dans la barre latérale du site, avec un globe qui affiche les vues de la dernière heure par emplacement. **Vue d’ensemble** à l’écran, sous **Général** dans la barre latérale du site, avec un globe qui affiche les vues de la dernière heure par emplacement.
+
+Cliquez sur **Statistiques** dans l’en-tête du site pour ouvrir les statistiques du site pour votre site.
+
+<Callout kind="info">
+  Si vous connectez **Google Analytics**, votre site peut afficher un avis relatif aux cookies. Pour le supprimer, ouvrez [**Paramètres du site → Cookie d’analyse**](/fr/docs/gerer-votre-site/site-settings#analytics-cookie) et désactivez ou supprimez l’ **Google Analytics** intégration.
+</Callout>
+
+<Image src="https://test-dai.imgix.net/org-4afef969-21f9-40f3-b5b8-b06c8b6cf68f/doc-22a3b060-9539-4176-97e4-49120e02f5d1/f5af27ad5510cdc2-spaces-NkEGS7hzeqa35sMXQZ4X-uploads-N4B1Zr9tOH4zy0ynbjuf-26_03_30_analytics-2x.png?fm=auto&auto=compress%2Cformat" alt="A GitBook screenshot showing the site analytics dashboard" caption="Le tableau de bord des statistiques du site." />
+
+### Filtres et groupes
+
+Vous pouvez ajouter des filtres ou regrouper vos données pour les afficher de manière spécifique. Par exemple, vous pouvez examiner les données de recherche dans une section précise du site, ou filtrer vos données de trafic par pays, appareil, navigateur, et plus encore.
+
+En combinant les filtres et les groupes, vous pouvez approfondir vos données analytiques précises pour suivre les événements qui vous importent.
+
+### Afficher par périodes personnalisées
+
+Vous pouvez utiliser le filtre de temps <Image src="https://test-dai.imgix.net/org-4afef969-21f9-40f3-b5b8-b06c8b6cf68f/doc-22a3b060-9539-4176-97e4-49120e02f5d1/5995e7af18e55747-spaces-NkEGS7hzeqa35sMXQZ4X-uploads-1g9fFv9V674Y7JGjHOGw-calendar.svg?rasterize-bypass=true" alt="" /> à droite de l’ **Statistiques** écran pour modifier la période entre les dernières 24 heures, 7 jours, 30 jours ou 3 mois.
+
+Pour afficher les données sur une période personnalisée, cliquez sur **Plage personnalisée** pour choisir votre période personnalisée dans le calendrier.
+
+### Types de données
+
+Les statistiques du site sont réparties en sept sections, chacune axée sur un type de données spécifique.
+
+#### Trafic
+
+GitBook suit les pages vues pour vous aider à comprendre la popularité et la portée de votre contenu. Chaque fois qu’un utilisateur visite une page de votre site de documentation, cela est comptabilisé comme une page vue.
+
+Les pages vues sont essentielles pour évaluer l’efficacité de votre stratégie de contenu et optimiser votre documentation en fonction de l’intérêt des utilisateurs. Elles sont réparties entre différentes vues et profils, notamment les pays, les langues, les navigateurs, et plus encore.
+
+<Callout kind="success">
+  Dans l’ensemble des statistiques du site, vous verrez les métriques Événements et Visiteurs. **Les événements** indiquent le nombre total d’occurrences pour une catégorie donnée, tandis que **les visiteurs** indiquent les utilisateurs uniques qui effectuent les actions.
+
+  Dans le contexte des pages vues, les événements correspondent au nombre total de pages vues, et les visiteurs au nombre d’utilisateurs distincts effectuant une page vue.
+</Callout>
+
+#### Pages et retours
+
+Pages et retours vous permettent de voir une représentation globale de la manière dont vos utilisateurs évaluent votre contenu. Vous verrez une vue d’ensemble de toutes les sections et variantes de votre site, et après avoir activé [l’évaluation des pages](/fr/docs/gerer-votre-site/site-settings#page-ratings-pro-and-enterprise-plans) dans le menu **Personnaliser** d’un site, vous pouvez voir la note moyenne de retours de chaque page.
+
+**Filtrer et regrouper les données de retours**
+
+Utilisez des filtres pour vous concentrer sur un sous-ensemble de notes et de commentaires. Utilisez des groupes pour comparer ces données selon une dimension. Les dimensions disponibles dépendent du rapport que vous sélectionnez.
+
+Vous pouvez filtrer ou regrouper les données de Pages et retours par :
+
+- Contenu : section, variante et page.
+- Dimensions du visiteur : pays, langue, appareil, navigateur, référent et statut de visiteur authentifié.
+- Attributs de visiteur configurés pour le contenu adaptatif, tels qu’un client, un forfait, un rôle ou un accès à une fonctionnalité.
+
+Les filtres de contenu identifient d’où proviennent les retours. Les dimensions du visiteur ajoutent le même contexte d’audience disponible ailleurs dans les statistiques du site. Par exemple, filtrez les notes d’une page par pays, ou regroupez ses retours par appareil ou par statut de visiteur authentifié.
+
+**Filtrer par attributs de visiteur**
+
+Le **visiteur authentifié** filtre indique si GitBook a identifié le visiteur lorsqu’il a laissé un retour :
+
+- **Authentifié**: Le visiteur s’est connecté ou est arrivé avec des attributs de visiteur signés.
+- **Anonyme**: Le visiteur est arrivé sans identification signée. Les attributs transmis via des paramètres d’URL ou un cookie public de visiteur ne sont pas signés.
+- **Inconnu**: GitBook a enregistré l’événement avant que le suivi de l’authentification des visiteurs ne commence en août 2026.
+
+Le **Authentifié** et **Anonyme** les valeurs sont pertinentes à partir d’août 2026. Pour plus de détails, consultez la [FAQ sur les visiteurs authentifiés](#what-does-authenticated-visitor-mean).
+
+<Callout kind="info">
+  Pour isoler les retours d’un client ou d’un segment, filtrez par un attribut que vous transmettez via le contenu adaptatif. Par exemple, filtrez par un attribut client, forfait, rôle ou accès à une fonctionnalité. Cela n’affiche que les retours des visiteurs dont les événements incluent cette valeur d’attribut.
+
+  Les filtres d’attributs n’utilisent que les attributs configurés pour votre site. Ils n’inférent pas l’identité du client à partir du contenu, des sections ou des variantes de la page. Consultez [l’activation du contenu adaptatif](/fr/docs/publier/adaptive-content/enabling-adaptive-content) pour configurer les attributs du visiteur.
+</Callout>
+
+**Ce que vous pouvez apprendre**
+
+Les filtres Pages et retours vous aident à transformer les notes et les commentaires en mises à jour ciblées. Par exemple, vous pouvez :
+
+- Identifier les pages ou sections ayant des notes plus faibles, puis examiner leurs commentaires.
+- Comparer les retours des visiteurs authentifiés et anonymes afin d’identifier les lacunes spécifiques à votre audience.
+- Vérifier les notes des pages qui varient selon l’attribut client, puis améliorer le contenu pour ce segment.
+
+Si vous souhaitez utiliser ou analyser ces données plus en détail en dehors de GitBook, cliquez sur **Télécharger le CSV** pour télécharger un fichier `.csv` sur votre appareil.
+
+Vous pouvez également consulter une liste des commentaires laissés par les visiteurs qui évaluent vos pages, afin d’obtenir des informations exploitables sur la manière d’améliorer votre documentation.
+
+<Callout kind="info">
+  <strong>Pourquoi ne vois-je aucune donnée de retour pour mon site ?</strong><br />Nous affichons uniquement les données des sites publiés avec l’évaluation des pages activée. Si votre site n’est pas publié ou n’a pas l’évaluation des pages activée, vous ne verrez aucune donnée analytique.
+</Callout>
+
+#### Agents et LLM
+
+Suivez le trafic provenant des LLM, des agents de codage et des bots.
+
+Cette vue affiche les requêtes vers `llms.txt`, `llms-full.txt`et les pages Markdown. Vous pouvez également consulter quels agents accèdent le plus souvent à votre contenu.
+
+#### URL cassées
+
+Les URL cassées affichent les liens entrants provenant de sources externes qui entraînent une erreur « Page introuvable ». Il peut s’agir d’URL mal saisies, de liens obsolètes sans redirection, ou de liens indésirables.
+
+Si un lien cassé pointe vers un sujet qui existe ailleurs dans votre documentation, ou si vous souhaitez simplement diriger le trafic vers votre documentation principale, vous pouvez configurer des [redirections du site](/fr/docs/publier/site-redirects) pour orienter ces visiteurs dans la bonne direction.
+
+#### Recherche
+
+Vous pouvez mesurer et améliorer votre documentation en vérifiant quels mots-clés sont le plus utilisés par les utilisateurs qui recherchent dans votre documentation. Cette vue vous permet de voir quels mots-clés fonctionnent le mieux, et lesquels vous pourriez améliorer.
+
+Les informations ici peuvent aider à orienter l’architecture de votre contenu, à rendre certaines parties de votre documentation plus faciles à trouver sans recherche, ou à ajouter du contenu supplémentaire aux pages existantes en fonction de ce que recherchent vos visiteurs.
+
+#### Demander à l’IA
+
+Le [Demander à l’IA](/fr/docs/creer-du-contenu/searching-your-content/gitbook-ai) La section vous permet de voir ce que vos utilisateurs demandent lorsqu’ils utilisent GitBook AI. Cet aperçu vous aide à identifier les questions fréquentes, à mettre en lumière les lacunes de votre documentation et à améliorer le contenu pour mieux répondre aux besoins des utilisateurs.
+
+Vous pouvez également voir comment les utilisateurs évaluent les réponses que l’IA donne à leurs questions. En examinant ces requêtes et leurs notes, vous pouvez affiner la structure de votre documentation, améliorer sa découvrabilité et identifier les zones qui bénéficieraient de davantage d’informations documentées.
+
+#### Liens
+
+GitBook suit les liens pour vous aider à comprendre comment les utilisateurs interagissent avec les ressources externes dans votre documentation. Cette fonctionnalité fournit des informations sur les liens externes, leurs domaines et leur emplacement dans votre documentation, par exemple dans l’en-tête, le pied de page ou la barre latérale. L’analyse de l’utilisation des liens peut vous aider à optimiser la navigation, à améliorer l’accessibilité du contenu et à affiner votre stratégie de documentation en fonction de l’engagement des utilisateurs.
+
+#### OpenAPI
+
+Le [OpenAPI](/fr/docs/creer-du-contenu/openapi) La vue analytique de GitBook fournit des informations sur la manière dont les utilisateurs interagissent avec votre documentation API.
+
+Elle suit des interactions telles que les consultations de points de terminaison, les recherches de paramètres et les explorations de requêtes, afin de vous aider à comprendre quelles parties de votre API sont les plus consultées et où les utilisateurs peuvent avoir besoin de plus de clarté. Ces informations vous permettent d’affiner votre documentation, d’améliorer l’expérience développeur et de vous assurer que le contenu de votre API répond efficacement aux besoins des utilisateurs.
+
+#### MCP
+
+Découvrez comment le contenu de votre site est consulté via [MCP](/fr/docs/lia-pour-vos-lecteurs/mcp-servers-for-published-docs) des intégrations. Vous pouvez afficher les requêtes MCP au fil du temps et voir quels bots et agents accèdent au contenu de votre site.
+
+### FAQ
+
+<Expandable title="Qui peut consulter les statistiques du site ?">
+  Toute personne ayant accès au site peut consulter ses statistiques — y compris les lecteurs, les relecteurs et les éditeurs. Les créateurs et les administrateurs peuvent également accéder aux paramètres et à la personnalisation du site.
+</Expandable>
+
+<Expandable title="Pourquoi mes données de statistiques ne se chargent-elles pas ?">
+  Si le tableau de bord des statistiques ne se charge pas, c’est généralement parce qu’un bloqueur de publicités ou une extension de confidentialité bloque les scripts de statistiques. Désactivez temporairement l’extension et rechargez la page, ou ajoutez GitBook et les services qu’il utilise à la liste d’autorisation de l’extension.
+</Expandable>
+
+<Expandable title="Que signifie « Page introuvable » ?">
+  « Page introuvable » signifie que les visiteurs ont essayé d’ouvrir une page de votre site qui n’existe pas. Le tableau ne comptabilise que les visites de votre page Page introuvable par défaut. Pour voir quelles URL sont cassées, ouvrez **URL cassées** dans les statistiques du site — à partir de là, vous pouvez voir combien de visiteurs chaque lien cassé a eu et [créer des redirections](/fr/docs/publier/site-redirects) si nécessaire.
+</Expandable>
+
+<Expandable title="Que signifie « Non défini » dans les données de provenance ?">
+  Les référents « Non défini » indiquent un trafic direct — les visiteurs ont saisi votre URL directement, utilisé un favori ou cliqué sur des liens provenant d’e-mails et d’applications qui ne transmettent pas les données de provenance.
+</Expandable>
+
+<Expandable title="Que signifie « Visiteur authentifié » ?">
+  Le filtre « Visiteur authentifié » indique si GitBook a pu identifier un visiteur lorsque l’événement s’est produit.
+
+  Les visiteurs sont comptés comme « Authentifiés » lorsqu’ils se sont connectés via l’authentification des visiteurs ou sont arrivés avec des attributs de visiteur signés, comme sur les sites utilisant du contenu adaptatif. Les attributs de personnalisation transmis via des paramètres d’URL ou le cookie public du visiteur ne sont pas signés, donc ces visiteurs sont comptés comme « Anonymes ».
+</Expandable>
+
+<Expandable title="Que signifie « Inconnu » pour les visiteurs authentifiés ?">
+  « Inconnu » signifie que GitBook a enregistré l’événement avant que le suivi de l’authentification des visiteurs ne commence en août 2026.
+
+  GitBook étiquette ces événements plus anciens comme « Inconnu » plutôt que d’en déduire leur statut. Les rapports couvrant les périodes antérieures affichent donc la plupart du trafic comme « Inconnu ». La répartition entre « Authentifié » et « Anonyme » est pertinente à partir d’août 2026.
+</Expandable>

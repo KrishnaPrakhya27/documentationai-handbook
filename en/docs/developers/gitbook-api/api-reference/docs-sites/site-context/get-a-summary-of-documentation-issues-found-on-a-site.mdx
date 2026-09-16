@@ -1,0 +1,101 @@
+---
+title: Get a summary of documentation issues found on a site
+metaTitle: Get a summary of documentation issues found on a site | Developers | GitBook Documentation
+ogImage: https://test-dai.imgix.net/org-4afef969-21f9-40f3-b5b8-b06c8b6cf68f/doc-22a3b060-9539-4176-97e4-49120e02f5d1/0a5a1a9630785855-organizations-d8f63b60-89ae-11e7-8574-5927d48c4877-sites-site_p4Xo4-socialprevie.jpg?fm=auto&auto=compress%2Cformat
+---
+
+Returns aggregate statistics about the documentation issues GitBook identified on a site. Accepts the same filters as `listSiteFindings`. Use this to answer "how healthy are my docs" before drilling into individual findings.
+
+**GET** `/orgs/{organizationId}/sites/{siteId}/stats/findings`
+
+**Parameters**
+
+<ParamField header="Authorization" param-type="string" />
+
+<ParamField path="organizationId" param-type="string" required={true}>
+  The unique id of the organization
+</ParamField>
+
+<ParamField path="siteId" param-type="string" required={true}>
+  The unique id of the site
+</ParamField>
+
+<ParamField query="topic" param-type="string">
+  Filter findings by associated site topic ID.
+</ParamField>
+
+<ParamField query="status" param-type="string" enum="candidate,open,done,canceled">
+  Filter findings by status.
+</ParamField>
+
+<ParamField query="type" param-type="string[]" enum="content-outdated,content-incorrect,content-gap,broken-link,outbound-link-error,other">
+  Filter findings by type. When multiple types are given, findings matching any of them are returned.
+</ParamField>
+
+<ParamField query="severity" param-type="string" enum="low,medium,high">
+  Filter findings by estimated severity.
+</ParamField>
+
+<ParamField query="hasChangeRequests" param-type="boolean">
+  Filter findings that have at least one associated change request.
+</ParamField>
+
+<ParamField query="source" param-type="string[]">
+  Filter findings by the source of their evidence. Each entry is either `connection:<connectionId>` (findings with at least one piece of evidence coming from the given connection) or `questions` (findings with at least one piece of evidence coming from a site question). When multiple entries are given, findings matching any of them are counted.
+</ParamField>
+
+**Responses**
+
+`200` OK
+
+<ResponseField name="total" field-type="number" required={true}>
+  Total count of findings included in the aggregation.
+</ResponseField>
+
+<ResponseField name="statuses" field-type="object" required={true}>
+  Count of findings by status. Candidate findings are never counted.
+
+  <Expandable title="Object Properties">
+    <ResponseField name="open" field-type="number" required={true}>
+      Count of findings surfaced to users and still under investigation.
+    </ResponseField>
+
+    <ResponseField name="done" field-type="number" required={true}>
+      Count of findings that have been resolved.
+    </ResponseField>
+
+    <ResponseField name="canceled" field-type="number" required={true}>
+      Count of findings that have been canceled.
+    </ResponseField>
+  </Expandable>
+</ResponseField>
+
+<ResponseField name="severities" field-type="object" required={true}>
+  Count of findings by estimated end-user severity.
+
+  <Expandable title="Object Properties">
+    <ResponseField name="low" field-type="number" required={true}>
+      Count of findings with a low estimated severity.
+    </ResponseField>
+
+    <ResponseField name="medium" field-type="number" required={true}>
+      Count of findings with a medium estimated severity.
+    </ResponseField>
+
+    <ResponseField name="high" field-type="number" required={true}>
+      Count of findings with a high estimated severity.
+    </ResponseField>
+  </Expandable>
+</ResponseField>
+
+<ResponseField name="connectors" field-type="object" required={true}>
+  Count of findings by the connector their evidence came from, keyed by connector (e.g. `builtin:intercom`). A finding is counted once per connector that contributed at least one piece of evidence to it, so the counts can add up to more than the total.
+</ResponseField>
+
+<ResponseField name="questions" field-type="number" required={true}>
+  Count of findings with at least one piece of evidence coming from a site question.
+</ResponseField>
+
+<ResponseField name="mergedChangeRequests" field-type="number" required={true}>
+  Count of change requests created to fix a finding that have been merged.
+</ResponseField>

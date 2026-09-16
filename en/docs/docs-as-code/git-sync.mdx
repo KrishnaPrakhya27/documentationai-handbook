@@ -1,0 +1,46 @@
+---
+title: GitHub & GitLab Sync
+description: Synchronize your GitBook docs with GitHub or GitLab with GitBook’s bi-directional integration
+metaTitle: GitHub & GitLab Sync | GitBook Documentation
+ogImage: https://test-dai.imgix.net/org-4afef969-21f9-40f3-b5b8-b06c8b6cf68f/doc-22a3b060-9539-4176-97e4-49120e02f5d1/0a5a1a9630785855-organizations-d8f63b60-89ae-11e7-8574-5927d48c4877-sites-site_p4Xo4-socialprevie.jpg?fm=auto&auto=compress%2Cformat
+---
+
+<Image src="https://test-dai.imgix.net/org-4afef969-21f9-40f3-b5b8-b06c8b6cf68f/doc-22a3b060-9539-4176-97e4-49120e02f5d1/7d07647a983c5d64-spaces-NkEGS7hzeqa35sMXQZ4X-uploads-dfcOvA0AfLVpJN5AGk3M-Site-wide-Git-Sync.png?fm=auto&auto=compress%2Cformat" alt="A GitBook screenshot showing the Git Sync setup" caption="Set up Git Sync for your GitBook docs." />
+
+### Overview
+
+Git Sync allows technical teams to sync GitHub or GitLab repositories with GitBook and turn a repo of Markdown files into beautiful, user-friendly docs. Edit directly in GitBook’s powerful editor while keeping content synchronized with your codebase on GitHub or GitLab.
+
+Git Sync is bi-directional, so changes you make directly in GitBook’s editor are automatically synced, as are any commits made on GitHub or GitLab. This allows developers to commit directly from GitHub or GitLab and technical writers, instructional designers, and product managers to edit, discuss and feedback changes directly in GitBook.
+
+### Set up Git Sync
+
+<Columns cols={2}>
+  <Card title="Set up GitHub Sync" href="/en/docs/docs-as-code/git-sync/enabling-github-sync">
+    Set up and authorize the GitHub integration for GitBook.
+  </Card>
+
+  <Card title="Set up GitLab Sync" href="/en/docs/docs-as-code/git-sync/enabling-gitlab-sync">
+    Set up and authorize the GitLab integration for GitBook.
+  </Card>
+</Columns>
+
+<Callout kind="info">
+  Git Sync supports IP allowlisting for Enterprise customers. If your GitHub, GitLab, or internal network only accepts traffic from approved IPs, allowlist these outbound Git Sync IPs before you enable the integration:
+
+  - `34.136.22.210`
+  - `34.29.189.57`
+  - `35.223.181.150`
+  - `34.72.115.112`
+  - `136.116.236.109`
+</Callout>
+
+<Callout kind="info">
+  Only [administrators and creators](/en/docs/collaborate/member-management/roles) can enable and configure Git Sync.
+</Callout>
+
+### Working with AI Agents
+
+When working on your docs locally with Git Sync, you can use GitBook's [skill.md file](/en/docs/docs-as-code/ai-coding-assistants-and-skillmd) to provide an AI coding assistant with context about GitBook's blocks, features, and best practices.
+
+Head to [Agent skills](/en/docs/docs-as-code/ai-coding-assistants-and-skillmd) to learn more.

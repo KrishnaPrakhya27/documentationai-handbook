@@ -1,0 +1,66 @@
+---
+title: 内容变体
+description: 在一个站点中发布多个产品版本或语言的文档
+metaTitle: 内容变体 | GitBook Documentation
+ogImage: https://test-dai.imgix.net/org-4afef969-21f9-40f3-b5b8-b06c8b6cf68f/doc-22a3b060-9539-4176-97e4-49120e02f5d1/0a5a1a9630785855-organizations-d8f63b60-89ae-11e7-8574-5927d48c4877-sites-site_p4Xo4-socialprevie.jpg?fm=auto&auto=compress%2Cformat
+---
+
+您可以将同一文档的多个版本作为单个文档站点的一部分进行发布。这些变体将通过已发布站点目录顶部的变体选择器供最终用户使用。
+
+<Image src="https://test-dai.imgix.net/org-4afef969-21f9-40f3-b5b8-b06c8b6cf68f/doc-22a3b060-9539-4176-97e4-49120e02f5d1/64f4d3a9af8e928f-spaces-NkEGS7hzeqa35sMXQZ4X-uploads-2cQxJ5sTMVUkXOcuDEU8-Adding-a-section-2x.png?fm=auto&auto=compress%2Cformat" alt="A GitBook screenshot showing a docs site's structure" />
+
+### 添加多种语言或版本
+
+如果您需要将内容的不同变体放在一起，具有多个变体的网站会很有用——例如，当您记录某个 API 的多个版本（v1、v2、v3 等）时，或以不同语言记录您的内容时。
+
+<Callout kind="info">
+  变体可以包含任何内容，但建议将其用作 *相同内容的不同变体*。如果您的内容在语义上不同，建议将其添加为 [部分](/zh/docs/guan-li-ni-de-zhan-dian/site-structure/site-sections) 代替。
+</Callout>
+
+将翻译或多种语言作为变体添加时，最佳做法是为变体设置语言，以便用户在浏览您的文档时获得最佳体验。
+
+添加多个已设置语言的变体后，语言选择器会移至右上角，相比默认的变体选择器，体验更简洁、更直接。
+
+### 向您的文档站点添加变体
+
+从以下位置打开结构编辑器 **网站结构**，在 **常规** 在站点侧边栏中。您可以在这里查看站点的全部内容。
+
+要添加变体，请点击 **添加变体** 您想添加到的部分中的按钮，然后选择要添加的内容。随后，新变体会添加到所选部分的变体列表中，并可在您站点的变体下拉菜单中供访问者使用。
+
+### 更改变体
+
+您可以通过点击 <Image src="https://test-dai.imgix.net/org-4afef969-21f9-40f3-b5b8-b06c8b6cf68f/doc-22a3b060-9539-4176-97e4-49120e02f5d1/ab76723fb229a5ad-spaces-NkEGS7hzeqa35sMXQZ4X-uploads-A3OfGjPkE5GnOQvN36jN-edit.svg?rasterize-bypass=true" alt="The Edit icon in GitBook" /> **编辑** 您想编辑的变体所在表格行中的按钮来更改每个变体的名称和 slug。这将打开一个弹窗。编辑您想更改的字段，然后点击 **保存** 按钮进行保存。您也可以通过点击 **删除变体** 左下角的按钮来删除该变体。
+
+如果您的站点支持多种语言，您也可以翻译变体标题，使选择器显示本地化标签。请参见 [多语言分区](/zh/docs/guan-li-ni-de-zhan-dian/site-structure/multilingual-sections).
+
+<Callout kind="info">
+  更改变体的 slug 会更改其规范 URL。GitBook 将自动从旧 URL 重定向到新 URL。您也可以 [手动创建重定向](/zh/docs/fa-bu/site-redirects).
+</Callout>
+
+要替换某个变体的内容，首先点击其 **编辑** <Image src="https://test-dai.imgix.net/org-4afef969-21f9-40f3-b5b8-b06c8b6cf68f/doc-22a3b060-9539-4176-97e4-49120e02f5d1/ab76723fb229a5ad-spaces-NkEGS7hzeqa35sMXQZ4X-uploads-A3OfGjPkE5GnOQvN36jN-edit.svg?rasterize-bypass=true" alt="The Edit icon in GitBook" /> 按钮将其删除，然后点击 **删除** 弹窗左下角的按钮将其删除。变体删除后，点击 **添加变体** 按钮以添加新内容。
+
+### 重新排序变体
+
+您的站点会按照它们在您的 **网站结构** 表格中显示的顺序展示变体。通过拖拽 **拖动手柄** <Image src="https://test-dai.imgix.net/org-4afef969-21f9-40f3-b5b8-b06c8b6cf68f/doc-22a3b060-9539-4176-97e4-49120e02f5d1/4c115a43418b42e3-spaces-NkEGS7hzeqa35sMXQZ4X-uploads-aS1QvPIBVYwhpFTGcPBN-options-menu.svg?rasterize-bypass=true" alt="The Options menu icon in GitBook" /> 并上下移动来重新排序。更改后的顺序会立即反映到你的网站上。
+
+您也可以使用键盘选择并移动内容：按空格键选中某个部分或变体，然后使用方向键将其上移或下移。再次按空格键确认新位置。
+
+### 设置默认变体
+
+如果某个部分中有多个变体，其中一个会被标记为默认变体。访问者进入您的站点时（或访问某个部分时）会显示该变体。其他变体各自都有一个附加到站点 URL 的 slug。
+
+要将变体设为默认值，请点击 **操作菜单** <Image src="https://test-dai.imgix.net/org-4afef969-21f9-40f3-b5b8-b06c8b6cf68f/doc-22a3b060-9539-4176-97e4-49120e02f5d1/4fa265378c13a520-spaces-NkEGS7hzeqa35sMXQZ4X-uploads-89MTSo5XRpPMVr1T0rxS-actions.svg?rasterize-bypass=true" alt="The Actions menu icon in GitBook" /> 变体表格行中的，然后点击 **设为默认**.
+
+<Callout kind="info">
+  将变体设为默认值后，其 slug 字段将被移除，因为它将改为从该部分根路径提供。GitBook 会将变体的 slug 重定向到相应路径，以确保访问者继续看到您的内容。
+</Callout>
+
+### 从站点中移除变体
+
+要从站点中移除某个变体，请从 **网站结构**，在 **常规** 在网站侧边栏中，然后找到你想移除的内容。
+
+打开 **操作菜单** <Image src="https://test-dai.imgix.net/org-4afef969-21f9-40f3-b5b8-b06c8b6cf68f/doc-22a3b060-9539-4176-97e4-49120e02f5d1/4fa265378c13a520-spaces-NkEGS7hzeqa35sMXQZ4X-uploads-89MTSo5XRpPMVr1T0rxS-actions.svg?rasterize-bypass=true" alt="The Actions menu icon in GitBook" /> 中打开该变体的结构编辑器，然后选择 **移除**.
+
+<Callout kind="success">
+  从您的站点中移除变体会将其从已发布站点中移除，但 **不会删除内容本身** ——你仍然可以在 [所有内容](/zh/docs/chuang-jian-nei-rong/content-structure/all-content).
+</Callout>

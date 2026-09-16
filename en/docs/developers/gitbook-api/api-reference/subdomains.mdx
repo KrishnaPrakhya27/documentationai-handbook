@@ -1,0 +1,20 @@
+---
+title: Subdomains
+description: Manage and configure organization-specific subdomains for your docs.
+metaTitle: Subdomains | Developers | GitBook Documentation
+ogImage: https://test-dai.imgix.net/org-4afef969-21f9-40f3-b5b8-b06c8b6cf68f/doc-22a3b060-9539-4176-97e4-49120e02f5d1/0a5a1a9630785855-organizations-d8f63b60-89ae-11e7-8574-5927d48c4877-sites-site_p4Xo4-socialprevie.jpg?fm=auto&auto=compress%2Cformat
+---
+
+Provide a branded subdomain for each organization to create a consistent user experience. This API supports subdomain creation, DNS checks, and more.
+
+## The Subdomain object
+
+<ResponseField name="object" field-type="string" required={true} enum="subdomain" />
+
+<ResponseField name="subdomain" field-type="string" required={true}>
+  The GitBook subdomain, for example "my-company" in "my-company.gitbook.io"
+</ResponseField>
+
+<ResponseField name="target" field-type="string" required={true} />
+
+<ResponseField name="isActive" field-type="boolean" required={true} />

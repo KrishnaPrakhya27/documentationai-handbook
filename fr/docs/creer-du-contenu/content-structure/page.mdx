@@ -1,0 +1,232 @@
+---
+title: Pages
+description: Ajoutez des pages, des groupes de pages ou des liens externes — et découvrez les options disponibles sur chaque page
+metaTitle: Pages | GitBook Documentation
+ogImage: https://test-dai.imgix.net/org-4afef969-21f9-40f3-b5b8-b06c8b6cf68f/doc-22a3b060-9539-4176-97e4-49120e02f5d1/0a5a1a9630785855-organizations-d8f63b60-89ae-11e7-8574-5927d48c4877-sites-site_p4Xo4-socialprevie.jpg?fm=auto&auto=compress%2Cformat
+---
+
+Une page est l'endroit où vous pouvez ajouter, modifier et intégrer du contenu. Les pages se trouvent toujours dans une section, ce qui vous permet de regrouper le contenu associé aux sujets ou domaines que vous couvrez.
+
+Lorsque vous publiez votre site, chaque section apparaît dans la navigation de votre site, et toutes les pages qu'elle contient apparaissent sous cette section.
+
+### Table des matières
+
+Créez autant de pages que nécessaire dans une section. Elles sont toutes visibles dans la barre latérale gauche de votre écran, dans la table des matières de votre section. La table des matières apparaît au même endroit sur votre site publié, sauf si [vous choisissez de la masquer](#page-options).
+
+<Callout kind="info">
+  **Page d'accueil de la section**
+
+  La première page de votre table des matières est toujours la page d'accueil de votre section, même si elle est masquée de la table des matières.
+</Callout>
+
+### Créer une nouvelle page
+
+1. Passez en mode d'édition en direct ou ouvrez une demande de modification.
+2. Cliquez sur <strong>Ajouter un nouveau...</strong> en bas de votre table des matières.
+3. Cliquez sur **Page**.
+
+Ou survolez l'espace entre les pages dans la table des matières et cliquez sur l' <strong>+</strong> icône qui apparaît.
+
+<Image src="https://test-dai.imgix.net/org-4afef969-21f9-40f3-b5b8-b06c8b6cf68f/doc-22a3b060-9539-4176-97e4-49120e02f5d1/147af17102939bea-spaces-NkEGS7hzeqa35sMXQZ4X-uploads-P0V046UJgzgtkrD1NiQG-creating-content-conten.png?fm=auto&auto=compress%2Cformat" alt="A GitBook screenshot showing an empty page listed in the table of contents" caption="Une page vide dans GitBook. Vous pouvez la voir répertoriée dans la table des matières sur la gauche." />
+
+### Option « Nouvelle page » manquante
+
+<Callout kind="alert">
+  Si les modifications en direct sont désactivées pour votre section, créez ou modifiez une demande de modification. Dans une demande de modification, le **Nouvelle page** bouton — qui crée des pages, des groupes de pages et des liens — est disponible dans la table des matières.
+
+  Il se peut aussi que vous n'ayez pas les autorisations nécessaires pour modifier une page.
+</Callout>
+
+### Organisation de votre contenu
+
+Il existe trois façons d'organiser votre contenu dans la table des matières :
+
+#### Pages
+
+Une page comporte un titre, une description facultative et une zone dans laquelle vous pouvez écrire et ajouter n'importe quel type de contenu.
+
+Imbriquez des pages en faisant glisser une page sous une autre dans la table des matières. Cela crée une **sous-page**.
+
+Si vous ajoutez des sous-pages à une page parente vide, GitBook génère automatiquement une page « sommaire » avec des liens vers toutes les sous-pages dans la version publiée de votre documentation.
+
+<Callout kind="info">
+  <strong>Conseil :</strong> Il n'y a pas de limite à l'imbrication des pages, mais évitez de dépasser trois niveaux pour garder une navigation simple.
+</Callout>
+
+Lorsque vous modifiez le titre d'une page, le slug de la page (la partie située tout à la fin de l'URL, comme `/hello-world`) change également — sauf si vous avez déjà défini manuellement le slug de la page.
+
+L'URL d'une page publiée suit l'arborescence de navigation, et non la structure de fichiers de votre synchronisation Git. Elle inclut le slug de la section ou du groupe de niveau supérieur, le slug de chaque page ou groupe ancêtre, ainsi que le slug propre à la page.
+
+Par exemple, cette structure de fichiers Git Sync :
+
+```
+content/
+└── setup/
+    └── install.md
+```
+
+Peut avoir cet arbre de navigation :
+
+```
+API
+└── Guides
+    └── Installation
+```
+
+Si les slugs sont `api`, `guides`, et `install`, l'URL publiée est `/api/guides/install`. Le chemin du fichier ne détermine pas l'URL.
+
+Pour modifier le titre, le titre de lien ou le slug d'une page :
+
+1. Ouvrez le **menu Actions** <Image src="https://test-dai.imgix.net/org-4afef969-21f9-40f3-b5b8-b06c8b6cf68f/doc-22a3b060-9539-4176-97e4-49120e02f5d1/4fa265378c13a520-spaces-NkEGS7hzeqa35sMXQZ4X-uploads-89MTSo5XRpPMVr1T0rxS-actions.svg?rasterize-bypass=true" alt="The Actions menu icon in GitBook" />.
+2. Cliquez sur **Modifier le titre et le slug**.
+
+#### Titre de lien de la page
+
+Pour donner à votre page un titre plus long, optimisé pour le SEO, tout en conservant un titre plus court pour l'entrée de navigation et les liens, définissez un titre de lien.
+
+1. Ouvrez le **menu Actions** <Image src="https://test-dai.imgix.net/org-4afef969-21f9-40f3-b5b8-b06c8b6cf68f/doc-22a3b060-9539-4176-97e4-49120e02f5d1/4fa265378c13a520-spaces-NkEGS7hzeqa35sMXQZ4X-uploads-89MTSo5XRpPMVr1T0rxS-actions.svg?rasterize-bypass=true" alt="The Actions menu icon in GitBook" />.
+2. Cliquez sur **Modifier le titre et le slug**.
+3. Dans la **boîte de dialogue Modifier la page** , activez et définissez un titre de lien pour cette page.
+
+Si vous utilisez Git Sync, définissez le titre de lien de la page dans `SUMMARY.md` sur le lien de page :
+
+```markdown
+# Table des matières
+
+* [Titre principal de la page](page.md "Titre de lien de la page")
+```
+
+<Callout kind="info">
+  <strong>Remarque :</strong> Les titres de lien des pages apparaissent dans la table des matières, les boutons de pagination en bas de chaque page, ainsi que dans tous les liens relatifs que vous ajoutez à cette page.
+</Callout>
+
+Les titres de lien des pages sont facultatifs — si vous n'en ajoutez pas, la page utilise son titre standard.
+
+#### Groupes de pages
+
+Les groupes de pages rassemblent les pages associées dans la table des matières d'une section. Vous pouvez ajouter une icône à chaque groupe de pages.
+
+<Callout kind="info">
+  Les groupes de pages organisent les pages à l'intérieur d'une section. Les groupes de section organisent les sections dans la navigation du site. Ce sont des objets différents, même s'ils sont tous deux appelés groupes. Voir [Groupes](/fr/docs/creer-du-contenu/content-structure/collection).
+</Callout>
+
+Créez un groupe de pages en cliquant sur <strong>Ajouter un nouveau...</strong> \> **Groupe** en bas de votre table des matières.
+
+Les groupes de pages existent uniquement au **niveau supérieur** de la table des matières — vous ne pouvez pas imbriquer des groupes de pages les uns dans les autres.
+
+<Callout kind="alert">
+  Les slugs des groupes de pages font partie de l'URL de chaque page enfant. Ajouter, renommer ou supprimer un groupe de pages modifie les URL des pages enfants et rompt les liens existants, à moins d'ajouter des redirections. Voir [Redirections du site](/fr/docs/publier/site-redirects).
+</Callout>
+
+Pour modifier le titre, le slug ou l'icône d'un groupe de pages :
+
+1. Cliquez sur l' **menu Actions** icône <Image src="https://test-dai.imgix.net/org-4afef969-21f9-40f3-b5b8-b06c8b6cf68f/doc-22a3b060-9539-4176-97e4-49120e02f5d1/4fa265378c13a520-spaces-NkEGS7hzeqa35sMXQZ4X-uploads-89MTSo5XRpPMVr1T0rxS-actions.svg?rasterize-bypass=true" alt="The Actions menu icon in GitBook" /> à côté du titre du groupe dans la table des matières.
+2. Cliquez sur **Renommer**.
+3. Mettez à jour le titre, le slug ou l'icône.
+
+<Callout kind="alert">
+  `SUMMARY.md` ne stocke pas les icônes des groupes de pages. GitBook les stocke, et Git Sync ne les synchronise pas dans les deux sens. Si votre dépôt recrée un groupe de pages, GitBook ne restaure pas automatiquement l'icône d'origine. Définissez à nouveau l'icône dans GitBook.
+</Callout>
+
+#### Liens externes
+
+Ajoutez des liens à votre table des matières pour diriger les personnes directement vers le contenu lié.
+
+Créez un lien externe en cliquant sur <strong>Ajouter un nouveau...</strong> \> **Lien externe** en bas de votre table des matières.
+
+### Icônes et émojis de page
+
+Pour améliorer la visibilité des lecteurs lorsqu'ils parcourent rapidement votre table des matières, ajoutez une icône ou un emoji facultatif à certaines pages. L'icône ou l'emoji apparaît dans la table des matières, ainsi qu'à côté du titre en haut de la page.
+
+Pour ajouter une icône ou un emoji, cliquez sur le **Ajouter une icône** bouton lorsque vous survolez le titre de la page, ou sur le bouton emoji à gauche du titre.
+
+### Options de page
+
+Dans la **Options de page** menu, personnalisez l'apparence de la page sélectionnée au sein d'une section et contrôlez sa visibilité.
+
+#### Disposition
+
+Ouvrez le **Options de page** <Image src="https://test-dai.imgix.net/org-4afef969-21f9-40f3-b5b8-b06c8b6cf68f/doc-22a3b060-9539-4176-97e4-49120e02f5d1/8654e1652f7b5b8c-spaces-NkEGS7hzeqa35sMXQZ4X-uploads-Asao5RY8jwAmcYhpVwPI-options.svg?rasterize-bypass=true" alt="The Page options menu icon in GitBook" /> menu ou modifiez la couverture d'une page en survolant le titre de la page. Les boutons apparaissent juste au-dessus du titre de la page.
+
+Dans la **Options de page** panneau latéral, choisissez comment chaque page s'affiche pour les visiteurs de votre **publié** contenu. Trois modèles de disposition sont disponibles, ou vous pouvez créer une disposition personnalisée.
+
+Chaque modèle de disposition active ou désactive les éléments suivants de la page :
+
+- Titre de la page
+- Description de la page
+- Table des matières
+- Plan de la page
+- Liens suivant/précédent
+- Métadonnées de la page
+- Étiquettes
+
+Associez à une page une ou plusieurs étiquettes depuis **Bibliothèque** → **Étiquettes**. Activez **Afficher les étiquettes sur la page** pour les afficher dans l'en-tête de la page. Ou choisissez une étiquette comme étiquette principale de la page, que GitBook peut afficher à côté de la page dans la table des matières. Pour en savoir plus, consultez Étiquettes.
+
+Définissez également la largeur globale de votre page depuis ce menu. Choisir **Large** donne plus d'espace à des blocs tels que les tableaux, les cartes et les blocs de code sur la page publiée. Utilisez cette option pour les pages d'accueil percutantes.
+
+#### Visibilité
+
+Choisissez quelles pages afficher ou masquer dans votre documentation publiée, ainsi que la manière dont chaque page apparaît dans la recherche du site et dans les moteurs de recherche.
+
+Pour masquer une page ou un groupe de pages de la table des matières de votre site :
+
+1. Ouvrez le **menu Actions** <Image src="https://test-dai.imgix.net/org-4afef969-21f9-40f3-b5b8-b06c8b6cf68f/doc-22a3b060-9539-4176-97e4-49120e02f5d1/4fa265378c13a520-spaces-NkEGS7hzeqa35sMXQZ4X-uploads-89MTSo5XRpPMVr1T0rxS-actions.svg?rasterize-bypass=true" alt="The Actions menu icon in GitBook" />.
+2. Basculez **Masquer la page**.
+
+Les pages masquées ne sont masquées que de la table des matières publiée. Elles restent accessibles via le serveur MCP du site et dans `llms-full.txt`.
+
+Si vous utilisez Git Sync, les pages masquées incluent le front matter suivant dans le fichier Markdown :
+
+```markdown
+---
+hidden: true
+---
+```
+
+<Callout kind="alert">
+  Masquer **Titre de la page** ou **Description de la page** ne masque que l'en-tête de la page dans le contenu publié. Cela ne supprime pas les titres à l'intérieur du corps de la page. Pour en savoir plus sur les niveaux de titres, consultez Titres.
+</Callout>
+
+#### Métadonnées (SEO)
+
+Utilisez **Options de page → Métadonnées** pour contrôler la manière dont les moteurs de recherche comprennent les relations entre des pages similaires (par exemple : les versions de documentation ou les variantes de contenu).
+
+- **URL canonique**: l'URL privilégiée (faisant autorité) pour cette page. Les moteurs de recherche la considèrent comme la « source de vérité ». Utilisez-la lorsque plusieurs URL affichent le même contenu.
+- **URL alternatives**: autres URL pour le même contenu dans une autre variante. Par exemple, une autre version ou une autre langue. Elles aident les moteurs de recherche à regrouper les variantes au lieu de les considérer comme des doublons.
+
+Les deux champs permettent de sélectionner une autre page GitBook (recommandé) ou de saisir une URL externe.
+
+<Callout kind="info">
+  Une pratique courante pour une documentation versionnée consiste à définir les anciennes pages comme canoniques vers la page équivalente la plus récente (par exemple, `1.0` → `2.0`), puis à répertorier les anciennes versions comme alternatives sur la page la plus récente.
+</Callout>
+
+#### Déplacement de pages entre sections
+
+GitBook ne prend actuellement pas en charge le déplacement de pages individuelles entre sections dans l'application. Pour déplacer le contenu d'une page vers une autre section :
+
+- **Copiez et collez** — sélectionnez le contenu de la page avec la `Esc` touche, puis copiez-le et collez-le dans la destination. Certains blocs peuvent nécessiter une reconfiguration ; les commentaires et l'historique de la page ne sont pas copiés, et les images doivent être importées à nouveau dans la nouvelle section.
+- **Utilisez Git Sync** — si les deux sections se synchronisent avec des dépôts, copiez les fichiers entre les dépôts et ajoutez les titres des pages à `SUMMARY.md`. Voir [Git Sync](/fr/docs/la-documentation-comme-code/git-sync).
+
+### Couvertures de page
+
+Définissez une couverture de page pour chaque page de votre documentation. Lorsque vous cliquez sur l' **Couverture de page** <Image src="https://test-dai.imgix.net/org-4afef969-21f9-40f3-b5b8-b06c8b6cf68f/doc-22a3b060-9539-4176-97e4-49120e02f5d1/4e5d9e0bc5b806be-spaces-NkEGS7hzeqa35sMXQZ4X-uploads-I1Q5rfhHgy0toM2pUEH5-image.svg?rasterize-bypass=true" alt="The Page cover icon in GitBook" /> option, GitBook ajoute immédiatement une couverture par défaut. La taille idéale de l'image de couverture est de 1990 × 480 pixels — les couvertures sont verrouillées sur ce ratio d'aspect, de sorte que les proportions restent conservées quelle que soit la taille de l'écran. À partir d'ici, vous pouvez :
+
+- **Modifier l'image de couverture**
+
+  1. Survolez la couverture de la page et cliquez sur **Modifier la couverture**.
+  2. Choisissez ou téléversez une image. La taille idéale est de 1990 × 480 pixels.
+- **Repositionner l'image de couverture**
+
+  1. Survolez la couverture de la page et ouvrez le **menu Actions** <Image src="https://test-dai.imgix.net/org-4afef969-21f9-40f3-b5b8-b06c8b6cf68f/doc-22a3b060-9539-4176-97e4-49120e02f5d1/4fa265378c13a520-spaces-NkEGS7hzeqa35sMXQZ4X-uploads-89MTSo5XRpPMVr1T0rxS-actions.svg?rasterize-bypass=true" alt="The Actions menu icon in GitBook" />.
+  2. Cliquez sur **Repositionner**.
+  3. Faites glisser l'image pour la placer et cliquez sur **Enregistrer**.
+- **Supprimer l'image de couverture**
+
+  1. Survolez la couverture de la page et ouvrez le **menu Actions** <Image src="https://test-dai.imgix.net/org-4afef969-21f9-40f3-b5b8-b06c8b6cf68f/doc-22a3b060-9539-4176-97e4-49120e02f5d1/4fa265378c13a520-spaces-NkEGS7hzeqa35sMXQZ4X-uploads-89MTSo5XRpPMVr1T0rxS-actions.svg?rasterize-bypass=true" alt="The Actions menu icon in GitBook" />.
+  2. Cliquez sur **Supprimer**.
+- **Pleine largeur et largeur d’en-tête**
+
+  Modifiez le style de la couverture de votre page pour qu'elle occupe toute la largeur de votre écran ou seulement la largeur de votre contenu.
+
+  1. Survolez la couverture de la page et ouvrez le **menu Actions** <Image src="https://test-dai.imgix.net/org-4afef969-21f9-40f3-b5b8-b06c8b6cf68f/doc-22a3b060-9539-4176-97e4-49120e02f5d1/4fa265378c13a520-spaces-NkEGS7hzeqa35sMXQZ4X-uploads-89MTSo5XRpPMVr1T0rxS-actions.svg?rasterize-bypass=true" alt="The Actions menu icon in GitBook" />.
+  2. Cliquez sur l'option de votre choix.

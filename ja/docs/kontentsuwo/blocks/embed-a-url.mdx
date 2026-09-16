@@ -1,0 +1,44 @@
+---
+title: 埋め込みURL
+description: URLを使って、動画、音楽などをページに直接埋め込みます
+metaTitle: 埋め込みURL | GitBook Documentation
+ogImage: https://test-dai.imgix.net/org-4afef969-21f9-40f3-b5b8-b06c8b6cf68f/doc-22a3b060-9539-4176-97e4-49120e02f5d1/0a5a1a9630785855-organizations-d8f63b60-89ae-11e7-8574-5927d48c4877-sites-site_p4Xo4-socialprevie.jpg?fm=auto&auto=compress%2Cformat
+---
+
+埋め込みURLを追加するには、埋め込みたいコンテンツのリンクを貼り付けて、 `Enter`.
+
+### 動画
+
+<Iframe src="https://www.youtube.com/embed/D_uLM5i0Z4c" title="Embedded content" />
+
+<Callout kind="info">
+  <strong>注：</strong> YouTube と Vimeo の埋め込みを自動再生・ループにするには、次を追加します `?autoplay=1&loop=1` を動画 URL の末尾に追加します。
+</Callout>
+
+#### 動画ファイル
+
+アップロードした動画ファイル（MP4 など）はインラインでは再生されず、訪問者がクリックして開いたりダウンロードしたりできるリンクとして表示されます。ページ上で再生可能な動画を表示するには、YouTube や Google Drive などの公開アクセス可能なプラットフォームに動画をアップロードし、そのリンクを埋め込みブロックに貼り付けてください。非公開 URL はページに表示されません。
+
+### Codepen
+
+[https://codepen.io/davidkpiano/pen/wMqXea](https://codepen.io/davidkpiano/pen/wMqXea)
+
+### Spotify
+
+[https://open.spotify.com/track/4FmiciU3ZmfgABlbCSXcWw?si=65zMAhStT2ivTit-kZISWg](https://open.spotify.com/track/4FmiciU3ZmfgABlbCSXcWw?si=65zMAhStT2ivTit-kZISWg)
+
+### Markdownでの表記
+
+```markdown
+{% embed url="URL_HERE" %}
+```
+
+### よくある質問
+
+<Expandable title="URL が機能しないのはなぜですか？">
+  コンテンツは公開されている必要があります。Google ドキュメントの場合は、 *リンクを知っている全員* の共有設定を選択してください。
+
+  GitBook は URL を次の方法で埋め込みます [Iframely](https://iframely.com/domains)。Iframely が提供元をサポートしていることを確認してから、 [Iframely で URL をテストしてください](https://iframely.com/try).
+
+  GitBook は外部 HTML を埋め込めません `<iframe>` タグは、コンテンツ セキュリティ ポリシーのため使用できません。代わりに埋め込みブロックを使用してください。
+</Expandable>

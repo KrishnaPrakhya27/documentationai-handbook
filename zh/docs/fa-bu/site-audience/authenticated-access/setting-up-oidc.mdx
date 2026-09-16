@@ -1,0 +1,76 @@
+---
+title: 设置 OIDC
+description: 为你的文档访客设置 OIDC 登录界面
+metaTitle: 设置 OIDC | GitBook Documentation
+ogImage: https://test-dai.imgix.net/org-4afef969-21f9-40f3-b5b8-b06c8b6cf68f/doc-22a3b060-9539-4176-97e4-49120e02f5d1/0a5a1a9630785855-organizations-d8f63b60-89ae-11e7-8574-5927d48c4877-sites-site_p4Xo4-socialprevie.jpg?fm=auto&auto=compress%2Cformat
+---
+
+<Callout kind="alert">
+  本指南将带你完成为文档设置受保护登录页面的过程。在阅读本指南之前，请确保你已经先完成了以下过程： [启用已认证访问](/zh/docs/fa-bu/site-audience/authenticated-access/enabling-authenticated-access).
+</Callout>
+
+要使用 OIDC 为您的 GitBook 站点设置经过身份验证的访问，流程如下：
+
+<Steps>
+  <Step title="在您的身份提供商中创建一个新应用">
+    从您的身份提供商仪表板创建一个应用。
+  </Step>
+
+  <Step title="安装并配置 OIDC 集成">
+    安装 Auth0 集成并添加所需的配置。
+  </Step>
+</Steps>
+
+OIDC 代表 OpenID Connect，它是构建在 OAuth 之上的身份层。许多身份提供商都遵循 OIDC，而 GitBook 的 OIDC 经过身份验证访问集成允许您将内容发布在经过身份验证的访问之后，并且对内容的访问由您的身份提供商控制。
+
+<Callout kind="info">
+  由于本指南是适用于所有身份提供商的通用指南，因此某些细节可能会因您的身份提供商而异。为便于说明，我们在本指南中使用 Google 作为身份提供商。
+</Callout>
+
+### 在您的身份提供商中创建一个新应用
+
+为了让集成正常工作，您需要在身份提供商中完成一些设置。
+
+您需要在身份提供商中创建一个新应用。其类型应为“Web Application”。在 Google 中，您需要在“API 和服务”、“凭据”下，然后在“OAuth 2.0 客户端 ID”下创建。\\
+
+<Image src="https://test-dai.imgix.net/org-4afef969-21f9-40f3-b5b8-b06c8b6cf68f/doc-22a3b060-9539-4176-97e4-49120e02f5d1/4829a3c17e7aa442-spaces-NkEGS7hzeqa35sMXQZ4X-uploads-8ra7t88ktqM7yX7w1l4m-Screen-Shot-2024-05-15-.png?fm=auto&auto=compress%2Cformat" alt="A screenshot showing creation of an OAuth client in an identity provider" />
+
+点击 Create Credentials，选择 OAuth Client ID，将类型设为 Web Application，适当地命名，然后在 Authorized Redirect URIs 下输入您从 GitBook 获取的回调 URL。
+
+点击 Create。请记下 Client ID 和 Client Secret。我们需要这些信息来完成在 GitBook 中对集成的配置。
+
+### 安装并配置 OIDC 集成
+
+在 GitBook 应用中进入 integrations，选择 authenticated access 作为类别，然后安装 OIDC 集成。将 OIDC 集成安装到您选择的文档站点上。
+
+<Image src="https://test-dai.imgix.net/org-4afef969-21f9-40f3-b5b8-b06c8b6cf68f/doc-22a3b060-9539-4176-97e4-49120e02f5d1/5df07994d99e5bac-spaces-NkEGS7hzeqa35sMXQZ4X-uploads-CZy21M4LIPwMVSxI3ec1-Screen-Shot-2024-12-13-.png?fm=auto&auto=compress%2Cformat" alt="A GitBook screenshot showing the OIDC integration installation" />
+
+在您的站点上安装完成后，前往 configuration，并在 Save 按钮上方记下 Callback URL。我们可能需要它来设置身份提供商。
+
+打开您安装了该集成的部分的 OIDC 集成配置界面。
+
+它应该如下图所示
+
+<Image src="https://test-dai.imgix.net/org-4afef969-21f9-40f3-b5b8-b06c8b6cf68f/doc-22a3b060-9539-4176-97e4-49120e02f5d1/31999d593233ba8d-spaces-NkEGS7hzeqa35sMXQZ4X-uploads-04b2yAGjDIJQsA2aPIEO-Screen-Shot-2024-12-13-.png?fm=auto&auto=compress%2Cformat" alt="A GitBook screenshot showing the OIDC configuration screen" />
+
+对于 Client ID 和 Client Secret，请粘贴您从身份提供商那里获得的值。
+
+现在，您需要找到您的身份提供商的 Authorization Endpoint 和 Access Token Endpoint。对于 Google，它们分别是 `https://accounts.google.com/o/oauth2/v2/auth` 以及 `https://oauth2.googleapis.com/token` 。
+
+<Callout kind="info">
+  如果您没有使用 Google，这些端点对您来说会有所不同。请查阅您的身份提供商文档以找到这些端点
+</Callout>
+
+对于 OAuth Scope，其值也会因您的身份提供商而有所不同。以 Google 为例，您可以输入 `openid`.
+
+<Callout kind="info">
+  请查看您的身份提供商文档中允许的 scope 列表，并输入限制性最低的 scope 值。我们仅使用 Access Token 来验证用户已通过身份验证，并不会使用 Access Token 获取任何进一步的信息。因此，输入限制性最低的 scope 是最佳安全建议。
+</Callout>
+
+点击 Save。
+
+现在，在 GitBook 中关闭集成弹窗，然后点击 Manage site 按钮。导航到 **受众**，选择 **经过身份验证的访问**，并选择 OIDC 作为后端。然后，点击 **更新受众**。转到站点页面并点击 **发布**。<br /><br />该站点现在已发布在由您的 Auth0 应用控制的经过身份验证的访问之后。要试用它，请点击 Visit。系统会要求您使用 OIDC 登录，这证明您的站点已通过 Auth0 发布在经过身份验证的访问之后。
+
+### 启用 PKCE
+
+如果您的身份提供商要求或建议使用 PKCE，请在 **Use PKCE** OIDC 集成配置界面中将其打开。此选项会为该集成从您的身份验证提供商发起的授权码流程启用用于代码交换的证明密钥（PKCE）。

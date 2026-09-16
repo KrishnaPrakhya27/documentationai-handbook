@@ -1,0 +1,177 @@
+---
+title: Activation du contenu adaptatif
+description: Choisissez une méthode d’authentification pour transmettre les données utilisateur à GitBook.
+metaTitle: Activation du contenu adaptatif | GitBook Documentation
+ogImage: https://test-dai.imgix.net/org-4afef969-21f9-40f3-b5b8-b06c8b6cf68f/doc-22a3b060-9539-4176-97e4-49120e02f5d1/0a5a1a9630785855-organizations-d8f63b60-89ae-11e7-8574-5927d48c4877-sites-site_p4Xo4-socialprevie.jpg?fm=auto&auto=compress%2Cformat
+---
+
+Pour commencer à personnaliser l'expérience de documentation de vos lecteurs, vous devrez activer le contenu adaptatif et décider comment les données de vos visiteurs sont transmises à GitBook. Cela permet au contenu de votre site de s'adapter dynamiquement en fonction de la personne qui le consulte.
+
+### Activer le contenu adaptatif
+
+Avant de pouvoir transmettre les données utilisateur à GitBook, vous devrez configurer votre site pour utiliser le contenu adaptatif.
+
+Rendez-vous dans les [paramètres du site](/fr/docs/gerer-votre-site/site-settings), et activez **Contenu adaptatif** dans les paramètres d'audience de votre site. Une fois activé, vous obtiendrez une « clé de signature du jeton visiteur » générée, dont vous aurez besoin pour poursuivre la configuration du contenu adaptatif.
+
+<Image src="https://test-dai.imgix.net/org-4afef969-21f9-40f3-b5b8-b06c8b6cf68f/doc-22a3b060-9539-4176-97e4-49120e02f5d1/8869a4621dc60744-spaces-NkEGS7hzeqa35sMXQZ4X-uploads-5EeWAo5Ij6CKrp69uMl5-26_01_06_enable_adaptiv.png?fm=auto&auto=compress%2Cformat" alt="A GitBook screenshot showing the enable adaptive content toggle" caption="Activer le contenu adaptatif dans les paramètres de votre site" />
+
+### Définissez le schéma de votre visiteur
+
+Après avoir activé le contenu adaptatif, vous devrez définir un schéma pour les types de revendications que vous attendez de GitBook lorsqu’un utilisateur visite votre site.
+
+Le schéma du visiteur doit refléter la structure de ces revendications lorsqu’elles sont envoyées à GitBook.
+
+Par exemple, si vous pensez qu’un visiteur peut potentiellement être un utilisateur bêta dans votre produit, vous définiriez un schéma de visiteur similaire à :
+
+```json
+{
+  "type": "object",
+  "properties": {
+    "isBetaUser": {
+      "type": "boolean",
+      "description": "Indique si le visiteur est un utilisateur bêta."
+    }
+  },
+  "additionalProperties": false
+}
+```
+
+Cela vous aidera également à utiliser la saisie semi-automatique lors de la configuration de vos revendications dans l' [éditeur de conditions](/fr/docs/publier/adaptive-content/adapting-your-content#working-with-the-condition-editor). Les schémas de visiteurs ne prennent en charge que les types suivants :
+
+<Tabs>
+  <Tab title="Chaînes de caractères">
+    Lisez les revendications transmises sous forme de chaînes de caractères.
+
+    GitBook accepte les chaînes dynamiques, ce qui signifie que vous pouvez transmettre dynamiquement des données de type chaîne — comme le nom d’un utilisateur, des jetons développeur, et plus encore.
+
+    Les chaînes peuvent également contenir une **énumération facultative** clé, qui vous permet de restreindre les données reçues par GitBook à l’une des valeurs définies.
+
+    ```json
+    {
+      "type": "object",
+      "properties": {
+        "language": {
+              "type": "string",
+              "description": "La langue du visiteur",
+              // Propriété d'énumération facultative
+              "enum": [
+                "en",
+                "fr",
+                "it"
+              ]
+      },
+      "additionalProperties": false
+    }
+    ```
+
+    <Callout kind="alert">
+      Les chaînes dynamiques (chaînes définies sans clé d’énumération) ne sont acceptées que pour les [expressions en ligne](/fr/docs/creer-du-contenu/variables-and-expressions#use-variables-in-your-content). Les expressions conditionnelles pour la visibilité des éléments (pages, sections, blocs) ne fonctionnent qu’avec des chaînes définies avec des clés d’énumération.
+    </Callout>
+  </Tab>
+
+  <Tab title="Booléens">
+    Lisez les revendications transmises sous forme de booléens.
+
+    ```json
+    {
+      "type": "object",
+      "properties": {
+        "isBetaUser": {
+          "type": "boolean",
+          "description": "Indique si le visiteur est un utilisateur bêta."
+        },
+      },
+      "additionalProperties": false
+    }
+    ```
+  </Tab>
+
+  <Tab title="Objets">
+    Imbriquez les revendications dans un objet pour regrouper des valeurs similaires.
+
+    ```json
+    {
+      // Revendications de niveau supérieur
+      "type": "object",
+      "properties": {
+        // Revendications imbriquées
+        "access": {
+          "type": "object",
+          "description": "Accès de l’utilisateur à la fonctionnalité du produit",
+          "properties": {
+            "isAlphaUser": {
+              "type": "boolean",
+              "description": "Indique si le visiteur est un utilisateur Alpha."
+            },
+            "isBetaUser": {
+              "type": "boolean",
+              "description": "Indique si le visiteur est un utilisateur bêta."
+            },
+          },
+          "additionalProperties": false
+        }
+      },
+      "additionalProperties": false
+    }
+    ```
+  </Tab>
+</Tabs>
+
+### Définissez une revendication non signée
+
+Les revendications non signées sont un type spécifique de revendication qui identifie les revendications susceptibles de ne pas être signées par une application cliente. Il est nécessaire de définir les revendications de votre schéma de visiteur comme `non signées` si vous transmettez des revendications via des paramètres d’URL, des cookies non signés et des indicateurs de fonctionnalité.
+
+Si vous avez l’intention de travailler avec des revendications non signées, vous devrez déclarer dans le schéma les revendications attendues sous une propriété « unsigned », en plus de vos revendications signées.
+
+```json
+{
+  "type": "object",
+  "properties": {
+    "isBetaUser": {
+      "type": "boolean",
+      "description": "Indique si le visiteur est un utilisateur bêta."
+    },
+    // Ajouter des revendications non signées
+    "unsigned": {
+      "type": "object",
+      "description": "Revendications non signées du visiteur du site.",
+      "properties": {
+        "language": {
+          "type": "string",
+          "description": "La langue du visiteur",
+          // Propriété d'énumération facultative
+          "enum": [
+            "en",
+            "fr",
+            "it"
+          ]
+        }
+      },
+      "additionalProperties": false
+    }
+  },
+  "additionalProperties": false
+}
+```
+
+### Transmettez les données du visiteur à GitBook
+
+GitBook propose différentes façons de transmettre les données des visiteurs pour adapter le contenu de votre site. Après avoir défini votre schéma, vous devrez décider comment vous souhaitez transmettre les données de vos visiteurs à GitBook.
+
+<Columns cols={2}>
+  <Card title="Cookies" href="/fr/docs/publier/adaptive-content/enabling-adaptive-content/cookies" icon="cookie">
+    Transmettez les données des visiteurs à votre documentation via un cookie public ou signé.
+  </Card>
+
+  <Card title="URL" href="/fr/docs/publier/adaptive-content/enabling-adaptive-content/url" icon="link">
+    Transmettez les données des visiteurs à votre documentation via des paramètres de requête URL.
+  </Card>
+
+  <Card title="Indicateurs de fonctionnalité" href="/fr/docs/publier/adaptive-content/enabling-adaptive-content/feature-flags" icon="flag">
+    Transmettez les données des visiteurs à votre documentation via un fournisseur d’indicateurs de fonctionnalité.
+  </Card>
+
+  <Card title="Accès authentifié" href="/fr/docs/publier/adaptive-content/enabling-adaptive-content/authenticated-access" icon="lock">
+    Transmettez les données des visiteurs à votre documentation via un fournisseur d’authentification.
+  </Card>
+</Columns>

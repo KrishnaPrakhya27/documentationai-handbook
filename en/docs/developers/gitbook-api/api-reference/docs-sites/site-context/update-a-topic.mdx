@@ -1,0 +1,221 @@
+---
+title: Update a topic
+metaTitle: Update a topic | Developers | GitBook Documentation
+ogImage: https://test-dai.imgix.net/org-4afef969-21f9-40f3-b5b8-b06c8b6cf68f/doc-22a3b060-9539-4176-97e4-49120e02f5d1/0a5a1a9630785855-organizations-d8f63b60-89ae-11e7-8574-5927d48c4877-sites-site_p4Xo4-socialprevie.jpg?fm=auto&auto=compress%2Cformat
+---
+
+**PATCH** `/orgs/{organizationId}/sites/{siteId}/topics/{siteTopicId}`
+
+**Parameters**
+
+<ParamField header="Authorization" param-type="string" />
+
+<ParamField path="organizationId" param-type="string" required={true}>
+  The unique id of the organization
+</ParamField>
+
+<ParamField path="siteId" param-type="string" required={true}>
+  The unique id of the site
+</ParamField>
+
+<ParamField path="siteTopicId" param-type="string" required={true}>
+  The unique id of the topic
+</ParamField>
+
+**Request body**
+
+<ParamField body="usageSettings" param-type="object" required={true}>
+  <Expandable title="Object Properties">
+    <ParamField body="changeRequests" param-type="boolean" required={true}>
+      Whether to use context to propose change requests
+    </ParamField>
+  </Expandable>
+</ParamField>
+
+**Responses**
+
+`200` OK
+
+<ResponseField name="object" field-type="string" required={true} enum="context-topic" />
+
+<ResponseField name="id" field-type="string" required={true}>
+  The ID of the topic
+</ResponseField>
+
+<ResponseField name="label" field-type="string" required={true}>
+  The label of the topic
+</ResponseField>
+
+<ResponseField name="parent" field-type="object">
+  The parent topic when this topic is nested under another one
+
+  <Expandable title="Object Properties">
+    <ResponseField name="id" field-type="string" required={true}>
+      The ID of the parent topic
+    </ResponseField>
+
+    <ResponseField name="label" field-type="string" required={true}>
+      The label of the parent topic
+    </ResponseField>
+  </Expandable>
+</ResponseField>
+
+<ResponseField name="createdAt" field-type="string" required={true} />
+
+<ResponseField name="updatedAt" field-type="string" required={true} />
+
+<ResponseField name="icon" field-type="string" required={true}>
+  Name of the icon
+</ResponseField>
+
+<ResponseField name="summary" field-type="object" required={true}>
+  <Expandable title="Object Properties">
+    <ResponseField name="object" field-type="string" required={true} enum="document" />
+
+    <ResponseField name="data" field-type="object" required={true}>
+      <Expandable title="Object Properties">
+        <ResponseField name="schemaVersion" field-type="integer">
+          The schema version of the document. If undefined, the document is considered to be of the latest schema version.
+        </ResponseField>
+      </Expandable>
+    </ResponseField>
+
+    <ResponseField name="nodes" field-type="string[]" required={true} />
+
+    <ResponseField name="meta" field-type="object">
+      <Expandable title="Object Properties">
+        <ResponseField name="token" field-type="string">
+          A content token that can be used to fetch the content referenced in this document from the API.
+        </ResponseField>
+      </Expandable>
+    </ResponseField>
+  </Expandable>
+</ResponseField>
+
+<ResponseField name="usageSettings" field-type="object" required={true}>
+  <Expandable title="Object Properties">
+    <ResponseField name="changeRequests" field-type="boolean" required={true}>
+      Whether to use context to propose change requests
+    </ResponseField>
+  </Expandable>
+</ResponseField>
+
+<ResponseField name="pages" field-type="number" required={true}>
+  The number of pages associated with the topic
+</ResponseField>
+
+<ResponseField name="records" field-type="number" required={true}>
+  The number of records in the topic
+</ResponseField>
+
+<ResponseField name="findings" field-type="object" required={true}>
+  The number of findings linked to the topic
+
+  <Expandable title="Object Properties">
+    <ResponseField name="open" field-type="number" required={true}>
+      The number of open findings linked to the topic
+    </ResponseField>
+
+    <ResponseField name="total" field-type="number" required={true}>
+      The total number of findings linked to the topic
+    </ResponseField>
+  </Expandable>
+</ResponseField>
+
+<ResponseField name="questions" field-type="object" required={true}>
+  Aggregated stats for questions and linked answers.
+
+  <Expandable title="Object Properties">
+    <ResponseField name="total" field-type="number" required={true}>
+      Total count of questions included in the aggregation.
+    </ResponseField>
+
+    <ResponseField name="answers" field-type="number" required={true}>
+      Total count of answers linked to the questions.
+    </ResponseField>
+
+    <ResponseField name="feedback" field-type="object" required={true}>
+      Aggregated feedback for answers linked to a site question.
+
+      <Expandable title="Object Properties">
+        <ResponseField name="positive" field-type="number" required={true}>
+          Count of answers with positive feedback.
+        </ResponseField>
+
+        <ResponseField name="negative" field-type="number" required={true}>
+          Count of answers with negative feedback.
+        </ResponseField>
+
+        <ResponseField name="unrated" field-type="number" required={true}>
+          Count of answers without feedback.
+        </ResponseField>
+      </Expandable>
+    </ResponseField>
+
+    <ResponseField name="answered" field-type="object" required={true}>
+      Aggregated answered assessment for answers linked to a site question.
+
+      <Expandable title="Object Properties">
+        <ResponseField name="yes" field-type="number" required={true}>
+          Count of answers assessed as fully answered.
+        </ResponseField>
+
+        <ResponseField name="partially" field-type="number" required={true}>
+          Count of answers assessed as partially answered.
+        </ResponseField>
+
+        <ResponseField name="no" field-type="number" required={true}>
+          Count of answers assessed as not answered.
+        </ResponseField>
+      </Expandable>
+    </ResponseField>
+
+    <ResponseField name="relevance" field-type="object" required={true}>
+      <Expandable title="Object Properties">
+        <ResponseField name="relevant" field-type="number" required={true} />
+
+        <ResponseField name="spam" field-type="number" required={true} />
+
+        <ResponseField name="off-topic" field-type="number" required={true} />
+
+        <ResponseField name="unclear" field-type="number" required={true} />
+      </Expandable>
+    </ResponseField>
+
+    <ResponseField name="types" field-type="object" required={true}>
+      <Expandable title="Object Properties">
+        <ResponseField name="exploring" field-type="number" required={true} />
+
+        <ResponseField name="how-to" field-type="number" required={true} />
+
+        <ResponseField name="troubleshooting" field-type="number" required={true} />
+
+        <ResponseField name="reference" field-type="number" required={true} />
+
+        <ResponseField name="unknown" field-type="number" required={true} />
+      </Expandable>
+    </ResponseField>
+
+    <ResponseField name="channelTypes" field-type="object" required={true}>
+      Count of answers by site channel type, including core channels.
+    </ResponseField>
+
+    <ResponseField name="channels" field-type="object" required={true}>
+      Count of answers by site channel ID.
+    </ResponseField>
+
+    <ResponseField name="weeklyPulse" field-type="number[]" required={true}>
+      Weekly count of related question answers for the past 3 months.
+    </ResponseField>
+  </Expandable>
+</ResponseField>
+
+<ResponseField name="urls" field-type="object" required={true}>
+  URLs associated with the topic
+
+  <Expandable title="Object Properties">
+    <ResponseField name="location" field-type="string" required={true}>
+      URL of the topic in the API
+    </ResponseField>
+  </Expandable>
+</ResponseField>

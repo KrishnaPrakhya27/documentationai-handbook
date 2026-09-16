@@ -1,0 +1,95 @@
+---
+title: AWS Cognitoの設定
+description: ドキュメント訪問者向けのAWS Cognitoログイン画面を設定します
+metaTitle: AWS Cognitoの設定 | GitBook Documentation
+ogImage: https://test-dai.imgix.net/org-4afef969-21f9-40f3-b5b8-b06c8b6cf68f/doc-22a3b060-9539-4176-97e4-49120e02f5d1/0a5a1a9630785855-organizations-d8f63b60-89ae-11e7-8574-5927d48c4877-sites-site_p4Xo4-socialprevie.jpg?fm=auto&auto=compress%2Cformat
+---
+
+<Callout kind="alert">
+  このガイドでは、ドキュメント用の保護されたサインイン画面を設定する手順を説明します。このガイドを進める前に、まず次のプロセスを完了していることを確認してください。 [認証済みアクセスを有効にする](/ja/docs/gong-kai/site-audience/authenticated-access/enabling-authenticated-access).
+</Callout>
+
+AWS Cognito を使用して認証済みアクセスで GitBook サイトをセットアップする手順は次のとおりです:
+
+<Steps>
+  <Step title="新しい AWS Cognito アプリケーションを作成する">
+    AWS ダッシュボードから AWS Cognito アプリケーションを作成します。
+  </Step>
+
+  <Step title="AWS Cognito 統合をインストールして設定する">
+    AWS Cognito 統合をインストールし、必要な設定を追加します。
+  </Step>
+
+  <Step title="アダプティブ コンテンツ用に AWS Cognito を設定する（任意）">
+    GitBook のアダプティブ コンテンツで動作するように AWS Cognito を設定します。
+  </Step>
+</Steps>
+
+### 新しい AWS Cognito アプリケーションを作成する
+
+Cognito の目的の User Pool に移動し、App integration をクリックします。Cognito ドメインを控えておいてください。統合を設定するために必要になります。
+
+下までスクロールして「Create app client」をクリックします。アプリタイプは「Confidential client」を選択します。さらに下にスクロールして Hosted UI settings へ進みます。Allowed Callback URLs には、セクションに統合をインストールした際に GitBook から取得した Callback URL を入力します。
+
+さらに下へスクロールして「OAuth 2.0 grant types」を確認し、「Authorization code grant」が選択されていることを確認します。
+
+「OpenID connect scopes」では、OpenID が選択されていることを確認します。
+
+下までスクロールして「Create app client」をクリックします。
+
+作成したアプリクライアントをクリックし、Client ID と Client Secret を控えておきます。
+
+### AWS Cognito 統合をインストールして設定する
+
+GitBook アプリ内の Integrations に移動し、カテゴリとして authenticated access を選択して、AWS Cognito 統合をインストールします。
+
+<Image src="https://test-dai.imgix.net/org-4afef969-21f9-40f3-b5b8-b06c8b6cf68f/doc-22a3b060-9539-4176-97e4-49120e02f5d1/5df07994d99e5bac-spaces-NkEGS7hzeqa35sMXQZ4X-uploads-CZy21M4LIPwMVSxI3ec1-Screen-Shot-2024-12-13-.png?fm=auto&auto=compress%2Cformat" alt="A GitBook screenshot showing the AWS Cognito integration install screen" />
+
+サイトにインストールしたら、configuration に移動し、Save ボタンのすぐ上にある Callback URL を控えてください。Cognito の設定に必要になります。
+
+統合をインストールしたセクションの Cognito 統合の設定画面を開きます。
+
+次の画像のようになっているはずです:
+
+<Image src="https://test-dai.imgix.net/org-4afef969-21f9-40f3-b5b8-b06c8b6cf68f/doc-22a3b060-9539-4176-97e4-49120e02f5d1/9e206b2321f0fdb8-spaces-NkEGS7hzeqa35sMXQZ4X-uploads-gy177CzFZiy6U4IntLUE-Screen-Shot-2024-12-13-.png?fm=auto&auto=compress%2Cformat" alt="A GitBook screenshot showing the AWS Cognito configuration screen" />
+
+Client ID、Cognito Domain、Client Secret には、Cognito から取得した値を貼り付けます。
+
+Save を押します。
+
+次に、GitBook でインテグレーションのモーダルを閉じ、Manage site ボタンをクリックします。に移動し **対象**、次を選択します **認証アクセス**、そして Cognito をバックエンドとして選択し、次にクリックします **対象を更新**。サイトの画面に移動して **公開**.<br /><br />サイトは、あなたの Auth0 アプリケーションによって制御される認証済みアクセスの背後で公開されました。試すには、「Visit」をクリックします。Cognito でサインインするよう求められます。これにより、サイトが Auth0 を使用した認証済みアクセスの背後で公開されていることが確認できます。
+
+### アダプティブ コンテンツ用に AWS Cognito を設定する（任意）
+
+GitBook で認証済みアクセスとともに Adaptive Content を活用するには、Amazon Cognito のユーザープールを設定して、ID トークンにカスタムクレームを含める必要があります。
+
+これは通常、次を作成することで行います: [Cognito Lambda トリガー](https://docs.aws.amazon.com/cognito/latest/developerguide/user-pool-lambda-pre-token-generation.html)—具体的には *Pre Token Generation* Lambda—これにより、カスタムクレームを上書きまたは追加する JSON ペイロードが返されます。これらのクレームには、ユーザーロール、サブスクリプション階層、またはコンテンツに関連するその他のメタデータを含めることができます。
+
+例えば、次のようになります:
+
+```javascript
+export const handler = async (event, context) => {
+  // event リクエストからユーザー属性を取得
+  const userAttributes = event.request.userAttributes;
+
+  // event レスポンスに追加クレームを追加
+  event.response = {
+    "claimsAndScopeOverrideDetails": {
+      "idTokenGeneration": {},
+      "accessTokenGeneration": {
+        "claimsToAddOrOverride": {
+          "products": ['api', 'sites', 'askAI'],
+          "isBetaUser": true,
+          "isAlphaUser": true,
+        }
+      }
+    }
+  };
+  // Amazon Cognito に返す
+  context.done(null, event);
+};
+```
+
+<Image src="https://test-dai.imgix.net/org-4afef969-21f9-40f3-b5b8-b06c8b6cf68f/doc-22a3b060-9539-4176-97e4-49120e02f5d1/793d12fae4e7cb8d-spaces-NkEGS7hzeqa35sMXQZ4X-uploads-wwKLiRUOJ27tjJCPc1Vd-Screenshot-2025-06-30-a.png?fm=auto&auto=compress%2Cformat" alt="" />
+
+追加すると、これらのキーと値のペアは認証トークンに含まれて GitBook に渡され、サイトが認証済みユーザーのプロフィールに基づいてコンテンツを動的に調整できるようになります。

@@ -1,0 +1,86 @@
+---
+title: コンテンツを整形
+description: コンテキストメニューやキーボードショートカットを使って、さまざまな方法でコンテンツを整形できます
+metaTitle: コンテンツを整形 | GitBook Documentation
+ogImage: https://test-dai.imgix.net/org-4afef969-21f9-40f3-b5b8-b06c8b6cf68f/doc-22a3b060-9539-4176-97e4-49120e02f5d1/0a5a1a9630785855-organizations-d8f63b60-89ae-11e7-8574-5927d48c4877-sites-site_p4Xo4-socialprevie.jpg?fm=auto&auto=compress%2Cformat
+---
+
+テキストを書式設定するには、書式を適用したい単語を選択し、コンテキストメニューからいずれかの書式を選ぶだけです。あるいは、キーボードショートカットや Markdown 構文を使ってテキストを書式設定することもできます。
+
+<Callout kind="info">
+  これらのショートカットは Mac のキー表記で記載しています。Use **Control** の代わりに <strong>⌘ (Command)</strong> Windows または Linux オペレーティングシステムで使用します。すべてのオペレーティングシステムのすべてのショートカットを確認するには、キーボードショートカットのセクションをご覧ください。
+</Callout>
+
+#### 太字
+
+キーボードショートカット： <kbd>⌘</kbd> \+ <kbd>B</kbd>
+
+<Tabs>
+  <Tab title="Markdown">
+    ```markdown
+    **太字**
+    ```
+  </Tab>
+</Tabs>
+
+#### 斜体
+
+キーボードショートカット： <kbd>⌘</kbd> \+ <kbd>I</kbd>
+
+<Tabs>
+  <Tab title="Markdown">
+    ```markdown
+    _斜体_
+    ```
+  </Tab>
+</Tabs>
+
+#### 取り消し線
+
+キーボードショートカット： <kbd>⇧</kbd> \+ <kbd>⌘</kbd> \+ <kbd>S</kbd>
+
+<Tabs>
+  <Tab title="Markdown">
+    ```markdown
+    ~~取り消し線~~
+    ```
+  </Tab>
+</Tabs>
+
+#### コード
+
+キーボードショートカット： <kbd>⌘</kbd> \+ <kbd>E</kbd>
+
+<Tabs>
+  <Tab title="Markdown">
+    ```markdown
+    `コード`
+    ```
+  </Tab>
+</Tabs>
+
+#### リンク
+
+キーボードショートカット： <kbd>⌘</kbd> \+ <kbd>K</kbd>
+
+ページ上のテキストにリンクを追加すると、リンクの入力を求められます。任意の URL を追加できますが、サイト内の別のページやセクションにリンクする場合は、相対リンクの使用をおすすめします。
+
+これは [外部ページへのリンクです](https://www.gitbook.com).
+
+これは [このセクション内の別のページへのリンクです](/ja/docs/kontentsuwo/blocks).
+
+これは [このページのセクションへのリンクです](#code).
+
+これは [特定のアドレス宛てのメール作成を開始するリンクです](mailto:support@gitbook.com).
+
+#### 色と背景色
+
+コンテキストメニューの色アイコンをクリックし、テキストまたはその背景の色を選択します。
+
+<mark>このテキストはオレンジです。</mark>
+
+<mark>このテキストの背景はオレンジです。</mark>
+
+### 右から左へ書くテキスト
+
+GitBook は現在、右から左へ書く投稿をサポートしていません。段落と見出しは RTL テキストを自動検出してレイアウトを調整しますが、リストやその他のコンテンツブロックは正しく整列しない場合があり、一部の言語ではフォント品質が低下することがあります。

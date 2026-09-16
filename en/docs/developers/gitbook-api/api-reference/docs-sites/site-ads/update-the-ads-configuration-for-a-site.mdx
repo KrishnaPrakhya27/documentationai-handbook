@@ -1,0 +1,25 @@
+---
+title: Update the Ads configuration for a site
+metaTitle: Update the Ads configuration for a site | Developers | GitBook Documentation
+ogImage: https://test-dai.imgix.net/org-4afef969-21f9-40f3-b5b8-b06c8b6cf68f/doc-22a3b060-9539-4176-97e4-49120e02f5d1/0a5a1a9630785855-organizations-d8f63b60-89ae-11e7-8574-5927d48c4877-sites-site_p4Xo4-socialprevie.jpg?fm=auto&auto=compress%2Cformat
+---
+
+**PATCH** `/ads/sites/{siteId}`
+
+**Parameters**
+
+<ParamField header="Authorization" param-type="string" />
+
+<ParamField path="siteId" param-type="string" required={true}>
+  The unique id of the site
+</ParamField>
+
+<ParamField header="X-GitBook-Partner-Key" param-type="string" required={true} />
+
+**Request body**
+
+<ParamField body="body" param-type="string" required={true} />
+
+**Responses**
+
+`204` OK

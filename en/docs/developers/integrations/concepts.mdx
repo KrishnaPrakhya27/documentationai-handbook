@@ -1,0 +1,35 @@
+---
+title: Concepts
+description: Learn about different GitBook concepts related to GitBook integrations
+metaTitle: Concepts | Developers | GitBook Documentation
+ogImage: https://test-dai.imgix.net/org-4afef969-21f9-40f3-b5b8-b06c8b6cf68f/doc-22a3b060-9539-4176-97e4-49120e02f5d1/0a5a1a9630785855-organizations-d8f63b60-89ae-11e7-8574-5927d48c4877-sites-site_p4Xo4-socialprevie.jpg?fm=auto&auto=compress%2Cformat
+---
+
+Throughout the GitBook developer platform and its documentation, you'll encounter various concepts, variables, and terms.
+
+| Term | Description | Where to Find |
+| --- | --- | --- |
+| `<organizationId>` | A unique identifier of an Organization in GitBook. | Found in the URL of any space or via the "Copy org ID" button in the organization settings.<br /><br />Example: `https://app.gitbook.com/o/<organizationId/s/<sapceId>` |
+| `<spaceId>` | A unique identifier of a Space in GitBook. | Found in the URL of any space or via the "Copy space ID" button in the upper-right dropdown in a space.<br /><br />Example: `https://app.gitbook.com/o/<organizationId/s/<sapceId>` |
+| `<userId>` | A unique identifier of a User in GitBook. | Retrieved from the "GET Current User" API endpoint or via the "Copy user ID" button from your organization settings. |
+| `gitbook-manifest.yaml` | A required file in a GitBook integration containing metadata for publishing and developing your app.<br /><br />Automatically generated from the CLI when running `gitbook new`. | See the [**Configurations**](/en/docs/developers/integrations/configurations) section for more info. |
+| `.gitbook-dev.yaml` | A required file in a GitBook integration that includes configuration for local development.<br /><br />Automatically generated from the CLI when running `gitbook dev`. | See the [**Development**](/en/docs/developers/integrations/development) section for more info. |
+
+### How integrations are rendered in GitBook
+
+Rendering of custom blocks is controlled in the integration's code and executed in the GitBook backend.
+
+```mermaid
+sequenceDiagram
+    actor User
+    User ->>+ GitBook: Insert block in the editor
+    loop Every interaction with the block
+        GitBook ->>+ Integration: Execute rendering of the block with current props & state
+        Integration ->>- GitBook: Return ContentKit output for the block
+        GitBook ->>- User: Render UI in the editor
+        User -->+ GitBook: Interact with the block, updating the state or props
+    end
+
+
+
+```

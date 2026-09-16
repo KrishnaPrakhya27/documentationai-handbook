@@ -1,0 +1,25 @@
+---
+title: Publish a site to make it publicly accessible
+metaTitle: Publish a site to make it publicly accessible | Developers | GitBook Documentation
+ogImage: https://test-dai.imgix.net/org-4afef969-21f9-40f3-b5b8-b06c8b6cf68f/doc-22a3b060-9539-4176-97e4-49120e02f5d1/0a5a1a9630785855-organizations-d8f63b60-89ae-11e7-8574-5927d48c4877-sites-site_p4Xo4-socialprevie.jpg?fm=auto&auto=compress%2Cformat
+---
+
+Makes the site publicly accessible at its configured URL by publishing it. If the organization's plan requires an upgrade, the response includes a Stripe checkout session ID instead of the site object. Use unpublish to take the site offline again.
+
+**POST** `/orgs/{organizationId}/sites/{siteId}/publish`
+
+**Parameters**
+
+<ParamField header="Authorization" param-type="string" />
+
+<ParamField path="organizationId" param-type="string" required={true}>
+  The unique id of the organization
+</ParamField>
+
+<ParamField path="siteId" param-type="string" required={true}>
+  The unique id of the site
+</ParamField>
+
+**Responses**
+
+`200` Site published successfully

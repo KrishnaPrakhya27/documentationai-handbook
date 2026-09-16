@@ -1,0 +1,99 @@
+---
+title: Gérer les opérations d’API
+description: Découvrez comment marquer une opération d’API OpenAPI comme expérimentale, obsolète, ou la masquer de votre documentation
+metaTitle: Gérer les opérations d’API | GitBook Documentation
+ogImage: https://test-dai.imgix.net/org-4afef969-21f9-40f3-b5b8-b06c8b6cf68f/doc-22a3b060-9539-4176-97e4-49120e02f5d1/0a5a1a9630785855-organizations-d8f63b60-89ae-11e7-8574-5927d48c4877-sites-site_p4Xo4-socialprevie.jpg?fm=auto&auto=compress%2Cformat
+---
+
+Il est courant d’avoir des opérations qui ne sont pas encore totalement stables ou qui doivent être progressivement abandonnées. GitBook prend en charge plusieurs extensions OpenAPI pour vous aider à gérer ces situations.
+
+### Marquer une opération comme expérimentale, alpha ou bêta
+
+Utilisez `x-stability` pour indiquer qu’un endpoint est instable ou en cours de développement. Cela aide les utilisateurs à éviter les endpoints qui ne sont pas prêts pour la production. Valeurs prises en charge : `experimental`, `alpha`, `bêta`.
+
+```yaml
+paths:
+  /pet:
+    put:
+      operationId: updatePet
+      x-stability: experimental
+```
+
+### Marquer une opération comme obsolète
+
+Pour marquer une opération comme obsolète, ajoutez l’attribut `deprecated: true` .
+
+```yaml
+paths:
+  /pet:
+    put:
+      operationId: updatePet
+      deprecated: true
+```
+
+Vous pouvez éventuellement préciser quand la prise en charge prend fin en incluant `x-deprecated-sunset`
+
+```yaml
+paths:
+  /pet:
+    put:
+      operationId: updatePet
+      deprecated: true
+      x-deprecated-sunset: 2030-12-05
+```
+
+### Masquer une opération de la référence de l’API
+
+Pour masquer une opération de votre référence API, ajoutez `x-internal: true` ou `x-gitbook-ignore: true` .
+
+```yaml
+paths:
+  /pet:
+    put:
+      operationId: updatePet
+      x-internal: true
+```
+
+### Masquer un exemple de réponse
+
+Ajoutez l’attribut `x-hideSample: true` à un objet de réponse pour l’exclure de la section des exemples de réponse.
+
+```yaml
+paths:
+  /pet:
+    put:
+      operationId: updatePet
+      responses:
+        200:
+          x-hideSample: true
+```
+
+### Personnaliser le préfixe d’autorisation et l’espace réservé du jeton
+
+Vous pouvez personnaliser le préfixe d’autorisation (par exemple, `Bearer`, `Token`, ou une chaîne personnalisée) ainsi que l’espace réservé du jeton affiché lors de l’utilisation de schémas de sécurité dans GitBook.
+
+Dans votre spécification OpenAPI, sous `components.securitySchemes`, définissez votre schéma comme ceci :
+
+```yaml
+components:
+  securitySchemes:
+    apiKey:
+      type: apiKey
+      in: header
+      name: Authorization
+      x-gitbook-prefix: Token
+      x-gitbook-token-placeholder: YOUR_CUSTOM_TOKEN
+```
+
+Ces extensions :
+
+- `x-gitbook-prefix` définit le préfixe ajouté avant le jeton.
+
+  - exemple : `Authorization: <x-gitbook-prefix> YOUR_API_TOKEN`
+- `x-gitbook-token-placeholder` définit la valeur par défaut du jeton.
+
+  - exemple : `Authorization: Bearer <x-gitbook-token-placeholder>`
+
+<Callout kind="alert">
+  `x-gitbook-prefix` n’est pas pris en charge pour les schémas de sécurité `http` car ces schémas doivent respecter les définitions d’authentification standard de l’IANA. [En savoir plus](https://www.iana.org/assignments/http-authschemes/http-authschemes.xhtml)
+</Callout>

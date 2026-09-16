@@ -1,0 +1,110 @@
+---
+title: モノレポ
+description: モノレポでGit Syncを使用し、スペースを個別のディレクトリにマッピングします
+metaTitle: モノレポ | GitBook Documentation
+ogImage: https://test-dai.imgix.net/org-4afef969-21f9-40f3-b5b8-b06c8b6cf68f/doc-22a3b060-9539-4176-97e4-49120e02f5d1/0a5a1a9630785855-organizations-d8f63b60-89ae-11e7-8574-5927d48c4877-sites-site_p4Xo4-socialprevie.jpg?fm=auto&auto=compress%2Cformat
+---
+
+サイト全体の Git Sync を使用して、1 つのリポジトリとブランチから複数のスペースを同期します。各スペースをそれぞれのディレクトリにマッピングします `gitbook-docs.yaml`.
+
+### サイト全体の Git Sync の仕組み
+
+サイトの **プロジェクトディレクトリ** Git Sync のインストールディレクトリを設定します。 `gitbook-docs.yaml` そこにあります。空のままにすると、GitBook はリポジトリのルートを使用します。
+
+では `gitbook-docs.yaml`、各スペースには `content.directory`ディレクトリがあります。そのディレクトリにはスペースの `.gitbook.yaml`, `README.md`, `SUMMARY.md`、およびコンテンツファイルが含まれます。
+
+これらのファイルの概要については、次を参照してください [コンテンツの設定](/ja/docs/docs-as-code/git-sync/content-configuration).
+
+### スペースをディレクトリにマッピングする
+
+使用 **コンテンツのマッピング** Git Sync パネルで各スペースをマッピングします。GitBook はそのマッピングを `gitbook-docs.yaml`.
+
+ディレクトリパスは次のように機能します：
+
+| パス | 意味 |
+| --- | --- |
+| `./docs` | サイトの Project ディレクトリ内のディレクトリ。 |
+| `/docs` | リポジトリのルートからのディレクトリ。 |
+| `docs` | と同じ `./docs`. |
+
+たとえば、このリポジトリは 3 つのスペースをマッピングします：
+
+```
+/
+  gitbook-docs.yaml
+  documentation/
+    .gitbook.yaml
+    README.md
+    SUMMARY.md
+    .gitbook/
+      assets/
+        logo.png
+  developers/
+    .gitbook.yaml
+    README.md
+    SUMMARY.md
+  changelog/
+    .gitbook.yaml
+    README.md
+    SUMMARY.md
+```
+
+この `gitbook-docs.yaml` 各スペースをそれぞれのディレクトリにマッピングします：
+
+```yaml title="gitbook-docs.yaml"
+$schema: https://api.gitbook.com/gitbook-docs.yaml
+site:
+  structure:
+    - type: space
+      key: documentation
+      title: ドキュメント
+      path: documentation
+      content:
+        directory: ./documentation
+    - type: space
+      key: developers
+      title: 開発者
+      path: developers
+      content:
+        directory: ./developers
+    - type: space
+      key: changelog
+      title: 更新履歴
+      path: changelog
+      content:
+        directory: ./changelog
+```
+
+### スペースのコンテンツを自己完結させる
+
+各スペースは、割り当てられたディレクトリのみを同期します。GitBook は、マッピングされたディレクトリ間でコンテンツやアセットを自動的に共有しません。
+
+参照されるすべてのアセットは、必ずそのスペースのマッピングされたディレクトリ内に配置してください。複数のスペースでアセットが必要な場合は、各ディレクトリにコピーを追加するか、リポジトリを再編成してください。
+
+サーバー側の `.gitbook.yaml` `ルート` この設定は、GitBook がそのスペースのマッピングされたディレクトリ内のどこからコンテンツを読み取るかを制御します。隣接するディレクトリを利用可能にはしません。
+
+### マッピングされたディレクトリを移動する
+
+ファイルとマッピングをまとめて更新して、スペースのコンテンツを移動します：
+
+1. リポジトリ内で、スペースのコンテンツファイルとアセットを移動します。
+2. では `gitbook-docs.yaml`そのスペースの `content.directory`を更新し、 `キー` は変更しないでください。
+3. 両方の変更を同じコミットでコミットします。
+
+<Callout kind="info">
+  GitBook が両方の変更が存在する前にインポートすると、マッピングされたスペースが空に見える場合があります。
+</Callout>
+
+<Callout kind="danger">
+  **を変更しないでください `キー` を新しいディレクトリに合わせて** キーとディレクトリ名は独立しています。スペースのキーを変更すると、そのスペースは新しいスペース ID を持つ別の新しいスペースに置き換えられ、元のキーに戻しても古い ID は復元されません。次を参照してください [キーはスペースを識別します](/ja/docs/docs-as-code/git-sync/content-configuration#keys-identify-your-spaces).
+</Callout>
+
+GitBook によって生成されたキー — `space-1`, `space-2` — はディレクトリ名を反映しておらず、両者を揃えておく利点もありません。
+
+### 個別スペース Git Sync を使用する
+
+スペースに別のリポジトリやブランチが必要な場合は、個別スペース Git Sync を使用します。たとえば、非公開スペースを別々に同期する必要がある場合に使用します。
+
+まず、サイトのコンテンツ マッピングからそのスペースを削除します。次に、そのスペースから Git Sync を構成します。
+
+スペースを構成するには、次を参照してください [GitHub Sync を有効にする](/ja/docs/docs-as-code/git-sync/enabling-github-sync) または [GitLab Sync を有効にする](/ja/docs/docs-as-code/git-sync/enabling-gitlab-sync)。スコープの手順で、 **スペース Git Sync**.

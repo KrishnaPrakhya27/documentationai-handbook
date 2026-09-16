@@ -1,0 +1,189 @@
+---
+title: 快速入门
+description: 在 GitBook 中快速上手，并在几分钟内发布你的第一个文档站点
+metaTitle: 快速入门 | GitBook Documentation
+ogImage: https://test-dai.imgix.net/org-4afef969-21f9-40f3-b5b8-b06c8b6cf68f/doc-22a3b060-9539-4176-97e4-49120e02f5d1/0a5a1a9630785855-organizations-d8f63b60-89ae-11e7-8574-5927d48c4877-sites-site_p4Xo4-socialprevie.jpg?fm=auto&auto=compress%2Cformat
+---
+
+本快速入门指南将说明如何在 GitBook 中完成设置，并在几分钟内发布你的第一个文档站点。
+
+在本指南结束时，你将拥有一个正在运行的文档站点，随时可以扩展和自定义。
+
+<Steps>
+  <Step title="创建你的账户" titleType="h3">
+    [创建账户](https://app.gitbook.com/join) 以开始使用你的第一个文档站点。
+  </Step>
+
+  <Step title="创建你的第一个站点" titleType="h3">
+    1. 来自你的组织 **主页**，点击 <strong>+</strong> 旁边的 **站点** ，位于侧边栏中。
+    2. 为你的站点起一个访客一眼就能认出的名称。
+    3. 点击 **创建**.
+  </Step>
+
+  <Step title="选择你想要的开始方式" titleType="h3">
+    GitBook 欢迎你来到新站点，并询问你想如何开始。
+
+    | 起点 | 最适合 |
+    | --- | --- |
+    | **文档模板** | 从一个带有占位内容分区的现成文档布局开始——这是查看完整站点运行效果的最快方式。 |
+    | **导入** | 将现有内容从在线文档、Markdown 或 HTML 中导入。 |
+    | **OpenAPI** | 根据 OpenAPI 规范生成交互式 API 参考文档。 |
+    | **空白** | 从一个空白分区开始，白手起家构建。 |
+    | **与 Git 同步** | 让你的文档与 GitHub 或 GitLab 仓库保持同步。 |
+
+    或者，如果你已经在 GitBook 中有一些工作，也可以从你组织的现有内容中进行选择。
+
+    本指南遵循模板路径：
+
+    1. 点击 **文档模板** 并查看预览。
+    2. 点击 **使用文档模板** 以应用它。
+  </Step>
+
+  <Step title="探索你的新站点" titleType="h3">
+    你的站点会以未发布状态打开，因此你可以在上线前编辑、自定义并预览所有内容。侧边栏会显示：
+
+    | 侧边栏区域 | 你会找到什么 |
+    | --- | --- |
+    | **站点页眉** | 你的站点名称、发布状态，以及 **预览** 以及 **发布** 按钮。 |
+    | **常规** | **概述**, **变更请求**, **网站结构**，以及 **设置**. |
+    | **工具** | **风格指南**, **自定义**, **分析**，以及 **扩展**. |
+    | **内容** | 这些是你站点的分区——对于文档模板而言：主页、文档、API 参考、更新日志和帮助中心。使用 **内容** 页眉中，用于查找、重命名和添加部分。 |
+
+    <Callout kind="success">
+      你的内容还未发布——因此你可以在正式上线前编辑、自定义并预览你的文档站点。点击 **发布** 立即将其上线。
+
+       [跳转到本页中的“发布你的文档”步骤](#publish-your-documentation)
+    </Callout>
+  </Step>
+
+  <Step title="编辑你的内容" titleType="h3">
+    文档模板会在 **内容** 侧边栏部分为你提供占位分区。点击任意分区将其打开并查看占位内容。
+
+    在 GitBook 中，有两种方式可以编辑和更新你的内容——使用我们的可视化编辑器，或者遵循 docs-as-code 工作流。 <strong>你可以选择其中一种，也可以将两者结合使用。</strong> 无论你偏好哪种工作流，你都将使用一种 **基于分支的编辑流程**。了解更多请见 [概念页面](/zh/docs/can-kao/concepts).
+
+    <Tabs>
+      <Tab title="可视化编辑器">
+        GitBook 的所见即所得（WYSIWYG）编辑器可让你以可视化方式编辑内容、拖拽内容块重新组织，并在编辑时查看内容效果。如果你不想使用代码编辑器，或者你习惯 Notion 或 Google Docs 之类的工具，它会非常适合你。
+
+        **在变更请求中编辑你的文档**
+
+        1. 在 **内容** 侧边栏中的分区，点击一个分区——例如文档——将其打开。
+        2. 点击 **编辑** 右上角的。这样会打开一个变更请求，你可以在其中更改该分区的内容。
+        3. 点击 <strong>添加新…</strong> \> **页面** 在左侧的目录中。
+        4. 为你的新页面添加标题。
+
+        **预览你的更改**
+
+        在网页应用顶部，你会看到以下选项卡： **编辑器**, **更改**，以及 **预览**。这些用于在不同的内容视图之间切换。点击 **预览** 即可查看你的文档站点在变更请求中的所有更改后，在桌面端和移动端上的外观。
+
+        **合并你的更改**
+
+        当你对更改满意后，点击右上角的 **合并** 按钮。这会将你内容的主版本更新为变更请求中的所有编辑。如果内容属于一个正在运行的文档站点，站点会立即更新。
+      </Tab>
+
+      <Tab title="AI 代理">
+        将你的文档与 GitHub 或 GitLab 仓库同步，以便在你现有的开发环境中启用基于代码的编辑。对于喜欢将文档与其他代码一起管理的技术用户来说，这非常理想。
+
+        **设置 Git Sync**
+
+        1. 从 **内容** 侧边栏部分打开你要同步的分区。
+        2. 点击 Git Sync 指示器的 **设置** 按钮，位于顶部栏。
+        3. 按照说明将该分区同步到你选择的 Git 仓库。前往 [Git Sync 页面](/zh/docs/wen-dang-ji-dai-ma/git-sync) 了解更多。
+
+        **在你的开发环境中编辑文档**
+
+        一旦你将分区同步到 Git 仓库：
+
+        1. 打开该仓库。
+        2. 创建一个拉取请求。
+        3. 进行你想要的更改。
+
+        <Callout kind="info">
+          GitBook 支持 [Markdown 编辑](/zh/docs/chuang-jian-nei-rong/formatting/markdown)，因此你可以使用常见语法创建并格式化内容。
+
+          GitBook 中的每个标准块都可以使用 Markdown 编写和格式化。
+        </Callout>
+
+        **预览你的更改**
+
+        你可以 [预览你的更改](/zh/docs/wen-dang-ji-dai-ma/git-sync/github-pull-request-preview) 在 GitHub 或 GitLab 中，从拉取请求中查看你已发布文档站点上的更改。你的拉取请求会显示带有唯一预览 URL 的状态。点击 **详情** 查看该状态以打开它，并查看合并后你的站点将是什么样子。
+
+        **合并你的更改**
+
+        合并你的拉取请求后，你的内容更新会同时在 GitBook 应用和你的文档站点上生效（如果站点已上线）。在 GitBook 应用中，每次提交以及你合并的拉取请求都会作为版本历史中的更新同步到你的分区。
+      </Tab>
+    </Tabs>
+  </Step>
+
+  <Step title="自定义你的文档" titleType="h3">
+    **组织你的站点导航**
+
+    你可以随时向站点添加更多内容——API 参考、帮助中心、更新日志——并整理站点导航栏，以便访客更容易找到所需内容。前往 [网站结构](/zh/docs/guan-li-ni-de-zhan-dian/site-structure) 了解分区、分组和变体。
+
+    **自定义外观**
+
+    你的站点开箱即用就很棒——而在 **自定义**下，你可以设置自己的 [徽标、颜色和字体](/zh/docs/guan-li-ni-de-zhan-dian/customization/icons-colors-and-themes)，调整布局，并更新你的 [站点可见性](/zh/docs/guan-li-ni-de-zhan-dian/site-settings#audience).
+  </Step>
+
+  <Step title="发布你的文档" titleType="h3">
+    <a id="publish-your-documentation"></a>
+
+    你可以随时一键发布你的站点。
+
+    1. 从你的组织中打开你的站点 **主页**.
+    2. 点击 **发布** 在站点标题栏中。
+
+    一旦你的站点上线， **概述** 屏幕会更新并提供指向线上站点的链接。
+
+    <Callout kind="success">
+      想更详细地了解发布吗？查看 [我们关于在 GitBook 中创建和发布内容的完整指南](/en/docs/guides/editing-and-publishing-documentation/complete-guide-to-publishing-docs-gitbook).
+    </Callout>
+  </Step>
+</Steps>
+
+#### 添加自定义域名
+
+默认情况下，你的站点会以此格式的唯一 URL 发布：
+
+```text title="你的站点默认 URL"
+https://[organization-name].gitbook.io/[site-title]
+```
+
+虽然这对某些团队来说可能合适，但许多人会选择将其 URL 更改为 [自定义域名](/zh/docs/fa-bu/custom-domain) 或 [自定义子目录](/zh/docs/fa-bu/custom-domain/setting-a-custom-subdirectory).
+
+1. 展开 **设置** 在你站点的侧边栏中。
+2. 点击 **域名和 URL**.
+3. 选择你想要的选项。
+4. 按照说明与你的域名提供商配置 DNS 设置。
+
+<Callout kind="info">
+  DNS 更改生效最多可能需要 48 小时——不过通常传播得更快。
+</Callout>
+
+#### 下一步
+
+<Columns cols={3}>
+  <Card title="邀请你的团队协作" href="/zh/docs/xie-zuo/member-management/invite-members-to-your-organization" image="https://test-dai.imgix.net/org-4afef969-21f9-40f3-b5b8-b06c8b6cf68f/doc-22a3b060-9539-4176-97e4-49120e02f5d1/c0decc2f68333913-spaces-NkEGS7hzeqa35sMXQZ4X-uploads-x86ICzAJYkRIHo8CkBfa-Invite-your-team-to-col.png?fm=auto&auto=compress%2Cformat">
+    将团队成员添加到你的组织并设置权限
+  </Card>
+
+  <Card title="更改站点可见性" href="/zh/docs/fa-bu/publish-a-docs-site#publish-a-docs-site" image="https://test-dai.imgix.net/org-4afef969-21f9-40f3-b5b8-b06c8b6cf68f/doc-22a3b060-9539-4176-97e4-49120e02f5d1/b82eaa90622f4960-spaces-NkEGS7hzeqa35sMXQZ4X-uploads-A33LxfEQT05aX7uUdLpb-Change-site-visibility.png?fm=auto&auto=compress%2Cformat">
+    通过分享链接和身份验证访问来控制谁可以查看你的内容
+  </Card>
+
+  <Card title="添加自动翻译" href="/zh/docs/guan-li-ni-de-zhan-dian/site-settings" image="https://test-dai.imgix.net/org-4afef969-21f9-40f3-b5b8-b06c8b6cf68f/doc-22a3b060-9539-4176-97e4-49120e02f5d1/4b674fcc42d852e8-spaces-NkEGS7hzeqa35sMXQZ4X-uploads-C5waVC2qQyf9I6hE7uQW-Add-auto-translations.png?fm=auto&auto=compress%2Cformat">
+    创建一键翻译，并自动更新
+  </Card>
+
+  <Card title="安装集成" image="https://test-dai.imgix.net/org-4afef969-21f9-40f3-b5b8-b06c8b6cf68f/doc-22a3b060-9539-4176-97e4-49120e02f5d1/2dc17377a3c25f97-spaces-NkEGS7hzeqa35sMXQZ4X-uploads-itoGCSdPpGwPPCGwb29a-Install-integrations.png?fm=auto&auto=compress%2Cformat">
+    与你的技术栈集成，并通过强大的集成扩展功能
+  </Card>
+
+  <Card title="添加 API 参考" image="https://test-dai.imgix.net/org-4afef969-21f9-40f3-b5b8-b06c8b6cf68f/doc-22a3b060-9539-4176-97e4-49120e02f5d1/de9ec2e9d9bb54ae-spaces-NkEGS7hzeqa35sMXQZ4X-uploads-2mbcS7cM3bp2Gi5XwWmf-Add-an-API-reference.png?fm=auto&auto=compress%2Cformat">
+    从 API 规范创建自动更新的交互式 API 参考文档
+  </Card>
+
+  <Card title="跟踪文档分析" href="/zh/docs/fen-xi/insights" image="https://test-dai.imgix.net/org-4afef969-21f9-40f3-b5b8-b06c8b6cf68f/doc-22a3b060-9539-4176-97e4-49120e02f5d1/ab805869fc7b2f1c-spaces-NkEGS7hzeqa35sMXQZ4X-uploads-SmrnppLSbEjgJXeblvHp-Track-docs-analytics.png?fm=auto&auto=compress%2Cformat">
+    使用内置洞察来衡量成效并了解用户行为
+  </Card>
+</Columns>

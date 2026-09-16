@@ -1,0 +1,85 @@
+---
+title: GitHub Syncを有効にする
+description: GitHubリポジトリをGitBookと同期する
+metaTitle: GitHub Syncを有効にする | GitBook Documentation
+ogImage: https://test-dai.imgix.net/org-4afef969-21f9-40f3-b5b8-b06c8b6cf68f/doc-22a3b060-9539-4176-97e4-49120e02f5d1/0a5a1a9630785855-organizations-d8f63b60-89ae-11e7-8574-5927d48c4877-sites-site_p4Xo4-socialprevie.jpg?fm=auto&auto=compress%2Cformat
+---
+
+このガイドでは、GitHub 上のリポジトリを使って GitBook サイトをセットアップする手順を説明します。
+
+<Image src="https://test-dai.imgix.net/org-4afef969-21f9-40f3-b5b8-b06c8b6cf68f/doc-22a3b060-9539-4176-97e4-49120e02f5d1/c09aac3d13489d6e-spaces-NkEGS7hzeqa35sMXQZ4X-uploads-r60MP09ALOfZOwCXOgKz-Git-Sync---GitHub.png?fm=auto&auto=compress%2Cformat" alt="A GitBook screenshot showing GitHub Sync configuration options" caption="GitHub Sync の設定オプション。" />
+
+<Steps>
+  <Step title="サイトで Git Sync を開く" titleType="h3">
+    サイトから、サイドバーで Git Sync を開きます。
+  </Step>
+
+  <Step title="GitHub を接続" titleType="h3">
+    同期したいリポジトリにアクセスできる GitHub アカウントを接続します。
+
+    <Callout kind="alert">
+      次の表示が出た場合 <strong>「重複の可能性があるアカウント」</strong> この手順でエラーメッセージが表示された場合、GitHub アカウントがすでに別の GitBook ユーザーアカウントにリンクされていることを意味します。
+
+      どのアカウントがリンクされているかを確認するには、このセッションからログアウトし、GitHub でサインインする方法を使ってログインしてください。
+
+      GitHub に関連付けられている GitBook アカウントがすでにわかっている場合は、そのユーザーアカウントにログインし、GitHub アカウントのリンクを解除してから（設定で実行）、再度ログインして現在のアカウントをリンクできます。
+
+      詳細は [トラブルシューティングページ](/ja/docs/docs-as-code/git-sync/troubleshooting#potential-duplicated-accounts-when-signing-in).
+    </Callout>
+  </Step>
+
+  <Step title="リポジトリとブランチを選択" titleType="h3">
+    次の項目の下で **ソースリポジトリ**、ドキュメントが含まれているリポジトリを選択します。GitBook が同期するブランチを選択してください。そのブランチが存在しない場合、GitBook は初回同期時に作成します。
+
+    <Callout kind="info">
+      <strong>リポジトリが見つかりませんか？</strong> 一覧にリポジトリが見つからない場合は、 [GitBook GitHub アプリ](https://github.com/apps/gitbook-com) が正しいスコープ（つまり、個人アカウントまたはリポジトリが存在する GitHub 組織）にインストールされていることを確認してください。また、GitBook GitHub アプリで正しいリポジトリアクセスを設定しているかも確認してください。
+    </Callout>
+  </Step>
+
+  <Step title="初回同期の方向を選択" titleType="h3">
+    初回同期のソース・オブ・トゥルースを選択します。 **方向を入れ替え** リポジトリの内容で GitBook の内容を置き換える場合。
+
+    <Callout kind="alert">
+      <strong>GitHub → GitBook で、セクションの内容を置き換えられます。</strong> 空のリポジトリを選択した場合、GitBook はリポジトリの空の内容でそのセクションを置き換えられます。
+
+      初回同期を開始する前に、リポジトリ、ブランチ、方向を確認してください。置き換え先の内容が安全に置き換えられることを確認してください。
+    </Callout>
+  </Step>
+
+  <Step title="プロジェクトディレクトリを設定" titleType="h3">
+    ドキュメントがサブディレクトリにある場合は、 **プロジェクトディレクトリ**の下に入力してください。GitBook はサイトの `docs.yaml` ファイルをこのディレクトリに保存します。ドキュメントが [monorepo](/ja/docs/docs-as-code/git-sync/monorepos).
+  </Step>
+
+  <Step title="スペースをマッピング" titleType="h3">
+    次の項目の下で **コンテンツのマッピング**で、各スペースをリポジトリ内のディレクトリに割り当てます。 `./` プロジェクトディレクトリからの相対パスには `/` リポジトリのルートからのパスには
+  </Step>
+
+  <Step title="を使用します。新しくリンクされたスペースは自動的に同期されます。" titleType="h3">
+    必要に応じて、エージェント指示ファイル、コミットメッセージテンプレート、またはフォークのプレビューを設定します。
+  </Step>
+
+  <Step title="サイトを同期" titleType="h3">
+    クリックして **同期** して初回同期を開始します。
+  </Step>
+
+  <Step title="書き込みとコミット" titleType="h3">
+    GitBook で変更リクエストをマージして、その変更を GitHub にコミットします。GitHub へのコミットは GitBook にも同期されます。
+  </Step>
+</Steps>
+
+#### サイト全体の Git Sync からスペースを除外する
+
+サイトの Git Sync のコンテンツマッピングで、除外したいスペースの横にある削除アイコンをクリックします。その後、そのスペースから Git Sync を設定できます。
+
+サイトにすでに Git Sync がある場合、GitBook はスコープを選択するよう求めます:
+
+- サイト全体の Git Sync にスペースを追加するには、サイトのリポジトリとブランチを選択します。
+- Space Git Sync を設定するには、独立したリポジトリとブランチを選択します。
+
+サイトで Git Sync を使用していない場合、GitBook はそのスペースに対して個別に Git Sync を設定します。
+
+単一のスペースに Git Sync を設定するには、同期したいスペースで **セットアップ** の横にある **Git Sync** の [スペースヘッダー](/ja/docs/rifarensu/gitbook-ui#space-header)をクリックします。プロバイダー一覧から **GitHub Sync**.
+
+<Callout kind="alert">
+  GitHub 連携を支える GitHub アプリは、現在 GitHub Enterprise Server インスタンスを利用しているお客様にはご利用いただけません。
+</Callout>

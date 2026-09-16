@@ -1,0 +1,29 @@
+---
+title: Get navigation metadata links for a page (previous, next, parent)
+metaTitle: Get navigation metadata links for a page (previous, next, parent) | Developers | GitBook Documentation
+ogImage: https://test-dai.imgix.net/org-4afef969-21f9-40f3-b5b8-b06c8b6cf68f/doc-22a3b060-9539-4176-97e4-49120e02f5d1/0a5a1a9630785855-organizations-d8f63b60-89ae-11e7-8574-5927d48c4877-sites-site_p4Xo4-socialprevie.jpg?fm=auto&auto=compress%2Cformat
+---
+
+Returns structural navigation metadata for a page, including references to the previous page, next page, and parent page within the space's hierarchy. Use this to implement or inspect linear navigation flows in a docs site without fetching the full page tree.
+
+**GET** `/spaces/{spaceId}/content/page/{pageId}/meta-links`
+
+**Parameters**
+
+<ParamField header="Authorization" param-type="string" />
+
+<ParamField path="spaceId" param-type="string" required={true}>
+  The unique id of the space
+</ParamField>
+
+<ParamField path="pageId" param-type="string" required={true}>
+  The unique id of the page
+</ParamField>
+
+**Responses**
+
+`200` OK
+
+<ResponseField name="canonical" field-type="string" />
+
+<ResponseField name="alternates" field-type="string[]" />

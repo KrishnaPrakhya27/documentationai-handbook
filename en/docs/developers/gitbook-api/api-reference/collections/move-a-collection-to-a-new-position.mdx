@@ -1,0 +1,129 @@
+---
+title: Move a collection to a new position.
+metaTitle: Move a collection to a new position. | Developers | GitBook Documentation
+ogImage: https://test-dai.imgix.net/org-4afef969-21f9-40f3-b5b8-b06c8b6cf68f/doc-22a3b060-9539-4176-97e4-49120e02f5d1/0a5a1a9630785855-organizations-d8f63b60-89ae-11e7-8574-5927d48c4877-sites-site_p4Xo4-socialprevie.jpg?fm=auto&auto=compress%2Cformat
+---
+
+**POST** `/collections/{collectionId}/move`
+
+**Parameters**
+
+<ParamField header="Authorization" param-type="string" />
+
+<ParamField path="collectionId" param-type="string" required={true}>
+  The unique id of the collection
+</ParamField>
+
+**Request body**
+
+<ParamField body="parent" param-type="string">
+  The unique id of the parent collection
+</ParamField>
+
+<ParamField body="position" param-type="object">
+  Position at which to insert an item
+
+  <Expandable title="Object Properties">
+    <ParamField body="before" param-type="string" />
+
+    <ParamField body="after" param-type="string" />
+  </Expandable>
+</ParamField>
+
+**Responses**
+
+`200` Collection moved
+
+<ResponseField name="object" field-type="string" required={true} enum="collection">
+  Type of Object, always equals to "collection"
+</ResponseField>
+
+<ResponseField name="id" field-type="string" required={true}>
+  Unique identifier for the collection
+</ResponseField>
+
+<ResponseField name="title" field-type="string" required={true}>
+  Title of the collection
+</ResponseField>
+
+<ResponseField name="description" field-type="string">
+  Description of the collection
+</ResponseField>
+
+<ResponseField name="organization" field-type="string" required={true}>
+  ID of the organization owning this collection
+</ResponseField>
+
+<ResponseField name="parent" field-type="string">
+  ID of the parent collection, if any
+</ResponseField>
+
+<ResponseField name="defaultLevel" field-type="string" required={true}>
+  Default level for a piece of content
+</ResponseField>
+
+<ResponseField name="urls" field-type="object" required={true}>
+  URLs associated with the object
+
+  <Expandable title="Object Properties">
+    <ResponseField name="location" field-type="string" required={true}>
+      URL of the collection in the API
+    </ResponseField>
+
+    <ResponseField name="app" field-type="string" required={true}>
+      URL of the collection in the application
+    </ResponseField>
+  </Expandable>
+</ResponseField>
+
+<ResponseField name="permissions" field-type="object" required={true}>
+  The set of permissions for the collection
+
+  <Expandable title="Object Properties">
+    <ResponseField name="view" field-type="boolean" required={true}>
+      Can the user view the collection.
+    </ResponseField>
+
+    <ResponseField name="admin" field-type="boolean" required={true}>
+      Can the user edit the title/description.
+    </ResponseField>
+
+    <ResponseField name="viewInviteLinks" field-type="boolean" required={true}>
+      Can the user view the invite links of the collection.
+    </ResponseField>
+
+    <ResponseField name="create" field-type="boolean" required={true}>
+      Can the user create spaces/collections in this collection.
+    </ResponseField>
+  </Expandable>
+</ResponseField>
+
+`400` Bad Request
+
+<ResponseField name="error" field-type="object" required={true}>
+  <Expandable title="Object Properties">
+    <ResponseField name="code" field-type="integer" required={true} enum="400" />
+
+    <ResponseField name="message" field-type="string" required={true} />
+  </Expandable>
+</ResponseField>
+
+`404` Not Found
+
+<ResponseField name="error" field-type="object" required={true}>
+  <Expandable title="Object Properties">
+    <ResponseField name="code" field-type="integer" required={true} enum="404" />
+
+    <ResponseField name="message" field-type="string" required={true} />
+  </Expandable>
+</ResponseField>
+
+`409` Conflict
+
+<ResponseField name="error" field-type="object" required={true}>
+  <Expandable title="Object Properties">
+    <ResponseField name="code" field-type="integer" required={true} enum="409" />
+
+    <ResponseField name="message" field-type="string" required={true} />
+  </Expandable>
+</ResponseField>

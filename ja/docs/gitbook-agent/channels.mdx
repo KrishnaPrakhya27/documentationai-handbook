@@ -1,0 +1,239 @@
+---
+title: チャネル
+description: Slack、GitHub、LinearでGitBook AssistantとGitBook Agentを使います
+metaTitle: チャネル | GitBook Documentation
+ogImage: https://test-dai.imgix.net/org-4afef969-21f9-40f3-b5b8-b06c8b6cf68f/doc-22a3b060-9539-4176-97e4-49120e02f5d1/0a5a1a9630785855-organizations-d8f63b60-89ae-11e7-8574-5927d48c4877-sites-site_p4Xo4-socialprevie.jpg?fm=auto&auto=compress%2Cformat
+---
+
+<Callout kind="alert">
+  #### チャンネルは現在、早期アクセス中です
+
+  チャンネルへのアクセスを段階的に展開しています。以下の機能の進捗にご期待ください。
+</Callout>
+
+チャンネルは [GitBook Assistant](/ja/docs/notamenoai/gitbook-ai-assistant) 、 [GitBook Agent](/ja/docs/gitbook-agent/overview) チームがすでに使っているツールに組み込みます。接続すると、チームは `@GitBook` Slack、GitHub、または Linear で、質問したり、変更リクエストを開いたり、ドキュメントを最新に保ったりできます。既存のワークフローを離れる必要はありません。
+
+チャンネルを追加すると、そのツール内で GitBook をどのように表示するかを選べます。各設定は次の 2 つのモードのいずれかで動作します:
+
+<strong>サポートエージェント：</strong> GitBook Assistant は、チームや訪問者からの質問にチャンネル内で直接答えます。質問すると、ドキュメントから引き出した回答が得られます。Slack では、これらの返信内の引用は、参照しているドキュメントの公開サイト URL にリンクします。たとえば、引用付きの回答は、ドキュメントサイトへのリンクになり、ではなく `app.gitbook.com`.
+
+<strong>コラボレーター：</strong> GitBook Agent がチームメイトとして参加します。メンションすると `@GitBook` 変更リクエストを開いたり、編集を依頼したり、そのツールで起きていることとドキュメントを同期させたりできます。Slack では、メッセージは次にリンクできます `app.gitbook.com` 変更リクエストや下書きコンテンツなど、内部のワークフロー文脈を参照している場合です。Agent がチャンネルから変更リクエストを作成すると、元のスレッド、issue、または pull request に自動的にリンクされます。
+
+1 つのチャンネルに複数の設定を適用できます。たとえば、顧客向けの Slack チャンネルではサポートエージェントモード、別のチャンネルではドキュメントチーム向けにコラボレーターモードを使えます。
+
+チャンネルを追加するには、サイトの **設定** を開き、次をクリックします **チャンネル**.
+
+サポートの質問、バグ報告、または製品フィードバックが Slack、GitHub、Linear で始まり、その場で GitBook に応答してほしいときに、チャンネルを使います。
+
+<Callout kind="info">
+  #### GitBook Assistant をウェブサイトや製品に埋め込みたいですか？
+
+  に移動します [製品に埋め込む](/ja/docs/gong-kai/embedding) GitBook Assistant の埋め込み方法を学ぶにはこちら。
+</Callout>
+
+<Image src="https://test-dai.imgix.net/org-4afef969-21f9-40f3-b5b8-b06c8b6cf68f/doc-22a3b060-9539-4176-97e4-49120e02f5d1/b8d77ca17e30b975-spaces-NkEGS7hzeqa35sMXQZ4X-uploads-vdGn4ibGuysRhvoOiAkI-26_05_01_channels-2x.png?fm=auto&auto=compress%2Cformat" alt="" />
+
+### 利用可能なチャンネル
+
+<Columns cols={3}>
+  <Card title="Slack">
+    利用可能
+  </Card>
+
+  <Card title="Linear">
+    利用可能
+  </Card>
+
+  <Card title="GitHub">
+    利用可能
+  </Card>
+</Columns>
+
+### 近日公開
+
+<Columns cols={3}>
+  <Card title="Discord">
+    予定あり
+  </Card>
+
+  <Card title="Intercom">
+    予定あり
+  </Card>
+
+  <Card title="Microsoft Teams">
+    予定あり
+  </Card>
+
+  <Card title="Google Chat">
+    予定あり
+  </Card>
+
+  <Card title="チャンネルをリクエスト" href="https://github.com/orgs/GitbookIO/discussions/new?category=feature-requests">
+    <em>:arrow-up-right-from-square:</em>
+  </Card>
+</Columns>
+
+### 概要
+
+チャンネルは GitBook を外部ワークフローに接続します。
+
+これにより、次のことができます：
+
+- 元の会話を離れずに質問に答える。
+- 既存のドキュメントの文脈をサポートや製品のワークフローに取り込む。
+- 重要な会話を次の機能でドキュメント更新に変える： [GitBook Agent](/ja/docs/gitbook-agent/overview).
+
+会話が GitBook の外で始まっても、回答やフォローアップをドキュメント作業に含めたいときに、チャンネルを使います。
+
+### 対応プラットフォーム
+
+チャンネルは現在、以下のプラットフォームをサポートしています：
+
+- **Slack** 会話とサポートスレッド向け。
+- **GitHub** issue、pull request の文脈、および議論のワークフロー向け。
+- **Linear** issue 管理と製品フィードバックのワークフロー向け。
+
+各プラットフォームは同じコアモデルを使用します。
+
+GitBook は接続されたプラットフォームから対応イベントを受け取り、ナレッジから文脈を収集し、次のいずれかを通じて応答します： [GitBook Assistant](/ja/docs/notamenoai/gitbook-ai-assistant) または [GitBook Agent](/ja/docs/gitbook-agent/overview).
+
+### ロールと権限
+
+チャンネルでは 2 つのロールをサポートしています：
+
+- **コラボレーター** — 変更できます。
+- **サポートエージェント** — 読み取り専用の情報を提供します。
+
+チャンネルで必要な動作に応じてロールを選択してください。
+
+#### コラボレーター
+
+使用 **コラボレーター** チャンネルが会話をドキュメント作業に変えるのを支援する必要がある場合。
+
+コラボレーター チャンネルでは、GitBook Agent を使って、変更リクエストを開く、進行させるなど、GitBook 内のドキュメント作業の作成や更新を支援できます。
+
+#### サポートエージェント
+
+使用 **サポートエージェント** チャンネルが質問に答えるだけでよい場合。
+
+サポートエージェント チャンネルは、既存のドキュメントと接続されたナレッジを使って、読み取り専用の文脈で返信します。内容の変更は行いません。
+
+### 仕組み
+
+チャンネルは、接続済みプラットフォームからの受信イベントを処理します。
+
+受信イベントには、新しいメッセージ、メンション、issue の更新、または Slack、GitHub、Linear からのその他の対応アクティビティがあります。
+
+GitBook はそれらのイベントを 4 つのステップで処理します：
+
+<Steps>
+  <Step title="イベントを受信する" titleType="h3">
+    接続されたプラットフォームは、インストールしたチャンネルを通じて、対応イベントを GitBook に送信します。
+  </Step>
+
+  <Step title="文脈を収集する" titleType="h3">
+    GitBook は、関連するドキュメントの文脈と、サイトで利用可能なその他のナレッジを参照します。
+  </Step>
+
+  <Step title="チャンネルのロールを適用する" titleType="h3">
+    チャンネルが **サポートエージェント**の場合、GitBook は読み取り専用の情報を返します。
+
+    チャンネルが **コラボレーター**の場合、GitBook Agent を通じて会話をドキュメント作業に変えることもできます。
+  </Step>
+
+  <Step title="元のツールで返信する" titleType="h3">
+    返信は Slack、GitHub、または Linear に戻って表示されるため、ワークフローを 1 か所に保てます。
+  </Step>
+</Steps>
+
+<Callout kind="info">
+  正確なイベント対応範囲は、プラットフォームと早期アクセスの展開状況によって異なります。トリガーがまだワークスペースで利用できない場合は、公開ドキュメント化されていません。
+</Callout>
+
+### インストールと認証
+
+チャンネルをインストールするには、サイトのダッシュボードを開き、次を選択します **設定** → **チャンネル**.
+
+次に、接続したいプラットフォームを選択します。
+
+各プラットフォームは OAuth またはアプリのインストールフローを使用します。GitBook からプラットフォームに移動し、アクセスを承認すると、GitBook に戻って設定を完了します。
+
+<Callout kind="alert">
+  プラットフォーム固有の権限スコープと管理者要件は、まだ完全には文書化されていません。
+
+  アクセスを承認する前に、認可画面をよく確認してください。
+</Callout>
+
+<Tabs>
+  <Tab title="Slack">
+    <Steps>
+      <Step title="インストールを開始" titleType="h3">
+        では **設定** → **チャンネル**、次を選択します **Slack**.
+      </Step>
+
+      <Step title="Slack を認証する" titleType="h3">
+        必要に応じて Slack にサインインしてください。
+
+        次に、チャンネルをインストールしたい Slack ワークスペースを選び、要求されたアクセスを承認します。
+      </Step>
+
+      <Step title="GitBook で設定を完了" titleType="h3">
+        Slack から戻ったら、GitBook でチャンネルの設定を完了します。
+
+        チャンネルで使用するロールを選択し、設定を保存します。
+      </Step>
+    </Steps>
+  </Tab>
+
+  <Tab title="GitHub">
+    <Steps>
+      <Step title="インストールを開始" titleType="h3">
+        では **設定** → **チャンネル**、次を選択します **GitHub**.
+      </Step>
+
+      <Step title="GitHub を認証する" titleType="h3">
+        必要に応じて GitHub にサインインしてください。
+
+        次に、GitBook アプリをインストールしたい個人アカウントまたは組織を選び、要求されたアクセスを承認します。
+      </Step>
+
+      <Step title="GitBook で設定を完了" titleType="h3">
+        GitHub から戻ったら、GitBook でチャンネルの設定を完了します。
+
+        チャンネルで使用するロールを選択し、設定を保存します。
+      </Step>
+    </Steps>
+  </Tab>
+
+  <Tab title="Linear">
+    <Steps>
+      <Step title="インストールを開始" titleType="h3">
+        では **設定** → **チャンネル**、次を選択します **Linear**.
+      </Step>
+
+      <Step title="Linear を認証する" titleType="h3">
+        必要に応じて Linear にサインインしてください。
+
+        次に、接続したい Linear ワークスペースを選び、要求されたアクセスを承認します。
+      </Step>
+
+      <Step title="GitBook で設定を完了" titleType="h3">
+        Linear から戻ったら、GitBook でチャンネルの設定を完了します。
+
+        チャンネルで使用するロールを選択し、設定を保存します。
+      </Step>
+    </Steps>
+  </Tab>
+</Tabs>
+
+### フィードバックとリアクション
+
+リアクションを使うと、チームはチャンネルの返信に素早くフィードバックできます。
+
+返信が役に立ったかどうかを示したいときにリアクションを使います。
+
+そのフィードバックは、GitBook が実際のワークフローでどの返信がうまく機能しているかを把握するのに役立ちます。
+
+<Callout kind="info">
+  正確なリアクションの対応関係はまだ文書化されておらず、早期アクセス中はプラットフォームごとに異なる場合があります。
+</Callout>

@@ -1,0 +1,61 @@
+---
+title: Create a signed URL to upload a file
+metaTitle: Create a signed URL to upload a file | Developers | GitBook Documentation
+ogImage: https://test-dai.imgix.net/org-4afef969-21f9-40f3-b5b8-b06c8b6cf68f/doc-22a3b060-9539-4176-97e4-49120e02f5d1/0a5a1a9630785855-organizations-d8f63b60-89ae-11e7-8574-5927d48c4877-sites-site_p4Xo4-socialprevie.jpg?fm=auto&auto=compress%2Cformat
+---
+
+Generate a pre-signed URL that can be used to upload a file to storage
+
+**POST** `/orgs/{organizationId}/storage/upload`
+
+**Parameters**
+
+<ParamField header="Authorization" param-type="string" required={true} />
+
+<ParamField path="organizationId" param-type="string" required={true}>
+  The unique id of the organization
+</ParamField>
+
+**Request body**
+
+<ParamField body="file" param-type="object" required={true}>
+  <Expandable title="Object Properties">
+    <ParamField body="name" param-type="string" required={true}>
+      Original filename
+    </ParamField>
+
+    <ParamField body="type" param-type="string" required={true}>
+      MIME type of the file
+    </ParamField>
+
+    <ParamField body="size" param-type="number" required={true}>
+      Size of the file in bytes
+    </ParamField>
+  </Expandable>
+</ParamField>
+
+<ParamField body="kind" param-type="string" required={true} enum="customization_font,import_file,organization_file" />
+
+**Responses**
+
+`201` Successfully generated signed URL for file upload
+
+<ResponseField name="object" field-type="string" required={true} enum="storage-signed-url">
+  The kind of file to upload
+</ResponseField>
+
+<ResponseField name="url" field-type="string" required={true} />
+
+<ResponseField name="key" field-type="string" required={true}>
+  The bucket object key for the file
+</ResponseField>
+
+`400` Bad Request
+
+<ResponseField name="error" field-type="object" required={true}>
+  <Expandable title="Object Properties">
+    <ResponseField name="code" field-type="integer" required={true} enum="400" />
+
+    <ResponseField name="message" field-type="string" required={true} />
+  </Expandable>
+</ResponseField>

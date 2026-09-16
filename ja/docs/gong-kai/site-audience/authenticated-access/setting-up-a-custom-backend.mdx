@@ -1,0 +1,251 @@
+---
+title: カスタムバックエンドの設定
+description: ドキュメント訪問者向けのカスタムログイン画面を設定します
+metaTitle: カスタムバックエンドの設定 | GitBook Documentation
+ogImage: https://test-dai.imgix.net/org-4afef969-21f9-40f3-b5b8-b06c8b6cf68f/doc-22a3b060-9539-4176-97e4-49120e02f5d1/0a5a1a9630785855-organizations-d8f63b60-89ae-11e7-8574-5927d48c4877-sites-site_p4Xo4-socialprevie.jpg?fm=auto&auto=compress%2Cformat
+---
+
+<Callout kind="alert">
+  このガイドでは、ドキュメント用の保護されたサインイン画面を設定する手順を説明します。このガイドを進める前に、まず次のプロセスを完了していることを確認してください。 [認証済みアクセスを有効にする](/ja/docs/gong-kai/site-audience/authenticated-access/enabling-authenticated-access).
+</Callout>
+
+このガイドでは、独自の **カスタム** 認証バックエンドを使用して、GitBook のドキュメントサイト用の保護されたサインイン画面を設定する手順を説明します。
+
+<Callout kind="info">
+  サポートしている認証プロバイダーのいずれかを使用している場合、または [OpenID Connect](https://auth0.com/docs/authenticate/protocols/openid-connect-protocol) （OIDC）準拠のバックエンドをお持ちの場合は、より簡単に設定できる統合ガイドをご覧ください。<br /><br />[Auth0](/ja/docs/gong-kai/site-audience/authenticated-access/setting-up-auth0) | [Azure AD](/ja/docs/gong-kai/site-audience/authenticated-access/setting-up-azure-ad) | [Okta](/ja/docs/gong-kai/site-audience/authenticated-access/setting-up-okta) | [AWS Cognito](/ja/docs/gong-kai/site-audience/authenticated-access/setting-up-aws-cognito) | [OIDC](/ja/docs/gong-kai/site-audience/authenticated-access/setting-up-oidc)
+</Callout>
+
+### 概要
+
+GitBook サイト向けにカスタム認証システムを設定するには、次の主な手順に従ってください。
+
+<Steps>
+  <Step title="Step">
+    [**ユーザーを認証するためのカスタムバックエンドを作成する**](#id-1.-create-a-custom-backend-to-authenticate-your-users)
+
+    ユーザーにログインを促し、認証するバックエンドを実装します。
+  </Step>
+
+  <Step title="Step">
+    [**JWT トークンに署名して GitBook に渡す**](#id-2.-sign-and-pass-a-jwt-token-to-gitbook)
+
+    JWT トークンを作成し、サイトの秘密鍵で署名します。
+  </Step>
+
+  <Step title="Step">
+    [**ログイン URL を設定する**](#id-3.-configure-a-login-url)
+
+    未認証の訪問者がサイトにアクセスしたときに使用される URL を設定します。
+  </Step>
+
+  <Step title="Step">
+    [<strong>マルチテナントの認証済みアクセスを設定する（任意）</strong>](#id-4.-set-up-multi-tenant-authenticated-access)
+
+    複数の GitBook サイトにわたる認証を処理できるようにバックエンドを設定します。
+  </Step>
+
+  <Step title="Step">
+    [<strong>適応型コンテンツ用にバックエンドを設定する（任意）</strong>](#id-5.-configure-your-backend-for-adaptive-content)
+
+    GitBook の適応型コンテンツと連携するようにバックエンドを設定します。
+  </Step>
+</Steps>
+
+### 1\. ユーザーを認証するためのカスタムバックエンドを作成する
+
+ユーザーがドキュメントにアクセスできるようになる前に認証を開始するには、ユーザーのログインと認証を処理できるサーバーを設定する必要があります。
+
+バックエンドは以下を満たす必要があります。
+
+- 好みの認証方法を使用してログインするようユーザーに促す。
+- ユーザーの資格情報を検証し、認証する。
+- 生成して署名する <strong>JSON Web Token（JWT）</strong> 認証成功時に。
+- JWT を URL に含めてユーザーを GitBook にリダイレクトする。
+
+### 2\. JWT トークンに署名して GitBook に渡す
+
+バックエンドがユーザーを認証したら、 **JWT を生成し** 、 **GitBook に渡し** 、 **リダイレクトする** 際にサイトへ送る必要があります。トークンは、 **秘密鍵** を使用して署名する必要があります。 [認証済みアクセスを有効にする](/ja/docs/gong-kai/site-audience/authenticated-access/enabling-authenticated-access#enable-authenticated-access).
+
+次の例は、カスタムバックエンドにおけるログイン要求ハンドラーがどのようになるかを示しています。
+
+```typescript title="index.ts"
+import { Request, Response } from 'express';
+import * as jose from 'jose';
+
+import { getUserInfo } from '../services/user-info-service';
+import { getFeatureFlags } from '../services/feature-flags-service';
+
+const GITBOOK_VISITOR_SIGNING_KEY = process.env.GITBOOK_VISITOR_SIGNING_KEY!;
+const GITBOOK_DOCS_URL = 'https://mycompany.gitbook.io/myspace';
+
+export async function handleAppLoginRequest(req: Request, res: Response) {
+    // ログイン要求を処理するためのビジネスロジック
+    // たとえば、資格情報を確認してユーザーを認証する
+    //
+    // 例:
+    // const loggedInUser = await authenticateUser(req.body.username, req.body.password);
+    
+    // 署名付き JWT を生成する
+    const gitbookVisitorJWT = await new jose.SignJWT({})
+        .setProtectedHeader({ alg: 'HS256' })
+        .setIssuedAt()
+        .setExpirationTime('2h') // 任意の 2 時間の有効期限
+        .sign(new TextEncoder().encode(GITBOOK_VISITOR_SIGNING_KEY));
+    
+    // URL に JWT トークンを含めてユーザーを GitBook にリダイレクトする
+    const redirectURL = `${GITBOOK_DOCS_URL}/?jwt_token=${gitbookVisitorJWT}`;
+    res.redirect(redirectURL);
+}
+```
+
+#### 訪問者を GitBook セッションからログアウトする
+
+訪問者を GitBook セッションからサインアウトさせるには、次のものを付けてサイトの URL にリダイレクトします。 `~gitbook/auth/logout` を追加:
+
+`https://mycompany.gitbook.io/myspace/~gitbook/auth/logout`
+
+このエンドポイントは訪問者を GitBook からサインアウトするだけです。独自の ID プロバイダーからもサインアウトさせたい場合は、別途独自のログアウトフローで処理してください。
+
+### 3\. ログイン URL を設定する
+
+ログイン URL は、未認証の訪問者が保護されたサイトにアクセスしようとしたときに使用されます。その後、GitBook はこの URL にリダイレクトします。
+
+この URL はカスタムバックエンド内のハンドラーを指している必要があります。そこでログインを促し、認証し、JWT を URL に含めてサイトへ戻すようにリダイレクトできます。
+
+たとえば、ログイン画面が `https://example.com/login`にある場合、この値をログイン URL として含めてください。
+
+このログイン URL は、サイトの「Authenticated access」タブ内の audience 設定で構成できます。
+
+<Image src="https://test-dai.imgix.net/org-4afef969-21f9-40f3-b5b8-b06c8b6cf68f/doc-22a3b060-9539-4176-97e4-49120e02f5d1/c618973167d3fb29-spaces-NkEGS7hzeqa35sMXQZ4X-uploads-B48PEdMz1tCDf0Q0lo4d-Screenshot-2025-03-25-a.png?fm=auto&auto=compress%2Cformat" alt="A GitBook screenshot showing where to configure a login URL" caption="ログイン URL を設定する" />
+
+#### GitBook のログインエンドポイントを使用する
+
+公開サイトにサインインリンクを置きたい場合は、次にリンクしてください。 `<publishedSiteURL>/~gitbook/auth/login`.
+
+このエンドポイントは、サイト用に設定された認証バックエンドへ訪問者をリダイレクトします。また、 `location` というクエリパラメータを追加し、訪問者が開始したページに一致させます。
+
+これは、ヘッダーのリンクや、サインイン後に同じページへ訪問者を戻したいその他の入口に便利です。
+
+ログイン URL にリダイレクトするとき、GitBook は `location` というクエリパラメータをログイン URL に含めます。これをハンドラーで利用して、ユーザーを元の場所にリダイレクトできます。
+
+```javascript
+const gitbookVisitorJWT = await new jose.SignJWT({})
+    .setProtectedHeader({ alg: 'HS256' })
+    .setIssuedAt()
+    .setExpirationTime('2h') // 任意の 2 時間の有効期限
+    .sign(new TextEncoder().encode(GITBOOK_VISITOR_SIGNING_KEY));
+    
+// JWT を jwt_token クエリパラメータとして含めた元の GitBook ドキュメント URL にリダイレクトする
+// location が提供されている場合、ユーザーは元の目的地に戻される
+const redirectURL = `${GITBOOK_DOCS_URL}/${req.query.location || ''}?jwt_token=${gitbookVisitorJWT}`;
+res.redirect(redirectURL);
+```
+
+<Callout kind="alert">
+  GitBook は `location` 検索パラメータに依存しているため、ログイン URL では使用できません。たとえば、 `https://auth.gitbook.com/?location=something` は有効なログイン URL ではありません。
+</Callout>
+
+#### GitBook のログアウトエンドポイントを使用する
+
+公開サイトにサインアウトリンクを置きたい場合は、次にリンクしてください。 `<publishedSiteURL>/~gitbook/auth/logout`.
+
+このエンドポイントは訪問者を GitBook セッションからサインアウトさせます。
+
+### 4\. マルチテナントの認証済みアクセスを設定する（任意）
+
+GitBook を複数の顧客にコンテンツを提供するプラットフォームとして使用している場合、マルチテナントの認証済みアクセスを設定する必要があるでしょう。認証バックエンドは、複数の異なるサイトにわたる認証を処理する責任を持つ必要があります。これは、カスタム認証バックエンドのコードに少し手を加えるだけで GitBook で実現できます。
+
+#### 認証サーバーにすべてのテナントを追加する
+
+認証バックエンドは、JWT 署名鍵と、処理対象となるすべての GitBook サイトの URL を把握している必要があります。組織内に Customer A と Customer B 用の 2 つのサイトがある場合、認証コードに次のような対応表を保存すると考えられます。
+
+```typescript
+const CUSTOMER_A = {
+  jwtSigningKey: 'aaa-aaa-aaa-aaa',
+  url: 'https://mycompany.gitbook.io/customer-a'
+};
+
+const CUSTOMER_B = {
+  jwtSigningKey: 'bbb-bbb-bbb-bbb',
+  url: 'https://mycompany.gitbook.io/customer-b'
+};
+```
+
+#### 認証サーバーに追加のコンテキストを与える
+
+GitBook がユーザーの要求を認証できない場合、ログイン URL にリダイレクトします。この URL は認証バックエンドを指し、そこでユーザーを認証して要求されたコンテンツへ戻す役割を担います。
+
+複数のテナントをサポートするには、認証バックエンドがユーザーがどの GitBook サイトにアクセスする予定なのかを知る必要があります。この情報はログイン URL で渡せます。
+
+そのため、たとえば各サイトのログイン URL を次のように設定できます。
+
+認証バックエンドはこの情報を確認し、それに応じて正しいサイトへのリダイレクトを処理できます。
+
+```javascript
+const customerInfo = req.query.site === 'customer-a' ? CUSTOMER_A : CUSTOMER_B;
+  
+const gitbookVisitorJWT = await new jose.SignJWT({})
+    .setProtectedHeader({ alg: 'HS256' })
+    .setIssuedAt()
+    .setExpirationTime('2h') // 任意の 2 時間の有効期限
+    .sign(new TextEncoder().encode(customerInfo.jwtSigningKey));
+    
+// JWT を jwt_token クエリパラメータとして含めた元の GitBook ドキュメント URL にリダイレクトする
+// location が提供されている場合、ユーザーは元の目的地に戻される
+const redirectURL = `${customerInfo.url}/${req.query.location || ''}?jwt_token=${gitbookVisitorJWT}`;
+res.redirect(redirectURL);
+```
+
+### 5\. 適応型コンテンツ用にバックエンドを設定する（任意）
+
+認証済みアクセスの設定で Adaptive Content 機能を活用するには、カスタムバックエンドが生成する JWT のペイロードに追加のユーザー属性（クレーム）を含め、サイトへユーザーをリダイレクトする際に URL に含めることができます。
+
+これらのクレームは JWT に含められると、GitBook によって [コンテンツを適応させる](/ja/docs/gong-kai/adaptive-content/adapting-your-content) ために使われます。
+
+全体をまとめると、次のコード例は、これらのクレームを JWT に含める方法を示しています。これらは GitBook が訪問者向けにコンテンツを適応させるために使用できます。
+
+```typescript title="index.ts"
+import { Request, Response } from 'express';
+import * as jose from 'jose';
+
+import { getUserInfo } from '../services/user-info-service';
+import { getFeatureFlags } from '../services/feature-flags-service';
+
+const GITBOOK_VISITOR_SIGNING_KEY = process.env.GITBOOK_VISITOR_SIGNING_KEY!;
+const GITBOOK_DOCS_URL = 'https://mycompany.gitbook.io/myspace';
+
+export async function handleAppLoginRequest(req: Request, res: Response) {
+    // ログイン要求を処理するためのビジネスロジック
+    // たとえば、資格情報を確認してユーザーを認証する
+    //
+    // 例:
+    // const loggedInUser = await authenticateUser(req.body.username, req.body.password);
+    
+    // この例では、ログイン済みユーザーオブジェクトがあるものとする
+    const loggedInUser = { id: '12345' }; // 実際の認証ロジックに置き換えてください
+
+    // GitBook に渡すユーザー情報を取得する
+    const userInfo = await getUserInfo(loggedInUser.id);
+    
+    // 署名付き JWT を生成し、ユーザー属性をクレームとして含める
+    const gitbookVisitorClaims = {
+        firstName: userInfo.firstName,
+        lastName: userInfo.lastName,
+        isBetaUser: userInfo.isBetaUser,
+        products: userInfo.products.map((product) => product.name),
+        featureFlags: await getFeatureFlags({ userId: loggedInUser.id })
+    };
+    
+    const gitbookVisitorJWT = await new jose.SignJWT(gitbookVisitorClaims)
+        .setProtectedHeader({ alg: 'HS256' })
+        .setIssuedAt()
+        .setExpirationTime('2h') // 任意の 2 時間の有効期限
+        .sign(new TextEncoder().encode(GITBOOK_VISITOR_SIGNING_KEY));
+    
+    // URL に JWT トークンを含めてユーザーを GitBook にリダイレクトする
+    const redirectURL = `${GITBOOK_DOCS_URL}/?jwt_token=${gitbookVisitorJWT}`;
+    res.redirect(redirectURL);
+}
+```
+
+GitBook に送る適切なクレームを設定・構成したら、「[コンテンツの適応](/ja/docs/gong-kai/adaptive-content/adapting-your-content)」に移動して、サイトの設定を続けてください。
