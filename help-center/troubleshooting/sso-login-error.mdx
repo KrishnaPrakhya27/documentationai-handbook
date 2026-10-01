@@ -1,0 +1,100 @@
+---
+title: SSO Login Fails
+description: Resolve SSO and SAML login errors with Okta and other identity providers by checking provider settings, certificates, email mapping, and sessions.
+---
+
+## Symptoms
+
+You may see one of these symptoms when SSO login fails:
+
+- Your browser redirects repeatedly between the application and your identity provider.
+- The login ends with an `Invalid SAML response` error.
+- A blank page appears after your identity provider redirects you back.
+- The application shows `No SSO provider configured`.
+- The application reports a mismatched email domain.
+
+## Common causes
+
+<Expandable title="Incorrect ACS URL in the identity provider">
+
+The Assertion Consumer Service (ACS) URL in your identity provider must match the URL configured for your SSO provider. Differences such as a missing path or trailing slash can cause the SAML response to be rejected.
+
+</Expandable>
+
+<Expandable title="Email domain is not mapped to an SSO provider">
+
+Your organization's email domain must be registered and mapped to the correct SSO provider. If the domain is missing or mapped incorrectly, the application cannot determine which provider to use.
+
+</Expandable>
+
+<Expandable title="Clock skew between the identity provider and service provider">
+
+SAML assertions include time conditions. If the clocks on your identity provider and the service provider differ too much, the application may reject an otherwise valid assertion.
+
+</Expandable>
+
+<Expandable title="Certificate mismatch or expired signing certificate">
+
+The application validates SAML responses with the signing certificate configured for your identity provider. An expired certificate or a certificate that does not match the provider configuration causes validation to fail.
+
+</Expandable>
+
+<Expandable title="User email does not match the account email">
+
+The email address returned by your identity provider must match the email address on the application account. Differences in spelling, capitalization, aliases, or domains can prevent account matching.
+
+</Expandable>
+
+## Fix steps
+
+<Steps>
+
+<Step title="Verify the ACS URL matches exactly">
+
+Compare the ACS URL in your identity provider configuration with the ACS URL configured for your SSO provider. Make sure the protocol, hostname, path, capitalization, and trailing slash are identical.
+
+Save the identity provider configuration after correcting the URL, then try SSO login again.
+
+</Step>
+
+<Step title="Confirm the email domain mapping">
+
+Check that your organization's email domain is registered and mapped to the intended SSO provider. If your organization uses multiple domains, verify that the domain associated with the affected user's email is included.
+
+Try logging in again after correcting the mapping.
+
+</Step>
+
+<Step title="Check the IdP signing certificate">
+
+Confirm that the signing certificate in your identity provider is current and matches the certificate configured for the SSO provider. Replace an expired certificate and update the SSO configuration when your identity provider has rotated certificates.
+
+Save the updated configuration before retrying login.
+
+</Step>
+
+<Step title="Match the user's email addresses">
+
+Compare the user's email address in the identity provider with the email address on the application account. The addresses must match exactly, including the domain and any aliases.
+
+Update the identity provider attribute or the application account so both addresses match, then retry SSO login.
+
+</Step>
+
+<Step title="Try an incognito window">
+
+Open an incognito or private browsing window and start a new SSO login. This rules out cached sessions, stale cookies, and an existing identity provider session associated with another account.
+
+If login works in the private window, clear the cached cookies for the application and identity provider in your regular browser.
+
+</Step>
+
+</Steps>
+
+## Still stuck?
+
+<Callout kind="info">
+
+Contact support if these steps do not resolve the error. Include your identity provider name, the exact error message, and a screenshot of the identity provider's SAML configuration.
+
+</Callout>
