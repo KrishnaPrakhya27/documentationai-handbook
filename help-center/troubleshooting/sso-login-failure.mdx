@@ -1,0 +1,134 @@
+---
+title: SSO Login Failures
+description: Diagnose and resolve SSO login failures by checking identity provider URLs, SAML certificates, attribute mappings, user access, and clock settings.
+---
+
+## Symptoms
+
+- SSO redirects you back to the login page repeatedly.
+- The identity provider displays an error message during sign-in.
+- A blank page appears after the identity provider redirects you back.
+- The application displays an `SSO login failed` message.
+- Other users can sign in, but your SSO login fails.
+
+## Common causes
+
+<Expandable title="Misconfigured IdP endpoint URL" default-open="false">
+
+The service provider may be using an outdated or incorrect identity provider endpoint. The endpoint configured for SSO must match the sign-in URL provided in your identity provider metadata.
+
+</Expandable>
+
+<Expandable title="Expired or mismatched SAML certificate" default-open="false">
+
+SAML responses cannot be verified when the signing certificate has expired or when the certificate configured in the service provider does not match the certificate used by the identity provider.
+
+</Expandable>
+
+<Expandable title="Incorrect attribute mappings" default-open="false">
+
+The identity provider may send the user's email in an unexpected attribute, or the `NameID` value may use a format that does not match the service provider configuration. Either issue can prevent the service provider from identifying the user.
+
+</Expandable>
+
+<Expandable title="User not assigned to the SSO app" default-open="false">
+
+Identity providers such as Okta and Entra ID can restrict application access to assigned users or groups. If your account is not assigned to the SSO application, authentication may fail even when the SSO configuration is correct.
+
+</Expandable>
+
+<Expandable title="Clock skew between the service provider and identity provider" default-open="false">
+
+SAML assertions include time-based conditions. A significant difference between the service provider's clock and the identity provider's clock can make a valid assertion appear expired or not yet valid.
+
+</Expandable>
+
+## Fix
+
+<Steps>
+<Step title="Verify the IdP endpoint URL" icon="link" title-type="p">
+
+Compare the endpoint configured in the service provider with the sign-in URL in your identity provider metadata.
+
+1. Open the SSO application configuration in your identity provider.
+2. Locate the IdP sign-on URL or SAML endpoint.
+3. Open the service provider's SSO configuration.
+4. Confirm that the configured endpoint matches the identity provider metadata URL exactly.
+5. Save the configuration if you made a change, then try SSO again.
+
+Check the complete URL, including the protocol, hostname, path, and any required trailing characters. A successful sign-in should redirect you to the service provider instead of returning you to the login screen.
+
+</Step>
+
+<Step title="Check the SAML certificate" icon="key" title-type="p">
+
+Confirm that the SAML signing certificate is current and consistent on both sides of the integration.
+
+1. Open the certificate settings for the SSO application in your identity provider.
+2. Check the certificate expiration date.
+3. Compare the active certificate with the certificate configured in the service provider.
+4. If the certificate expired or changed, update the service provider configuration with the current certificate.
+5. Save the configuration and retry the login.
+
+If your identity provider has multiple certificates, confirm that the service provider uses the certificate currently signing SAML responses. A successful login should no longer return a certificate validation error.
+
+</Step>
+
+<Step title="Confirm attribute mappings" icon="map" title-type="p">
+
+Verify that the identity provider sends the user's email address in the attribute expected by the service provider.
+
+1. Open the attribute or claims mapping for the SSO application.
+2. Confirm that the email attribute contains the user's current sign-in email address.
+3. Check the `NameID` value and format.
+4. Confirm that the `NameID` format matches the service provider configuration.
+5. Save any mapping changes and retry SSO.
+
+Use the same email address in the identity provider and service provider account. If the service provider expects an email-based `NameID`, the identity provider must send the user's email rather than a username, display name, or internal identifier.
+
+</Step>
+
+<Step title="Ensure the user is assigned to the SSO app" icon="users" title-type="p">
+
+Confirm that the affected user has access to the SSO application in the identity provider.
+
+1. Open the SSO application in Okta, Entra ID, or your identity provider.
+2. Check the users and groups assigned to the application.
+3. Confirm that the affected user is assigned directly or belongs to an assigned group.
+4. Check whether an access policy blocks the user, group, or sign-in location.
+5. Retry SSO after updating the assignment.
+
+If another user can sign in successfully, compare the two users' application assignments and group memberships. A successful login should proceed past the identity provider without an assignment or authorization error.
+
+</Step>
+
+<Step title="Check for clock skew" icon="clock" title-type="p">
+
+Confirm that the systems involved in SSO use accurate, synchronized time.
+
+1. Check the current time on the identity provider or directory servers.
+2. Confirm that server clocks synchronize through NTP.
+3. Check the time zone and time settings on systems that generate or validate SAML responses.
+4. Correct any synchronization or time configuration issue.
+5. Retry SSO after the clocks synchronize.
+
+A successful login should no longer fail with an assertion expiration, not-yet-valid, or timestamp validation error.
+
+</Step>
+</Steps>
+
+## Still locked out?
+
+<Callout kind="alert">
+
+Contact your support team if SSO still fails after you complete these checks. Include the following information so they can investigate the failed authentication attempt:
+
+- **Identity provider:** The provider and configuration involved, such as Okta or Entra ID.
+- **Error message:** The complete message shown by the identity provider or service provider.
+- **Timestamp:** The date, time, and time zone of the failed attempt.
+- **Email address:** The email address used to start the SSO login.
+- **Recent changes:** Any certificate, endpoint, attribute mapping, assignment, or policy changes made before the failure started.
+
+Do not send passwords, private keys, or full SAML responses unless support specifically requests them through an approved secure channel.
+
+</Callout>
