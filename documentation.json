@@ -122,6 +122,10 @@
               {
                 "title": "Page Missing in Sidebar",
                 "path": "help-center/troubleshooting/install-error"
+              },
+              {
+                "title": "SSO Login Fails",
+                "path": "help-center/troubleshooting/sso-login-fails"
               }
             ]
           },

@@ -1,0 +1,110 @@
+---
+title: SSO Login Fails
+description: Resolve SSO login failures with Okta and other identity providers by checking redirect URLs, metadata, provider selection, and sessions.
+---
+
+## Symptoms
+
+- SSO login returns an error after you select an identity provider.
+- The identity provider accepts your credentials, but the application does not complete sign-in.
+- You are redirected back to the login page repeatedly.
+- SSO works for some users but fails for others.
+- The failure occurs with Okta, a demo identity provider, or another SAML or OIDC provider.
+
+## Fix
+
+<Steps>
+  <Step title="Confirm the selected identity provider" icon="users" title-type="p">
+
+Choose the identity provider configured for your organization. If multiple providers appear, selecting the wrong provider can send your login request to an unrelated SAML or OIDC configuration.
+
+  </Step>
+
+  <Step title="Verify the callback or redirect URL" icon="settings" title-type="p">
+
+Compare the callback or redirect URL in the application with the URL configured in your identity provider. The values must match exactly, including the protocol, hostname, path, and trailing slash.
+
+Check both the SAML assertion consumer service URL and the OIDC redirect URI when your provider configuration includes both.
+
+  </Step>
+
+  <Step title="Refresh identity provider metadata" icon="database" title-type="p">
+
+If your provider uses SAML, confirm that the application has current metadata, including the entity ID, single sign-on URL, and signing certificate. If your provider uses OIDC, verify the issuer URL and client configuration.
+
+Update stale metadata from the provider configuration, then save the SSO settings and try logging in again.
+
+  </Step>
+
+  <Step title="Retry without the existing session" icon="lock" title-type="p">
+
+Open the login page in a private browser window and start a new SSO session. If sign-in works there, clear cookies for the application and identity provider in your normal browser, then retry.
+
+  </Step>
+
+  <Step title="Contact support with the provider details" icon="help-circle" title-type="p">
+
+If SSO still fails, contact support with the identity provider name, the approximate failure time, the error message, and whether the issue affects one user or everyone. Do not include passwords, SAML assertions, access tokens, or client secrets.
+
+  </Step>
+</Steps>
+
+<Callout kind="alert">
+
+Do not delete the identity provider configuration or rotate signing certificates while troubleshooting unless your identity provider administrator or support team instructs you to do so. Those changes can interrupt SSO for everyone.
+
+</Callout>
+
+<Callout kind="info">
+
+If all steps fail, support can use the provider name and failure time to investigate the SSO request. The two most useful details are whether the failure occurs before or after the identity provider accepts your credentials and the exact error message shown.
+
+</Callout>
+
+## Common causes
+
+<Expandable title="The callback or redirect URL does not match" default-open="false">
+
+Verify that:
+
+- The application callback or redirect URL exactly matches the value in the identity provider.
+- You are using the URL for the correct environment, such as production or a demo environment.
+- The protocol, hostname, path, and trailing slash match.
+- The configured URL has not changed after a domain or application update.
+
+</Expandable>
+
+<Expandable title="Identity provider metadata is expired or stale" default-open="false">
+
+Verify that:
+
+- The SAML signing certificate has not expired.
+- The application uses the current metadata from the identity provider.
+- The entity ID and single sign-on URL match the current provider configuration.
+- OIDC issuer and client settings still match the application configuration.
+
+Ask your identity provider administrator to confirm certificate and metadata changes before replacing them.
+
+</Expandable>
+
+<Expandable title="The wrong identity provider is selected" default-open="false">
+
+Verify that:
+
+- You selected the provider assigned to your organization.
+- The provider is enabled for your account or email domain.
+- A demo provider is not selected when you are signing in to production.
+- Your administrator has not changed the organization’s default provider.
+
+</Expandable>
+
+<Expandable title="A cached session or cookie is interfering" default-open="false">
+
+Verify that:
+
+- SSO fails in your normal browser but works in a private window.
+- You cleared cookies for both the application and the identity provider.
+- You signed out of other identity provider accounts before retrying.
+- You started a new login from the application instead of reusing an old sign-in tab.
+
+</Expandable>
