@@ -1,0 +1,70 @@
+---
+title: SSO Login Failure
+description: Diagnose and fix SSO and SAML login failures with Okta or other identity providers by checking callback URLs, claims, certificates, and provisioning.
+---
+
+## Symptoms
+
+- The login redirect fails before authentication completes.
+
+- The platform reports an invalid SAML response.
+
+- The browser remains stuck on a loading screen.
+
+- Okta reports a successful authentication, but the platform displays an error.
+
+## Fix
+
+<Steps>
+  <Step title="Verify the ACS URL" icon="link" title-type="p">
+
+    Check that the Assertion Consumer Service URL configured in your identity provider matches the callback URL expected by the platform.
+
+  </Step>
+
+  <Step title="Check the Entity ID" icon="fingerprint" title-type="p">
+
+    Confirm that the SAML entity ID, also called the audience URI, matches on both the identity provider and platform configurations.
+
+  </Step>
+
+  <Step title="Validate the certificate" icon="shield" title-type="p">
+
+    Ensure the identity provider signing certificate is current and uploaded correctly in the platform's SSO settings.
+
+  </Step>
+
+  <Step title="Confirm user provisioning" icon="users" title-type="p">
+
+    Verify that the user exists in both the identity provider and the platform. Check that the email and name claims map to the platform's expected attributes.
+
+  </Step>
+
+  <Step title="Test in an incognito window" icon="eye-off" title-type="p">
+
+    Open an incognito window and retry the login to rule out stale browser sessions and cached SAML cookies.
+
+  </Step>
+</Steps>
+
+<Callout kind="alert">
+
+SAML attribute mismatches between Okta and the platform are the most common cause of login failures. Check the NameID format and email attribute mapping first.
+
+</Callout>
+
+## Still not working?
+
+<ExpandableGroup>
+  <Expandable title="Okta shows a successful login but the app fails">
+
+    The SAML response may be reaching the platform, but its attributes do not match the claims the platform expects. Check the Okta profile attributes for `email`, `firstName`, and `lastName`, then confirm that each attribute maps to the corresponding platform claim.
+
+  </Expandable>
+
+  <Expandable title="Login works for some users but not others">
+
+    Check for provisioning gaps. The affected user may not be assigned to the Okta application, or their profile may be missing one or more required attributes.
+
+  </Expandable>
+</ExpandableGroup>
