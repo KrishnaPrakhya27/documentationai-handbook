@@ -1,75 +1,288 @@
 {
-  "name": "Starter Kit",
+  "name": "PrivateGPT | Docs",
   "colors": {
     "light": {
-      "brand": "#F97316"
+      "brand": "#756e98"
     },
     "dark": {
-      "brand": "#FDBA74"
+      "brand": "#c6bbff"
     }
   },
   "navigation": {
     "tabs": [
       {
-        "tab": "Documentation",
-        "icon": "book",
+        "tab": "Manual",
+        "icon": "book-open",
         "groups": [
           {
-            "group": "Start Here",
-            "icon": "rocket",
+            "group": "Getting started",
             "pages": [
               {
                 "title": "Introduction",
                 "path": "introduction",
-                "icon": "home"
+                "icon": "lucide:star"
               },
               {
                 "title": "Quickstart",
-                "path": "quickstart",
-                "icon": "zap"
+                "path": "getting-started/quickstart",
+                "icon": "lucide:zap"
               },
               {
-                "title": "Components",
-                "path": "components",
-                "icon": "code"
+                "title": "How it works",
+                "path": "getting-started/how-it-works",
+                "icon": "lucide:cog"
               }
-            ]
+            ],
+            "icon": "lucide:rocket"
           },
           {
-            "group": "Components",
-            "icon": "layers",
+            "group": "Installation Options",
             "pages": [
               {
-                "title": "Images",
-                "path": "components/images",
-                "icon": "image"
+                "title": "Package Install",
+                "path": "installation/package",
+                "icon": "lucide:package"
               },
               {
-                "title": "Cards",
-                "path": "components/cards",
-                "icon": "square"
+                "title": "Docker",
+                "path": "installation/docker",
+                "icon": "lucide:container"
               },
               {
-                "title": "Code",
-                "path": "components/code",
-                "icon": "code"
-              },
-              {
-                "title": "Callouts",
-                "path": "components/callouts",
-                "icon": "message-square"
-              },
-              {
-                "title": "Steps",
-                "path": "components/steps",
-                "icon": "list-ordered"
-              },
-              {
-                "title": "Tabs",
-                "path": "components/tabs",
-                "icon": "columns"
+                "title": "Development",
+                "path": "installation/local",
+                "icon": "lucide:file-text"
               }
-            ]
+            ],
+            "icon": "lucide:download"
+          },
+          {
+            "group": "Configuration",
+            "pages": [
+              {
+                "title": "CLI",
+                "path": "configuration/cli",
+                "icon": "lucide:terminal"
+              },
+              {
+                "title": "Settings & Profiles",
+                "path": "configuration/settings",
+                "icon": "lucide:settings"
+              },
+              {
+                "title": "Model Configuration",
+                "path": "configuration/advanced",
+                "icon": "lucide:database"
+              }
+            ],
+            "icon": "lucide:settings"
+          },
+          {
+            "group": "Inference Providers",
+            "pages": [
+              {
+                "title": "Overview",
+                "path": "providers/overview"
+              },
+              {
+                "title": "Ollama",
+                "path": "providers/ollama"
+              },
+              {
+                "title": "LM Studio",
+                "path": "providers/lmstudio"
+              },
+              {
+                "title": "LlamaCPP Server",
+                "path": "providers/llamacpp"
+              },
+              {
+                "title": "vLLM",
+                "path": "providers/vllm"
+              },
+              {
+                "title": "DaoXE",
+                "path": "providers/daoxe"
+              },
+              {
+                "title": "OrcaRouter",
+                "path": "providers/orcarouter"
+              },
+              {
+                "title": "Cheaper Inference",
+                "path": "providers/cheaperinference"
+              },
+              {
+                "title": "Opper",
+                "path": "providers/opper"
+              },
+              {
+                "title": "API Route",
+                "path": "providers/api-route"
+              }
+            ],
+            "icon": "lucide:plug"
+          },
+          {
+            "group": "Integrations",
+            "pages": [
+              {
+                "title": "Overview",
+                "path": "integrations/overview"
+              },
+              {
+                "title": "Claude Code",
+                "path": "integrations/claude-code"
+              },
+              {
+                "title": "Claude Desktop",
+                "path": "integrations/claude-desktop"
+              },
+              {
+                "title": "Claude for Microsoft 365",
+                "path": "integrations/claude-office"
+              },
+              {
+                "title": "OpenCode",
+                "path": "integrations/opencode"
+              }
+            ],
+            "icon": "lucide:puzzle"
+          },
+          {
+            "group": "Built-in Tools",
+            "pages": [
+              {
+                "title": "Web Tools",
+                "path": "tools/web-tools",
+                "icon": "lucide:globe"
+              },
+              {
+                "title": "Database Tools",
+                "path": "tools/database-tools",
+                "icon": "lucide:database"
+              },
+              {
+                "title": "Code Execution Tools",
+                "path": "tools/code-execution",
+                "icon": "lucide:file-text"
+              }
+            ],
+            "icon": "lucide:folder"
+          },
+          {
+            "group": "Storage Providers",
+            "pages": [
+              {
+                "title": "Vector Store",
+                "path": "storage/vectordb",
+                "icon": "lucide:store"
+              },
+              {
+                "title": "Object Storage",
+                "path": "storage/storage",
+                "icon": "lucide:hard-drive"
+              }
+            ],
+            "icon": "lucide:hard-drive"
+          },
+          {
+            "group": "User Interface",
+            "pages": [
+              {
+                "title": "Workbench",
+                "path": "ui/workbench"
+              }
+            ],
+            "icon": "lucide:users"
+          },
+          {
+            "group": "Observability",
+            "pages": [
+              {
+                "title": "Observability",
+                "path": "observability/observability",
+                "icon": "lucide:activity"
+              }
+            ],
+            "icon": "lucide:activity"
+          },
+          {
+            "group": "Community",
+            "pages": [
+              {
+                "title": "Community Forks",
+                "path": "community/forks",
+                "icon": "lucide:users"
+              }
+            ],
+            "icon": "lucide:users"
+          },
+          {
+            "group": "Reference",
+            "pages": [
+              {
+                "title": "Troubleshooting",
+                "path": "reference/troubleshooting",
+                "icon": "lucide:triangle-alert"
+              }
+            ],
+            "icon": "lucide:book-marked"
+          }
+        ]
+      },
+      {
+        "tab": "API Guide",
+        "icon": "book",
+        "groups": [
+          {
+            "group": "Core API",
+            "pages": [
+              {
+                "title": "Messages",
+                "path": "api-guide/messages",
+                "icon": "lucide:message-circle"
+              },
+              {
+                "title": "Async messages",
+                "path": "api-guide/messages-async",
+                "icon": "lucide:message-circle"
+              },
+              {
+                "title": "Embeddings",
+                "path": "api-guide/embeddings",
+                "icon": "lucide:brain"
+              }
+            ],
+            "icon": "lucide:code"
+          },
+          {
+            "group": "Tools & Skills",
+            "pages": [
+              {
+                "title": "Built-in Tools",
+                "path": "api-guide/tools"
+              },
+              {
+                "title": "Skills",
+                "path": "api-guide/skills"
+              }
+            ],
+            "icon": "lucide:folder"
+          },
+          {
+            "group": "Documents",
+            "pages": [
+              {
+                "title": "Ingestion",
+                "path": "api-guide/ingestion"
+              },
+              {
+                "title": "Async ingestion",
+                "path": "api-guide/ingestion-async"
+              }
+            ],
+            "icon": "lucide:file-text"
           }
         ]
       },
@@ -79,76 +292,256 @@
         "groups": [
           {
             "group": "Overview",
-            "icon": "file-text",
             "pages": [
               {
-                "title": "Authentication",
-                "path": "authentication",
-                "icon": "lock"
-              }
-            ]
-          },
-          {
-            "group": "Sample Endpoints",
-            "openapi": "openapi.yaml"
-          }
-        ]
-      },
-      {
-        "tab": "Help Center",
-        "icon": "help-circle",
-        "pages": [
-          {
-            "title": "Help Center",
-            "path": "help-center",
-            "icon": "home"
-          },
-          {
-            "group": "FAQs",
-            "icon": "help-circle",
-            "expandable": false,
-            "pages": [
+                "title": "API Reference",
+                "path": "api-reference/api-reference",
+                "icon": "lucide:code"
+              },
               {
-                "title": "Documentation Source",
-                "path": "help-center/faq/getting-started"
+                "title": "Client libraries",
+                "path": "api-reference/sdks",
+                "icon": "lucide:package"
               }
-            ]
+            ],
+            "icon": "lucide:info"
           },
           {
-            "group": "Troubleshooting",
-            "icon": "alert-triangle",
-            "expandable": false,
-            "pages": [
-              {
-                "title": "Page Missing in Sidebar",
-                "path": "help-center/troubleshooting/install-error"
-              }
-            ]
-          },
-          {
-            "group": "Guides",
-            "icon": "book-open",
-            "expandable": false,
-            "pages": [
-              {
-                "title": "Create Your First Page",
-                "path": "help-center/guides/setup-project"
-              }
-            ]
-          }
-        ]
-      },
-      {
-        "tab": "Changelog",
-        "icon": "clock",
-        "pages": [
-          {
-            "title": "Changelog",
-            "path": "changelog",
-            "icon": "history"
+            "group": "API Reference",
+            "openapi": "api-reference/6eca280a4042de9f2a038098c845a823fc807d55dc10bd75d508a5116165f16e.json",
+            "icon": "lucide:code"
           }
         ]
       }
     ]
-  }
+  },
+  "initialRoute": "introduction",
+  "template": "classic",
+  "icons": {
+    "library": "fontawesome"
+  },
+  "logo-light": "https://blob-cdn.documentation.ai/org-4afef969-21f9-40f3-b5b8-b06c8b6cf68f/doc-01b8ce28-db6e-4307-815a-5dc57da57476/1792745599853-rcqu4mh82fi-logo_dark-3727b0351c.png?fm=auto&auto=compress%2Cformat",
+  "logo-dark": "https://blob-cdn.documentation.ai/org-4afef969-21f9-40f3-b5b8-b06c8b6cf68f/doc-01b8ce28-db6e-4307-815a-5dc57da57476/1792745603538-4tcurxa9dzm-logo_light-a678c1e580.png?fm=auto&auto=compress%2Cformat",
+  "favicon": "https://blob-cdn.documentation.ai/org-4afef969-21f9-40f3-b5b8-b06c8b6cf68f/doc-01b8ce28-db6e-4307-815a-5dc57da57476/1792745595284-i6ynvi60xxg-favicon-b071f11896.ico?fm=auto&auto=compress%2Cformat",
+  "navbar": {
+    "actions": {
+      "links": [
+        {
+          "title": "Contact us",
+          "link": "mailto:hello@zylon.ai"
+        },
+        {
+          "title": "GitHub",
+          "link": "https://github.com/zylon-ai/private-gpt"
+        },
+        {
+          "title": "Join the Discord",
+          "link": "https://discord.com/invite/bK6mRVpErU"
+        }
+      ]
+    }
+  },
+  "customCss": [
+    {
+      "src": "styles/migration.css"
+    }
+  ],
+  "redirects": [
+    {
+      "source": "/overview/welcome/introduction",
+      "destination": "/introduction"
+    },
+    {
+      "source": "/installation/getting-started/main-concepts",
+      "destination": "/introduction"
+    },
+    {
+      "source": "/api-reference/messages/chat-messages-v-1-messages-post",
+      "destination": "/api-reference/post-v1-messages"
+    },
+    {
+      "source": "/api-reference/messages/count-message-tokens-v-1-messages-count-tokens-post",
+      "destination": "/api-reference/post-v1-messages-count_tokens"
+    },
+    {
+      "source": "/api-reference/messages/validate-messages-v-1-messages-validate-post",
+      "destination": "/api-reference/post-v1-messages-validate"
+    },
+    {
+      "source": "/api-reference/completions/create-completion-v-1-complete-post",
+      "destination": "/api-reference/post-v1-complete"
+    },
+    {
+      "source": "/api-reference/models/list-models-v-1-models-get",
+      "destination": "/api-reference/get-v1-models"
+    },
+    {
+      "source": "/api-reference/models/get-model-v-1-models-model-id-get",
+      "destination": "/api-reference/get-v1-models-model_id"
+    },
+    {
+      "source": "/api-reference/async-messages/chat-messages-v-1-messages-async-post",
+      "destination": "/api-reference/post-v1-messages-async"
+    },
+    {
+      "source": "/api-reference/async-messages/observe-stream-v-1-messages-async-message-id-stream-get",
+      "destination": "/api-reference/get-v1-messages-async-message_id-stream"
+    },
+    {
+      "source": "/api-reference/async-messages/get-stream-status-v-1-messages-async-message-id-status-get",
+      "destination": "/api-reference/get-v1-messages-async-message_id-status"
+    },
+    {
+      "source": "/api-reference/async-messages/cancel-stream-v-1-messages-async-message-id-cancel-post",
+      "destination": "/api-reference/post-v1-messages-async-message_id-cancel"
+    },
+    {
+      "source": "/api-reference/async-messages/delete-stream-v-1-messages-async-message-id-delete-delete",
+      "destination": "/api-reference/delete-v1-messages-async-message_id-delete"
+    },
+    {
+      "source": "/api-reference/embeddings/generation-v-1-embeddings-post",
+      "destination": "/api-reference/post-v1-embeddings"
+    },
+    {
+      "source": "/api-reference/artifacts/ingest-content-v-1-artifacts-ingest-post",
+      "destination": "/api-reference/post-v1-artifacts-ingest"
+    },
+    {
+      "source": "/api-reference/artifacts/ingest-content-async-v-1-artifacts-ingest-async-post",
+      "destination": "/api-reference/post-v1-artifacts-ingest-async"
+    },
+    {
+      "source": "/api-reference/artifacts/get-ingest-async-status-v-1-artifacts-ingest-async-task-id-get",
+      "destination": "/api-reference/get-v1-artifacts-ingest-async-task_id"
+    },
+    {
+      "source": "/api-reference/artifacts/list-ingested-v-1-artifacts-list-get",
+      "destination": "/api-reference/get-v1-artifacts-list"
+    },
+    {
+      "source": "/api-reference/artifacts/delete-ingested-v-1-artifacts-delete-post",
+      "destination": "/api-reference/post-v1-artifacts-delete"
+    },
+    {
+      "source": "/api-reference/artifacts/delete-ingested-async-v-1-artifacts-delete-async-post",
+      "destination": "/api-reference/post-v1-artifacts-delete-async"
+    },
+    {
+      "source": "/api-reference/artifacts/get-delete-async-status-v-1-artifacts-delete-async-task-id-get",
+      "destination": "/api-reference/get-v1-artifacts-delete-async-task_id"
+    },
+    {
+      "source": "/api-reference/artifacts/list-readers-v-1-artifacts-readers-get",
+      "destination": "/api-reference/get-v1-artifacts-readers"
+    },
+    {
+      "source": "/api-reference/artifacts/convert-content-v-1-artifacts-convert-post",
+      "destination": "/api-reference/post-v1-artifacts-convert"
+    },
+    {
+      "source": "/api-reference/artifacts/content-retrieval-v-1-artifacts-content-post",
+      "destination": "/api-reference/post-v1-artifacts-content"
+    },
+    {
+      "source": "/api-reference/artifacts/chunked-content-retrieval-v-1-artifacts-chunked-content-post",
+      "destination": "/api-reference/post-v1-artifacts-chunked-content"
+    },
+    {
+      "source": "/api-reference/primitives/search-v-1-primitives-search-post",
+      "destination": "/api-reference/post-v1-primitives-search"
+    },
+    {
+      "source": "/api-reference/tools/semantic-search-v-1-tools-semantic-search-post",
+      "destination": "/api-reference/post-v1-tools-semantic-search"
+    },
+    {
+      "source": "/api-reference/tools/tabular-data-analysis-v-1-tools-tabular-data-analysis-post",
+      "destination": "/api-reference/post-v1-tools-tabular-data-analysis"
+    },
+    {
+      "source": "/api-reference/tools/database-query-v-1-tools-database-query-post",
+      "destination": "/api-reference/post-v1-tools-database-query"
+    },
+    {
+      "source": "/api-reference/tools/web-fetch-v-1-tools-web-fetch-post",
+      "destination": "/api-reference/post-v1-tools-web-fetch"
+    },
+    {
+      "source": "/api-reference/tools/web-search-v-1-tools-web-search-post",
+      "destination": "/api-reference/post-v1-tools-web-search"
+    },
+    {
+      "source": "/api-reference/skills/create-skill-v-1-skills-post",
+      "destination": "/api-reference/post-v1-skills"
+    },
+    {
+      "source": "/api-reference/skills/list-skills-v-1-skills-get",
+      "destination": "/api-reference/get-v1-skills"
+    },
+    {
+      "source": "/api-reference/skills/validate-skill-v-1-skills-validate-post",
+      "destination": "/api-reference/post-v1-skills-validate"
+    },
+    {
+      "source": "/api-reference/skills/get-skill-v-1-skills-skill-id-get",
+      "destination": "/api-reference/get-v1-skills-skill_id"
+    },
+    {
+      "source": "/api-reference/skills/delete-skill-v-1-skills-skill-id-delete",
+      "destination": "/api-reference/delete-v1-skills-skill_id"
+    },
+    {
+      "source": "/api-reference/skills/create-skill-version-v-1-skills-skill-id-versions-post",
+      "destination": "/api-reference/post-v1-skills-skill_id-versions"
+    },
+    {
+      "source": "/api-reference/skills/list-skill-versions-v-1-skills-skill-id-versions-get",
+      "destination": "/api-reference/get-v1-skills-skill_id-versions"
+    },
+    {
+      "source": "/api-reference/skills/get-skill-version-v-1-skills-skill-id-versions-version-get",
+      "destination": "/api-reference/get-v1-skills-skill_id-versions-version"
+    },
+    {
+      "source": "/api-reference/skills/delete-skill-version-v-1-skills-skill-id-versions-version-delete",
+      "destination": "/api-reference/delete-v1-skills-skill_id-versions-version"
+    },
+    {
+      "source": "/api-reference/files/list-namespaces-v-1-files-namespaces-get",
+      "destination": "/api-reference/get-v1-files-namespaces"
+    },
+    {
+      "source": "/api-reference/files/upload-file-v-1-files-post",
+      "destination": "/api-reference/post-v1-files"
+    },
+    {
+      "source": "/api-reference/files/delete-by-prefix-v-1-files-delete",
+      "destination": "/api-reference/delete-v1-files"
+    },
+    {
+      "source": "/api-reference/files/list-files-v-1-files-get",
+      "destination": "/api-reference/get-v1-files"
+    },
+    {
+      "source": "/api-reference/files/put-file-v-1-files-file-id-put",
+      "destination": "/api-reference/put-v1-files-file_id"
+    },
+    {
+      "source": "/api-reference/files/get-file-metadata-v-1-files-file-id-get",
+      "destination": "/api-reference/get-v1-files-file_id"
+    },
+    {
+      "source": "/api-reference/files/head-file-v-1-files-file-id-head",
+      "destination": "/api-reference/head-v1-files-file_id"
+    },
+    {
+      "source": "/api-reference/files/delete-file-v-1-files-file-id-delete",
+      "destination": "/api-reference/delete-v1-files-file_id"
+    },
+    {
+      "source": "/api-reference/files/get-file-content-v-1-files-file-id-content-get",
+      "destination": "/api-reference/get-v1-files-file_id-content"
+    }
+  ]
 }
