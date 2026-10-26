@@ -1,0 +1,49 @@
+---
+title: SSO Login Fails
+description: Troubleshoot failed SSO sign-ins, including Okta attempts, by checking your sign-in route, account access, browser session, and diagnostic details.
+---
+
+## Symptoms
+
+- You cannot sign in through single sign-on (SSO).
+- The sign-in attempt fails after you select your organization or identity provider, such as Okta.
+
+## Fix
+
+<Callout kind="info">
+
+These checks help isolate where the sign-in fails. The exact fix depends on your organization's SSO setup.
+
+</Callout>
+
+<Steps>
+  <Step title="Verify the organization and sign-in route" icon="check-circle" title-type="p">
+
+  Confirm that you selected the correct organization and are using its intended SSO sign-in route. Check that the account you are trying to use belongs to that organization.
+
+  </Step>
+
+  <Step title="Retry in a private browser window" icon="monitor" title-type="p">
+
+  Open a private or incognito browser window and try the same sign-in route once. This avoids using an existing session or cached browser data.
+
+  </Step>
+
+  <Step title="Ask an organization admin to check your access" icon="users" title-type="p">
+
+  Ask an organization administrator to confirm that your account is active and assigned to the organization's SSO application. The administrator should also review the identity provider sign-in log for the exact time of your attempt.
+
+  </Step>
+
+  <Step title="Record the sign-in details" icon="edit" title-type="p">
+
+  Capture the exact error message, the attempt timestamp and time zone, the account and organization, the identity provider, the browser, and whether other users are affected.
+
+  </Step>
+
+  <Step title="Contact support if you still cannot sign in" icon="help-circle" title-type="p">
+
+  Send the details you captured to the support team. Include whether an administrator found a related entry in the identity provider sign-in log.
+
+  </Step>
+</Steps>
