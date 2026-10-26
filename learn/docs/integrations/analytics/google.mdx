@@ -1,0 +1,94 @@
+---
+title: Google Analytics
+subtitle: Integrate Google Analytics 4 and Google Tag Manager with Fern Docs. Complete setup instructions for tracking website traffic and insights.
+---
+
+Fern supports integrating with both [Google Analytics 4](https://developers.google.com/analytics) and [Google Tag Manager](https://tagmanager.google.com/).
+
+## Google Analytics 4
+
+Before you begin, ensure you have a Google Analytics 4 property ID. This ID is typically in the format `G-XXXXXXXXXX`.
+
+<Steps>
+  <Step title="Add GA4 to `docs.yml`">
+    Open your `docs.yml` file and add your Google Analytics 4 property ID under the `measurement-id` key:
+
+    ```yaml title="docs.yml"
+    analytics:
+      ga4:
+        measurement-id: G-12345678
+    ```
+
+    You can optionally add the ID as an environment variable:
+
+    ```yaml title="docs.yml"
+    analytics:
+      ga4:
+        measurement-id: ${GA4_MEASUREMENT_ID} # scans for GA4_MEASUREMENT_ID environment variable
+    ```
+  </Step>
+
+  <Step title="(Optional) Provide the ID at publish time">
+    The `${GA4_MEASUREMENT_ID}` syntax reads the value from an environment variable at publish time, so the variable must be present in whatever environment runs `fern generate --docs`.
+
+    When you publish with a GitHub Actions workflow, map it into the publish step's `env`:
+
+    ```yaml meta=".github/workflows/publish-docs.yml &amp;#123;4&amp;#125;"
+    - name: Publish Docs
+      env:
+        FERN_TOKEN: ${{ secrets.FERN_TOKEN }}
+        GA4_MEASUREMENT_ID: ${{ vars.GA4_MEASUREMENT_ID }}
+      run: |
+        npm install -g fern-api
+        fern generate --docs
+    ```
+  </Step>
+
+  <Step title="Verify your integration">
+    Check your browser's developer tools or the network tab to confirm that the analytics script is loading correctly. Note that it may take 24–48 hours for website traffic data to start appearing in Google Analytics.
+  </Step>
+</Steps>
+
+## Google Tag Manager
+
+Before you begin, obtain a container ID from your Google Tag Manager account. This ID follows the format `GTM-XXXXXX`.
+
+<Steps>
+  <Step title="Add GTM to `docs.yml`">
+    Open your `docs.yml` file and add your Google Tag Manager container ID under the `container-id` key:
+
+    ```yaml title="docs.yml"
+    analytics:
+      gtm:
+        container-id: GTM-NS32L7KR
+    ```
+
+    You can optionally add the ID as an environment variable:
+
+    ```yaml title="docs.yml"
+    analytics:
+      gtm:
+        container-id: ${GTM_CONTAINER_ID} # scans for GTM_CONTAINER_ID environment variable
+    ```
+  </Step>
+
+  <Step title="(Optional) Provide the ID at publish time">
+    The `${GTM_CONTAINER_ID}` syntax reads the value from an environment variable at publish time, so the variable must be present in whatever environment runs `fern generate --docs`.
+
+    When you publish with a GitHub Actions workflow, map it into the publish step's `env`:
+
+    ```yaml meta=".github/workflows/publish-docs.yml &amp;#123;4&amp;#125;"
+    - name: Publish Docs
+      env:
+        FERN_TOKEN: ${{ secrets.FERN_TOKEN }}
+        GTM_CONTAINER_ID: ${{ vars.GTM_CONTAINER_ID }}
+      run: |
+        npm install -g fern-api
+        fern generate --docs
+    ```
+  </Step>
+
+  <Step title="Verify your integration">
+    Check your browser's developer tools or the network tab to confirm that the analytics script is loading correctly. Note that it may take 24–48 hours for website traffic data to start appearing in Google Analytics.
+  </Step>
+</Steps>

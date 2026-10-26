@@ -1,0 +1,35 @@
+---
+title: May 4, 2026
+---
+
+## Custom robots.txt
+
+<span className="dai-mig-badge">seo, docs.yml</span>
+
+You can now serve your own [`robots.txt`](/learn/docs/seo/robots-txt) at the root of your documentation site by pointing `agents.robots-txt` at a file in your repo. Use this to opt in or out of specific AI crawlers like `GPTBot` or `ClaudeBot`, gate sensitive sections from indexing, or signal training and search preferences with the [Cloudflare Content Signals Policy](https://blog.cloudflare.com/content-signals-policy/). Your file is served verbatim at `/robots.txt`, and Fern appends a managed block disallowing internal API routes after your content.
+
+```yaml docs.yml
+agents:
+  robots-txt: ./robots.txt
+```
+
+[Read the docs](/learn/docs/seo/robots-txt)
+
+## Multi-source docs
+
+<span className="dai-mig-badge">customization, docs.yml</span>
+
+Multi-source docs lets each team publish independently to a shared custom domain — for example, [docs.nvidia.com](https://docs.nvidia.com) spans sub-paths like `/nvcf`, `/brev`, and `/aiperf`, each owned by a different product team and repository.
+
+Set `multi-source: true` on the instance and reference a [global theme](/learn/docs/customization/global-themes) for consistent branding across repositories.
+
+```yaml docs.yml
+global-theme: my-org-theme
+
+instances:
+  - url: example.docs.buildwithfern.com/product-a
+    custom-domain: docs.example.com/product-a
+    multi-source: true
+```
+
+[Read the docs](/learn/docs/preview-publish/multi-source-docs)

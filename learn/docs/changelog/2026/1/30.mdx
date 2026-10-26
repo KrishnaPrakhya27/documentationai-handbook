@@ -1,0 +1,69 @@
+---
+title: January 30, 2026
+---
+
+## Searchable tables
+
+<span className="dai-mig-badge">components</span>
+
+The `<SearchableTable>` component enables client-side filtering for large tables. A search input appears above the table that filters rows in real-time using case-insensitive substring matching. Wrap any markdown table with `<SearchableTable>` to add search functionality:
+
+```jsx Markdown
+<SearchableTable>
+| Plant | Light Requirements | Water |
+|-------|-------------------|-------|
+| Fern | Partial shade | Weekly |
+| Snake Plant | Low to bright indirect | Bi-weekly |
+</SearchableTable>
+```
+
+Use `<StickySearchableTable>` to combine both sticky headers and search:
+
+```jsx Markdown
+<StickySearchableTable>
+| Plant | Light Requirements | Water |
+|-------|-------------------|-------|
+| Fern | Partial shade | Weekly |
+| Snake Plant | Low to bright indirect | Bi-weekly |
+</StickySearchableTable>
+```
+
+Alternatively, add the `searchable` attribute to HTML tables:
+
+```jsx Markdown
+<table searchable className="fern-table">
+  ...
+</table>
+```
+
+[Read the docs](/learn/docs/writing-content/components/tables#searchable-tables)
+
+## Switcher placement configuration
+
+<span className="dai-mig-badge">navigation, docs.yml</span>
+
+Control where the product and version switchers appear in your documentation site using the `switcher-placement` option in your `docs.yml` layout configuration. Choose between `header` (default) to display switchers in the top navigation bar, or `sidebar` to place them in the sidebar navigation.
+
+```yaml docs.yml
+layout:
+  switcher-placement: sidebar
+```
+
+[Read the docs](/learn/docs/configuration/site-level-settings#layout-configuration)
+
+## Smart continuation in code blocks
+
+<span className="dai-mig-badge">components</span>
+
+Bash and terminal code blocks now intelligently display `$` for new commands and `>` for continuation lines when a command spans multiple lines using `\`. This makes it easier to distinguish between separate commands and multi-line commands in the same code block.
+
+```bash
+fern init
+fern generate --group external \
+    --log-level debug \
+    --version 1.0.0
+fern check
+fern docs dev
+```
+
+[Read the docs](/learn/docs/writing-content/components/code-blocks)

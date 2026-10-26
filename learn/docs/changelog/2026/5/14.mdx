@@ -1,0 +1,18 @@
+---
+title: May 14, 2026
+---
+
+## CLI link checker
+
+<span className="dai-mig-badge">developer-tools</span>
+
+You can now check for broken links on your live documentation site directly from the Fern CLI with `fern docs link check`. The command scrapes every page on your published site, checks all internal and external links, and reports broken (404) and blocked (403) URLs along with the source pages where they appear.
+
+```bash
+fern docs link check --url https://buildwithfern.com/learn
+fern docs link check --url https://elevenlabs.io/docs
+```
+
+This complements the existing [`broken-links` rule](/learn/docs/configuration/site-level-settings#check-configuration) in `fern check`, which validates internal links against your local YAML navigation tree. Use `fern docs link check` after publishing to catch live 404s and broken external URLs that local validation can't detect.
+
+[Read the docs](https://buildwithfern.com/learn/cli-api-reference/cli-reference/docs-commands#fern-docs-link-check)

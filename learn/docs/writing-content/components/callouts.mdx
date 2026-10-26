@@ -1,0 +1,110 @@
+---
+title: Callout
+description: Learn how to use the Callout component to add warnings, tips, notes, and alerts to your documentation with custom icons and intents.
+---
+
+The `<Callout>` component highlights important information, warnings, or tips in your documentation. Use callouts to emphasize critical details that readers shouldn't miss, such as breaking changes, prerequisites, or helpful best practices.
+
+To display very short pieces of information like status indicators and version numbers, use [badges](/learn/docs/writing-content/components/badges).
+
+## Usage
+
+<Callout kind="info">
+  This adds a note in your documentation.
+</Callout>
+
+```jsx Markdown
+<Note>This adds a note in your documentation.</Note>
+```
+
+## Variants
+
+### Intents
+
+<Callout kind="info">
+  This draws attention to important information
+</Callout>
+
+<Callout kind="alert">
+  This raises a warning to watch out for
+</Callout>
+
+<Callout kind="success">
+  This indicates a successful operation or positive outcome
+</Callout>
+
+<Callout kind="danger">
+  This indicates a potential error
+</Callout>
+
+<Callout kind="info">
+  This highlights additional context or supplementary information
+</Callout>
+
+<Callout kind="info">
+  This celebrates an announcement, styled using the primary accent of the docs site
+</Callout>
+
+<Callout kind="tip">
+  This suggests a helpful tip
+</Callout>
+
+<Callout kind="success">
+  This shows a checked status
+</Callout>
+
+```jsx Markdown
+<Info>This draws attention to important information</Info>
+<Warning>This raises a warning to watch out for</Warning>
+<Success>This indicates a successful operation or positive outcome</Success>
+<Error>This indicates a potential error</Error>
+<Note>This highlights additional context or supplementary information</Note>
+<Launch>This celebrates an announcement, styled using the primary accent of the docs site</Launch>
+<Tip>This suggests a helpful tip</Tip>
+<Check>This shows a checked status</Check>
+```
+
+### Custom icon
+
+<Callout kind="alert">
+  **Example callout**
+
+  This callout uses a title and a custom Font Awesome icon.
+</Callout>
+
+```jsx Markdown
+<Warning title="Example callout" icon="skull-crossbones">
+This callout uses a title and a custom Font Awesome icon. 
+</Warning>
+```
+
+## Properties
+
+<ParamField path="intent" type="string" required={true}>
+  The type of callout. Available options: `info`, `warning`, `success`, `error`, `note`, `launch`, `tip`, `check`
+</ParamField>
+
+<ParamField path="title" type="string" required={false}>
+  The title of your callout
+</ParamField>
+
+<ParamField path="icon" type="string | ReactElement" required={false}>
+  The icon of your callout. Can be:
+
+  - A [Font Awesome](https://fontawesome.com/icons) icon name
+  - A React element
+  - If not specified, uses a default icon based on the intent:
+
+    - info: InfoCircle
+    - warning: Bell
+    - success: CheckCircle
+    - error: WarningTriangle
+    - note: Pin
+    - launch: Rocket
+    - tip: Star
+    - check: Check
+</ParamField>
+
+<ParamField path="className" type="string" required={false}>
+  Additional CSS classes to apply to the callout
+</ParamField>

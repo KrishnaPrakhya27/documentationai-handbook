@@ -1,0 +1,18 @@
+---
+title: July 31, 2026
+---
+
+## Send defaults for optional parameters in the API Explorer
+
+<span className="dai-mig-badge">api-reference, docs.yml</span>
+
+You can now have the API Explorer pre-fill and send the declared `default` (or `x-fern-default`) of optional header, query, and path parameters. Set `playground.send-optional-defaults: true` in `docs.yml` on an API, section, or endpoint.
+
+```yaml meta="docs.yml &amp;#123;4&amp;#125;"
+navigation:
+  - api: API Reference
+    playground:
+      send-optional-defaults: true
+```
+
+[Read the docs](/learn/docs/api-references/customize-api-reference-layout#setting-api-explorer-options)

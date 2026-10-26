@@ -1,0 +1,94 @@
+---
+title: Analytics and integrations
+description: Connect analytics and support tools to your Fern documentation. Set up PostHog, Segment, FullStory, Intercom, and Postman collections.
+---
+
+Fern's [built-in web analytics](https://buildwithfern.com/learn/dashboard/metrics/web-analytics) reports aggregated site usage without configuration. The integrations on this page connect your documentation to external analytics, session recording, support, and developer tools. Fern forwards a set of [analytics events](/learn/docs/integrations/analytics/events) to the providers you configure.
+
+## Supported providers
+
+### Analytics
+
+<Columns cols={4}>
+  <Card title="PostHog" href="/learn/docs/integrations/analytics/posthog" />
+
+  <Card title="Google Analytics" href="/learn/docs/integrations/analytics/google" />
+
+  <Card title="Segment" href="/learn/docs/integrations/analytics/segment" />
+
+  <Card title="Mixpanel" href="/learn/docs/integrations/analytics/mixpanel" />
+</Columns>
+
+### Session recording and support
+
+<Columns cols={4}>
+  <Card title="FullStory" href="/learn/docs/integrations/analytics/fullstory" />
+
+  <Card title="Intercom" href="/learn/docs/integrations/support/intercom" />
+</Columns>
+
+### Developer tools
+
+<Columns cols={4}>
+  <Card title="Postman" href="/learn/docs/integrations/postman" />
+
+  <Card title="Context7" href="/learn/docs/integrations/context7" />
+</Columns>
+
+## Configure providers
+
+Define your provider configuration in `docs.yml`. Include only the providers you want to connect.
+
+```yaml docs.yml
+analytics:
+  posthog:
+    api-key: ${POSTHOG_API_KEY}
+    endpoint: https://self.hosted.posthog.com/
+  segment:
+    write-key: ${SEGMENT_WRITE_KEY}
+  intercom:
+    app-id: ${INTERCOM_APP_ID}
+    endpoint: https://intercom.custom-instance.com/
+  fullstory:
+    org-id: ${FULLSTORY_ORG_ID}
+```
+
+### Environment variables
+
+If your docs configuration is public, don't add secret values directly to `docs.yml`.
+Instead, reference an environment variable by using the syntax `${VARIABLE_NAME}`.
+
+<Callout kind="info">
+  If you use GitHub Workflows to trigger docs generation, the environment variables must be available during the workflow run.
+
+  ```yaml meta="&amp;#123;4&amp;#125;"
+  - name: Publish Docs
+    env:
+      FERN_TOKEN: ${{ secrets.FERN_TOKEN }}
+      POSTHOG_API_KEY: ${{ secrets.POSTHOG_PROJECT_API_KEY }}
+    run: |
+      npm install -g fern-api
+      fern generate --docs
+  ```
+</Callout>
+
+## Connect other integrations via custom JavaScript
+
+<Callout kind="alert">
+  **Enterprise feature**
+
+  This feature is available only for the [Enterprise plan](https://buildwithfern.com/pricing). To get started, reach out to [support@buildwithfern.com](mailto:support@buildwithfern.com).
+</Callout>
+
+You can integrate third-party tools that Fern doesn't natively support in `docs.yml` using [custom JavaScript](/learn/docs/customization/custom-css-js#custom-javascript), as long as they support HTML tag-based installation. This works with tools like:
+
+- <strong>Analytics:</strong> Amplitude, Heap, Plausible
+- <strong>Session recording:</strong> Hotjar, LogRocket, Microsoft Clarity
+- <strong>Support and chat:</strong> Zendesk, Crisp, Drift
+- <strong>Tag managers:</strong> Adobe Launch, Tealium
+
+Paste the vendor's `<script>` snippet into a custom JS file and reference it in your `docs.yml`:
+
+```yaml title="docs.yml"
+js: ./custom.js
+```

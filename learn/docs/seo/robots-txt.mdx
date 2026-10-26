@@ -1,0 +1,58 @@
+---
+title: Custom robots.txt
+description: Serve a custom robots.txt at the root of your documentation site to control how search engines and AI crawlers access your content.
+---
+
+By default, Fern serves an auto-generated `robots.txt` at the root of your documentation site that allows all crawlers and points to your `sitemap.xml`. Use the [`agents.robots-txt` key in `docs.yml`](/learn/docs/configuration/site-level-settings#agentsrobots-txt) to serve your own file instead — useful for opting in or out of specific AI crawlers, gating sensitive sections, or signaling preferences with the [Cloudflare Content Signals Policy](https://blog.cloudflare.com/content-signals-policy/).
+
+`robots.txt` is advisory: compliant crawlers honor your `Disallow` and `Allow` directives, but bots that ignore the protocol still reach those paths. For content that must stay private, [use authentication](/learn/docs/authentication/overview).
+
+<Callout kind="info">
+  `robots.txt` decides which crawlers can reach your site and what AI training signals you broadcast. Its companion, [`llms.txt`](/learn/docs/ai-features/llms-txt), shapes what AI agents receive once they crawl.
+</Callout>
+
+## Configuration
+
+<Steps>
+  <Step title="Point `agents.robots-txt` at your file in `docs.yml`">
+    ```yaml docs.yml
+    agents:
+      robots-txt: ./robots.txt
+    ```
+
+    The path is relative to `docs.yml`.
+  </Step>
+
+  <Step title="Write your custom `robots.txt`">
+    ```txt robots.txt
+    # Allow search engines
+    User-Agent: Googlebot
+    Allow: /
+
+    # Restrict an AI crawler from a private path
+    User-Agent: GPTBot
+    Disallow: /private
+
+    # Declare AI usage preferences via Cloudflare Content Signals
+    Content-Signal: ai-train=yes, search=yes, ai-input=yes
+
+    # Point crawlers at your sitemap — Fern's default robots.txt includes this,
+    # so add it back when you replace the default with a custom file
+    Sitemap: https://docs.example.com/sitemap.xml
+    ```
+
+    <Callout kind="tip">
+      Place named bots (e.g., `GPTBot`, `Googlebot`) before any wildcard groups in your file — Fern appends its own `User-Agent: *` block when it serves the file.
+    </Callout>
+  </Step>
+
+  <Step title="Fern serves your file">
+    Your file is served verbatim at `/robots.txt`. Fern appends a managed block at the end that disallows internal API routes:
+
+    ```txt
+    # Fern-managed routes — automatically disallowed
+    User-Agent: *
+    Disallow: /api/fern-docs/
+    ```
+  </Step>
+</Steps>

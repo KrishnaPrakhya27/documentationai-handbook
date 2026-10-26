@@ -1,0 +1,31 @@
+---
+title: December 30, 2024
+---
+
+## Audio Streaming in API Explorer
+
+<span className="dai-mig-badge">api-reference</span>
+
+Added support for streaming audio directly within the API Explorer. This feature enables testing audio endpoints without leaving the documentation.
+
+Check it out live in ElevenLabs' [API Explorer](https://elevenlabs.io/docs/api-reference/text-to-speech/convert?playground=/docs/api-reference/text-to-speech/convert-as-stream) to let users test text-to-speech endpoints and hear the results instantly.
+
+[Read the docs](/learn/docs/api-references/api-explorer)
+
+## Form Data Optimization
+
+<span className="dai-mig-badge">performance</span>
+
+Enhanced handling of URL parameters and form data in edge functions. Documentation playground now handles complex data structures more efficiently.
+
+```typescript
+const formConfig = {
+  encoding: 'application/x-www-form-urlencoded',
+  arrayFormat: 'brackets',
+  allowNullables: true,
+  sanitize: true,
+  maxDepth: 5
+}
+```
+
+[Read the docs](/learn/docs/api-references/api-explorer)

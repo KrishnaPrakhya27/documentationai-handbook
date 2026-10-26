@@ -1,0 +1,29 @@
+---
+title: November 18, 2025
+---
+
+## LLM content visibility tags
+
+<span className="dai-mig-badge">ai, writing-content</span>
+
+New `<llms-only>` and `<llms-ignore>` tags let you provide additional context for AI assistants while keeping your documentation site (for human readers) clean and focused.
+
+Use `<llms-only>` to show content exclusively to AI assistants via LLM endpoints (like `/llms.txt`) while hiding it from your documentation site:
+
+```jsx meta="docs/getting-started.mdx"
+<llms-only>
+  This technical context is only visible to AI assistants via LLM endpoints.
+</llms-only>
+```
+
+Use `<llms-ignore>` to show content only on your documentation site while excluding it from LLM endpoints:
+
+```jsx meta="docs/getting-started.mdx"
+<llms-ignore>
+  <Callout intent="info">
+    This callout appears on your documentation site but not in LLM endpoints.
+  </Callout>
+</llms-ignore>
+```
+
+[Read the docs](/learn/docs/ai-features/customize-llm-output)

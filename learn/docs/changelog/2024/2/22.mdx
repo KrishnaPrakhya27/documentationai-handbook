@@ -1,0 +1,53 @@
+---
+title: February 22, 2024
+---
+
+## WebSocket Support in API Playground
+
+<span className="dai-mig-badge">api-reference</span>
+
+Added real-time WebSocket testing capabilities to the API playground, enabling developers to test streaming and real-time endpoints directly in the documentation. WebSocket connections can now be established, tested, and debugged without leaving the docs.
+
+## Enhanced Code Highlighting
+
+<span className="dai-mig-badge">customization, performance, writing-content</span>
+
+Implemented a new code highlighting system using Shiki for improved syntax highlighting accuracy and performance. The system now supports more languages and provides better dark mode compatibility.
+
+## Feedback System
+
+<span className="dai-mig-badge">customization</span>
+
+Introduced a new feedback collection system using Radix UI components for improved accessibility. Users can now provide structured feedback about documentation quality and usefulness directly within the interface.
+
+## Layout Configuration System
+
+<span className="dai-mig-badge">customization</span>
+
+Implemented a flexible layout configuration system that allows for custom header, footer, and sidebar arrangements. Documentation can now be customized to match your brand and preferences.
+
+```yaml
+layout: 
+  page-width: full
+  tabs-placement: header
+  searchbar-placement: header
+```
+
+## Custom Styling Support
+
+<span className="dai-mig-badge">customization, docs.yml</span>
+
+Added support for custom CSS and scripts, enabling deep customization of documentation appearance and behavior. Organizations can now apply their branding consistently across their documentation.
+
+```yaml docs.yml
+  css: ./assets/styles.css
+```
+
+```css styles.css
+/* Custom styles */
+.custom-class {
+  background-color: #f0f0f0;
+}
+```
+
+[Read the docs](/learn/docs/configuration/site-level-settings)

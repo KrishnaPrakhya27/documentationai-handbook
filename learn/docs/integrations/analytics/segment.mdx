@@ -1,0 +1,38 @@
+---
+title: Segment
+description: Learn how to add Segment analytics to your Fern documentation. Step-by-step guide to configure your Segment writeKey.
+---
+
+Integrate Segment to collect analytics and route user data to your preferred analytics destinations.
+
+<Steps>
+  <Step title="Get your Segment writeKey">
+    In your Segment workspace, navigate to your Source, then go to **Settings > API Keys** and copy the **Write Key**.
+  </Step>
+
+  <Step title="Add Segment to `docs.yml`">
+    In your `docs.yml` file, add the Segment writeKey:
+
+    ```yaml title="docs.yml"
+    analytics:
+      segment:
+        write-key: ${SEGMENT_WRITE_KEY} # scans environment variable
+    ```
+  </Step>
+
+  <Step title="Provide the write key at publish time">
+    The `${SEGMENT_WRITE_KEY}` syntax reads the key from an environment variable at publish time, so the variable must be present in whatever environment runs `fern generate --docs`.
+
+    When you publish with a GitHub Actions workflow, map the secret into the publish step's `env`:
+
+    ```yaml meta=".github/workflows/publish-docs.yml &amp;#123;4&amp;#125;"
+    - name: Publish Docs
+      env:
+        FERN_TOKEN: ${{ secrets.FERN_TOKEN }}
+        SEGMENT_WRITE_KEY: ${{ secrets.SEGMENT_WRITE_KEY }}
+      run: |
+        npm install -g fern-api
+        fern generate --docs
+    ```
+  </Step>
+</Steps>

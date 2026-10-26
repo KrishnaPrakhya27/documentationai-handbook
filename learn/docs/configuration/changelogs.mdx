@@ -1,0 +1,306 @@
+---
+title: Changelog pages
+description: Configure changelog pages in Fern, including entry files, timeline, classic, and blog layouts, tag filtering, and the RSS feed.
+subtitle: Keep a chronological record of project changes with tagging, search, and RSS
+---
+
+A changelog is a navigation entry that renders dated entries. Point the `changelog` key at a folder and every Markdown file in it becomes an entry, grouped by date, with search and tag filtering built in. A changelog can go wherever a section can — as its own tab, or as an entry in your sidebar.
+
+<Video src="https://video-cdn.documentation.ai/org-4afef969-21f9-40f3-b5b8-b06c8b6cf68f/doc-01b8ce28-db6e-4307-815a-5dc57da57476/1792998525034-zl4pnsm0i7-changelog-timeline-24816e1d93.mp4" autoplay={true} loop={true} muted={true} />
+
+*Keep your users updated as your project evolves*
+
+## Configure your changelog
+
+<Steps>
+  <Step title="Add a `changelog` folder">
+    Add a `changelog` folder to your project. This folder must be named `changelog` exactly — Fern won't recognize it under any other name.
+
+    <ExpandableGroup>
+      <Expandable title="fern" defaultOpen={true}>
+        `fern.config.json`
+
+        `docs.yml`
+
+        <Expandable title="changelog" defaultOpen={true}>
+          `2024-07-08.md`
+
+          `2024-07-31.mdx`
+        </Expandable>
+      </Expandable>
+    </ExpandableGroup>
+
+    <Callout kind="info">
+      Subdirectories within the `changelog` folder aren't supported. All changelog entry files must be placed directly in the root of the `changelog` folder.
+    </Callout>
+  </Step>
+
+  <Step title="Reference it in `docs.yml`">
+    Reference the folder in your `docs.yml`. You can place the changelog as its own tab or as a section within your navigation.
+
+    `blog:` is an alias for `changelog:` at both the top level and tab level. It has the same behavior, URLs, and feeds, but defaults the navigation title to `Blog` instead of `Changelog`.
+
+    <Tabs>
+      <Tab title="As a tab">
+        ```yaml meta="&amp;#123;8-11,17&amp;#125; title=&amp;quot;docs.yml&amp;quot;"
+        tabs:
+          guides:
+            display-name: Guides
+            icon: light book-open
+          api:
+            display-name: API Reference
+            icon: light code
+          changelog:
+            display-name: Changelog
+            icon: light clock
+            changelog: ./changelog
+
+        navigation:
+          - tab: guides
+            layout:
+              ...
+          - tab: changelog
+        ```
+
+        [View an example](https://elevenlabs.io/docs/changelog) of how this renders in the ElevenLabs changelog.
+      </Tab>
+
+      <Tab title="As a section">
+        ```yaml meta="&amp;#123;9-11&amp;#125; title=&amp;quot;docs.yml&amp;quot;"
+        navigation:
+          - section: Introduction
+            contents:
+              - page: Authentication
+                path: ./pages/authentication.mdx
+              - page: Versioning
+                path: ./pages/versioning.mdx
+          - api: API Reference
+          - changelog: ./changelog
+            title: Release Notes
+            slug: api-release-notes
+        ```
+
+        <Callout kind="info">
+          Section-level changelogs **can't** be nested within an `api` entry.
+        </Callout>
+      </Tab>
+    </Tabs>
+  </Step>
+</Steps>
+
+## Site-level changelog for multi-product sites
+
+On a site that uses [products](https://buildwithfern.com/learn/docs/navigation/products), a top-level `changelog` key in `docs.yml` adds a single changelog shared by every product. It's served at `/changelog`, with no product slug prefix, and doesn't appear in the product switcher.
+
+```yaml meta="&amp;#123;6-7&amp;#125; title=&amp;quot;docs.yml&amp;quot;"
+products:
+  - display-name: Ferns
+    path: ./products/ferns.yml
+  - display-name: Cacti
+    path: ./products/cacti.yml
+changelog:
+  changelog: ./changelog
+```
+
+The top-level `changelog` key accepts the same options as a changelog inside `navigation`, such as `title`, `slug`, and `icon`. It requires `products`; `fern check` rejects it on a site without them.
+
+## Write a changelog entry
+
+Each entry is a single Markdown file in your `changelog` folder.
+
+<Steps>
+  <Step title="Create a dated file">
+    Name the file with the entry's date using one of the following formats. Fern sorts entries chronologically by this date:
+
+    - MM-DD-YYYY (e.g., 10-06-2024)
+    - MM-DD-YY (e.g., 10-06-24)
+    - YYYY-MM-DD (e.g., 2024-04-21)
+
+    Both `.md` and `.mdx` are supported. Use `.mdx` to leverage Fern's built-in [component library](/learn/docs/writing-content/components/overview) within an entry.
+  </Step>
+
+  <Step title="Write the entry content">
+    Write the entry in Markdown. Each top-level `##` heading becomes its own card on the timeline, so a single dated file can document several updates from the same day.
+
+    ```mdx title="fern/changelog/2024-07-31.mdx"
+    ---
+    tags: ["plants-api", "breaking-change", "inventory-management"]
+    ---
+
+    ## Summary
+
+    In the latest release, we've added endpoints to create a new Plant.
+
+    ### What's new?
+
+    New endpoints:
+
+    - `POST /plant` add a new plant to inventory.
+
+    New object schemas:
+
+    - `CreatePlantRequest`
+
+    <Note> Have questions? Reach out to your local botanist. </Note>
+    ```
+  </Step>
+
+  <Step title="Add tags">
+    Tags let readers filter the timeline to specific topics. They appear as badges on each entry card and in the filter bar, and link back to a filtered timeline when clicked.
+
+    Use specific, descriptive tags that readers would search for — by feature type, product area, release stage, affected platform, or user impact. Apply them per file in the frontmatter or per entry under a heading; per-entry tags replace the frontmatter tags for that entry's card, while entries without their own tags inherit them.
+
+    <ExpandableGroup>
+      <Expandable title="Per-file tags (frontmatter)">
+        Add a `tags` array in the file's YAML frontmatter to tag all of the entries for that date:
+
+        ```mdx meta="fern/changelog/2024-07-31.mdx"
+        ---
+        tags: ["plants-api", "breaking-change", "inventory-management"]
+        ---
+
+        ## New plant endpoints
+
+        Added `POST /plant` to add a plant to your inventory.
+
+        ## Bug fixes
+
+        Resolved an issue with inventory counts.
+        ```
+      </Expandable>
+
+      <Expandable title="Per-entry tags">
+        Tag individual entries by placing a `<ChangelogTags>` component directly under each `##` heading:
+
+        ```mdx meta="fern/changelog/2024-07-31.mdx"
+        ## New plant endpoints
+        <ChangelogTags>plants-api, inventory-management</ChangelogTags>
+
+        Added `POST /plant` to add a plant to your inventory.
+
+        ## Bug fixes
+        <ChangelogTags>bug-fix</ChangelogTags>
+
+        Resolved an issue with inventory counts.
+        ```
+
+        `<ChangelogTags>` accepts comma-separated children or a `tags` prop (`<ChangelogTags tags={["plants-api", "inventory-management"]} />`).
+      </Expandable>
+    </ExpandableGroup>
+
+    <Callout kind="info">
+      Customize the filter UI using [changelog filter CSS selectors](/learn/docs/customization/css-selectors-reference#changelog-filter-components). These selectors only apply when tags are configured.
+    </Callout>
+  </Step>
+
+  <Step title="Add an overview page (optional)">
+    Add an `overview.mdx` file to your `changelog` folder to include a high-level overview at the top of your changelog. This is useful for summarizing major themes, linking to external release notes, or giving users context before diving into specific entries. If present, it will automatically appear above the list of changelog entries.
+  </Step>
+</Steps>
+
+## Customize layout
+
+Changelogs support three layouts:
+
+- `timeline` (default) — a searchable timeline of condensed entry cards with plain-text excerpts, one card per top-level `##` heading.
+- `classic` — stacked full entries rendered inline, preserving code formatting, copy buttons, and links.
+- `blog` — a blog-style listing with one card per entry file, available only as a per-changelog override.
+
+### Site-wide setting
+
+Set the default layout for all changelogs [in `docs.yml`](/learn/docs/configuration/site-level-settings#layoutchangelog-layout):
+
+```yaml title="docs.yml"
+layout:
+  changelog-layout: classic
+```
+
+### Per-changelog override
+
+Override the site-wide layout for a single changelog by adding a `layout` property to that changelog's `overview.mdx` frontmatter:
+
+```mdx title="changelog/overview.mdx"
+---
+layout: classic
+---
+
+Release history for the self-hosted Docker image.
+```
+
+The per-changelog override takes priority over the site-wide `layout.changelog-layout` setting.
+
+## Blog layout
+
+The `blog` layout renders one card for each dated entry file.
+
+<Video src="https://video-cdn.documentation.ai/org-4afef969-21f9-40f3-b5b8-b06c8b6cf68f/doc-01b8ce28-db6e-4307-815a-5dc57da57476/1792998519170-pyhu8fd8mg-blog-97271efb34.mp4" autoplay={true} loop={true} muted={true} />
+
+<em>Cards, tag filters, and search on a blog, with author bylines on the post page. Try the [live example site](https://blog.docs.buildwithfern.com/blog).</em>
+
+Set `layout: blog` in the changelog folder's `overview.mdx` frontmatter. Use `blog-layout: grid` for the default card grid or `blog-layout: list` for full-width rows with the image beside the text.
+
+```mdx title="changelog/overview.mdx"
+---
+layout: blog
+blog-layout: list
+authors:
+  garden-editor:
+    name: Garden editor
+    role: Horticulture
+---
+
+Updates from the Fern Garden team.
+```
+
+An optional `authors` map in the overview frontmatter registers authors by ID. Each author requires `name` and can include `role`, `avatar`, and `url`.
+
+Each entry file sets its own post metadata in frontmatter:
+
+<Expandable title="Post properties">
+  <ParamField path="title" type="string" required={false}>
+    Sets the post title.
+  </ParamField>
+
+  <ParamField path="slug" type="string" required={false}>
+    Overrides the post URL. The value is a full slug relative to the site base (or the product or version base, when one applies), so a post under a blog at `/blog` needs `slug: blog/my-post`. Omitting the `blog/` prefix publishes the post at `/my-post` instead of under the blog.
+  </ParamField>
+
+  <ParamField path="tags" type="list of strings" required={false}>
+    Adds tags to the post.
+  </ParamField>
+
+  <ParamField path="description" type="string" required={false}>
+    Sets the card excerpt. `subtitle` and `excerpt` are also accepted, in that order of precedence.
+  </ParamField>
+
+  <ParamField path="thumbnail" type="string" required={false}>
+    Path to the card and hero image. `image` is also accepted.
+  </ParamField>
+
+  <ParamField path="author" type="string | object" required={false}>
+    Names a key in the overview's `authors` registry, or an inline author object with `name`, `role`, `avatar`, and `url`. `authors` accepts a list of either form.
+  </ParamField>
+
+  <ParamField path="draft" type="boolean" required={false}>
+    Excludes the post from the listing. `hidden: true` does the same.
+  </ParamField>
+</Expandable>
+
+## Linking and sharing
+
+Each changelog entry has a unique URL you can direct users to. For example, `https://elevenlabs.io/docs/changelog/2025/3/31`
+
+Search queries sync to the `?q=` URL parameter, so a search result is shareable as a link.
+
+## RSS feed
+
+Changelogs automatically come with an RSS feed so users can subscribe to updates. Navigate to the RSS feed by appending `.rss` to the changelog path. For example, `https://elevenlabs.io/docs/changelog.rss`. Atom and JSON feeds are available at `.atom` and `.json`.
+
+Feeds require a recognized segment in the changelog's URL path: `blog`, `blogs`, `posts`, `changelog`, `changelogs`, `release-notes`, `releasenotes`, `whats-new`, or `whatsnew`. `fern check` reports an error for a changelog that resolves elsewhere.
+
+## Agent access
+
+Fern exposes two machine-readable endpoints for every changelog:
+
+- `/changelog.md` — returns an aggregated Markdown document of the 20 most recent public entries, opened by the overview page (or a `# <title>` heading when none is configured). See [Changelog pages](/learn/docs/ai-features/markdown#changelog-pages) in the Markdown access guide for the full format.
+- `/changelog/llms.txt` — lists every public entry under an `## Entries` heading without inlining entry bodies, giving agents a complete index to fetch entries on demand.

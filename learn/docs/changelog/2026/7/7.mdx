@@ -1,0 +1,34 @@
+---
+title: July 7, 2026
+---
+
+## Paginated and expandable tables
+
+<span className="dai-mig-badge">components</span>
+
+Tables now support pagination, which splits rows across pages (`<PaginatedTable>`). Paginated tables can optionally be searchable (`<PaginatedSearchableTable>`) or expandable (`expandable` prop).
+
+Use these new options to keep long reference tables scannable without a wall of rows.
+
+| Plant | Light Requirements | Water |
+| --- | --- | --- |
+| Fern | Partial shade | Weekly |
+| Snake Plant | Low to bright indirect | Bi-weekly |
+| Monstera | Bright indirect | Weekly |
+| Pothos | Low to bright indirect | Weekly |
+| Fiddle Leaf Fig | Bright indirect | Weekly |
+| Peace Lily | Low to medium indirect | Weekly |
+| Rubber Plant | Bright indirect | Weekly |
+| ZZ Plant | Low to bright indirect | Bi-weekly |
+| Philodendron | Medium to bright indirect | Weekly |
+| Aloe Vera | Bright direct | Bi-weekly |
+
+[Read the docs](/learn/docs/writing-content/components/tables#paginated-tables)
+
+## Page suggestions in agent 404 responses
+
+<span className="dai-mig-badge">ai</span>
+
+Requests for a nonexistent `.md` URL now return up to three "Similar pages" suggestions linking to the closest matching sources, so agents can recover from a broken link without a separate lookup.
+
+[Read the docs](/learn/docs/ai-features/markdown#missing-pages)

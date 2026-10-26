@@ -1,0 +1,48 @@
+---
+title: Download OpenAPI spec
+description: Fern serves your OpenAPI 3.1 spec from your docs site so AI tools and LLMs can discover and interact with your API programmatically.
+---
+
+Fern docs sites automatically serve your raw OpenAPI 3.1 specification, so anyone — or any tool — can download it for SDK generation, contract testing, or importing into tools like Postman.
+
+The spec is also linked from your site's [`llms.txt`](/learn/docs/ai-features/llms-txt), so AI coding assistants like Cursor, Copilot, and Claude can discover and use it to generate accurate API calls and build integrations.
+
+## Available endpoints
+
+Every Fern docs site exposes the OpenAPI specification at these paths:
+
+| Endpoint | Format | Content-Type |
+| --- | --- | --- |
+| `/openapi.json` | JSON | `application/json` |
+| `/openapi.yaml` | YAML | `application/x-yaml` |
+| `/openapi.yml` | YAML | `application/x-yaml` |
+
+The spec includes your endpoints with request/response schemas, authentication schemes (Bearer, Basic, API Key, OAuth), webhooks, type definitions as component schemas, server URLs from your environment configuration, and top-level tags with descriptions. The [`info.version`](https://buildwithfern.com/learn/api-definitions/openapi/extensions/api-version) field from your source spec is preserved as-is, including non-SemVer formats like CalVer. The spec is generated from the same API definition that powers your docs, so it's always up to date.
+
+<Callout kind="info">
+  Endpoints and API references marked `hidden: true` are excluded.
+</Callout>
+
+## Usage
+
+Append the endpoint to your docs URL to download the spec:
+
+```bash
+# Download as JSON
+curl https://your-docs-site.com/openapi.json
+
+# Download as YAML
+curl https://your-docs-site.com/openapi.yaml
+```
+
+If your docs site includes multiple API definitions, the endpoint returns a listing of available APIs. To select a specific one, use the path-based form, which serves the spec directly and is CDN-friendly:
+
+```bash
+curl https://your-docs-site.com/openapi/my-api-id.json
+```
+
+The `my-api-id` segment resolves against an API's slug, title, or UUID.
+
+<Callout kind="info">
+  If your docs site has password or SSO authentication configured, the spec endpoints respect that authentication. On a **partially gated** site — where some API references have `viewers: [everyone]` and others are restricted — anonymous viewers receive the specs for the APIs they can see, and requests for gated or unknown APIs return `401`. On a **fully gated** site where no APIs are publicly visible, all anonymous requests return `401`.
+</Callout>

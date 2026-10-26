@@ -1,0 +1,35 @@
+---
+title: Audiences
+subtitle: Use audiences to filter the endpoints, schemas, and properties that are displayed in your API Reference.
+---
+
+Audiences are a useful tool for segmenting your API for different consumers. Common examples of audiences include `public`
+and `beta`.
+
+Audiences work in two steps: [tag elements with audiences in your API spec](https://buildwithfern.com/learn/api-definitions/openapi/extensions/audiences), then filter your API Reference to the audiences you want in `docs.yml` using the `audience` property. To tailor your SDKs the same way, [filter them separately](https://buildwithfern.com/learn/sdks/deep-dives/audiences) in `generators.yml`.
+
+<CodeGroup>
+  ```yaml meta="title=&amp;quot;docs.yml&amp;quot; &amp;#123;3-4&amp;#125;"
+  navigation:
+    - api: API Reference
+      audiences:
+        - public
+  ```
+</CodeGroup>
+
+Here's [an example from Schematic](https://github.com/SchematicHQ/schematic-fern-config/blob/e19f5ea69a343727ed018e79127bf4fd20ad0f7b/fern/docs.yml#L128-L129) in production.
+
+## Hide a single field from your API Reference
+
+Audience filtering works at the property level, not just on endpoints and schemas. [Tag a field](https://buildwithfern.com/learn/api-definitions/openapi/extensions/audiences) in your spec with an audience your API Reference excludes, and it drops from the docs while the untagged fields around it stay. For example, tag an `internalNotes` field `internal`, then filter your API Reference to `public` in `docs.yml`, and `internalNotes` no longer renders.
+
+To remove a field from your docs for all audiences while keeping it in your SDKs, use an [OpenAPI overlay](https://buildwithfern.com/learn/api-definitions/openapi/overlays) instead. To drop it from every Fern output, including docs, SDKs, and the CLI, mark it with [`x-fern-ignore`](https://buildwithfern.com/learn/api-definitions/openapi/extensions/ignoring-elements).
+
+## Instance audiences
+
+API Reference audiences work alongside [instance audiences](/learn/docs/configuration/products#add-instance-audiences), which control which products and versions appear in each documentation instance. You can use both features together:
+
+- **API Reference audiences** \- Control which endpoints and schemas appear within API References
+- **Instance audiences** \- Control which products and versions appear in each instance
+
+For example, you might have a `public` API Reference that shows only public endpoints. To ensure this API Reference only appears on your public documentation site, tag the containing product or version with the `public` audience.

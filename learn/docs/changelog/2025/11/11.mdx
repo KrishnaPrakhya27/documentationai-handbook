@@ -1,0 +1,31 @@
+---
+title: November 11, 2025
+---
+
+## Multiple authentication schemes in the API Explorer
+
+<span className="dai-mig-badge">api-reference</span>
+
+The API Explorer now supports multiple authentication schemes and combinations of authentication schemes for OpenAPI specs.
+
+First, configure your OpenAPI spec with multiple security options:
+
+```yaml meta="openapi.yml &amp;#123;8-11&amp;#125;"
+/plant/search/status:
+  get:
+    tags:
+      - plant
+    summary: Search plants by status
+    description: Filter plants based on their current status.
+    operationId: searchPlantsByStatus
+    security:
+      - bearerAuth: []  # Option 1: Bearer token only (OR)
+      - basicAuth: []   # Option 2: Basic auth AND API key (combined)
+        apiKey: []
+```
+
+Then, the API Explorer automatically displays all available authentication options in a dropdown menu, allowing users to select and configure their preferred authentication method before sending requests.
+
+<Image src="https://blob-cdn.documentation.ai/org-4afef969-21f9-40f3-b5b8-b06c8b6cf68f/doc-01b8ce28-db6e-4307-815a-5dc57da57476/1792998656633-k7mdlx431tc-multiple-auth-schemes-dropdown-a4c05f1456.png?fm=auto&auto=compress%2Cformat" alt="Authentication dropdown in the API Explorer" caption="Authentication dropdown in the API Explorer" />
+
+[Read the docs](/learn/docs/api-references/api-explorer)

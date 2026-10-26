@@ -1,0 +1,11 @@
+---
+title: July 28, 2026
+---
+
+## Organization-wide CLI version policy
+
+<span className="dai-mig-badge">developer-tools</span>
+
+[Admins](https://buildwithfern.com/learn/dashboard/configuration/permissions#admin) can now bound the Fern CLI version that every project in an organization runs. Set a minimum, a maximum, or an exact version with `fern org set cli-version`, and each project runs the nearest allowed version. The bounds live on the organization, so no `fern.config.json` has to change. `fern org get` reports the policy and `fern org unset cli-version` clears it. `fern upgrade` respects the same bounds when it writes a new version.
+
+[Read the docs](https://buildwithfern.com/learn/cli-api-reference/cli-reference/version-policy)

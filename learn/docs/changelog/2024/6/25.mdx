@@ -1,0 +1,71 @@
+---
+title: June 25, 2024
+---
+
+## RSS Feed Integration
+
+<span className="dai-mig-badge">seo, integrations</span>
+
+Added support for RSS feeds to keep users updated on documentation changes. Teams can now offer automated notifications for their documentation.
+
+## JSON-LD Enhancement
+
+<span className="dai-mig-badge">seo</span>
+
+Implemented structured data support through JSON-LD for improved SEO. Documentation pages now provide richer information to search engines and social platforms.
+
+```json
+{
+  "@context": "https://schema.org",
+  "@type": "TechArticle",
+  "headline": "API Authentication Guide",
+  "datePublished": "2024-06-15",
+  "technicalAudience": "Software Developers"
+}
+```
+
+[Read the docs](/learn/docs/seo/setting-seo-metadata#structured-data-json-ld)
+
+## Image Zoom Controls
+
+<span className="dai-mig-badge">writing-content</span>
+
+Added configurable image zoom functionality with custom triggers and behaviors. Users can now better examine diagrams and technical illustrations in documentation.
+
+```mdx page.mdx
+---
+no-image-zoom: true
+---
+```
+
+[Read the docs](/learn/docs/configuration/page-level-settings)
+
+## Syntax Extension Support
+
+<span className="dai-mig-badge">writing-content</span>
+
+Added support for additional syntax highlighting languages including BAML and Jinja. Documentation can now properly display a wider range of code examples.
+
+```html
+<body>
+    <h1>Available Products</h1>
+    {% if products %}
+        <ul>
+            {% for product in products %}
+                <li class="product">
+                    <h2>{{ product.name }}</h2>
+                    <p class="price">${{ product.price }}</p>
+                    <p>{{ product.description }}</p>
+                    {% if product.in_stock %}
+                        <p><strong>Status:</strong> In Stock</p>
+                    {% else %}
+                        <p><strong>Status:</strong> Out of Stock</p>
+                    {% endif %}
+                </li>
+            {% endfor %}
+        </ul>
+    {% else %}
+        <p>No products are available at the moment.</p>
+    {% endif %}
+</body>
+```

@@ -1,0 +1,45 @@
+---
+title: March 12, 2026
+---
+
+## Multi-file ZIP downloads
+
+<span className="dai-mig-badge">components</span>
+
+The `<Download>` component now supports bundling multiple files into a single ZIP download using the new `sources` prop. This is useful when you want users to download a collection of related assets — such as brand logos, SDK files, or configuration templates — without needing to host a pre-built ZIP file.
+
+Pass an array of publicly accessible URLs to `sources`, and the component fetches each file client-side and packages them into a ZIP archive:
+
+```jsx Markdown
+<Download
+  sources={[
+    "https://example.com/assets/logo-dark.svg",
+    "https://example.com/assets/logo-light.svg",
+    "https://example.com/assets/icon.svg"
+  ]}
+  filename="brand-assets.zip"
+>
+  <Button intent="primary">Download brand assets</Button>
+</Download>
+```
+
+[Read the docs](/learn/docs/writing-content/components/download)
+
+## `open-by-default` option for collapsed sections
+
+<span className="dai-mig-badge">navigation, docs.yml</span>
+
+Sections and folders in your sidebar navigation support a new `collapsed: open-by-default` value. Sections configured with this value start expanded but display a toggle so users can collapse them.
+
+```yaml meta="docs.yml &amp;#123;3&amp;#125;"
+navigation:
+  - section: API guides
+    collapsed: open-by-default
+    contents:
+      - page: Authentication
+        path: ./pages/api/auth.mdx
+      - page: Pagination
+        path: ./pages/api/pagination.mdx
+```
+
+[Read the docs](/learn/docs/configuration/navigation#collapsed-sections-or-folders)

@@ -1,0 +1,17 @@
+---
+title: November 25, 2025
+---
+
+## Tag description pages for API references
+
+<span className="dai-mig-badge">api-reference, docs.yml</span>
+
+You can now use OpenAPI tag descriptions as summary pages for API reference sections. When you set `tag-description-pages: true` in your API reference configuration, Fern automatically creates a summary page for each tag using its description from your OpenAPI specification.
+
+```yaml docs.yml
+navigation:
+  - api: API Reference
+    tag-description-pages: true
+```
+
+[Read the docs](/learn/docs/api-references/customize-api-reference-layout#configuration-options-reference)

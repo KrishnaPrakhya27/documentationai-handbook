@@ -1,0 +1,154 @@
+---
+title: Display SDK snippets
+description: Enable SDK code examples in TypeScript, Python, Go, and more from the request and response examples documented in your API definition. Once enabled, Fern Docs will automatically populate the snippets within your API Reference.
+---
+
+If you use Fern to generate SDKs, you can display SDK code snippets in your API Reference. These snippets show examples using your actual SDK in TypeScript, Python, Go, and other supported languages.
+
+Once configured, SDK snippets replace [HTTP snippets](/learn/docs/api-references/http-snippets).
+
+<Callout kind="info">
+  **Dynamic snippets**
+
+  By default, SDK snippets are dynamic code examples that allow users to modify parameters and see code examples update in real time across all supported languages.
+
+  Alternatively, you can [disable dynamic snippets in your `docs.yml`](/learn/docs/configuration/site-level-settings#experimentaldynamic-snippets) and use static code examples.
+</Callout>
+
+<Image src="https://blob-cdn.documentation.ai/org-4afef969-21f9-40f3-b5b8-b06c8b6cf68f/doc-01b8ce28-db6e-4307-815a-5dc57da57476/1792997806395-iq3rwr073zb-sdk-code-snippets.png?fm=auto&auto=compress%2Cformat" alt="SDK code snippet selector" className="dai-mig-no-caption" />
+
+## Configuration
+
+To configure SDK snippets, first name your SDKs in `generators.yml` and then reference that name in `docs.yml`.
+
+<Steps>
+  ### Add examples to your API definition
+
+  Fern needs to read request examples from your API definition to generate code snippets. For OpenAPI, follow [Swagger's examples documentation](https://swagger.io/docs/specification/adding-examples/).
+
+  ### Define a package name for your SDK(s)
+
+  Configure package names in your `generators.yml` file:
+
+  - For <strong>Python, TypeScript, Ruby, and .NET/C#</strong>, add `package-name: your-package-name` to the `output` section.
+  - For **Java**, add `coordinate: com.your-org:your-package-name` to the `output` section.
+  - For **PHP**, add `packageName: YourPackageName` to the `config` section.
+  - For **Go**, add `repository: your-organization/your-repository` to the `github` section.
+
+  <Callout kind="info">
+    Fern supports SDK snippets for TypeScript, Python, Ruby, Go, Java, PHP, and .NET/C#. [File an issue](https://github.com/fern-api/fern/issues) to request additional languages.
+  </Callout>
+
+  ```yaml meta="&amp;#123;9, 16, 22, 28, 34, 41, 46&amp;#125; title=&amp;quot;generators.yml&amp;quot;"
+  groups:
+    production:
+      generators:
+        - name: fern-python-sdk
+          version: <Markdown src="/snippets/version-number-python.mdx" />
+          output:
+            location: pypi
+            token: ${PYPI_TOKEN}
+            package-name: your-package-name # <--- add this field
+          ...
+        - name: fern-typescript-sdk
+          version: <Markdown src="/snippets/version-number-ts.mdx" />
+          output:
+            location: npm
+            token: ${NPM_TOKEN}
+            package-name: your-package-name # <--- add this field
+        - name: fern-ruby-sdk
+          version: <Markdown src="/snippets/version-number-ruby.mdx" />
+          output:
+            location: rubygems
+            token: ${RUBYGEMS_TOKEN}
+            package-name: your-package-name # <--- add this field
+        - name: fern-csharp-sdk
+          version: <Markdown src="/snippets/version-number-csharp.mdx" />
+          output:
+            location: nuget
+            api-key: ${NUGET_API_KEY}
+            package-name: your-package-name # <--- add this field
+          ...
+        - name: fern-java-sdk
+          version: <Markdown src="/snippets/version-number-java.mdx" />
+          output:
+            location: maven
+            coordinate: com.your-org:your-package-name # <--- add this field
+          ...
+        - name: fern-php-sdk
+          version: <Markdown src="/snippets/version-number-php.mdx" />
+          github:
+            repository: your-organization/your-repository
+          config:
+            packageName: YourPackageName # <--- add this field
+          ...
+        - name: fern-go-sdk
+          version: <Markdown src="/snippets/version-number-go.mdx" />
+          github:
+            repository: your-organization/your-repository # <--- add this field
+          ...     
+  ```
+
+  ### Add the package name to your docs configuration
+
+  Add the package name for the corresponding SDK to your `docs.yml` file:
+
+  - <strong>For Python, TypeScript, Ruby, and .NET/C#</strong>, `your-package-name` must match the `your-package-name` that you configured in your `generators.yml` file.
+  - **For Java**, `com.your-org:your-package-name` must match the `coordinate` that you configured in your `generators.yml` file.
+  - **For PHP**, `YourPackageName` must match the `packageName` that you configured in your `generators.yml` file.
+  - **For Go**, use the exact URL where the SDK repository is located, including the `https://github.com/`.
+
+  ```yaml meta="&amp;#123;3-10&amp;#125; title=&amp;quot;docs.yml&amp;quot;"
+  navigation:
+    - api: API Reference
+      snippets:
+        python: your-package-name  # <--- needs to match the naming in generators.yml
+        typescript: your-package-name # <--- needs to match the naming in generators.yml
+        ruby: your-package-name # <--- needs to match the naming in generators.yml
+        csharp: your-package-name # <--- needs to match the naming in generators.yml
+        java: com.your-org:your-package-name # <--- needs to match the coordinate in generators.yml
+        php: YourPackageName # <--- needs to match the packageName in generators.yml
+        go: https://github.com/your-organization/your-repository # <--- needs the https://github.com/ prefix
+  ```
+
+  <Callout kind="info">
+    To display different package names for SDK users versus documentation users, [use overrides files](https://buildwithfern.com/learn/api-definitions/asyncapi/overrides#separate-overrides-for-sdks-and-docs).
+  </Callout>
+
+  ### Trigger generation
+
+  Trigger your docs generation by running `fern generate --docs` locally or in CI/CD (i.e., GitHub Actions). The SDK snippets will appear via a dropdown!
+</Steps>
+
+## Additional options
+
+### Specify SDK versions
+
+You can specify which SDK version to use when generating code snippets.
+
+```yaml meta="&amp;#123;4-6&amp;#125; title=&amp;quot;docs.yml&amp;quot;"
+navigation:
+  - api: API Reference
+    snippets:
+      python:
+        package: your-package-name  # <--- needs to match the naming in generators.yml
+        version: your-version number # SDK version to use for snippets
+```
+
+### Set default snippet language
+
+Use the `default-language` key at the top indentation level of `docs.yml`. This setting applies to both SDK snippets and HTTP snippets.
+
+```yaml meta="&amp;#123;1&amp;#125; title=&amp;quot;docs.yml&amp;quot;"
+default-language: typescript
+
+navigation:
+  - api: API Reference
+    snippets:
+      python: your-package-name
+      typescript: your-package-name
+```
+
+## Endpoint request and response snippets
+
+Looking for information on generating API endpoint request and response snippets? See our documentation on [Endpoint Request Snippets](/learn/docs/writing-content/components/request-snippet) and [Endpoint Response Snippets](/learn/docs/writing-content/components/response-snippet).

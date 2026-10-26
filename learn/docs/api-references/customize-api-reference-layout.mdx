@@ -1,0 +1,499 @@
+---
+title: Customize API Reference layout
+description: Customize your API Reference layout with Fern. Configure options, order sections and endpoints, flatten navigation, hide endpoints, display errors, and add custom content.
+---
+
+When you [include an API in your `docs.yml` file](/learn/docs/api-references/generate-api-ref), you can customize how the endpoints and sections are displayed in the sidebar navigation. By default, the reference will generate a navigation hierarchy based on the structure of the API spec, but several customizations can be configured.
+
+<Callout kind="info">
+  **API Sections**
+
+  For OpenAPI specifications, sections are created based on the `tags` property, converted to `lowerCamelCase` convention (e.g., createUser).
+</Callout>
+
+If you would like to only display a subset of endpoints, read more about the Audiences property for [OpenAPI specifications](https://buildwithfern.com/learn/api-definitions/openapi/extensions/audiences).
+
+## Ordering the API Reference
+
+### Alphabetizing endpoints and sections
+
+To sort all sections and endpoints alphabetically, unless explicitly ordered in `layout`, set `alphabetized` to `true`.
+
+```yaml title="docs.yml"
+navigation: 
+  - api: API Reference
+    alphabetized: true
+```
+
+### Sorting endpoints by availability
+
+To order endpoints by their [availability](https://buildwithfern.com/learn/api-definitions/openapi/extensions/availability), unless explicitly ordered in `layout`, set `sort-by-availability` to a list of availability values. Endpoints are sorted within each section.
+
+Listed values come first, in the order you provide. Any values you leave out follow in the default order:
+
+1. `unset` (no availability set)
+2. `generally-available`
+3. `alpha`
+4. `beta`
+5. `preview`
+6. `legacy`
+7. `deprecated`
+
+#### Example:
+
+```yaml title="docs.yml"
+navigation:
+  - api: API Reference
+    sort-by-availability:
+      - beta
+      - deprecated
+```
+
+In the example above, endpoints appear in this order: `beta`, `deprecated`, `unset`, `generally-available`, `alpha`, `preview`, `legacy`. Endpoints with the same availability keep their existing order. To sort them alphabetically, also set `alphabetized: true`.
+
+For example, take a section with these endpoints, using `alphabetized: true` and `sort-by-availability: [beta, deprecated]`:
+
+| Final position | Endpoint | Availability |
+| --- | --- | --- |
+| 1 | Graft plant | `beta` |
+| 2 | Repot plant | `beta` |
+| 3 | Compost plant | `deprecated` |
+| 4 | Water plant | `deprecated` |
+| 5 | Harvest plant | `unset` |
+| 6 | List plants | `unset` |
+| 7 | Create plant | `generally-available` |
+| 8 | Prune plant | `alpha` |
+| 9 | Mist plant | `preview` |
+| 10 | Fertilize plant | `legacy` |
+
+The two listed values, `beta` and `deprecated`, come first. The rest follow in the default order, without `beta` and `deprecated`. Within each availability, endpoints are alphabetical.
+
+To control where endpoints without an availability appear, include `unset` in the list. For example, `[beta, unset]` puts beta endpoints first, then endpoints with no availability.
+
+### Ordering top-level sections
+
+The `layout` option allows you to specify the order of sub-packages, sections, endpoints, and pages at the top level of your API Reference.
+
+```yaml title="docs.yml"
+navigation: 
+  - api: API Reference
+    layout: 
+      - POST /user
+      - user
+      - store
+      - plant
+```
+
+If your API uses [namespaces](https://buildwithfern.com/learn/api-definitions/overview/project-structure#combined-sdks-from-multiple-apis), prefix the endpoint with the namespace and `::`:
+
+```yaml title="docs.yml"
+navigation: 
+  - api: API Reference
+    layout: 
+      - payments::POST /user
+      - user
+      - store
+```
+
+### Ordering section contents
+
+<Tabs>
+  <Tab title="OpenAPI">
+    You can reference an endpoint using the format `METHOD /path`.
+
+    ```yaml title="docs.yml"
+    navigation: 
+      - api: API Reference
+        layout: 
+          - user: 
+              - POST /user
+              - PUT /user/{username}
+              - DELETE /user/{username}
+    ```
+  </Tab>
+
+  <Tab title="WebSocket">
+    You can reference a WebSocket endpoint using the format `WSS /path/name`.
+
+    ```yaml title="docs.yml"
+    navigation:
+      - api: API Reference
+        layout:
+          - plants:
+              - GET /plants
+              - WSS /plants/live-updates
+              - WSS /plants/growth-monitor
+    ```
+  </Tab>
+</Tabs>
+
+<Image src="https://blob-cdn.documentation.ai/org-4afef969-21f9-40f3-b5b8-b06c8b6cf68f/doc-01b8ce28-db6e-4307-815a-5dc57da57476/1792998530299-vsmu2eont9-content-ordered-0d9689f976.png?fm=auto&auto=compress%2Cformat" alt="Content ordered in the API Reference" className="dai-mig-no-caption" />
+
+### Ordering properties within a schema
+
+The `layout` option orders sections, endpoints, and pages, but not the properties within a request, response, or schema. Property order follows a fixed set of rules:
+
+1. <strong>Required properties render before optional ones.</strong> A property is required when its name appears in the schema's `required` array, regardless of its position in the `properties` block.
+2. **Within each group, properties follow their definition order** in the `properties` block. To reorder properties within a group, reorder them in your API definition.
+
+   <Callout kind="info">
+     Schemas composed with `allOf` are an exception: their properties sort alphabetically within each group instead of by definition order. To keep definition order, inline the composed properties by setting [`inline-all-of-schemas`](https://buildwithfern.com/learn/api-definitions/openapi/generators-yml-reference#settingsinline-all-of-schemas) to `true` in `generators.yml`. A `oneOf` nested inside an `allOf` renders as one object of optional properties instead of a variant selector unless [`preserve-one-of-in-all-of`](https://buildwithfern.com/learn/api-definitions/openapi/generators-yml-reference#settingspreserve-one-of-in-all-of) is enabled.
+   </Callout>
+3. <strong>[Deprecated properties](https://buildwithfern.com/learn/api-definitions/openapi/extensions/availability) render after non-deprecated ones</strong> within each group.
+
+Required and optional properties always render as separate groups. You can't mix the two or set an arbitrary order across them.
+
+## Customizing the API Reference
+
+### Nested object fields
+
+Nested object fields render as indented branches with a connector line and a breadcrumb showing each field's full path. To render them as bordered cards instead, set [`layout.api-reference-layout`](/learn/docs/configuration/site-level-settings#layoutapi-reference-layout) to `cards`. The setting applies site-wide.
+
+```yaml title="docs.yml"
+layout:
+  api-reference-layout: cards
+```
+
+### Renaming sections
+
+By default, section display names come from tag names in your OpenAPI spec.
+
+To override the display name of a section, use the `section` property in your `docs.yml`.
+
+```yaml meta="title=&amp;quot;docs.yml&amp;quot; &amp;#123;4-6&amp;#125;"
+navigation:
+  - api: API Reference
+    layout:
+      - section: "Billing" # New section display name
+        referenced-packages:
+          - billing # lowerCamelCase version of original tag name from your spec
+        contents: []
+      - section: "Bank Accounts"
+        referenced-packages:
+          - bankAccounts
+        contents: []
+```
+
+<Callout kind="info">
+  You can alternatively customize tag display names directly in your spec (or overlays file) using the [`x-displayName` extension](https://buildwithfern.com/learn/api-definitions/openapi/extensions/tag-display-names).
+</Callout>
+
+### Flattening sections
+
+To remove the API Reference title and display the section contents, set `flattened` to `true`.
+
+```yaml title="docs.yml"
+navigation: 
+  - api: API Reference
+    flattened: true
+```
+
+<Image src="https://blob-cdn.documentation.ai/org-4afef969-21f9-40f3-b5b8-b06c8b6cf68f/doc-01b8ce28-db6e-4307-815a-5dc57da57476/1792998589985-gyc77rgtq68-flattened-77fbad5704.png?fm=auto&auto=compress%2Cformat" alt="Flattened API Reference" className="dai-mig-no-caption" />
+
+### Paginating endpoints
+
+By default, the API Reference renders as a single long-scrolling page containing every endpoint. Set `paginated` to `true` to split it into one page per endpoint instead.
+
+```yaml title="docs.yml"
+navigation: 
+  - api: API Reference
+    paginated: true
+```
+
+<Callout kind="info">
+  `paginated` controls page layout only. It's unrelated to [endpoint pagination](https://buildwithfern.com/learn/api-definitions/openapi/extensions/pagination), which navigates through a response using cursors or offsets and requires no `docs.yml` configuration.
+</Callout>
+
+### Styling endpoints
+
+To customize the display of an endpoint, you can add a `title`. You can also use `slug` to customize the endpoint URL.
+
+<Tabs>
+  <Tab title="OpenAPI">
+    ```yaml meta="title=&amp;quot;docs.yml&amp;quot; &amp;#123;6-7&amp;#125;"
+    navigation: 
+      - api: API Reference
+        layout: 
+          - user: 
+              - endpoint: POST /user
+                title: Create a User
+                slug: user-creation
+              - DELETE /user/{username}
+    ```
+  </Tab>
+
+  <Tab title="WebSocket">
+    ```yaml meta="title=&amp;quot;docs.yml&amp;quot; &amp;#123;5-7&amp;#125;"
+    navigation:
+      - api: API Reference
+        layout:
+          - plants:
+              - endpoint: WSS /plants/live-updates
+                title: Live plant updates
+                slug: live-updates
+    ```
+  </Tab>
+</Tabs>
+
+<Image src="https://blob-cdn.documentation.ai/org-4afef969-21f9-40f3-b5b8-b06c8b6cf68f/doc-01b8ce28-db6e-4307-815a-5dc57da57476/1792998542960-vijc1kyuot-custom-endpoint-31fa81a788.png?fm=auto&auto=compress%2Cformat" alt="Setting an endpoint title" className="dai-mig-no-caption" />
+
+### Hiding endpoints
+
+You can hide an endpoint from the API Reference by setting `hidden` to `true`. The endpoint will still be accessible at its URL but is automatically excluded from search engine indexing (`noindex`), so [you don't need to set `noindex`](/learn/docs/customization/hiding-content#hiding-an-api-endpoint).
+
+<Tabs>
+  <Tab title="OpenAPI">
+    ```yaml meta="title=&amp;quot;docs.yml&amp;quot; &amp;#123;10&amp;#125;"
+    navigation: 
+      - api: API Reference
+        layout: 
+          - user: 
+              - endpoint: POST /user
+                title: Create a User
+                slug: user-creation
+              - endpoint: DELETE /user/{username}
+                hidden: true
+    ```
+  </Tab>
+
+  <Tab title="WebSocket">
+    ```yaml meta="title=&amp;quot;docs.yml&amp;quot; &amp;#123;6&amp;#125;"
+    navigation:
+      - api: API Reference
+        layout:
+          - plants:
+              - endpoint: WSS /plants/live-updates
+                hidden: true
+    ```
+  </Tab>
+</Tabs>
+
+### Setting API Explorer options
+
+The `playground` property sets four API Explorer options: `oauth` enables the [OAuth client-credentials flow](https://buildwithfern.com/learn/api-definitions/openapi/authentication), `environments` restricts which server environments are available (an empty list disables the Explorer), `send-optional-defaults` [pre-fills and sends the declared defaults](/learn/docs/api-references/api-explorer#autopopulate-with-examples) of optional parameters, and `hidden: true` hides the Try it button for every endpoint under the API reference (the Explorer isn't shown at all). Set it on the `- api` entry to apply a default across all endpoints, then override it on a section or endpoint in `layout`:
+
+```yaml meta="title=&amp;quot;docs.yml&amp;quot; &amp;#123;3-9,13,17&amp;#125;"
+navigation:
+  - api: API Reference
+    playground:                     # Defaults for every endpoint in this API
+      oauth: true
+      environments:
+        - Production
+        - Sandbox
+      send-optional-defaults: true
+      hidden: false
+    layout:
+      - section: Auth
+        playground:
+          oauth: true               # Override for this section
+        contents:
+          - endpoint: POST /token
+            playground:
+              oauth: false          # Override for this endpoint
+```
+
+To hide the Try it button across an entire API section:
+
+```yaml title="docs.yml"
+navigation:
+  - api: API Reference
+    playground:
+      hidden: true
+```
+
+Environment names are the [server names](https://buildwithfern.com/learn/api-definitions/openapi/extensions/server-names-and-url-templating) from your API definition.
+
+### Adding custom sections
+
+You can add arbitrary folders in the sidebar by adding a `section` to your API Reference layout. A section can comprise entire groups of endpoints, individual endpoints, or even just Markdown pages. Sections can be customized by adding properties like a `icon`, `summary`, `slug` (or `skip-slug`), `availability`, and `contents`.
+
+```yaml title="docs.yml"
+navigation: 
+  - api: API Reference
+    layout: 
+      - section: My Section
+        icon: flower
+        contents: 
+          - PUT /user/{username}
+          - plant
+          - plantInfo # tag names are converted to camelCase convention
+```
+
+<Image src="https://blob-cdn.documentation.ai/org-4afef969-21f9-40f3-b5b8-b06c8b6cf68f/doc-01b8ce28-db6e-4307-815a-5dc57da57476/1792998551282-6lvr1htsyr9-custom-section-0af51da702.png?fm=auto&auto=compress%2Cformat" alt="Custom section in the API Reference" className="dai-mig-no-caption" />
+
+### Adding a section overview
+
+You can add overview pages to your API Reference or individual sections in two ways:
+
+<ExpandableGroup>
+  <Expandable title="Manual summary pages">
+    The `summary` property allows you to add an `.md` or `.mdx` page as an overview.
+
+    ```yaml title="docs.yml"
+    navigation:
+      - api: API Reference
+        summary: pages/api-overview.mdx
+        layout:
+          - user:
+              summary: pages/user-overview.mdx
+    ```
+  </Expandable>
+
+  <Expandable title="Automatic summaries from OpenAPI tags">
+    If you're using an OpenAPI spec, set `tag-description-pages: true` to use tag descriptions as summary pages for each section.
+
+    ```yaml title="docs.yml"
+    navigation:
+      - api: API Reference
+        tag-description-pages: true
+    ```
+
+    <Callout kind="info">
+      If you enable `tag-description-pages: true` and manually specify a `summary` for a section, the manual summary will take precedence.
+    </Callout>
+  </Expandable>
+</ExpandableGroup>
+
+### Adding pages and links
+
+You can add regular pages and external links within your API Reference.
+
+```yaml title="docs.yml"
+navigation: 
+  - api: API Reference
+    layout: 
+      - user: 
+          contents: 
+            - page: User Guide
+              path: ./docs/pages/user-guide.mdx
+            - link: Link Title
+              href: http://google.com
+```
+
+### Adding availability
+
+You can set the availability for the entire API Reference or for specific sections. Options are: `stable`, `generally-available`, `in-development`, `pre-release`, `deprecated`, or `beta`.
+
+```yaml meta="title=&amp;quot;docs.yml&amp;quot; &amp;#123;3, 6&amp;#125;"
+navigation: 
+  - api: API Reference
+    availability: generally-available
+    layout: 
+      - section: My Section
+        availability: beta
+        icon: flower
+        contents: 
+        # endpoints here
+```
+
+When you set availability for a section, all endpoints in that section will inherit the section-level availability unless explicitly overridden in your API definition.
+
+Non-default availability renders as a [badge in the sidebar navigation](/learn/docs/configuration/navigation#availability) next to the section or endpoint. The default available states (`stable` and `generally-available`) don't render a sidebar badge.
+
+<Callout kind="alert">
+  You can't set availability for individual OpenAPI endpoints in `docs.yml` — endpoint availability must be configured directly in your API definition. Learn more about [availability for OpenAPI](https://buildwithfern.com/learn/api-definitions/openapi/extensions/availability).
+</Callout>
+
+### Displaying endpoint errors
+
+Set `display-errors` to `true` to show error schemas on endpoint pages. The error names, status codes, and response objects are pulled from your API definition.
+
+```yaml title="docs.yml"
+navigation:
+  - api: API Reference
+    display-errors: true
+```
+
+<Image src="https://blob-cdn.documentation.ai/org-4afef969-21f9-40f3-b5b8-b06c8b6cf68f/doc-01b8ce28-db6e-4307-815a-5dc57da57476/1792997812574-iycnaaqpn29-errors.png?fm=auto&auto=compress%2Cformat" alt="Endpoint errors" className="dai-mig-no-caption" />
+
+Clicking on an error expands it to show the error name, code, and object returned. The response also updates to show the error object.
+
+<Image src="https://blob-cdn.documentation.ai/org-4afef969-21f9-40f3-b5b8-b06c8b6cf68f/doc-01b8ce28-db6e-4307-815a-5dc57da57476/1792997815719-wpqysfnh80e-errors-expanded.png?fm=auto&auto=compress%2Cformat" alt="Endpoint errors when expanded" className="dai-mig-no-caption" />
+
+## Configuration options reference
+
+The following properties can be set on the `- api` entry in your `docs.yml` navigation.
+
+<ParamField path="alphabetized" type="boolean">
+  When `true`, organizes all sections and endpoints in alphabetical order.
+</ParamField>
+
+<ParamField path="api" type="string" required={true}>
+  Title of the API Reference section.
+</ParamField>
+
+<ParamField path="audiences" type="list&lt;string&gt;">
+  List of [audiences](/learn/docs/api-references/audiences) that determines which endpoints, schemas, and properties are displayed in your API Reference.
+</ParamField>
+
+<ParamField path="availability" type="string">
+  Set the [availability status](#adding-availability) for the entire API Reference or specific sections.
+</ParamField>
+
+<ParamField path="display-errors" type="boolean">
+  Displays [error schemas](#displaying-endpoint-errors) on endpoint pages of your API Reference.
+</ParamField>
+
+<ParamField path="flattened" type="boolean">
+  Displays all endpoints at the top level and hides the API Reference section title.
+</ParamField>
+
+<ParamField path="icon" type="string">
+  Icon to display next to the API section in the navigation.
+</ParamField>
+
+<ParamField path="layout" type="list">
+  Customize the order that your API endpoints are displayed in the docs site. See [Ordering the API Reference](#ordering-the-api-reference) for details.
+</ParamField>
+
+<ParamField path="paginated" type="boolean">
+  When `true`, splits the API Reference into [one page per endpoint](#paginating-endpoints) instead of a single long-scrolling page (the default). Controls page layout only; unrelated to [endpoint pagination](https://buildwithfern.com/learn/api-definitions/openapi/extensions/pagination).
+</ParamField>
+
+<ParamField path="skip-slug" type="boolean">
+  When `true`, skips slug generation for the API section.
+</ParamField>
+
+<ParamField path="slug" type="string">
+  Customize the slug for the API section. By default, the slug is generated from the API title.
+</ParamField>
+
+<ParamField path="sort-by-availability" type="list&lt;string&gt;">
+  Orders endpoints within each section by [availability](#sorting-endpoints-by-availability). Listed values come first, in the order provided, followed by the remaining values in the default order. Use `unset` for endpoints with no availability.
+</ParamField>
+
+<ParamField path="summary" type="string">
+  Relative path to a Markdown file displayed at the top of the API section.
+</ParamField>
+
+<ParamField path="tag-description-pages" type="boolean">
+  When `true`, uses OpenAPI tag descriptions as summary pages for each section.
+</ParamField>
+
+<ParamField path="playground" type="object">
+  Settings for the [API Explorer](/learn/docs/api-references/api-explorer) that affect all endpoints in this API section. Can also be [set on individual sections or endpoints](#setting-api-explorer-options) in `layout` to override.
+</ParamField>
+
+<ParamField path="playground.oauth" type="boolean">
+  When `true`, enables the [OAuth client-credentials flow](/learn/docs/api-references/api-explorer#authentication) in the API Explorer.
+</ParamField>
+
+<ParamField path="playground.environments" type="list&lt;string&gt;">
+  Restricts which server environments are available in the API Explorer. An empty list disables the Explorer.
+</ParamField>
+
+<ParamField path="playground.send-optional-defaults" type="boolean">
+  When `true`, [pre-fills and sends the declared defaults](/learn/docs/api-references/api-explorer#autopopulate-with-examples) of optional header, query, and path parameters. Defaults to `false`.
+</ParamField>
+
+<ParamField path="playground.hidden" type="boolean">
+  When `true`, hides the Try it button for every endpoint in this API section. The API Explorer isn't shown. Can also be set on individual sections or endpoints in `layout` to override.
+</ParamField>
+
+<ParamField path="api-name" type="string">
+  Only used when your project has [multiple APIs](/learn/docs/api-references/generate-api-ref#include-more-than-one-api-reference). The value must match the folder name containing the API definition. Don't set this property if you only have a single API, as it will cause errors.
+</ParamField>
+
+<ParamField path="specs" type="list&lt;object&gt;">
+  API specification files to [load directly from docs.yml](/learn/docs/api-references/generate-api-ref#reference-a-spec-directly-from-docsyml) instead of through `generators.yml`. Each entry has a `type` (`openapi`, `asyncapi`, or `graphql`) and a `path`, plus optional `overrides`, `overlays`, and `namespace`. Paths are relative to the configuration file that contains them. When set, `api-name` is ignored.
+</ParamField>

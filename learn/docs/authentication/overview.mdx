@@ -1,0 +1,39 @@
+---
+title: Overview of authentication options
+description: Gate your docs so readers only see the content relevant to them.
+---
+
+Fern offers four ways to authenticate users on your documentation site:
+
+<Columns cols={2}>
+  <Card title="Password protection" href="/learn/docs/authentication/setup/password-protection" icon="lock">
+    Gate your entire site with a shared password, or map multiple passwords to roles
+  </Card>
+
+  <Card title="SSO" href="/learn/docs/authentication/setup/sso" icon="user-check">
+    Put your docs behind your organization's login
+  </Card>
+
+  <Card title="JWT" href="/learn/docs/authentication/setup/jwt" icon="key">
+    Self-managed auth integrated with your login system
+  </Card>
+
+  <Card title="OAuth" href="/learn/docs/authentication/setup/oauth" icon="shield-halved">
+    Fern-managed auth via your OAuth provider
+  </Card>
+</Columns>
+
+## Which option should I use?
+
+- <strong>[Password protection](/learn/docs/authentication/setup/password-protection)</strong> — You need quick gating with a shared password (no per-user accounts). Supports multiple passwords mapped to roles for [role-based access control](/learn/docs/authentication/features/rbac).
+- <strong>[SSO](/learn/docs/authentication/setup/sso)</strong> — Your team should log in with corporate credentials (Okta, Google Workspace, etc.) for internal docs or wikis. Supports [role-based access control](/learn/docs/authentication/features/rbac) when your identity provider includes roles on the token.
+- <strong>[JWT](/learn/docs/authentication/setup/jwt)</strong> — You want to integrate with your existing login system and control the entire auth flow yourself. Supports [role-based access control](/learn/docs/authentication/features/rbac) and [API key injection](/learn/docs/authentication/features/api-key-injection).
+- <strong>[OAuth](/learn/docs/authentication/setup/oauth)</strong> — You want to integrate with your existing login system but have Fern manage the auth flow via your OAuth provider. Supports [role-based access control](/learn/docs/authentication/features/rbac) and [API key injection](/learn/docs/authentication/features/api-key-injection).
+
+JWT and OAuth share the same capabilities — the difference is who manages the auth flow. Both can be used for login-only gating, or combined with [RBAC](/learn/docs/authentication/features/rbac) and [API key injection](/learn/docs/authentication/features/api-key-injection) for granular access control and pre-filled API keys.
+
+## How authentication works
+
+JWT, OAuth, and SSO are all powered by a [browser cookie](/learn/docs/security/overview) called `fern_token` that tells Fern who the user is and what they can access. The token can carry user roles for [RBAC](/learn/docs/authentication/features/rbac), API keys for the [API Explorer](/learn/docs/api-references/api-explorer), or simply verify that a user is logged in.
+
+[Password protection](/learn/docs/authentication/setup/password-protection) works differently — it uses a shared password rather than per-user tokens.

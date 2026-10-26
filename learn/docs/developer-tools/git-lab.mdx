@@ -1,0 +1,146 @@
+---
+title: Hosting with GitLab
+description: Set up GitLab CI/CD to automatically publish your Fern docs when changes are merged to your main branch.
+---
+
+Use GitLab CI/CD to automatically generate preview links on merge requests, publish your Fern docs when changes are merged to `main`, and delete preview links after merge. The pipeline runs entirely in your project with secrets you own, so Fern doesn’t require access to your repository. Fern only needs a [repository connection](https://buildwithfern.com/learn/dashboard/configuration/github-repo#gitlab) if you use Fern Editor.
+
+<Callout kind="info">
+  **Prerequisites**
+
+  - Node.js version 22 or higher
+  - [The Fern CLI](https://buildwithfern.com/learn/cli-api-reference/cli-reference/overview#installation) installed locally
+  - A Fern project with a `fern` folder ([quickstart](/learn/docs/getting-started/quickstart))
+</Callout>
+
+## Add a Fern API key to GitLab
+
+<Steps>
+  ### Generate a Fern API key
+
+  Run [`fern token`](https://buildwithfern.com/learn/cli-api-reference/cli-reference/general-commands#fern-token) in your terminal from the directory containing your `fern` folder. This generates an organization-scoped API key that authenticates the Fern CLI in CI/CD.
+
+  ```bash
+  fern token
+  ```
+
+  Copy the API key output — you'll add it to GitLab in the next step.
+
+  ### Add the Fern API key as a CI/CD variable
+
+  1. Log in to [GitLab](https://gitlab.com/users/sign_in) and navigate to your Fern docs repository.
+  2. Go to **Settings** \> **CI/CD**.
+  3. Scroll to the **Variables** section, select **Expand**, then click **Add variable**.
+  4. Set the key to `FERN_TOKEN`, paste the API key you generated in the previous step as the value, *deselect* **Protect variable**, and click **Save changes**.
+</Steps>
+
+## Add a project access token to GitLab
+
+To post preview links on merge requests, you need a GitLab project access token.
+
+<Steps>
+  ### Create a project access token
+
+  1. In your GitLab repository, go to **Settings** \> **Access Tokens**.
+  2. Click **Add new token** and configure the following:
+
+     - **Token name**: a descriptive name (e.g., `fern-preview`)
+     - **Expiration date**: set as needed (you'll need to regenerate once it expires)
+     - **Role**: Reporter
+     - **Scopes**: api
+  3. Click **Create project access token** and copy the token.
+
+  <Callout kind="info">
+    **Save your token**
+
+    Save the generated token immediately — it won't be displayed after you leave the page.
+  </Callout>
+
+  ### Add the project access token as a CI/CD variable
+
+  1. Go to **Settings** \> **CI/CD**.
+  2. Scroll to the **Variables** section, select **Expand**, then click **Add variable**.
+  3. Set the key to `REPO_TOKEN`, paste the project access token as the value, *deselect* **Protect variable**, and click **Save changes**.
+</Steps>
+
+## Add the CI/CD pipeline
+
+Create a `.gitlab-ci.yml` file in the root of your repository. This pipeline validates your API definition, posts a per-branch preview link on each merge request, publishes your docs when changes are merged to `main`, and deletes the merged branch's preview deployment.
+
+```yaml meta=".gitlab-ci.yml"
+stages:
+  - check
+  - preview_docs
+  - publish_docs
+  - cleanup_preview
+
+before_script:
+  - apt-get update -y
+  - apt-get install -y curl jq
+  - curl -sL https://deb.nodesource.com/setup_current.x | bash -
+  - apt-get install -y nodejs
+  - npm install -g fern-api
+
+check:
+  stage: check
+  rules:
+    - if: '$CI_PIPELINE_SOURCE == "merge_request_event"'
+    - if: '$CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH'
+  script:
+    - echo "Checking API is valid"
+    - fern check
+
+preview_docs:
+  stage: preview_docs
+  rules:
+    - if: '$CI_PIPELINE_SOURCE == "merge_request_event"'
+  script:
+    - echo "Generating preview for branch $CI_MERGE_REQUEST_SOURCE_BRANCH_NAME..."
+    - |
+      OUTPUT=$(fern generate --docs --preview --id "$CI_MERGE_REQUEST_SOURCE_BRANCH_NAME" --force 2>&1) || true
+      echo "$OUTPUT"
+      DEMO_URL=$(echo "$OUTPUT" | grep -oE -m1 '(https://[^[:space:]]+-preview-[^[:space:]]+) ' | tr -d ' ')
+      echo "Preview URL: $DEMO_URL"
+    - |
+      if [ -z "$DEMO_URL" ]; then
+        echo "No preview URL found"
+        exit 1
+      fi
+      curl --location --request POST \
+        --header "PRIVATE-TOKEN: $REPO_TOKEN" \
+        --header "Content-Type: application/json" \
+        --url "https://gitlab.com/api/v4/projects/$CI_MERGE_REQUEST_PROJECT_ID/merge_requests/$CI_MERGE_REQUEST_IID/notes" \
+        --data-raw "{ \"body\": \"Preview your docs [here]($DEMO_URL)\" }"
+
+publish_docs:
+  stage: publish_docs
+  rules:
+    - if: '$CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH'
+  script:
+    - echo "Publishing Docs"
+    - fern generate --docs
+
+cleanup_preview:
+  stage: cleanup_preview
+  rules:
+    - if: '$CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH'
+  script:
+    - echo "Looking up merged MR for commit $CI_COMMIT_SHA..."
+    - |
+      MR_INFO=$(curl -sf --header "PRIVATE-TOKEN: $REPO_TOKEN" \
+        "https://gitlab.com/api/v4/projects/$CI_PROJECT_ID/repository/commits/$CI_COMMIT_SHA/merge_requests") || {
+        echo "Failed to query MRs for commit — skipping cleanup"
+        exit 0
+      }
+      SOURCE_BRANCH=$(echo "$MR_INFO" | jq -r 'map(select(.state == "merged")) | .[0].source_branch // empty')
+
+      if [ -z "$SOURCE_BRANCH" ]; then
+        echo "No merged MR found for this commit (likely a direct push to main) — skipping cleanup"
+        exit 0
+      fi
+
+      echo "Deleting preview for branch: $SOURCE_BRANCH"
+      fern docs preview delete --id "$SOURCE_BRANCH" || echo "Preview deletion returned non-zero — it may already be gone"
+```
+
+Commit and push the `.gitlab-ci.yml` file to your repository. The pipeline runs automatically on merge requests and when changes are merged to your default branch.

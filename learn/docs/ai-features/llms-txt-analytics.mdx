@@ -1,0 +1,51 @@
+---
+title: Analytics and integration
+description: Track LLM traffic to your docs in the Fern Dashboard and surface llms.txt endpoints to readers with buttons and navbar links.
+---
+
+`llms.txt` is generated automatically for your site, but discovery is up to you. Track usage in the [Web Analytics tab](https://buildwithfern.com/learn/dashboard/metrics/web-analytics) and surface endpoints directly in your docs.
+
+## Track AI traffic
+
+The tab reports `llms.txt` usage including:
+
+- Traffic by LLM provider (Claude, ChatGPT, Cursor, etc.)
+- Page-level breakdowns of bot vs. human visitors for Markdown and `llms.txt` files
+
+## Surface endpoints to readers
+
+To make endpoints discoverable to human readers, add buttons or navigation links:
+
+<ExpandableGroup>
+  <Expandable title="Add a button for SDK docs">
+    Add a button to your SDK docs that links to `llms.txt` for your API Reference. Use `lang` to filter code examples to one language, `excludeSpec=true` to exclude the raw OpenAPI specification, and `excludeChangelog=true` to exclude changelog sections.
+
+    ```jsx Markdown
+    <Button href="/api-reference/llms.txt?lang=python&excludeSpec=true" target="_blank">
+      Open Python API Reference for LLMs
+    </Button>
+    ```
+
+    This gives users a clean, language-specific output they can feed to AI tools when writing code.
+  </Expandable>
+
+  <Expandable title="Add a dropdown for llms.txt">
+    Add a dropdown in your navbar that links to different filtered versions of `llms.txt`, making it easy for users to access LLM-optimized documentation for their preferred language.
+
+    ```yaml docs.yml
+    navbar-links:
+      - type: dropdown
+        text: LLMs
+        icon: fa-solid fa-robot
+        links:
+          - text: Full docs
+            href: /llms.txt
+          - text: Python SDK
+            href: /api-reference/llms.txt?lang=python&excludeSpec=true
+          - text: TypeScript SDK
+            href: /api-reference/llms.txt?lang=typescript&excludeSpec=true
+          - text: Go SDK
+            href: /api-reference/llms.txt?lang=go&excludeSpec=true
+    ```
+  </Expandable>
+</ExpandableGroup>

@@ -1,0 +1,20 @@
+---
+title: April 20, 2026
+---
+
+## Mobile table of contents bar
+
+<span className="dai-mig-badge">navigation, docs.yml</span>
+
+Pages using the [`guide` and `overview` layouts](/learn/docs/configuration/page-level-settings#layout) can now display a sticky table of contents bar below the header on mobile and tablet viewports. The bar shows a scroll progress indicator and the current heading, and expands to the full table of contents when tapped.
+
+<Video src="https://video-cdn.documentation.ai/org-4afef969-21f9-40f3-b5b8-b06c8b6cf68f/doc-01b8ce28-db6e-4307-815a-5dc57da57476/1792998651136-nzyvthogtsq-mobile-toc-7ea4b3b2fd.mp4" autoplay={true} loop={true} muted={true} />
+
+Enable it by adding `mobile-toc: true` under `layout` in `docs.yml`:
+
+```yaml docs.yml
+layout:
+  mobile-toc: true
+```
+
+[Read the docs](/learn/docs/configuration/site-level-settings#layoutmobile-toc)

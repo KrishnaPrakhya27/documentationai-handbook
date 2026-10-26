@@ -1,0 +1,46 @@
+---
+title: Fullstory
+description: Integrate Fullstory with Fern docs to capture user sessions and interactions. Step-by-step instructions for adding your Org ID.
+---
+
+Integrate Fullstory to capture session replays and user interactions in your documentation.
+
+<Steps>
+  <Step title="Get your Fullstory Org ID">
+    Your Org ID appears in the URL when you log in to Fullstory:
+
+    ```
+    https://app.fullstory.com/ui/<ORG_ID>/home
+    ```
+
+    Alternatively, find it in **Settings > Data Capture and Privacy > Fullstory Setup** in the snippet code as `window['_fs_org']`.
+
+    See [Fullstory's guide](https://help.fullstory.com/hc/en-us/articles/360047075853-How-do-I-find-my-Fullstory-Org-Id) for more details.
+  </Step>
+
+  <Step title="Add Fullstory to `docs.yml`">
+    In your `docs.yml` file, add your Fullstory Org ID:
+
+    ```yaml title="docs.yml"
+    analytics:
+      fullstory:
+        org-id: ${FULLSTORY_ORG_ID} # reads your org id from environment variables
+    ```
+  </Step>
+
+  <Step title="Provide the Org ID at publish time">
+    The `${FULLSTORY_ORG_ID}` syntax reads the value from an environment variable at publish time, so the variable must be present in whatever environment runs `fern generate --docs`.
+
+    When you publish with a GitHub Actions workflow, map the secret into the publish step's `env`:
+
+    ```yaml meta=".github/workflows/publish-docs.yml &amp;#123;4&amp;#125;"
+    - name: Publish Docs
+      env:
+        FERN_TOKEN: ${{ secrets.FERN_TOKEN }}
+        FULLSTORY_ORG_ID: ${{ secrets.FULLSTORY_ORG_ID }}
+      run: |
+        npm install -g fern-api
+        fern generate --docs
+    ```
+  </Step>
+</Steps>

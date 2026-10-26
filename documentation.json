@@ -1,154 +1,3020 @@
 {
-  "name": "Starter Kit",
+  "name": "Fern Documentation",
   "colors": {
     "light": {
-      "brand": "#F97316"
+      "brand": "#008700"
     },
     "dark": {
-      "brand": "#FDBA74"
+      "brand": "#70e155"
     }
   },
   "navigation": {
-    "tabs": [
+    "products": [
       {
-        "tab": "Documentation",
-        "icon": "book",
+        "product": "Docs",
+        "icon": "lucide:app-window",
         "groups": [
           {
-            "group": "Start Here",
-            "icon": "rocket",
+            "group": "Getting started",
             "pages": [
               {
-                "title": "Introduction",
-                "path": "introduction",
-                "icon": "home"
+                "title": "How it works",
+                "path": "learn/docs/getting-started/how-it-works",
+                "icon": "lucide:cog"
               },
               {
-                "title": "Quickstart",
-                "path": "quickstart",
-                "icon": "zap"
+                "title": "Self-service setup",
+                "path": "learn/docs/getting-started/self-service-setup",
+                "icon": "lucide:wrench"
               },
               {
-                "title": "Components",
-                "path": "components",
-                "icon": "code"
+                "title": "Technical evaluation",
+                "path": "learn/docs/getting-started/technical-evaluation",
+                "icon": "lucide:file-text"
+              },
+              {
+                "title": "Project structure",
+                "path": "learn/docs/getting-started/project-structure",
+                "icon": "lucide:file-text"
               }
-            ]
+            ],
+            "icon": "lucide:rocket"
           },
           {
-            "group": "Components",
-            "icon": "layers",
+            "group": "Changelog",
             "pages": [
               {
-                "title": "Images",
-                "path": "components/images",
-                "icon": "image"
+                "title": "October 20, 2026",
+                "path": "learn/docs/changelog/2026/10/20"
               },
               {
-                "title": "Cards",
-                "path": "components/cards",
-                "icon": "square"
+                "title": "October 8, 2026",
+                "path": "learn/docs/changelog/2026/10/8"
               },
               {
-                "title": "Code",
-                "path": "components/code",
-                "icon": "code"
+                "title": "October 2, 2026",
+                "path": "learn/docs/changelog/2026/10/2"
               },
               {
-                "title": "Callouts",
-                "path": "components/callouts",
-                "icon": "message-square"
+                "title": "September 30, 2026",
+                "path": "learn/docs/changelog/2026/9/30"
               },
               {
-                "title": "Steps",
-                "path": "components/steps",
-                "icon": "list-ordered"
+                "title": "September 18, 2026",
+                "path": "learn/docs/changelog/2026/9/18"
               },
               {
-                "title": "Tabs",
-                "path": "components/tabs",
-                "icon": "columns"
+                "title": "September 17, 2026",
+                "path": "learn/docs/changelog/2026/9/17"
+              },
+              {
+                "title": "September 11, 2026",
+                "path": "learn/docs/changelog/2026/9/11"
+              },
+              {
+                "title": "September 8, 2026",
+                "path": "learn/docs/changelog/2026/9/8"
+              },
+              {
+                "title": "September 1, 2026",
+                "path": "learn/docs/changelog/2026/9/1"
+              },
+              {
+                "title": "August 31, 2026",
+                "path": "learn/docs/changelog/2026/8/31"
+              },
+              {
+                "title": "August 28, 2026",
+                "path": "learn/docs/changelog/2026/8/28"
+              },
+              {
+                "title": "August 27, 2026",
+                "path": "learn/docs/changelog/2026/8/27"
+              },
+              {
+                "title": "August 25, 2026",
+                "path": "learn/docs/changelog/2026/8/25"
+              },
+              {
+                "title": "August 24, 2026",
+                "path": "learn/docs/changelog/2026/8/24"
+              },
+              {
+                "title": "August 19, 2026",
+                "path": "learn/docs/changelog/2026/8/19"
+              },
+              {
+                "title": "August 17, 2026",
+                "path": "learn/docs/changelog/2026/8/17"
+              },
+              {
+                "title": "August 10, 2026",
+                "path": "learn/docs/changelog/2026/8/10"
+              },
+              {
+                "title": "August 6, 2026",
+                "path": "learn/docs/changelog/2026/8/6"
+              },
+              {
+                "title": "July 31, 2026",
+                "path": "learn/docs/changelog/2026/7/31"
+              },
+              {
+                "title": "July 28, 2026",
+                "path": "learn/docs/changelog/2026/7/28"
+              },
+              {
+                "title": "July 23, 2026",
+                "path": "learn/docs/changelog/2026/7/23"
+              },
+              {
+                "title": "July 22, 2026",
+                "path": "learn/docs/changelog/2026/7/22"
+              },
+              {
+                "title": "July 21, 2026",
+                "path": "learn/docs/changelog/2026/7/21"
+              },
+              {
+                "title": "July 20, 2026",
+                "path": "learn/docs/changelog/2026/7/20"
+              },
+              {
+                "title": "July 15, 2026",
+                "path": "learn/docs/changelog/2026/7/15"
+              },
+              {
+                "title": "July 13, 2026",
+                "path": "learn/docs/changelog/2026/7/13"
+              },
+              {
+                "title": "July 9, 2026",
+                "path": "learn/docs/changelog/2026/7/9"
+              },
+              {
+                "title": "July 7, 2026",
+                "path": "learn/docs/changelog/2026/7/7"
+              },
+              {
+                "title": "July 1, 2026",
+                "path": "learn/docs/changelog/2026/7/1"
+              },
+              {
+                "title": "June 30, 2026",
+                "path": "learn/docs/changelog/2026/6/30"
+              },
+              {
+                "title": "June 23, 2026",
+                "path": "learn/docs/changelog/2026/6/23"
+              },
+              {
+                "title": "June 13, 2026",
+                "path": "learn/docs/changelog/2026/6/13"
+              },
+              {
+                "title": "June 12, 2026",
+                "path": "learn/docs/changelog/2026/6/12"
+              },
+              {
+                "title": "June 10, 2026",
+                "path": "learn/docs/changelog/2026/6/10"
+              },
+              {
+                "title": "May 28, 2026",
+                "path": "learn/docs/changelog/2026/5/28"
+              },
+              {
+                "title": "May 19, 2026",
+                "path": "learn/docs/changelog/2026/5/19"
+              },
+              {
+                "title": "May 14, 2026",
+                "path": "learn/docs/changelog/2026/5/14"
+              },
+              {
+                "title": "May 4, 2026",
+                "path": "learn/docs/changelog/2026/5/4"
+              },
+              {
+                "title": "May 1, 2026",
+                "path": "learn/docs/changelog/2026/5/1"
+              },
+              {
+                "title": "April 29, 2026",
+                "path": "learn/docs/changelog/2026/4/29"
+              },
+              {
+                "title": "April 27, 2026",
+                "path": "learn/docs/changelog/2026/4/27"
+              },
+              {
+                "title": "April 24, 2026",
+                "path": "learn/docs/changelog/2026/4/24"
+              },
+              {
+                "title": "April 23, 2026",
+                "path": "learn/docs/changelog/2026/4/23"
+              },
+              {
+                "title": "April 22, 2026",
+                "path": "learn/docs/changelog/2026/4/22"
+              },
+              {
+                "title": "April 21, 2026",
+                "path": "learn/docs/changelog/2026/4/21"
+              },
+              {
+                "title": "April 20, 2026",
+                "path": "learn/docs/changelog/2026/4/20"
+              },
+              {
+                "title": "April 14, 2026",
+                "path": "learn/docs/changelog/2026/4/14"
+              },
+              {
+                "title": "April 11, 2026",
+                "path": "learn/docs/changelog/2026/4/11"
+              },
+              {
+                "title": "April 10, 2026",
+                "path": "learn/docs/changelog/2026/4/10"
+              },
+              {
+                "title": "April 9, 2026",
+                "path": "learn/docs/changelog/2026/4/9"
+              },
+              {
+                "title": "April 2, 2026",
+                "path": "learn/docs/changelog/2026/4/2"
+              },
+              {
+                "title": "March 31, 2026",
+                "path": "learn/docs/changelog/2026/3/31"
+              },
+              {
+                "title": "March 30, 2026",
+                "path": "learn/docs/changelog/2026/3/30"
+              },
+              {
+                "title": "March 27, 2026",
+                "path": "learn/docs/changelog/2026/3/27"
+              },
+              {
+                "title": "March 23, 2026",
+                "path": "learn/docs/changelog/2026/3/23"
+              },
+              {
+                "title": "March 18, 2026",
+                "path": "learn/docs/changelog/2026/3/18"
+              },
+              {
+                "title": "March 12, 2026",
+                "path": "learn/docs/changelog/2026/3/12"
+              },
+              {
+                "title": "March 11, 2026",
+                "path": "learn/docs/changelog/2026/3/11"
+              },
+              {
+                "title": "March 9, 2026",
+                "path": "learn/docs/changelog/2026/3/9"
+              },
+              {
+                "title": "March 6, 2026",
+                "path": "learn/docs/changelog/2026/3/6"
+              },
+              {
+                "title": "February 28, 2026",
+                "path": "learn/docs/changelog/2026/2/28"
+              },
+              {
+                "title": "February 27, 2026",
+                "path": "learn/docs/changelog/2026/2/27"
+              },
+              {
+                "title": "February 26, 2026",
+                "path": "learn/docs/changelog/2026/2/26"
+              },
+              {
+                "title": "February 25, 2026",
+                "path": "learn/docs/changelog/2026/2/25"
+              },
+              {
+                "title": "February 23, 2026",
+                "path": "learn/docs/changelog/2026/2/23"
+              },
+              {
+                "title": "February 17, 2026",
+                "path": "learn/docs/changelog/2026/2/17"
+              },
+              {
+                "title": "February 12, 2026",
+                "path": "learn/docs/changelog/2026/2/12"
+              },
+              {
+                "title": "February 11, 2026",
+                "path": "learn/docs/changelog/2026/2/11"
+              },
+              {
+                "title": "February 10, 2026",
+                "path": "learn/docs/changelog/2026/2/10"
+              },
+              {
+                "title": "February 9, 2026",
+                "path": "learn/docs/changelog/2026/2/9"
+              },
+              {
+                "title": "February 6, 2026",
+                "path": "learn/docs/changelog/2026/2/6"
+              },
+              {
+                "title": "February 5, 2026",
+                "path": "learn/docs/changelog/2026/2/5"
+              },
+              {
+                "title": "February 4, 2026",
+                "path": "learn/docs/changelog/2026/2/4"
+              },
+              {
+                "title": "February 3, 2026",
+                "path": "learn/docs/changelog/2026/2/3"
+              },
+              {
+                "title": "January 30, 2026",
+                "path": "learn/docs/changelog/2026/1/30"
+              },
+              {
+                "title": "January 22, 2026",
+                "path": "learn/docs/changelog/2026/1/22"
+              },
+              {
+                "title": "January 17, 2026",
+                "path": "learn/docs/changelog/2026/1/17"
+              },
+              {
+                "title": "January 15, 2026",
+                "path": "learn/docs/changelog/2026/1/15"
+              },
+              {
+                "title": "January 9, 2026",
+                "path": "learn/docs/changelog/2026/1/9"
+              },
+              {
+                "title": "January 5, 2026",
+                "path": "learn/docs/changelog/2026/1/5"
+              },
+              {
+                "title": "December 20, 2025",
+                "path": "learn/docs/changelog/2025/12/20"
+              },
+              {
+                "title": "December 16, 2025",
+                "path": "learn/docs/changelog/2025/12/16"
+              },
+              {
+                "title": "December 15, 2025",
+                "path": "learn/docs/changelog/2025/12/15"
+              },
+              {
+                "title": "December 14, 2025",
+                "path": "learn/docs/changelog/2025/12/14"
+              },
+              {
+                "title": "December 11, 2025",
+                "path": "learn/docs/changelog/2025/12/11"
+              },
+              {
+                "title": "December 9, 2025",
+                "path": "learn/docs/changelog/2025/12/9"
+              },
+              {
+                "title": "December 3, 2025",
+                "path": "learn/docs/changelog/2025/12/3"
+              },
+              {
+                "title": "November 25, 2025",
+                "path": "learn/docs/changelog/2025/11/25"
+              },
+              {
+                "title": "November 24, 2025",
+                "path": "learn/docs/changelog/2025/11/24"
+              },
+              {
+                "title": "November 18, 2025",
+                "path": "learn/docs/changelog/2025/11/18"
+              },
+              {
+                "title": "November 14, 2025",
+                "path": "learn/docs/changelog/2025/11/14"
+              },
+              {
+                "title": "November 11, 2025",
+                "path": "learn/docs/changelog/2025/11/11"
+              },
+              {
+                "title": "November 9, 2025",
+                "path": "learn/docs/changelog/2025/11/9"
+              },
+              {
+                "title": "November 8, 2025",
+                "path": "learn/docs/changelog/2025/11/8"
+              },
+              {
+                "title": "November 5, 2025",
+                "path": "learn/docs/changelog/2025/11/5"
+              },
+              {
+                "title": "November 3, 2025",
+                "path": "learn/docs/changelog/2025/11/3"
+              },
+              {
+                "title": "November 2, 2025",
+                "path": "learn/docs/changelog/2025/11/2"
+              },
+              {
+                "title": "October 17, 2025",
+                "path": "learn/docs/changelog/2025/10/17"
+              },
+              {
+                "title": "June 5, 2025",
+                "path": "learn/docs/changelog/2025/6/5"
+              },
+              {
+                "title": "May 23, 2025",
+                "path": "learn/docs/changelog/2025/5/23"
+              },
+              {
+                "title": "May 22, 2025",
+                "path": "learn/docs/changelog/2025/5/22"
+              },
+              {
+                "title": "May 20, 2025",
+                "path": "learn/docs/changelog/2025/5/20"
+              },
+              {
+                "title": "May 13, 2025",
+                "path": "learn/docs/changelog/2025/5/13"
+              },
+              {
+                "title": "May 2, 2025",
+                "path": "learn/docs/changelog/2025/5/2"
+              },
+              {
+                "title": "April 29, 2025",
+                "path": "learn/docs/changelog/2025/4/29"
+              },
+              {
+                "title": "April 28, 2025",
+                "path": "learn/docs/changelog/2025/4/28"
+              },
+              {
+                "title": "April 27, 2025",
+                "path": "learn/docs/changelog/2025/4/27"
+              },
+              {
+                "title": "February 4, 2025",
+                "path": "learn/docs/changelog/2025/2/4"
+              },
+              {
+                "title": "January 21, 2025",
+                "path": "learn/docs/changelog/2025/1/21"
+              },
+              {
+                "title": "January 14, 2025",
+                "path": "learn/docs/changelog/2025/1/14"
+              },
+              {
+                "title": "December 30, 2024",
+                "path": "learn/docs/changelog/2024/12/30"
+              },
+              {
+                "title": "November 27, 2024",
+                "path": "learn/docs/changelog/2024/11/27"
+              },
+              {
+                "title": "October 31, 2024",
+                "path": "learn/docs/changelog/2024/10/31"
+              },
+              {
+                "title": "September 24, 2024",
+                "path": "learn/docs/changelog/2024/9/24"
+              },
+              {
+                "title": "August 20, 2024",
+                "path": "learn/docs/changelog/2024/8/20"
+              },
+              {
+                "title": "July 30, 2024",
+                "path": "learn/docs/changelog/2024/7/30"
+              },
+              {
+                "title": "June 25, 2024",
+                "path": "learn/docs/changelog/2024/6/25"
+              },
+              {
+                "title": "May 22, 2024",
+                "path": "learn/docs/changelog/2024/5/22"
+              },
+              {
+                "title": "April 20, 2024",
+                "path": "learn/docs/changelog/2024/4/20"
+              },
+              {
+                "title": "March 24, 2024",
+                "path": "learn/docs/changelog/2024/3/24"
+              },
+              {
+                "title": "February 22, 2024",
+                "path": "learn/docs/changelog/2024/2/22"
+              },
+              {
+                "title": "January 24, 2024",
+                "path": "learn/docs/changelog/2024/1/24"
               }
-            ]
-          }
-        ]
-      },
-      {
-        "tab": "API Reference",
-        "icon": "code",
-        "groups": [
+            ],
+            "icon": "lucide:clock"
+          },
           {
-            "group": "Overview",
-            "icon": "file-text",
+            "group": "Configuration",
             "pages": [
+              {
+                "title": "Overview",
+                "path": "learn/docs/configuration/overview",
+                "icon": "lucide:info"
+              },
+              {
+                "title": "Site settings",
+                "path": "learn/docs/configuration/site-level-settings",
+                "icon": "lucide:settings"
+              },
+              {
+                "group": "Navigation",
+                "pages": [
+                  {
+                    "title": "Overview",
+                    "path": "learn/docs/configuration/navigation-overview",
+                    "icon": "lucide:info"
+                  },
+                  {
+                    "title": "Sections, pages, and folders",
+                    "path": "learn/docs/configuration/navigation",
+                    "icon": "lucide:file-text"
+                  },
+                  {
+                    "title": "Changelog pages",
+                    "path": "learn/docs/configuration/changelogs",
+                    "icon": "lucide:clock"
+                  }
+                ],
+                "icon": "lucide:menu"
+              }
+            ],
+            "icon": "lucide:settings"
+          },
+          {
+            "group": "Writing content",
+            "pages": [
+              {
+                "title": "Markdown basics",
+                "path": "learn/docs/writing-content/markdown-basics",
+                "icon": "lucide:file-text"
+              },
+              {
+                "group": "Components",
+                "pages": [
+                  {
+                    "icon": "book",
+                    "title": "Overview",
+                    "path": "learn/docs/writing-content/components/overview"
+                  },
+                  {
+                    "icon": "chevron-down",
+                    "title": "Accordion",
+                    "path": "learn/docs/writing-content/components/accordions"
+                  },
+                  {
+                    "icon": "link",
+                    "title": "Anchor",
+                    "path": "learn/docs/writing-content/components/anchor"
+                  },
+                  {
+                    "icon": "ribbon",
+                    "title": "Badge",
+                    "path": "learn/docs/writing-content/components/badges"
+                  },
+                  {
+                    "icon": "arrow-pointer",
+                    "title": "Button",
+                    "path": "learn/docs/writing-content/components/button"
+                  },
+                  {
+                    "icon": "triangle-exclamation",
+                    "title": "Callout",
+                    "path": "learn/docs/writing-content/components/callouts"
+                  },
+                  {
+                    "icon": "copy",
+                    "title": "Copy",
+                    "path": "learn/docs/writing-content/components/copy"
+                  },
+                  {
+                    "icon": "download",
+                    "title": "Download",
+                    "path": "learn/docs/writing-content/components/download"
+                  },
+                  {
+                    "icon": "folder-tree",
+                    "title": "Files",
+                    "path": "learn/docs/writing-content/components/files"
+                  },
+                  {
+                    "icon": "window-maximize",
+                    "title": "Frame",
+                    "path": "learn/docs/writing-content/components/frames"
+                  },
+                  {
+                    "icon": "icons",
+                    "title": "Icon",
+                    "path": "learn/docs/writing-content/components/icons"
+                  },
+                  {
+                    "icon": "filter",
+                    "title": "If",
+                    "path": "learn/docs/writing-content/components/if"
+                  },
+                  {
+                    "icon": "indent",
+                    "title": "Indent",
+                    "path": "learn/docs/writing-content/components/indent"
+                  },
+                  {
+                    "icon": "list",
+                    "title": "Parameter field",
+                    "path": "learn/docs/writing-content/components/parameter-fields"
+                  },
+                  {
+                    "icon": "terminal",
+                    "title": "Prompt",
+                    "path": "learn/docs/writing-content/components/prompt"
+                  },
+                  {
+                    "icon": "list-ol",
+                    "title": "Step",
+                    "path": "learn/docs/writing-content/components/steps"
+                  },
+                  {
+                    "icon": "table",
+                    "title": "Table",
+                    "path": "learn/docs/writing-content/components/tables"
+                  },
+                  {
+                    "icon": "folder-open",
+                    "title": "Tab",
+                    "path": "learn/docs/writing-content/components/tabs"
+                  },
+                  {
+                    "icon": "code-branch",
+                    "title": "Versions",
+                    "path": "learn/docs/writing-content/components/versions"
+                  }
+                ],
+                "icon": "lucide:component"
+              },
+              {
+                "title": "Fern Editor",
+                "path": "learn/docs/writing-content/fern-editor",
+                "icon": "lucide:sprout"
+              },
+              {
+                "title": "Reusable snippets",
+                "path": "learn/docs/writing-content/reusable-snippets",
+                "icon": "lucide:puzzle"
+              },
+              {
+                "title": "Component demos",
+                "path": "learn/docs/writing-content/demo",
+                "icon": "lucide:component"
+              }
+            ],
+            "icon": "lucide:square-pen"
+          },
+          {
+            "group": "AI features",
+            "pages": [
+              {
+                "title": "Overview",
+                "path": "learn/docs/ai-features/overview",
+                "icon": "lucide:info"
+              },
+              {
+                "group": "For your readers",
+                "pages": [
+                  {
+                    "group": "Ask Fern",
+                    "pages": [
+                      {
+                        "group": "Setup",
+                        "pages": [
+                          {
+                            "title": "Slack app",
+                            "path": "learn/docs/ai-features/ask-fern/slack-app",
+                            "icon": "lucide:layout-grid"
+                          },
+                          {
+                            "title": "Custom guidance",
+                            "path": "learn/docs/ai-features/ask-fern/guidance",
+                            "icon": "lucide:file-text"
+                          },
+                          {
+                            "title": "Additional content sources",
+                            "path": "learn/docs/ai-features/ask-fern/content-sources",
+                            "icon": "lucide:file-text"
+                          }
+                        ],
+                        "icon": "lucide:wrench"
+                      },
+                      {
+                        "group": "API reference",
+                        "pages": [
+                          {
+                            "title": "Overview",
+                            "path": "learn/docs/ai-features/ask-fern/api-reference/overview",
+                            "icon": "lucide:info"
+                          }
+                        ],
+                        "openapi": "api-reference/fern/apis/fai/openapi.json",
+                        "hidden-apis": [
+                          "GET /analytics/histogram/{domain}",
+                          "POST /analytics/insights/generate_all",
+                          "POST /analytics/insights/trigger_scheduled",
+                          "GET /analytics/insights/{domain}",
+                          "GET /analytics/scheduler/status",
+                          "GET /analytics/resolution/{domain}",
+                          "POST /content-hash/{domain}/batch-get",
+                          "POST /content-hash/{domain}/batch-upsert",
+                          "DELETE /content-hash/{domain}/delete",
+                          "DELETE /content-hash/{domain}/delete-all",
+                          "POST /feedback/{domain}",
+                          "GET /feedback/{domain}/{conversation_id}",
+                          "GET /health",
+                          "POST /index/{domain}/reconstruct",
+                          "POST /index/{domain}/sync",
+                          "POST /index/{domain}/sync-incremental",
+                          "GET /jobs/{job_id}/status",
+                          "POST /mcp/semantic/{domain}",
+                          "POST /mcp/bmf/{domain}",
+                          "POST /queries",
+                          "GET /reindexing/{domain}/status",
+                          "POST /reindexing/{domain}/status",
+                          "GET /reindexing/status/arn",
+                          "POST /sdks/analyze-commit-diff",
+                          "GET /settings/ask-ai/docs",
+                          "POST /settings/ask-ai/enable",
+                          "POST /settings/ask-ai/toggle",
+                          "POST /settings/ask-ai/reindex",
+                          "GET /settings/ask-ai/toggle/status",
+                          "POST /settings/ask-ai/reindex-callback",
+                          "POST /slack/events",
+                          "POST /slack/slash-commands",
+                          "POST /slack/interactions",
+                          "GET /slack/oauth/callback",
+                          "POST /scribe/slack/events",
+                          "GET /scribe/slack/oauth/callback",
+                          "POST /scribe/slack/slash-commands"
+                        ],
+                        "icon": "lucide:code"
+                      }
+                    ],
+                    "icon": "lucide:sprout"
+                  },
+                  {
+                    "title": "Custom skills for your site",
+                    "path": "learn/docs/ai-features/host-skills",
+                    "icon": "lucide:file-text"
+                  },
+                  {
+                    "title": "API catalog discovery",
+                    "path": "learn/docs/ai-features/api-catalog",
+                    "icon": "lucide:code"
+                  }
+                ],
+                "icon": "lucide:folder"
+              },
+              {
+                "group": "For building your docs",
+                "pages": [
+                  {
+                    "title": "Fern Agent",
+                    "path": "learn/docs/ai-features/fern-agent",
+                    "icon": "lucide:sprout"
+                  },
+                  {
+                    "title": "Fern's MCP server",
+                    "path": "learn/docs/ai-features/fern-mcp-servers",
+                    "icon": "lucide:sprout"
+                  },
+                  {
+                    "title": "Skills for using Fern Docs",
+                    "path": "learn/docs/ai-features/agent-skills",
+                    "icon": "lucide:sprout"
+                  },
+                  {
+                    "title": "AI-generated examples",
+                    "path": "learn/docs/ai-features/ai-examples",
+                    "icon": "lucide:sparkles"
+                  },
+                  {
+                    "title": "Agent setup",
+                    "path": "learn/docs/ai-features/agent-setup",
+                    "icon": "lucide:bot"
+                  }
+                ],
+                "icon": "lucide:book"
+              },
+              {
+                "group": "Machine-readable content",
+                "pages": [
+                  {
+                    "title": "Markdown access",
+                    "path": "learn/docs/ai-features/markdown",
+                    "icon": "lucide:file-text"
+                  },
+                  {
+                    "title": "llms.txt",
+                    "path": "learn/docs/ai-features/llms-txt",
+                    "icon": "lucide:file-text"
+                  },
+                  {
+                    "title": "Agent directives",
+                    "path": "learn/docs/ai-features/agent-directives",
+                    "icon": "lucide:bot"
+                  },
+                  {
+                    "title": "Analytics and integration",
+                    "path": "learn/docs/ai-features/llms-txt-analytics",
+                    "icon": "lucide:chart-column"
+                  }
+                ],
+                "icon": "lucide:file-text"
+              }
+            ],
+            "icon": "lucide:sparkles"
+          },
+          {
+            "group": "Preview & publish",
+            "pages": [
+              {
+                "title": "Overview",
+                "path": "learn/docs/preview-publish/overview",
+                "icon": "lucide:info"
+              },
+              {
+                "title": "Multi-source docs",
+                "path": "learn/docs/preview-publish/multi-source-docs",
+                "icon": "lucide:book"
+              },
+              {
+                "title": "Site switcher",
+                "path": "learn/docs/preview-publish/site-switcher",
+                "icon": "lucide:file-text"
+              }
+            ],
+            "icon": "lucide:eye"
+          },
+          {
+            "group": "Customization",
+            "pages": [
+              {
+                "title": "Announcement banner",
+                "path": "learn/docs/customization/announcement-banner",
+                "icon": "lucide:megaphone"
+              },
+              {
+                "title": "Hiding content",
+                "path": "learn/docs/customization/hiding-content",
+                "icon": "lucide:file-text"
+              },
+              {
+                "title": "Hidden page example",
+                "path": "learn/docs/customization/hidden-page",
+                "icon": "lucide:file-text"
+              },
+              {
+                "title": "Search",
+                "path": "learn/docs/customization/search",
+                "icon": "lucide:search"
+              },
+              {
+                "title": "User feedback",
+                "path": "learn/docs/user-feedback",
+                "icon": "lucide:users"
+              },
+              {
+                "title": "Custom CSS & JS",
+                "path": "learn/docs/customization/custom-css-js",
+                "icon": "lucide:palette"
+              },
+              {
+                "title": "CSS selectors reference",
+                "path": "learn/docs/customization/css-selectors-reference",
+                "icon": "lucide:book-marked"
+              },
+              {
+                "title": "Custom React components",
+                "path": "learn/docs/customization/custom-react-components",
+                "icon": "lucide:component"
+              },
+              {
+                "title": "Header and footer",
+                "path": "learn/docs/customization/header-and-footer",
+                "icon": "lucide:file-text"
+              },
+              {
+                "title": "Global themes",
+                "path": "learn/docs/customization/global-themes",
+                "icon": "lucide:palette"
+              }
+            ],
+            "icon": "lucide:folder"
+          },
+          {
+            "group": "Localization",
+            "pages": [
+              {
+                "title": "Overview",
+                "path": "learn/docs/localization/overview",
+                "icon": "lucide:info"
+              }
+            ],
+            "icon": "lucide:languages"
+          },
+          {
+            "group": "Accessibility",
+            "pages": [
+              {
+                "title": "Overview",
+                "path": "learn/docs/accessibility/overview",
+                "icon": "lucide:info"
+              },
+              {
+                "title": "Keyboard shortcuts",
+                "path": "learn/docs/accessibility/keyboard-shortcuts",
+                "icon": "lucide:file-text"
+              }
+            ],
+            "icon": "lucide:folder"
+          },
+          {
+            "group": "API References",
+            "pages": [
+              {
+                "title": "Overview",
+                "path": "learn/docs/api-references/overview",
+                "icon": "lucide:info"
+              },
+              {
+                "group": "Generation",
+                "pages": [
+                  {
+                    "title": "REST API Reference",
+                    "path": "learn/docs/api-references/generate-api-ref",
+                    "icon": "lucide:code"
+                  },
+                  {
+                    "title": "Webhook Reference",
+                    "path": "learn/docs/api-references/generate-webhook-ref",
+                    "icon": "lucide:webhook"
+                  },
+                  {
+                    "title": "OpenRPC Reference",
+                    "path": "learn/docs/api-references/generate-openrpc-ref",
+                    "icon": "lucide:book-marked"
+                  },
+                  {
+                    "title": "gRPC Reference",
+                    "path": "learn/docs/api-references/generate-grpc-ref",
+                    "icon": "lucide:book-marked"
+                  },
+                  {
+                    "title": "GraphQL Reference",
+                    "path": "learn/docs/api-references/generate-graphql-ref",
+                    "icon": "lucide:braces"
+                  },
+                  {
+                    "title": "Library Reference",
+                    "path": "learn/docs/api-references/library-reference",
+                    "icon": "lucide:library"
+                  }
+                ],
+                "icon": "lucide:folder"
+              },
+              {
+                "group": "Customization",
+                "pages": [
+                  {
+                    "title": "Customize API Reference layout",
+                    "path": "learn/docs/api-references/customize-api-reference-layout",
+                    "icon": "lucide:code"
+                  },
+                  {
+                    "title": "Audiences",
+                    "path": "learn/docs/api-references/audiences",
+                    "icon": "lucide:file-text"
+                  },
+                  {
+                    "title": "Write Markdown in API Reference",
+                    "path": "learn/docs/api-references/write-markdown-in-api-reference",
+                    "icon": "lucide:file-text"
+                  }
+                ],
+                "icon": "lucide:folder"
+              },
+              {
+                "group": "Code exploration",
+                "pages": [
+                  {
+                    "title": "SDK snippets",
+                    "path": "learn/docs/api-references/sdk-snippets",
+                    "icon": "lucide:package"
+                  },
+                  {
+                    "title": "HTTP snippets",
+                    "path": "learn/docs/api-references/http-snippets",
+                    "icon": "lucide:puzzle"
+                  }
+                ],
+                "icon": "lucide:folder"
+              }
+            ],
+            "icon": "lucide:code"
+          },
+          {
+            "group": "SEO & GEO",
+            "pages": [
+              {
+                "title": "Setting SEO metadata",
+                "path": "learn/docs/seo/setting-seo-metadata"
+              },
+              {
+                "title": "Configuring slugs",
+                "path": "learn/docs/seo/configuring-slugs"
+              },
+              {
+                "title": "Custom robots.txt",
+                "path": "learn/docs/seo/robots-txt"
+              }
+            ],
+            "icon": "lucide:search-check"
+          },
+          {
+            "group": "Authentication",
+            "pages": [
+              {
+                "title": "Overview",
+                "path": "learn/docs/authentication/overview",
+                "icon": "lucide:info"
+              },
+              {
+                "group": "Setup",
+                "pages": [
+                  {
+                    "title": "Password protection",
+                    "path": "learn/docs/authentication/setup/password-protection",
+                    "icon": "lucide:file-text"
+                  },
+                  {
+                    "title": "SSO",
+                    "path": "learn/docs/authentication/setup/sso",
+                    "icon": "lucide:key"
+                  },
+                  {
+                    "title": "JWT",
+                    "path": "learn/docs/authentication/setup/jwt",
+                    "icon": "lucide:file-text"
+                  },
+                  {
+                    "title": "OAuth",
+                    "path": "learn/docs/authentication/setup/oauth",
+                    "icon": "lucide:key"
+                  }
+                ],
+                "icon": "lucide:wrench"
+              }
+            ],
+            "icon": "lucide:key"
+          },
+          {
+            "group": "Security",
+            "pages": [
+              {
+                "title": "Overview",
+                "path": "learn/docs/security/overview",
+                "icon": "lucide:info"
+              }
+            ],
+            "icon": "lucide:shield-check"
+          },
+          {
+            "group": "Self-hosted",
+            "pages": [
+              {
+                "title": "Overview",
+                "path": "learn/docs/self-hosted/overview",
+                "icon": "lucide:info"
+              },
+              {
+                "title": "Set up self-hosted documentation",
+                "path": "learn/docs/self-hosted/set-up",
+                "icon": "lucide:server"
+              },
               {
                 "title": "Authentication",
-                "path": "authentication",
-                "icon": "lock"
+                "path": "learn/docs/self-hosted/authentication",
+                "icon": "lucide:key"
+              },
+              {
+                "title": "Health check endpoints",
+                "path": "learn/docs/self-hosted/health-check-endpoints",
+                "icon": "lucide:heart-pulse"
+              },
+              {
+                "group": "Releases",
+                "path": "learn/docs/self-hosted/release-notes",
+                "pages": [
+                  {
+                    "title": "October 23, 2026",
+                    "path": "learn/docs/self-hosted/release-notes/2026/10/23"
+                  },
+                  {
+                    "title": "October 22, 2026",
+                    "path": "learn/docs/self-hosted/release-notes/2026/10/22"
+                  },
+                  {
+                    "title": "October 20, 2026",
+                    "path": "learn/docs/self-hosted/release-notes/2026/10/20"
+                  },
+                  {
+                    "title": "October 16, 2026",
+                    "path": "learn/docs/self-hosted/release-notes/2026/10/16"
+                  },
+                  {
+                    "title": "October 15, 2026",
+                    "path": "learn/docs/self-hosted/release-notes/2026/10/15"
+                  },
+                  {
+                    "title": "October 14, 2026",
+                    "path": "learn/docs/self-hosted/release-notes/2026/10/14"
+                  },
+                  {
+                    "title": "October 13, 2026",
+                    "path": "learn/docs/self-hosted/release-notes/2026/10/13"
+                  },
+                  {
+                    "title": "October 12, 2026",
+                    "path": "learn/docs/self-hosted/release-notes/2026/10/12"
+                  },
+                  {
+                    "title": "October 10, 2026",
+                    "path": "learn/docs/self-hosted/release-notes/2026/10/10"
+                  },
+                  {
+                    "title": "October 9, 2026",
+                    "path": "learn/docs/self-hosted/release-notes/2026/10/9"
+                  },
+                  {
+                    "title": "October 8, 2026",
+                    "path": "learn/docs/self-hosted/release-notes/2026/10/8"
+                  },
+                  {
+                    "title": "October 7, 2026",
+                    "path": "learn/docs/self-hosted/release-notes/2026/10/7"
+                  },
+                  {
+                    "title": "October 6, 2026",
+                    "path": "learn/docs/self-hosted/release-notes/2026/10/6"
+                  },
+                  {
+                    "title": "October 5, 2026",
+                    "path": "learn/docs/self-hosted/release-notes/2026/10/5"
+                  },
+                  {
+                    "title": "October 2, 2026",
+                    "path": "learn/docs/self-hosted/release-notes/2026/10/2"
+                  },
+                  {
+                    "title": "October 1, 2026",
+                    "path": "learn/docs/self-hosted/release-notes/2026/10/1"
+                  },
+                  {
+                    "title": "September 30, 2026",
+                    "path": "learn/docs/self-hosted/release-notes/2026/9/30"
+                  },
+                  {
+                    "title": "September 29, 2026",
+                    "path": "learn/docs/self-hosted/release-notes/2026/9/29"
+                  },
+                  {
+                    "title": "September 28, 2026",
+                    "path": "learn/docs/self-hosted/release-notes/2026/9/28"
+                  },
+                  {
+                    "title": "September 26, 2026",
+                    "path": "learn/docs/self-hosted/release-notes/2026/9/26"
+                  },
+                  {
+                    "title": "September 25, 2026",
+                    "path": "learn/docs/self-hosted/release-notes/2026/9/25"
+                  },
+                  {
+                    "title": "September 23, 2026",
+                    "path": "learn/docs/self-hosted/release-notes/2026/9/23"
+                  },
+                  {
+                    "title": "September 22, 2026",
+                    "path": "learn/docs/self-hosted/release-notes/2026/9/22"
+                  },
+                  {
+                    "title": "September 19, 2026",
+                    "path": "learn/docs/self-hosted/release-notes/2026/9/19"
+                  },
+                  {
+                    "title": "September 18, 2026",
+                    "path": "learn/docs/self-hosted/release-notes/2026/9/18"
+                  },
+                  {
+                    "title": "September 17, 2026",
+                    "path": "learn/docs/self-hosted/release-notes/2026/9/17"
+                  },
+                  {
+                    "title": "September 16, 2026",
+                    "path": "learn/docs/self-hosted/release-notes/2026/9/16"
+                  },
+                  {
+                    "title": "September 15, 2026",
+                    "path": "learn/docs/self-hosted/release-notes/2026/9/15"
+                  },
+                  {
+                    "title": "September 14, 2026",
+                    "path": "learn/docs/self-hosted/release-notes/2026/9/14"
+                  },
+                  {
+                    "title": "September 13, 2026",
+                    "path": "learn/docs/self-hosted/release-notes/2026/9/13"
+                  },
+                  {
+                    "title": "September 11, 2026",
+                    "path": "learn/docs/self-hosted/release-notes/2026/9/11"
+                  },
+                  {
+                    "title": "September 10, 2026",
+                    "path": "learn/docs/self-hosted/release-notes/2026/9/10"
+                  },
+                  {
+                    "title": "September 4, 2026",
+                    "path": "learn/docs/self-hosted/release-notes/2026/9/4"
+                  },
+                  {
+                    "title": "September 3, 2026",
+                    "path": "learn/docs/self-hosted/release-notes/2026/9/3"
+                  },
+                  {
+                    "title": "September 2, 2026",
+                    "path": "learn/docs/self-hosted/release-notes/2026/9/2"
+                  },
+                  {
+                    "title": "September 1, 2026",
+                    "path": "learn/docs/self-hosted/release-notes/2026/9/1"
+                  },
+                  {
+                    "title": "August 29, 2026",
+                    "path": "learn/docs/self-hosted/release-notes/2026/8/29"
+                  },
+                  {
+                    "title": "August 28, 2026",
+                    "path": "learn/docs/self-hosted/release-notes/2026/8/28"
+                  },
+                  {
+                    "title": "August 27, 2026",
+                    "path": "learn/docs/self-hosted/release-notes/2026/8/27"
+                  },
+                  {
+                    "title": "August 21, 2026",
+                    "path": "learn/docs/self-hosted/release-notes/2026/8/21"
+                  },
+                  {
+                    "title": "August 19, 2026",
+                    "path": "learn/docs/self-hosted/release-notes/2026/8/19"
+                  },
+                  {
+                    "title": "August 18, 2026",
+                    "path": "learn/docs/self-hosted/release-notes/2026/8/18"
+                  },
+                  {
+                    "title": "August 14, 2026",
+                    "path": "learn/docs/self-hosted/release-notes/2026/8/14"
+                  },
+                  {
+                    "title": "August 12, 2026",
+                    "path": "learn/docs/self-hosted/release-notes/2026/8/12"
+                  },
+                  {
+                    "title": "August 10, 2026",
+                    "path": "learn/docs/self-hosted/release-notes/2026/8/10"
+                  },
+                  {
+                    "title": "August 7, 2026",
+                    "path": "learn/docs/self-hosted/release-notes/2026/8/7"
+                  },
+                  {
+                    "title": "August 6, 2026",
+                    "path": "learn/docs/self-hosted/release-notes/2026/8/6"
+                  },
+                  {
+                    "title": "August 5, 2026",
+                    "path": "learn/docs/self-hosted/release-notes/2026/8/5"
+                  },
+                  {
+                    "title": "August 4, 2026",
+                    "path": "learn/docs/self-hosted/release-notes/2026/8/4"
+                  },
+                  {
+                    "title": "August 3, 2026",
+                    "path": "learn/docs/self-hosted/release-notes/2026/8/3"
+                  },
+                  {
+                    "title": "July 31, 2026",
+                    "path": "learn/docs/self-hosted/release-notes/2026/7/31"
+                  },
+                  {
+                    "title": "July 28, 2026",
+                    "path": "learn/docs/self-hosted/release-notes/2026/7/28"
+                  },
+                  {
+                    "title": "July 24, 2026",
+                    "path": "learn/docs/self-hosted/release-notes/2026/7/24"
+                  },
+                  {
+                    "title": "July 21, 2026",
+                    "path": "learn/docs/self-hosted/release-notes/2026/7/21"
+                  },
+                  {
+                    "title": "July 15, 2026",
+                    "path": "learn/docs/self-hosted/release-notes/2026/7/15"
+                  },
+                  {
+                    "title": "July 13, 2026",
+                    "path": "learn/docs/self-hosted/release-notes/2026/7/13"
+                  },
+                  {
+                    "title": "July 10, 2026",
+                    "path": "learn/docs/self-hosted/release-notes/2026/7/10"
+                  },
+                  {
+                    "title": "July 8, 2026",
+                    "path": "learn/docs/self-hosted/release-notes/2026/7/8"
+                  },
+                  {
+                    "title": "July 7, 2026",
+                    "path": "learn/docs/self-hosted/release-notes/2026/7/7"
+                  },
+                  {
+                    "title": "July 4, 2026",
+                    "path": "learn/docs/self-hosted/release-notes/2026/7/4"
+                  },
+                  {
+                    "title": "July 3, 2026",
+                    "path": "learn/docs/self-hosted/release-notes/2026/7/3"
+                  },
+                  {
+                    "title": "July 2, 2026",
+                    "path": "learn/docs/self-hosted/release-notes/2026/7/2"
+                  },
+                  {
+                    "title": "July 1, 2026",
+                    "path": "learn/docs/self-hosted/release-notes/2026/7/1"
+                  },
+                  {
+                    "title": "June 30, 2026",
+                    "path": "learn/docs/self-hosted/release-notes/2026/6/30"
+                  },
+                  {
+                    "title": "June 29, 2026",
+                    "path": "learn/docs/self-hosted/release-notes/2026/6/29"
+                  },
+                  {
+                    "title": "June 28, 2026",
+                    "path": "learn/docs/self-hosted/release-notes/2026/6/28"
+                  },
+                  {
+                    "title": "June 26, 2026",
+                    "path": "learn/docs/self-hosted/release-notes/2026/6/26"
+                  },
+                  {
+                    "title": "June 24, 2026",
+                    "path": "learn/docs/self-hosted/release-notes/2026/6/24"
+                  },
+                  {
+                    "title": "June 23, 2026",
+                    "path": "learn/docs/self-hosted/release-notes/2026/6/23"
+                  },
+                  {
+                    "title": "June 20, 2026",
+                    "path": "learn/docs/self-hosted/release-notes/2026/6/20"
+                  },
+                  {
+                    "title": "June 19, 2026",
+                    "path": "learn/docs/self-hosted/release-notes/2026/6/19"
+                  },
+                  {
+                    "title": "June 18, 2026",
+                    "path": "learn/docs/self-hosted/release-notes/2026/6/18"
+                  },
+                  {
+                    "title": "June 17, 2026",
+                    "path": "learn/docs/self-hosted/release-notes/2026/6/17"
+                  },
+                  {
+                    "title": "June 15, 2026",
+                    "path": "learn/docs/self-hosted/release-notes/2026/6/15"
+                  },
+                  {
+                    "title": "June 13, 2026",
+                    "path": "learn/docs/self-hosted/release-notes/2026/6/13"
+                  },
+                  {
+                    "title": "June 12, 2026",
+                    "path": "learn/docs/self-hosted/release-notes/2026/6/12"
+                  },
+                  {
+                    "title": "June 11, 2026",
+                    "path": "learn/docs/self-hosted/release-notes/2026/6/11"
+                  },
+                  {
+                    "title": "June 10, 2026",
+                    "path": "learn/docs/self-hosted/release-notes/2026/6/10"
+                  },
+                  {
+                    "title": "June 9, 2026",
+                    "path": "learn/docs/self-hosted/release-notes/2026/6/9"
+                  },
+                  {
+                    "title": "June 5, 2026",
+                    "path": "learn/docs/self-hosted/release-notes/2026/6/5"
+                  },
+                  {
+                    "title": "June 4, 2026",
+                    "path": "learn/docs/self-hosted/release-notes/2026/6/4"
+                  },
+                  {
+                    "title": "June 3, 2026",
+                    "path": "learn/docs/self-hosted/release-notes/2026/6/3"
+                  },
+                  {
+                    "title": "June 2, 2026",
+                    "path": "learn/docs/self-hosted/release-notes/2026/6/2"
+                  },
+                  {
+                    "title": "May 30, 2026",
+                    "path": "learn/docs/self-hosted/release-notes/2026/5/30"
+                  },
+                  {
+                    "title": "May 29, 2026",
+                    "path": "learn/docs/self-hosted/release-notes/2026/5/29"
+                  },
+                  {
+                    "title": "May 27, 2026",
+                    "path": "learn/docs/self-hosted/release-notes/2026/5/27"
+                  },
+                  {
+                    "title": "May 24, 2026",
+                    "path": "learn/docs/self-hosted/release-notes/2026/5/24"
+                  },
+                  {
+                    "title": "May 23, 2026",
+                    "path": "learn/docs/self-hosted/release-notes/2026/5/23"
+                  },
+                  {
+                    "title": "May 22, 2026",
+                    "path": "learn/docs/self-hosted/release-notes/2026/5/22"
+                  },
+                  {
+                    "title": "May 21, 2026",
+                    "path": "learn/docs/self-hosted/release-notes/2026/5/21"
+                  },
+                  {
+                    "title": "May 20, 2026",
+                    "path": "learn/docs/self-hosted/release-notes/2026/5/20"
+                  },
+                  {
+                    "title": "May 19, 2026",
+                    "path": "learn/docs/self-hosted/release-notes/2026/5/19"
+                  },
+                  {
+                    "title": "May 8, 2026",
+                    "path": "learn/docs/self-hosted/release-notes/2026/5/8"
+                  },
+                  {
+                    "title": "May 5, 2026",
+                    "path": "learn/docs/self-hosted/release-notes/2026/5/5"
+                  },
+                  {
+                    "title": "May 4, 2026",
+                    "path": "learn/docs/self-hosted/release-notes/2026/5/4"
+                  },
+                  {
+                    "title": "May 3, 2026",
+                    "path": "learn/docs/self-hosted/release-notes/2026/5/3"
+                  },
+                  {
+                    "title": "May 2, 2026",
+                    "path": "learn/docs/self-hosted/release-notes/2026/5/2"
+                  },
+                  {
+                    "title": "May 1, 2026",
+                    "path": "learn/docs/self-hosted/release-notes/2026/5/1"
+                  },
+                  {
+                    "title": "April 29, 2026",
+                    "path": "learn/docs/self-hosted/release-notes/2026/4/29"
+                  },
+                  {
+                    "title": "April 28, 2026",
+                    "path": "learn/docs/self-hosted/release-notes/2026/4/28"
+                  },
+                  {
+                    "title": "April 27, 2026",
+                    "path": "learn/docs/self-hosted/release-notes/2026/4/27"
+                  },
+                  {
+                    "title": "April 24, 2026",
+                    "path": "learn/docs/self-hosted/release-notes/2026/4/24"
+                  },
+                  {
+                    "title": "April 23, 2026",
+                    "path": "learn/docs/self-hosted/release-notes/2026/4/23"
+                  },
+                  {
+                    "title": "April 22, 2026",
+                    "path": "learn/docs/self-hosted/release-notes/2026/4/22"
+                  },
+                  {
+                    "title": "April 21, 2026",
+                    "path": "learn/docs/self-hosted/release-notes/2026/4/21"
+                  },
+                  {
+                    "title": "April 20, 2026",
+                    "path": "learn/docs/self-hosted/release-notes/2026/4/20"
+                  },
+                  {
+                    "title": "April 17, 2026",
+                    "path": "learn/docs/self-hosted/release-notes/2026/4/17"
+                  },
+                  {
+                    "title": "April 15, 2026",
+                    "path": "learn/docs/self-hosted/release-notes/2026/4/15"
+                  }
+                ],
+                "icon": "lucide:tag"
               }
-            ]
+            ],
+            "path": "learn/docs/self-hosted/release-notes",
+            "icon": "lucide:server"
           },
           {
-            "group": "Sample Endpoints",
-            "openapi": "openapi.yaml"
-          }
-        ]
-      },
-      {
-        "tab": "Help Center",
-        "icon": "help-circle",
-        "pages": [
-          {
-            "title": "Help Center",
-            "path": "help-center",
-            "icon": "home"
-          },
-          {
-            "group": "FAQs",
-            "icon": "help-circle",
-            "expandable": false,
+            "group": "Analytics & integrations",
             "pages": [
               {
-                "title": "Documentation Source",
-                "path": "help-center/faq/getting-started"
+                "title": "Overview",
+                "path": "learn/docs/integrations/overview"
+              },
+              {
+                "title": "PostHog",
+                "path": "learn/docs/integrations/analytics/posthog"
+              },
+              {
+                "title": "Google",
+                "path": "learn/docs/integrations/analytics/google"
+              },
+              {
+                "title": "Segment",
+                "path": "learn/docs/integrations/analytics/segment"
+              },
+              {
+                "title": "Mixpanel",
+                "path": "learn/docs/integrations/analytics/mixpanel"
+              },
+              {
+                "title": "Analytics events reference",
+                "path": "learn/docs/integrations/analytics/events"
+              },
+              {
+                "title": "Fullstory",
+                "path": "learn/docs/integrations/analytics/fullstory"
+              },
+              {
+                "title": "Intercom",
+                "path": "learn/docs/integrations/support/intercom"
+              },
+              {
+                "title": "Postman",
+                "path": "learn/docs/integrations/postman"
+              },
+              {
+                "title": "Context7",
+                "path": "learn/docs/integrations/context7"
+              },
+              {
+                "title": "LaunchDarkly feature flags",
+                "path": "learn/docs/integrations/launch-darkly-feature-flags"
               }
-            ]
+            ],
+            "icon": "lucide:chart-column"
           },
           {
-            "group": "Troubleshooting",
-            "icon": "alert-triangle",
-            "expandable": false,
+            "group": "Developer tools",
             "pages": [
               {
-                "title": "Page Missing in Sidebar",
-                "path": "help-center/troubleshooting/install-error"
+                "title": "Orchestrate GitHub releases",
+                "path": "learn/docs/developer-tools/orchestrate-git-hub-releases",
+                "icon": "lucide:tag"
+              },
+              {
+                "title": "Auto-update last updated dates",
+                "path": "learn/docs/developer-tools/auto-update-last-updated-dates",
+                "icon": "lucide:refresh-cw"
+              },
+              {
+                "title": "Cursor",
+                "path": "learn/docs/developer-tools/cursor",
+                "icon": "lucide:file-text"
+              },
+              {
+                "title": "GitLab",
+                "path": "learn/docs/developer-tools/git-lab",
+                "icon": "lucide:file-text"
+              },
+              {
+                "title": "Vale",
+                "path": "learn/docs/developer-tools/vale",
+                "icon": "lucide:file-text"
+              },
+              {
+                "title": "Download OpenAPI spec",
+                "path": "learn/docs/developer-tools/openapi-spec",
+                "icon": "lucide:braces"
+              },
+              {
+                "title": "Download AsyncAPI spec",
+                "path": "learn/docs/developer-tools/asyncapi-spec",
+                "icon": "lucide:download"
               }
-            ]
+            ],
+            "icon": "lucide:folder"
           },
           {
-            "group": "Guides",
-            "icon": "book-open",
-            "expandable": false,
+            "group": "Resources",
             "pages": [
               {
-                "title": "Create Your First Page",
-                "path": "help-center/guides/setup-project"
+                "title": "Stainless vs. Fern",
+                "path": "learn/docs/resources/stainless-comparison",
+                "icon": "lucide:sprout"
               }
-            ]
-          }
-        ]
-      },
-      {
-        "tab": "Changelog",
-        "icon": "clock",
-        "pages": [
+            ],
+            "icon": "lucide:folder"
+          },
           {
-            "title": "Changelog",
-            "path": "changelog",
-            "icon": "history"
+            "group": "Public API",
+            "openapi": "api-reference/fern/apis/mcp-tools/openapi.json",
+            "icon": "lucide:code"
+          },
+          {
+            "group": "Scribe API",
+            "openapi": "api-reference/fern/apis/fai/openapi.json",
+            "hidden-apis": [
+              "GET /analytics/histogram/{domain}",
+              "POST /analytics/insights/generate_all",
+              "POST /analytics/insights/trigger_scheduled",
+              "GET /analytics/insights/{domain}",
+              "GET /analytics/scheduler/status",
+              "GET /analytics/resolution/{domain}",
+              "POST /content-hash/{domain}/batch-get",
+              "POST /content-hash/{domain}/batch-upsert",
+              "DELETE /content-hash/{domain}/delete",
+              "DELETE /content-hash/{domain}/delete-all",
+              "POST /feedback/{domain}",
+              "GET /feedback/{domain}/{conversation_id}",
+              "GET /health",
+              "POST /index/{domain}/reconstruct",
+              "POST /index/{domain}/sync",
+              "POST /index/{domain}/sync-incremental",
+              "GET /jobs/{job_id}/status",
+              "POST /mcp/semantic/{domain}",
+              "POST /mcp/bmf/{domain}",
+              "POST /queries",
+              "GET /reindexing/{domain}/status",
+              "POST /reindexing/{domain}/status",
+              "GET /reindexing/status/arn",
+              "POST /sdks/analyze-commit-diff",
+              "GET /settings/ask-ai/docs",
+              "POST /settings/ask-ai/enable",
+              "POST /settings/ask-ai/toggle",
+              "POST /settings/ask-ai/reindex",
+              "GET /settings/ask-ai/toggle/status",
+              "POST /settings/ask-ai/reindex-callback",
+              "POST /slack/events",
+              "POST /slack/slash-commands",
+              "POST /slack/interactions",
+              "GET /slack/oauth/callback",
+              "POST /scribe/slack/events",
+              "GET /scribe/slack/oauth/callback",
+              "POST /scribe/slack/slash-commands"
+            ],
+            "icon": "lucide:code"
+          },
+          {
+            "group": "Example webhooks",
+            "openapi": "api-reference/fern/apis/docs-webhooks/openapi.yml",
+            "icon": "lucide:code"
           }
         ]
       }
     ]
-  }
+  },
+  "initialRoute": "learn/docs/getting-started/how-it-works",
+  "template": "classic",
+  "icons": {
+    "library": "fontawesome"
+  },
+  "logo-light": "https://blob-cdn.documentation.ai/org-4afef969-21f9-40f3-b5b8-b06c8b6cf68f/doc-01b8ce28-db6e-4307-815a-5dc57da57476/1792998615804-qeafij6zto-logo-primary-e28a02dd09.svg?rasterize-bypass=true",
+  "logo-dark": "https://blob-cdn.documentation.ai/org-4afef969-21f9-40f3-b5b8-b06c8b6cf68f/doc-01b8ce28-db6e-4307-815a-5dc57da57476/1792998620256-xfxi6r152lc-logo-white-e2ac346fc7.svg?rasterize-bypass=true",
+  "favicon": "https://blob-cdn.documentation.ai/org-4afef969-21f9-40f3-b5b8-b06c8b6cf68f/doc-01b8ce28-db6e-4307-815a-5dc57da57476/1792998574712-fblbt33pjiu-favicon_32-9a5dda1339.png?fm=auto&auto=compress%2Cformat",
+  "navbar": {
+    "actions": {
+      "links": [
+        {
+          "title": "Book a demo",
+          "link": "https://buildwithfern.com/book-demo?utm_source=fern-docs"
+        },
+        {
+          "title": "Log in",
+          "link": "https://dashboard.buildwithfern.com/login?utm_source=fern-docs"
+        },
+        {
+          "title": "Start for free",
+          "link": "https://dashboard.buildwithfern.com/sign-up?redirect_on_login=%2Fget-started&utm_source=fern-docs"
+        }
+      ]
+    }
+  },
+  "customCss": [
+    {
+      "src": "styles/migration.css"
+    }
+  ],
+  "redirects": [
+    {
+      "source": "/learn",
+      "destination": "/learn/home"
+    },
+    {
+      "source": "/learn/welcome",
+      "destination": "/learn/home"
+    },
+    {
+      "source": "/learn/agent-setup",
+      "destination": "/learn/docs/ai-features/agent-setup"
+    },
+    {
+      "source": "/learn/sdks/capabilities/method-names",
+      "destination": "/learn/sdks/deep-dives/customize-method-names"
+    },
+    {
+      "source": "/learn/sdks/capabilities/idiomatic-method-names",
+      "destination": "/learn/sdks/deep-dives/customize-method-names"
+    },
+    {
+      "source": "/learn/sdks/capabilities/auto-pagination",
+      "destination": "/learn/sdks/deep-dives/auto-pagination"
+    },
+    {
+      "source": "/learn/sdks/capabilities/idempotency-headers",
+      "destination": "/learn/sdks/deep-dives/idempotency"
+    },
+    {
+      "source": "/learn/sdks/capabilities/integration-tests",
+      "destination": "/learn/sdks/deep-dives/testing"
+    },
+    {
+      "source": "/learn/sdks/capabilities/augment-with-custom-code",
+      "destination": "/learn/sdks/overview/custom-code"
+    },
+    {
+      "source": "/learn/sdks/capabilities/o-auth-token-refresh",
+      "destination": "/learn/sdks/legacy/reference/generators-yml#auth-schemes"
+    },
+    {
+      "source": "/learn/sdks/capabilities/retries-with-backoff",
+      "destination": "/learn/sdks/deep-dives/retries-with-backoff"
+    },
+    {
+      "source": "/learn/sdks/capabilities/web-sockets",
+      "destination": "/learn/sdks/deep-dives/websocket-clients"
+    },
+    {
+      "source": "/learn/sdks/capabilities/merging-multiple-apis",
+      "destination": "/learn/api-definitions/overview/project-structure#multiple-apis"
+    },
+    {
+      "source": "/learn/sdks/features",
+      "destination": "/learn/sdks/overview/capabilities"
+    },
+    {
+      "source": "/learn/sdks/guides/preview-your-sdk-locally",
+      "destination": "/learn/sdks/deep-dives/local-previews"
+    },
+    {
+      "source": "/learn/sdks/guides/generate-your-first-sdk",
+      "destination": "/learn/sdks/overview/quickstart"
+    },
+    {
+      "source": "/learn/sdks/guides/publish-a-public-facing-sdk",
+      "destination": "/learn/sdks/overview/introduction"
+    },
+    {
+      "source": "/learn/sdks/guides/publish-to-package-managers/npm-type-script",
+      "destination": "/learn/sdks/generators/typescript/publishing"
+    },
+    {
+      "source": "/learn/sdks/guides/publish-to-package-managers/pypi",
+      "destination": "/learn/sdks/generators/python/publishing"
+    },
+    {
+      "source": "/learn/sdks/guides/publish-to-package-managers/nuget",
+      "destination": "/learn/sdks/generators/csharp/publishing"
+    },
+    {
+      "source": "/learn/sdks/guides/publish-to-package-managers/pkgsite",
+      "destination": "/learn/sdks/generators/go/publishing"
+    },
+    {
+      "source": "/learn/sdks/guides/publish-to-package-managers/maven-central",
+      "destination": "/learn/sdks/generators/java/publishing"
+    },
+    {
+      "source": "/learn/sdks/guides/publish-to-package-managers/rubygems",
+      "destination": "/learn/sdks/generators/ruby/publishing"
+    },
+    {
+      "source": "/learn/sdks/guides/publish-to-package-managers/packagist",
+      "destination": "/learn/sdks/generators/php/publishing"
+    },
+    {
+      "source": "/learn/sdks/introduction/configuration",
+      "destination": "/learn/sdks/overview/introduction"
+    },
+    {
+      "source": "/learn/sdks/introduction/language-support",
+      "destination": "/learn/sdks/overview/introduction"
+    },
+    {
+      "source": "/learn/sdks/introduction/overview",
+      "destination": "/learn/sdks/overview/introduction"
+    },
+    {
+      "source": "/learn/sdks/introduction/customer-showcase",
+      "destination": "/learn/sdks/overview/introduction"
+    },
+    {
+      "source": "/learn/sdks/generators/:lang/changelog/2026/:month([1-9])/:day",
+      "destination": "/learn/sdks/legacy/generators/:lang/changelog/2026/:month/:day"
+    },
+    {
+      "source": "/learn/sdks/generators/:lang/changelog/2026/10/:day([1-9]|1[0-8])",
+      "destination": "/learn/sdks/legacy/generators/:lang/changelog/2026/10/:day"
+    },
+    {
+      "source": "/learn/sdks/overview/set-up-the-fern-folder",
+      "destination": "/learn/sdks/overview/quickstart"
+    },
+    {
+      "source": "/learn/sdks/overview/github",
+      "destination": "/learn/sdks/overview/project-structure"
+    },
+    {
+      "source": "/learn/sdks/fern-folder",
+      "destination": "/learn/sdks/overview/quickstart"
+    },
+    {
+      "source": "/learn/sdks/generators/mcp-server",
+      "destination": "/learn/sdks/overview/introduction"
+    },
+    {
+      "source": "/learn/sdks/generators/java/publishing-to-maven-central",
+      "destination": "/learn/sdks/generators/java/publishing"
+    },
+    {
+      "source": "/learn/sdks/generators/php/publishing-to-packagist",
+      "destination": "/learn/sdks/generators/php/publishing"
+    },
+    {
+      "source": "/learn/sdks/generators/python/publishing-to-py-pi",
+      "destination": "/learn/sdks/generators/python/publishing"
+    },
+    {
+      "source": "/learn/sdks/generators/typescript/publishing-to-npm",
+      "destination": "/learn/sdks/generators/typescript/publishing"
+    },
+    {
+      "source": "/learn/sdks/generators/java/adding-custom-code",
+      "destination": "/learn/sdks/generators/java/custom-code"
+    },
+    {
+      "source": "/learn/sdks/legacy/reference/generators-yml-reference",
+      "destination": "/learn/sdks/legacy/reference/generators-yml"
+    },
+    {
+      "source": "/learn/sdks/reference/configuration",
+      "destination": "/learn/sdks/legacy/reference/generators-yml"
+    },
+    {
+      "source": "/learn/sdks/reference/generators-yml",
+      "destination": "/learn/sdks/legacy/reference/generators-yml"
+    },
+    {
+      "source": "/learn/sdks/client",
+      "destination": "/learn/sdks/overview/introduction"
+    },
+    {
+      "source": "/learn/sdks/src",
+      "destination": "/learn/sdks/overview/project-structure"
+    },
+    {
+      "source": "/learn/sdks/alternatives/speakeasy",
+      "destination": "/learn/sdks/overview/introduction"
+    },
+    {
+      "source": "/learn/docs/getting-started/overview",
+      "destination": "/learn/docs/getting-started/capabilities"
+    },
+    {
+      "source": "/learn/docs/getting-started/customer-showcase",
+      "destination": "https://buildwithfern.com/customers"
+    },
+    {
+      "source": "/learn/docs/getting-started/global-configuration",
+      "destination": "/learn/docs/configuration/site-level-settings"
+    },
+    {
+      "source": "/learn/docs/getting-started/development",
+      "destination": "/learn/docs/preview-publish/preview-changes"
+    },
+    {
+      "source": "/learn/docs/getting-started/publish-your-docs",
+      "destination": "/learn/docs/preview-publish/publishing-your-docs"
+    },
+    {
+      "source": "/learn/docs/building-and-customizing-your-docs/navigation",
+      "destination": "/learn/docs/configuration/navigation"
+    },
+    {
+      "source": "/learn/docs/building-and-customizing-your-docs/versioning",
+      "destination": "/learn/docs/configuration/versions"
+    },
+    {
+      "source": "/learn/docs/building-and-customizing-your-docs/announcements",
+      "destination": "/learn/docs/customization/announcement-banner"
+    },
+    {
+      "source": "/learn/docs/building-and-customizing-your-docs/links-and-redirects",
+      "destination": "/learn/docs/seo/redirects"
+    },
+    {
+      "source": "/learn/docs/building-and-customizing-your-docs/customizing-slugs",
+      "destination": "/learn/docs/seo/configuring-slugs"
+    },
+    {
+      "source": "/learn/docs/building-and-customizing-your-docs/hiding-content",
+      "destination": "/learn/docs/customization/hiding-content"
+    },
+    {
+      "source": "/learn/docs/building-and-customizing-your-docs/pull-request-preview",
+      "destination": "/learn/docs/preview-publish/preview-changes"
+    },
+    {
+      "source": "/learn/docs/building-and-customizing-your-docs/product-switching",
+      "destination": "/learn/docs/configuration/products"
+    },
+    {
+      "source": "/learn/docs/building-and-customizing-your-docs/custom-css-global-js",
+      "destination": "/learn/docs/customization/custom-css-js"
+    },
+    {
+      "source": "/learn/docs/building-and-customizing-your-docs/custom-domain",
+      "destination": "/learn/docs/preview-publish/setting-up-your-domain"
+    },
+    {
+      "source": "/learn/docs/building-and-customizing-your-docs/rbac",
+      "destination": "/learn/docs/authentication/features/rbac"
+    },
+    {
+      "source": "/learn/docs/building-and-customizing-your-docs/search",
+      "destination": "/learn/docs/customization/search"
+    },
+    {
+      "source": "/learn/docs/navigation/overview",
+      "destination": "/learn/docs/configuration/navigation"
+    },
+    {
+      "source": "/learn/docs/navigation/versions",
+      "destination": "/learn/docs/configuration/versions"
+    },
+    {
+      "source": "/learn/docs/navigation/announcement-banner",
+      "destination": "/learn/docs/customization/announcement-banner"
+    },
+    {
+      "source": "/learn/docs/navigation/hiding-content",
+      "destination": "/learn/docs/customization/hiding-content"
+    },
+    {
+      "source": "/learn/docs/navigation/products",
+      "destination": "/learn/docs/configuration/products"
+    },
+    {
+      "source": "/learn/docs/navigation/changelogs",
+      "destination": "/learn/docs/configuration/changelogs"
+    },
+    {
+      "source": "/learn/docs/configuration/navigation/navigation",
+      "destination": "/learn/docs/configuration/navigation"
+    },
+    {
+      "source": "/learn/docs/configuration/folder-based-navigation",
+      "destination": "/learn/docs/configuration/navigation"
+    },
+    {
+      "source": "/learn/docs/content/write-markdown",
+      "destination": "/learn/docs/writing-content/markdown-basics"
+    },
+    {
+      "source": "/learn/docs/content/custom-react-components",
+      "destination": "/learn/docs/customization/custom-react-components"
+    },
+    {
+      "source": "/learn/docs/content/frontmatter",
+      "destination": "/learn/docs/configuration/page-level-settings"
+    },
+    {
+      "source": "/learn/docs/content/reusable-snippets",
+      "destination": "/learn/docs/writing-content/reusable-snippets"
+    },
+    {
+      "source": "/learn/docs/content/changelog",
+      "destination": "/learn/docs/configuration/changelogs"
+    },
+    {
+      "source": "/learn/docs/content/visual-editor-beta",
+      "destination": "/learn/docs/writing-content/fern-editor"
+    },
+    {
+      "source": "/learn/docs/content/visual-editor",
+      "destination": "/learn/docs/writing-content/fern-editor"
+    },
+    {
+      "source": "/learn/docs/content",
+      "destination": "/learn/docs/writing-content/markdown-basics"
+    },
+    {
+      "source": "/learn/docs/writing-content/markdown",
+      "destination": "/learn/docs/writing-content/markdown-basics"
+    },
+    {
+      "source": "/learn/docs/writing-content/custom-react-components",
+      "destination": "/learn/docs/customization/custom-react-components"
+    },
+    {
+      "source": "/learn/docs/writing-content/custom-react-components/custom-header-and-footer",
+      "destination": "/learn/docs/customization/header-and-footer"
+    },
+    {
+      "source": "/learn/docs/writing-content/reusable-markdown",
+      "destination": "/learn/docs/writing-content/reusable-snippets"
+    },
+    {
+      "source": "/learn/docs/writing-content/visual-editor",
+      "destination": "/learn/docs/writing-content/fern-editor"
+    },
+    {
+      "source": "/learn/docs/writing-content/code-blocks",
+      "destination": "/learn/docs/writing-content/components/code-blocks"
+    },
+    {
+      "source": "/learn/docs/writing-content/components/accordion-groups",
+      "destination": "/learn/docs/writing-content/components/accordions"
+    },
+    {
+      "source": "/learn/docs/writing-content/components/card-groups",
+      "destination": "/learn/docs/writing-content/components/cards"
+    },
+    {
+      "source": "/learn/docs/writing-content/components/embed",
+      "destination": "/learn/docs/writing-content/components/download"
+    },
+    {
+      "source": "/learn/docs/writing-content/components/sticky-tables",
+      "destination": "/learn/docs/writing-content/components/tables"
+    },
+    {
+      "source": "/learn/docs/components/tabs",
+      "destination": "/learn/docs/writing-content/components/tabs"
+    },
+    {
+      "source": "/learn/docs/components/CustomCard",
+      "destination": "/learn/docs/customization/custom-react-components"
+    },
+    {
+      "source": "/learn/docs/configuration/global-themes",
+      "destination": "/learn/docs/customization/global-themes"
+    },
+    {
+      "source": "/learn/docs/customization/custom-header-and-footer",
+      "destination": "/learn/docs/customization/header-and-footer"
+    },
+    {
+      "source": "/learn/docs/customization/changelogs",
+      "destination": "/learn/docs/configuration/changelogs"
+    },
+    {
+      "source": "/learn/docs/customization/what-is-docs-yml",
+      "destination": "/learn/docs/configuration/site-level-settings"
+    },
+    {
+      "source": "/learn/docs/customization/project-structure",
+      "destination": "/learn/docs/getting-started/project-structure"
+    },
+    {
+      "source": "/learn/docs/customization/shakespeare-mode",
+      "destination": "/learn/docs/getting-started/quickstart"
+    },
+    {
+      "source": "/learn/docs/configuration/what-is-docs-yml",
+      "destination": "/learn/docs/configuration/site-level-settings"
+    },
+    {
+      "source": "/learn/docs/config/overview",
+      "destination": "/learn/docs/configuration/site-level-settings"
+    },
+    {
+      "source": "/learn/docs/preview-publish/previewing-changes-in-a-pr",
+      "destination": "/learn/docs/preview-publish/preview-changes"
+    },
+    {
+      "source": "/learn/docs/preview-publish/previewing-changes-locally",
+      "destination": "/learn/docs/preview-publish/preview-changes"
+    },
+    {
+      "source": "/learn/docs/api-references/endpoint-errors",
+      "destination": "/learn/docs/api-references/customize-api-reference-layout#displaying-endpoint-errors"
+    },
+    {
+      "source": "/learn/docs/api-references/generate-api-ref#api-reference-configuration-options",
+      "destination": "/learn/docs/api-references/customize-api-reference-layout#configuration-options"
+    },
+    {
+      "source": "/learn/docs/api-references/server-urls",
+      "destination": "/learn/docs/api-references/api-explorer#multiple-environments"
+    },
+    {
+      "source": "/learn/docs/api-references/api-playground",
+      "destination": "/learn/docs/api-references/api-explorer"
+    },
+    {
+      "source": "/learn/docs/api-references/api-explorer/advanced-configuration",
+      "destination": "/learn/docs/api-references/api-explorer"
+    },
+    {
+      "source": "/learn/docs/authentication/password-protection",
+      "destination": "/learn/docs/authentication/setup/password-protection"
+    },
+    {
+      "source": "/learn/docs/authentication/sso",
+      "destination": "/learn/docs/authentication/setup/sso"
+    },
+    {
+      "source": "/learn/docs/authentication/jwt",
+      "destination": "/learn/docs/authentication/setup/jwt"
+    },
+    {
+      "source": "/learn/docs/authentication/oauth",
+      "destination": "/learn/docs/authentication/setup/oauth"
+    },
+    {
+      "source": "/learn/docs/authentication/rbac",
+      "destination": "/learn/docs/authentication/features/rbac"
+    },
+    {
+      "source": "/learn/docs/authentication/api-key-injection",
+      "destination": "/learn/docs/authentication/features/api-key-injection"
+    },
+    {
+      "source": "/learn/docs/authentication/rbac/overview",
+      "destination": "/learn/docs/authentication/features/rbac"
+    },
+    {
+      "source": "/learn/docs/authentication/api-key-injection/overview",
+      "destination": "/learn/docs/authentication/features/api-key-injection"
+    },
+    {
+      "source": "/learn/docs/authentication/set-up-oauth",
+      "destination": "/learn/docs/authentication/setup/oauth"
+    },
+    {
+      "source": "/learn/docs/authentication/jwt-setup",
+      "destination": "/learn/docs/authentication/setup/jwt"
+    },
+    {
+      "source": "/learn/docs/authentication/oauth-setup",
+      "destination": "/learn/docs/authentication/setup/oauth"
+    },
+    {
+      "source": "/learn/docs/authentication/auth-setup/jwt-setup",
+      "destination": "/learn/docs/authentication/setup/jwt"
+    },
+    {
+      "source": "/learn/docs/authentication/auth-setup/oauth-setup",
+      "destination": "/learn/docs/authentication/setup/oauth"
+    },
+    {
+      "source": "/learn/docs/authentication/rbac/jwt-setup",
+      "destination": "/learn/docs/authentication/setup/jwt"
+    },
+    {
+      "source": "/learn/docs/authentication/rbac/oauth-setup",
+      "destination": "/learn/docs/authentication/setup/oauth"
+    },
+    {
+      "source": "/learn/docs/authentication/api-key-injection/jwt-setup",
+      "destination": "/learn/docs/authentication/setup/jwt"
+    },
+    {
+      "source": "/learn/docs/authentication/api-key-injection/oauth-setup",
+      "destination": "/learn/docs/authentication/setup/oauth"
+    },
+    {
+      "source": "/learn/docs/ai/scribe-coming-soon",
+      "destination": "/learn/docs/ai-features/fern-agent"
+    },
+    {
+      "source": "/learn/docs/ai/scribe",
+      "destination": "/learn/docs/ai-features/fern-agent"
+    },
+    {
+      "source": "/learn/docs/ai/slack-app",
+      "destination": "/learn/docs/ai-features/fern-agent"
+    },
+    {
+      "source": "/learn/docs/ai/writer",
+      "destination": "/learn/docs/ai-features/fern-agent"
+    },
+    {
+      "source": "/learn/docs/ai/llms-txt",
+      "destination": "/learn/docs/ai-features/llms-txt"
+    },
+    {
+      "source": "/learn/docs/ai/mcp-server",
+      "destination": "/learn/docs/ai-features/mcp-server"
+    },
+    {
+      "source": "/learn/docs/ai-features/writer",
+      "destination": "/learn/docs/ai-features/fern-agent"
+    },
+    {
+      "source": "/learn/docs/ai-features/mcp-server/overview",
+      "destination": "/learn/docs/ai-features/mcp-server"
+    },
+    {
+      "source": "/learn/docs/seo/llms-txt",
+      "destination": "/learn/docs/ai-features/llms-txt"
+    },
+    {
+      "source": "/learn/docs/developer-tools/view-markdown",
+      "destination": "/learn/docs/ai-features/markdown"
+    },
+    {
+      "source": "/learn/docs/scribe-api/slack-scribe/get-scribe-slack-install-link",
+      "destination": "/learn/docs/ai-features/fern-agent"
+    },
+    {
+      "source": "/learn/docs/enterprise/self-hosted",
+      "destination": "/learn/docs/self-hosted/overview"
+    },
+    {
+      "source": "/learn/docs/self-hosted/releases",
+      "destination": "/learn/docs/self-hosted/release-notes"
+    },
+    {
+      "source": "/learn/docs/alternatives/mintlify",
+      "destination": "/learn/docs/getting-started/capabilities"
+    },
+    {
+      "source": "/learn/api-definition/introduction",
+      "destination": "/learn/api-definitions/overview/what-is-an-api-definition"
+    },
+    {
+      "source": "/learn/api-definition/introduction/what-is-an-api-definition",
+      "destination": "/learn/api-definitions/overview/what-is-an-api-definition"
+    },
+    {
+      "source": "/learn/api-definition/introduction/what-is-the-fern-folder",
+      "destination": "/learn/api-definitions/overview/project-structure"
+    },
+    {
+      "source": "/learn/api-definition/openapi/endpoints",
+      "destination": "/learn/api-definitions/openapi/endpoints/http"
+    },
+    {
+      "source": "/learn/api-definition/openapi/extensions",
+      "destination": "/learn/api-definitions/openapi/extensions/overview"
+    },
+    {
+      "source": "/learn/api-definition/openapi/frameworks",
+      "destination": "/learn/api-definitions/openapi/frameworks"
+    },
+    {
+      "source": "/learn/api-definition/openapi/webhooks",
+      "destination": "/learn/api-definitions/openapi/endpoints/webhooks"
+    },
+    {
+      "source": "/learn/api-definition/openapi/streaming-and-sse",
+      "destination": "/learn/api-definitions/openapi/endpoints/sse"
+    },
+    {
+      "source": "/learn/api-definition/openapi/audiences",
+      "destination": "/learn/api-definitions/openapi/extensions/audiences"
+    },
+    {
+      "source": "/learn/api-definition/openapi/examples",
+      "destination": "/learn/api-definitions/openapi/extensions/request-response-examples"
+    },
+    {
+      "source": "/learn/api-definitions/openapi/extensions",
+      "destination": "/learn/api-definitions/openapi/extensions/overview"
+    },
+    {
+      "source": "/learn/api-definitions/openapi/extensions/others",
+      "destination": "/learn/api-definitions/openapi/extensions/overview"
+    },
+    {
+      "source": "/learn/api-definitions/openapi/extensions/server-names",
+      "destination": "/learn/api-definitions/openapi/extensions/server-names-and-url-templating"
+    },
+    {
+      "source": "/learn/api-definitions/openapi/overlay-customizations",
+      "destination": "/learn/api-definitions/openapi/overrides"
+    },
+    {
+      "source": "/learn/api-definitions/openapi/automatic-updates",
+      "destination": "/learn/api-definitions/openapi/sync-your-open-api-specification"
+    },
+    {
+      "source": "/learn/api-definitions/openapi/openapi.yml",
+      "destination": "/learn/api-definitions/openapi/overview"
+    },
+    {
+      "source": "/learn/openapi-definition/extensions/webhooks",
+      "destination": "/learn/api-definitions/openapi/endpoints/webhooks"
+    },
+    {
+      "source": "/learn/openapi-definition/empty-page",
+      "destination": "/learn/api-definitions/openapi/overview"
+    },
+    {
+      "source": "/learn/overview/define-your-api/openapi/extensions",
+      "destination": "/learn/api-definitions/openapi/extensions/overview"
+    },
+    {
+      "source": "/learn/api-definitions/asyncapi/overlay-customizations",
+      "destination": "/learn/api-definitions/asyncapi/overrides"
+    },
+    {
+      "source": "/learn/api-definitions/asyncapi/extensions/others",
+      "destination": "/learn/api-definitions/asyncapi/extensions/overview"
+    },
+    {
+      "source": "/learn/api-definitions/asyncapi/extensions/server-name",
+      "destination": "/learn/api-definitions/asyncapi/extensions/server-names"
+    },
+    {
+      "source": "/learn/api-definitions/asyncapi/extensions/method-names",
+      "destination": "/learn/api-definitions/asyncapi/overview"
+    },
+    {
+      "source": "/learn/api-definitions/asyncapi/extensions/pagination",
+      "destination": "/learn/api-definitions/asyncapi/extensions/overview"
+    },
+    {
+      "source": "/learn/api-definitions/asyncapi/extensions/streaming",
+      "destination": "/learn/api-definitions/asyncapi/extensions/overview"
+    },
+    {
+      "source": "/learn/api-definitions/asyncapi/extensions/streaming-operations",
+      "destination": "/learn/api-definitions/asyncapi/extensions/overview"
+    },
+    {
+      "source": "/learn/api-definitions/asyncapi/extensions/retry",
+      "destination": "/learn/api-definitions/asyncapi/extensions/overview"
+    },
+    {
+      "source": "/learn/api-definitions/asyncapi/extensions/retry-behavior",
+      "destination": "/learn/api-definitions/asyncapi/extensions/overview"
+    },
+    {
+      "source": "/learn/api-definitions/asyncapi/extensions/error-handling",
+      "destination": "/learn/api-definitions/asyncapi/extensions/overview"
+    },
+    {
+      "source": "/learn/api-definitions/asyncapi/extensions/parameter-names",
+      "destination": "/learn/api-definitions/asyncapi/extensions/overview"
+    },
+    {
+      "source": "/learn/asyncapi-definition/empty-page",
+      "destination": "/learn/api-definitions/asyncapi/overview"
+    },
+    {
+      "source": "/learn/api-definitions/openrpc/overlay-customizations",
+      "destination": "/learn/api-definitions/openrpc/overrides"
+    },
+    {
+      "source": "/learn/api-definitions/openrpc/extensions/others",
+      "destination": "/learn/api-definitions/openrpc/extensions/overview"
+    },
+    {
+      "source": "/learn/api-definitions/openrpc/extensions/sdk-group-name",
+      "destination": "/learn/api-definitions/openrpc/extensions/sdk-group-names"
+    },
+    {
+      "source": "/learn/api-definitions/openrpc/extensions/examples",
+      "destination": "/learn/api-definitions/openrpc/extensions/request-response-examples"
+    },
+    {
+      "source": "/learn/api-definitions/openrpc/extensions/retry",
+      "destination": "/learn/api-definitions/openrpc/extensions/overview"
+    },
+    {
+      "source": "/learn/api-definitions/openrpc/extensions/pagination",
+      "destination": "/learn/api-definitions/openrpc/extensions/overview"
+    },
+    {
+      "source": "/learn/api-definitions/openrpc/extensions/streaming",
+      "destination": "/learn/api-definitions/openrpc/extensions/overview"
+    },
+    {
+      "source": "/learn/api-definitions/openrpc/extensions/streaming-operations",
+      "destination": "/learn/api-definitions/openrpc/extensions/overview"
+    },
+    {
+      "source": "/learn/api-definitions/openrpc/extensions/retry-behavior",
+      "destination": "/learn/api-definitions/openrpc/extensions/overview"
+    },
+    {
+      "source": "/learn/api-definitions/openrpc/extensions/timeout",
+      "destination": "/learn/api-definitions/openrpc/extensions/overview"
+    },
+    {
+      "source": "/learn/api-definitions/openrpc/extensions/timeout-settings",
+      "destination": "/learn/api-definitions/openrpc/extensions/overview"
+    },
+    {
+      "source": "/learn/api-definitions/openrpc/extensions/error-handling",
+      "destination": "/learn/api-definitions/openrpc/extensions/overview"
+    },
+    {
+      "source": "/learn/api-definitions/openrpc/extensions/base-path",
+      "destination": "/learn/api-definitions/openrpc/extensions/overview"
+    },
+    {
+      "source": "/learn/api-definitions/openrpc/extensions/parameter-names",
+      "destination": "/learn/api-definitions/openrpc/extensions/overview"
+    },
+    {
+      "source": "/learn/api-definitions/openrpc/methods/batch",
+      "destination": "/learn/api-definitions/openrpc/methods/rpc-methods"
+    },
+    {
+      "source": "/learn/api-definitions/openrpc/methods/notifications",
+      "destination": "/learn/api-definitions/openrpc/methods/rpc-methods"
+    },
+    {
+      "source": "/learn/openrpc-definition/empty-page",
+      "destination": "/learn/api-definitions/openrpc/overview"
+    },
+    {
+      "source": "/learn/api-definitions/grpc/extensions/server-name",
+      "destination": "/learn/api-definitions/grpc/servers"
+    },
+    {
+      "source": "/learn/api-definitions/grpc/extensions/timeout",
+      "destination": "/learn/api-definitions/grpc/overview"
+    },
+    {
+      "source": "/learn/api-definitions/grpc/overlay-customizations",
+      "destination": "/learn/api-definitions/grpc/overrides"
+    },
+    {
+      "source": "/learn/grpc-definition/empty-page",
+      "destination": "/learn/api-definitions/grpc/overview"
+    },
+    {
+      "source": "/learn/api-definitions/protobuf",
+      "destination": "/learn/api-definitions/grpc/overview"
+    },
+    {
+      "source": "/learn/api-definition/fern/comparison-with-open-api",
+      "destination": "/learn/api-definitions/ferndef/overview"
+    },
+    {
+      "source": "/learn/api-definition/fern/endpoints",
+      "destination": "/learn/api-definitions/ferndef/endpoints"
+    },
+    {
+      "source": "/learn/api-definition/fern/api-yml",
+      "destination": "/learn/api-definitions/ferndef/api-yml"
+    },
+    {
+      "source": "/learn/api-definitions/ferndef/web-sockets",
+      "destination": "/learn/api-definitions/ferndef/websockets"
+    },
+    {
+      "source": "/learn/fern-definition/empty-page",
+      "destination": "/learn/api-definitions/ferndef/overview"
+    },
+    {
+      "source": "/learn/api-definitions/overview/overrides",
+      "destination": "/learn/api-definitions/asyncapi/overrides"
+    },
+    {
+      "source": "/learn/api-definitions/overrides",
+      "destination": "/learn/api-definitions/asyncapi/overrides"
+    },
+    {
+      "source": "/learn/cli-api/cli-reference",
+      "destination": "/learn/cli-api-reference/cli-reference/overview"
+    },
+    {
+      "source": "/learn/cli-api/cli-reference/get-started-with-fern-cli",
+      "destination": "/learn/cli-api-reference/cli-reference/overview"
+    },
+    {
+      "source": "/learn/cli-api/cli-reference/cli-overview",
+      "destination": "/learn/cli-api-reference/cli-reference/overview"
+    },
+    {
+      "source": "/learn/cli-api/cli-reference/global-options",
+      "destination": "/learn/cli-api-reference/cli-reference/options"
+    },
+    {
+      "source": "/learn/cli-api-reference/cli-reference/commands",
+      "destination": "/learn/cli-api-reference/cli-reference/general-commands"
+    },
+    {
+      "source": "/learn/cli-reference/cli-overview",
+      "destination": "/learn/cli-api-reference/cli-reference/overview"
+    },
+    {
+      "source": "/learn/cli-reference/overview",
+      "destination": "/learn/cli-api-reference/cli-reference/overview"
+    },
+    {
+      "source": "/learn/cli-reference/get-started",
+      "destination": "/learn/cli-api-reference/cli-reference/overview"
+    },
+    {
+      "source": "/learn/cli-reference/commands",
+      "destination": "/learn/cli-api-reference/cli-reference/general-commands"
+    },
+    {
+      "source": "/learn/cli-reference/options",
+      "destination": "/learn/cli-api-reference/cli-reference/options"
+    },
+    {
+      "source": "/learn/ask-fern/api-reference/conversations/get-conversation",
+      "destination": "/learn/docs/ai-features/ask-fern/api-reference/overview"
+    },
+    {
+      "source": "/learn/ask-fern/api-reference/overview",
+      "destination": "/learn/docs/ai-features/ask-fern/api-reference/overview"
+    },
+    {
+      "source": "/learn/ask-fern/features/custom-fa-qs",
+      "destination": "/learn/docs/ai-features/ask-fern/overview"
+    },
+    {
+      "source": "/learn/ask-fern/features/analytics",
+      "destination": "/learn/docs/ai-features/ask-fern/overview"
+    },
+    {
+      "source": "/learn/ask-fern/features/citations",
+      "destination": "/learn/docs/ai-features/ask-fern/overview"
+    },
+    {
+      "source": "/learn/ask-fern/features/insights",
+      "destination": "/learn/docs/ai-features/ask-fern/overview"
+    },
+    {
+      "source": "/learn/ask-fern/features/evaluation",
+      "destination": "/learn/docs/ai-features/ask-fern/overview"
+    },
+    {
+      "source": "/learn/ask-fern/features/rbac",
+      "destination": "/learn/docs/ai-features/ask-fern/overview"
+    },
+    {
+      "source": "/learn/ask-fern/features/slack-app",
+      "destination": "/learn/docs/ai-features/ask-fern/slack-app"
+    },
+    {
+      "source": "/learn/ask-fern/features/scribe-slack-app",
+      "destination": "/learn/docs/ai-features/fern-agent"
+    },
+    {
+      "source": "/learn/ask-fern/getting-started/what-is-ask-fern",
+      "destination": "/learn/docs/ai-features/ask-fern/overview"
+    },
+    {
+      "source": "/learn/ask-fern/getting-started/how-it-works",
+      "destination": "/learn/docs/ai-features/ask-fern/overview"
+    },
+    {
+      "source": "/learn/ask-fern/configuration/setup",
+      "destination": "/learn/docs/ai-features/ask-fern/overview"
+    },
+    {
+      "source": "/learn/ask-fern/configuration/guidance",
+      "destination": "/learn/docs/ai-features/ask-fern/guidance"
+    },
+    {
+      "source": "/learn/ask-fern/configuration/content-sources",
+      "destination": "/learn/docs/ai-features/ask-fern/content-sources"
+    },
+    {
+      "source": "/learn/ask-fern/configuration/documents",
+      "destination": "/learn/docs/ai-features/ask-fern/content-sources"
+    },
+    {
+      "source": "/learn/ask-fern/configuration/locations-and-datasources",
+      "destination": "/learn/docs/ai-features/ask-fern/overview"
+    },
+    {
+      "source": "/learn/ask-fern/configuration/custom-prompts",
+      "destination": "/learn/docs/ai-features/ask-fern/overview"
+    },
+    {
+      "source": "/learn/ask-fern/overview",
+      "destination": "/learn/docs/ai-features/ask-fern/overview"
+    },
+    {
+      "source": "/learn/ask-fern/citations",
+      "destination": "/learn/docs/ai-features/ask-fern/overview"
+    },
+    {
+      "source": "/learn/ask-fern/custom-prompting",
+      "destination": "/learn/docs/ai-features/ask-fern/overview"
+    },
+    {
+      "source": "/learn/ask-fern/customer-showcase",
+      "destination": "https://buildwithfern.com/customers"
+    },
+    {
+      "source": "/learn/docs/ai-features/fern-writer",
+      "destination": "/learn/docs/ai-features/fern-agent"
+    },
+    {
+      "source": "/learn/docs/ai-features/fern-slack",
+      "destination": "/learn/docs/ai-features/fern-agent"
+    },
+    {
+      "source": "/learn/docs/ai-features/ask-fern/how-it-works",
+      "destination": "/learn/docs/ai-features/ask-fern/overview"
+    },
+    {
+      "source": "/learn/docs/ai-features/ask-fern/features",
+      "destination": "/learn/docs/ai-features/ask-fern/overview"
+    },
+    {
+      "source": "/learn/docs/ai-features/ask-fern/setup",
+      "destination": "/learn/docs/ai-features/ask-fern/overview"
+    },
+    {
+      "source": "/learn/docs/ai-features/ask-fern/discord-bot",
+      "destination": "/learn/docs/ai-features/ask-fern/overview"
+    },
+    {
+      "source": "/learn/docs/ai-features/ask-fern/search-widget",
+      "destination": "/learn/docs/ai-features/search-widget/overview"
+    },
+    {
+      "source": "/learn/docs/ai-features/ask-fern/search-widget/:slug",
+      "destination": "/learn/docs/ai-features/search-widget/:slug"
+    },
+    {
+      "source": "/learn/ai-search/getting-started/ai-search-customer-showcase",
+      "destination": "https://buildwithfern.com/showcase#ask-fern-customers"
+    },
+    {
+      "source": "/learn/ai-search/customer-showcase",
+      "destination": "https://buildwithfern.com/customers"
+    },
+    {
+      "source": "/learn/ai-search/overview",
+      "destination": "/learn/docs/ai-features/ask-fern/overview"
+    },
+    {
+      "source": "/learn/ai-search/custom-prompting",
+      "destination": "/learn/docs/ai-features/ask-fern/overview"
+    },
+    {
+      "source": "/learn/ai-search/citations",
+      "destination": "/learn/docs/ai-features/ask-fern/overview"
+    },
+    {
+      "source": "/learn/user-feedback",
+      "destination": "/learn/docs/user-feedback"
+    },
+    {
+      "source": "/learn/docs/ai-features/ask-fern/api-reference/chat/post-chat-completion",
+      "destination": "/api-reference/post-chat-domain"
+    },
+    {
+      "source": "/learn/docs/ai-features/ask-fern/api-reference/code/create-code-record",
+      "destination": "/api-reference/post-code-domain-create"
+    },
+    {
+      "source": "/learn/docs/ai-features/ask-fern/api-reference/code/batch-create-code-records",
+      "destination": "/api-reference/post-code-domain-batch-create"
+    },
+    {
+      "source": "/learn/docs/ai-features/ask-fern/api-reference/code/get-code-record-by-id",
+      "destination": "/api-reference/get-code-domain-code_id"
+    },
+    {
+      "source": "/learn/docs/ai-features/ask-fern/api-reference/code/get-code-records",
+      "destination": "/api-reference/get-code-domain"
+    },
+    {
+      "source": "/learn/docs/ai-features/ask-fern/api-reference/code/delete-code-record-by-id",
+      "destination": "/api-reference/delete-code-domain-delete"
+    },
+    {
+      "source": "/learn/docs/ai-features/ask-fern/api-reference/code/delete-all-code-records",
+      "destination": "/api-reference/delete-code-domain-delete-all"
+    },
+    {
+      "source": "/learn/docs/ai-features/ask-fern/api-reference/conversation/get-conversation-by-id",
+      "destination": "/api-reference/get-conversation-domain-conversation_id"
+    },
+    {
+      "source": "/learn/docs/ai-features/ask-fern/api-reference/document/create-document",
+      "destination": "/api-reference/post-document-domain-create"
+    },
+    {
+      "source": "/learn/docs/ai-features/ask-fern/api-reference/document/batch-create-document",
+      "destination": "/api-reference/post-document-domain-batch-create"
+    },
+    {
+      "source": "/learn/docs/ai-features/ask-fern/api-reference/document/update-document",
+      "destination": "/api-reference/patch-document-domain-document_id"
+    },
+    {
+      "source": "/learn/docs/ai-features/ask-fern/api-reference/document/get-document-by-id",
+      "destination": "/api-reference/get-document-domain-document_id"
+    },
+    {
+      "source": "/learn/docs/ai-features/ask-fern/api-reference/document/delete-document",
+      "destination": "/api-reference/delete-document-domain-document_id"
+    },
+    {
+      "source": "/learn/docs/ai-features/ask-fern/api-reference/document/delete-document-by-id",
+      "destination": "/api-reference/delete-document-domain-delete"
+    },
+    {
+      "source": "/learn/docs/ai-features/ask-fern/api-reference/document/batch-delete-document",
+      "destination": "/api-reference/delete-document-domain-batch-delete"
+    },
+    {
+      "source": "/learn/docs/ai-features/ask-fern/api-reference/document/get-documents",
+      "destination": "/api-reference/get-document-domain"
+    },
+    {
+      "source": "/learn/docs/ai-features/ask-fern/api-reference/document/delete-documents",
+      "destination": "/api-reference/delete-document-domain"
+    },
+    {
+      "source": "/learn/docs/ai-features/ask-fern/api-reference/document/delete-all-documents",
+      "destination": "/api-reference/delete-document-domain-delete-all"
+    },
+    {
+      "source": "/learn/docs/ai-features/ask-fern/api-reference/guidance/create-guidance",
+      "destination": "/api-reference/post-guidance-domain-create"
+    },
+    {
+      "source": "/learn/docs/ai-features/ask-fern/api-reference/guidance/update",
+      "destination": "/api-reference/patch-guidance-domain-guidance_id"
+    },
+    {
+      "source": "/learn/docs/ai-features/ask-fern/api-reference/guidance/delete-guidance-by-id",
+      "destination": "/api-reference/delete-guidance-domain-guidance_id"
+    },
+    {
+      "source": "/learn/docs/ai-features/ask-fern/api-reference/guidance/get-guidance-by-id",
+      "destination": "/api-reference/get-guidance-domain-guidance_id"
+    },
+    {
+      "source": "/learn/docs/ai-features/ask-fern/api-reference/guidance/get-guidances",
+      "destination": "/api-reference/get-guidance-domain"
+    },
+    {
+      "source": "/learn/docs/ai-features/ask-fern/api-reference/query/get-recent-queries",
+      "destination": "/api-reference/get-queries-domain"
+    },
+    {
+      "source": "/learn/docs/ai-features/ask-fern/api-reference/slack-ask-fern/get-slack-install-link",
+      "destination": "/api-reference/get-slack-get-install"
+    },
+    {
+      "source": "/learn/docs/ai-features/ask-fern/api-reference/slack-scribe/get-fern-writer-install-link",
+      "destination": "/api-reference/get-scribe-slack-get-install"
+    },
+    {
+      "source": "/learn/docs/ai-features/ask-fern/api-reference/website/index-website",
+      "destination": "/api-reference/post-sources-website-domain-index"
+    },
+    {
+      "source": "/learn/docs/ai-features/ask-fern/api-reference/website/get-website-status",
+      "destination": "/api-reference/get-sources-website-domain-status"
+    },
+    {
+      "source": "/learn/docs/ai-features/ask-fern/api-reference/website/get-website-by-id",
+      "destination": "/api-reference/get-sources-website-domain-website_id"
+    },
+    {
+      "source": "/learn/docs/ai-features/ask-fern/api-reference/website/get-websites",
+      "destination": "/api-reference/get-sources-website-domain"
+    },
+    {
+      "source": "/learn/docs/ai-features/ask-fern/api-reference/website/reindex-website",
+      "destination": "/api-reference/post-sources-website-domain-reindex"
+    },
+    {
+      "source": "/learn/docs/ai-features/ask-fern/api-reference/website/delete-website",
+      "destination": "/api-reference/delete-sources-website-domain-delete"
+    },
+    {
+      "source": "/learn/docs/ai-features/ask-fern/api-reference/website/delete-all-websites",
+      "destination": "/api-reference/delete-sources-website-domain-delete-all"
+    },
+    {
+      "source": "/learn/docs/fern-api-reference/get-jwt",
+      "destination": "/api-reference/get-api-fern-docs-get-jwt"
+    },
+    {
+      "source": "/learn/docs/fern-api-reference/get-search-key",
+      "destination": "/api-reference/get-api-fern-docs-search-v2-key"
+    },
+    {
+      "source": "/learn/docs/fern-api-reference/whoami",
+      "destination": "/api-reference/get-api-fern-docs-whoami"
+    },
+    {
+      "source": "/learn/docs/scribe-api/chat/post-chat-completion",
+      "destination": "/api-reference/post-chat-domain"
+    },
+    {
+      "source": "/learn/docs/scribe-api/code/create-code-record",
+      "destination": "/api-reference/post-code-domain-create"
+    },
+    {
+      "source": "/learn/docs/scribe-api/code/batch-create-code-records",
+      "destination": "/api-reference/post-code-domain-batch-create"
+    },
+    {
+      "source": "/learn/docs/scribe-api/code/get-code-record-by-id",
+      "destination": "/api-reference/get-code-domain-code_id"
+    },
+    {
+      "source": "/learn/docs/scribe-api/code/get-code-records",
+      "destination": "/api-reference/get-code-domain"
+    },
+    {
+      "source": "/learn/docs/scribe-api/code/delete-code-record-by-id",
+      "destination": "/api-reference/delete-code-domain-delete"
+    },
+    {
+      "source": "/learn/docs/scribe-api/code/delete-all-code-records",
+      "destination": "/api-reference/delete-code-domain-delete-all"
+    },
+    {
+      "source": "/learn/docs/scribe-api/conversation/get-conversation-by-id",
+      "destination": "/api-reference/get-conversation-domain-conversation_id"
+    },
+    {
+      "source": "/learn/docs/scribe-api/document/create-document",
+      "destination": "/api-reference/post-document-domain-create"
+    },
+    {
+      "source": "/learn/docs/scribe-api/document/batch-create-document",
+      "destination": "/api-reference/post-document-domain-batch-create"
+    },
+    {
+      "source": "/learn/docs/scribe-api/document/update-document",
+      "destination": "/api-reference/patch-document-domain-document_id"
+    },
+    {
+      "source": "/learn/docs/scribe-api/document/get-document-by-id",
+      "destination": "/api-reference/get-document-domain-document_id"
+    },
+    {
+      "source": "/learn/docs/scribe-api/document/delete-document",
+      "destination": "/api-reference/delete-document-domain-document_id"
+    },
+    {
+      "source": "/learn/docs/scribe-api/document/delete-document-by-id",
+      "destination": "/api-reference/delete-document-domain-delete"
+    },
+    {
+      "source": "/learn/docs/scribe-api/document/batch-delete-document",
+      "destination": "/api-reference/delete-document-domain-batch-delete"
+    },
+    {
+      "source": "/learn/docs/scribe-api/document/get-documents",
+      "destination": "/api-reference/get-document-domain"
+    },
+    {
+      "source": "/learn/docs/scribe-api/document/delete-documents",
+      "destination": "/api-reference/delete-document-domain"
+    },
+    {
+      "source": "/learn/docs/scribe-api/document/delete-all-documents",
+      "destination": "/api-reference/delete-document-domain-delete-all"
+    },
+    {
+      "source": "/learn/docs/scribe-api/guidance/create-guidance",
+      "destination": "/api-reference/post-guidance-domain-create"
+    },
+    {
+      "source": "/learn/docs/scribe-api/guidance/update",
+      "destination": "/api-reference/patch-guidance-domain-guidance_id"
+    },
+    {
+      "source": "/learn/docs/scribe-api/guidance/delete-guidance-by-id",
+      "destination": "/api-reference/delete-guidance-domain-guidance_id"
+    },
+    {
+      "source": "/learn/docs/scribe-api/guidance/get-guidance-by-id",
+      "destination": "/api-reference/get-guidance-domain-guidance_id"
+    },
+    {
+      "source": "/learn/docs/scribe-api/guidance/get-guidances",
+      "destination": "/api-reference/get-guidance-domain"
+    },
+    {
+      "source": "/learn/docs/scribe-api/query/get-recent-queries",
+      "destination": "/api-reference/get-queries-domain"
+    },
+    {
+      "source": "/learn/docs/scribe-api/slack-ask-fern/get-slack-install-link",
+      "destination": "/api-reference/get-slack-get-install"
+    },
+    {
+      "source": "/learn/docs/scribe-api/slack-scribe/get-fern-writer-install-link",
+      "destination": "/api-reference/get-scribe-slack-get-install"
+    },
+    {
+      "source": "/learn/docs/scribe-api/website/index-website",
+      "destination": "/api-reference/post-sources-website-domain-index"
+    },
+    {
+      "source": "/learn/docs/scribe-api/website/get-website-status",
+      "destination": "/api-reference/get-sources-website-domain-status"
+    },
+    {
+      "source": "/learn/docs/scribe-api/website/get-website-by-id",
+      "destination": "/api-reference/get-sources-website-domain-website_id"
+    },
+    {
+      "source": "/learn/docs/scribe-api/website/get-websites",
+      "destination": "/api-reference/get-sources-website-domain"
+    },
+    {
+      "source": "/learn/docs/scribe-api/website/reindex-website",
+      "destination": "/api-reference/post-sources-website-domain-reindex"
+    },
+    {
+      "source": "/learn/docs/scribe-api/website/delete-website",
+      "destination": "/api-reference/delete-sources-website-domain-delete"
+    },
+    {
+      "source": "/learn/docs/scribe-api/website/delete-all-websites",
+      "destination": "/api-reference/delete-sources-website-domain-delete-all"
+    }
+  ]
 }

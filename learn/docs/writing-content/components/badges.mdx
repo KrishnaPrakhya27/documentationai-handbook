@@ -1,0 +1,76 @@
+---
+title: Badge
+description: Display small labels for status, versions, and metadata inline with your content.
+---
+
+Use the `<Badge>` component to display small pieces of information, such as status indicators, categories, versions, or release dates. To display longer notes, use [callouts](/learn/docs/writing-content/components/callouts).
+
+## Usage
+
+### Plant Care API <span className="dai-mig-badge">v2.1.0</span> <span className="dai-mig-badge">New</span>
+
+```jsx Markdown
+### Plant Care API <Badge intent="info">v2.1.0</Badge> <Badge intent="launch" minimal>New</Badge>
+```
+
+## Variants
+
+### Intents
+
+<span className="dai-mig-badge">Success</span>
+
+<span className="dai-mig-badge">Note</span>
+
+<span className="dai-mig-badge">Tip</span>
+
+<span className="dai-mig-badge">Warning</span>
+
+<span className="dai-mig-badge">Error</span>
+
+<span className="dai-mig-badge">Info</span>
+
+<span className="dai-mig-badge">Launch</span>
+
+<span className="dai-mig-badge">Check</span>
+
+```jsx Markdown
+<Badge intent="success">Success</Badge>
+<Badge intent="note">Note</Badge>
+<Badge intent="tip">Tip</Badge>
+<Badge intent="warning">Warning</Badge>
+<Badge intent="error">Error</Badge>
+<Badge intent="info">Info</Badge>
+<Badge intent="launch">Launch</Badge>
+<Badge intent="check">Check</Badge>
+```
+
+### Styles
+
+<span className="dai-mig-badge">Success badge, minimal style</span>
+
+<span className="dai-mig-badge">Error badge, minimal style</span>
+
+<span className="dai-mig-badge">Success badge, outlined style</span>
+
+<span className="dai-mig-badge">Error badge, outlined and minimal style</span>
+
+```jsx Markdown
+<Badge intent="success" minimal>Success badge, minimal style</Badge>
+<Badge intent="error" minimal>Error badge, minimal style</Badge>
+<Badge intent="success" outlined>Success badge, outlined style</Badge>
+<Badge intent="error" minimal outlined>Error badge, outlined and minimal style</Badge>
+```
+
+## Properties
+
+<ParamField path="intent" type="string" required={true}>
+  The semantic color of the badge. Available options: `success`, `note`, `tip`, `warning`, `error`, `info`, `launch`, `check`
+</ParamField>
+
+<ParamField path="minimal" type="boolean" required={false}>
+  Displays the badge with a more subtle background style. Can be combined with `outlined`.
+</ParamField>
+
+<ParamField path="outlined" type="boolean" required={false}>
+  Displays the badge with an outlined border style. Can be combined with `minimal`.
+</ParamField>

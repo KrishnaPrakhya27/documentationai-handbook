@@ -1,0 +1,44 @@
+---
+title: November 8, 2025
+---
+
+## Parameterized markdown snippets
+
+<span className="dai-mig-badge">components, writing-content</span>
+
+Reusable Markdown snippets support arbitrary parameters that can be used as variables in the snippet. This enables flexible, reusable content templates.
+
+Create a snippet with parameter placeholders using curly braces:
+
+```mdx meta="fern/snippets/watering-schedule.mdx"
+<Warning>Remember to water your {plant} every {interval} days.</Warning>
+```
+
+Pass parameters when including the snippet:
+
+```mdx page.mdx
+<Markdown src="/snippets/watering-schedule.mdx" plant="peace lily" interval="3" />
+```
+
+This renders as:
+
+<Callout kind="alert">
+  Remember to water your {/* UNSUPPORTED EXPRESSION 4bca2c9d87571c13 */} every {/* UNSUPPORTED EXPRESSION fcda610e74e8eb0a */} days.
+</Callout>
+
+[Read the docs](/learn/docs/writing-content/reusable-snippets)
+
+## New Copy component for inline copyable text
+
+<span className="dai-mig-badge">components</span>
+
+The `<Copy>` component makes text copyable with a single click. Use it inline to allow readers to quickly copy version numbers, commands, API keys, or other text snippets without selecting and copying manually.
+
+You can also customize what gets copied to the clipboard using the `clipboard` prop. This is useful when you want simplify commands, versions, or URLs for readability while copying complete values.
+
+```jsx Markdown
+Use the Fern CLI to build and consume REST APIs. The latest version is
+<Copy>v2.0</Copy>.
+```
+
+[Read the docs](/learn/docs/writing-content/components/copy)

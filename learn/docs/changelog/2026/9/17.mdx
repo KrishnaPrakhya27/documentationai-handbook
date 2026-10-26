@@ -1,0 +1,47 @@
+---
+title: September 17, 2026
+---
+
+## Split response example selector
+
+<span className="dai-mig-badge">api-reference</span>
+
+When an endpoint has multiple examples for the same status code, the response snippet now renders two dropdowns side by side instead of one flat list: a **status code** dropdown on the left and an **example** dropdown to its right. The example dropdown only appears when the selected status code has more than one example — status codes with a single example show only the status code dropdown, keeping the UI uncluttered for the common case.
+
+Example names in the second dropdown use the `name` field from `x-fern-examples` when set, falling back to `Example 1`, `Example 2`, and so on.
+
+[Read the docs](https://buildwithfern.com/learn/api-definitions/openapi/extensions/request-response-examples)
+
+## Site-level changelog for multi-product sites
+
+<span className="dai-mig-badge">navigation, docs.yml</span>
+
+Multi-product sites can now have a single changelog shared by every product. Add a top-level `changelog` key in `docs.yml` next to `products` and the changelog is served at `/changelog`, without a product slug prefix and without appearing in the product switcher. This replaces the workaround of a dedicated "Changelog" product hidden with CSS.
+
+```yaml docs.yml
+products:
+  - display-name: Ferns
+    path: ./products/ferns.yml
+  - display-name: Cacti
+    path: ./products/cacti.yml
+changelog:
+  changelog: ./changelog
+```
+
+[Read the docs](https://buildwithfern.com/learn/docs/navigation/changelogs#site-level-changelog-for-multi-product-sites)
+
+## Reference API specs directly from docs.yml
+
+<span className="dai-mig-badge">api-reference, docs.yml</span>
+
+You can now point an `api` navigation item straight at your OpenAPI, AsyncAPI, or GraphQL specification files with a `specs` list, without creating a `generators.yml`. Each entry takes a `type` and a `path` (relative to the configuration file), plus optional `overrides`, `overlays`, and `namespace`. Existing `api-name` setups are unchanged.
+
+```yaml docs.yml
+navigation:
+  - api: API Reference
+    specs:
+      - type: openapi
+        path: ./openapi.yml
+```
+
+[Read the docs](/learn/docs/api-references/generate-api-ref#reference-a-spec-directly-from-docsyml)

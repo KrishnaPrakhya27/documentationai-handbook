@@ -1,0 +1,196 @@
+---
+title: Custom React components
+description: Add custom React components to your Fern docs for interactive, server-rendered elements. Improve SEO, performance, and user experience with reusable components.
+slug: customization/custom-react-components
+---
+
+<Callout kind="alert">
+  **Enterprise feature**
+
+  This feature is available only for the [Enterprise plan](https://buildwithfern.com/pricing). To get started, reach out to [support@buildwithfern.com](mailto:support@buildwithfern.com).
+</Callout>
+
+You can extend Fern's built-in component library by adding your own custom React components. This allows you to create unique, interactive elements that match your documentation needs. Components are server-side rendered for better SEO and performance, with no layout shifts.
+
+<Video src="https://video-cdn.documentation.ai/org-4afef969-21f9-40f3-b5b8-b06c8b6cf68f/doc-01b8ce28-db6e-4307-815a-5dc57da57476/1792998639526-fgfgmoevyaa-merge-custom-react-488d4dff10.mp4" autoplay={true} loop={true} muted={true} />
+
+<em>Merge uses a custom React component to compare feature coverage across integrations in an [interactive matrix](https://docs.merge.dev/merge-unified/hris/integrations/supported-features).</em>
+
+<Callout kind="info">
+  **Defining a constant**
+
+  Don't use a React component to define a constant. Instead, consider using [reusable snippets](/learn/docs/writing-content/reusable-snippets).
+</Callout>
+
+## Custom components in MDX
+
+<Steps>
+  ### Create a React component
+
+  Let's start by creating a `components` folder where you can define your React components. Note
+  that the React components can be defined in `.ts`, `.tsx`, `.js` or `.mdx` files.
+
+  ```ts meta="components/CustomCard.tsx"
+    export const CustomCard = ({ title, text, link, sparkle = false }) => {
+        return (
+            <a href={link} className="block p-6 rounded-lg border border-gray-200 hover:shadow-lg transition-shadow">
+            <h2 className="text-xl font-semibold mb-2">
+                {title} {sparkle && "✨"}
+            </h2>
+            <p className="text-gray-600">{text}</p>
+            </a>
+        );
+    };
+  ```
+
+  ### Use the component in your docs
+
+  Once you've written the component, you can import it in your Markdown guides using either a relative path or the `@/` prefix for an absolute path from your fern folder root:
+
+  ```jsx guide.mdx
+  // Absolute path from fern folder root
+  import { CustomCard } from "@/components/CustomCard"
+
+  // Or use a relative path
+  import { CustomCard } from "../components/CustomCard"
+
+  <CustomCard 
+    title="MyTitle" 
+    text="Hello" 
+    href="https://github.com/fern-api/fern/tree/main/generators/python"
+  />
+  ```
+
+  The `@/` prefix resolves to the root of your fern folder, so `@/components/CustomCard` refers to `fern/components/CustomCard`. This is useful for nested MDX files where relative paths would be cumbersome (e.g., `../../../components/CustomCard`). Both import styles are automatically transformed to relative paths at publish time.
+
+  ### Specify your components directory in `docs.yml`
+
+  Add your components directory to `docs.yml` so that the Fern CLI can scan your components directory
+  and upload them to the server.
+
+  ```yml docs.yml
+  experimental:
+    mdx-components:
+      - ./components
+  ```
+</Steps>
+
+## Define Markdown output with `toMarkdown`
+
+Generated Markdown (`.md` page twins and `llms.txt`) is derived from the MDX source, so custom components normally contribute nothing to it: self-closing tags are dropped and wrapped children are kept as-is. To give a component a Markdown representation, export a `toMarkdown(props): string` function next to it. Fern calls it with the same props the component receives and splices the returned Markdown in place of the tag.
+
+```tsx meta="components/FeatureAccess.tsx"
+type Plan = { name: string; included?: boolean };
+type Props = { plans?: Plan[] };
+
+export function FeatureAccess({ plans = [] }: Props) {
+  return (
+    <table>
+      <tbody>
+        {plans.map((plan) => (
+          <tr key={plan.name}>
+            <td>{plan.name}</td>
+            <td>{plan.included === false ? "No" : "Yes"}</td>
+          </tr>
+        ))}
+      </tbody>
+    </table>
+  );
+}
+
+export function toMarkdown({ plans = [] }: Props): string {
+  const rows = plans.map((plan) => `| ${plan.name} | ${plan.included === false ? "No" : "Yes"} |`);
+  return ["**Available for the following plan types**", "", "| Plan | Included |", "| --- | --- |", ...rows].join("\n");
+}
+```
+
+Props are built from the tag's attributes: string attributes are passed as strings, attributes without a value as `true`, and `{...}` expressions are evaluated with `frontmatter` in scope. Children are passed as the raw MDX string under `children`.
+
+```mdx guide.mdx
+---
+title: StoryAI Opportunities
+access:
+  plans:
+    - name: Enterprise
+    - name: Business
+      included: false
+---
+
+import { FeatureAccess } from "@/components/FeatureAccess";
+
+<FeatureAccess plans={frontmatter.access.plans} />
+```
+
+For a module that exports several components, attach `toMarkdown` to the component instead:
+
+```tsx meta="components/Price.tsx"
+export function Price({ amount }: { amount: number }) {
+  return <strong>${amount.toFixed(2)}</strong>;
+}
+
+Price.toMarkdown = ({ amount }: { amount: number }) => `**$${amount.toFixed(2)}**`;
+```
+
+`toMarkdown` must be synchronous and return a string. If a component has no `toMarkdown`, or the function throws, times out, or returns anything other than a string, the tag falls back to the default behavior and the page still renders.
+
+## Import third-party packages <span className="dai-mig-badge">Beta</span>
+
+Components can import third-party npm packages installed in your docs project's `node_modules`. The Fern CLI bundles these dependencies into your components at build time.
+
+<Steps>
+  ### Install the package
+
+  Install the package in the directory that contains your `docs.yml`:
+
+  ```bash
+  npm install dayjs
+  ```
+
+  ### Import it in your component
+
+  Import the package alongside your own code:
+
+  ```tsx meta="components/LastWatered.tsx"
+  import dayjs from "dayjs";
+  import relativeTime from "dayjs/plugin/relativeTime";
+
+  dayjs.extend(relativeTime);
+
+  export const LastWatered = ({ date }) => {
+      return <span>Last watered {dayjs(date).fromNow()}</span>;
+  };
+  ```
+
+  ### Use the component
+
+  Use the component in your Markdown as usual:
+
+  ```jsx guide.mdx
+  import { LastWatered } from "@/components/LastWatered"
+
+  <LastWatered date="2026-07-01" />
+  ```
+</Steps>
+
+## Why not just use custom CSS and JS instead?
+
+While you can bundle React components as custom JavaScript, using Fern's built-in React component support provides several key advantages:
+
+<ExpandableGroup>
+  <Expandable title="No layout shifts or flashes">
+    When adding React components via custom JavaScript, you can't control when components are rendered relative to the rest of the page content. This often leads to glitchy behavior where components flash or
+    jump as they load asynchronously after the main content.
+  </Expandable>
+
+  <Expandable title="Faster page load">
+    Custom JavaScript bundles typically include their own copy of the React library, which:
+
+    - Increases page load time by duplicating React code that's already included
+    - Reduces performance as multiple React instances run on the same page
+    - Creates larger bundle sizes that users have to download
+  </Expandable>
+
+  <Expandable title="Improved SEO">
+    Custom React components are server-side rendered and fully indexable by search engines, while components added via custom JavaScript aren't server-side rendered and can't be indexed.
+  </Expandable>
+</ExpandableGroup>

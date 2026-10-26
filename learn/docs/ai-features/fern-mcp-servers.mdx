@@ -1,0 +1,70 @@
+---
+title: Fern's MCP server
+description: Connect your coding agent to a private MCP server with your organization's Fern data and full context on Fern's documentation and configuration.
+---
+
+Fern hosts a private [Model Context Protocol (MCP)](https://modelcontextprotocol.io) server for your organization, with full context on Fern's documentation and configuration alongside your live Fern data. Register it with your coding agent to look up `docs.yml` syntax, components, and CLI commands while you build, and to read your sites, deployments, and reader activity without leaving your terminal.
+
+<Callout kind="info">
+  Your own customers connect to the [MCP server Fern generates for your documentation site](/learn/docs/ai-features/mcp-server).
+</Callout>
+
+## What it can do
+
+Each connection is scoped to a single organization, and the server returns only what your Fern account can already see. The server has access to the same tools as [Fern Agent](/learn/docs/ai-features/fern-agent), including:
+
+- **Sites and configuration**: your docs sites, their `docs.yml` configuration and Dashboard settings, and the Markdown source of published pages
+- **Deployments**: deployment history, and pull request status and preview URLs for connected repositories
+- **Analytics**: traffic summaries, top pages, 404s, referring domains, and LLM bot traffic
+- **Reader signals**: search queries, Ask Fern conversations and resolution rates, and page feedback
+- **Members**: the people in your organization
+
+## Setup
+
+Open the [Fern Dashboard](https://dashboard.buildwithfern.com/). From the [Fern Agent chat panel](/learn/docs/ai-features/fern-agent), click **Onboard your agent** to connect your coding agent to the MCP server.
+
+<Image src="https://blob-cdn.documentation.ai/org-4afef969-21f9-40f3-b5b8-b06c8b6cf68f/doc-01b8ce28-db6e-4307-815a-5dc57da57476/1792998467740-j248uj0elsr-agent-fcc99e1357.png?fm=auto&auto=compress%2Cformat" alt="The Fern Agent chat panel in the Fern Dashboard" className="dai-mig-no-caption" />
+
+<Image src="https://blob-cdn.documentation.ai/org-4afef969-21f9-40f3-b5b8-b06c8b6cf68f/doc-01b8ce28-db6e-4307-815a-5dc57da57476/1792998463783-6fdxe9ssce-agent-dark-8b59615cd2.png?fm=auto&auto=compress%2Cformat" alt="The Fern Agent chat panel in the Fern Dashboard" className="dai-mig-no-caption" />
+
+Alternatively, you can set it up directly from your terminal:
+
+```bash title="terminal"
+npm install -g fern-api
+fern login
+fern mcp install
+```
+
+<Callout kind="info">
+  Agents load MCP servers at startup, so one registered mid-session becomes callable in the next session.
+</Callout>
+
+### Multiple organizations
+
+If your Fern account belongs to more than one organization, tool calls return the organization-scoped URLs to pick from. Pass `fern mcp install --org <org>` to pick one, or register again by hand with the URL you want:
+
+<CodeGroup>
+  ```bash title="Claude Code"
+  claude mcp add --transport http fern-org https://fai.buildwithfern.com/organizations/{{YOUR_ORGANIZATION}}/mcp
+  ```
+
+  ```bash title="Codex"
+  codex mcp add fern-org --url https://fai.buildwithfern.com/organizations/{{YOUR_ORGANIZATION}}/mcp
+  ```
+
+  ```json title="Cursor (.cursor/mcp.json)"
+  {
+    "mcpServers": {
+      "fern-org": { "url": "https://fai.buildwithfern.com/organizations/{{YOUR_ORGANIZATION}}/mcp" }
+    }
+  }
+  ```
+
+  ```json title="GitHub Copilot (.vscode/mcp.json)"
+  {
+    "servers": {
+      "fern-org": { "url": "https://fai.buildwithfern.com/organizations/{{YOUR_ORGANIZATION}}/mcp" }
+    }
+  }
+  ```
+</CodeGroup>

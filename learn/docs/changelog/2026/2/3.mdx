@@ -1,0 +1,52 @@
+---
+title: February 3, 2026
+---
+
+## Try It button in EndpointRequestSnippet
+
+<span className="dai-mig-badge">api-reference, components</span>
+
+The `<EndpointRequestSnippet>` component now includes a Try It button, allowing users to access the endpoint explorer and test API endpoints directly from code snippets.
+
+[Read the docs](/learn/docs/writing-content/components/request-snippet)
+
+## Frontmatter availability
+
+<span className="dai-mig-badge">navigation, docs.yml, frontmatter</span>
+
+Set page availability directly in frontmatter using the `availability` field. This displays an availability badge on the page and overrides any availability defined in the navigation (`docs.yml`).
+
+```mdx
+---
+title: New feature
+availability: beta
+---
+```
+
+Valid values are: `stable`, `generally-available`, `in-development`, `pre-release`, `deprecated`, or `beta`.
+
+[Read the docs](/learn/docs/configuration/page-level-settings#availability)
+
+## Folder section overviews with index files
+
+<span className="dai-mig-badge">navigation</span>
+
+When using `folder` navigation, add an `index.mdx` or `index.md` file to any folder to automatically use it as the section overview. The index file is used as the overview page and excluded from the section contents. This works for both top-level folders and nested subdirectories.
+
+<ExpandableGroup>
+  <Expandable title="pages" defaultOpen={true}>
+    <Expandable title="guides" defaultOpen={true}>
+      `index.mdx` Becomes the section overview page
+
+      `quickstart.mdx`
+
+      <Expandable title="advanced" defaultOpen={true}>
+        `index.mdx` Becomes the nested section overview
+
+        `auth.mdx`
+      </Expandable>
+    </Expandable>
+  </Expandable>
+</ExpandableGroup>
+
+[Read the docs](/learn/docs/configuration/navigation#add-a-folder)

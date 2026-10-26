@@ -1,0 +1,81 @@
+---
+title: AI features
+description: Fern AI features help users find answers instantly, automate content updates, and optimize documentation for AI tools with llms.txt support.
+---
+
+Your documentation site comes with automatic optimizations for AI tools, plus features you can install to help users find answers and keep your content up to date.
+
+<a id="ai-credits"></a>
+
+<Callout kind="tip">
+  **AI credits**
+
+  AI features are usage-based and consume credits. Every [plan](https://buildwithfern.com/pricing) includes a monthly credit allowance: Free plans get 250 credits, [Postman Free](https://buildwithfern.com/pricing?postman=true) plans get 500 credits, and Enterprise plans gets a custom amount.
+
+  | Feature | Credits |
+  | --- | --- |
+  | Ask Fern | 2 credits per message |
+  | AI-generated examples | 1 credit |
+  | Docs update in Slack | 50 credits per session |
+</Callout>
+
+## Find answers
+
+Your users can ask a question instead of searching for one. Ask Fern answers with citations from your documentation, in your docs, in Slack, or in your own product through the [API](/learn/docs/ai-features/ask-fern/api-reference/overview). Developers reach the same content from the agent they code with.
+
+<Columns cols={2}>
+  <Card title="Ask Fern overview" href="/learn/docs/ai-features/ask-fern/overview" icon="lucide:sparkles" />
+
+  <Card title="Ask Fern in Slack" href="/learn/docs/ai-features/ask-fern/slack-app" icon="fa-brands:slack" />
+
+  <Card title="MCP server" href="/learn/docs/ai-features/mcp-server" icon="plug" />
+
+  <Card title="Custom skills" href="/learn/docs/ai-features/host-skills" icon="toolbox" />
+</Columns>
+
+## Build your docs with AI
+
+You can hand your docs to an agent. [Fern Agent](/learn/docs/ai-features/fern-agent) writes them from inside Fern, opening a pull request with the change you describe, either on request or on a [schedule you set](/learn/docs/ai-features/fern-agent#automations). The coding agent you already use writes them too, once Fern's skill and MCP server teach it how Fern Docs sites are built. Fern also generates realistic API examples from your spec.
+
+<Columns cols={2}>
+  <Card title="Fern Agent" href="/learn/docs/ai-features/fern-agent" icon="robot" />
+
+  <Card title="`fern-docs` skill" href="/learn/docs/ai-features/agent-skills" icon="graduation-cap" />
+
+  <Card title="Fern's MCP server" href="/learn/docs/ai-features/fern-mcp-servers" icon="plug" />
+
+  <Card title="AI-generated examples" href="/learn/docs/ai-features/ai-examples" icon="lucide:braces" />
+</Columns>
+
+## Optimize for AI
+
+Your site is automatically optimized for AI tools and search engines. Fern hosts an `llms.txt` file, serves Markdown instead of HTML to AI agents, and exposes a standards-based API catalog, so agents index and process your content with fewer tokens.
+
+These files are generated from your content without calling a model. Your [`robots.txt`](/learn/docs/seo/robots-txt) controls whether third-party tools can crawl or train on them.
+
+<Columns cols={2}>
+  <Card title="Markdown access" href="/learn/docs/ai-features/markdown" icon="file-code" />
+
+  <Card title="`llms.txt`" href="/learn/docs/ai-features/llms-txt" icon="file-lines" />
+
+  <Card title="Agent directives" href="/learn/docs/ai-features/agent-directives" icon="compass" />
+
+  <Card title="API catalog discovery" href="/learn/docs/ai-features/api-catalog" icon="lucide:radar" />
+</Columns>
+
+## Data and controls
+
+Only the content a feature needs reaches a model:
+
+- [Ask Fern](/learn/docs/ai-features/ask-fern/overview#privacy-and-data-handling) sends the conversation and the documentation passages the viewer is allowed to read. Fern stores queries for analytics.
+- [AI-generated examples](/learn/docs/ai-features/ai-examples) send the relevant part of your API definition.
+- [Fern Agent](/learn/docs/ai-features/fern-agent#privacy-and-data-handling) sends your request and keeps it only during the session.
+
+Fern doesn't use your documentation content, your code, or your end users' queries to train AI models.
+
+| Feature | How to turn it off |
+| --- | --- |
+| Ask Fern, including the Slack app and MCP server | Select [**Disable** on the Ask AI card](/learn/docs/ai-features/ask-fern/overview#disable-ask-fern) in **Settings** in the [dashboard](https://dashboard.buildwithfern.com/). |
+| MCP server only | Set [`page-actions.options.mcp`](/learn/docs/configuration/site-level-settings#page-actionsoptionsmcp) to `false` in `docs.yml`. |
+| AI-generated examples | Set [`ai-examples.enabled`](/learn/docs/ai-features/ai-examples#disable-ai-generated-examples) to `false` in `docs.yml`. Hand-written examples always take precedence. |
+| Third-party AI crawling of your published site | Configure [`robots.txt`](/learn/docs/seo/robots-txt). |

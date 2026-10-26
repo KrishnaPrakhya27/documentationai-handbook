@@ -1,0 +1,57 @@
+---
+title: Display HTTP snippets
+description: Enable HTTP code examples using cURL, Python requests, TypeScript fetch, and more from the request examples documented in your API definition.
+---
+
+HTTP snippets show API request examples using common HTTP clients like cURL, Python's `requests` library, and TypeScript's `fetch` API. These are generic code examples that demonstrate how to call your API directly, without using an SDK.
+
+If you configure [SDK snippets](/learn/docs/api-references/sdk-snippets), those are shown by default. Otherwise, HTTP snippets display automatically in your API Reference language dropdown. See [Hume's API Reference](https://dev.hume.ai/reference/voices/create) for an example.
+
+<Image src="https://blob-cdn.documentation.ai/org-4afef969-21f9-40f3-b5b8-b06c8b6cf68f/doc-01b8ce28-db6e-4307-815a-5dc57da57476/1792998597236-pepq1qe1ljh-http-snippets-5ba6ae76c3.png?fm=auto&auto=compress%2Cformat" alt="HTTP code snippet selector" caption="Snippets automatically include authentication headers, query parameters, request body formatting, and content type headers." />
+
+## Configuration
+
+<Steps>
+  <Step title="Add request examples to your API definition">
+    HTTP snippets are generated from request examples in your API definition. For OpenAPI, follow the [request/response examples documentation](https://buildwithfern.com/learn/api-definitions/openapi/extensions/request-response-examples).
+  </Step>
+
+  <Step title="Choose which languages to display">
+    To show only specific languages in the HTTP snippet selector (in addition to cURL), list them in `docs.yml`. Supported values: `csharp`, `curl`, `go`, `java`, `javascript`, `php`, `python`, `ruby`, `swift`, `typescript`.
+
+    ```yaml title="docs.yml"
+    settings:
+      http-snippets:
+        - python
+        - ruby
+    ```
+
+    <Callout kind="tip">
+      Fern development work is driven by customer requests. Request support for languages not listed here by [opening an issue](https://github.com/fern-api/fern/issues/new/choose).
+    </Callout>
+  </Step>
+</Steps>
+
+## Additional options
+
+### Set default snippet language
+
+Use the `default-language` key at the top indentation level of `docs.yml`. This setting applies to both HTTP snippets and SDK snippets.
+
+```yaml meta="&amp;#123;1&amp;#125; title=&amp;quot;docs.yml&amp;quot;"
+default-language: python
+
+navigation:
+  - api: API Reference
+```
+
+### Disable the language dropdown
+
+To disable the HTTP snippet language dropdown and show only cURL examples, set `http-snippets` to `false`:
+
+```yaml title="docs.yml"
+settings:
+  http-snippets: false
+```
+
+This removes all HTTP snippet languages except cURL from the selector. cURL is always displayed and can't be removed via `docs.yml` configuration. To hide cURL, [use custom CSS](/learn/docs/customization/custom-css-js#custom-css).

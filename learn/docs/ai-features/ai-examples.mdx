@@ -1,0 +1,49 @@
+---
+title: AI-generated examples
+description: Automatically create realistic API examples with Fern's AI feature. Customize example styles or disable AI generation as needed.
+keywords: reusable
+---
+
+Fern uses AI to automatically generate realistic request and response examples for your [API Reference](/learn/docs/api-references/overview) documentation. This feature is enabled by default for all API Reference pages. Instead of placeholder values like `username: "string"`, you get believable data that reflects your endpoint properties and descriptions. Examples update automatically as your spec changes.
+
+AI examples work alongside manual examples defined in [`x-fern-examples`](https://buildwithfern.com/learn/api-definitions/openapi/extensions/request-response-examples), with manual examples taking priority.
+
+Generation sends endpoint metadata, the relevant part of your API definition, and existing examples to the model. Fern doesn't use your API definition to train AI models.
+
+<Tabs>
+  <Tab title="Before">
+    <Image src="https://blob-cdn.documentation.ai/org-4afef969-21f9-40f3-b5b8-b06c8b6cf68f/doc-01b8ce28-db6e-4307-815a-5dc57da57476/1792998480938-9w5ioy90u04-ai-examples-before-58a62c8ab0.png?fm=auto&auto=compress%2Cformat" alt="API Reference with placeholder string values" className="dai-mig-no-caption" />
+  </Tab>
+
+  <Tab title="After">
+    <Image src="https://blob-cdn.documentation.ai/org-4afef969-21f9-40f3-b5b8-b06c8b6cf68f/doc-01b8ce28-db6e-4307-815a-5dc57da57476/1792998477190-ep61vv9othm-ai-examples-after-ce0a22df25.png?fm=auto&auto=compress%2Cformat" alt="API Reference with AI-generated realistic example values" className="dai-mig-no-caption" />
+  </Tab>
+</Tabs>
+
+## Configuration
+
+Customize the style of generated examples:
+
+```yaml docs.yml
+ai-examples:
+  style: "Use names and emails that are inspired by plants."
+```
+
+AI-generated examples are written to `ai_examples_override.yml`. Edit this file to customize specific examples. To regenerate examples on each build instead, add the file to `.gitignore`:
+
+```txt meta=".gitignore"
+**/ai_examples_override.yml
+```
+
+<Callout kind="tip">
+  To make AI-generated examples portable to non-Fern OpenAPI tools, use [`fern api enrich`](https://buildwithfern.com/learn/cli-api-reference/cli-reference/general-commands#fern-api-enrich) to merge them into native OpenAPI example fields.
+</Callout>
+
+## Disable AI-generated examples
+
+To turn the feature off entirely, set `enabled` to `false`:
+
+```yaml docs.yml
+ai-examples:
+  enabled: false
+```

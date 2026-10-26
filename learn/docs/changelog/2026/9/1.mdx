@@ -1,0 +1,19 @@
+---
+title: September 1, 2026
+---
+
+## Custom search metadata for faceting
+
+<span className="dai-mig-badge">search, frontmatter</span>
+
+You can now attach your own key-value metadata to a page with the `search-metadata` frontmatter object. Fern copies the block onto every Algolia record for that page and declares each key for faceting, so a custom search integration can group and filter results by your own taxonomy.
+
+[Read the docs](/learn/docs/customization/search#facet-on-custom-page-metadata)
+
+## Per-deployment values in self-hosted docs
+
+<span className="dai-mig-badge">self-hosted, customization</span>
+
+A self-hosted container can now resolve environment variables in the pages it serves, on each request. A `${VAR}` whose name is listed in `FERN_RUNTIME_ENV_VARS` is deferred past generation instead of being substituted with its build-time value, so one image serves deployments that differ only in those values.
+
+[Read the docs](/learn/docs/self-hosted/set-up#per-deployment-values)

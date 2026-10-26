@@ -1,0 +1,37 @@
+---
+title: May 1, 2026
+---
+
+## API catalog discovery
+
+<span className="dai-mig-badge">api-reference, ai</span>
+
+AI agents, MCP clients, and API catalog crawlers can now discover your APIs automatically. Every Fern Docs site exposes a standards-based ([RFC 9727](https://www.rfc-editor.org/rfc/rfc9727)) `/.well-known/api-catalog` endpoint generated from your visible API Reference navigation.
+
+[Read the docs](/learn/docs/ai-features/api-catalog)
+
+## Custom URL actions on the Prompt component
+
+<span className="dai-mig-badge">components</span>
+
+You can now point `<Prompt>` actions at any AI tool, not just Cursor, Claude, and ChatGPT. Send readers to Perplexity, your own internal AI assistant, or any other URL.
+
+Generate a TypeScript SDK
+
+```text
+Generate a TypeScript SDK from my OpenAPI spec. Follow the TypeScript SDK quickstart.
+```
+
+```jsx Markdown
+<Prompt
+  title="Generate a TypeScript SDK"
+  actions={[
+    { label: "Open in Perplexity", url: "https://www.perplexity.ai/search?q={prompt}", icon: "magnifying-glass" },
+    "cursor"
+  ]}
+>
+Generate a TypeScript SDK from my OpenAPI spec. Follow the [TypeScript SDK quickstart](https://buildwithfern.com/learn/sdks/generators/typescript/quickstart.md).
+</Prompt>
+```
+
+[Read the docs](/learn/docs/writing-content/components/prompt#with-a-custom-url-action)

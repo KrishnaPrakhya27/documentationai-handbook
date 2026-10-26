@@ -1,0 +1,42 @@
+---
+title: Frame
+description: Use Fern's Frame component to display images with captions in your docs. Includes subtle background variants and properties.
+---
+
+The `<Frame>` component provides a container for images and other media with optional captions and backgrounds.
+
+## Usage
+
+<Image src="https://blob-cdn.documentation.ai/org-4afef969-21f9-40f3-b5b8-b06c8b6cf68f/doc-01b8ce28-db6e-4307-815a-5dc57da57476/1792997803181-e5bkcud5gk-pexels-photo-1867601.jpg?fm=auto&auto=compress%2Cformat" alt="Sample photo of mountains" caption="Beautiful mountains" />
+
+```jsx Markdown
+<Frame caption="Beautiful mountains">
+  <img src="./path/to/image.jpg" alt="Sample photo of mountains"/>
+</Frame>
+```
+
+## Variants
+
+### Subtle background
+
+<Image src="https://blob-cdn.documentation.ai/org-4afef969-21f9-40f3-b5b8-b06c8b6cf68f/doc-01b8ce28-db6e-4307-815a-5dc57da57476/1792997803181-e5bkcud5gk-pexels-photo-1867601.jpg?fm=auto&auto=compress%2Cformat" alt="Sample photo of mountains" caption="Beautiful mountains" />
+
+```jsx Markdown
+<Frame caption="Beautiful mountains" background="subtle">
+  <img src="./path/to/image.jpg" alt="Sample photo of mountains"/>
+</Frame>
+```
+
+## Properties
+
+<ParamField path="caption" type="string" required={false}>
+  Caption text to display below the frame
+</ParamField>
+
+<ParamField path="background" type="'subtle' | 'default'" required={false}>
+  Adds a subtle background to the frame. Use "subtle" for a more muted appearance.
+</ParamField>
+
+<ParamField path="className" type="string" required={false}>
+  Additional CSS classes to apply to the frame
+</ParamField>

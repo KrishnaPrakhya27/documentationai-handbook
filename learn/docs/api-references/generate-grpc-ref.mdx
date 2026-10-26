@@ -1,0 +1,79 @@
+---
+title: Generate gRPC API Reference
+description: Use Fern Docs to generate gRPC API Reference documentation from Protocol Buffer (.proto) files.
+---
+
+Fern generates gRPC API Reference documentation from your [Protocol Buffer (`.proto`) files](https://buildwithfern.com/learn/api-definitions/grpc/overview). Add your `.proto` files to your Fern project and Fern renders services, RPCs, messages, and types as an interactive reference.
+
+## Configuration
+
+<Steps>
+  <Step title="Set up your project structure">
+    Add your `.proto` files to your `/fern` directory and create a `generators.yml` that references them:
+
+    ```yaml generators.yml
+    api:
+      specs:
+        - proto:
+            root: ./proto
+            target: proto/service/v1/service.proto
+    ```
+  </Step>
+
+  <Step title="Add the gRPC Reference to your navigation">
+    Add `- api: API Reference` to your navigation in `docs.yml`:
+
+    ```yml docs.yml
+    navigation:
+      - api: API Reference
+    ```
+
+    Fern will automatically populate your services, RPCs, message types, and enums from your `.proto` files.
+  </Step>
+
+  <Step title="Customize the layout">
+    For a full list of configuration options and layout customizations, see [Customize API Reference layout](/learn/docs/api-references/customize-api-reference-layout).
+  </Step>
+</Steps>
+
+### Include more than one gRPC Reference
+
+To include multiple gRPC definitions in your documentation, use the `api-name` property. The `api-name` corresponds to the folder name containing your gRPC definition.
+
+<ExpandableGroup>
+  <Expandable title="fern" defaultOpen={true}>
+    `fern.config.json`
+
+    `docs.yml`
+
+    <Expandable title="user-api" defaultOpen={true}>
+      <Expandable title="proto" defaultOpen={true}>
+        `user_service.proto` User gRPC service
+      </Expandable>
+
+      `generators.yml`
+    </Expandable>
+
+    <Expandable title="billing-api" defaultOpen={true}>
+      <Expandable title="proto" defaultOpen={true}>
+        `billing_service.proto` Billing gRPC service
+      </Expandable>
+
+      `generators.yml`
+    </Expandable>
+  </Expandable>
+</ExpandableGroup>
+
+```yaml title="docs.yml"
+navigation:
+  - api: User API
+    api-name: user-api
+  - api: Billing API
+    api-name: billing-api
+```
+
+### Configuration properties
+
+<ParamField path="api.specs[].proto" required={true}>
+  Path to your gRPC specification file. You can include multiple gRPC specs if your project exposes more than one API.
+</ParamField>

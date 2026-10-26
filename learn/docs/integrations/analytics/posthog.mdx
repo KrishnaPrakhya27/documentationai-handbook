@@ -1,0 +1,51 @@
+---
+title: PostHog
+description: Learn how to add PostHog analytics to your Fern documentation. Configure your PostHog API key and custom endpoint.
+---
+
+Integrate PostHog to track user behavior and analytics in your documentation, including page views, feature usage, and user interactions.
+
+<Steps>
+  <Step title="Get your PostHog API key">
+    You can find your PostHog API key under your [project settings](https://us.posthog.com/settings/project).
+  </Step>
+
+  <Step title="Add PostHog to `docs.yml`">
+    In your `docs.yml` file, add your PostHog configuration:
+
+    ```yaml title="docs.yml"
+    analytics:
+      posthog:
+        api-key: ${POSTHOG_API_KEY}
+    ```
+  </Step>
+
+  <Step title="Provide the API key at publish time">
+    The `${POSTHOG_API_KEY}` syntax reads the key from an environment variable at publish time, so the variable must be present in whatever environment runs `fern generate --docs`.
+
+    When you publish with a GitHub Actions workflow, map the secret into the publish step's `env`:
+
+    ```yaml meta=".github/workflows/publish-docs.yml &amp;#123;4&amp;#125;"
+    - name: Publish Docs
+      env:
+        FERN_TOKEN: ${{ secrets.FERN_TOKEN }}
+        POSTHOG_API_KEY: ${{ secrets.POSTHOG_API_KEY }}
+      run: |
+        npm install -g fern-api
+        fern generate --docs
+    ```
+  </Step>
+
+  <Step title="(Optional) Configure a custom endpoint">
+    If you use a custom PostHog endpoint, add it to your configuration:
+
+    ```yaml meta="&amp;#123;4&amp;#125; title=&amp;quot;docs.yml&amp;quot;"
+    analytics:
+      posthog:
+        api-key: ${POSTHOG_API_KEY}
+        endpoint: ${POSTHOG_API_HOST} # e.g. https://analytics.example.com or https://eu.i.posthog.com
+    ```
+  </Step>
+</Steps>
+
+For a full list of events Fern forwards to your PostHog instance, see the [analytics events reference](/learn/docs/integrations/analytics/events).

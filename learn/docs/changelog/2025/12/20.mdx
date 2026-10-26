@@ -1,0 +1,22 @@
+---
+title: December 20, 2025
+---
+
+## Custom SVG icons in card and icon components
+
+<span className="dai-mig-badge">components, customization</span>
+
+The Card and Icon components support relative paths to SVG files. Use a relative path like `./images/icon.svg` to display custom SVG icons from your project. Paths are relative to the page where the component is used.
+
+```jsx Markdown
+<Card 
+    title="Fern species" 
+    icon="./images/fern-leaf.svg"
+>
+    Card with a custom SVG icon.
+</Card>
+
+<Icon icon="./images/fern-leaf.svg" /> Custom SVG icon
+```
+
+[Read the docs](/learn/docs/writing-content/components/cards)

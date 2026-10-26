@@ -1,0 +1,35 @@
+---
+title: August 27, 2026
+---
+
+## GraphQL schemas split across multiple files
+
+<span className="dai-mig-badge">api-reference, generators.yml</span>
+
+You can now generate a single GraphQL API Reference from a schema split across several SDL files, including Apollo Federation subgraphs. List each file as its own spec in `generators.yml` with the same `name`, and Fern compiles them into one schema.
+
+[Read the docs](/learn/docs/api-references/generate-graphql-ref#compile-a-schema-split-across-multiple-files)
+
+## Blog layouts for changelogs
+
+<span className="dai-mig-badge">navigation, customization</span>
+
+You can now present a changelog as a blog, with dated entries rendered as cards in a grid or list, tag filters, search, and author bylines on each post. Use this layout when a changelog functions more like a series of announcement posts than a list of releases. Set `layout: blog` and `blog-layout` in the changelog overview frontmatter.
+
+<Video src="https://video-cdn.documentation.ai/org-4afef969-21f9-40f3-b5b8-b06c8b6cf68f/doc-01b8ce28-db6e-4307-815a-5dc57da57476/1792998519170-pyhu8fd8mg-blog-97271efb34.mp4" autoplay={true} loop={true} muted={true} />
+
+<em>Cards, tag filters, and search on a blog, with author bylines on the post page. Try the [live example site](https://blog.docs.buildwithfern.com/blog).</em>
+
+[Read the docs](/learn/docs/configuration/changelogs#blog-layout)
+
+## Redirects in separate files
+
+<span className="dai-mig-badge">seo, docs.yml</span>
+
+You can now keep redirects in a separate YAML file and reference it from `docs.yml`. You can also split redirects across multiple files.
+
+```yaml docs.yml
+redirects: ./redirects.yml
+```
+
+[Read the docs](/learn/docs/seo/redirects#keep-redirects-in-separate-files)

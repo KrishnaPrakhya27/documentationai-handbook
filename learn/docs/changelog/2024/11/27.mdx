@@ -1,0 +1,39 @@
+---
+title: November 27, 2024
+---
+
+## Auto-Populate Credentials in API Explorer
+
+<span className="dai-mig-badge">api-reference</span>
+
+Save developers the hassle of finding and copying their API key. When authenticated, their API credentials will be automatically filled into the API Playground. This way, they can make their first API call even faster.
+
+<Image src="https://blob-cdn.documentation.ai/org-4afef969-21f9-40f3-b5b8-b06c8b6cf68f/doc-01b8ce28-db6e-4307-815a-5dc57da57476/1792998488739-8mx5n4zhtgf-api-explorer-34b3d273fd.png?fm=auto&auto=compress%2Cformat" alt="API Explorer Splash Image" className="dai-mig-no-caption" />
+
+Check it out live in [Webflow's API Explorer](https://developers.webflow.com/data/reference/sites/list?playground=/data/reference/sites/list).
+
+[Read the docs](/learn/docs/api-references/api-explorer)
+
+## Card Component System
+
+<span className="dai-mig-badge">components</span>
+
+Enhanced documentation card components for better visual organization. Information can now be presented in a more structured and appealing way.
+
+```typescript
+interface CardProps {
+  title: string;
+  description: string;
+  icon?: IconName;
+  variant?: 'default' | 'bordered' | 'filled';
+  actions?: CardAction[];
+}
+
+interface CardAction {
+  label: string;
+  href?: string;
+  onClick?: () => void;
+}
+```
+
+[Read the docs](/learn/docs/writing-content/components/cards)

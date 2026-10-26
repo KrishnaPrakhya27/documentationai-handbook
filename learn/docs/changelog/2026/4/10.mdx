@@ -1,0 +1,21 @@
+---
+title: April 10, 2026
+---
+
+## Custom `llms.txt` and `llms-full.txt` files
+
+<span className="dai-mig-badge">ai, docs.yml</span>
+
+Provide your own `llms.txt` and `llms-full.txt` files instead of using the auto-generated versions. Add paths to your files under the `agents` key in `docs.yml`:
+
+```yaml docs.yml
+agents:
+  llms-txt: ./path/to/llms.txt
+  llms-full-txt: ./path/to/llms-full.txt
+```
+
+Custom files are served at the root-level `/llms.txt` and `/llms-full.txt` endpoints. Nested paths continue to use auto-generated output.
+
+Requires Fern CLI version `4.67.0` or later.
+
+[Read the docs](/learn/docs/ai-features/customize-llm-output#serve-custom-files)

@@ -1,0 +1,31 @@
+---
+title: July 1, 2026
+---
+
+## Changelog layout configuration
+
+<span className="dai-mig-badge">navigation, docs.yml, frontmatter</span>
+
+Changelogs now support two layouts:
+
+- `timeline` (default) renders a searchable timeline of condensed entry cards.
+- `classic` renders stacked full entries inline, preserving code formatting, copy buttons, and links.
+
+Set either value site-wide with `layout.changelog-layout` in `docs.yml`:
+
+```yaml docs.yml
+layout:
+  changelog-layout: classic
+```
+
+Or override the site-wide default for a single changelog by adding `layout` to its overview page frontmatter:
+
+```mdx meta="changelog/overview.mdx"
+---
+layout: classic
+---
+```
+
+The per-changelog override takes priority over the site-wide setting.
+
+[Read the docs](/learn/docs/configuration/changelogs#customize-layout)

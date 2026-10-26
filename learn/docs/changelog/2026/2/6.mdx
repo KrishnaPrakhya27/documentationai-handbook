@@ -1,0 +1,29 @@
+---
+title: February 6, 2026
+---
+
+## Deep linking for Ask Fern
+
+<span className="dai-mig-badge">ai, search</span>
+
+Open Ask Fern or the search dialog directly from a URL using query parameters. Append `?searchType=ai&query={prompt}` to open Ask AI with a prompt, or `?query={search}` for regular search. Parameters are removed from the URL after the search opens.
+
+[Read the docs](/learn/docs/ai-features/ask-fern/overview#deep-linking)
+
+## Global folder title source setting
+
+<span className="dai-mig-badge">navigation, docs.yml, frontmatter</span>
+
+Set a default `title-source` for all folder navigations using the new `folder-title-source` option in `settings`. Individual folders can still override this value with their own `title-source`.
+
+```yaml docs.yml
+settings:
+  folder-title-source: frontmatter
+
+navigation:
+  - folder: ./pages/guides         # uses frontmatter (from global setting)
+  - folder: ./pages/reference
+    title-source: filename          # overrides global setting
+```
+
+[Read the docs](/learn/docs/configuration/site-level-settings#settingsfolder-title-source)

@@ -1,0 +1,21 @@
+---
+title: March 30, 2026
+---
+
+## Tab alignment and placement options
+
+<span className="dai-mig-badge">customization, docs.yml</span>
+
+You can now finetune how your tabs look and behave using `theme.tabs` in `docs.yml`. Choose between the default underline or bubble style, place tabs in the header or sidebar, and center-align header tabs from a single configuration block.
+
+```yaml docs.yml
+theme:
+  tabs:
+    style: bubble
+    alignment: center
+    placement: header
+```
+
+The existing string shorthand (e.g., `theme.tabs: bubble`) continues to work for simple style changes.
+
+[Read the docs](/learn/docs/configuration/site-level-settings#theme-configuration)

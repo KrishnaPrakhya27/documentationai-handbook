@@ -1,0 +1,92 @@
+---
+title: Icon
+description: Learn how to add Font Awesome icons to your Fern documentation. Customize icon sizes, colors, and styles with the Icon component.
+---
+
+The `<Icon>` component displays [Font Awesome](https://fontawesome.com/) icons in your documentation with support for all Font Awesome Pro styles.
+
+## Usage
+
+ Basic icon
+
+```jsx Markdown
+<Icon icon="seedling" /> Basic icon
+```
+
+## Variants
+
+### Sizes
+
+ Large icon
+
+```jsx Markdown
+<Icon icon="warning" size="7" /> Large icon
+```
+
+### Colors
+
+ Colored icon
+
+```jsx Markdown
+<div><Icon icon="check" color="#22C55E" /> Colored icon</div>
+```
+
+### Font Awesome styles
+
+ Default (Solid)
+
+ Regular
+
+ Light
+
+ Thin
+
+ Duotone
+
+ Sharp Solid
+
+ Brands
+
+```jsx Markdown
+<Icon icon="heart" /> Default (Solid)
+<Icon icon="fa-regular fa-heart" /> Regular
+<Icon icon="fa-light fa-heart" /> Light
+<Icon icon="fa-thin fa-heart" /> Thin
+<Icon icon="fa-duotone fa-heart" /> Duotone
+<Icon icon="fa-sharp fa-solid fa-heart" /> Sharp Solid
+<Icon icon="fa-brands fa-github" /> Brands
+```
+
+### Custom SVG icon
+
+Use a relative path to display a custom SVG file from your project.
+
+```jsx Markdown
+<Icon icon="./images/fern-leaf.svg" /> Custom SVG icon
+```
+
+## Properties
+
+<ParamField path="icon" type="string" required={true}>
+  A Font Awesome icon name (e.g., "heart" or "fa-solid fa-heart") or a relative path to an SVG file (e.g., "./images/icon.svg")
+</ParamField>
+
+<ParamField path="color" type="string">
+  Icon color (hex, RGB, or color name). Ignored if `lightModeColor` and `darkModeColor` are both set
+</ParamField>
+
+<ParamField path="darkModeColor" type="string">
+  Icon color for dark mode (hex, RGB, or color name)
+</ParamField>
+
+<ParamField path="lightModeColor" type="string">
+  Icon color for light mode (hex, RGB, or color name)
+</ParamField>
+
+<ParamField path="size" type="number">
+  Size of the icon (width and height) calculated as `size * 4` pixels (e.g., 4 = 16px, 8 = 32px).
+</ParamField>
+
+<ParamField path="className" type="string">
+  Additional CSS classes to apply to the icon
+</ParamField>

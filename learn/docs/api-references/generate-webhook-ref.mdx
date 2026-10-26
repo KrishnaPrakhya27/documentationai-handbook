@@ -1,0 +1,96 @@
+---
+title: Generate Webhook Reference
+description: Use Fern Docs to generate your Webhook Reference documentation from an OpenAPI spec.
+---
+
+Fern generates Webhook Reference documentation from an [OpenAPI specification](https://buildwithfern.com/learn/api-definitions/openapi/endpoints/webhooks).
+
+Fern supports webhooks through:
+
+- <strong>OpenAPI 3.1+</strong>: Use the native `webhooks` field with an `operationId` (recommended)
+- **OpenAPI 3.0**: Use the `x-fern-webhook: true` extension
+
+## Configuration
+
+<Steps>
+  <Step title="Set up your project structure">
+    Add your specification file to your `/fern` directory and create a `generators.yml` that references it:
+
+    ```yaml generators.yml
+    api:
+      path: openapi/openapi.yml
+    ```
+  </Step>
+
+  <Step title="Add the Webhook Reference to your navigation">
+    Add `- api: Webhook Reference` to your navigation in `docs.yml`:
+
+    ```yml docs.yml
+    navigation:
+      - api: Webhook Reference
+        api-name: webhooks-v1
+    ```
+
+    Use the `api-name` property to reference the folder containing your webhook definition.
+  </Step>
+
+  <Step title="Customize the layout">
+    For a full list of configuration options and layout customizations, see [Customize API Reference layout](/learn/docs/api-references/customize-api-reference-layout).
+  </Step>
+</Steps>
+
+For a real-world example of webhook documentation generated from an API definition, check out [Webflow's webhooks](https://developers.webflow.com/data/reference/webhooks/events/form-submission).
+
+### Include more than one Webhook Reference
+
+To include multiple webhook definitions in your documentation, use the `api-name` property. The `api-name` corresponds to the folder name containing your webhook definition.
+
+<ExpandableGroup>
+  <Expandable title="fern" defaultOpen={true}>
+    `fern.config.json`
+
+    `docs.yml`
+
+    <Expandable title="payment-webhooks" defaultOpen={true}>
+      <Expandable title="openapi" defaultOpen={true}>
+        `openapi.yml` Payment webhook OpenAPI spec
+      </Expandable>
+
+      `generators.yml`
+    </Expandable>
+
+    <Expandable title="order-webhooks" defaultOpen={true}>
+      <Expandable title="openapi" defaultOpen={true}>
+        `openapi.yml` Order webhook OpenAPI spec
+      </Expandable>
+
+      `generators.yml`
+    </Expandable>
+  </Expandable>
+</ExpandableGroup>
+
+```yaml title="docs.yml"
+navigation:
+  - api: Payment Webhooks
+    api-name: payment-webhooks
+  - api: Order Webhooks
+    api-name: order-webhooks
+```
+
+### Reference individual webhook events
+
+To display each webhook event as an individual page, reference it in the `layout` using the `subpackage_{tag}.{webhook-event-name}` format:
+
+```yaml title="docs.yml"
+navigation:
+  - api: Webhook Reference
+    api-name: webhooks-v1
+    layout:
+      - subpackage_plants.newPlantWebhook
+```
+
+Where `{tag}` is the first tag (lowercase) and `{webhook-event-name}` is the `operationId` from your webhook definition.
+
+<Callout kind="info">
+  You must have the `tags` and `example` properties defined [in your webhook specification](https://buildwithfern.com/learn/api-definitions/openapi/endpoints/webhooks).
+</Callout>

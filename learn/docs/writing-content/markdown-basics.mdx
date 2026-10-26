@@ -1,0 +1,137 @@
+---
+title: Markdown basics
+description: Use Markdown and MDX to add content to your Fern documentation site, including headers, components, links, and API endpoint links.
+---
+
+Learn how to use Markdown and MDX to add content to your documentation, including headers, components, and links.
+
+<Callout kind="info">
+  **Terminology**
+
+  Throughout this documentation, "Markdown" refers to both Markdown and MDX. [MDX](https://mdxjs.com/) is a version of Markdown, extended to allow the use of JSX components.
+</Callout>
+
+## Add Markdown or MDX pages
+
+Add pages manually to your documentation by creating Markdown (`.md`) or MDX (`.mdx`) files. New to Markdown? See [Markdown Guide: Getting started](https://www.markdownguide.org/getting-started/).
+
+Place your pages inside your `fern/` folder and link to them from your [navigation settings](/learn/docs/configuration/navigation) in the `docs.yml` file.
+
+In the example below, the MDX files are inside a folder named `pages/`.
+
+```bash title="Example folder structure"
+fern/
+├─ fern.config.json
+├─ docs.yml
+└─ pages/
+  ├─ welcome.mdx
+  └─ quickstart.mdx
+```
+
+```yml title="docs.yml"
+navigation:
+  - section: Overview
+    contents:
+      - page: Welcome
+        path: ./pages/welcome.mdx
+      - page: Quickstart
+        path: ./pages/quickstart.mdx
+```
+
+## Page header
+
+Fern automatically generates the `<h1>` page header for each page using the `page` value in `docs.yml`. For example, the following entry sets the page header for this page to "Markdown basics":
+
+```yml docs.yml
+- page: Markdown basics
+  path: ./pages/component-library/writing-content/markdown-basics.mdx
+```
+
+Because the `<h1>` is generated automatically, you should begin your page content with `<h2>` headers instead of `<h1>`.
+
+## Links in Markdown
+
+### Link format
+
+To link to another page on your docs site, write the destination's **published site path**, starting with a `/`. Fern builds this path from the slugs in your [`docs.yml` and product YAML files](/learn/docs/configuration/navigation), not from the file's location on disk. To link to a heading on another page, append `#anchor` to the path.
+
+<Callout kind="info">
+  File-relative paths like `./` and `../` aren't supported for inter-page links — use the published site path instead. (File-relative paths are still correct for [images and other media](/learn/docs/writing-content/markdown-media) and for `path:` references inside YAML config.)
+</Callout>
+
+```mdx wordWrap title="Internal link example"
+Learn about [how Fern SDKs work](/learn/sdks/overview/how-it-works).
+
+Configure [sidebar icons](/learn/docs/configuration/navigation#sidebar-icons) to add visual cues to your navigation.
+```
+
+In [versioned docs](/learn/docs/configuration/versions), the same path lands on a different version depending on whether you write the unversioned form (default version) or the versioned form (e.g. `/learn/docs/v2/getting-started`). For inline version-specific content within a single page, use [`<If versions=…>`](/learn/docs/writing-content/components/if#by-version) or [`<Versions>`](/learn/docs/writing-content/components/versions).
+
+### Validating links
+
+Fern provides two ways to catch broken links. The [`broken-links` rule](/learn/docs/configuration/site-level-settings#check-configuration) — run by [`fern check`](https://buildwithfern.com/learn/cli-api-reference/cli-reference/general-commands#fern-check), including during `fern docs dev` — validates each internal link against the navigation tree built from your **local** YAML. To check links on a published site, use [`fern docs link check`](https://buildwithfern.com/learn/cli-api-reference/cli-reference/docs-commands#fern-docs-link-check) or the [Fern Dashboard](https://dashboard.buildwithfern.com/).
+
+|  | `fern check` broken-links rule | `fern docs link check` |
+| --- | --- | --- |
+| What it checks | Internal links in your **local** YAML navigation tree | All links on your **live deployed** site |
+| External links | Not checked | Checked |
+| Requires a published site | No | Yes |
+| When to use | In CI, before publishing | After publishing, to catch live 404s and broken external URLs |
+
+### API link syntax
+
+Use `api:` link syntax to link to API endpoints or API Reference sections in any Markdown content. Fern resolves these links at build time, so you don't need to hardcode slugs.
+
+<ExpandableGroup>
+  <Expandable title="Link to an endpoint">
+    Use `api:METHOD/path`, where `METHOD` is an HTTP method (`GET`, `POST`, `PUT`, `PATCH`, `DELETE`) and `/path` is the endpoint path from your API definition. Path parameters use curly braces, such as `api:GET/v2/payments/{paymentId}`.
+
+    For projects with [multiple APIs](/learn/docs/api-references/generate-api-ref#include-more-than-one-api-reference), prefix with the API name: `api:API-NAME:METHOD/path`.
+
+    ```mdx Markdown
+    View the [Current user information](api:mcp-tools:GET/api/fern-docs/whoami) endpoint.
+    ```
+  </Expandable>
+
+  <Expandable title="Link to the root of an API Reference section">
+    Use `api:apiName`, where `apiName` matches the API name in your `generators.yml` file. This is useful when your project has multiple APIs and you want to link to the root landing page of a specific API Reference.
+
+    ```mdx Markdown
+    Explore the [Plant Store API](api:plant-store) reference.
+    ```
+  </Expandable>
+</ExpandableGroup>
+
+### Link target
+
+Control where links open with the `target` property. Available for product, tab, navbar, and page links. For typical documentation sites, links can open in the same tab (`_self`) or new tab (`_blank`). For documentation embedded in a dashboard or iframe, links can open in the parent frame (`_parent`) or topmost frame (`_top`).
+
+```yaml meta="title=&amp;quot;docs.yml&amp;quot; &amp;#123;8&amp;#125;"
+navigation:
+  - section: Home
+    contents:
+      - page: Introduction
+        path: ./intro.mdx
+      - link: Our YouTube channel
+        href: https://www.youtube.com/
+        target: _blank
+```
+
+[Learn more](/learn/docs/configuration/navigation) about links and other navigational elements.
+
+## Tables
+
+Create tables using standard Markdown syntax with pipes (`|`) and hyphens (`-`):
+
+```markdown
+| Column 1 | Column 2 | Column 3 |
+|----------|----------|----------|
+| Row 1    | Data     | Data     |
+| Row 2    | Data     | Data     |
+```
+
+For more advanced table features like sticky headers for longer datasets, see the [Table component](/learn/docs/writing-content/components/tables) documentation.
+
+## Fern components
+
+Fern has a built-in component library you can use in Markdown. [Explore the components.](/learn/docs/writing-content/components/overview)

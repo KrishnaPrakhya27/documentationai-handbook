@@ -1,0 +1,17 @@
+---
+title: March 18, 2026
+---
+
+## Stable named preview links
+
+<span className="dai-mig-badge">local-development</span>
+
+Share a single preview link with reviewers that stays up to date as you push changes by passing an                     `--id` to `fern generate --docs --preview`. Rerunning with the same `--id` updates the existing preview in place rather than creating a new URL.
+
+```bash
+fern generate --docs --preview --id my-feature
+```
+
+To set this up in CI, update your [GitHub Actions workflow](/learn/docs/preview-publish/preview-changes#automate-with-github-actions) to pass the branch name as the `--id`.
+
+[Read the docs](/learn/docs/preview-publish/preview-changes#preview-links)

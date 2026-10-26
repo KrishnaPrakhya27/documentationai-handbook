@@ -1,0 +1,372 @@
+---
+title: Configure SEO metadata
+description: Configure SEO metadata in Fern docs with page-level frontmatter and site-wide settings. Control titles, descriptions, social media previews, and sitemap timestamps.
+max-toc-depth: 4
+---
+
+Fern automatically generates all SEO metadata for every page in your documentation site. Search engines and social media previews work out of the box with no configuration required.
+
+When you do want to customize SEO settings, you can set defaults at the site level or override them on individual pages using frontmatter. Keep titles between 50-60 characters and descriptions between 150-160 characters for optimal display.
+
+<Callout kind="info">
+  The metadata configurations on this page are for SEO and social tags that aren't visible to users. For visible footer links, see [footer links configuration](/learn/docs/configuration/site-level-settings#footer-links-configuration).
+</Callout>
+
+## How it works
+
+Fern looks for metadata values in this order:
+
+1. **Page frontmatter** — Custom SEO values for a specific page
+2. <strong>Site-level `docs.yml`</strong> — Default SEO values for all pages
+3. **Automatic defaults** — Generated from your page's existing `title`, `description`, `subtitle`, or `excerpt` fields
+
+<Callout kind="info">
+  **Example**
+
+  `og:image` is the image that appears in social media previews. If you don't set `og:image` in a page's frontmatter, Fern uses the site-wide `og:image` from `docs.yml`. If neither is configured, the tag is omitted entirely.
+</Callout>
+
+## Site-wide defaults
+
+Set default SEO metadata for your entire site in `docs.yml`. These apply to all pages unless overridden by page-specific metadata.
+
+```yaml docs.yml
+metadata:
+  # Core metadata
+  og:site_name: "Square Developer Documentation"
+  og:title: "Square Developer Platform | Payments, Commerce & Banking APIs"
+  og:description: "Build with Square's suite of APIs and SDKs. Accept payments, manage inventory, create loyalty programs, and access financial services."
+  og:url: "https://developer.squareup.com/docs"
+  og:locale: "en_US"
+  canonical-host: "developer.squareup.com"
+
+  # Social image
+  og:image: "https://developer.squareup.com/images/docs-social-card.png"
+  og:image:width: 1200
+  og:image:height: 630
+  og:logo: "https://developer.squareup.com/images/square-logo.png"
+
+  # Twitter / X
+  twitter:title: "Square Developer Platform Documentation"
+  twitter:description: "Integrate payments, point-of-sale, inventory, and financial services into your applications with Square's developer platform."
+  twitter:handle: "@SquareDev"
+  twitter:image: "https://developer.squareup.com/images/twitter-card.png"
+  twitter:site: "@Square"
+  twitter:card: "summary_large_image"
+```
+
+### Core metadata
+
+Identity and descriptive fields used by search engines and shared across social platforms. Keep titles between 50–60 characters and descriptions between 150–160 characters for optimal display. Set `canonical-host` if your docs are accessible at multiple URLs (e.g., a custom domain and a `buildwithfern.com` subdomain) to tell search engines which URL is authoritative.
+
+<ParamField path="metadata.og:site_name" type="string" required={false}>
+  The name of your website for Open Graph tags.
+</ParamField>
+
+<ParamField path="metadata.og:title" type="string" required={false}>
+  The title shown in social media previews. Falls back to the page's `title` when unset.
+</ParamField>
+
+<ParamField path="metadata.og:description" type="string" required={false}>
+  The description shown in social media previews. Falls back to the page's `description`, `subtitle`, or `excerpt` when unset.
+</ParamField>
+
+<ParamField path="metadata.og:url" type="string" required={false}>
+  The canonical URL of your documentation. Falls back to the page's resolved URL when unset.
+</ParamField>
+
+<ParamField path="metadata.og:locale" type="string" required={false}>
+  The locale of your content (e.g., `en_US`). No default; the tag is omitted when unset.
+</ParamField>
+
+<ParamField path="metadata.canonical-host" type="string" required={false}>
+  The host of your documentation website. Used to set the canonical URL for metadata tags and documents like the sitemap. Defaults to the URL defined in `instances`.
+</ParamField>
+
+### Social image
+
+The image displayed when your docs are shared on LinkedIn, Slack, Discord, and other platforms. You can either set a single image that applies to every page, or have Fern dynamically generate a unique image per page.
+
+#### Manual
+
+Set one static image with `og:image` that applies to every page. Use a 1200x630px image for the best display across platforms — this is the standard Open Graph size and will render correctly in most previews. Avoid embedding text in the image since it may be cropped on some platforms.
+
+<ParamField path="metadata.og:image" type="string" required={false}>
+  The image shown in social media previews. Recommended size is 1200x630 pixels. No default; the tag is omitted when unset.
+</ParamField>
+
+<ParamField path="metadata.og:image:width" type="number" required={false}>
+  The width of your Open Graph image in pixels. Only applied when `og:image` is set.
+</ParamField>
+
+<ParamField path="metadata.og:image:height" type="number" required={false}>
+  The height of your Open Graph image in pixels. Only applied when `og:image` is set.
+</ParamField>
+
+<ParamField path="metadata.og:logo" type="string" required={false}>
+  URL to your company logo. No default; the tag is omitted when unset.
+</ParamField>
+
+#### Dynamic {/* UNSUPPORTED INLINE COMPONENT Availability */} [#dynamic-og-images]
+
+Instead of using a single static image for all pages, Fern can generate a unique `og:image` for each page that doesn't have one [set in frontmatter](#open-graph). Dynamic OG images are on by default for sites that set no site-wide `og:image` or `twitter:image`. Set `og:dynamic: true` to turn them on alongside a site-wide image, or `og:dynamic: false` to turn them off. The `og:dynamic:*` sub-settings below are only read when dynamic OG images are on. `fern check` surfaces warnings for conflicting settings so you can resolve them locally.
+
+You can optionally provide a custom background image (`og:dynamic:background-image`) for dynamically generated OG images.
+
+```yaml docs.yml
+metadata:
+  og:dynamic: true
+  og:dynamic:background-image: ./images/og-background.png
+  og:dynamic:text-color: "#1a1a1a"
+  og:dynamic:background-color: "#ffffff"
+  og:dynamic:logo-color: dark
+  og:dynamic:show-logo: true
+  og:dynamic:show-section: true
+  og:dynamic:show-description: true
+  og:dynamic:show-url: true
+  og:dynamic:show-gradient: true
+```
+
+<ParamField path="metadata.og:dynamic" type="boolean" required={false}>
+  When `true`, enables dynamic OG image generation for pages that don't have a custom `og:image` set. When `false`, no dynamic images are generated. Any site-wide `og:image` and `twitter:image` still apply to the homepage; every other page uses the dynamically generated image.
+</ParamField>
+
+<ParamField path="metadata.og:dynamic:background-image" type="string" required={false}>
+  A custom background image for dynamically generated OG images. Can be a URL or a relative file path. Relative paths are resolved from the YAML file where this property is set (e.g., `docs.yml`). When set, this image is used as the background instead of a solid color. No default; the dynamic OG image renders without a background image when unset.
+
+  Keep important visual content inside the safe zone — the central area with 80px of padding on all sides. The page title, description, logo, and URL render on top of the background, so any artwork outside the safe zone may be covered or cropped depending on the platform.
+
+  <Image src="https://blob-cdn.documentation.ai/org-4afef969-21f9-40f3-b5b8-b06c8b6cf68f/doc-01b8ce28-db6e-4307-815a-5dc57da57476/1792998667977-koo6mv67cxf-og-dynamic-safe-zone-7c9e6424e9.png?fm=auto&auto=compress%2Cformat" alt="Diagram showing the safe zone of a dynamic OG image, with 80px padding on the top, right, bottom, and left edges" caption="Safe zone for dynamic OG background images (80px padding on all sides)" />
+</ParamField>
+
+<ParamField path="metadata.og:dynamic:text-color" type="string" required={false}>
+  Override the text color for dynamically generated OG images. Accepts any valid CSS color value (e.g., `"#1a1a1a"`). By default, Fern reads the text color from your theme (`grayScale[11]`). If no theme color is available, falls back to `#ffffff` for dark mode or `#1a1a1a` for light mode. Must differ from `og:dynamic:background-color` so the text remains visible.
+</ParamField>
+
+<ParamField path="metadata.og:dynamic:background-color" type="string" required={false}>
+  Override the background color for dynamically generated OG images. Accepts any valid CSS color value (e.g., `"#ffffff"`). By default, Fern reads the background color from your theme. If no theme color is available, falls back to `#0A0A0A`.
+</ParamField>
+
+<ParamField path="metadata.og:dynamic:logo-color" type="enum" required={false}>
+  Choose which logo variant to render in dynamically generated OG images. Accepts `dark` or `light`, matching the corresponding entry under the top-level [`logo:` setting](https://buildwithfern.com/learn/docs/getting-started/global-configuration#logo-configuration) in your `docs.yml`. If your `docs.yml` only defines one logo variant, that variant is used regardless of this setting. Has no effect when `og:dynamic:show-logo: false`.
+</ParamField>
+
+<ParamField path="metadata.og:dynamic:show-logo" type="boolean" required={false}>
+  Toggle visibility of the logo in dynamically generated OG images. Defaults to `true` when `og:dynamic` is enabled.
+</ParamField>
+
+<ParamField path="metadata.og:dynamic:show-section" type="boolean" required={false}>
+  Toggle visibility of the section title in dynamically generated OG images. The section title is derived from the page's navigation breadcrumb. Defaults to `true` when `og:dynamic` is enabled.
+</ParamField>
+
+<ParamField path="metadata.og:dynamic:show-description" type="boolean" required={false}>
+  Toggle visibility of the page description in dynamically generated OG images. The description is extracted from the page's frontmatter (`description`, `subtitle`, or `excerpt`). Defaults to `true` when `og:dynamic` is enabled.
+</ParamField>
+
+<ParamField path="metadata.og:dynamic:show-url" type="boolean" required={false}>
+  Toggle visibility of the page URL in dynamically generated OG images. Defaults to `true` when `og:dynamic` is enabled.
+</ParamField>
+
+<ParamField path="metadata.og:dynamic:show-gradient" type="boolean" required={false}>
+  Toggle visibility of the accent gradient overlay in dynamically generated OG images. The gradient uses your accent color. Defaults to `true` when `og:dynamic` is enabled.
+</ParamField>
+
+### Twitter / X
+
+Controls how your docs appear in Twitter Card previews when shared on X.
+
+<ParamField path="metadata.twitter:title" type="string" required={false}>
+  The title shown in Twitter Card previews. Falls back to `og:title` (and then to the page title) when unset.
+</ParamField>
+
+<ParamField path="metadata.twitter:description" type="string" required={false}>
+  The description shown in Twitter Card previews. Falls back to `og:description` (and then to the page description) when unset.
+</ParamField>
+
+<ParamField path="metadata.twitter:handle" type="string" required={false}>
+  Your company's Twitter handle. No default; the tag is omitted when unset.
+</ParamField>
+
+<ParamField path="metadata.twitter:image" type="string" required={false}>
+  The image shown in Twitter Card previews. Falls back to `og:image` when unset.
+</ParamField>
+
+<ParamField path="metadata.twitter:site" type="string" required={false}>
+  The Twitter handle for your website. No default; the tag is omitted when unset.
+</ParamField>
+
+<ParamField path="metadata.twitter:card" type="string" required={false}>
+  The Twitter Card type. Options are `summary`, `summary_large_image`, `app`, or `player`.
+</ParamField>
+
+## Page-level overrides
+
+Configure SEO metadata in your page's frontmatter to control how individual pages appear in search results and social shares. These settings override site-wide defaults.
+
+<Callout kind="info">
+  Only the documented SEO fields are added to the HTML `<head>` as meta tags. Custom frontmatter fields won't automatically appear in your page metadata. To add custom metadata, use [custom JavaScript](/learn/docs/customization/custom-css-js#custom-javascript).
+</Callout>
+
+```mdx title="plantstore-quickstart.mdx"
+---
+title: PlantStore API Quick Start
+headline: "Get Started with PlantStore API | Developer Documentation"
+keywords: plants, garden, nursery
+canonical-url: https://docs.plantstore.dev/welcome
+og:image: https://plantstore.dev/images/api-docs-banner.png
+og:image:width: 1200
+og:image:height: 630
+twitter:card: summary_large_image
+twitter:site: "@PlantStoreAPI"
+noindex: false
+nofollow: false
+---
+```
+
+### Basic metadata
+
+Page title, URL, and keyword fields used by search engines. Use `headline` when you need a different title for search engines than what appears as the visible page heading.
+
+<ParamField path="headline" type="string" required={false}>
+  When set, the `<title />` tag in the document head will use this value rather than the `title` property. For example, your `title` might be "Quickstart" (shown in the sidebar and as the H1), while `headline` could be "Quickstart | PlantStore API Docs" to give search engines more context. If not set, Fern uses `title` with your site name appended.
+</ParamField>
+
+<ParamField path="canonical-url" type="string" required={false}>
+  Overrides the canonical URL for this page. Must be a full URL including the protocol (e.g., `https://buildwithfern.com/learn/docs/content/frontmatter`). Defaults to the page's resolved URL when unset.
+</ParamField>
+
+<ParamField path="keywords" type="string" required={false}>
+  Comma-separated keywords relevant to the page (e.g., `plants, garden, nursery`). Accepts only comma-separated strings, not arrays. No default; the tag is omitted when unset.
+</ParamField>
+
+### Open Graph
+
+Controls how this page appears when shared on LinkedIn, Slack, Discord, and other platforms that support Open Graph. Keep titles between 50–60 characters and descriptions between 150–160 characters for optimal display.
+
+<ParamField path="og:site_name" type="string" required={false}>
+  The name of your website as it should appear when your content is shared. Falls back to the site-wide `metadata.og:site_name` from `docs.yml`.
+</ParamField>
+
+<ParamField path="og:title" type="string" required={false}>
+  The title of your page as it should appear when your content is shared. Falls back to the page's `title` when unset.
+</ParamField>
+
+<ParamField path="og:description" type="string" required={false}>
+  The description of your page as it should appear when your content is shared. Falls back to the page's `description`, `subtitle`, or `excerpt` when unset.
+</ParamField>
+
+<ParamField path="og:url" type="string" required={false}>
+  The URL of your page. Falls back to the page's resolved URL when unset.
+</ParamField>
+
+<ParamField path="og:image" type="string" required={false}>
+  The URL of the image displayed when your content is shared. Falls back to the site-wide `metadata.og:image` from `docs.yml`.
+</ParamField>
+
+<ParamField path="og:image:width" type="number" required={false}>
+  The width of the image in pixels. No default; only used when `og:image` is set.
+</ParamField>
+
+<ParamField path="og:image:height" type="number" required={false}>
+  The height of the image in pixels. No default; only used when `og:image` is set.
+</ParamField>
+
+<ParamField path="og:locale" type="string" required={false}>
+  The locale of the page, typically in the format `language_TERRITORY` (e.g., `en_US`). Falls back to the site-wide `metadata.og:locale` from `docs.yml`.
+</ParamField>
+
+<ParamField path="og:logo" type="string" required={false}>
+  The URL of your logo image displayed when your content is shared. Falls back to the site-wide `metadata.og:logo` from `docs.yml`.
+</ParamField>
+
+### Twitter / X
+
+Controls how this page appears in Twitter Card previews when shared on X.
+
+<ParamField path="twitter:title" type="string" required={false}>
+  The title of your page as it should appear in a tweet. Falls back to `og:title` (and then to the page title) when unset.
+</ParamField>
+
+<ParamField path="twitter:description" type="string" required={false}>
+  The description of your page as it should appear in a tweet. Falls back to `og:description` (and then to the page description) when unset.
+</ParamField>
+
+<ParamField path="twitter:handle" type="string" required={false}>
+  The Twitter handle of the page creator or site. Falls back to the site-wide `metadata.twitter:handle` from `docs.yml`.
+</ParamField>
+
+<ParamField path="twitter:image" type="string" required={false}>
+  The URL of the image displayed in a tweet. Falls back to `og:image` when unset.
+</ParamField>
+
+<ParamField path="twitter:site" type="string" required={false}>
+  The Twitter handle for your website. Falls back to the site-wide `metadata.twitter:site` from `docs.yml`.
+</ParamField>
+
+<ParamField path="twitter:url" type="string" required={false}>
+  The URL of your page. Falls back to `og:url` (and then to the page URL) when unset.
+</ParamField>
+
+<ParamField path="twitter:card" type="string" required={false}>
+  The type of card used for sharing on Twitter. Options: `summary`, `summary_large_image`, `app`, `player`.
+</ParamField>
+
+### Indexing
+
+Control whether search engines index this page or follow its links. These are distinct: `noindex` removes the page from search results entirely, while `nofollow` keeps the page in results but tells search engines not to pass ranking credit through its links.
+
+Use `noindex` for pages you want visible in the sidebar but excluded from search results — for example, early-access documentation. To hide a page from both the sidebar and search results, use `hidden: true` in `docs.yml` instead, which handles both automatically — see [Hiding content](/learn/docs/customization/hiding-content) for details. Use `nofollow` sparingly — it's rarely needed for documentation.
+
+<ParamField path="noindex" type="boolean" required={false}>
+  If `true`, the page won't be indexed by search engines and will be excluded from [`llms.txt`](/learn/docs/ai-features/llms-txt) endpoints.
+</ParamField>
+
+<ParamField path="nofollow" type="boolean" required={false}>
+  If `true`, search engines won't follow any links on the page.
+</ParamField>
+
+### Structured data (JSON-LD)
+
+Structured data is a machine-readable summary of a page that search engines and AI tools use to display rich results, such as breadcrumb trails under a search listing. Fern adds it to every indexable page automatically in the [JSON-LD](https://json-ld.org) format, using the [schema.org](https://schema.org) vocabulary:
+
+- An **article** entry (`TechArticle`) with the page title, description, canonical URL, language, and site name. Values come from the `title`, `headline`, `description`, and `canonical-url` fields; there is no dedicated override.
+- A **breadcrumb** entry (`BreadcrumbList`) that mirrors the page's position in your navigation. Top-level pages don't get one.
+
+Pages marked [`noindex`](#indexing) receive no structured data. Setting `jsonld: false` in the page frontmatter also suppresses all built-in JSON-LD for that page, which is useful when a custom component injects its own structured data:
+
+```yaml page.mdx
+---
+title: Generate a summary
+jsonld: false
+---
+```
+
+Verify a published page's output with the [Schema Markup Validator](https://validator.schema.org).
+
+To replace the generated breadcrumb trail, set `jsonld:breadcrumb` in the page frontmatter to a complete `BreadcrumbList`:
+
+```yaml page.mdx
+---
+title: Authentication
+jsonld:breadcrumb:
+  "@context": https://schema.org
+  "@type": BreadcrumbList
+  itemListElement:
+    - "@type": ListItem
+      position: 1
+      name: Guides
+      item: https://docs.example.com/guides
+    - "@type": ListItem
+      position: 2
+      name: Authentication
+      item: https://docs.example.com/guides/authentication
+---
+```
+
+<ParamField path="jsonld" type="boolean" required={false}>
+  Set to `false` to suppress all built-in JSON-LD structured data for this page. Use this when you are injecting your own `TechArticle` or `BreadcrumbList` via a custom component and do not want Fern's generated output to appear alongside it. Any value other than `false` (including absent or `true`) leaves the built-in output unchanged.
+</ParamField>
+
+<ParamField path="jsonld:breadcrumb" type="object" required={false}>
+  A complete [schema.org `BreadcrumbList`](https://schema.org/BreadcrumbList) that replaces the breadcrumb trail Fern generates from the page's position in your navigation. Emitted in the page's `application/ld+json` script alongside the `TechArticle` node.
+</ParamField>

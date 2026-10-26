@@ -1,0 +1,32 @@
+---
+title: September 18, 2026
+---
+
+## PHP filter for llms.txt and Markdown output
+
+<span className="dai-mig-badge">ai</span>
+
+You can now pass `lang=php` to `/llms.txt` and to per-page `.md` and `.mdx` URLs to return only PHP SDK code examples. `php` joins `node`, `python`, `java`, `ruby`, `go`, `csharp`, and `swift` as accepted values for the `lang` query parameter.
+
+```txt Example
+/llms.txt?lang=php
+/plants/create-plant.md?lang=php
+```
+
+[Read the docs](/learn/docs/ai-features/customize-llm-output#filter-endpoint-output)
+
+## Exclude changelogs from llms.txt
+
+<span className="dai-mig-badge">ai</span>
+
+You can now omit changelog sections from `llms.txt` by adding the `excludeChangelog=true` query parameter. This keeps the index small for sites with long release histories. It combines with the existing `lang` and `excludeSpec` parameters, for example `/llms.txt?lang=python&excludeSpec=true&excludeChangelog=true`.
+
+[Read the docs](https://buildwithfern.com/learn/docs/ai-features/customize-llms-txt#filter-endpoint-output)
+
+## More page suggestions in agent 404 responses
+
+<span className="dai-mig-badge">ai</span>
+
+Requests for a nonexistent `.md` URL now return up to five "Similar pages" suggestions instead of three, so agents on large sites are more likely to find the page they were looking for.
+
+[Read the docs](/learn/docs/ai-features/markdown#missing-pages)

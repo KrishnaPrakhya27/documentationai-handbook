@@ -1,0 +1,114 @@
+---
+title: Generate GraphQL Reference
+description: Use Fern Docs to generate GraphQL API Reference documentation from a GraphQL schema.
+---
+
+Fern generates API Reference documentation from a [GraphQL schema](https://graphql.org/learn/schema/). Add your schema file to your Fern project and Fern renders queries, mutations, subscriptions, and types as an interactive reference.
+
+## See live example
+
+[Open](https://docs.bigcommerce.com/developer/api-reference/graphql/overview)
+
+## Configuration
+
+<Steps>
+  <Step title="Set up your project structure">
+    Add your GraphQL schema file to your `/fern` directory and create a `generators.yml` that references it:
+
+    ```yaml generators.yml
+    api:
+      specs:
+        - graphql: plants.schema.graphql
+          name: Plants
+          origin: https://api.example.com/plants/graphql
+    ```
+  </Step>
+
+  <Step title="Add the GraphQL Reference to your navigation">
+    Add `- api: API Reference` to your navigation in `docs.yml`:
+
+    ```yml docs.yml
+    navigation:
+      - api: API Reference
+    ```
+
+    To skip `generators.yml`, [reference the schema directly](/learn/docs/api-references/generate-api-ref#reference-a-spec-directly-from-docsyml) with `specs` and `type: graphql`.
+  </Step>
+
+  <Step title="Customize the layout">
+    For a full list of configuration options and layout customizations, see [Customize API Reference layout](/learn/docs/api-references/customize-api-reference-layout).
+  </Step>
+</Steps>
+
+### Include more than one GraphQL Reference
+
+To include multiple GraphQL definitions in your documentation, use the `api-name` property. The `api-name` corresponds to the folder name containing your GraphQL schema.
+
+<ExpandableGroup>
+  <Expandable title="fern" defaultOpen={true}>
+    `fern.config.json`
+
+    `docs.yml`
+
+    <Expandable title="plant-graphql" defaultOpen={true}>
+      `schema.graphql` Plant GraphQL schema
+
+      `generators.yml`
+    </Expandable>
+
+    <Expandable title="garden-graphql" defaultOpen={true}>
+      `schema.graphql` Garden GraphQL schema
+
+      `generators.yml`
+    </Expandable>
+  </Expandable>
+</ExpandableGroup>
+
+```yaml title="docs.yml"
+navigation:
+  - api: Plant GraphQL API
+    api-name: plant-graphql
+  - api: Garden GraphQL API
+    api-name: garden-graphql
+```
+
+### Compile a schema split across multiple files
+
+A schema split across several SDL files, the typical shape for [Apollo Federation](https://www.apollographql.com/docs/federation/) subgraphs, compiles into a single schema. List each file as its own spec and give the specs the same `name`:
+
+```yaml generators.yml
+api:
+  specs:
+    - graphql: plants.graphql
+      name: Plants
+    - graphql: gardens.graphql
+      name: Plants
+```
+
+Specs that share a `name`, or that omit `name`, are parsed together, so a file can reference types defined in a sibling file and each file can `extend type Query` or `extend type Mutation`. Specs with different `name` values, and specs in different API workspaces, remain independent.
+
+The reference shows the client-facing schema: federation directives are stripped and `@inaccessible` types and members are omitted. If two files declare the same member differently, the first declaration wins and Fern logs a warning.
+
+<Callout kind="alert">
+  Specs sharing a namespace previously resolved collisions last-wins, without a warning. To keep the previous output, reorder the specs or give them distinct `name` values.
+</Callout>
+
+### Configuration properties
+
+<ParamField path="api.specs[].graphql" required={true}>
+  Path to your GraphQL schema file. Include multiple GraphQL specs if your project exposes more than one GraphQL API, or if one schema is split across files.
+</ParamField>
+
+<ParamField path="api.specs[].name">
+  Name of the folder that operations from this spec appear under in the API Reference sidebar. Use this to group related GraphQL operations together. Specs that share a `name` are compiled into one schema.
+</ParamField>
+
+<ParamField path="api.specs[].origin">
+  URL of your GraphQL API endpoint. Fern performs [introspection](https://graphql.org/learn/introspection/) against this endpoint to fetch the schema. When set, [running `fern api update`](https://buildwithfern.com/learn/cli-api-reference/cli-reference/general-commands#fern-api-update) updates the local schema from this endpoint.
+</ParamField>
+
+## Types
+
+Fern generates a page for every named type in your schema, under a `Types` section at the root of the API Reference. Pages are grouped by kind: Objects, Inputs, Enums, Scalars, Interfaces, and Unions. Kinds your schema doesn't declare produce no group, and all GraphQL schemas in the API section share one `Types` section.
+
+Type pages live at `<api-reference>/types/<kind>/<type-name>`, such as `/api-reference/types/objects/plant`. Interface pages also list the types that implement the interface. Types that only group operations, such as a `Mutation.plants: PlantMutations` namespace type, don't get a page.

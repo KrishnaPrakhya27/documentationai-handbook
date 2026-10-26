@@ -1,0 +1,19 @@
+---
+title: March 11, 2026
+---
+
+## Dynamic OG images {/* UNSUPPORTED INLINE COMPONENT Availability */} [#dynamic-og-images]
+
+<span className="dai-mig-badge">seo, docs.yml, frontmatter</span>
+
+Fern can now automatically generate unique Open Graph images for each page of your docs site. Set `og:dynamic` to true in your `docs.yml` metadata to enable it. Pages with an `og:image` set in frontmatter will use the specified image instead.
+
+You can also use `og:dynamic:background-image` to set a custom background image for your dynamically generated OG image, instead of a solid color.
+
+```yaml docs.yml
+metadata:
+  og:dynamic: true
+  og:dynamic:background-image: ./images/og-background.png # optional
+```
+
+[Read the docs](/learn/docs/seo/setting-seo-metadata#dynamic-og-images)

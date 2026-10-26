@@ -1,0 +1,26 @@
+---
+title: Security
+description: Learn how Fern's documentation platform secures your API docs with client-side authentication, API key injection, and self-hosted options.
+---
+
+Fern's documentation platform is built with security as a core principle, using a client-side architecture for authentication and credential handling. User credentials and sensitive data are stored only in browser cookies and never transmitted to Fern's servers.
+
+<Callout kind="info">
+  **Security questions**
+
+  Contact [support@buildwithfern.com](mailto:support@buildwithfern.com) for security reviews, additional documentation, or specific compliance requirements.
+</Callout>
+
+## Authentication and API key injection
+
+Fern supports [multiple authentication methods](/learn/docs/authentication/overview) to secure your documentation. All methods use a client-side `fern_token` cookie stored entirely in the browser:
+
+- [Role-Based Access Control (RBAC)](/learn/docs/authentication/features/rbac) controls which users can access specific documentation content based on their roles (stores user roles)
+- [API key injection](/learn/docs/authentication/features/api-key-injection) automatically populates code examples with user-specific API keys for a personalized experience (stores authentication tokens via JWT or OAuth)
+- [Single Sign-On (SSO)](/learn/docs/authentication/setup/sso) integrates with your existing identity provider for seamless authentication (stores identity provider tokens)
+
+These cookies are managed entirely client-side and automatically cleared when the user logs out or the session expires. This approach ensures that sensitive credentials remain under your control and are never exposed to Fern's infrastructure.
+
+## Self-hosted deployments
+
+For organizations that operate in air-gapped environments or need full control over documentation servers, Fern offers [self-hosted deployments](/learn/docs/self-hosted/overview).

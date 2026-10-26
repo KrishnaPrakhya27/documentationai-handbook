@@ -1,0 +1,220 @@
+---
+title: Project structure
+description: An overview of the file and folder structure of a Fern Docs project.
+---
+
+This page provides an overview of the file and folder structure of a Fern Docs project. If you're spreading docs across multiple repositories that publish to the same domain, see [Multi-source docs](/learn/docs/preview-publish/multi-source-docs).
+
+## Directory structure
+
+The configuration files for your docs live in the `fern` folder:
+
+<ExpandableGroup>
+  <Expandable title="fern" defaultOpen={true}>
+    <Expandable title="docs" defaultOpen={true}>
+      Documentation content
+
+      <Expandable title="pages">
+        MDX files
+      </Expandable>
+
+      <Expandable title="assets">
+        Images, logos, favicon
+      </Expandable>
+
+      <Expandable title="changelog">
+        Changelog entries
+      </Expandable>
+    </Expandable>
+
+    <Expandable title="snippets">
+      Reusable MDX snippets
+    </Expandable>
+
+    `docs.yml` Defines navigation, theme, and hosting
+
+    `openapi.yml` API definition (OpenAPI, AsyncAPI, etc.)
+
+    `generators.yml` References specs, configures SDKs
+
+    `fern.config.json` Organization name and CLI version
+
+    `styles.css` Custom CSS styles
+  </Expandable>
+</ExpandableGroup>
+
+<Callout kind="alert">
+  The `fern` and `changelog` folders are reserved names — Fern won't recognize them if renamed. All other folder names are customizable.
+</Callout>
+
+## Pages folder
+
+The `pages` folder contains the Markdown (MDX) files that make up your documentation. Each MDX file represents a page in your documentation. The folder name is customizable.
+
+<ExpandableGroup>
+  <Expandable title="pages" defaultOpen={true}>
+    `welcome.mdx`
+
+    `navigation.mdx`
+
+    `customization.mdx`
+
+    `support.mdx`
+  </Expandable>
+</ExpandableGroup>
+
+You can organize the `pages` folder into subfolders based on the sections of your documentation, or keep pages flat as shown above.
+
+## Assets folder
+
+The `assets` folder contains any images or videos used in your documentation. You can reference these assets in your MDX files using relative paths. The folder name is customizable.
+
+<ExpandableGroup>
+  <Expandable title="assets" defaultOpen={true}>
+    `favicon.svg`
+
+    `logo.svg` Light mode logo
+
+    `logo-dark.svg` Dark mode logo
+  </Expandable>
+</ExpandableGroup>
+
+## `docs.yml`
+
+The `docs.yml` file is the heart of your Fern documentation site. This configuration file controls your documentation's navigation structure, visual design, site functionality, and hosting settings. Only files referenced in your `docs.yml` navigation (or discovered via a [`folder` configuration](/learn/docs/configuration/navigation#add-a-folder)) are included in builds — any unreferenced files are ignored.
+
+<Callout kind="info">
+  Fern treats `.yml` and `.yaml` extensions identically. This applies to all YAML files in a Fern project, including `docs.yml`, `generators.yml`, and API specification files.
+</Callout>
+
+For complete configuration options, see the [`docs.yml` reference](/learn/docs/configuration/site-level-settings).
+
+```yml title="Example fern/docs.yml"
+instances:
+  - url: plantstore.docs.buildwithfern.com
+
+title: Fern Docs Starter
+
+tabs:
+  home:
+    display-name: Docs
+    icon: home
+  API Reference:
+    display-name: API Reference
+    icon: puzzle
+
+navigation:
+  - tab: home
+    layout:
+      - section: Get started
+        contents:
+          - page: Welcome
+            path: docs/pages/welcome.mdx
+          - page: Edit your docs
+            path: docs/pages/editing-your-docs.mdx
+      - section: Changelog
+        contents:
+          - changelog: docs/changelog
+  - tab: API Reference
+    layout:
+      - api: Plant Store API
+
+navbar-links:
+  - type: minimal
+    text: Fork this repo
+    url: https://github.com/fern-api/docs-starter
+  - type: filled
+    text: Dashboard
+    url: https://dashboard.buildwithfern.com
+
+logo:
+  light: docs/assets/logo.svg
+  dark: docs/assets/logo-dark.svg
+
+colors:
+  accent-primary:
+    dark: "#70E155"
+    light: "#008700"
+
+favicon: docs/assets/favicon.svg
+
+css: styles.css
+```
+
+## API definitions and `generators.yml`
+
+To generate [API Reference](/learn/docs/api-references/generate-api-ref) documentation, you need to provide your API definition. OpenAPI and AsyncAPI specs require a `generators.yml` file with an `api.specs` section. You can optionally add a `groups` section for SDK generation.
+
+<Callout kind="info">
+  Using Fern for both API Reference docs and SDKs? You'll use `docs.yml` for your documentation settings and `generators.yml` to configure [SDK code snippets](/learn/docs/api-references/sdk-snippets) in your API Reference.
+</Callout>
+
+<ExpandableGroup>
+  <Expandable title="OpenAPI">
+    Place your OpenAPI specification file in the `fern/` directory (or in a subfolder). Fern supports either YAML or JSON format.
+
+    Reference it in `generators.yml`:
+
+    ```yaml title="generators.yml"
+    api:
+      specs:
+        - openapi: openapi.yml
+    ```
+
+    You can optionally [add an overlays file](https://buildwithfern.com/learn/api-definitions/openapi/overlays) for additional customizations. To see this in practice, check out [Fluidstack's Fern configuration](https://github.com/fluidstackio/fern-config/tree/main/fern/openapi).
+  </Expandable>
+
+  <Expandable title="AsyncAPI">
+    Place your AsyncAPI specification file in the `fern/` directory alongside your OpenAPI spec. Reference it in `generators.yml`:
+
+    ```yaml title="generators.yml"
+    api:
+      specs:
+        - openapi: openapi.yml
+        - asyncapi: asyncapi.yaml
+    ```
+
+    You can optionally [add an overrides file](https://buildwithfern.com/learn/api-definitions/asyncapi/overrides) for additional customizations.
+  </Expandable>
+
+  <Expandable title="Multiple APIs">
+    Organize multiple APIs into separate folders:
+
+    <ExpandableGroup>
+      <Expandable title="apis" defaultOpen={true}>
+        <Expandable title="admin-api" defaultOpen={true}>
+          `openapi.json`
+
+          `generators.yml`
+
+          `overrides.yaml` Optional
+        </Expandable>
+
+        <Expandable title="user-api" defaultOpen={true}>
+          `openapi.yml`
+
+          `generators.yml`
+
+          `overrides.yaml` Optional
+        </Expandable>
+      </Expandable>
+    </ExpandableGroup>
+
+    The `apis` folder must use this exact name. Reference each API in `docs.yml` using `api-name` that matches the subfolder name. To see this in practice, check out [Vapi's Fern configuration](https://github.com/VapiAI/docs/tree/main/fern/apis).
+  </Expandable>
+</ExpandableGroup>
+
+## `fern.config.json`
+
+The `fern.config.json` file stores your organization name and the Fern CLI version. Pinning the version provides deterministic builds. To keep every project in your organization on a compatible version, set an [organization-wide CLI version policy](https://buildwithfern.com/learn/cli-api-reference/cli-reference/version-policy).
+
+```json title="fern.config.json"
+{
+  "organization": "plantstore",
+  "version": "<Markdown src="/snippets/version-number-cli.mdx"/>"
+}
+```
+
+<Callout kind="info">
+  When working with a locally installed CLI, set `version` to `"*"`. See [Install Fern CLI locally](https://buildwithfern.com/learn/cli-api-reference/cli-reference/overview#installation) for details.
+</Callout>

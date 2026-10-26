@@ -1,0 +1,32 @@
+---
+title: January 21, 2025
+---
+
+## Improvements to the Accordion Component
+
+<span className="dai-mig-badge">components</span>
+
+The accordion component has been upgraded so that you can now use your in-browser `cmd+f` search to look for text that is otherwise hidden.
+
+- Improved accessibility for all of our customers who are leveraging the `<Accordion>` component
+- Improved SEO indexing of content (more html is now generated on the server-side instead of client-side)
+
+Try searching for **burst** on this page: [https://dev.hume.ai/docs/expression-measurement/faq](https://dev.hume.ai/docs/expression-measurement/faq)
+
+<Video src="./assets/accordion.mp4" />
+
+## Support for embedding local assets
+
+<span className="dai-mig-badge">pdf-export</span>
+
+We've added support for embedding local assets in your docs. This is useful for displaying PDFs, images, videos, and other assets into your docs.
+
+To embed an asset, you can use the `embed` tag.
+
+```mdx
+<embed src="./path/to/asset.pdf" type="application/pdf" />
+<embed src="./path/to/asset.mp4" type="video/mp4" />
+<embed src="./path/to/asset.png" type="image/png" />
+```
+
+[Read the docs](/learn/docs/writing-content/markdown-media)
