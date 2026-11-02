@@ -1,0 +1,83 @@
+---
+title: SSO Login Fails
+description: Diagnose failed SSO sign-ins, check the account and identity provider, and report the details support needs without sharing secrets.
+---
+
+## Start with the login route
+
+Confirm that you are using the correct account and SSO login route for your organization. If the sign-in still fails, use the checklist below before contacting support.
+
+## Symptoms
+
+You may be unable to sign in when:
+
+- The SSO redirect returns an error.
+- The identity provider rejects the sign-in.
+- The login returns to the sign-in page without creating a session.
+- You see an error message after authenticating with your identity provider.
+
+The message and the time of the failure help your IT or identity-provider administrator identify where the sign-in stopped.
+
+<Callout kind="info">
+
+Available support evidence identified two SSO failure reports. One mentions Okta and the other mentions a demo environment. The ticket bodies and resolutions were unavailable, so no specific cause or verified fix is established.
+
+</Callout>
+
+## Diagnostic checklist
+
+<Steps>
+<Step title="Confirm the account and login route">
+
+Check that you are signing in with the email address associated with your organization. Use the SSO entry point provided by your organization rather than a personal or unrelated account route.
+
+If your organization has more than one environment, confirm that you are using the intended environment.
+
+</Step>
+
+<Step title="Check access with your identity-provider administrator">
+
+Ask your IT or identity-provider administrator to confirm that your account can access the SSO application. They should also check whether your account is active and whether a recent access policy, group assignment, or sign-in restriction blocks access.
+
+Do not change organization-wide identity-provider settings unless your administrator approves the change.
+
+</Step>
+
+<Step title="Record the exact failure">
+
+Copy the exact error message, or capture a screenshot that does not include passwords, tokens, or secret configuration. Record the date, time, time zone, and the step where the failure occurred.
+
+Avoid paraphrasing the message when you report the issue. Small details can distinguish an identity-provider rejection from a session or routing problem.
+
+</Step>
+
+<Step title="Record the identity provider and environment">
+
+Write down the identity provider you used, such as Okta, Microsoft Entra ID, or another provider. Include the environment where the failure occurred, such as your production or demo environment.
+
+If the failure affects several people, record whether they use the same identity-provider group, policy, or organization.
+
+</Step>
+</Steps>
+
+## Escalate the failure
+
+Contact your IT or identity-provider administrator first when the identity provider rejects your account or does not display the SSO application. Contact support when the account has access to the application but the sign-in still fails.
+
+Include the following information in your report:
+
+- The exact error message or a redacted screenshot.
+- The date, time, and time zone of the failure.
+- The identity provider.
+- The affected environment.
+- The login route you used.
+- Whether the issue affects one person or multiple people.
+- Any checks your identity-provider administrator completed.
+
+<Callout kind="alert">
+
+Do not send passwords, access tokens, client secrets, private keys, or secret identity-provider configuration in a support request. Redact these values from screenshots and diagnostic files before sharing them.
+
+</Callout>
+
+If the issue is intermittent, include the times when it worked and failed. Keep any configuration changes reversible, and record what changed so your administrator can restore the previous settings if needed.
