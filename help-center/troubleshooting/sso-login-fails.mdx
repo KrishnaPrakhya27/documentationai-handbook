@@ -1,0 +1,99 @@
+---
+title: Cannot Sign In with SSO
+description: Get back into your docs site when SSO sign-in fails by clearing cached site data, switching organizations, and checking identity provider role claims.
+---
+
+If your identity provider signs you in but the docs site does not let you through, work through the checks on this page in order. Most reported cases are fixed by clearing cached site data for the docs domain, or by switching to the right organization after sign-in. Role-based content has a separate cause and its own section below.
+
+## Symptoms
+
+- Sign-in fails in every browser you try, not just one.
+- The browser console shows `r.find is not a function` while the sign-in page loads.
+- The docs site looks empty after sign-in, and you are asked to onboard again or create a new docs site.
+- Sign-in succeeds, but content restricted to your role or company does not appear.
+- The organization you expect is not offered as an option when you sign in.
+
+Reported failures cover Okta, Google Workspace, and WorkOS OAuth. The same checks apply to any provider.
+
+## Fix
+
+<Steps>
+  <Step title="Clear site data for the docs domain" icon="trash" title-type="p">
+
+  A Google Workspace sign-in failure was traced to cached browser data left over from sign-up. Clear cookies and site data for the docs domain only: most browsers expose this from the site information control next to the address bar. Sign in again in that same browser.
+
+  If it still fails, try a browser you have not used with this site before, so the test runs without any cached state.
+
+  </Step>
+
+  <Step title="Switch organizations after signing in" icon="users" title-type="p">
+
+  Clearing site data can leave you looking at the wrong organization, and the site may prompt you to onboard or appear to have been reset. No content was lost in the reported case: the account was simply pointed at a different organization.
+
+  Sign in, then switch to the organization that owns the docs site. Your pages and settings are as you left them.
+
+  </Step>
+
+  <Step title="Check the network path to the backend domain" icon="cloud" title-type="p">
+
+  Repeated prompts to create new docs sites were traced to a specific network path. In the reported case, traffic left through Mullvad VPN exit nodes over Tailscale, and the prompts continued even with VPNs turned off.
+
+  The team suspected the network was blocking the backend domain and asked the customer to test whether `api.documentation.ai` is reachable. That suspicion was never confirmed, so treat this as a check to run rather than a known fix.
+
+  </Step>
+</Steps>
+
+<Expandable title="Optional: test whether the backend domain is reachable">
+
+Open `api.documentation.ai` in a browser tab on the affected device, then from a device on a different network such as a mobile hotspot.
+
+- A response from the domain means the host is reachable and the problem is elsewhere.
+- A timeout or connection error on the affected network, but a response over the hotspot, points to the network path.
+
+If the affected network blocks the domain, ask your network administrators whether it can be allowed, or continue from a network where it resolves.
+
+</Expandable>
+
+## Role-based access is missing after sign-in
+
+With WorkOS OAuth, basic sign-in can succeed while role-based content stays hidden. Everything to the left of the failure works: you are authenticated, the session is valid, and the site loads. What is missing is the claim data the site uses to decide what you are allowed to see.
+
+The reported symptom was `{user.accessRoles}` and `{user.company}` rendering empty. The cause is a split in where those values live. WorkOS sends `accessRoles` and `company` only in the access token, while the site was reading them from the ID token and the userinfo endpoint. A fix was released that reads the claims from the access token when they are absent elsewhere.
+
+<Callout kind="info">
+
+Basic sign-in and role-based access are separate concerns. A successful sign-in with an empty `{user.accessRoles}` points to a missing claim, not a broken login.
+
+</Callout>
+
+To check your own setup, confirm with your identity provider configuration that `accessRoles` and `company` are included in the access token, then sign in again. If role-based content is still missing after the claims are present, contact support through the [Help Center](/help-center) with your identity provider and the claims you expect.
+
+## Signing in is not an API 401
+
+Signing in to a published docs site with your identity provider is not the same as calling the API with a bearer token. If you can reach the site but an API request returns `401 Unauthorized`, the problem is the token itself: whether it is still valid, whether it sits in the `Authorization` header, and whether it carries the `Bearer` prefix.
+
+<Columns cols={2}>
+  <Card title="Authentication" href="/authentication" icon="lock">
+
+  Bearer tokens, the `Authorization` header, and the common mistakes behind a 401.
+
+  </Card>
+  <Card title="Help Center" href="/help-center" icon="help-circle">
+
+  Support contact details and the rest of the troubleshooting guides.
+
+  </Card>
+</Columns>
+
+## Still stuck
+
+Two sign-in questions surfaced in support threads and remain unresolved in the documentation, so this page does not offer steps for them:
+
+<Callout kind="info">
+
+- **Changing your account password.** No documented answer exists yet.
+- **Signing out, or ending an end-user session.** The docs site has no logout button in the UI.
+
+</Callout>
+
+Contact support for both, using the Contact Support section of the [Help Center](/help-center). Include your identity provider, the organization you expect to reach, and any message from the browser console.
