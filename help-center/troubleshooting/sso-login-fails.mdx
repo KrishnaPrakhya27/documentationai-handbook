@@ -1,0 +1,121 @@
+---
+title: SSO Sign-In Fails
+description: Narrow down why an SSO sign-in is failing, check the most likely causes in order, and escalate with the evidence support needs.
+---
+
+Work through the likely causes below in the order they appear, then escalate with the evidence support needs to resolve it without a back-and-forth.
+
+This page is about signing in with your identity provider. If you are authenticating API requests with a token instead, see [Authentication](/authentication).
+
+## Symptoms
+
+- Sign-in redirects to the identity provider and returns with an error.
+- The browser bounces back to the sign-in page in a loop.
+- Sign-in works for some people on a domain but not others.
+- Sign-in works in one environment but not another.
+
+<Callout kind="info">
+
+Sign-in to a demo or sandbox environment is separate from production. A demo or sandbox environment usually has its own identity-provider application and its own configuration, so an SSO connection set up for production does not carry over. Confirm which workspace URL you are signing in to before you change anything.
+
+</Callout>
+
+<Callout kind="alert">
+
+SSO settings inside the workspace are not documented yet. The exact location of the SSO settings and the exact claim and attribute requirements this product expects are not written up. Have your workspace admin or support confirm those requirements before you change identity-provider configuration, so you do not break a working connection while testing.
+
+</Callout>
+
+## Collect this first
+
+Capture these details before you change anything, so the fix can be verified against the original failure:
+
+- The exact error text, or a screenshot of the error page.
+- The timestamp of the failed attempt, with timezone.
+- The identity provider in use (for example, Okta).
+- The affected user's email address and email domain.
+- Whether other users on the same domain are affected.
+- Whether sign-in started from the identity provider's dashboard tile or from the app's sign-in page.
+- The workspace URL you are signing in to.
+
+## Fix it in order
+
+<Steps>
+  <Step title="Reproduce once and capture the exact error" icon="refresh-cw" title-type="p">
+
+    Make a single sign-in attempt and record the error text or screenshot and the timestamp. A precise error narrows the remaining checks far more than a description of the problem.
+
+  </Step>
+
+  <Step title="Confirm the user is assigned to the application" icon="users" title-type="p">
+
+    In your identity provider, open the application and check that the user is assigned to it. In Okta, this is the application's Assignments tab. If assignment is granted through a group, confirm the user is in that group.
+
+  </Step>
+
+  <Step title="Confirm the application matches the workspace configuration" icon="settings" title-type="p">
+
+    Compare the identity-provider application against the workspace configuration: the sign-on or ACS URL, the audience or entity ID, and the issuer. A mismatch here is the most common cause of an error that appears immediately after the redirect.
+
+  </Step>
+
+  <Step title="Check the signing certificate or client secret" icon="lock" title-type="p">
+
+    Verify the signing certificate or client secret has not expired, and that the certificate currently marked active in the identity provider is the one in use. An expired credential fails every sign-in for every user.
+
+  </Step>
+
+  <Step title="Check the claim and attribute mapping" icon="list" title-type="p">
+
+    Confirm the identifier sent as the subject, the email claim, and the format used for that claim. A user who authenticates at the provider but is then rejected, or who lands on an error page after the redirect, usually has a claim mismatch.
+
+  </Step>
+
+  <Step title="Confirm the sign-in route" icon="arrow-right" title-type="p">
+
+    Try signing in from the identity provider's dashboard tile, then try again from the app's sign-in page. One route can be configured correctly while the other is not, so test both before concluding the connection is broken.
+
+  </Step>
+
+  <Step title="Rule out the browser session" icon="monitor" title-type="p">
+
+    Retry in a private window and clear cookies for the domain. Check that the device clock is accurate, since a skewed clock can invalidate a signed assertion.
+
+  </Step>
+
+  <Step title="Check for a conflicting account" icon="alert-triangle" title-type="p">
+
+    Confirm there is no duplicate account on the same email address, and that the user's email domain matches the domain the SSO connection is configured for.
+
+  </Step>
+</Steps>
+
+## Still failing?
+
+Escalate with the details from [Collect this first](#collect-this-first), plus which of the checks above passed and which you could not complete. That tells support where to start instead of repeating the steps you already ran.
+
+See [Help Center](/help-center) for contact options.
+
+## Follow-up questions
+
+<ExpandableGroup>
+
+<Expandable title="Sign-in succeeds at the provider but returns with an error" default-open="false">
+
+The user authenticated correctly, so the failure is in how the assertion is consumed. Check the sign-on or ACS URL, the audience or entity ID, the signing certificate, and the claim mapping against the workspace configuration.
+
+</Expandable>
+
+<Expandable title="It works for some users but not others" default-open="false">
+
+Compare the users who succeed with the users who fail. Look at application assignment through groups, and at any attribute or claim value that differs between them, such as the email domain sent in the assertion.
+
+</Expandable>
+
+<Expandable title="It worked yesterday and stopped today" default-open="false">
+
+Something changed. Check whether the signing certificate or client secret rotated or expired, whether the identity-provider application was edited, and whether the user's assignment or group membership changed.
+
+</Expandable>
+
+</ExpandableGroup>
