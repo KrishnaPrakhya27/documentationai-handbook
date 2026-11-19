@@ -160,6 +160,6 @@
     ]
   },
   "math": {
-    "latex": true
+    "latex": false
   }
 }
