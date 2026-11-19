@@ -32,10 +32,6 @@
                 "title": "Components",
                 "path": "components",
                 "icon": "code"
-              },
-              {
-                "title": "LaTeX e2e test",
-                "path": "latex-e2e-test"
               }
             ]
           },
