@@ -32,6 +32,10 @@
                 "title": "Components",
                 "path": "components",
                 "icon": "code"
+              },
+              {
+                "title": "LaTeX e2e test",
+                "path": "latex-e2e-test"
               }
             ]
           },
@@ -122,6 +126,10 @@
               {
                 "title": "Page Missing in Sidebar",
                 "path": "help-center/troubleshooting/install-error"
+              },
+              {
+                "title": "SSO Login Problems",
+                "path": "help-center/troubleshooting/sso-login-problems"
               }
             ]
           },

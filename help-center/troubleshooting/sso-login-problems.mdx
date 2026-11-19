@@ -1,0 +1,92 @@
+---
+title: SSO Login Problems
+description: Resolve SSO login failures with Okta and other identity providers, including configuration mismatches, expired certificates, and demo environment issues.
+---
+
+## Resolve SSO login failures
+
+Use the checks below to resolve SSO login failures with Okta or another identity provider. The same checks apply when SSO works in production but fails in a demo environment.
+
+## Symptoms
+
+- The login page redirects repeatedly without signing you in.
+- You see an `Invalid issuer` error.
+- A blank page appears after the Okta redirect.
+- Login works in production but fails in the demo environment.
+- An error reports a certificate problem or an invalid SAML response.
+
+## Common causes
+
+<ExpandableGroup>
+  <Expandable title="Incorrect ACS URL or Entity ID">
+
+The Assertion Consumer Service URL or Entity ID configured in your identity provider does not match the values configured on the platform. Even a missing or extra trailing slash can cause the SAML response to be rejected.
+
+  </Expandable>
+
+  <Expandable title="Expired or mismatched certificate">
+
+The X.509 certificate used for SAML signing has expired or differs between the identity provider and service provider. The platform cannot validate signed assertions with an outdated or incorrect certificate.
+
+  </Expandable>
+
+  <Expandable title="Demo environment not configured for SSO">
+
+SSO may be configured for production while the demo or staging environment lacks the identity provider configuration. The demo environment may also use a different tenant URL, ACS URL, or Entity ID.
+
+  </Expandable>
+
+  <Expandable title="User not assigned to the SSO app in Okta">
+
+The affected user's Okta account may not be assigned to the SSO application. Okta can then fail to complete authentication even when the application configuration is correct.
+
+  </Expandable>
+
+  <Expandable title="Clock skew between the identity provider and service provider">
+
+Server time drift can cause the platform to reject a SAML assertion as expired before it arrives. The identity provider and service provider should keep their clocks within 60 seconds of each other.
+
+  </Expandable>
+</ExpandableGroup>
+
+## Fix
+
+<Steps>
+  <Step title="Verify the ACS URL and Entity ID" icon="link" title-type="p">
+
+Confirm that the ACS URL and Entity ID in your identity provider match the values shown in your platform SSO settings. Copy both values exactly, including trailing slashes.
+
+  </Step>
+
+  <Step title="Check the certificate" icon="shield" title-type="p">
+
+Download the current X.509 certificate from your identity provider and upload it to the platform SSO settings. If the certificate has expired, generate a new one and update the certificate on both sides.
+
+  </Step>
+
+  <Step title="Confirm the user is assigned in Okta" icon="user-check" title-type="p">
+
+In Okta, open the SSO application and select **Assignments**. Verify that the affected user is listed. If the user is not listed, assign them to the application and have them retry the login.
+
+  </Step>
+
+  <Step title="Check the demo environment" icon="flask-conical" title-type="p">
+
+If login fails only in the demo environment, verify that SSO is enabled for the demo tenant. The demo environment may use a different identity provider tenant or callback URL. Update the configuration to point to the correct demo endpoints.
+
+  </Step>
+
+  <Step title="Sync server clocks" icon="clock" title-type="p">
+
+Ensure that the identity provider and service provider servers are within 60 seconds of each other. Use NTP or another time sync service to correct clock drift, then retry the login.
+
+  </Step>
+</Steps>
+
+## Still having issues?
+
+<Callout kind="info">
+
+Contact support with the affected user's email address, the complete error message, the time of the failed attempt, and the identity provider name. Mention whether the failure occurs in production, the demo environment, or both. Recent reports include one Okta-specific failure and one failure in a demo environment, so the environment and provider help narrow the cause.
+
+</Callout>
