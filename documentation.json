@@ -126,6 +126,10 @@
               {
                 "title": "SSO Login Problems",
                 "path": "help-center/troubleshooting/sso-login-problems"
+              },
+              {
+                "title": "Broken links and 404s after publishing",
+                "path": "help-center/troubleshooting/broken-links-after-publish"
               }
             ]
           },

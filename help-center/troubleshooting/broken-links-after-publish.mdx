@@ -1,0 +1,154 @@
+---
+title: Broken links and 404s after publishing
+description: Find the link that broke after a publish and add the redirect rule in documentation.json that sends the old address to the new page.
+---
+
+You published a page, and a link that worked yesterday now returns 404. Broken links are the most frequently reported issue after a publish, and the cause is almost always the same: a page address changed, but nothing told the site where the old address should go.
+
+This article shows you how to identify which link broke and add the redirect rule that fixes it.
+
+## Symptoms
+
+A missing redirect surfaces differently depending on who follows the link, so check the symptoms below against what you are seeing.
+
+- A page that worked starts returning 404 after you changed its path or title.
+- A redirect you added lands on a 404 instead of the new page.
+- A redirect reaches the correct page but drops query parameters, so filtered or deep links break.
+- An AI Assistant answer cites a link that returns 404.
+- The `.md` version of a working page returns 404 while the page itself loads.
+- Edited Markdown still shows the old, broken URL after you publish.
+
+## Common causes
+
+Most of these cases come down to a rule that was never added, a rule that does not match the address people actually request, or a permanent redirect that was cached before the rule was corrected.
+
+<ExpandableGroup>
+
+<Expandable title="The page path changed but no redirect was added">
+
+A page's address comes from its `path` value in the navigation, not from its title or its file name. When that `path` changes, every link that still points at the previous address returns 404 until a redirect rule sends it to the new one.
+
+Retitling a page without changing its `path` leaves the address untouched, so check the `path` value first. If it differs from the address in the broken link, you need a rule.
+
+</Expandable>
+
+<Expandable title="The redirect source does not match the published address">
+
+Sources and destinations are site paths written with a leading slash, for example `/old-page` and `/new-page`. A rule only fires when the incoming request matches the `source` exactly, so small differences stop it from matching:
+
+- A missing or extra leading slash, such as `old-page` instead of `/old-page`.
+- A trailing slash that the requested address does not have.
+- A wrong path prefix, such as `/guides/install-cli` when the live address is `/docs/guides/install-cli`.
+
+Paths never include the `.mdx` extension, so a source written as `/guides/install-cli.mdx` matches nothing. Compare the `source` against the exact address from the broken link, character by character.
+
+If the sidebar item itself returns 404 rather than an old address, the problem is navigation rather than redirects. Read [Page Missing in Sidebar](/help-center/troubleshooting/install-error) instead.
+
+</Expandable>
+
+<Expandable title="The rule is in the configuration but the site was not published">
+
+Redirect rules live in the `redirects` array in the site configuration, `documentation.json`. Editing that file changes your configuration, not the live site. The new rule starts working only after you publish, so an old address keeps returning 404 in the meantime even though the rule looks correct in the file.
+
+</Expandable>
+
+<Expandable title="A permanent status code cached the wrong destination">
+
+Status codes 301 and 308 are permanent, and the default when you omit `statusCode` is 308. Browsers and intermediary caches store permanent redirects, so if the `destination` was wrong the first time the rule was served, the browser keeps sending visitors to that wrong destination even after you correct the rule.
+
+This is why a fixed rule can still misbehave in the browser where you originally tested it. A fresh session or a private window shows the current behavior.
+
+</Expandable>
+
+<Expandable title="AI Assistant answers, sitemaps, and external links still use the old address">
+
+Redirects repair requests that reach your site. They do not rewrite addresses that were captured elsewhere. An AI Assistant answer generated before the change keeps citing the old URL, a sitemap keeps listing it until the site is published again, and external sites or search engines keep it until they recrawl the page.
+
+Treat these as separate follow-ups after the redirect itself works.
+
+</Expandable>
+
+</ExpandableGroup>
+
+## Fix
+
+Work through the steps in order. Most broken links are resolved by the time you retest after publishing.
+
+<Steps>
+
+<Step title="Confirm the exact current address of the page" icon="link" title-type="p">
+
+Open `documentation.json` and find the page's `path` value in the navigation. That value, written with a leading slash and without the `.mdx` extension, is the address you will use as the `destination`. Copy it exactly rather than retyping it.
+
+If the page exists at no address at all because it is not in the navigation, adding a redirect will not help until the page is reachable.
+
+</Step>
+
+<Step title="Add or correct the rule in the redirects array" icon="edit" title-type="p">
+
+Add an entry to the top-level `redirects` array in `documentation.json`. Each rule requires `source` and `destination`, and accepts an optional `statusCode` of 301, 302, 307, or 308. The default is 308.
+
+```json
+{
+  "redirects": [
+    {
+      "source": "/guides/install-cli",
+      "destination": "/guides/cli-setup",
+      "statusCode": 301
+    }
+  ]
+}
+```
+
+Use 301 or 308 for a permanent move, which is the normal case when a page was renamed. Use 302 or 307 only when the move is temporary.
+
+For a set of pages that all move the same way, use dynamic segments instead of one rule per page, for example `"/docs/:slug"` to `"/documentation/:slug"`. The `:slug` portion is carried across to the destination.
+
+</Step>
+
+<Step title="Publish the site" icon="upload" title-type="p">
+
+Publish so the updated `redirects` array reaches the live site. A rule that exists only in the configuration file has no effect yet.
+
+</Step>
+
+<Step title="Retest the old address in a private window" icon="shield" title-type="p">
+
+Request the old address from a private or incognito window. That avoids reusing a cached permanent redirect from an earlier test. A correctly matching rule returns a redirect response pointing at the new address, and the new address returns 200.
+
+If the private window works but your normal browser still fails, you are looking at a cached permanent redirect rather than a broken rule.
+
+</Step>
+
+<Step title="Correct a wrong permanent destination and retest in a fresh session" icon="alert-triangle" title-type="p">
+
+If the redirect resolves to the wrong page, edit the `destination`, publish, and test again in a new session rather than reloading the old tab. Any session that already stored the permanent redirect will keep following the previous destination.
+
+</Step>
+
+<Step title="Recheck AI Assistant citations and external links" icon="check-circle" title-type="p">
+
+Follow the links in the affected AI Assistant answers to confirm they now resolve. Then check any sitemap or external references that still use the old address: a sitemap reflects the current publish, while external sites and search results update on their own recrawl schedule.
+
+</Step>
+
+</Steps>
+
+<Callout kind="info">
+
+Two cases need checking on the publishing side rather than in your configuration. If a redirect reaches the right page but still drops query parameters, or if the `.md` version of a page returns 404 while the page itself loads, the rule is not the problem. Contact support with the exact old and new URLs, including any query string, and the time you saw the failure.
+
+</Callout>
+
+## Still having issues?
+
+<Callout kind="info">
+
+Contact support with the following details so the failure can be traced:
+
+- The old URL that returns 404.
+- The new URL you intended it to reach.
+- Where the link came from: the site, an AI Assistant answer, a Markdown client, or an external site.
+- The time of the failure, including your time zone.
+
+</Callout>
