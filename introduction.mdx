@@ -2,6 +2,21 @@
 title: Set Up Your Documentation
 description: 'A minimal, editable starting point for your own documentation site.'
 ---
+```typescript src/lib/client.ts icon="file-code"
+import { createClient } from "@acme/sdk";
+
+export const client = createClient({
+  apiKey: process.env.ACME_API_KEY,
+  timeout: 5000,
+  retries: 3,
+});
+
+await client.ping();
+```
+
+```typescript src/connect.ts
+```
+
 ## Start here (5–10 minutes)
 
 1. Edit this page so it describes your product and audience.
