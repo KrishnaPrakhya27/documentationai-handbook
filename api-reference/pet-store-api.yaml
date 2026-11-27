@@ -1,0 +1,136 @@
+openapi: 3.0.3
+info:
+  title: Pet Store API
+  version: 1.0.0
+  description: A small API that shows API reference badges on endpoints and parameters.
+servers:
+  - url: https://api.example.com/v1
+tags:
+  - name: Pets
+  - name: Stores
+paths:
+  /pets:
+    get:
+      summary: List pets
+      operationId: listPets
+      tags:
+        - Pets
+      x-badges:
+        - name: Beta
+          color: orange
+        - name: v2
+          position: before
+      parameters:
+        - name: cursor
+          in: query
+          description: Where the next page starts.
+          schema:
+            type: string
+            example: pet_120
+          x-badges:
+            - name: Internal
+        - name: limit
+          in: query
+          description: How many pets to return, up to 100.
+          schema:
+            type: integer
+            example: 20
+      responses:
+        '200':
+          description: The pets.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    id:
+                      type: string
+                      example: pet_123
+                    name:
+                      type: string
+                      example: Rex
+                    ownerEmail:
+                      type: string
+                      description: The owner's email address.
+                      example: sam@example.com
+                      x-badges:
+                        - name: PII
+                          color: red
+                          position: before
+                    plan:
+                      type: string
+                      description: The plan the pet is on.
+                      example: pro
+                      x-badges:
+                        - name: Enterprise
+                          color: "#7c3aed"
+                    legacyId:
+                      type: string
+                      description: The ID from the old system.
+                      deprecated: true
+                      example: old_123
+  /pets/{petId}:
+    patch:
+      summary: Update a pet
+      operationId: updatePet
+      tags:
+        - Pets
+      x-badges:
+        - name: Internal
+          color: blue
+      parameters:
+        - name: petId
+          in: path
+          required: true
+          description: The pet to update.
+          schema:
+            type: string
+            example: pet_123
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                  example: Rex
+                nickname:
+                  type: string
+                  example: Rexy
+                  x-badges:
+                    - name: New
+                      color: green
+      responses:
+        '200':
+          description: The updated pet.
+    delete:
+      summary: Delete a pet
+      operationId: deletePet
+      deprecated: true
+      tags:
+        - Pets
+      parameters:
+        - name: petId
+          in: path
+          required: true
+          description: The pet to delete.
+          schema:
+            type: string
+            example: pet_123
+      responses:
+        '204':
+          description: The pet was deleted.
+  /stores:
+    get:
+      summary: List every store across all regions, accounts and sales channels
+      operationId: listStores
+      tags:
+        - Stores
+      x-badges:
+        - name: Enterprise plan only
+      responses:
+        '200':
+          description: The stores.

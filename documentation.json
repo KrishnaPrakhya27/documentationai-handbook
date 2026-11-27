@@ -70,6 +70,12 @@
                 "icon": "columns"
               }
             ]
+          },
+          {
+            "group": "Badges test",
+            "icon": "tag",
+            "public": true,
+            "openapi": "api-reference/pet-store-api.yaml"
           }
         ]
       },
